@@ -1,6 +1,5 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, IconButton, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
@@ -59,9 +58,10 @@ import {
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
 } from "src/lib/sunshine-data";
-import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
 import {
@@ -78,65 +78,67 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
-  context
-) => {
-  const { params, res, req, locale } = context;
-  const { id, entity } = params!;
+export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
+  async (context, { graphqlContext }) => {
+    const { params, res, req, locale } = context;
+    const { id, entity } = params!;
 
-  if (entity !== "operator") {
+    if (entity !== "operator") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const operatorProps = await getOperatorsPageProps({
+      id,
+      locale: locale ?? defaultLocale,
+      res,
+      req,
+    });
+
+    if (operatorProps.status === "notfound") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const sunshineDataService = createSunshineDataServiceSparql(
+      graphqlContext.sparqlClient
+    );
+    const sessionConfig = await getSessionConfigFlagsInfo(context);
+
+    const [operationalStandards, powerStability, costsAndTariffs] =
+      await Promise.all([
+        fetchOperationalStandards(sunshineDataService, {
+          operatorId: id,
+        }),
+        fetchPowerStability(sunshineDataService, {
+          operatorId: id,
+          operatorOnly: true,
+        }),
+        fetchOperatorCostsAndTariffsData(sunshineDataService, {
+          operatorId: id,
+          networkLevel: "NE7",
+          category: "H4",
+          operatorOnly: true,
+        }),
+      ]);
+
     return {
       props: {
-        status: "notfound",
+        ...operatorProps,
+        operationalStandards,
+        powerStability,
+        costsAndTariffs,
+        sessionConfig,
       },
     };
   }
-
-  const operatorProps = await getOperatorsPageProps({
-    id,
-    locale: locale ?? defaultLocale,
-    res,
-    req,
-  });
-
-  if (operatorProps.status === "notfound") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const sunshineDataService = getSunshineDataService();
-  const sessionConfig = await getSessionConfigFlagsInfo(context);
-
-  const [operationalStandards, powerStability, costsAndTariffs] =
-    await Promise.all([
-      fetchOperationalStandards(sunshineDataService, {
-        operatorId: id,
-      }),
-      fetchPowerStability(sunshineDataService, {
-        operatorId: id,
-        operatorOnly: true,
-      }),
-      fetchOperatorCostsAndTariffsData(sunshineDataService, {
-        operatorId: id,
-        networkLevel: "NE7",
-        category: "H4",
-        operatorOnly: true,
-      }),
-    ]);
-
-  return {
-    props: {
-      ...operatorProps,
-      operationalStandards,
-      powerStability,
-      costsAndTariffs,
-      sessionConfig,
-    },
-  };
-};
+);
 
 const OverviewPage = (props: Props) => {
   const { query } = useRouter();

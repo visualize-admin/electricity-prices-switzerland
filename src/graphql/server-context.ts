@@ -2,16 +2,14 @@ import { GetServerSidePropsContext, NextApiRequest } from "next";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
-import {
-  getSunshineDataService,
-  SunshineDataService,
-} from "src/lib/sunshine-data-service";
+import { SunshineDataService } from "src/lib/sunshine-data-service";
 import {
   getDefaultedFlags,
   getSessionConfigFlagsFromCookies,
   SessionConfigFlags,
 } from "src/session-config";
 import { getSparqlClientFromGetServerSidePropsContext } from "src/lib/sparql-client-context";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 
 export type GraphqlRequestContext = {
   sunshineDataService: SunshineDataService;
@@ -22,8 +20,8 @@ export type GraphqlRequestContext = {
 export const contextFromAPIRequest = async (
   req: NextApiRequest
 ): Promise<GraphqlRequestContext> => {
-  const sunshineDataService = getSunshineDataService();
   const sparqlClient = await getSparqlClientFromRequest(req);
+  const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     req.headers.cookie
   );
@@ -39,8 +37,8 @@ export const contextFromAPIRequest = async (
 export const contextFromGetServerSidePropsContext = async (
   ctx: Pick<GetServerSidePropsContext, "req">
 ): Promise<GraphqlRequestContext> => {
-  const sunshineDataService = getSunshineDataService();
   const sparqlClient = await getSparqlClientFromGetServerSidePropsContext(ctx);
+  const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     ctx.req.headers.cookie
   );

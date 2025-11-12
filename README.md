@@ -174,10 +174,6 @@ A notebook containing Elcom specific SPARQL queries is available at [./book.spar
 You need the [SPARQL Notebook Extension](https://marketplace.visualstudio.com/items?itemName=Zazuko.sparql-notebook)
 to open it.
 
-## Sunshine Data Service
-
-See [Sunshine Data Service](./docs/sunshine-data-service.md).
-
 ## Home map screenshots
 
 It is possible to regenerate the home map screenshots automatically using Playwright.

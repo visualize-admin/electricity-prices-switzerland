@@ -12,7 +12,9 @@ const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
 
 const makeHeaders = async () => ({
-  cookie: await createCookieFromFlags({}),
+  cookie: await createCookieFromFlags({
+    sparqlEndpoint: "https://int.lindas.admin.ch/query",
+  }),
 
   ...(process.env.BASIC_AUTH_CREDENTIALS
     ? {
@@ -116,13 +118,13 @@ const formatForSnapshot = (data: SunshineDataByIndicatorQuery | undefined) => {
 
 describe("GraphQL API Integration Tests", () => {
   describe("SunshineDataByIndicator queries", () => {
-    it("should fetch network costs for C2 NE5 peer group A", async () => {
+    it("should fetch network costs for C2 NE5 peer group 1", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
-          peerGroup: "A",
+          peerGroup: "1",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -138,41 +140,41 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "Arosa Energie",
-                  "operatorId": 10,
-                  "operatorUID": "CHE-458.596.026",
+                  "name": "Wasser- und Elektrizitätswerk Steinhausen AG",
+                  "operatorId": 11828,
+                  "operatorUID": "11828",
                   "period": "2025",
-                  "value": 9868.451548,
+                  "value": 18386.237,
                 },
                 {
-                  "name": "Dorf- und Elektrokorporation Trübbach",
-                  "operatorId": 67,
-                  "operatorUID": "CHE-108.963.061",
+                  "name": "Politische Gemeinde Rickenbach TG Elektrizitätsversorgung",
+                  "operatorId": 304,
+                  "operatorUID": "304",
                   "period": "2025",
-                  "value": 40597.86633,
+                  "value": 14649.07,
                 },
                 {
-                  "name": "Energie Freiamt AG",
-                  "operatorId": 73,
-                  "operatorUID": "CHE-108.470.597",
+                  "name": "Energie Opfikon AG",
+                  "operatorId": 508,
+                  "operatorUID": "508",
                   "period": "2025",
-                  "value": 30451.36646,
+                  "value": 55635.128,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 15548.223885,
+            "sunshineMedianByIndicator": 15605.162,
           },
         }
       `);
     });
 
-    it("should fetch network costs for C2 NE5 peer group C", async () => {
+    it("should fetch network costs for C2 NE5 peer group 1", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE5",
-          peerGroup: "C",
+          peerGroup: "1",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -188,41 +190,41 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "Comune Politico di Mesocco, Azienda Elettrica",
-                  "operatorId": 21,
-                  "operatorUID": "CHE-113.562.420",
+                  "name": "Wasser- und Elektrizitätswerk Steinhausen AG",
+                  "operatorId": 11828,
+                  "operatorUID": "11828",
                   "period": "2025",
-                  "value": 2905.864316,
+                  "value": 18386.237,
                 },
                 {
-                  "name": "AZIENDA ELETTRICA DI MASSAGNO (AEM) SA",
-                  "operatorId": 28,
-                  "operatorUID": "CHE-109.070.415",
+                  "name": "Politische Gemeinde Rickenbach TG Elektrizitätsversorgung",
+                  "operatorId": 304,
+                  "operatorUID": "304",
                   "period": "2025",
-                  "value": 14979.75788,
+                  "value": 14649.07,
                 },
                 {
-                  "name": "Elektra Genossenschaft Kaiserstuhl",
-                  "operatorId": 149,
-                  "operatorUID": "CHE-196.566.964",
+                  "name": "Energie Opfikon AG",
+                  "operatorId": 508,
+                  "operatorUID": "508",
                   "period": "2025",
-                  "value": 1930.849802,
+                  "value": 55635.128,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 15548.223885,
+            "sunshineMedianByIndicator": 15605.162,
           },
         }
       `);
     });
 
-    it("should fetch network costs for C2 NE6 peer group C", async () => {
+    it("should fetch network costs for C2 NE6 peer group 1", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE6",
-          peerGroup: "C",
+          peerGroup: "1",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -238,41 +240,41 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "Comune Politico di Mesocco, Azienda Elettrica",
-                  "operatorId": 21,
-                  "operatorUID": "CHE-113.562.420",
+                  "name": "Wasser- und Elektrizitätswerk Steinhausen AG",
+                  "operatorId": 11828,
+                  "operatorUID": "11828",
                   "period": "2025",
-                  "value": 3.810086957,
+                  "value": 7.896,
                 },
                 {
-                  "name": "AZIENDA ELETTRICA DI MASSAGNO (AEM) SA",
-                  "operatorId": 28,
-                  "operatorUID": "CHE-109.070.415",
+                  "name": "Politische Gemeinde Rickenbach TG Elektrizitätsversorgung",
+                  "operatorId": 304,
+                  "operatorUID": "304",
                   "period": "2025",
-                  "value": 12.72177105,
+                  "value": 6.555,
                 },
                 {
-                  "name": "Elektra Genossenschaft Kaiserstuhl",
-                  "operatorId": 149,
-                  "operatorUID": "CHE-196.566.964",
+                  "name": "Energie Opfikon AG",
+                  "operatorId": 508,
+                  "operatorUID": "508",
                   "period": "2025",
-                  "value": 8.60052381,
+                  "value": 6.725,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 8.60052381,
+            "sunshineMedianByIndicator": 8.935,
           },
         }
       `);
     });
 
-    it("should fetch network costs for C2 NE7 peer group C", async () => {
+    it("should fetch network costs for C2 NE7 peer group 2", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
-          peerGroup: "C",
+          peerGroup: "2",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -288,41 +290,41 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "Comune Politico di Mesocco, Azienda Elettrica",
-                  "operatorId": 21,
-                  "operatorUID": "CHE-113.562.420",
+                  "name": "Elektrogenossenschaft Moos-Dieselbach",
+                  "operatorId": 263,
+                  "operatorUID": "263",
                   "period": "2025",
-                  "value": 8377.400889,
+                  "value": 4233.642,
                 },
                 {
-                  "name": "AZIENDA ELETTRICA DI MASSAGNO (AEM) SA",
-                  "operatorId": 28,
-                  "operatorUID": "CHE-109.070.415",
+                  "name": "Elektra-Genossenschaft Siglistorf-Wislikofen-Mellstorf",
+                  "operatorId": 280,
+                  "operatorUID": "280",
                   "period": "2025",
-                  "value": 14492.74098,
+                  "value": 6716.825,
                 },
                 {
-                  "name": "Elektra Genossenschaft Kaiserstuhl",
-                  "operatorId": 149,
-                  "operatorUID": "CHE-196.566.964",
+                  "name": "Politische Gemeinde Fällanden, Wasser, Abwasser, Strom",
+                  "operatorId": 432,
+                  "operatorUID": "432",
                   "period": "2025",
-                  "value": 10897.45675,
+                  "value": 14736.286,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 11449.055805,
+            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
     });
 
-    it("should fetch network costs for C2 NE7 peer group D", async () => {
+    it("should fetch network costs for C2 NE7 peer group 2", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "C2",
           indicator: "networkCosts",
           networkLevel: "NE7",
-          peerGroup: "D",
+          peerGroup: "2",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -338,29 +340,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "CKW AG",
-                  "operatorId": 37,
-                  "operatorUID": "CHE-105.941.235",
+                  "name": "Elektrogenossenschaft Moos-Dieselbach",
+                  "operatorId": 263,
+                  "operatorUID": "263",
                   "period": "2025",
-                  "value": 9802.404666,
+                  "value": 4233.642,
                 },
                 {
-                  "name": "Energie Kestenholz",
-                  "operatorId": 150,
-                  "operatorUID": "CHE-115.306.879",
+                  "name": "Elektra-Genossenschaft Siglistorf-Wislikofen-Mellstorf",
+                  "operatorId": 280,
+                  "operatorUID": "280",
                   "period": "2025",
-                  "value": 11612.92708,
+                  "value": 6716.825,
                 },
                 {
-                  "name": "Energie Versorgung Riggisberg (EVR) AG",
-                  "operatorId": 338,
-                  "operatorUID": "CHE-414.229.031",
+                  "name": "Politische Gemeinde Fällanden, Wasser, Abwasser, Strom",
+                  "operatorId": 432,
+                  "operatorUID": "432",
                   "period": "2025",
-                  "value": 13286.853,
+                  "value": 14736.286,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 11449.055805,
+            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -387,29 +389,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 17600.18439,
+                  "value": 12858.57,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 12283.59365,
+                  "value": 11059.218,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 12034.61858,
+                  "value": 13815.621,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 11449.055805,
+            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -436,29 +438,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 11.332443333333332,
+                  "value": 11.052,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 13.999644444444444,
+                  "value": 14.26,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 10.36465,
+                  "value": 0,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 10.68,
+            "sunshineMedianByIndicator": 11.26,
           },
         }
       `);
@@ -485,29 +487,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 11.476066666666666,
+                  "value": 8.807,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 14.345883333333331,
+                  "value": 14.02,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 10.517333333333331,
+                  "value": 10.455,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 10.570666666666668,
+            "sunshineMedianByIndicator": 10.517,
           },
         }
       `);
@@ -534,29 +536,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 10.77508,
+                  "value": 8.284,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 11.871535,
+                  "value": 13.352,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 9.517866666666666,
+                  "value": 10.017,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 9.918,
+            "sunshineMedianByIndicator": 9.767,
           },
         }
       `);
@@ -583,29 +585,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 8.117,
+                  "value": 8.326,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": null,
+                  "value": 0,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 4.4350000000000005,
+                  "value": 0,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 6.573944444444445,
+            "sunshineMedianByIndicator": 6.175,
           },
         }
       `);
@@ -632,29 +634,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 14.77256,
+                  "value": 16.123,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 21.02,
+                  "value": 19.54,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 13.981714285714284,
+                  "value": 15.773,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 14.579142857142859,
+            "sunshineMedianByIndicator": 13.96,
           },
         }
       `);
@@ -681,41 +683,41 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AGE SA",
-                  "operatorId": 2,
-                  "operatorUID": "CHE-108.955.110",
+                  "name": "Arosa Energie",
+                  "operatorId": 10,
+                  "operatorUID": "10",
                   "period": "2025",
-                  "value": 17600.18439,
+                  "value": 12858.57,
                 },
                 {
-                  "name": "Commune de Courchapoix, electricite",
-                  "operatorId": 3,
-                  "operatorUID": "CHE-112.591.057",
+                  "name": "ELEKTRA ENERGIE Genossenschaft",
+                  "operatorId": 105,
+                  "operatorUID": "105",
                   "period": "2025",
-                  "value": 12283.59365,
+                  "value": 11059.218,
                 },
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 12034.61858,
+                  "value": 13815.621,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 11449.055805,
+            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
     });
 
-    it("should fetch network costs for NH2 NE7 peer group B", async () => {
+    it("should fetch network costs for NH2 NE7 peer group 4", async () => {
       const variables: SunshineDataByIndicatorQueryVariables = {
         filter: {
           category: "H2",
           indicator: "networkCosts",
           networkLevel: "NE7",
-          peerGroup: "B",
+          peerGroup: "4",
           period: "2025",
           saidiSaifiType: "total",
         },
@@ -731,29 +733,29 @@ describe("GraphQL API Integration Tests", () => {
             "sunshineDataByIndicator": {
               "data": [
                 {
-                  "name": "AEW Energie AG",
-                  "operatorId": 5,
-                  "operatorUID": "CHE-105.981.944",
+                  "name": "Elektra Andwil Stromversorgung",
+                  "operatorId": 107,
+                  "operatorUID": "107",
                   "period": "2025",
-                  "value": 12034.61858,
+                  "value": 13815.621,
                 },
                 {
-                  "name": "Commune Mixte de Lamboing, Service Electricité",
-                  "operatorId": 42,
-                  "operatorUID": "CHE-108.963.782",
+                  "name": "Monthey Energies SA",
+                  "operatorId": 10839,
+                  "operatorUID": "10839",
                   "period": "2025",
-                  "value": 11652.95814,
+                  "value": 12058.984,
                 },
                 {
-                  "name": "Primeo Netz AG",
-                  "operatorId": 70,
-                  "operatorUID": "CHE-109.319.939",
+                  "name": "Aare Versorgungs AG (AVAG)",
+                  "operatorId": 11,
+                  "operatorUID": "11",
                   "period": "2025",
-                  "value": 18081.3344,
+                  "value": 9145.362,
                 },
               ],
             },
-            "sunshineMedianByIndicator": 11449.055805,
+            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);

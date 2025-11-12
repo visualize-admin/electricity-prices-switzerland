@@ -7,12 +7,6 @@ import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
-import { getFieldName } from "src/lib/db/common";
-import {
-  PeerGroupNotFoundError,
-  UnknownPeerGroupError,
-} from "src/lib/db/errors";
-import { peerGroupMapping } from "src/lib/db/sparql-peer-groups-mapping";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type {
   NetworkCostRecord,
@@ -25,16 +19,132 @@ import type {
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
 
-// SPARQL client configuration
-const client = new ParsingClient({
-  endpointUrl: "https://test.lindas.admin.ch/query",
-});
-
 const yesPredicateValue =
   "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
 
+export class PeerGroupNotFoundError extends Error {
+  constructor(operatorId: string | number) {
+    const message = `Peer group not found for operator ID: ${operatorId}`;
+    super(message);
+    this.name = "PeerGroupNotFoundError";
+  }
+}
+
+export class UnknownPeerGroupError extends Error {
+  constructor(operatorId: string | number, peerGroup: string) {
+    const message = `Peer group ${peerGroup} is unknown (operator ID: ${operatorId})`;
+    super(message);
+    this.name = "UnknownPeerGroupError";
+  }
+}
+
+export type SettlementDensity =
+  | "High"
+  | "Medium"
+  | "Rural"
+  | "Mountain"
+  | "Tourist"
+  | "N.A.";
+export type EnergyDensity = "High" | "Low" | "N.A.";
+
+/**
+ * Peer group mapping from id to energy and settlement density
+ * This has been generated from the RDF data in the SPARQL endpoint.
+ * The data from src/lib/db/sparql-peer-groups.ts has been used to create this mapping
+ * manually through AI assistance as the data is static and not expected to change often.
+ * See sunshine.sparqlbook (## Peer Group) for the queries used to extract the data.
+ *
+ * TODO: See if this information could be stored in the database directly.
+ *
+ */
+export const peerGroupMapping: Record<
+  string,
+  { energy_density: EnergyDensity; settlement_density: SettlementDensity }
+> = {
+  "0": {
+    settlement_density: "N.A.",
+    energy_density: "N.A.",
+  },
+  "1": {
+    settlement_density: "High",
+    energy_density: "High",
+  },
+  "2": {
+    settlement_density: "High",
+    energy_density: "Low",
+  },
+  "3": {
+    settlement_density: "Medium",
+    energy_density: "High",
+  },
+  "4": {
+    settlement_density: "Medium",
+    energy_density: "Low",
+  },
+  "5": {
+    settlement_density: "Rural",
+    energy_density: "High",
+  },
+  "6": {
+    settlement_density: "Rural",
+    energy_density: "Low",
+  },
+  "7": {
+    settlement_density: "Mountain",
+    energy_density: "High",
+  },
+  "8": {
+    settlement_density: "Mountain",
+    energy_density: "Low",
+  },
+  "9": {
+    settlement_density: "Tourist",
+    energy_density: "High",
+  },
+  "10": {
+    settlement_density: "Tourist",
+    energy_density: "Low",
+  },
+};
+
+// Map the structured indicator to field names
+export const getFieldName = (
+  indicator: SunshineIndicator,
+  category?: string,
+  networkLevel?: string,
+  typology?: string
+): keyof SunshineDataRow => {
+  switch (indicator) {
+    case "networkCosts":
+      return `networkCosts${networkLevel as "NE5" | "NE6" | "NE7"}`;
+    case "netTariffs":
+      return `tariffN${
+        category as "C2" | "C3" | "C4" | "C6" | "H2" | "H4" | "H7"
+      }`;
+    case "energyTariffs":
+      return `tariffE${
+        category as "C2" | "C3" | "C4" | "C6" | "H2" | "H4" | "H7"
+      }`;
+    case "saidi":
+      return typology === "unplanned" ? "saidiUnplanned" : "saidiTotal";
+    case "saifi":
+      return typology === "unplanned" ? "saifiUnplanned" : "saifiTotal";
+    case "compliance":
+      return "francRule";
+    case "outageInfo":
+      return "infoYesNo";
+    case "daysInAdvanceOutageNotification":
+      return "infoDaysInAdvance";
+    default:
+      throw new Error(`Unsupported indicator: ${indicator}`);
+  }
+};
+
 // Helper function to execute SPARQL queries
-const executeSparqlQuery = async <T>(query: string): Promise<T[]> => {
+const executeSparqlQuery = async <T>(
+  client: ParsingClient,
+  query: string
+): Promise<T[]> => {
   try {
     const stream = await client.query.select(query);
     const results: T[] = [];
@@ -77,16 +187,19 @@ const parseFloatOrUndefined = <T extends string | undefined>(
   ) as T extends string ? number : undefined;
 };
 
-const getNetworkCosts = async ({
-  operatorId,
-  period,
-  networkLevel,
-}: {
-  operatorId?: number;
-  period?: number;
-  peerGroup?: string;
-  networkLevel?: NetworkLevel["id"];
-} = {}): Promise<NetworkCostRecord[]> => {
+const getNetworkCosts = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+    networkLevel,
+  }: {
+    operatorId?: number;
+    period?: number;
+    peerGroup?: string;
+    networkLevel?: NetworkLevel["id"];
+  } = {}
+): Promise<NetworkCostRecord[]> => {
   const operatorFilter = operatorId
     ? `:operator <${convertOperatorIdToUri(operatorId)}>`
     : "";
@@ -154,7 +267,7 @@ const getNetworkCosts = async ({
     gridcost_ne5?: string;
     gridcost_ne6?: string;
     gridcost_ne7?: string;
-  }>(query);
+  }>(client, query);
 
   const networkCosts: NetworkCostRecord[] = [];
 
@@ -204,13 +317,16 @@ const getNetworkCosts = async ({
 
 const yesIri = "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
 
-const getOperationalStandards = async ({
-  operatorId,
-  period,
-}: {
-  operatorId: number;
-  period?: number;
-}): Promise<OperationalStandardRecord[]> => {
+const getOperationalStandards = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId: number;
+    period?: number;
+  }
+): Promise<OperationalStandardRecord[]> => {
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -248,7 +364,7 @@ const getOperationalStandards = async ({
     info: string;
     days_in_advance: string;
     in_time: string;
-  }>(query);
+  }>(client, query);
 
   return results.map((row) => ({
     operator_id: operatorId,
@@ -263,14 +379,17 @@ const getOperationalStandards = async ({
   }));
 };
 
-const getStabilityMetrics = async ({
-  operatorId,
-  period,
-}: {
-  operatorId?: number;
-  period?: number;
-  peerGroup?: string;
-}): Promise<StabilityMetricRecord[]> => {
+const getStabilityMetrics = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+  }: {
+    operatorId?: number;
+    period?: number;
+    peerGroup?: string;
+  }
+): Promise<StabilityMetricRecord[]> => {
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -321,7 +440,7 @@ const getStabilityMetrics = async ({
     saidi_unplanned: string;
     saifi_total: string;
     saifi_unplanned: string;
-  }>(query);
+  }>(client, query);
 
   return results.map((row) => ({
     operator_id: extractOperatorIdFromUri(row.operator),
@@ -334,18 +453,21 @@ const getStabilityMetrics = async ({
   }));
 };
 
-const getTariffs = async ({
-  operatorId,
-  period,
-  category,
-  tariffType,
-}: {
-  operatorId?: number;
-  period?: number;
-  category?: ElectricityCategory;
-  tariffType?: "network" | "energy";
-  peerGroup?: string;
-} = {}): Promise<TariffRecord[]> => {
+const getTariffs = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+    category,
+    tariffType,
+  }: {
+    operatorId?: number;
+    period?: number;
+    category?: ElectricityCategory;
+    tariffType?: "network" | "energy";
+    peerGroup?: string;
+  } = {}
+): Promise<TariffRecord[]> => {
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
@@ -406,7 +528,7 @@ const getTariffs = async ({
     category: string;
     energy: string;
     gridusage: string;
-  }>(query);
+  }>(client, query);
 
   const tariffs: TariffRecord[] = [];
 
@@ -445,6 +567,7 @@ const getTariffs = async ({
 };
 
 const getOperatorData = async (
+  client: ParsingClient,
   operatorId: number,
   period: number
 ): Promise<OperatorDataRecord> => {
@@ -482,7 +605,7 @@ const getOperatorData = async (
     operator_name: string;
     period: string;
     peerGroup: string;
-  }>(query);
+  }>(client, query);
 
   if (results.length === 0) {
     throw new PeerGroupNotFoundError(operatorId);
@@ -507,6 +630,7 @@ const getOperatorData = async (
 const getYearlyIndicatorMedians = async <
   Metric extends IndicatorMedianParams["metric"]
 >(
+  client: ParsingClient,
   params: IndicatorMedianParams
 ) => {
   const { peerGroup, metric, period } = params;
@@ -645,7 +769,7 @@ const getYearlyIndicatorMedians = async <
 
   const results = await executeSparqlQuery<{
     [key: string]: string;
-  }>(query);
+  }>(client, query);
   if (results.length === 0) {
     return [];
   }
@@ -713,7 +837,10 @@ const getYearlyIndicatorMedians = async <
   }));
 };
 
-const getLatestYearSunshine = async (operatorId: number): Promise<number> => {
+const getLatestYearSunshine = async (
+  client: ParsingClient,
+  operatorId: number
+): Promise<number> => {
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
@@ -732,12 +859,13 @@ const getLatestYearSunshine = async (operatorId: number): Promise<number> => {
 
   const results = await executeSparqlQuery<{
     period: string;
-  }>(query);
+  }>(client, query);
 
   return results.length > 0 ? parseInt(results[0].period, 10) : 2024;
 };
 
 const getLatestYearPowerStability = async (
+  client: ParsingClient,
   operatorId: number
 ): Promise<string> => {
   const query = `
@@ -762,12 +890,13 @@ const getLatestYearPowerStability = async (
 
   const results = await executeSparqlQuery<{
     period: string;
-  }>(query);
+  }>(client, query);
 
   return results.length > 0 ? results[0].period : "2024";
 };
 
 const getOperatorPeerGroup = async (
+  client: ParsingClient,
   _operatorId: number | string,
   period: number
 ): Promise<PeerGroup> => {
@@ -795,7 +924,7 @@ WHERE {
 
   const results = await executeSparqlQuery<{
     peerGroup: string;
-  }>(query);
+  }>(client, query);
 
   if (results.length === 0) {
     throw new PeerGroupNotFoundError(_operatorId);
@@ -818,6 +947,7 @@ WHERE {
 };
 
 const getPeerGroups = async (
+  client: ParsingClient,
   locale: string
 ): Promise<
   {
@@ -842,7 +972,7 @@ const getPeerGroups = async (
   const results = await executeSparqlQuery<{
     concept: string;
     name: string;
-  }>(query);
+  }>(client, query);
 
   return results.map((row) => {
     const uri = row.concept;
@@ -858,15 +988,18 @@ const getPeerGroups = async (
   });
 };
 
-const getSunshineData = async ({
-  operatorId,
-  period,
-  peerGroup,
-}: {
-  operatorId?: number | undefined | null;
-  period?: string | undefined | null;
-  peerGroup?: string | undefined | null;
-}): Promise<SunshineDataRow[]> => {
+const getSunshineData = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+    peerGroup,
+  }: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
+  }
+): Promise<SunshineDataRow[]> => {
   const groupFilter =
     peerGroup !== "all_grid_operators" && peerGroup
       ? `:group <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>;`
@@ -965,14 +1098,14 @@ const getSunshineData = async ({
       saidi_unplanned: string;
       saifi_total: string;
       saifi_unplanned: string;
-    }>(mainQuery),
+    }>(client, mainQuery),
     executeSparqlQuery<{
       operator: string;
       period: string;
       category: string;
       energy: string;
       gridusage: string;
-    }>(tariffQuery),
+    }>(client, tariffQuery),
   ]);
 
   // Group tariff data by operator and period
@@ -1038,25 +1171,32 @@ const getSunshineData = async ({
   });
 };
 
-const getSunshineDataByIndicator = async ({
-  operatorId,
-  period,
-  peerGroup,
-  indicator,
-  category,
-  networkLevel,
-  saifiSaidiType,
-}: {
-  operatorId?: number | undefined | null;
-  period?: string | undefined | null;
-  peerGroup?: string | undefined | null;
-  indicator: SunshineIndicator;
-  category?: string;
-  networkLevel?: string;
-  saifiSaidiType?: string;
-}): Promise<SunshineDataIndicatorRow[]> => {
+const getSunshineDataByIndicator = async (
+  client: ParsingClient,
+  {
+    operatorId,
+    period,
+    peerGroup,
+    indicator,
+    category,
+    networkLevel,
+    saifiSaidiType,
+  }: {
+    operatorId?: number | undefined | null;
+    period?: string | undefined | null;
+    peerGroup?: string | undefined | null;
+    indicator: SunshineIndicator;
+    category?: string;
+    networkLevel?: string;
+    saifiSaidiType?: string;
+  }
+): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
-  const fullData = await getSunshineData({ operatorId, period, peerGroup });
+  const fullData = await getSunshineData(client, {
+    operatorId,
+    period,
+    peerGroup,
+  });
 
   const fieldName = getFieldName(
     indicator,
@@ -1080,7 +1220,7 @@ const getSunshineDataByIndicator = async ({
   });
 };
 
-const fetchUpdateDate = async (): Promise<string> => {
+const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
   const query = `
     PREFIX schema: <http://schema.org/>
     
@@ -1092,26 +1232,54 @@ const fetchUpdateDate = async (): Promise<string> => {
 
   const results = await executeSparqlQuery<{
     dateModified: string;
-  }>(query);
+  }>(client, query);
 
   return results.length > 0
     ? results[0].dateModified
     : new Date().toISOString().split("T")[0];
 };
 
-export const sunshineDataServiceSparql = {
+export const createSunshineDataServiceSparql = (
+  client: ParsingClient
+): SunshineDataService => ({
   name: "sparql",
-  getNetworkCosts,
-  getOperationalStandards,
-  getStabilityMetrics,
-  getTariffs,
-  getOperatorData,
-  getYearlyIndicatorMedians,
-  getLatestYearSunshine,
-  getLatestYearPowerStability,
-  getOperatorPeerGroup,
-  getPeerGroups,
-  getSunshineData,
-  getSunshineDataByIndicator,
-  fetchUpdateDate,
-} satisfies SunshineDataService;
+  getNetworkCosts: (params) => {
+    return getNetworkCosts(client, params);
+  },
+  getOperationalStandards: (params) => {
+    return getOperationalStandards(client, params);
+  },
+  getStabilityMetrics: (params) => {
+    return getStabilityMetrics(client, params);
+  },
+  getTariffs: (params) => {
+    return getTariffs(client, params);
+  },
+  getOperatorData: (operatorId, period) => {
+    return getOperatorData(client, operatorId, period);
+  },
+  getYearlyIndicatorMedians: (params) => {
+    return getYearlyIndicatorMedians(client, params);
+  },
+  getLatestYearSunshine: (operatorId) => {
+    return getLatestYearSunshine(client, operatorId);
+  },
+  getLatestYearPowerStability: (operatorId) => {
+    return getLatestYearPowerStability(client, operatorId);
+  },
+  getOperatorPeerGroup: (operatorId, period) => {
+    return getOperatorPeerGroup(client, operatorId, period);
+  },
+  getPeerGroups: (locale) => {
+    return getPeerGroups(client, locale);
+  },
+  getSunshineData: (params) => {
+    return getSunshineData(client, params);
+  },
+  getSunshineDataByIndicator: (params) => {
+    return getSunshineDataByIndicator(client, params);
+  },
+  fetchUpdateDate: () => {
+    return fetchUpdateDate(client);
+  },
+});

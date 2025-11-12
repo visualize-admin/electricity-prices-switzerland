@@ -1,6 +1,5 @@
 import { t, Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -33,9 +32,10 @@ import {
 import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
-import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
 type Props =
@@ -45,53 +45,55 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
-  context
-) => {
-  const { params, res, req, locale } = context;
-  const { id, entity } = params!;
+export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
+  async (context, { graphqlContext }) => {
+    const { params, res, req, locale } = context;
+    const { id, entity } = params!;
 
-  if (entity !== "operator") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const operatorProps = await getOperatorsPageProps({
-    id,
-    locale: locale ?? defaultLocale,
-    res,
-    req,
-  });
-
-  if (operatorProps.status === "notfound") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const sunshineDataService = getSunshineDataService();
-  const sessionConfig = await getSessionConfigFlagsInfo(context);
-
-  const operationalStandards = await fetchOperationalStandards(
-    sunshineDataService,
-    {
-      operatorId: id,
+    if (entity !== "operator") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
     }
-  );
 
-  return {
-    props: {
-      ...operatorProps,
-      operationalStandards,
-      sessionConfig,
-    },
-  };
-};
+    const operatorProps = await getOperatorsPageProps({
+      id,
+      locale: locale ?? defaultLocale,
+      res,
+      req,
+    });
+
+    if (operatorProps.status === "notfound") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const sunshineDataService = createSunshineDataServiceSparql(
+      graphqlContext.sparqlClient
+    );
+    const sessionConfig = await getSessionConfigFlagsInfo(context);
+
+    const operationalStandards = await fetchOperationalStandards(
+      sunshineDataService,
+      {
+        operatorId: id,
+      }
+    );
+
+    return {
+      props: {
+        ...operatorProps,
+        operationalStandards,
+        sessionConfig,
+      },
+    };
+  }
+);
 
 export const prepServiceQualityCardProps = (
   serviceQuality: Extract<

@@ -1,6 +1,20 @@
+import ParsingClient from "sparql-http-client/ParsingClient";
 import { describe, expect, it } from "vitest";
 
-import { sunshineDataServiceSparql } from "src/lib/db/sparql";
+import { makeClientVerbose } from "src/rdf/client-helpers";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
+
+const client = new ParsingClient({
+  endpointUrl: "https://int.lindas.admin.ch/query",
+});
+
+// Switch to true to see verbose SPARQL client logs
+const DEBUG = false;
+if (DEBUG) {
+  makeClientVerbose(client);
+}
+
+const sunshineDataServiceSparql = createSunshineDataServiceSparql(client);
 
 describe("SPARQL Sunshine Data Service", () => {
   describe("service properties", () => {
@@ -198,36 +212,36 @@ describe("SPARQL Sunshine Data Service", () => {
       expect(result.length).toMatchInlineSnapshot(`588`);
       expect(result.filter((x) => x.saidi_total !== undefined).slice(0, 3))
         .toMatchInlineSnapshot(`
-          [
-            {
-              "operator_id": 11,
-              "operator_name": "Aare Versorgungs AG (AVAG)",
-              "period": 2025,
-              "saidi_total": 11.652,
-              "saidi_unplanned": 2.298,
-              "saifi_total": 0.169,
-              "saifi_unplanned": 0.036,
-            },
-            {
-              "operator_id": 113,
-              "operator_name": "EBL (Genossenschaft Elektra Baselland)",
-              "period": 2025,
-              "saidi_total": 14.674,
-              "saidi_unplanned": 8.174,
-              "saifi_total": 0.327,
-              "saifi_unplanned": 0.18,
-            },
-            {
-              "operator_id": 132,
-              "operator_name": "Genossenschaft Elektra, Jegenstorf",
-              "period": 2025,
-              "saidi_total": 6.214,
-              "saidi_unplanned": 0.254,
-              "saifi_total": 0.138,
-              "saifi_unplanned": 0.002,
-            },
-          ]
-        `); // First 3 results
+        [
+          {
+            "operator_id": 11,
+            "operator_name": "Aare Versorgungs AG (AVAG)",
+            "period": 2025,
+            "saidi_total": 11.652,
+            "saidi_unplanned": 2.298,
+            "saifi_total": 0.169,
+            "saifi_unplanned": 0.036,
+          },
+          {
+            "operator_id": 113,
+            "operator_name": "EBL (Genossenschaft Elektra Baselland)",
+            "period": 2025,
+            "saidi_total": 14.674,
+            "saidi_unplanned": 8.174,
+            "saifi_total": 0.327,
+            "saifi_unplanned": 0.18,
+          },
+          {
+            "operator_id": 132,
+            "operator_name": "Genossenschaft Elektra, Jegenstorf",
+            "period": 2025,
+            "saidi_total": 6.214,
+            "saidi_unplanned": 0.254,
+            "saifi_total": 0.138,
+            "saifi_unplanned": 0.002,
+          },
+        ]
+      `); // First 3 results
     });
   });
 

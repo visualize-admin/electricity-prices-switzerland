@@ -6,7 +6,6 @@ import {
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";
-import { sunshineDataServiceSparql } from "src/lib/db/sparql";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
 
 export type NetworkCostRecord = {
@@ -98,7 +97,7 @@ export type PeerGroupRecord<Metric extends IndicatorMedianParams["metric"]> =
 
 export interface SunshineDataService {
   name: string;
-  getNetworkCosts(params?: {
+  getNetworkCosts(params: {
     operatorId?: number;
     period?: number;
     peerGroup?: string;
@@ -110,16 +109,16 @@ export interface SunshineDataService {
     period?: number;
   }): Promise<OperationalStandardRecord[]>;
 
-  getStabilityMetrics(params?: {
+  getStabilityMetrics(params: {
     operatorId?: number;
     period?: number;
     peerGroup?: string;
   }): Promise<StabilityMetricRecord[]>;
 
-  getTariffs(params?: {
+  getTariffs(params: {
     operatorId?: number;
     period?: number;
-    category?: string;
+    category?: ElectricityCategory;
     tariffType?: "network" | "energy";
     peerGroup?: string;
   }): Promise<TariffRecord[]>;
@@ -161,11 +160,4 @@ export interface SunshineDataService {
   }): Promise<SunshineDataIndicatorRow[]>;
 
   fetchUpdateDate(): Promise<string>;
-}
-
-/**
- * Gets the sunshine data service - now always returns SPARQL implementation.
- */
-export function getSunshineDataService(): SunshineDataService {
-  return sunshineDataServiceSparql;
 }

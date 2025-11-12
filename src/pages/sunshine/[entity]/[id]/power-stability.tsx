@@ -1,6 +1,5 @@
 import { t, Trans } from "@lingui/macro";
 import { Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -29,7 +28,6 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import {
   SessionConfigDebugProps,
   getOperatorsPageProps,
-  PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { ANZAHL_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
@@ -42,9 +40,10 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
-import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
 type Props =
@@ -54,50 +53,52 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
-  context
-) => {
-  const { params, res, req, locale } = context;
-  const { id, entity } = params!;
+export const getServerSideProps = createGetServerSideProps(
+  async (context, { graphqlContext }) => {
+    const { params, res, req, locale } = context;
+    const { id, entity } = params!;
 
-  if (entity !== "operator") {
+    if (entity !== "operator") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const operatorProps = await getOperatorsPageProps({
+      id,
+      locale: locale ?? defaultLocale,
+      res,
+      req,
+    });
+
+    if (operatorProps.status === "notfound") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const sunshineDataService = createSunshineDataServiceSparql(
+      graphqlContext.sparqlClient
+    );
+    const sessionConfig = await getSessionConfigFlagsInfo(context);
+
+    const powerStability = await fetchPowerStability(sunshineDataService, {
+      operatorId: id,
+    });
+
     return {
       props: {
-        status: "notfound",
+        ...operatorProps,
+        powerStability,
+        sessionConfig,
       },
     };
   }
-
-  const operatorProps = await getOperatorsPageProps({
-    id,
-    locale: locale ?? defaultLocale,
-    res,
-    req,
-  });
-
-  if (operatorProps.status === "notfound") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const sunshineDataService = getSunshineDataService();
-  const sessionConfig = await getSessionConfigFlagsInfo(context);
-
-  const powerStability = await fetchPowerStability(sunshineDataService, {
-    operatorId: id,
-  });
-
-  return {
-    props: {
-      ...operatorProps,
-      powerStability,
-      sessionConfig,
-    },
-  };
-};
+);
 
 // Operator document and year filter
 export const SaidiDocument = gql`

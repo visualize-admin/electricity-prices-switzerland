@@ -1,16 +1,23 @@
 import { GetServerSideProps } from "next";
 import { Client } from "urql";
 
-import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
+import {
+  contextFromGetServerSidePropsContext,
+  GraphqlRequestContext,
+} from "src/graphql/server-context";
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { defaultLocale } from "src/locales/config";
 
 type Props = Record<string, $IntentionalAny>;
 
-type EnhancedGSSP<P extends Props> = (
-  context: Parameters<GetServerSideProps<P, { locale: string }>>[0],
+type EnhancedGSSP<
+  P extends Props,
+  PageParams extends Record<string, string>
+> = (
+  context: Parameters<GetServerSideProps<P, PageParams>>[0],
   options: {
     urqlClient: Client;
+    graphqlContext: GraphqlRequestContext;
   }
 ) => ReturnType<GetServerSideProps<P, { locale: string }>>;
 
@@ -18,9 +25,12 @@ type EnhancedGSSP<P extends Props> = (
  * Should be used to automatically add locale to the props of the page.
  * Also provides urqlClient as second argument to the gssp function.
  */
-const createGetServerSideProps = <P extends Props>(
-  gssp: EnhancedGSSP<P>
-): GetServerSideProps<P, { locale: string }> => {
+const createGetServerSideProps = <
+  P extends Props,
+  PageParams extends Record<string, string>
+>(
+  gssp: EnhancedGSSP<P, PageParams>
+): GetServerSideProps<P, PageParams> => {
   return async (context) => {
     const locale = context.params?.locale ?? defaultLocale;
     const graphqlContext = await contextFromGetServerSidePropsContext(context);
@@ -32,6 +42,7 @@ const createGetServerSideProps = <P extends Props>(
     });
     const child = await gssp(context, {
       urqlClient,
+      graphqlContext,
     });
     if ("redirect" in child) {
       return child;

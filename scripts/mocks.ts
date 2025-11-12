@@ -3,8 +3,9 @@ import * as fs from "fs";
 import * as path from "path";
 
 import * as argparse from "argparse";
+import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { getSunshineDataService } from "src/lib/sunshine-data-service";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 
 import {
   fetchOperationalStandards,
@@ -12,8 +13,10 @@ import {
   fetchPowerStability,
 } from "../src/lib/sunshine-data";
 
-// Now always uses SPARQL service
-const mockSunshineDataService = getSunshineDataService();
+const client = new ParsingClient({
+  endpointUrl: "https://int.lindas.admin.ch/query",
+});
+const mockSunshineDataService = createSunshineDataServiceSparql(client);
 
 interface FetcherOptions {
   operatorId: string;
