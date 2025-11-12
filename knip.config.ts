@@ -32,8 +32,6 @@ const config: KnipConfig = {
     "dotenv",
     // Used for opening accent project in the browser
     "open",
-    // Used for managing mock data, available via nix
-    "duckdb",
     // Used to run security vulnerability scan, available via nix
     "trivy",
   ],
