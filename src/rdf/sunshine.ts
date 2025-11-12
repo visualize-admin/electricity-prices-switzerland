@@ -22,7 +22,7 @@ import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
 const yesPredicateValue =
   "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
 
-export class PeerGroupNotFoundError extends Error {
+class PeerGroupNotFoundError extends Error {
   constructor(operatorId: string | number) {
     const message = `Peer group not found for operator ID: ${operatorId}`;
     super(message);
@@ -30,7 +30,7 @@ export class PeerGroupNotFoundError extends Error {
   }
 }
 
-export class UnknownPeerGroupError extends Error {
+class UnknownPeerGroupError extends Error {
   constructor(operatorId: string | number, peerGroup: string) {
     const message = `Peer group ${peerGroup} is unknown (operator ID: ${operatorId})`;
     super(message);
@@ -38,14 +38,14 @@ export class UnknownPeerGroupError extends Error {
   }
 }
 
-export type SettlementDensity =
+type SettlementDensity =
   | "High"
   | "Medium"
   | "Rural"
   | "Mountain"
   | "Tourist"
   | "N.A.";
-export type EnergyDensity = "High" | "Low" | "N.A.";
+type EnergyDensity = "High" | "Low" | "N.A.";
 
 /**
  * Peer group mapping from id to energy and settlement density
@@ -57,7 +57,7 @@ export type EnergyDensity = "High" | "Low" | "N.A.";
  * TODO: See if this information could be stored in the database directly.
  *
  */
-export const peerGroupMapping: Record<
+const peerGroupMapping: Record<
   string,
   { energy_density: EnergyDensity; settlement_density: SettlementDensity }
 > = {
@@ -108,7 +108,7 @@ export const peerGroupMapping: Record<
 };
 
 // Map the structured indicator to field names
-export const getFieldName = (
+const getFieldName = (
   indicator: SunshineIndicator,
   category?: string,
   networkLevel?: string,

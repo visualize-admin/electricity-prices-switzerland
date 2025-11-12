@@ -1,5 +1,4 @@
 import { t, Trans } from "@lingui/macro";
-import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 
@@ -27,11 +26,13 @@ import { detailsPriceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import { defaultLocale } from "src/locales/config";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 
-export const getServerSideProps: GetServerSideProps<
+export const getServerSideProps = createGetServerSideProps<
   Props,
   Omit<PageParams, "req">
-> = async ({ params, res, locale, req }) => {
+>(async (context, { sparqlClient }) => {
+  const { params, res, locale, req } = context;
   const { id, entity } = params!;
   const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
   const periodQueryParam = query.getAll("period");
@@ -44,31 +45,28 @@ export const getServerSideProps: GetServerSideProps<
 
   switch (entity) {
     case "canton":
-      props = await getCantonPageProps({
+      props = await getCantonPageProps(sparqlClient, {
         id,
         locale: locale ?? defaultLocale,
         res,
-        req,
       });
 
       break;
     case "municipality":
-      props = await getMunicipalityPageProps({
+      props = await getMunicipalityPageProps(sparqlClient, {
         id,
         locale: locale ?? defaultLocale,
         // get years out of the query string from the request
         years: period.length > 0 ? period : [runtimeEnv.CURRENT_PERIOD],
         res,
-        req,
       });
 
       break;
     case "operator":
-      props = await getOperatorsPageProps({
+      props = await getOperatorsPageProps(sparqlClient, {
         id,
         locale: locale ?? defaultLocale,
         res,
-        req,
       });
 
       break;
@@ -80,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props,
   };
-};
+});
 
 // Main page using the generic component
 const ElectricityTariffsPage = (props: Props) => {

@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { Entity } from "src/domain/data";
 import { defaultLocale } from "src/locales/config";
@@ -9,7 +10,6 @@ import {
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
-import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 import { SessionConfigFlagInfo } from "src/session-config/info";
 
 export type PageParams = {
@@ -49,15 +49,15 @@ export type Props =
     };
 
 export const getMunicipalityPageProps = async (
+  client: ParsingClient,
   params: Omit<PageParams, "entity"> &
-    Pick<GetServerSidePropsContext, "res" | "req"> & {
+    Pick<GetServerSidePropsContext, "res"> & {
       years: string[];
     }
 ): Promise<
   Extract<Props, { entity: "municipality" } | { status: "notfound" }>
 > => {
   const { id, locale, res, years } = params!;
-  const client = await getSparqlClientFromRequest(params.req);
   const municipality = await getMunicipality({ id, client });
 
   if (!municipality) {
@@ -79,11 +79,10 @@ export const getMunicipalityPageProps = async (
   };
 };
 export const getOperatorsPageProps = async (
-  params: Omit<PageParams, "entity"> &
-    Pick<GetServerSidePropsContext, "res" | "req">
+  client: ParsingClient,
+  params: Omit<PageParams, "entity"> & Pick<GetServerSidePropsContext, "res">
 ): Promise<Extract<Props, { entity: "operator" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;
-  const client = await getSparqlClientFromRequest(params.req);
 
   const operator = await getOperator({ id, client });
 
@@ -104,11 +103,10 @@ export const getOperatorsPageProps = async (
 };
 
 export const getCantonPageProps = async (
-  params: Omit<PageParams, "entity"> &
-    Pick<GetServerSidePropsContext, "res" | "req">
+  client: ParsingClient,
+  params: Omit<PageParams, "entity"> & Pick<GetServerSidePropsContext, "res">
 ): Promise<Extract<Props, { entity: "canton" } | { status: "notfound" }>> => {
   const { id, locale, res } = params!;
-  const client = await getSparqlClientFromRequest(params.req);
 
   const canton = await getCanton({ id, locale: locale!, client });
 

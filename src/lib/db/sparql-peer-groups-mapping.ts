@@ -17,7 +17,7 @@ export type EnergyDensity = "High" | "Low" | "N.A.";
  * TODO: See if this information could be stored in the database directly.
  *
  */
-export const peerGroupMapping: Record<
+const peerGroupMapping: Record<
   string,
   { energy_density: EnergyDensity; settlement_density: SettlementDensity }
 > = {

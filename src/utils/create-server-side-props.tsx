@@ -1,10 +1,8 @@
 import { GetServerSideProps } from "next";
+import ParsingClient from "sparql-http-client/ParsingClient";
 import { Client } from "urql";
 
-import {
-  contextFromGetServerSidePropsContext,
-  GraphqlRequestContext,
-} from "src/graphql/server-context";
+import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { defaultLocale } from "src/locales/config";
 
@@ -17,7 +15,7 @@ type EnhancedGSSP<
   context: Parameters<GetServerSideProps<P, PageParams>>[0],
   options: {
     urqlClient: Client;
-    graphqlContext: GraphqlRequestContext;
+    sparqlClient: ParsingClient;
   }
 ) => ReturnType<GetServerSideProps<P, { locale: string }>>;
 
@@ -42,7 +40,7 @@ const createGetServerSideProps = <
     });
     const child = await gssp(context, {
       urqlClient,
-      graphqlContext,
+      sparqlClient: graphqlContext.sparqlClient,
     });
     if ("redirect" in child) {
       return child;

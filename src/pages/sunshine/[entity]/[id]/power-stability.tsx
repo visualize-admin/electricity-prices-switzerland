@@ -54,7 +54,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps(
-  async (context, { graphqlContext }) => {
+  async (context, { sparqlClient }) => {
     const { params, res, req, locale } = context;
     const { id, entity } = params!;
 
@@ -66,11 +66,10 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps({
+    const operatorProps = await getOperatorsPageProps(sparqlClient, {
       id,
       locale: locale ?? defaultLocale,
       res,
-      req,
     });
 
     if (operatorProps.status === "notfound") {
@@ -81,9 +80,7 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const sunshineDataService = createSunshineDataServiceSparql(
-      graphqlContext.sparqlClient
-    );
+    const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
     const sessionConfig = await getSessionConfigFlagsInfo(context);
 
     const powerStability = await fetchPowerStability(sunshineDataService, {
