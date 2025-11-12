@@ -42,7 +42,7 @@ import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
+import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
@@ -83,8 +83,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sunshineDataService = getSunshineDataService();
   const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const powerStability = await fetchPowerStability(sunshineDataService, {

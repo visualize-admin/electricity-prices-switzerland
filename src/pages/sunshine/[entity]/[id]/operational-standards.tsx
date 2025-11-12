@@ -33,7 +33,7 @@ import {
 import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
+import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
@@ -74,9 +74,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  // Get the appropriate database service based on request headers
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sunshineDataService = getSunshineDataService();
   const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const operationalStandards = await fetchOperationalStandards(

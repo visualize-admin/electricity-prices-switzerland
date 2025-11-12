@@ -1,8 +1,5 @@
-import { GetServerSidePropsContext, NextApiRequest } from "next";
-
 import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
-import server from "src/env/server";
 import {
   PeerGroup,
   PeerGroupItem,
@@ -10,9 +7,7 @@ import {
   SunshineDataRow,
 } from "src/graphql/resolver-types";
 import { sunshineDataServiceSparql } from "src/lib/db/sparql";
-import { sunshineDataServiceSql } from "src/lib/db/sql";
 import { IndicatorMedianParams } from "src/lib/sunshine-data";
-import { parseSessionFromRequest } from "src/session-config";
 
 export type NetworkCostRecord = {
   operator_id: number;
@@ -167,48 +162,10 @@ export interface SunshineDataService {
 
   fetchUpdateDate(): Promise<string>;
 }
-const DATABASE_SERVICE_MAP = {
-  sql: sunshineDataServiceSql,
-  sparql: sunshineDataServiceSparql,
-} satisfies Record<string, SunshineDataService>;
-type DatabaseServiceKey = keyof typeof DATABASE_SERVICE_MAP;
-
-export const DEFAULT_DATABASE_SERVICE_KEY = server.SUNSHINE_DEFAULT_SERVICE;
 
 /**
- * Gets the sunshine data service based on the current session or fallback to cookie/default.
+ * Gets the sunshine data service - now always returns SPARQL implementation.
  */
-export function getSunshineDataService(
-  serviceKey: (string & {}) | DatabaseServiceKey | undefined
-): SunshineDataService {
-  if (!serviceKey || !(serviceKey in DATABASE_SERVICE_MAP)) {
-    return DATABASE_SERVICE_MAP[DEFAULT_DATABASE_SERVICE_KEY];
-  }
-
-  return DATABASE_SERVICE_MAP[serviceKey as DatabaseServiceKey];
-}
-
-/**
- * Session-aware function to get sunshine data service from API request.
- * This function first tries to get the service from the admin session,
- * then falls back to the legacy cookie method for backward compatibility.
- */
-
-export async function getSunshineDataServiceFromApiRequest(
-  req: NextApiRequest
-): Promise<SunshineDataService> {
-  const session = await parseSessionFromRequest(req);
-  return getSunshineDataService(session?.flags.sunshineDataService);
-}
-/**
- * Session-aware function to get sunshine data service from GetServerSideProps context.
- * This function first tries to get the service from the admin session,
- * then falls back to the legacy cookie method for backward compatibility.
- */
-
-export async function getSunshineDataServiceFromGetServerSidePropsContext(
-  context: Pick<GetServerSidePropsContext, "req">
-): Promise<SunshineDataService> {
-  const session = await parseSessionFromRequest(context.req as NextApiRequest);
-  return getSunshineDataService(session?.flags.sunshineDataService);
+export function getSunshineDataService(): SunshineDataService {
+  return sunshineDataServiceSparql;
 }

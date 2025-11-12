@@ -12,9 +12,7 @@ const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
 
 const makeHeaders = async () => ({
-  cookie: await createCookieFromFlags({
-    sunshineDataService: "sql",
-  }),
+  cookie: await createCookieFromFlags({}),
 
   ...(process.env.BASIC_AUTH_CREDENTIALS
     ? {

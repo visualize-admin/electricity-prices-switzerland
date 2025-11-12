@@ -4,19 +4,16 @@ import * as path from "path";
 
 import * as argparse from "argparse";
 
-import { ensureDatabaseInitialized } from "src/lib/db/duckdb";
 import { getSunshineDataService } from "src/lib/sunshine-data-service";
 
-import { closeDuckDB } from "../src/lib/db/duckdb";
 import {
   fetchOperationalStandards,
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
 } from "../src/lib/sunshine-data";
 
-// Right now we use the SQL service for mocks, but this can be changed
-// to SPARQL if needed
-const mockSunshineDataService = getSunshineDataService("sql");
+// Now always uses SPARQL service
+const mockSunshineDataService = getSunshineDataService();
 
 interface FetcherOptions {
   operatorId: string;
@@ -152,9 +149,6 @@ const pickName = makePicker(operatorNames);
 
 async function generateMocks(options: FetcherOptions) {
   try {
-    // Initialize the database explicitly
-    await ensureDatabaseInitialized();
-
     const outputDir = path.resolve(options.outputDir);
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
@@ -247,11 +241,7 @@ async function generateMocks(options: FetcherOptions) {
     console.info("\n--- All mocks generated successfully ---");
   } catch (error) {
     console.error("Error generating mocks:", error);
-  } finally {
-    // Close DuckDB connection before exiting
-    closeDuckDB();
-    // Force exit to ensure all resources are released
-    process.exit(0);
+    process.exit(1);
   }
 }
 

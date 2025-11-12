@@ -61,7 +61,7 @@ import {
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
+import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
@@ -106,8 +106,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sunshineDataService = getSunshineDataService();
   const sessionConfig = await getSessionConfigFlagsInfo(context);
   const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
     sunshineDataService,

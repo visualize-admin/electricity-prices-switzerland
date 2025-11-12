@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 
 import server from "src/env/server";
-import { DEFAULT_DATABASE_SERVICE_KEY } from "src/lib/sunshine-data-service";
 
 import { getSessionConfigFlagsFromContext } from "./session";
 
@@ -23,11 +22,6 @@ export async function getSessionConfigFlagsInfo(
 
   return {
     flags: {
-      sunshineDataService: {
-        value: flags.sunshineDataService,
-        default: DEFAULT_DATABASE_SERVICE_KEY,
-        label: "Sunshine Data Service",
-      },
       sparqlEndpoint: {
         value: flags.sparqlEndpoint,
         default: server.SPARQL_ENDPOINT,

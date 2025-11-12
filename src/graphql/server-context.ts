@@ -3,8 +3,7 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 import {
-  getSunshineDataServiceFromApiRequest,
-  getSunshineDataServiceFromGetServerSidePropsContext,
+  getSunshineDataService,
   SunshineDataService,
 } from "src/lib/sunshine-data-service";
 import {
@@ -23,7 +22,7 @@ export type GraphqlRequestContext = {
 export const contextFromAPIRequest = async (
   req: NextApiRequest
 ): Promise<GraphqlRequestContext> => {
-  const sunshineDataService = await getSunshineDataServiceFromApiRequest(req);
+  const sunshineDataService = getSunshineDataService();
   const sparqlClient = await getSparqlClientFromRequest(req);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     req.headers.cookie
@@ -40,8 +39,7 @@ export const contextFromAPIRequest = async (
 export const contextFromGetServerSidePropsContext = async (
   ctx: Pick<GetServerSidePropsContext, "req">
 ): Promise<GraphqlRequestContext> => {
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(ctx);
+  const sunshineDataService = getSunshineDataService();
   const sparqlClient = await getSparqlClientFromGetServerSidePropsContext(ctx);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     ctx.req.headers.cookie

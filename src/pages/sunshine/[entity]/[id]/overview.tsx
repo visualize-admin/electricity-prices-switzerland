@@ -59,7 +59,7 @@ import {
   fetchOperatorCostsAndTariffsData,
   fetchPowerStability,
 } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
+import { getSunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import { makePageTitle } from "src/utils/page-title";
@@ -107,8 +107,7 @@ export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
     };
   }
 
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(context);
+  const sunshineDataService = getSunshineDataService();
   const sessionConfig = await getSessionConfigFlagsInfo(context);
 
   const [operationalStandards, powerStability, costsAndTariffs] =
