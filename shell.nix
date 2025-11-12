@@ -10,6 +10,5 @@ in pkgs.mkShell {
     yarn
     nodejs
     bun
-    duckdb
   ];
 }

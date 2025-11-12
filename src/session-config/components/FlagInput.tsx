@@ -49,7 +49,7 @@ const FlagInput: React.FC<FlagInputProps> = ({
       case "enum":
         const options = getFlagInfo(
           flagKey as keyof SessionConfigFlags
-        ).options.map((x) => x.value);
+        ).options.map((x: { value: string }) => x.value);
         return (
           <FormControl fullWidth>
             <Select
@@ -57,7 +57,7 @@ const FlagInput: React.FC<FlagInputProps> = ({
               defaultValue={String(value)}
               variant="outlined"
             >
-              {options.map((option) => (
+              {options.map((option: string) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>

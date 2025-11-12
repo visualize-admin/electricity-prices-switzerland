@@ -6,8 +6,7 @@ This specification defines a session flags management system that provides secur
 
 It is currently used for
 
-- Selection of sunshine data provider, either Lindas or an in memory DuckDB instance containing data used for development
-- Selection of the Lindas endpoint at runtime.
+- Selection of the SPARQL endpoint at runtime.
 
 ## Feature Overview
 
@@ -71,7 +70,6 @@ export async function getServerSideProps(context) {
 SESSION_CONFIG_PASSWORD=<secure-password>        # SESSION_CONFIG authentication password (Required)
 SESSION_CONFIG_JWT_SECRET=<signing-secret>       # JWT token signing key (Required)
 SESSION_CONFIG_SESSION_DURATION=86400           # Session duration in seconds (Required)
-SUNSHINE_DEFAULT_SERVICE=sql        # Default data service (Optional, defaults to sparql)
 ```
 
 ## Security Model

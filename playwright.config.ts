@@ -44,6 +44,9 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         httpCredentials: getHttpCredentialsFromEnv(),
+        extraHTTPHeaders: {
+          "x-vercel-skip-toolbar": "1",
+        },
       },
     },
 

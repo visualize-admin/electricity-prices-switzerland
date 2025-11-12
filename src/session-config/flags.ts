@@ -10,7 +10,8 @@ const getFlagOptions = (
     schema instanceof z.ZodDefault &&
     schema._def.innerType instanceof z.ZodEnum
   ) {
-    return schema._def.innerType._def.values.map((value) => ({
+    const enumDef = schema._def.innerType._def as z.ZodEnumDef<$IntentionalAny>;
+    return enumDef.values.map((value: string) => ({
       value,
     }));
   }

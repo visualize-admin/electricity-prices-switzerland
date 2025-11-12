@@ -10,16 +10,6 @@ import server from "src/env/server";
 
 export const sessionConfigFlagsSchema = z.object({
   /**
-   * Controls which data service implementation to use for Sunshine data.
-   * - "sparql": Use SPARQL endpoint queries (default)
-   * - "sql": Use local SQL database queries
-   */
-  sunshineDataService: z
-    .enum(["sql", "sparql"])
-    .default(server.SUNSHINE_DEFAULT_SERVICE)
-    .describe("Data service implementation for Sunshine data (SPARQL or SQL)"),
-
-  /**
    * Configures the SPARQL endpoint URL for querying RDF data.
    * This allows switching between different SPARQL endpoints at runtime.
    */

@@ -1,5 +1,9 @@
 # ElCom Electricity Price Website
 
+An electricity price comparison website for Switzerland that provides interactive maps, charts, and time-series visualizations of electricity prices from Swiss providers. Built with Next.js 15, TypeScript, and Material-UI, the application combines data from SPARQL/RDF (LINDAS), DuckDB, and SQL sources into a unified GraphQL API.
+
+**For development patterns and coding guidelines, see [Claude.md](./Claude.md).**
+
 ## Configuration through Environment Variables
 
 | Variable                                    | Required | Example Value                                                                                    |
@@ -23,7 +27,7 @@
 
 ## Development Environment
 
-To start the development environment, you need [Node.js](https://nodejs.org/en/) (v12 LTS recommended) and [Yarn](https://classic.yarnpkg.com/lang/en/) as package manager.
+To start the development environment, you need [Node.js](https://nodejs.org/en/) (v22 recommended) and [Yarn](https://classic.yarnpkg.com/lang/en/) as package manager.
 
 The usage of [Nix](https://nixos.org) to install system-level packages is recommended.
 
@@ -62,7 +66,7 @@ Once the application's set up, you can start the development server with
 yarn dev
 ```
 
-> 👉 In [Visual Studio Code](https://code.visualstudio.com/), you also can run the **default build task** (CMD-SHIFT-B) to start the dev server, database server, and TypeScript checker (you'll need [Nix](https://nixos.org) for that to work).
+> 👉 In [Visual Studio Code](https://code.visualstudio.com/), you also can run the **default build task** (CMD-SHIFT-B) to start the dev server, and TypeScript checker (you'll need [Nix](https://nixos.org) for that to work).
 
 ## Versioning
 
@@ -74,27 +78,27 @@ yarn version
 
 This will prompt for a new version. The `postversion` script will automatically try to push the created version tag to the origin repo.
 
-## Deployment
-
-Docker TBD
-
 ## Localization
 
-New localizable strings can be extracted from the source code with
+The application supports German (de), French (fr), Italian (it), English (en), and AA (test language). Translations are managed using Lingui with Accent for translation management.
+
+[Project in Accent](https://accent.interactivethings.io/app/projects/1ce6adef-33b9-45e5-8eaf-a1f6b6ba1ebd).
+
+### Workflow
 
 ```sh
+# Extract translatable strings from source code
 yarn locales:extract
-```
 
-This will update the translation files in `src/locales/*/messages.po`.
+# Manage translations via Accent interface
+yarn locales:browse
 
-After updating the translation PO files, run
+# Pull translations from Accent service
+yarn locales:sync
 
-```sh
+# Compile translations (runs automatically during yarn build)
 yarn locales:compile
 ```
-
-To make the translations available to the application. _Note: this step will run automatically on `yarn build`._
 
 ## Preparing geodata
 
@@ -144,54 +148,7 @@ cat ../../../vault/svc.spw-d.elcom.admin.ch.p12 | base64
 
 ## Load testing
 
-To load test, we use the k6 platform and its ability to import HAR
-session recordings. We generate automatically a HAR via a Playwright test designed to mimick a typical user journey and import it into k6.
-
-### Update the test on k6.io
-
-After an update to the application, it is necessary to update the
-test on k6 so that the chunks URL are correct. To make the update
-painless, Playwright is used to automatically navigate across the
-site, and then save the session requests as an HAR file.
-
-1. Record the HAR
-
-The HAR is generated automatically from a Playwright test.
-
-```bash
-yarn run e2e:k6:har
-```
-
-You can also generate an HAR from a different environment than ref by
-using the ELCOM_ENV env variable.
-
-```bash
-ELCOM_ENV=abn yarn run e2e:k6:har
-```
-
-The command will open a browser and will navigate through various pages.
-After the test, an HAR will be generated in the root directory.
-
-2. Import the HAR file into K6
-
-```
-yarn e2e:k6:update
-```
-
-ℹ️ Check the command in `package.json` if you want to change the HAR uploaded or the
-test being updated
-
-Make sure the options of the Scenario correspond to what you want as k6
-resets them when you import the HAR (you might want to increase the
-number of VUs to 50 for example).
-
-### Editing the test
-
-The preferred way to edit the test is to use the [Recorder inside VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright).
-This way it is easy to quickly generate a test.
-
-- Add testIds in case the generated selectors are not understandable.
-- Add sleeps to make sure the test is not too quick and "human like"
+See [Load Testing](./docs/load-testing.md) document for more information.
 
 ## Docker
 
@@ -217,94 +174,7 @@ A notebook containing Elcom specific SPARQL queries is available at [./book.spar
 You need the [SPARQL Notebook Extension](https://marketplace.visualstudio.com/items?itemName=Zazuko.sparql-notebook)
 to open it.
 
-## Sunshine Data Service
-
-There are two different sources of data, that are abstracted behind
-the Sunshine Data Service interface.
-
-Currently, the Sunshine pages rely on mocked data since the real data is not yet ready for production use. The mock data system is designed to protect operator anonymity while still providing realistic data for development and testing.
-
-- SPARQL: Data from Lindas, this is expected to be the production data at
-  some point. At the moment, the data is not yet published
-
-- SQL: Mock data but currently more filled in that Lindas.
-
-### Choosing a Data Service
-
-The default data service is for now "sql" since we need it to test
-all the flows of the application, with data as close as possible to the
-real data.
-
-We want also to be able to test the data from Lindas. To do that, it's
-possible to switch data service by loading the `/api/sunshineDataService?serviceKey=sparql` page. You should see a JSON message of success.
-
-Then, when you navigate in Sunshine pages, a debug message indicates
-that you are currently viewing data through a data service which is not
-the default.
-
-To return back to the SQL data service, visit `/api/sunshineDataService?serviceKey=sql`.
-
-### How the SQL Sunshine Data Service works ?
-
-The data from the SQL Sunshine Data Service is based on real CSV files provided by Elcom. For privacy and security reasons, these CSV files are encrypted in the repository and can only be accessed by decrypting them with the correct password (`PREVIEW_PASSWORD` environment variable).
-
-Key aspects of the mocked data system:
-
-1. **Data sources**: The original data is stored as encrypted CSV files in the repository:
-
-   - `energy`: Energy data prepared in the [elcom-sunshine-data-analysis](https://github.com/interactivethings/elcom-sunshine-data-analysis) project
-   - `peer-groups`: Peer groups for each operator, derived from the energy data
-   - `Sunshine 2024/2025`: Yearly sunshine data files
-
-2. **Server-side processing**: When the application runs, the CSV files are:
-
-   - Decrypted on first request using the `PREVIEW_PASSWORD`
-   - Loaded into a DuckDB instance (an in-memory database)
-   - Processed through SQL queries to extract and transform relevant data
-   - You can see which SQL views are created through `npm run mocks:debug-views`. You can also see sample data, for example `npm run mocks:debug-views -- --view stability_metrics --sample` will show you sample data for the `stability_metrics` view.
-
-3. **Anonymized operator data**: To preserve anonymity while the data is not yet public:
-
-   - Operator names are replaced with fictional names
-   - Operator IDs are also anonymized
-   - The actual data values remain intact to preserve statistical accuracy
-
-4. **Mock file generation**: Mock files can be regenerated using the CLI command:
-   ```bash
-   npm run mocks -- -o <operatorId>
-   ```
-   This creates JSON files in the `mocks/` directory that can be used in Storybook or for testing.
-
-### Working with the encrypted data
-
-You can work with the encrypted data directly using the `yarn sunshine-csv` script:
-
-```bash
-# Encrypt/decrypt observation data
-yarn sunshine-csv encrypt -i "Sunshine 2025 28.05.2025"
-yarn sunshine-csv decrypt -i "Sunshine 2025 28.05.2025"
-
-# Decrypt peer groups data
-yarn sunshine-csv decrypt peer-groups
-```
-
-The peer groups CSV is generated from `energy.csv` using DuckDB queries and can be regenerated via:
-
-```bash
-yarn data:peer-groups
-```
-
-### Integration with the application
-
-The Sunshine pages fetch data server-side in `getServerSideProps`, where:
-
-1. The encrypted data is decrypted and loaded into DuckDB
-2. SQL queries retrieve and format the data for the front-end components
-3. The data is passed as props to the React components
-
-For components testing in Storybook, the mock files from `mocks/` can be imported to simulate the data flow without needing the decryption key.
-
-### Home map screenshots
+## Home map screenshots
 
 It is possible to regenerate the home map screenshots automatically using Playwright.
 

@@ -1,6 +1,5 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -61,10 +60,11 @@ import {
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
-import { getSunshineDataServiceFromGetServerSidePropsContext } from "src/lib/sunshine-data-service";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
+import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
 import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
@@ -76,56 +76,55 @@ type Props =
     })
   | { status: "notfound" };
 
-export const getServerSideProps: GetServerSideProps<Props, PageParams> = async (
-  context
-) => {
-  const { params, res, req, locale } = context;
+export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
+  async (context, { sparqlClient }) => {
+    const { params, res, req, locale } = context;
 
-  const { id, entity } = params!;
+    const { id, entity } = params!;
 
-  if (entity !== "operator") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const operatorProps = await getOperatorsPageProps({
-    id,
-    locale: locale ?? defaultLocale,
-    res,
-    req,
-  });
-
-  if (operatorProps.status === "notfound") {
-    return {
-      props: {
-        status: "notfound",
-      },
-    };
-  }
-
-  const sunshineDataService =
-    await getSunshineDataServiceFromGetServerSidePropsContext(context);
-  const sessionConfig = await getSessionConfigFlagsInfo(context);
-  const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-    sunshineDataService,
-    {
-      operatorId: id,
-      networkLevel: "NE7",
-      category: "H4",
+    if (entity !== "operator") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
     }
-  );
 
-  return {
-    props: {
-      ...operatorProps,
-      costsAndTariffs,
-      sessionConfig,
-    },
-  };
-};
+    const operatorProps = await getOperatorsPageProps(sparqlClient, {
+      id,
+      locale: locale ?? defaultLocale,
+      res,
+    });
+
+    if (operatorProps.status === "notfound") {
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const sessionConfig = await getSessionConfigFlagsInfo(context);
+
+    const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
+    const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
+      sunshineDataService,
+      {
+        operatorId: id,
+        networkLevel: "NE7",
+        category: "H4",
+      }
+    );
+
+    return {
+      props: {
+        ...operatorProps,
+        costsAndTariffs,
+        sessionConfig,
+      },
+    };
+  }
+);
 
 export const NetworkCostsDocument = gql`
   query NetworkCosts($filter: NetworkCostsFilter!) {

@@ -1,5 +1,3 @@
-import path from "path";
-
 import { z } from "zod";
 
 export const buildSchema = z.object({
@@ -81,19 +79,6 @@ export const serverSchema = z.object({
     .optional()
     .default("false")
     .transform((value) => value === "true"),
-
-  SUNSHINE_DEFAULT_SERVICE: z
-    .union([z.literal("sparql"), z.literal("sql")])
-    .optional()
-    .default("sparql"),
-
-  SUNSHINE_ENCRYPTED_DATA_DIR: z
-    .string()
-    .default(path.join(process.cwd(), "src/sunshine-data")),
-
-  SUNSHINE_CSV_DATA_DIR: z
-    .string()
-    .default(path.join(process.cwd(), "src/sunshine-data")),
 
   // Admin session management
   SESSION_CONFIG_PASSWORD: z.string().optional(),
