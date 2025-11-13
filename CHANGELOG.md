@@ -11,9 +11,10 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Technical improvements
+  - Removed Duckdb sunshine data service
 
-# 2.24.0
+# 2.24.0 - 12/11/2025
 
 - Map Page
 
