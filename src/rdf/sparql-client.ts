@@ -10,9 +10,12 @@ export const endpointUrl = server.SPARQL_ENDPOINT;
  * Creates a SPARQL client with the specified endpoint URL.
  */
 function createSparqlClient(endpointUrl: string): ParsingClient {
-  return new ParsingClient({
+  const client = new ParsingClient({
     endpointUrl,
   });
+  // Uncomment to enable verbose logging of SPARQL queries
+  // makeClientVerbose(client);
+  return client;
 }
 function endpointSupportsCachingPerCube(endpointUrl: string): boolean {
   return endpointUrl.includes("cached");
@@ -34,14 +37,10 @@ export function createSparqlClientForCube(
  * This function tries to get the endpoint from the admin session,
  * then falls back to the default endpoint.
  */
-
 export async function getSparqlClientFromRequest(
   req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
 ): Promise<ParsingClient> {
   const session = await parseSessionFromRequest(req);
   const endpoint = session?.flags.sparqlEndpoint ?? server.SPARQL_ENDPOINT;
-
-  return new ParsingClient({
-    endpointUrl: endpoint,
-  });
+  return createSparqlClient(endpoint);
 }
