@@ -391,7 +391,7 @@ export type QueryOperatorArgs = {
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
-  electricityCategory: Scalars["String"]["input"];
+  electricityCategory?: InputMaybe<Scalars["String"]["input"]>;
   period: Scalars["String"]["input"];
 };
 
@@ -1358,10 +1358,7 @@ export type QueryResolvers<
     Array<ResolversTypes["OperatorMunicipality"]>,
     ParentType,
     ContextType,
-    RequireFields<
-      QueryOperatorMunicipalitiesArgs,
-      "electricityCategory" | "period"
-    >
+    RequireFields<QueryOperatorMunicipalitiesArgs, "period">
   >;
   operators?: Resolver<
     Array<ResolversTypes["Operator"]>,

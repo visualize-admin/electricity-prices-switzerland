@@ -588,7 +588,7 @@ export const getOperatorDocuments = async ({
 
 export const getOperatorsMunicipalities = async (
   year: string,
-  category: ElectricityCategory | "all",
+  category: ElectricityCategory | undefined,
   client: ParsingClient
 ) => {
   const query = `
@@ -603,7 +603,6 @@ export const getOperatorsMunicipalities = async (
         ? `?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> <https://energy.ld.admin.ch/elcom/electricityprice/category/${category}> .`
         : ""
     }
-    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
     ?municipality <http://schema.org/containedInPlace> ?canton .
     ?canton <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.ld.admin.ch/Canton> .
   }

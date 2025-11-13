@@ -221,7 +221,7 @@ type Query {
 
   operatorMunicipalities(
     period: String!
-    electricityCategory: String!
+    electricityCategory: String
   ): [OperatorMunicipality!]! @cacheControl(maxAge: 300)
 
   cubeHealth: CubeHealth

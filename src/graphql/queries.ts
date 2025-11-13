@@ -375,7 +375,7 @@ export type QueryOperatorArgs = {
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
-  electricityCategory: Scalars["String"]["input"];
+  electricityCategory?: InputMaybe<Scalars["String"]["input"]>;
   period: Scalars["String"]["input"];
 };
 
@@ -854,7 +854,7 @@ export type WikiContentQuery = {
 
 export type OperatorMunicipalitiesQueryVariables = Exact<{
   period: Scalars["String"]["input"];
-  electricityCategory: Scalars["String"]["input"];
+  electricityCategory?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type OperatorMunicipalitiesQuery = {
@@ -1459,10 +1459,7 @@ export function useWikiContentQuery(
   });
 }
 export const OperatorMunicipalitiesDocument = gql`
-  query OperatorMunicipalities(
-    $period: String!
-    $electricityCategory: String!
-  ) {
+  query OperatorMunicipalities($period: String!, $electricityCategory: String) {
     operatorMunicipalities(
       period: $period
       electricityCategory: $electricityCategory

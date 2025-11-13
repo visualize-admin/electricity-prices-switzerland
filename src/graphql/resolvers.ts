@@ -582,7 +582,9 @@ const Query: QueryResolvers = {
     { period, electricityCategory },
     context
   ) => {
-    const category = asElectricityCategory(electricityCategory);
+    const category = electricityCategory
+      ? asElectricityCategory(electricityCategory)
+      : undefined;
     return await getOperatorsMunicipalities(
       period,
       category,

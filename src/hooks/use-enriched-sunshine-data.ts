@@ -2,7 +2,7 @@ import { group } from "d3";
 import { useMemo } from "react";
 
 import { ElectricityCategory } from "src/domain/data";
-import { NetworkLevel } from "src/domain/sunshine";
+import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import {
   useSunshineDataByIndicatorQuery,
   useOperatorMunicipalitiesQuery,
@@ -13,7 +13,7 @@ interface UseEnrichedSunshineDataParams {
   filter: {
     period: string;
     peerGroup?: string;
-    indicator: string;
+    indicator: SunshineIndicator;
     saidiSaifiType?: string;
     networkLevel: NetworkLevel["id"];
     category: ElectricityCategory;
@@ -56,10 +56,16 @@ export const useEnrichedSunshineData = ({
     pause: !enabled,
   });
 
-  // TODO Should not use hardcoded category
-  // Fetch operator municipalities data for the electricity category C2
+  // Fetch operator municipalities data based on the selected indicator
   // This is needed to link operators with their geographic areas
-  const electricityCategory = "C2" as const;
+  // The Sunshine Data does not contain municipality information
+  // Different indicators require different query parameters:
+  // - netTariffs/energyTariffs: uses category from filter
+  // - All other indicators (networkCosts, saidi, saifi, outageInfo, etc.): do not use a category
+  const electricityCategory =
+    indicator === "netTariffs" || indicator === "energyTariffs"
+      ? category
+      : undefined;
   const [operatorMunicipalitiesQuery] = useOperatorMunicipalitiesQuery({
     variables: {
       period,
@@ -85,8 +91,6 @@ export const useEnrichedSunshineData = ({
       sunshineDataQuery.data.sunshineDataByIndicator?.data || [];
     const median =
       sunshineDataQuery.data.sunshineMedianByIndicator ?? undefined;
-    const operatorMunicipalities =
-      operatorMunicipalitiesQuery.data.operatorMunicipalities;
 
     // Create operator index from the observations data
     const uniqueOperators = Array.from(
@@ -128,6 +132,9 @@ export const useEnrichedSunshineData = ({
       enrichedObservations,
       (obs) => obs.operatorId?.toString() || ""
     );
+
+    const operatorMunicipalities =
+      operatorMunicipalitiesQuery.data?.operatorMunicipalities || [];
 
     return {
       observations: enrichedObservations,
