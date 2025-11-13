@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -25,7 +25,9 @@ msgstr "Ja"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+msgstr ""
+"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern. \n"
+"Achtung: Die Daten zu Sunshine enthalten die endgültigen Werte erst ab der Veröffentlichung im Jahr 2026."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -407,7 +409,7 @@ msgstr "Leistungsindikatoren"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.description"
-msgstr "Stromrechnungen setzen sich aus Energietarifen und Netzkosten zusammen. Die Netztarife decken die Kosten für die Infrastruktur, den Netzbetrieb, den Netzunterhalt, die Messung sowie die Verwaltungskosten ab. Die Energietarife spiegeln die Beschaffungskosten sowie Verwaltungs- und Vertriebskosten wider."
+msgstr "Stromrechnungen setzen sich vor allem aus Energietarifen und Netztarife zusammen. Die Netztarife decken die Kosten für die Infrastruktur, den Netzbetrieb, den Netzunterhalt, die Messung sowie die Verwaltungskosten ab. Die Energietarife spiegeln die Beschaffungskosten sowie Verwaltungs- und Vertriebskosten im Energiebereich wider."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.costs-and-tariffs.title"
@@ -606,7 +608,7 @@ msgstr "Alle Sunshine-Indikatoren anzeigen"
 
 #: src/components/generic-map.tsx
 msgid "map.error.description"
-msgstr "Leider konnten die Daten für die Karte nicht geladen werden. Die technischen Details finden Sie unten."
+msgstr "Leider konnten die Daten für die Karte nicht geladen werden."
 
 #: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
@@ -614,7 +616,7 @@ msgstr "Technische Details anzeigen"
 
 #: src/components/generic-map.tsx
 msgid "map.error.title"
-msgstr "Daten konnten nicht geladen werden"
+msgstr "Die Daten konnten nicht geladen werden"
 
 #: src/components/generic-map.tsx
 msgid "map.scrollzoom.hint"
@@ -821,7 +823,9 @@ msgstr "Ungeplant"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
+msgstr ""
+"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern.\n"
+"Achtung: Die Daten zu Sunshine enthalten die endgültigen Werte erst ab der Veröffentlichung im Jahr 2026."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1171,7 +1175,7 @@ msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
-msgstr "Anzahl Tage der Vorankündigung im Voraus"
+msgstr "Anzahl Tage Vorlauf beim Ankündigen"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1619,7 +1623,7 @@ msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
-msgstr "Anzahl Tage der Vorankündigung im Voraus"
+msgstr "Anzahl Tage Vorlauf beim Ankündigen"
 
 #: src/components/card-source.tsx
 msgid "sunshine.source"

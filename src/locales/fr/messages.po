@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -55,7 +55,7 @@ msgstr "Moyenne du groupe de référence"
 
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
-msgstr "Un maximum de {max} Entrées est autorisé"
+msgstr "Un maximum de {max} entrées est autorisé"
 
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
@@ -161,7 +161,7 @@ msgstr "Info:"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.annualreport"
-msgstr "Comptes annuels"
+msgstr "Compte annuel"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.annualreports"
@@ -169,7 +169,7 @@ msgstr "Comptes annuels de réseau"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.financial-statement"
-msgstr "Déclaration financière"
+msgstr "Rapport financier"
 
 #: src/components/operator-documents.tsx
 msgid "download.category.financial-statement-report"
@@ -193,15 +193,15 @@ msgstr "Fichier PDF"
 
 #: src/components/operator-documents.tsx
 msgid "download.nooperatordocuments"
-msgstr "Aucun document d'opérateur de réseau"
+msgstr "Aucun document du gestionnaire de réseau"
 
 #: src/components/operator-documents.tsx
 msgid "download.reports"
-msgstr "Télécharger les rapports et les tarifs"
+msgstr "Télécharger rapports et tarifs"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Les prix indiqués avec des valeurs entre parenthèses sont dynamiques."
+msgstr "Il s'agit d'un tarif dynamique."
 
 #: src/components/charts-generic/bars/bars-grouped.tsx
 msgid "dynamic.tariff"
@@ -289,7 +289,7 @@ msgstr "Données sur opendata.swiss"
 
 #: src/components/footer.tsx
 msgid "footer.download-visualize-data"
-msgstr "Télécharger / visualiser les données"
+msgstr "Télécharger les données"
 
 #: src/components/footer.tsx
 msgid "footer.elcom-dataviz-url"
@@ -373,7 +373,7 @@ msgstr "Aucune donnée"
 
 #: src/pages/index.tsx
 msgid "home.hero-section.description"
-msgstr "Ce site fournit des informations actuelles sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des suppléments ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
+msgstr "Ce site fournit des informations actualisées sur les tarifs d'électricité en Suisse et permet de comparer les prix pour les clients privés et commerciaux par commune, canton ou gestionnaire de réseau. Vous pouvez consulter les détails des coûts d’énergie, du réseau et des coûts additionnels ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité dans votre région."
 
 #: src/pages/index.tsx
 msgid "home.hero-section.primary-cta"
@@ -417,7 +417,10 @@ msgstr "Coûts du réseau et tarifs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr "Le SAIDI mesure la durée totale des coupures de courant par client chaque année, tandis que le SAIFI indique la fréquence des coupures. Ensemble, ils fournissent des informations clés sur la fiabilité et la stabilité de l'approvisionnement en électricité sur une période définie."
+msgstr ""
+"Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
+"Les deux indicateurs fournissent des informations importantes sur la fiabilité et la stabilité de l’approvisionnement en électricité.\n"
+"Les valeurs sont présentées séparément pour les interruptions planifiées et non planifiées."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
@@ -465,7 +468,7 @@ msgstr "Conformité"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
-msgstr "Notification des pannes plusieurs jours à l’avance"
+msgstr "Notification des coupures planifiées plusieurs jours à l'avance"
 
 #: src/domain/translation.tsx
 msgid "indicator.energyTariffs"
@@ -519,11 +522,11 @@ msgstr "Oui"
 
 #: src/components/list.tsx
 msgid "list.order.prices.asc"
-msgstr "Croissant"
+msgstr "Les moins chers en premier"
 
 #: src/components/list.tsx
 msgid "list.order.prices.desc"
-msgstr "Décroissant"
+msgstr "Les plus chers en premier"
 
 #: src/components/list.tsx
 msgid "list.order.quality.asc"
@@ -728,7 +731,7 @@ msgstr "Aucune donnée"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.rural"
-msgstr "Densité de la zone rurale"
+msgstr "Zone rurale"
 
 #: src/domain/translation.tsx
 msgid "peer-group.settlement-density.tourist"
@@ -824,7 +827,7 @@ msgstr "Non planifié"
 #: src/components/app-layout.tsx
 msgid "search.global"
 msgstr ""
-"Voir l'analyse détaillée des prix par cantons, communes et gestionnaires de réseau.\n"
+"Analyse détaillée des prix par cantons, communes et gestionnaires de réseau.\n"
 "Attention: les données relatives à Sunshine ne contiendront les valeurs définitives qu'à partir de leur publication en 2026."
 
 #: src/components/search.tsx
@@ -879,7 +882,7 @@ msgstr "C1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C1-long"
-msgstr "C1 - Petites entreprises (&lt;8 kW)"
+msgstr "C1 - Petites entreprises (<8 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C2"
@@ -887,7 +890,7 @@ msgstr "C2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C2-long"
-msgstr "C2 - Petites entreprises (&lt;15 kW)"
+msgstr "C2 - Petite entreprise (<15 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3"
@@ -895,7 +898,7 @@ msgstr "C3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C3-long"
-msgstr "C3 - Entreprises moyennes (&lt;50 kW)"
+msgstr "C3 - Entreprise moyenne (<50 kW)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C4"
@@ -903,7 +906,7 @@ msgstr "C4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C4-long"
-msgstr "C4 - Grandes entreprises (&lt;150 kW, basse tension)"
+msgstr "C4 - Grandes entreprises (<150 kW, basse tension)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5"
@@ -911,7 +914,7 @@ msgstr "C5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C5-long"
-msgstr "C5 - Grandes entreprises (&lt;150 kW, moyenne tension)"
+msgstr "C5 - Grandes entreprises (<150 kW, moyenne tension)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C6"
@@ -927,7 +930,7 @@ msgstr "C7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C7-long"
-msgstr "C7 - Grandes entreprises (&lt;1 630 kW, moyenne tension)"
+msgstr "C7 - Grandes entreprises (<1.630 kW, moyenne tension)"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H-group"
@@ -971,7 +974,7 @@ msgstr "H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "H5 - Maison individuelle de 5 pièces"
+msgstr "H5 - Maison individuelle"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
@@ -979,7 +982,7 @@ msgstr "H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "H6 - Maison unifamiliale de 5 pièces avec chauffage électrique"
+msgstr "H6 - Maison unifamiliale avec chauffage électrique à résistence"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
@@ -987,7 +990,7 @@ msgstr "H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "H7 - Maison familiale de 5 pièces avec pompe à chaleur"
+msgstr "H7 - Maison familiale avec pompe à chaleur"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
@@ -1053,7 +1056,7 @@ msgstr "Composantes du prix"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "Supplément réseau pour la promotion des énergies renouvelables et la revitalisation des cours d’eau, fixé de manière uniforme dans toute la Suisse par le Conseil fédéral."
+msgstr "Supplément réseau pour la promotion des énergies renouvelables et l'assainissement des cours d'eau, fixé de manière uniforme dans toute la Suisse par le Conseil fédéral."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
@@ -1089,7 +1092,7 @@ msgstr "Supplément de réseau selon l'art. 35 LEne"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.annualmeteringcost"
-msgstr "Coût annuel de mesure"
+msgstr "Tarif annuel de mesure"
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.charge"
@@ -1171,11 +1174,11 @@ msgstr "Règle du franc"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
-msgstr "Dernière année tarifaire ({year})"
+msgstr "Année tarifaire en cours ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.notification-period"
-msgstr "Nombre de jours à l’avance"
+msgstr "Nombre de jours de préavis à l'avance"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1234,11 +1237,11 @@ msgstr "Tarifs de l'énergie"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Année tarifaire la plus récente ({latestYear})"
+msgstr "Année tarifaire en cours ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
-msgstr "Année tarifaire la plus récente"
+msgstr "Année tarifaire en cours"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.costs-and-tariffs.net-tariffs"
@@ -1340,7 +1343,7 @@ msgstr "Règle du franc"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Nombre de jours à l’avance pour la déclaration des pannes"
+msgstr "Jours à l'avance pour signaler les pannes"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1360,7 +1363,7 @@ msgstr "Coûts du réseau en CHF/km"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.outageInfo"
-msgstr " Information des clients sur les coupures planifiées"
+msgstr "Information des clients sur les coupures planifiées"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saidi"
@@ -1480,11 +1483,11 @@ msgstr "Durée de l’interruption"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.latest-year"
-msgstr "Année tarifaire la plus récente ({latestYear}) "
+msgstr "Année tarifaire en cours ({latestYear}) "
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
-msgstr "Année tarifaire la plus récente"
+msgstr "Année tarifaire en cours"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.no-saidi-data"
@@ -1550,7 +1553,7 @@ msgstr "Durée totale des interruptions"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
-msgstr " Durée des interruptions de courant (SAIDI)"
+msgstr "Durée des interruptions de courant (SAIDI)"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
@@ -1563,7 +1566,7 @@ msgstr "Fréquence moyenne des interruptions de courant (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr " Fréquence moyenne des interruptions de courant (SAIFI)"
+msgstr "Fréquence moyenne des interruptions de courant (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
@@ -1598,7 +1601,7 @@ msgstr "Non planifié"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.unplanned-tooltip"
-msgstr "Affiche uniquement les coupures imprévues."
+msgstr "Affichez uniquement les interruptions non planifiées, c'est-à-dire les interruptions imprévues."
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.view-by"
@@ -1622,7 +1625,7 @@ msgstr "Oui"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.latest-year"
-msgstr " Année tarifaire la plus récente ({latestYear})"
+msgstr "Année tarifaire en cours ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
