@@ -130,6 +130,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@argos-ci/playwright": "^6.3.1",
     "@axe-core/playwright": "^4.10.1",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.9",
