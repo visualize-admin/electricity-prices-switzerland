@@ -4,7 +4,12 @@ import { Client } from "urql";
 
 import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
+import { SunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import {
+  getSessionConfigFlagsInfo,
+  SessionConfigFlagInfo,
+} from "src/session-config/info";
 
 type Props = Record<string, $IntentionalAny>;
 
@@ -16,12 +21,15 @@ type EnhancedGSSP<
   options: {
     urqlClient: Client;
     sparqlClient: ParsingClient;
+    sunshineDataService: SunshineDataService;
+    sessionConfig: { flags: Record<string, SessionConfigFlagInfo> };
   }
 ) => ReturnType<GetServerSideProps<P, { locale: string }>>;
 
 /**
  * Should be used to automatically add locale to the props of the page.
- * Also provides urqlClient as second argument to the gssp function.
+ * Also provides urqlClient, sparqlClient, sunshineDataService, and sessionConfig
+ * as second argument to the gssp function.
  */
 const createGetServerSideProps = <
   P extends Props,
@@ -38,9 +46,12 @@ const createGetServerSideProps = <
       // Does not matter as we are using the executeExchange
       url: "does-not-matter",
     });
+    const sessionConfig = await getSessionConfigFlagsInfo(context);
     const child = await gssp(context, {
       urqlClient,
       sparqlClient: graphqlContext.sparqlClient,
+      sunshineDataService: graphqlContext.sunshineDataService,
+      sessionConfig,
     });
     if ("redirect" in child) {
       return child;

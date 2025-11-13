@@ -41,8 +41,6 @@ import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
 import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
-import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
-import { getSessionConfigFlagsInfo } from "src/session-config/info";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
@@ -54,8 +52,8 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps(
-  async (context, { sparqlClient }) => {
-    const { params, res, req, locale } = context;
+  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+    const { params, res, locale } = context;
     const { id, entity } = params!;
 
     if (entity !== "operator") {
@@ -79,9 +77,6 @@ export const getServerSideProps = createGetServerSideProps(
         },
       };
     }
-
-    const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
-    const sessionConfig = await getSessionConfigFlagsInfo(context);
 
     const powerStability = await fetchPowerStability(sunshineDataService, {
       operatorId: id,
