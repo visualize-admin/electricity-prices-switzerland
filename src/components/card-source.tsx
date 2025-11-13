@@ -23,7 +23,7 @@ const CardSource = ({
         typography: "caption",
       }}
     >
-      <div>
+      <div data-visual-test="transparent">
         <SafeHydration>
           <Trans id="sunshine.date">Date: {date}</Trans>
         </SafeHydration>

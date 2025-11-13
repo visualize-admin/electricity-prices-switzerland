@@ -2,6 +2,7 @@
 
 import path from "path";
 
+import { argosScreenshot } from "@argos-ci/playwright";
 import AxeBuilder from "@axe-core/playwright";
 import {
   test as base,
@@ -42,16 +43,18 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
       options: SnapshotOptions & PageScreenshotOptions = {}
     ) => {
       const { note, page: pageOption, locator, ...screenshotOptions } = options;
-      const toScreenshot = pageOption ?? locator ?? page;
       const name = getSnapshotName(
         testInfo,
         `${index++}${note ? ` ${note}` : ""}`
       );
 
-      await toScreenshot.screenshot({
-        animations: "disabled",
-        path: path.join(snapshotDir, `${name}.png`),
+      // Use argosScreenshot with element option when locator is provided
+      const targetPage = pageOption ?? page;
+      await argosScreenshot(targetPage, name, {
+        ...(locator && { element: locator }),
+        disableHover: true,
         ...screenshotOptions,
+        root: snapshotDir,
       });
     };
     await use(snapshot);
