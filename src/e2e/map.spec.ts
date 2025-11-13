@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import sharp from "sharp";
+
 import { test } from "src/e2e/common";
 
 test.describe("The Map Page", () => {
