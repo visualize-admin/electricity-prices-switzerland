@@ -1,16 +1,9 @@
-import fs from "fs/promises";
-import path from "path";
-
 import { expect } from "@playwright/test";
-
-import { getSnapshotName, snapshotDir, test } from "src/e2e/common";
+import sharp from "sharp";
+import { test } from "src/e2e/common";
 
 test.describe("The Map Page", () => {
-  test("should be possible to download the map", async ({ page }, testInfo) => {
-    if (process.env.CI) {
-      // Skipping on CI for now as we do not know why it fails there
-      return;
-    }
+  test("should be possible to download the map", async ({ page }) => {
     const resp = await page.goto("/en/map");
     await expect(resp?.status()).toEqual(200);
     // click the download button, it has text "Download image"
@@ -27,20 +20,21 @@ test.describe("The Map Page", () => {
     const mimeType = download.suggestedFilename().split(".").pop();
     expect(mimeType).toBe("png");
     // read via createReadStream and create a file
-    const downloadFileName = getSnapshotName(testInfo, "downloaded-map");
-    const tmpDir = await fs.mkdtemp(path.join(snapshotDir, "tmp-"));
-    const filePath = path.join(tmpDir, `${downloadFileName}.png`);
-    const fileStream = await download.createReadStream();
-    const writeStream = await fs
-      .open(filePath, "w")
-      .then((f) => f.createWriteStream());
-    await new Promise<void>((resolve, reject) => {
-      fileStream.pipe(writeStream);
-      writeStream.on("finish", () => {
-        console.log(`Downloaded map saved to ${filePath}`);
-        return resolve();
-      });
-      writeStream.on("error", reject);
-    });
+    const buffer = await download.createReadStream().then(
+      (stream) =>
+        new Promise<Buffer>((resolve, reject) => {
+          const chunks: Buffer[] = [];
+          stream.on("data", (chunk) => chunks.push(chunk));
+          stream.on("end", () => resolve(Buffer.concat(chunks)));
+          stream.on("error", reject);
+        })
+    );
+    expect(buffer.length).toBeGreaterThan(0);
+    // Use sharp to check if it's a valid PNG
+    const image = sharp(buffer);
+    const metadata = await image.metadata();
+    expect(metadata.format).toBe("png");
+    expect(metadata.width).toBeGreaterThan(0);
+    expect(metadata.height).toBeGreaterThan(0);
   });
 });
