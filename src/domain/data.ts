@@ -148,3 +148,12 @@ export const getObservationsWeightedMean = (
     (d) => d.coverageRatio
   );
 };
+
+export type SettlementDensity =
+  | "High"
+  | "Medium"
+  | "Rural"
+  | "Mountain"
+  | "Tourist"
+  | "N.A.";
+export type EnergyDensity = "High" | "Low" | "N.A.";

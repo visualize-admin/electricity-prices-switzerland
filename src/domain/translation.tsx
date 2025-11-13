@@ -2,11 +2,11 @@ import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
 import { memoize } from "lodash";
 
-import { ElectricityCategory } from "src/domain/data";
 import {
-  EnergyDensity,
+  ElectricityCategory,
   SettlementDensity,
-} from "src/lib/db/sparql-peer-groups-mapping";
+  EnergyDensity,
+} from "src/domain/data";
 
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
