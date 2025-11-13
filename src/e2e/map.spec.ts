@@ -13,6 +13,7 @@ test.describe("The Map Page", () => {
     const downloadButton = await page.locator(
       "button:has-text('Download image')"
     );
+    await page.waitForLoadState("networkidle");
     await expect(downloadButton).toBeVisible();
     const downloadPromise = page.waitForEvent("download");
     await downloadButton.click();
