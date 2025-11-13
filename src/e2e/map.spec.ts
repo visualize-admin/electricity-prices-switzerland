@@ -24,14 +24,18 @@ test.describe("The Map Page", () => {
     expect(mimeType).toBe("png");
     // read via createReadStream and create a file
     const downloadFileName = getSnapshotName(testInfo, "downloaded-map");
-    const filePath = path.join(snapshotDir, `${downloadFileName}.png`);
+    const tmpDir = await fs.mkdtemp(path.join(snapshotDir, "tmp-"));
+    const filePath = path.join(tmpDir, `${downloadFileName}.png`);
     const fileStream = await download.createReadStream();
     const writeStream = await fs
       .open(filePath, "w")
       .then((f) => f.createWriteStream());
     await new Promise<void>((resolve, reject) => {
       fileStream.pipe(writeStream);
-      writeStream.on("finish", () => resolve());
+      writeStream.on("finish", () => {
+        console.log(`Downloaded map saved to ${filePath}`);
+        return resolve();
+      });
       writeStream.on("error", reject);
     });
   });
