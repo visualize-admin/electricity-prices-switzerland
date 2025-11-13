@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.25.1 - 2025-11-13
+
+- Update translations
+
 # 2.25.0 - 2025-11-13
 
 - Technical improvements
