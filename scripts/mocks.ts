@@ -5,7 +5,7 @@ import * as path from "path";
 import * as argparse from "argparse";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
+import { createSunshineDataService } from "src/rdf/sunshine";
 
 import {
   fetchOperationalStandards,
@@ -16,7 +16,7 @@ import {
 const client = new ParsingClient({
   endpointUrl: "https://int.lindas.admin.ch/query",
 });
-const mockSunshineDataService = createSunshineDataServiceSparql(client);
+const mockSunshineDataService = createSunshineDataService(client);
 
 interface FetcherOptions {
   operatorId: string;

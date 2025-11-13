@@ -2,7 +2,7 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { describe, expect, it } from "vitest";
 
 import { makeClientVerbose } from "src/rdf/client-helpers";
-import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
+import { createSunshineDataService } from "src/rdf/sunshine";
 
 const client = new ParsingClient({
   endpointUrl: "https://int.lindas.admin.ch/query",
@@ -14,7 +14,7 @@ if (DEBUG) {
   makeClientVerbose(client);
 }
 
-const sunshineDataServiceSparql = createSunshineDataServiceSparql(client);
+const sunshineDataServiceSparql = createSunshineDataService(client);
 
 describe("SPARQL Sunshine Data Service", () => {
   describe("service properties", () => {

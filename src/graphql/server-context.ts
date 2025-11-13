@@ -9,7 +9,7 @@ import {
   SessionConfigFlags,
 } from "src/session-config";
 import { getSparqlClientFromGetServerSidePropsContext } from "src/lib/sparql-client-context";
-import { createSunshineDataServiceSparql } from "src/rdf/sunshine";
+import { createSunshineDataService } from "src/rdf/sunshine";
 
 export type GraphqlRequestContext = {
   sunshineDataService: SunshineDataService;
@@ -21,7 +21,7 @@ export const contextFromAPIRequest = async (
   req: NextApiRequest
 ): Promise<GraphqlRequestContext> => {
   const sparqlClient = await getSparqlClientFromRequest(req);
-  const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
+  const sunshineDataService = createSunshineDataService(sparqlClient);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     req.headers.cookie
   );
@@ -38,7 +38,7 @@ export const contextFromGetServerSidePropsContext = async (
   ctx: Pick<GetServerSidePropsContext, "req">
 ): Promise<GraphqlRequestContext> => {
   const sparqlClient = await getSparqlClientFromGetServerSidePropsContext(ctx);
-  const sunshineDataService = createSunshineDataServiceSparql(sparqlClient);
+  const sunshineDataService = createSunshineDataService(sparqlClient);
   const partialFlags = await getSessionConfigFlagsFromCookies(
     ctx.req.headers.cookie
   );

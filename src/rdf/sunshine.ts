@@ -1239,7 +1239,7 @@ const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
     : new Date().toISOString().split("T")[0];
 };
 
-export const createSunshineDataServiceSparql = (
+export const createSunshineDataService = (
   client: ParsingClient
 ): SunshineDataService => ({
   name: "sparql",
