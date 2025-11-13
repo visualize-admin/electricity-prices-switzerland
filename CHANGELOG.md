@@ -11,8 +11,22 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.25.0 - 2025-11-13
+
 - Technical improvements
-  - Removed Duckdb sunshine data service
+
+  - Better E2E screenshot testing with Argos visual regression
+  - Removed mock DuckDB for sunshine data, now using int.lindas.admin.ch
+  - Refactored session config and SPARQL client handling
+
+- Map Page
+
+  - Different thresholds for network costs based on data requirements
+
+- Developer Experience
+  - Extracted advanced information from README to dedicated documentation
 
 # 2.24.0 - 12/11/2025
 
