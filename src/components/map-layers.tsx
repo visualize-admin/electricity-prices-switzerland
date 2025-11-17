@@ -303,6 +303,11 @@ export function makeSunshineOperatorPickableLayer(
     hovered,
   ];
 
+  const isFeatureHovered = (feature: OperatorFeature) => {
+    const id = feature.properties.id;
+    return hovered?.type === "operator" && hovered.id.split(",").includes(id);
+  };
+
   return new GeoJsonLayer<OperatorFeature>({
     id: "operator-layer-pickable",
     data,
@@ -314,7 +319,7 @@ export function makeSunshineOperatorPickableLayer(
     getFillColor: (d: OperatorFeature) => {
       const id = d.properties.operators?.[0]?.toString();
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "operator" && hovered.id === id;
+      const isHovered = isFeatureHovered(d);
 
       if (isActive || isHovered) {
         return styles.operators.pickable.highlightColor;
@@ -328,20 +333,20 @@ export function makeSunshineOperatorPickableLayer(
       getLineColor: deps,
       getLineWidth: deps,
     },
-    getLineColor: (d: Feature<Geometry, OperatorLayerProperties>) => {
+    getLineColor: (d: OperatorFeature) => {
       const id = d.properties.id;
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "operator" && hovered.id === id;
+      const isHovered = isFeatureHovered(d);
 
       if (isActive || isHovered) {
         return styles.operators.overlay.active.lineColor;
       }
       return styles.operators.overlay.inactive.lineColor;
     },
-    getLineWidth: (d: Feature<Geometry, OperatorLayerProperties>) => {
+    getLineWidth: (d: OperatorFeature) => {
       const id = d.properties.id;
       const isActive = activeId === id;
-      const isHovered = hovered?.type === "operator" && hovered.id === id;
+      const isHovered = isFeatureHovered(d);
 
       if (isActive || isHovered) {
         return styles.operators.overlay.active.lineWidth;
