@@ -33,7 +33,6 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { categories } from "src/domain/data";
 import {
   getNetworkLevelMetrics,
   RP_PER_KM,
@@ -44,7 +43,10 @@ import {
   useQueryStateSunshineCostsAndTariffs,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
-import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  sunshineCategories,
+  SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -317,9 +319,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
+      ...sunshineCategories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
+      ...sunshineCategories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
@@ -491,9 +493,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
+      ...sunshineCategories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
+      ...sunshineCategories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 

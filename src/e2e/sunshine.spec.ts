@@ -180,17 +180,19 @@ test.describe("Sunshine Costs and Tariffs page", () => {
       page.getByText("Net Tariffs H4 - 5-room apartment")
     ).toBeVisible();
     await page.getByRole("combobox", { name: "Category" }).click();
-    await page.getByRole("option", { name: "H1" }).click();
+    await page.getByRole("option", { name: "H4" }).click();
     await page
-      .getByRole("heading", { name: "Net Tariffs H1 - 2-Room" })
+      .getByRole("heading", { name: "Net Tariffs H4 - 5-Room" })
       .click();
     await page.getByTestId("energy-tariffs-tab").click();
     await page.getByTestId("net-tariffs-tab").click();
     await page.getByTestId("energy-tariffs-tab").click();
     await page.getByRole("combobox", { name: "Category" }).click();
-    await page.getByRole("option", { name: "H1" }).click();
+    await page.getByRole("option", { name: "C2" }).click();
     await page
-      .getByRole("heading", { name: "Energy Tariffs H1 - 2-Room" })
+      .getByRole("heading", {
+        name: "Energy Tariffs C2 - Small business (<15 kW)",
+      })
       .click();
   });
 });
