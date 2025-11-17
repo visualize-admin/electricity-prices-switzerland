@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix: Hovering operator layer is fixed (see [#403](https://github.com/visualize-admin/electricity-prices-switzerland/issues/403))
 
 # 2.25.1 - 2025-11-13
 
