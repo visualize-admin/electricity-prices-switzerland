@@ -191,6 +191,18 @@ const SunshineMap = ({
 
   // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
+
+  const featuresWithObservations = enhancedGeoData?.features.filter(
+    (feature) => {
+      if (!isOperatorFeature(feature)) {
+        return false;
+      }
+      return feature.properties.operators.some((operatorId) =>
+        Object.keys(observationsByOperator).includes(operatorId.toString())
+      );
+    }
+  );
+
   const onHoverOperatorLayer = useCallback(
     (info: PickingInfo) => {
       if (info.object?.properties) {
@@ -298,7 +310,7 @@ const SunshineMap = ({
 
     return [
       makeSunshineOperatorLayer({
-        data: enhancedGeoData.features,
+        data: featuresWithObservations,
         accessor,
         observationsByOperator,
         colorScale,
@@ -321,7 +333,7 @@ const SunshineMap = ({
           })
         : null,
       makeSunshineOperatorPickableLayer({
-        data: enhancedGeoData.features,
+        data: featuresWithObservations,
         accessor,
         observationsByOperator,
         hovered,
@@ -335,9 +347,10 @@ const SunshineMap = ({
     activeId,
     colorScale,
     enhancedGeoData,
-    geoData?.cantonMesh,
-    geoData?.lakes,
-    geoData?.municipalities.features,
+    featuresWithObservations,
+    geoData.cantonMesh,
+    geoData.lakes,
+    geoData.municipalities.features,
     hovered,
     indicator,
     observationsByOperator,
