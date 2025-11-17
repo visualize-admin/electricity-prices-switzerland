@@ -7,6 +7,7 @@ import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
 import { Entity, ValueFormatter } from "src/domain/data";
+import { getContrastColor } from "src/domain/helpers";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   CantonMedianObservationFieldsFragment,
@@ -41,6 +42,8 @@ const ListItem = ({
   handleClick,
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
+  const backgroundColor = colorScale(value);
+  const textColor = getContrastColor(backgroundColor);
 
   return (
     <AnchorNav
@@ -51,10 +54,12 @@ const ListItem = ({
             borderRadius: 9999,
             px: 2,
             flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
           }}
-          style={{ background: colorScale(value) }}
+          style={{ background: backgroundColor }}
         >
-          <Typography variant="body3" lineHeight={1.4} color="black">
+          <Typography variant="body3" color={textColor}>
             {formatNumber(value)}
           </Typography>
         </Box>
