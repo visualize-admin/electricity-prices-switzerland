@@ -269,14 +269,6 @@ const SunshineMap = ({
     };
   }, [hovered, selectedEntityData?.formattedData]);
 
-  // Handle click on map layers (primarily for zooming)
-  const handleLayerClick = useCallback((info: PickingInfo) => {
-    if (info.object?.geometry) {
-      // No need to handle zoom directly, GenericMap will handle this
-      // when we return the object from the click handler
-    }
-  }, []);
-
   const { onEntitySelect, activeId } = useMap();
 
   // Create map layers
