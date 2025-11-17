@@ -107,7 +107,7 @@ export const MapColorLegend = ({
             thresholds={thresholds}
           />
         ) : (
-          <YesNoLegend ticks={ticks} />
+          <YesNoLegend ticks={ticks} palette={palette} />
         )}
       </Box>
     </LegendBox>
@@ -192,7 +192,7 @@ const MinMedianMaxLegend = ({
   );
 };
 
-const YesNoLegend = ({ ticks }: { ticks: Tick[] }) => {
+const YesNoLegend = ({ ticks, palette }: { ticks: Tick[]; palette: string[] }) => {
   return (
     <>
       <Box
@@ -223,7 +223,7 @@ const YesNoLegend = ({ ticks }: { ticks: Tick[] }) => {
         ))}
       </Box>
 
-      <YesNoColorsLine />
+      <YesNoColorsLine palette={palette} />
     </>
   );
 };
@@ -378,13 +378,8 @@ const ColorsLine = ({
   );
 };
 
-const YesNoColorsLine = () => {
-  const yesNoColors = [
-    chartPalette.diverging.GreenToOrange[
-      chartPalette.diverging.GreenToOrange.length - 1
-    ],
-    chartPalette.diverging.GreenToOrange[0],
-  ];
+const YesNoColorsLine = ({ palette }: { palette: string[] }) => {
+  const yesNoColors = [palette[palette.length - 1], palette[0]];
 
   return (
     <Box
