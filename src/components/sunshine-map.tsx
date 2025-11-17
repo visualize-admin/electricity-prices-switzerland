@@ -28,6 +28,7 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
+import { colorScaleSpecs } from "src/domain/charts";
 import { ValueFormatter } from "src/domain/data";
 import { networkLevelUnits } from "src/domain/metrics";
 import {
@@ -45,7 +46,6 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { chartPalette } from "src/themes/palette";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 const legendTitleMapping: Record<
@@ -395,13 +395,16 @@ const SunshineMap = ({
         { value: 0, label: t({ id: "legend.no", message: "No" }) },
         { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
       ];
+      // Get palette from spec for consistency
+      const spec = colorScaleSpecs[indicator];
+      const { palette } = spec.getLegendData(undefined, [], +period);
       return (
         <MapColorLegend
           id={legendId}
           title={legendTitleMapping[indicator]}
           ticks={complianceTicks}
           mode="yesNo"
-          palette={chartPalette.diverging.GreenToOrange}
+          palette={palette}
           infoDialogButtonProps={infoDialogProps["help-compliance"]}
         />
       );
@@ -415,6 +418,14 @@ const SunshineMap = ({
             networkLevelUnits[networkLevel ?? ("NE5" as const)]
           }` as const)
         : indicator;
+
+    // Get the spec and generate thresholds and palette from a single source
+    const spec = colorScaleSpecs[indicator];
+    const values: number[] = (enrichedData.observations ?? [])
+      .map((x) => x.value)
+      .filter((v): v is number => v !== null && v !== undefined);
+    const { thresholds, palette } = spec.getLegendData(enrichedData.median, values, +period);
+
     return (
       <MapColorLegend
         id={legendId}
@@ -423,11 +434,8 @@ const SunshineMap = ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
         }))}
-        palette={
-          indicator === "daysInAdvanceOutageNotification"
-            ? chartPalette.diverging.GreenToOrange.slice().reverse()
-            : chartPalette.diverging.GreenToOrange
-        }
+        palette={palette}
+        thresholds={thresholds}
         infoDialogButtonProps={{
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
@@ -441,10 +449,12 @@ const SunshineMap = ({
     indicator,
     valuesExtent,
     enrichedData?.median,
+    enrichedData?.observations,
     colorScale,
     legendId,
     networkLevel,
     valueFormatter,
+    period,
   ]);
 
   return (

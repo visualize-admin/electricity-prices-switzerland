@@ -59,7 +59,7 @@ const IndexPage = ({ locale }: Props) => {
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useMemo(() => {
     return makeColorScale(
-      colorScaleSpecs.default,
+      colorScaleSpecs.energyPrices,
       medianValue,
       observations.filter(isValidValue).map(colorAccessor),
       +period

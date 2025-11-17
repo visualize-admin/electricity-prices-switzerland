@@ -24,6 +24,7 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
+import { colorScaleSpecs } from "src/domain/charts";
 import { PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
@@ -33,7 +34,6 @@ import {
   EntitySelection,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { chartPalette } from "src/themes/palette";
 import { combineErrors } from "src/utils/combine-errors";
 
 import { GenericMap, GenericMapControls } from "./generic-map";
@@ -229,8 +229,18 @@ export const EnergyPricesMap = ({
   const renderLegend = useCallback(() => {
     const medianValue = enrichedData?.medianValue;
     const valuesExtent = enrichedData?.valuesExtent;
-    if (!valuesExtent || !medianValue || !colorScale) return null;
+    const observations = enrichedData?.observations;
+    if (!valuesExtent || !medianValue || !colorScale || !observations) return null;
     const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
+
+    // Get the spec and generate thresholds and palette from a single source
+    const spec = colorScaleSpecs.energyPrices;
+    const isValidValue = <T extends { value?: number | null | undefined }>(
+      x: T
+    ): x is T & { value: number } => x.value !== undefined && x.value !== null;
+    const values = observations.filter(isValidValue).map((o) => o.value);
+    const { thresholds, palette } = spec.getLegendData(medianValue, values, +period);
+
     return (
       <MapColorLegend
         id={legendId}
@@ -256,16 +266,19 @@ export const EnergyPricesMap = ({
             message: "Tariff comparison",
           }),
         }}
-        palette={chartPalette.diverging.GreenToOrange}
+        palette={palette}
+        thresholds={thresholds}
       />
     );
   }, [
     enrichedData?.medianValue,
     enrichedData?.valuesExtent,
+    enrichedData?.observations,
     colorScale,
     legendId,
     priceComponent,
     formatCurrency,
+    period,
   ]);
 
   return (

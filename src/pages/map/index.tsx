@@ -191,10 +191,7 @@ const MapPageContent = ({
       ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
       : sunshineEnrichedDataResult.data?.median ?? undefined;
     const specKey = isElectricityTab ? "energyPrices" : indicator;
-    const spec =
-      specKey in colorScaleSpecs && colorScaleSpecs[specKey]
-        ? colorScaleSpecs[specKey]
-        : colorScaleSpecs.default;
+    const spec = colorScaleSpecs[specKey];
     const isValidValue = <T extends { value?: number | null | undefined }>(
       x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;

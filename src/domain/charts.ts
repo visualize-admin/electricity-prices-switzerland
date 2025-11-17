@@ -15,26 +15,50 @@ const createThresholdsAroundMedian = (
   return domain;
 };
 
+export type Threshold = {
+  value: number;
+  label: string;
+};
+
 type IndicatorColorScaleSpec = {
-  thresholds: (
+  getLegendData: (
     medianValue: number | undefined,
     values: number[],
     year: number
-  ) => number[];
-  palette: (thresholds: number[]) => string[];
+  ) => {
+    thresholds: Threshold[];
+    palette: string[];
+  };
 };
 
 const mkThresholdColorScaleSpec: (
   coeffs: ThresholdCoeffs
 ) => IndicatorColorScaleSpec = (coeffs: ThresholdCoeffs) => ({
-  thresholds: (medianValue, values) => {
-    if (medianValue) {
-      const m = medianValue;
-      return createThresholdsAroundMedian(m, coeffs);
+  getLegendData: (medianValue, values) => {
+    const domain = medianValue
+      ? createThresholdsAroundMedian(medianValue, coeffs)
+      : (extent(values) as [number, number]);
+
+    const palette = chartPalette.diverging.GreenToOrange;
+
+    // Validate that palette length is domain length + 1
+    if (palette.length !== domain.length + 1) {
+      throw new Error(
+        `Palette length (${palette.length}) must be domain length + 1 (${domain.length + 1})`
+      );
     }
-    return extent(values) as [number, number];
+
+    const thresholds: Threshold[] = domain.map((value, i) => {
+      if (!medianValue) {
+        return { value, label: "" };
+      }
+      const percentDiff = ((value - medianValue) / medianValue) * 100;
+      const sign = percentDiff > 0 ? "+" : "";
+      return { value, label: `${sign}${Math.round(percentDiff)}%` };
+    });
+
+    return { thresholds, palette };
   },
-  palette: () => chartPalette.diverging.GreenToOrange,
 });
 
 const defaultColorScaleSpec = mkThresholdColorScaleSpec([
@@ -49,24 +73,53 @@ const yesNoPalette = [
   first(chartPalette.diverging.GreenToOrange),
 ] as string[];
 
-export const colorScaleSpecs: Partial<
-  Record<"energyPrices" | SunshineIndicator, IndicatorColorScaleSpec>
-> & { default: IndicatorColorScaleSpec } = {
-  default: defaultColorScaleSpec,
-  outageInfo: {
-    thresholds: () => [0.5],
-    palette: () => yesNoPalette,
+const outageInfoSpec: IndicatorColorScaleSpec = {
+  getLegendData: () => ({
+    thresholds: [
+      { value: 0.5, label: "No" },
+      { value: 0.5, label: "Yes" },
+    ],
+    palette: yesNoPalette,
+  }),
+};
+
+const daysInAdvanceOutageNotificationSpec: IndicatorColorScaleSpec = {
+  getLegendData: (medianValue, values, year) => {
+    const { thresholds, palette } = defaultColorScaleSpec.getLegendData(
+      medianValue,
+      values,
+      year
+    );
+    return {
+      thresholds,
+      palette: palette.slice().reverse(),
+    };
   },
+};
+
+const complianceSpec: IndicatorColorScaleSpec = {
+  getLegendData: (_medianValue, _values, year) => ({
+    thresholds: [
+      { value: year > 2026 ? 60.01 : 75.01, label: "No" },
+      { value: year > 2026 ? 60.01 : 75.01, label: "Yes" },
+    ],
+    palette: yesNoPalette.slice().reverse(),
+  }),
+};
+
+export const colorScaleSpecs: Record<
+  "energyPrices" | SunshineIndicator,
+  IndicatorColorScaleSpec
+> = {
+  energyPrices: defaultColorScaleSpec,
+  outageInfo: outageInfoSpec,
   networkCosts: networkCostsColorScaleSpec,
-  daysInAdvanceOutageNotification: {
-    palette: (thresholds) =>
-      defaultColorScaleSpec.palette(thresholds).slice().reverse(),
-    thresholds: defaultColorScaleSpec.thresholds,
-  },
-  compliance: {
-    thresholds: (_medianValue, _values, year) => [year > 2026 ? 60.01 : 75.01],
-    palette: () => yesNoPalette.slice().reverse(),
-  },
+  netTariffs: defaultColorScaleSpec,
+  energyTariffs: defaultColorScaleSpec,
+  saidi: defaultColorScaleSpec,
+  saifi: defaultColorScaleSpec,
+  daysInAdvanceOutageNotification: daysInAdvanceOutageNotificationSpec,
+  compliance: complianceSpec,
 };
 
 export const makeColorScale = (
@@ -75,7 +128,7 @@ export const makeColorScale = (
   values: number[],
   year: number
 ) => {
-  const thresholds = spec.thresholds(medianValue, values, year);
-  const palette = spec.palette(thresholds);
-  return scaleThreshold<number, string>().domain(thresholds).range(palette);
+  const { thresholds, palette } = spec.getLegendData(medianValue, values, year);
+  const domain = thresholds.map((t) => t.value);
+  return scaleThreshold<number, string>().domain(domain).range(palette);
 };
