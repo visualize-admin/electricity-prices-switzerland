@@ -172,12 +172,21 @@ const SunshineMap = ({
     };
   }, [enrichedData?.operatorMunicipalities, geoData]);
 
-  // Entity selection state
-  const [entitySelection, setEntitySelection] = useState<EntitySelection>({
-    hoveredIds: null,
-    selectedId: null,
-    entityType: "municipality",
-  });
+  // Handle hover on operator layer
+  const [hovered, setHovered] = useState<HoverState>();
+
+  // Entity selection state - derived from hovered state
+  const entitySelection: EntitySelection = useMemo(
+    () => ({
+      hoveredIds:
+        hovered?.type === "operator" && hovered.id
+          ? hovered.id.split(",")
+          : null,
+      selectedId: null,
+      entityType: "operator",
+    }),
+    [hovered]
+  );
 
   // Use the unified entity selection hook
   const selectedEntityData = useSelectedEntityData({
@@ -188,9 +197,6 @@ const SunshineMap = ({
     formatValue: valueFormatter,
     priceComponent: "total",
   });
-
-  // Handle hover on operator layer
-  const [hovered, setHovered] = useState<HoverState>();
 
   const featuresWithObservations = useMemo(
     () =>
@@ -227,12 +233,9 @@ const SunshineMap = ({
 
         if (observationsWithValues.length === 0) {
           setHovered(undefined);
-          setEntitySelection((prev) => ({ ...prev, hoveredIds: null }));
           return;
         }
 
-        const hoveredIds = operatorIds.map((x) => x.toString());
-        setEntitySelection((prev) => ({ ...prev, hoveredIds }));
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
@@ -249,7 +252,6 @@ const SunshineMap = ({
         });
       } else {
         setHovered(undefined);
-        setEntitySelection((prev) => ({ ...prev, hoveredIds: null }));
       }
     },
     [accessor, observationsByOperator]
@@ -298,7 +300,6 @@ const SunshineMap = ({
           window.open(href, "_blank");
         } else {
           const selectedId = id.toString();
-          setEntitySelection((prev) => ({ ...prev, selectedId }));
           onEntitySelect(ev.srcEvent, "operator", selectedId);
         }
       };

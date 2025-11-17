@@ -67,7 +67,7 @@ const isEqualWithoutOrder = (arr1: string[] | null, arr2: string[] | null) => {
 export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
-  const [queryState] = useQueryStateSunshineMap();
+  const [{ indicator }] = useQueryStateSunshineMap();
   const {
     selection,
     dataType,
@@ -193,7 +193,7 @@ export function useSelectedEntityData(
         operatorObservations,
         colorScale,
         formatValue,
-        getLocalizedLabel({ id: queryState.indicator })
+        getLocalizedLabel({ id: indicator })
       );
 
       return {
@@ -223,6 +223,6 @@ export function useSelectedEntityData(
     formatValue,
     dataType,
     priceComponent,
-    queryState.indicator,
+    indicator,
   ]);
 }
