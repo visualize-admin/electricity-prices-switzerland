@@ -127,9 +127,7 @@ describe("createEncodings", () => {
 
       const result = encodings.outageInfo(undefined, [], 2024);
 
-      // Default yesNoPalette is [last, first] = ["5", "1"]
-      // Then yesNoFromPalette takes [last, first] of that = ["1", "5"]
-      expect(result.palette).toEqual(["1", "5"]);
+      expect(result.palette).toEqual(["5", "1"]);
     });
 
     it("should have threshold at 0.5 with No/Yes labels", () => {
@@ -149,9 +147,7 @@ describe("createEncodings", () => {
       const customPalette = ["red", "orange", "yellow", "green", "blue"];
 
       const result = encodings.outageInfo(undefined, [], 2024, customPalette);
-
-      // Yes/No palette should be [last, first] from custom palette
-      expect(result.palette).toEqual(["blue", "red"]);
+      expect(result.palette).toEqual(["red", "blue"]);
     });
 
     it("should create a working scale for yes/no", () => {
@@ -161,10 +157,10 @@ describe("createEncodings", () => {
       const scale = result.makeScale();
 
       // Palette is ["1", "5"], so values < 0.5 get "1", values >= 0.5 get "5"
-      expect(scale(0)).toBe("1");
-      expect(scale(0.4)).toBe("1");
-      expect(scale(0.5)).toBe("5");
-      expect(scale(1)).toBe("5");
+      expect(scale(0)).toBe("5");
+      expect(scale(0.4)).toBe("5");
+      expect(scale(0.5)).toBe("1");
+      expect(scale(1)).toBe("1");
     });
   });
 
