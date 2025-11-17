@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
+import { thresholdEncodings } from "src/domain/charts";
 import { PriceComponent } from "src/domain/data";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
@@ -58,12 +58,9 @@ const IndexPage = ({ locale }: Props) => {
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
   const colorScale = useMemo(() => {
-    return makeColorScale(
-      colorScaleSpecs.energyPrices,
-      medianValue,
-      observations.filter(isValidValue).map(colorAccessor),
-      +period
-    );
+    const values = observations.filter(isValidValue).map(colorAccessor);
+    const encoding = thresholdEncodings.energyPrices(medianValue, values, +period);
+    return encoding.makeScale();
   }, [colorAccessor, medianValue, observations, period]);
 
   const [activeId, setActiveId] = useState<string | null>(null);

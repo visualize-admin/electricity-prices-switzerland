@@ -24,7 +24,7 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
-import { colorScaleSpecs } from "src/domain/charts";
+import { thresholdEncodings } from "src/domain/charts";
 import { PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
@@ -233,13 +233,13 @@ export const EnergyPricesMap = ({
     if (!valuesExtent || !medianValue || !colorScale || !observations) return null;
     const legendData = [valuesExtent[0], medianValue, valuesExtent[1]];
 
-    // Get the spec and generate thresholds and palette from a single source
-    const spec = colorScaleSpecs.energyPrices;
+    // Get the threshold encoding function and generate thresholds and palette from a single source
+    const thresholdEncoding = thresholdEncodings.energyPrices;
     const isValidValue = <T extends { value?: number | null | undefined }>(
       x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
     const values = observations.filter(isValidValue).map((o) => o.value);
-    const { thresholds, palette } = spec.getLegendData(medianValue, values, +period);
+    const { thresholds, palette } = thresholdEncoding(medianValue, values, +period);
 
     return (
       <MapColorLegend
