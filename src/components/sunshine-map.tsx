@@ -197,32 +197,36 @@ const SunshineMap = ({
         const properties = info.object.properties as OperatorLayerProperties;
         const operatorIds = properties.operators;
 
-        const values = operatorIds.map((operatorId) => {
-          const observation = observationsByOperator[operatorId];
-          return observation ? accessor(observation) : undefined;
-        });
+        const observationsWithValues = operatorIds
+          .map((operatorId) => {
+            const observation = observationsByOperator[operatorId];
+            return observation;
+          })
+          .map((observation) => {
+            const value = observation ? accessor(observation) : null;
+            if (value === null || value === undefined) {
+              return null;
+            }
+            return {
+              observation: observation,
+              value: value,
+            };
+          })
+          .filter(truthy);
 
-        if (values.every((v) => v === null || v === undefined)) {
+        if (observationsWithValues.length === 0) {
           setHovered(undefined);
           setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
           return;
         }
 
-        // Set entity selection for the unified hook
         const hoveredId = operatorIds[0]?.toString();
         setEntitySelection((prev) => ({ ...prev, hoveredId }));
-
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
-          values: operatorIds
-            .map((operatorId) => {
-              const observation = observationsByOperator[operatorId];
-              const value = observation ? accessor(observation) : undefined;
-
-              if (value === undefined || value === null) {
-                return undefined;
-              }
+          values: observationsWithValues
+            .map(({ observation, value }) => {
               return {
                 value,
                 operatorName: observation?.name ?? "",
