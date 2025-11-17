@@ -199,15 +199,18 @@ const SunshineMap = ({
     indicator,
   });
 
-  const featuresWithObservations = useMemo(
-    () =>
+  const featuresWithObservations = useMemo(() => {
+    const operatorIds = new Set(
+      Object.keys(observationsByOperator).map((x) => parseInt(x, 10))
+    );
+    return (
       enhancedGeoData?.features.filter(isOperatorFeature).filter((feature) => {
         return feature.properties.operators.some((operatorId) =>
-          Object.keys(observationsByOperator).includes(operatorId.toString())
+          operatorIds.has(operatorId)
         );
-      }) ?? [],
-    [enhancedGeoData?.features, observationsByOperator]
-  );
+      }) ?? []
+    );
+  }, [enhancedGeoData?.features, observationsByOperator]);
 
   const onHoverOperatorLayer = useCallback(
     (info: PickingInfo) => {
@@ -218,9 +221,6 @@ const SunshineMap = ({
         const observationsWithValues = operatorIds
           .map((operatorId) => {
             const observation = observationsByOperator[operatorId];
-            return observation;
-          })
-          .map((observation) => {
             const value = observation ? accessor(observation) : null;
             if (value === null || value === undefined) {
               return null;
