@@ -5,6 +5,7 @@ import React from "react";
 import { Entity } from "src/domain/data";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
+import { EntitySelection } from "src/hooks/use-selected-entity-data";
 
 // Core entity types for unified handling
 interface EntityValue {
@@ -41,19 +42,14 @@ export const formatEnergyPricesEntity = (
 
   // Get entity information from the first observation
   const firstObs = observations[0];
-  let title = "Unknown";
+  let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = `${
-      firstObs.municipalityData?.name ||
-      firstObs.municipalityLabel ||
-      "Unknown Municipality"
-    }`;
+    title = null;
   } else if (entityType === "canton") {
-    title =
-      firstObs.cantonData?.name || firstObs.cantonLabel || "Unknown Canton";
+    title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
-    title = firstObs.operatorLabel || "Unknown Operator";
+    title = firstObs.operatorLabel || null;
   }
 
   // Create values array from observations
@@ -82,31 +78,41 @@ export const formatEnergyPricesEntity = (
  * Works with enriched sunshine observations.
  */
 export const formatSunshineEntity = (
+  selection: EntitySelection,
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
   formattedIndicator: string
 ): EntityDisplayData => {
+  const { entityType: entity } = selection;
+
   if (!observations || observations.length === 0) {
     return {
       title: "No data",
-      caption: getEntityCaption("operator"),
+      caption: getEntityCaption(entity),
       values: [],
     };
   }
+
+  const multipleOperators =
+    new Set(observations.map((obs) => obs.operatorId)).size > 1;
 
   // Create values array from observations
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: `${formattedIndicator}`,
+      label: multipleOperators
+        ? obs.operatorData?.name ?? ""
+        : formattedIndicator,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
-    title: observations[0].operatorData?.name, // Sunshine entities don't have a specific title
-    caption: getEntityCaption("operator"),
+    title: multipleOperators
+      ? null
+      : observations[0].operatorData?.name || "Unknown Operator",
+    caption: getEntityCaption(entity),
     values,
   };
 };

@@ -172,12 +172,21 @@ const SunshineMap = ({
     };
   }, [enrichedData?.operatorMunicipalities, geoData]);
 
-  // Entity selection state
-  const [entitySelection, setEntitySelection] = useState<EntitySelection>({
-    hoveredId: null,
-    selectedId: null,
-    entityType: "municipality",
-  });
+  // Handle hover on operator layer
+  const [hovered, setHovered] = useState<HoverState>();
+
+  // Entity selection state - derived from hovered state
+  const entitySelection: EntitySelection = useMemo(
+    () => ({
+      hoveredIds:
+        hovered?.type === "operator" && hovered.id
+          ? hovered.id.split(",")
+          : null,
+      selectedId: null,
+      entityType: hovered?.type === "operator" ? "operator" : "municipality",
+    }),
+    [hovered]
+  );
 
   // Use the unified entity selection hook
   const selectedEntityData = useSelectedEntityData({
@@ -187,42 +196,52 @@ const SunshineMap = ({
     colorScale,
     formatValue: valueFormatter,
     priceComponent: "total",
+    indicator,
   });
 
-  // Handle hover on operator layer
-  const [hovered, setHovered] = useState<HoverState>();
+  const featuresWithObservations = useMemo(() => {
+    const operatorIds = new Set(
+      Object.keys(observationsByOperator).map((x) => parseInt(x, 10))
+    );
+    return (
+      enhancedGeoData?.features.filter(isOperatorFeature).filter((feature) => {
+        return feature.properties.operators.some((operatorId) =>
+          operatorIds.has(operatorId)
+        );
+      }) ?? []
+    );
+  }, [enhancedGeoData?.features, observationsByOperator]);
+
   const onHoverOperatorLayer = useCallback(
     (info: PickingInfo) => {
       if (info.object?.properties) {
         const properties = info.object.properties as OperatorLayerProperties;
         const operatorIds = properties.operators;
 
-        const values = operatorIds.map((operatorId) => {
-          const observation = observationsByOperator[operatorId];
-          return observation ? accessor(observation) : undefined;
-        });
+        const observationsWithValues = operatorIds
+          .map((operatorId) => {
+            const observation = observationsByOperator[operatorId];
+            const value = observation ? accessor(observation) : null;
+            if (value === null || value === undefined) {
+              return null;
+            }
+            return {
+              observation: observation,
+              value: value,
+            };
+          })
+          .filter(truthy);
 
-        if (values.every((v) => v === null || v === undefined)) {
+        if (observationsWithValues.length === 0) {
           setHovered(undefined);
-          setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
           return;
         }
-
-        // Set entity selection for the unified hook
-        const hoveredId = operatorIds[0]?.toString();
-        setEntitySelection((prev) => ({ ...prev, hoveredId }));
 
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
-          values: operatorIds
-            .map((operatorId) => {
-              const observation = observationsByOperator[operatorId];
-              const value = observation ? accessor(observation) : undefined;
-
-              if (value === undefined || value === null) {
-                return undefined;
-              }
+          values: observationsWithValues
+            .map(({ observation, value }) => {
               return {
                 value,
                 operatorName: observation?.name ?? "",
@@ -234,7 +253,6 @@ const SunshineMap = ({
         });
       } else {
         setHovered(undefined);
-        setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
       }
     },
     [accessor, observationsByOperator]
@@ -251,14 +269,6 @@ const SunshineMap = ({
       content: <SelectedEntityCard {...selectedEntityData.formattedData} />,
     };
   }, [hovered, selectedEntityData?.formattedData]);
-
-  // Handle click on map layers (primarily for zooming)
-  const handleLayerClick = useCallback((info: PickingInfo) => {
-    if (info.object?.geometry) {
-      // No need to handle zoom directly, GenericMap will handle this
-      // when we return the object from the click handler
-    }
-  }, []);
 
   const { onEntitySelect, activeId } = useMap();
 
@@ -283,7 +293,6 @@ const SunshineMap = ({
           window.open(href, "_blank");
         } else {
           const selectedId = id.toString();
-          setEntitySelection((prev) => ({ ...prev, selectedId }));
           onEntitySelect(ev.srcEvent, "operator", selectedId);
         }
       };
@@ -294,7 +303,7 @@ const SunshineMap = ({
 
     return [
       makeSunshineOperatorLayer({
-        data: enhancedGeoData.features,
+        data: featuresWithObservations,
         accessor,
         observationsByOperator,
         colorScale,
@@ -317,7 +326,7 @@ const SunshineMap = ({
           })
         : null,
       makeSunshineOperatorPickableLayer({
-        data: enhancedGeoData.features,
+        data: featuresWithObservations,
         accessor,
         observationsByOperator,
         hovered,
@@ -331,9 +340,8 @@ const SunshineMap = ({
     activeId,
     colorScale,
     enhancedGeoData,
-    geoData?.cantonMesh,
-    geoData?.lakes,
-    geoData?.municipalities.features,
+    featuresWithObservations,
+    geoData,
     hovered,
     indicator,
     observationsByOperator,
@@ -445,7 +453,6 @@ const SunshineMap = ({
       legend={renderLegend()}
       tooltipContent={tooltipContent}
       isLoading={isLoading}
-      onLayerClick={handleLayerClick}
       controls={controls}
       downloadId={`operator-map-${period}`}
       setHovered={setHovered}

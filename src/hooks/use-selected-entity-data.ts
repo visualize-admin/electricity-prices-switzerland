@@ -1,8 +1,9 @@
 import { ScaleThreshold } from "d3";
+import { isEqual } from "lodash";
 import { useMemo } from "react";
 
 import { Entity, PriceComponent } from "src/domain/data";
-import { useQueryStateSunshineMap } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
@@ -19,22 +20,30 @@ import {
 } from "src/utils/entity-formatting";
 
 export interface EntitySelection {
-  hoveredId: string | null;
+  hoveredIds: string[] | null;
   selectedId: string | null;
   entityType: Entity;
 }
 
-interface UseSelectedEntityDataOptions {
+type UseSelectedEntityDataOptions = {
   selection: EntitySelection;
   dataType: "energy-prices" | "sunshine";
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
   colorScale?: ScaleThreshold<number, string>;
   formatValue?: (value: number) => string;
   priceComponent: PriceComponent;
-}
+} & (
+  | {
+      dataType: "sunshine";
+      indicator: SunshineIndicator;
+    }
+  | {
+      dataType: "energy-prices";
+    }
+);
 
 interface SelectedEntityData {
-  entityId: string | null;
+  entityIds: string[] | null;
   isHovered: boolean;
   isSelected: boolean;
   formattedData:
@@ -47,6 +56,15 @@ interface SelectedEntityData {
     | null;
 }
 
+const isEqualWithoutOrder = (arr1: string[] | null, arr2: string[] | null) => {
+  if (arr1 === null && arr2 === null) return true;
+  if (arr1 === null || arr2 === null) return false;
+  if (arr1.length !== arr2.length) return false;
+  const sortedArr1 = [...arr1].sort();
+  const sortedArr2 = [...arr2].sort();
+  return isEqual(sortedArr1, sortedArr2);
+};
+
 /**
  * Unified hook for managing entity selection and data formatting across map components.
  * Handles the priority logic: selected ID takes precedence over hovered ID.
@@ -57,7 +75,6 @@ interface SelectedEntityData {
 export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
-  const [queryState] = useQueryStateSunshineMap();
   const {
     selection,
     dataType,
@@ -66,15 +83,24 @@ export function useSelectedEntityData(
     formatValue,
     priceComponent,
   } = options;
+  const indicator = options.dataType === "sunshine" ? options.indicator : null;
 
   // Determine the active entity ID (selected takes precedence over hovered)
-  const entityId = selection.hoveredId ?? selection.selectedId;
+  const entityIds = useMemo(
+    () =>
+      selection.hoveredIds
+        ? selection.hoveredIds
+        : selection.selectedId
+        ? [selection.selectedId]
+        : null,
+    [selection.hoveredIds, selection.selectedId]
+  );
 
   return useMemo(() => {
     // No entity selected
-    if (!entityId) {
+    if (!entityIds || entityIds.length === 0) {
       return {
-        entityId: null,
+        entityIds: null,
         isHovered: false,
         isSelected: false,
         formattedData: null,
@@ -82,13 +108,16 @@ export function useSelectedEntityData(
       };
     }
 
-    const isHovered = selection.hoveredId === entityId;
-    const isSelected = selection.selectedId === entityId;
+    const isHovered = isEqualWithoutOrder(selection.hoveredIds, entityIds);
+    const isSelected = isEqualWithoutOrder(
+      selection.selectedId ? [selection.selectedId] : null,
+      entityIds
+    );
 
     // Check if data is available
     if (!enrichedData || !colorScale || !formatValue) {
       return {
-        entityId,
+        entityIds,
         isHovered,
         isSelected,
         formattedData: null,
@@ -102,12 +131,18 @@ export function useSelectedEntityData(
       const entityType = selection.entityType;
 
       // Use the pre-built indexes for efficient lookup
-      const municipalityObservations =
-        energyData.observationsByMunicipality.get(entityId);
-      const cantonObservations = [
-        energyData.cantonMedianObservationsByCanton.get(entityId),
-      ].filter(truthy);
-
+      const municipalityObservations = entityIds
+        .flatMap(
+          (entityId) =>
+            energyData.observationsByMunicipality.get(entityId) ?? []
+        )
+        .filter(truthy);
+      const cantonObservations = entityIds
+        .flatMap(
+          (entityId) =>
+            energyData.cantonMedianObservationsByCanton.get(entityId) ?? []
+        )
+        .filter(truthy);
       const entityObservations =
         (entityType === "municipality"
           ? municipalityObservations
@@ -115,7 +150,7 @@ export function useSelectedEntityData(
 
       if (entityObservations.length === 0) {
         return {
-          entityId,
+          entityIds,
           isHovered,
           isSelected,
           formattedData: null,
@@ -132,7 +167,7 @@ export function useSelectedEntityData(
       );
 
       return {
-        entityId,
+        entityIds,
         isHovered,
         isSelected,
         formattedData,
@@ -145,12 +180,15 @@ export function useSelectedEntityData(
       const sunshineData = enrichedData as EnrichedSunshineData;
 
       // Use the pre-built indexes for efficient lookup
-      const operatorObservations =
-        sunshineData.observationsByOperator.get(entityId);
+      const operatorObservations = entityIds
+        .flatMap(
+          (entityId) => sunshineData.observationsByOperator.get(entityId) ?? []
+        )
+        .filter(truthy);
 
       if (!operatorObservations || operatorObservations.length === 0) {
         return {
-          entityId,
+          entityIds,
           isHovered,
           isSelected,
           formattedData: null,
@@ -159,14 +197,15 @@ export function useSelectedEntityData(
       }
 
       const formattedData = formatSunshineEntity(
+        selection,
         operatorObservations,
         colorScale,
         formatValue,
-        getLocalizedLabel({ id: queryState.indicator })
+        indicator ? getLocalizedLabel({ id: indicator }) : ""
       );
 
       return {
-        entityId,
+        entityIds,
         isHovered,
         isSelected,
         formattedData,
@@ -176,22 +215,20 @@ export function useSelectedEntityData(
 
     // Fallback for unknown data types
     return {
-      entityId,
+      entityIds,
       isHovered,
       isSelected,
       formattedData: null,
       observations: null,
     };
   }, [
-    entityId,
-    selection.hoveredId,
-    selection.selectedId,
-    selection.entityType,
+    entityIds,
+    selection,
     enrichedData,
     colorScale,
     formatValue,
     dataType,
     priceComponent,
-    queryState.indicator,
+    indicator,
   ]);
 }

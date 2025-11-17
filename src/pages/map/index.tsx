@@ -347,20 +347,34 @@ const MapPageContent = ({
     !energyPricesEnrichedData.data.medianValue
   );
 
-  const selectedEntityData = useSelectedEntityData({
-    dataType: isElectricityTab ? "energy-prices" : "sunshine",
-    enrichedData: isElectricityTab
-      ? energyPricesEnrichedData.data
-      : sunshineEnrichedDataResult.data,
-    selection: {
-      selectedId: selectedItem?.id ?? null,
-      hoveredId: null,
-      entityType: entity,
-    },
-    colorScale,
-    formatValue: valueFormatter,
-    priceComponent: priceComponent,
-  });
+  const selectedEntityData = useSelectedEntityData(
+    isElectricityTab
+      ? {
+          dataType: "energy-prices",
+          enrichedData: energyPricesEnrichedData.data,
+          selection: {
+            selectedId: selectedItem?.id ?? null,
+            hoveredIds: null,
+            entityType: entity,
+          },
+          colorScale,
+          formatValue: valueFormatter,
+          priceComponent: priceComponent,
+        }
+      : {
+          enrichedData: sunshineEnrichedDataResult.data,
+          selection: {
+            selectedId: selectedItem?.id ?? null,
+            hoveredIds: null,
+            entityType: entity,
+          },
+          colorScale,
+          formatValue: valueFormatter,
+          priceComponent: priceComponent,
+          indicator: indicator,
+          dataType: "sunshine",
+        }
+  );
 
   return (
     <ApplicationLayout>
