@@ -238,28 +238,6 @@ export const prepComplianceCardProps = (
           ),
         },
       },
-      {
-        label: (
-          <Trans id="sunshine.compliance.notification-period">
-            Notification Days in Advance
-          </Trans>
-        ),
-        value: {
-          value: (
-            <Typography variant="inherit" fontWeight="bold">
-              {compliance.timelyPaperSubmission ? (
-                <Trans id="sunshine.compliance.timely-paper-submission.yes">
-                  Yes
-                </Trans>
-              ) : (
-                <Trans id="sunshine.compliance.timely-paper-submission.no">
-                  No
-                </Trans>
-              )}
-            </Typography>
-          ),
-        },
-      },
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 };
