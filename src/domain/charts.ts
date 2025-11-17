@@ -62,7 +62,7 @@ const makeThresholdEncoding: (
     return { thresholds, palette, makeScale };
   };
 
-const createEncodings = (palette: string[]) => {
+export const createEncodings = (palette: string[]) => {
   const defaultThresholdEncoding = makeThresholdEncoding(
     [0.85, 0.95, 1.05, 1.15],
     palette
@@ -129,7 +129,6 @@ const createEncodings = (palette: string[]) => {
   ) => {
     const usePalette = paletteParam ?? yesNoPalette;
     const yesNoFromPalette = [last(usePalette), first(usePalette)] as string[];
-    const reversedPalette = yesNoFromPalette.slice().reverse();
 
     const thresholds = [
       { value: year >= 2026 ? 60.01 : 75.01, label: "No" },
@@ -140,10 +139,10 @@ const createEncodings = (palette: string[]) => {
       const domainValues = thresholds.map((t) => t.value);
       return scaleThreshold<number, string>()
         .domain(domainValues)
-        .range(reversedPalette);
+        .range(yesNoFromPalette);
     };
 
-    return { thresholds, palette: reversedPalette, makeScale };
+    return { thresholds, palette: yesNoFromPalette, makeScale };
   };
 
   return {
