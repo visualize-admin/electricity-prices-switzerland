@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.25.2 - 2025-11-17
+
+- Fix operator not showing on the sunshine map (#415)
+
 # 2.25.1 - 2025-11-13
 
 - Update translations
