@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Fix: Hovering operator layer is fixed (see [#403](https://github.com/visualize-admin/electricity-prices-switzerland/issues/403))
+- Fix: Custom color thresholds for network costs display correctly in the legend (see [#435](https://github.com/visualize-admin/electricity-prices-switzerland/issues/435))
 
 # 2.25.2 - 2025-11-17
 
