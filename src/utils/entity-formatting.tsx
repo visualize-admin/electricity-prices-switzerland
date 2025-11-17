@@ -41,19 +41,14 @@ export const formatEnergyPricesEntity = (
 
   // Get entity information from the first observation
   const firstObs = observations[0];
-  let title = "Unknown";
+  let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = `${
-      firstObs.municipalityData?.name ||
-      firstObs.municipalityLabel ||
-      "Unknown Municipality"
-    }`;
+    title = null;
   } else if (entityType === "canton") {
-    title =
-      firstObs.cantonData?.name || firstObs.cantonLabel || "Unknown Canton";
+    title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
-    title = firstObs.operatorLabel || "Unknown Operator";
+    title = firstObs.operatorLabel || null;
   }
 
   // Create values array from observations
@@ -82,6 +77,7 @@ export const formatEnergyPricesEntity = (
  * Works with enriched sunshine observations.
  */
 export const formatSunshineEntity = (
+  entity: Entity,
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
@@ -90,7 +86,7 @@ export const formatSunshineEntity = (
   if (!observations || observations.length === 0) {
     return {
       title: "No data",
-      caption: getEntityCaption("operator"),
+      caption: getEntityCaption(entity),
       values: [],
     };
   }
@@ -99,14 +95,20 @@ export const formatSunshineEntity = (
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: `${formattedIndicator}`,
+      label:
+        entity === "municipality"
+          ? obs.operatorData?.name ?? ""
+          : formattedIndicator,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
-    title: observations[0].operatorData?.name, // Sunshine entities don't have a specific title
-    caption: getEntityCaption("operator"),
+    title:
+      entity === "municipality"
+        ? null
+        : observations[0].operatorData?.name || "Unknown Operator",
+    caption: entity === "municipality" ? null : getEntityCaption(entity),
     values,
   };
 };

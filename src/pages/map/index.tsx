@@ -354,7 +354,7 @@ const MapPageContent = ({
       : sunshineEnrichedDataResult.data,
     selection: {
       selectedId: selectedItem?.id ?? null,
-      hoveredId: null,
+      hoveredIds: null,
       entityType: entity,
     },
     colorScale,

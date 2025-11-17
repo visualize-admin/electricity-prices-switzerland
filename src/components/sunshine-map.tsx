@@ -174,7 +174,7 @@ const SunshineMap = ({
 
   // Entity selection state
   const [entitySelection, setEntitySelection] = useState<EntitySelection>({
-    hoveredId: null,
+    hoveredIds: null,
     selectedId: null,
     entityType: "municipality",
   });
@@ -192,15 +192,14 @@ const SunshineMap = ({
   // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
 
-  const featuresWithObservations = enhancedGeoData?.features.filter(
-    (feature) => {
-      if (!isOperatorFeature(feature)) {
-        return false;
-      }
-      return feature.properties.operators.some((operatorId) =>
-        Object.keys(observationsByOperator).includes(operatorId.toString())
-      );
-    }
+  const featuresWithObservations = useMemo(
+    () =>
+      enhancedGeoData?.features.filter(isOperatorFeature).filter((feature) => {
+        return feature.properties.operators.some((operatorId) =>
+          Object.keys(observationsByOperator).includes(operatorId.toString())
+        );
+      }) ?? [],
+    [enhancedGeoData?.features, observationsByOperator]
   );
 
   const onHoverOperatorLayer = useCallback(
@@ -228,12 +227,12 @@ const SunshineMap = ({
 
         if (observationsWithValues.length === 0) {
           setHovered(undefined);
-          setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
+          setEntitySelection((prev) => ({ ...prev, hoveredIds: null }));
           return;
         }
 
-        const hoveredId = operatorIds[0]?.toString();
-        setEntitySelection((prev) => ({ ...prev, hoveredId }));
+        const hoveredIds = operatorIds.map((x) => x.toString());
+        setEntitySelection((prev) => ({ ...prev, hoveredIds }));
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
@@ -250,7 +249,7 @@ const SunshineMap = ({
         });
       } else {
         setHovered(undefined);
-        setEntitySelection((prev) => ({ ...prev, hoveredId: null }));
+        setEntitySelection((prev) => ({ ...prev, hoveredIds: null }));
       }
     },
     [accessor, observationsByOperator]
@@ -348,9 +347,7 @@ const SunshineMap = ({
     colorScale,
     enhancedGeoData,
     featuresWithObservations,
-    geoData.cantonMesh,
-    geoData.lakes,
-    geoData.municipalities.features,
+    geoData,
     hovered,
     indicator,
     observationsByOperator,

@@ -176,10 +176,10 @@ const MobileControls = ({
   // Format the current status string
   const pricesCurrentStatus = `${period}, ${priceComponentLabel}, ${categoryLabel}, ${productLabel}`;
   const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshineIndicator}, ${sunshinePeerGroup}, ${sunshineNetworkLevel}`;
-  const selectedItemStatus = selectedEntityData?.entityId
+  const selectedItemStatus = selectedEntityData?.entityIds
     ? `${selectedEntityData.formattedData?.title}, ${selectedEntityData.formattedData?.title}`
     : "No selection";
-  const status = selectedEntityData?.entityId
+  const status = selectedEntityData?.entityIds
     ? selectedItemStatus
     : tab === "electricity"
     ? pricesCurrentStatus
@@ -222,7 +222,7 @@ const MobileControls = ({
             return setDrawerOpen(true);
           }}
         >
-          {selectedEntityData?.entityId ? (
+          {selectedEntityData?.entityIds ? (
             <IconButton
               sx={{ position: "absolute", top: "0.25rem", right: "0.25rem" }}
               onClick={(ev) => {

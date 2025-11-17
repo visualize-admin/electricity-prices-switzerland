@@ -66,9 +66,9 @@ export const EnergyPricesMap = ({
   // Create entity selection for unified hook
   const entitySelection: EntitySelection = useMemo(
     () => ({
-      hoveredId:
+      hoveredIds:
         hovered?.type === "municipality" || hovered?.type === "canton"
-          ? hovered.id.toString()
+          ? [hovered.id.toString()]
           : null,
       selectedId: null,
       entityType: hovered?.type === "municipality" ? "municipality" : "canton",
