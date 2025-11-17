@@ -508,8 +508,16 @@ msgid "legend-item.peer-group-median"
 msgstr "legend-item.peer-group-median"
 
 #: src/components/sunshine-map.tsx
+msgid "legend.compliant"
+msgstr "legend.compliant"
+
+#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "legend.no"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.not-compliant"
+msgstr "legend.not-compliant"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
@@ -1422,6 +1430,10 @@ msgstr "sunshine.operational-standards.compliance.share-of-operators"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
 msgstr "sunshine.operational-standards.description"
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.outage-info.info-dialog-label"
+msgstr "sunshine.operational-standards.outage-info.info-dialog-label"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"

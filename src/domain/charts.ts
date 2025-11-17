@@ -81,7 +81,7 @@ export const createEncodings = (palette: string[]) => {
     paletteParam
   ) => {
     const usePalette = paletteParam ?? yesNoPalette;
-    const yesNoFromPalette = [last(usePalette), first(usePalette)] as string[];
+    const yesNoFromPalette = [first(usePalette), last(usePalette)] as string[];
 
     const thresholds = [
       { value: 0.5, label: "No" },
@@ -131,6 +131,7 @@ export const createEncodings = (palette: string[]) => {
     const yesNoFromPalette = [last(usePalette), first(usePalette)] as string[];
 
     const thresholds = [
+      // Labels are not used in this case, but kept for consistency
       { value: year >= 2026 ? 60.01 : 75.01, label: "No" },
       { value: year >= 2026 ? 60.01 : 75.01, label: "Yes" },
     ];

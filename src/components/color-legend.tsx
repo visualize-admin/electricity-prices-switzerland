@@ -392,21 +392,11 @@ const ColorsLine = ({
 
 const YesNoColorsLine = ({
   palette,
-  thresholds,
 }: {
   palette: string[];
   thresholds?: Threshold[];
 }) => {
-  const yesNoColors = [palette[palette.length - 1], palette[0]];
-
-  // For yes/no, we have two threshold values that are the same
-  // First color is for values < threshold, second color is for values >= threshold
-  const thresholdValue = thresholds?.[0]?.value;
-  const tooltips =
-    thresholdValue !== undefined
-      ? [`< ${thresholdValue}`, `≥ ${thresholdValue}`]
-      : undefined;
-
+  const yesNoColors = palette;
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}

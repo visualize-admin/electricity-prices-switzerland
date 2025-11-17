@@ -391,10 +391,27 @@ const SunshineMap = ({
 
   const renderLegend = useCallback(() => {
     if (indicator === "compliance" || indicator === "outageInfo") {
-      const complianceTicks = [
-        { value: 0, label: t({ id: "legend.no", message: "No" }) },
-        { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
-      ];
+      // This should come from the encoding function to avoid duplication
+      // but right now the encoding function does not have access to t
+      const ticks =
+        indicator === "compliance"
+          ? [
+              {
+                value: 1,
+                label: t({ id: "legend.compliant", message: "Compliant" }),
+              },
+              {
+                value: 0,
+                label: t({
+                  id: "legend.not-compliant",
+                  message: "Not compliant",
+                }),
+              },
+            ]
+          : [
+              { value: 0, label: t({ id: "legend.no", message: "No" }) },
+              { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
+            ];
       // Get palette for consistency
       const thresholdEncoding = thresholdEncodings[indicator];
       const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
@@ -403,10 +420,14 @@ const SunshineMap = ({
         <MapColorLegend
           id={legendId}
           title={legendTitleMapping[indicator]}
-          ticks={complianceTicks}
+          ticks={ticks}
           mode="yesNo"
           palette={palette}
-          infoDialogButtonProps={infoDialogProps["help-compliance"]}
+          infoDialogButtonProps={
+            indicator === "compliance"
+              ? infoDialogProps["help-compliance"]
+              : infoDialogProps["help-outageInfo"]
+          }
           thresholds={thresholds}
         />
       );

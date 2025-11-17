@@ -53,4 +53,11 @@ export const infoDialogProps = {
       message: "Service Quality",
     }),
   },
+  "help-outageInfo": {
+    slug: "help-outageInfo",
+    label: t({
+      id: "sunshine.operational-standards.outage-info.info-dialog-label",
+      message: "Outage Information",
+    }),
+  },
 } satisfies Partial<Record<WikiPageSlug, InfoDialogButtonProps>>;
