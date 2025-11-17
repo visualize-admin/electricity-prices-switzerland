@@ -397,7 +397,8 @@ const SunshineMap = ({
       ];
       // Get palette for consistency
       const thresholdEncoding = thresholdEncodings[indicator];
-      const { palette } = thresholdEncoding(undefined, [], +period);
+      const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
+
       return (
         <MapColorLegend
           id={legendId}
@@ -406,6 +407,7 @@ const SunshineMap = ({
           mode="yesNo"
           palette={palette}
           infoDialogButtonProps={infoDialogProps["help-compliance"]}
+          thresholds={thresholds}
         />
       );
     }
@@ -424,7 +426,11 @@ const SunshineMap = ({
     const values: number[] = (enrichedData.observations ?? [])
       .map((x) => x.value)
       .filter((v): v is number => v !== null && v !== undefined);
-    const { thresholds, palette } = thresholdEncoding(enrichedData.median, values, +period);
+    const { thresholds, palette } = thresholdEncoding(
+      enrichedData.median,
+      values,
+      +period
+    );
 
     return (
       <MapColorLegend

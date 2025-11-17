@@ -107,7 +107,11 @@ export const MapColorLegend = ({
             thresholds={thresholds}
           />
         ) : (
-          <YesNoLegend ticks={ticks} palette={palette} />
+          <YesNoLegend
+            ticks={ticks}
+            palette={palette}
+            thresholds={thresholds}
+          />
         )}
       </Box>
     </LegendBox>
@@ -192,7 +196,15 @@ const MinMedianMaxLegend = ({
   );
 };
 
-const YesNoLegend = ({ ticks, palette }: { ticks: Tick[]; palette: string[] }) => {
+const YesNoLegend = ({
+  ticks,
+  palette,
+  thresholds,
+}: {
+  ticks: Tick[];
+  palette: string[];
+  thresholds?: Threshold[];
+}) => {
   return (
     <>
       <Box
@@ -223,7 +235,7 @@ const YesNoLegend = ({ ticks, palette }: { ticks: Tick[]; palette: string[] }) =
         ))}
       </Box>
 
-      <YesNoColorsLine palette={palette} />
+      <YesNoColorsLine palette={palette} thresholds={thresholds} />
     </>
   );
 };
@@ -378,8 +390,22 @@ const ColorsLine = ({
   );
 };
 
-const YesNoColorsLine = ({ palette }: { palette: string[] }) => {
+const YesNoColorsLine = ({
+  palette,
+  thresholds,
+}: {
+  palette: string[];
+  thresholds?: Threshold[];
+}) => {
   const yesNoColors = [palette[palette.length - 1], palette[0]];
+
+  // For yes/no, we have two threshold values that are the same
+  // First color is for values < threshold, second color is for values >= threshold
+  const thresholdValue = thresholds?.[0]?.value;
+  const tooltips =
+    thresholdValue !== undefined
+      ? [`< ${thresholdValue}`, `≥ ${thresholdValue}`]
+      : undefined;
 
   return (
     <Box
@@ -420,4 +446,3 @@ const YesNoColorsLine = ({ palette }: { palette: string[] }) => {
     </Box>
   );
 };
-
