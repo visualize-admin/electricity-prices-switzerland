@@ -132,8 +132,8 @@ const createEncodings = (palette: string[]) => {
     const reversedPalette = yesNoFromPalette.slice().reverse();
 
     const thresholds = [
-      { value: year > 2026 ? 60.01 : 75.01, label: "No" },
-      { value: year > 2026 ? 60.01 : 75.01, label: "Yes" },
+      { value: year >= 2026 ? 60.01 : 75.01, label: "No" },
+      { value: year >= 2026 ? 60.01 : 75.01, label: "Yes" },
     ];
 
     const makeScale = () => {
