@@ -183,7 +183,7 @@ const SunshineMap = ({
           ? hovered.id.split(",")
           : null,
       selectedId: null,
-      entityType: "operator",
+      entityType: hovered?.type === "operator" ? "operator" : "municipality",
     }),
     [hovered]
   );
@@ -196,6 +196,7 @@ const SunshineMap = ({
     colorScale,
     formatValue: valueFormatter,
     priceComponent: "total",
+    indicator,
   });
 
   const featuresWithObservations = useMemo(
@@ -452,7 +453,6 @@ const SunshineMap = ({
       legend={renderLegend()}
       tooltipContent={tooltipContent}
       isLoading={isLoading}
-      onLayerClick={handleLayerClick}
       controls={controls}
       downloadId={`operator-map-${period}`}
       setHovered={setHovered}

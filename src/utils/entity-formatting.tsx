@@ -5,6 +5,7 @@ import React from "react";
 import { Entity } from "src/domain/data";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
+import { EntitySelection } from "src/hooks/use-selected-entity-data";
 
 // Core entity types for unified handling
 interface EntityValue {
@@ -77,12 +78,14 @@ export const formatEnergyPricesEntity = (
  * Works with enriched sunshine observations.
  */
 export const formatSunshineEntity = (
-  entity: Entity,
+  selection: EntitySelection,
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
   formattedIndicator: string
 ): EntityDisplayData => {
+  const { entityType: entity } = selection;
+
   if (!observations || observations.length === 0) {
     return {
       title: "No data",
@@ -91,24 +94,25 @@ export const formatSunshineEntity = (
     };
   }
 
+  const multipleOperators =
+    new Set(observations.map((obs) => obs.operatorId)).size > 1;
+
   // Create values array from observations
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label:
-        entity === "municipality"
-          ? obs.operatorData?.name ?? ""
-          : formattedIndicator,
+      label: multipleOperators
+        ? obs.operatorData?.name ?? ""
+        : formattedIndicator,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
-    title:
-      entity === "municipality"
-        ? null
-        : observations[0].operatorData?.name || "Unknown Operator",
-    caption: entity === "municipality" ? null : getEntityCaption(entity),
+    title: multipleOperators
+      ? null
+      : observations[0].operatorData?.name || "Unknown Operator",
+    caption: getEntityCaption(entity),
     values,
   };
 };

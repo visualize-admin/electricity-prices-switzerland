@@ -3,7 +3,7 @@ import { isEqual } from "lodash";
 import { useMemo } from "react";
 
 import { Entity, PriceComponent } from "src/domain/data";
-import { useQueryStateSunshineMap } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
@@ -25,14 +25,22 @@ export interface EntitySelection {
   entityType: Entity;
 }
 
-interface UseSelectedEntityDataOptions {
+type UseSelectedEntityDataOptions = {
   selection: EntitySelection;
   dataType: "energy-prices" | "sunshine";
   enrichedData: EnrichedEnergyPricesData | EnrichedSunshineData | null;
   colorScale?: ScaleThreshold<number, string>;
   formatValue?: (value: number) => string;
   priceComponent: PriceComponent;
-}
+} & (
+  | {
+      dataType: "sunshine";
+      indicator: SunshineIndicator;
+    }
+  | {
+      dataType: "energy-prices";
+    }
+);
 
 interface SelectedEntityData {
   entityIds: string[] | null;
@@ -67,7 +75,6 @@ const isEqualWithoutOrder = (arr1: string[] | null, arr2: string[] | null) => {
 export function useSelectedEntityData(
   options: UseSelectedEntityDataOptions
 ): SelectedEntityData {
-  const [{ indicator }] = useQueryStateSunshineMap();
   const {
     selection,
     dataType,
@@ -76,6 +83,7 @@ export function useSelectedEntityData(
     formatValue,
     priceComponent,
   } = options;
+  const indicator = options.dataType === "sunshine" ? options.indicator : null;
 
   // Determine the active entity ID (selected takes precedence over hovered)
   const entityIds = useMemo(
@@ -189,11 +197,11 @@ export function useSelectedEntityData(
       }
 
       const formattedData = formatSunshineEntity(
-        selection.entityType === "municipality" ? "municipality" : "operator",
+        selection,
         operatorObservations,
         colorScale,
         formatValue,
-        getLocalizedLabel({ id: indicator })
+        indicator ? getLocalizedLabel({ id: indicator }) : ""
       );
 
       return {
@@ -215,9 +223,7 @@ export function useSelectedEntityData(
     };
   }, [
     entityIds,
-    selection.hoveredIds,
-    selection.selectedId,
-    selection.entityType,
+    selection,
     enrichedData,
     colorScale,
     formatValue,
