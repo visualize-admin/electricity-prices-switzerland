@@ -2,6 +2,7 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
+import { SunshineDataFilter } from "src/graphql/queries";
 import {
   PeerGroup,
   SunshineDataIndicatorRow,
@@ -110,9 +111,9 @@ const peerGroupMapping: Record<
 // Map the structured indicator to field names
 const getFieldName = (
   indicator: SunshineIndicator,
-  category?: string,
-  networkLevel?: string,
-  typology?: string
+  category?: string | null,
+  networkLevel?: string | null,
+  typology?: string | null
 ): keyof SunshineDataRow => {
   switch (indicator) {
     case "networkCosts":
@@ -1180,15 +1181,9 @@ const getSunshineDataByIndicator = async (
     indicator,
     category,
     networkLevel,
-    saifiSaidiType,
-  }: {
-    operatorId?: number | undefined | null;
-    period?: string | undefined | null;
-    peerGroup?: string | undefined | null;
+    saidiSaifiType,
+  }: Omit<SunshineDataFilter, "indicator"> & {
     indicator: SunshineIndicator;
-    category?: string;
-    networkLevel?: string;
-    saifiSaidiType?: string;
   }
 ): Promise<SunshineDataIndicatorRow[]> => {
   // Get the full data with peer group parameter (though SPARQL doesn't filter by it yet)
@@ -1202,7 +1197,7 @@ const getSunshineDataByIndicator = async (
     indicator,
     category,
     networkLevel,
-    saifiSaidiType
+    saidiSaifiType
   );
 
   // Extract only the value for the specified indicator and return minimal structure
