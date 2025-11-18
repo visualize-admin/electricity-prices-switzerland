@@ -511,7 +511,7 @@ msgstr "Peer Group Median"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
-msgstr "Compliant"
+msgstr "Compliant (≤ {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -519,7 +519,7 @@ msgstr "No"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.not-compliant"
-msgstr "Not compliant"
+msgstr "Not compliant (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"

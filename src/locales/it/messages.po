@@ -513,7 +513,7 @@ msgstr "Mediana del gruppo di riferimento"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
-msgstr "Conforme"
+msgstr "Conforme (≤ {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -521,7 +521,7 @@ msgstr "No"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.not-compliant"
-msgstr "Non conforme"
+msgstr "Non conforme (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
