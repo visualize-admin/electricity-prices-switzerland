@@ -225,13 +225,15 @@ const useStackedBarsState = ({
     };
   }, [
     data,
-    fields,
-    width,
     getCategory,
     segments,
-    labelFontSize,
+    fields.segment?.palette,
+    fields.style?.opacityDomain,
+    width,
     annotation,
+    labelFontSize,
     getLabel,
+    measuresByIri,
   ]);
 
   const getSegmentValue = useCallback(
