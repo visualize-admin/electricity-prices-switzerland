@@ -395,6 +395,7 @@ const SunshineMap = ({
       const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
       // This should come from the encoding function to avoid duplication
       // but right now the encoding function does not have access to t
+      const thresholdValue = thresholds[0].value ?? 0;
       const ticks =
         indicator === "compliance"
           ? [
@@ -403,7 +404,7 @@ const SunshineMap = ({
                 label: t({
                   id: "legend.compliant",
                   message: "Compliant (≤ {threshold})",
-                  values: { threshold: Math.round(thresholds[0].value) },
+                  values: { threshold: Math.round(thresholdValue) },
                 }),
               },
               {
@@ -411,7 +412,7 @@ const SunshineMap = ({
                 label: t({
                   id: "legend.not-compliant",
                   message: "Not compliant (> {threshold})",
-                  values: { threshold: Math.round(thresholds[0].value) },
+                  values: { threshold: Math.round(thresholdValue) },
                 }),
               },
             ]

@@ -336,8 +336,8 @@ describe("createEncodings", () => {
 
       // extent of empty array returns [undefined, undefined]
       expect(result.thresholds).toHaveLength(2);
-      expect(isNaN(result.thresholds[0].value)).toBe(true);
-      expect(isNaN(result.thresholds[1].value)).toBe(true);
+      expect(result.thresholds[0].value === undefined).toBe(true);
+      expect(result.thresholds[1].value === undefined).toBe(true);
     });
   });
 });
