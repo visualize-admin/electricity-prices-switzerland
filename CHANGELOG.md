@@ -11,10 +11,19 @@ You can also check the
 
 # Unreleased
 
+## Map
+
+- Feat: Sunshine details panel only show relevant information according to indicator [#410](https://github.com/visualize-admin/electricity-prices-switzerland/issues/410)
 - Fix: Hovering operator layer is fixed (see [#403](https://github.com/visualize-admin/electricity-prices-switzerland/issues/403))
 - Fix: Custom color thresholds for network costs display correctly in the legend (see [#435](https://github.com/visualize-admin/electricity-prices-switzerland/issues/435))
 - Fix: Custom franc rule for 2026 was not correctly applied (see [#434](https://github.com/visualize-admin/electricity-prices-switzerland/issues/434))
+
+## Sunshine Overview
+
 - Fix: Remove "Notification days in advance" from Sunshine Overview "Compliance" card (see [#455](https://github.com/visualize-admin/electricity-prices-switzerland/issues/455))
+
+## Sunshine Costs and Tariffs
+
 - Fix: Only display sunshine categories in Costs And Tariffs page (see [#411](https://github.com/visualize-admin/electricity-prices-switzerland/issues/411))
 
 # 2.25.2 - 2025-11-17
