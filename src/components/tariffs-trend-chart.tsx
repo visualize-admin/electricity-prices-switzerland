@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
 import { ElectricityCategory } from "src/domain/data";
-import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
+import { RP_PER_KWH } from "src/domain/metrics";
 import {
   isPeerGroupRow,
   type SunshineCostsAndTariffsData,

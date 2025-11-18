@@ -24,6 +24,7 @@ You can also check the
 
 ## Sunshine Costs and Tariffs
 
+- Fix: Correctly show Rp/Kwh for net tariffs and energy tariffs (see [#460](https://github.com/visualize-admin/electricity-prices-switzerland/issues/460))
 - Fix: Only display sunshine categories in Costs And Tariffs page (see [#411](https://github.com/visualize-admin/electricity-prices-switzerland/issues/411))
 
 # 2.25.2 - 2025-11-17
