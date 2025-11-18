@@ -1,6 +1,7 @@
 import { expect } from "@playwright/test";
 
 import { test, sleep, ensureLoadingIsComplete } from "src/e2e/common";
+import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
@@ -46,6 +47,7 @@ test.describe("The Home Page", () => {
   });
 
   test("sunshine links", async ({ page, snapshot }) => {
+    const tracker = new InflightRequests(page);
     test.setTimeout(120_000);
     await page.goto("/en?flag__sunshine=true");
     const links = [
@@ -77,6 +79,7 @@ test.describe("The Home Page", () => {
       ]);
 
       await ensureLoadingIsComplete(newPage);
+      await tracker.waitForRequests();
 
       await snapshot({
         note: `Sunshine link - ${link}`,
