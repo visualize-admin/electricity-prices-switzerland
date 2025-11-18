@@ -359,11 +359,17 @@ const getTranslationTable = (_locale: string) => {
       message: "Typology",
     }),
 
+    complianceType: t({
+      id: "selector.compliance-type",
+      message: "Typology",
+    }),
+
     ...indicators,
     ...energyDensities,
     ...settlementDensities,
 
     "network-level": t({ id: "network-level", message: `Network level` }),
+    networkLevel: t({ id: "network-level", message: `Network level` }),
 
     ...networkLevels,
 
