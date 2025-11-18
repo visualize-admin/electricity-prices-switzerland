@@ -27,6 +27,13 @@ You can also check the
 - Fix: Correctly show Rp/Kwh for net tariffs and energy tariffs (see [#460](https://github.com/visualize-admin/electricity-prices-switzerland/issues/460))
 - Fix: Only display sunshine categories in Costs And Tariffs page (see [#411](https://github.com/visualize-admin/electricity-prices-switzerland/issues/411))
 
+## Sunshine SAIDI SAIFI
+
+- Fixed incorrect SAIDI/SAIFI values displayed on the map due to attribute name typo (#453)
+- Added tooltips to SAIDI/SAIFI charts on the power stability details page (#432)
+- Corrected planned value calculation in SAIDI/SAIFI charts (now: total - unplanned)
+- Removed peer group comparisons and updated comparison table to use unplanned values instead
+
 # 2.25.2 - 2025-11-17
 
 - Fix operator not showing on the sunshine map (#415)
