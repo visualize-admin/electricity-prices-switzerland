@@ -14,6 +14,8 @@ const config: KnipConfig = {
     "src/**/*.stories.tsx",
     // Used for debugging
     "src/components/page-props-debug.tsx",
+    // Used for PR creation
+    "scripts/pr-content.ts",
   ],
   project: ["src/**", "scripts/**"],
   ignore: [

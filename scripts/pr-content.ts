@@ -2,6 +2,8 @@ import { exec } from "child_process";
 import * as fs from "fs";
 import { promisify } from "util";
 
+import { ArgumentParser } from "argparse";
+
 const execAsync = promisify(exec);
 
 interface Issue {
@@ -13,9 +15,11 @@ function log(message: string): void {
   console.error(message);
 }
 
-async function getCommitMessages(): Promise<string[]> {
+async function getCommitMessages(baseBranch: string): Promise<string[]> {
   log("Fetching commit messages...");
-  const { stdout } = await execAsync("git log --format=%B main...head");
+  const { stdout } = await execAsync(
+    `git log --format=%B ${baseBranch}...head`
+  );
   log(`Retrieved ${stdout.split("\n").length} commit messages`);
   return stdout.split("\n");
 }
@@ -57,9 +61,9 @@ async function getPRTemplate(): Promise<string> {
   return "";
 }
 
-async function prepareContext(): Promise<string> {
+async function prepareContext(baseBranch: string): Promise<string> {
   log("Starting context preparation...");
-  const commits = await getCommitMessages();
+  const commits = await getCommitMessages(baseBranch);
   const issueNumbers = new Set<string>();
 
   commits.forEach((commit) => {
@@ -104,11 +108,29 @@ ${issues
   return context;
 }
 
-prepareContext()
-  .then((context) => {
-    console.log(context);
-  })
-  .catch((error) => {
-    log("Error preparing context: " + error);
-    process.exit(1);
+async function main(): Promise<void> {
+  const parser = new ArgumentParser({
+    description: "Prepare PR context from commit messages and issues",
   });
+
+  parser.add_argument("-b", "--base", {
+    help: "Base branch to compare against",
+    default: "main",
+    type: String,
+  });
+
+  const args = parser.parse_args();
+
+  try {
+    const context = await prepareContext(args.base);
+    console.log(context);
+  } catch (error) {
+    log(
+      "Error preparing context: " +
+        (error instanceof Error ? error.message : String(error))
+    );
+    process.exit(1);
+  }
+}
+
+main();
