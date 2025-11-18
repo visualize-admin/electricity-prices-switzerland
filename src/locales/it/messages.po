@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -512,8 +512,16 @@ msgid "legend-item.peer-group-median"
 msgstr "Mediana del gruppo di riferimento"
 
 #: src/components/sunshine-map.tsx
+msgid "legend.compliant"
+msgstr "Conforme (≤ {threshold})"
+
+#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "No"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.not-compliant"
+msgstr "Non conforme (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
@@ -1428,6 +1436,10 @@ msgstr "Quota di gestori di rete"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
 msgstr "In questa pagina vengono valutati importanti parametri che forniscono informazioni sulla qualità delle prestazioni delle aziende fornitrici di energia elettrica. Tra questi indicatori figurano la varietà dei prodotti, che misura l'offerta di prodotti energetici ecologici e combinati, la qualità del servizio, che valuta la capacità delle aziende di informare i propri consumatori in merito alle interruzioni di corrente programmate e ai termini di preavviso, e la conformità, che garantisce il rispetto delle norme dell'ElCom sul profitto massimo nella distribuzione e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.outage-info.info-dialog-label"
+msgstr "Informazioni sulle interruzioni"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -513,8 +513,16 @@ msgid "legend-item.peer-group-median"
 msgstr "Médiane du groupe de référence"
 
 #: src/components/sunshine-map.tsx
+msgid "legend.compliant"
+msgstr "Conforme (≤ {threshold})"
+
+#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "Non"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.not-compliant"
+msgstr "Non conforme (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
@@ -1432,6 +1440,10 @@ msgstr "Part des gestionnaires de réseau"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
 msgstr "Sur cette page, les principaux indicateurs sont évalués afin de fournir des informations sur la qualité des prestations des entreprises de fourniture d’électricité. Ces indicateurs incluent la diversité des produits, qui mesure l’offre de produits énergétiques respectueux de l’environnement et de produits combinés, la qualité du service, qui évalue dans quelle mesure les entreprises informent leurs consommateurs des interruptions de courant prévues et du délai de préavis, ainsi que la conformité, qui garantit que les règles de l’ElCom relatives au bénéfice maximal dans la distribution sont respectées et que les documents officiels sont soumis dans les délais à la Commission fédérale de l’électricité (ElCom)."
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.outage-info.info-dialog-label"
+msgstr "Informations sur les pannes"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"

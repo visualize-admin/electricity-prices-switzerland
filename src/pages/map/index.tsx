@@ -28,7 +28,7 @@ import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
 import { SessionConfigDebugProps } from "src/data/shared-page-props";
-import { colorScaleSpecs, makeColorScale } from "src/domain/charts";
+import { thresholdEncodings } from "src/domain/charts";
 import { Entity } from "src/domain/data";
 import { PriceComponent } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
@@ -191,10 +191,7 @@ const MapPageContent = ({
       ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
       : sunshineEnrichedDataResult.data?.median ?? undefined;
     const specKey = isElectricityTab ? "energyPrices" : indicator;
-    const spec =
-      specKey in colorScaleSpecs && colorScaleSpecs[specKey]
-        ? colorScaleSpecs[specKey]
-        : colorScaleSpecs.default;
+    const thresholdEncoding = thresholdEncodings[specKey];
     const isValidValue = <T extends { value?: number | null | undefined }>(
       x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
@@ -206,12 +203,9 @@ const MapPageContent = ({
     const validObservations = (
       energyPricesEnrichedData.data?.observations ?? []
     ).filter(isValidValue);
-    return makeColorScale(
-      spec,
-      medianValue,
-      isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues,
-      +period
-    );
+    const values = isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues;
+    const encoding = thresholdEncoding(medianValue, values, +period);
+    return encoding.makeScale();
   }, [
     colorAccessor,
     energyPricesEnrichedData.data?.observations,

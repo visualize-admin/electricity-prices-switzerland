@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 import InflightRequests from "src/e2e/inflight";
 
@@ -180,17 +180,67 @@ test.describe("Sunshine Costs and Tariffs page", () => {
       page.getByText("Net Tariffs H4 - 5-room apartment")
     ).toBeVisible();
     await page.getByRole("combobox", { name: "Category" }).click();
-    await page.getByRole("option", { name: "H1" }).click();
+    await page.getByRole("option", { name: "H4" }).click();
     await page
-      .getByRole("heading", { name: "Net Tariffs H1 - 2-Room" })
+      .getByRole("heading", { name: "Net Tariffs H4 - 5-Room" })
       .click();
     await page.getByTestId("energy-tariffs-tab").click();
     await page.getByTestId("net-tariffs-tab").click();
     await page.getByTestId("energy-tariffs-tab").click();
     await page.getByRole("combobox", { name: "Category" }).click();
-    await page.getByRole("option", { name: "H1" }).click();
+    await page.getByRole("option", { name: "C2" }).click();
     await page
-      .getByRole("heading", { name: "Energy Tariffs H1 - 2-Room" })
+      .getByRole("heading", {
+        name: "Energy Tariffs C2 - Small business (<15 kW)",
+      })
       .click();
+  });
+
+  const checkCategories = async (page: Page) => {
+    // Get the page content
+    const pageContent = page.getByTestId("details-page-content");
+    await expect(pageContent).toBeVisible();
+
+    const contentText = await pageContent.textContent();
+
+    // Verify only sunshine categories C2, C3, C4, C6, H2, H4, H7 are displayed
+    const sunshineCategories = ["C2", "C3", "C4", "C6", "H2", "H4", "H7"];
+    const foundCategories = sunshineCategories.filter((category) =>
+      contentText?.includes(category)
+    ).length;
+
+    // Expect at least some sunshine categories to be displayed
+    expect(foundCategories).toBeGreaterThan(0);
+
+    const nonSunshineCategories = [
+      "C1",
+      "C5",
+      "C7",
+      "H1",
+      "H3",
+      "H5",
+      "H6",
+      "H8",
+    ];
+    const foundNonSunshineCount = nonSunshineCategories.filter((category) => {
+      const regex = new RegExp(`\\b${category}\\b`);
+      return regex.test(contentText || "");
+    }).length;
+
+    expect(foundNonSunshineCount).toEqual(0);
+  };
+
+  test("should only display sunshine categories in costs-and-tariffs page", async ({
+    page,
+  }) => {
+    const tracker = new InflightRequests(page);
+
+    // Navigate to operator 426 costs-and-tariffs page with net tariffs tab
+    await page.goto(
+      "/en/sunshine/operator/426/costs-and-tariffs?tab=netTariffs"
+    );
+    await tracker.waitForRequests();
+    await checkCategories(page);
+    tracker.dispose();
   });
 });

@@ -1,4 +1,4 @@
-import { extent, scaleThreshold } from "d3";
+import { extent, ScaleThreshold, scaleThreshold } from "d3";
 import { first, last } from "lodash";
 
 import { SunshineIndicator } from "src/domain/sunshine";
@@ -15,67 +15,160 @@ const createThresholdsAroundMedian = (
   return domain;
 };
 
-type IndicatorColorScaleSpec = {
-  thresholds: (
-    medianValue: number | undefined,
-    values: number[],
-    year: number
-  ) => number[];
-  palette: (thresholds: number[]) => string[];
+export type Threshold = {
+  value: number | undefined;
+  label: string;
 };
 
-const mkThresholdColorScaleSpec: (
-  coeffs: ThresholdCoeffs
-) => IndicatorColorScaleSpec = (coeffs: ThresholdCoeffs) => ({
-  thresholds: (medianValue, values) => {
-    if (medianValue) {
-      const m = medianValue;
-      return createThresholdsAroundMedian(m, coeffs);
-    }
-    return extent(values) as [number, number];
-  },
-  palette: () => chartPalette.diverging.GreenToOrange,
-});
-
-const defaultColorScaleSpec = mkThresholdColorScaleSpec([
-  0.85, 0.95, 1.05, 1.15,
-]);
-const networkCostsColorScaleSpec = mkThresholdColorScaleSpec([
-  0.7, 0.9, 1.1, 1.3,
-]);
-
-const yesNoPalette = [
-  last(chartPalette.diverging.GreenToOrange),
-  first(chartPalette.diverging.GreenToOrange),
-] as string[];
-
-export const colorScaleSpecs: Partial<
-  Record<"energyPrices" | SunshineIndicator, IndicatorColorScaleSpec>
-> & { default: IndicatorColorScaleSpec } = {
-  default: defaultColorScaleSpec,
-  outageInfo: {
-    thresholds: () => [0.5],
-    palette: () => yesNoPalette,
-  },
-  networkCosts: networkCostsColorScaleSpec,
-  daysInAdvanceOutageNotification: {
-    palette: (thresholds) =>
-      defaultColorScaleSpec.palette(thresholds).slice().reverse(),
-    thresholds: defaultColorScaleSpec.thresholds,
-  },
-  compliance: {
-    thresholds: (_medianValue, _values, year) => [year > 2026 ? 60.01 : 75.01],
-    palette: () => yesNoPalette.slice().reverse(),
-  },
+type ThresholdEncodingResult = {
+  thresholds: Threshold[];
+  palette: string[];
+  makeScale: () => ScaleThreshold<number, string>;
 };
 
-export const makeColorScale = (
-  spec: IndicatorColorScaleSpec,
+type ThresholdEncoding = (
   medianValue: number | undefined,
   values: number[],
-  year: number
-) => {
-  const thresholds = spec.thresholds(medianValue, values, year);
-  const palette = spec.palette(thresholds);
-  return scaleThreshold<number, string>().domain(thresholds).range(palette);
+  year: number,
+  palette?: string[]
+) => ThresholdEncodingResult;
+
+const createMakeScale = (
+  thresholds: Threshold[],
+  palette: string[]
+): (() => ScaleThreshold<number, string>) => {
+  return () => {
+    const domainValues = thresholds
+      .map((t) => t.value)
+      .filter((v) => v !== undefined);
+    return scaleThreshold<number, string>()
+      .domain(domainValues)
+      .range(palette);
+  };
 };
+
+const makeThresholdEncoding: (
+  coeffs: ThresholdCoeffs,
+  defaultPalette: string[]
+) => ThresholdEncoding =
+  (coeffs: ThresholdCoeffs, defaultPalette: string[]) =>
+  (medianValue, values, _year, palette = defaultPalette) => {
+    const domain = medianValue
+      ? createThresholdsAroundMedian(medianValue, coeffs)
+      : (extent(values) as [number, number]);
+
+    const thresholds: Threshold[] = domain.map((value) => {
+      if (!medianValue) {
+        return { value, label: "" };
+      }
+      const percentDiff = ((value - medianValue) / medianValue) * 100;
+      const sign = percentDiff > 0 ? "+" : "";
+      return { value, label: `${sign}${Math.round(percentDiff)}%` };
+    });
+
+    return {
+      thresholds,
+      palette,
+      makeScale: createMakeScale(thresholds, palette),
+    };
+  };
+
+export const createEncodings = (palette: string[]) => {
+  const defaultThresholdEncoding = makeThresholdEncoding(
+    [0.85, 0.95, 1.05, 1.15],
+    palette
+  );
+  const networkCostsThresholdEncoding = makeThresholdEncoding(
+    [0.7, 0.9, 1.1, 1.3],
+    palette
+  );
+
+  const yesNoPalette = [last(palette), first(palette)] as string[];
+
+  const outageInfoThresholdEncoding: ThresholdEncoding = (
+    _medianValue,
+    _values,
+    _year,
+    paletteParam
+  ) => {
+    const usePalette = paletteParam ?? yesNoPalette;
+    const yesNoFromPalette = [first(usePalette), last(usePalette)] as string[];
+
+    const thresholds = [
+      { value: 0.5, label: "No" },
+      { value: 0.5, label: "Yes" },
+    ];
+
+    return {
+      thresholds,
+      palette: yesNoFromPalette,
+      makeScale: createMakeScale(thresholds, yesNoFromPalette),
+    };
+  };
+
+  const daysInAdvanceOutageNotificationThresholdEncoding: ThresholdEncoding = (
+    medianValue,
+    values,
+    year,
+    palette
+  ) => {
+    const result = defaultThresholdEncoding(medianValue, values, year, palette);
+    const reversedPalette = result.palette.slice().reverse();
+
+    return {
+      thresholds: result.thresholds,
+      palette: reversedPalette,
+      makeScale: createMakeScale(result.thresholds, reversedPalette),
+    };
+  };
+
+  const complianceThresholdEncoding: ThresholdEncoding = (
+    _medianValue,
+    _values,
+    year,
+    paletteParam
+  ) => {
+    const usePalette = paletteParam ?? yesNoPalette;
+    const yesNoFromPalette = [last(usePalette), first(usePalette)] as string[];
+
+    const thresholds = [
+      // Labels are not used in this case, but kept for consistency
+      { value: year >= 2026 ? 60.01 : 75.01, label: "No" },
+      { value: year >= 2026 ? 60.01 : 75.01, label: "Yes" },
+    ];
+
+    return {
+      thresholds,
+      palette: yesNoFromPalette,
+      makeScale: createMakeScale(thresholds, yesNoFromPalette),
+    };
+  };
+
+  return {
+    energyPrices: defaultThresholdEncoding,
+    outageInfo: outageInfoThresholdEncoding,
+    networkCosts: networkCostsThresholdEncoding,
+    netTariffs: defaultThresholdEncoding,
+    energyTariffs: defaultThresholdEncoding,
+    saidi: defaultThresholdEncoding,
+    saifi: defaultThresholdEncoding,
+    daysInAdvanceOutageNotification:
+      daysInAdvanceOutageNotificationThresholdEncoding,
+    compliance: complianceThresholdEncoding,
+  } as const;
+};
+
+// Define a diverging palette for sunshine indicators, goes from
+// low (bad) to high (good) values, using interpolatePuOr
+// In the future, we could introduce color blind friendly palettes
+// const colorBindDivergingPalette = Array.from({ length: 5 }, (_, i) => {
+//   const minT = 0.2;
+//   const maxT = 0.8;
+//   const t = minT + (i / (5 - 1)) * (maxT - minT);
+//   return interpolateRdBu(t);
+// });
+
+export const thresholdEncodings: Record<
+  "energyPrices" | SunshineIndicator,
+  ThresholdEncoding
+> = createEncodings(chartPalette.diverging.GreenToOrange);

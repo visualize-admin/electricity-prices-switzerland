@@ -17,7 +17,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardState } from "src/components/network-costs-trend-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -33,7 +33,6 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { categories } from "src/domain/data";
 import {
   getNetworkLevelMetrics,
   RP_PER_KM,
@@ -44,7 +43,10 @@ import {
   useQueryStateSunshineCostsAndTariffs,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
-import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import {
+  sunshineCategories,
+  SunshineCostsAndTariffsData,
+} from "src/domain/sunshine";
 import {
   getCategoryLabels,
   getLocalizedLabel,
@@ -273,7 +275,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-network-costs"]}
+        infoDialogProps={getInfoDialogProps("help-network-costs")}
       />
       <NetworkCostsTrendCardState
         latestYear={Number(latestYear)}
@@ -283,7 +285,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         operatorId={props.id}
         operatorLabel={operatorLabel}
         networkCosts={networkCosts}
-        infoDialogProps={infoDialogProps["help-network-costs"]}
+        infoDialogProps={getInfoDialogProps("help-network-costs")}
       />
     </CardGrid>
   );
@@ -317,9 +319,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
+      ...sunshineCategories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
+      ...sunshineCategories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
@@ -441,7 +443,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-energy-tariffs"]}
+        infoDialogProps={getInfoDialogProps("help-energy-tariffs")}
       />
 
       <TariffsTrendCard
@@ -457,7 +459,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             Energy Tariffs Trend
           </Trans>
         }
-        infoDialogProps={infoDialogProps["help-energy-tariffs"]}
+        infoDialogProps={getInfoDialogProps("help-energy-tariffs")}
       />
     </CardGrid>
   );
@@ -491,9 +493,9 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const groupedCategories = useMemo(() => {
     return [
       { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
+      ...sunshineCategories.filter((x) => x.startsWith("C")),
       { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
+      ...sunshineCategories.filter((x) => x.startsWith("H")),
     ] as ComponentProps<typeof Combobox>["items"];
   }, []);
 
@@ -613,7 +615,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-net-tariffs"]}
+        infoDialogProps={getInfoDialogProps("help-net-tariffs")}
       />
 
       <TariffsTrendCard
@@ -629,7 +631,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             Net Tariffs Trend
           </Trans>
         }
-        infoDialogProps={infoDialogProps["help-net-tariffs"]}
+        infoDialogProps={getInfoDialogProps("help-net-tariffs")}
       />
     </CardGrid>
   );

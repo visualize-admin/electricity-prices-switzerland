@@ -4,7 +4,7 @@ import React, { Fragment, ReactNode } from "react";
 
 import { TooltipPlacement } from "src/components/charts-generic/interaction/tooltip";
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
-import { getContrastColor } from "src/domain/helpers";
+import ValueChip from "src/components/value-chip";
 
 export const SelectedEntityCard: React.FC<{
   title: React.ReactNode;
@@ -42,33 +42,13 @@ export const SelectedEntityCard: React.FC<{
         }}
       >
         {values.map((d, i) => {
-            return (
-              <Fragment key={i}>
-                <Typography variant="caption">{d.label}</Typography>
-                <Box
-                  sx={{
-                    borderRadius: 9999,
-                    px: 2,
-                    display: "flex",
-                    // lineHeight: 1,
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                    height: "24px",
-                  }}
-                  style={{ background: d.color }}
-                >
-                  <Typography
-                    variant="caption"
-                    style={{
-                      color: d.color ? getContrastColor(d.color) : undefined,
-                    }}
-                  >
-                    {d.formattedValue}
-                  </Typography>
-                </Box>
-              </Fragment>
-            );
-          })}
+          return (
+            <Fragment key={i}>
+              <Typography variant="caption">{d.label}</Typography>
+              <ValueChip color={d.color} formattedValue={d.formattedValue} />
+            </Fragment>
+          );
+        })}
       </Box>
     ) : (
       <Typography variant="caption" sx={{ color: "secondary.main" }}>

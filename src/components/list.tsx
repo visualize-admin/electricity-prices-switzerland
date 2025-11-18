@@ -6,6 +6,7 @@ import { MouseEventHandler, useContext, useMemo, useState } from "react";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
+import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
@@ -41,23 +42,16 @@ const ListItem = ({
   handleClick,
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
+  const backgroundColor = colorScale(value);
 
   return (
     <AnchorNav
       icon={<Icon name="arrowright" />}
       tag={
-        <Box
-          sx={{
-            borderRadius: 9999,
-            px: 2,
-            flexShrink: 0,
-          }}
-          style={{ background: colorScale(value) }}
-        >
-          <Typography variant="body3" lineHeight={1.4} color="black">
-            {formatNumber(value)}
-          </Typography>
-        </Box>
+        <ValueChip
+          color={backgroundColor}
+          formattedValue={formatNumber(value)}
+        />
       }
       size="sm"
       label={label}

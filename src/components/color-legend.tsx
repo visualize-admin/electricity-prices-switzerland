@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
+import { Threshold } from "src/domain/charts";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
@@ -39,6 +40,7 @@ export const MapColorLegend = ({
   mode = "minMedianMax",
   infoDialogButtonProps,
   palette,
+  thresholds,
 }: {
   ticks: Tick[];
   id: string;
@@ -46,6 +48,7 @@ export const MapColorLegend = ({
   mode?: LegendMode;
   infoDialogButtonProps?: React.ComponentProps<typeof InfoDialogButton>;
   palette: string[];
+  thresholds?: Threshold[];
 }) => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(!isMobile);
@@ -98,9 +101,17 @@ export const MapColorLegend = ({
         }}
       >
         {mode === "minMedianMax" ? (
-          <MinMedianMaxLegend ticks={ticks} palette={palette} />
+          <MinMedianMaxLegend
+            ticks={ticks}
+            palette={palette}
+            thresholds={thresholds}
+          />
         ) : (
-          <YesNoLegend ticks={ticks} />
+          <YesNoLegend
+            ticks={ticks}
+            palette={palette}
+            thresholds={thresholds}
+          />
         )}
       </Box>
     </LegendBox>
@@ -110,9 +121,11 @@ export const MapColorLegend = ({
 const MinMedianMaxLegend = ({
   ticks,
   palette,
+  thresholds,
 }: {
   ticks: Tick[];
   palette: string[];
+  thresholds?: Threshold[];
 }) => {
   return (
     <>
@@ -178,12 +191,20 @@ const MinMedianMaxLegend = ({
         </Typography>
       </Box>
 
-      <ColorsLine palette={palette} />
+      <ColorsLine palette={palette} thresholds={thresholds} />
     </>
   );
 };
 
-const YesNoLegend = ({ ticks }: { ticks: Tick[] }) => {
+const YesNoLegend = ({
+  ticks,
+  palette,
+  thresholds,
+}: {
+  ticks: Tick[];
+  palette: string[];
+  thresholds?: Threshold[];
+}) => {
   return (
     <>
       <Box
@@ -214,7 +235,7 @@ const YesNoLegend = ({ ticks }: { ticks: Tick[] }) => {
         ))}
       </Box>
 
-      <YesNoColorsLine />
+      <YesNoColorsLine palette={palette} thresholds={thresholds} />
     </>
   );
 };
@@ -261,7 +282,13 @@ export const ColorLegend = () => {
   );
 };
 
-const ColorsLine = ({ palette }: { palette: string[] }) => {
+const ColorsLine = ({
+  palette,
+  thresholds,
+}: {
+  palette: string[];
+  thresholds?: Threshold[];
+}) => {
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -299,24 +326,9 @@ const ColorsLine = ({ palette }: { palette: string[] }) => {
           width: "100%",
         }}
       >
-        {palette.map((bg, i) => (
-          <Box
-            key={bg}
-            sx={{
-              flexDirection: "column",
-              alignItems: "flex-end",
-              "&:last-of-type > div": { borderRight: 0 },
-            }}
-            display="flex"
-          >
-            <Box
-              sx={{
-                bgcolor: bg,
-                width: "100%",
-                height: COLOR_HEIGHT,
-                borderRight: "1px solid #FFF",
-              }}
-            />
+        {palette.map((bg, i) => {
+          const threshold = thresholds?.[i];
+          const labelContent = (
             <Typography
               variant="inherit"
               sx={{
@@ -327,12 +339,41 @@ const ColorsLine = ({ palette }: { palette: string[] }) => {
                 letterSpacing: -0.4,
                 textAlign: "right",
                 width: "fit-content",
+                cursor: threshold ? "help" : "default",
               }}
             >
-              {PRICE_THRESHOLDS[i]}
+              {threshold?.label ?? ""}
             </Typography>
-          </Box>
-        ))}
+          );
+
+          return (
+            <Box
+              key={bg}
+              sx={{
+                flexDirection: "column",
+                alignItems: "flex-end",
+                "&:last-of-type > div": { borderRight: 0 },
+              }}
+              display="flex"
+            >
+              <Box
+                sx={{
+                  bgcolor: bg,
+                  width: "100%",
+                  height: COLOR_HEIGHT,
+                  borderRight: "1px solid #FFF",
+                }}
+              />
+              {threshold && threshold.value !== undefined ? (
+                <Tooltip title={threshold.value.toFixed(2)} arrow>
+                  {labelContent}
+                </Tooltip>
+              ) : (
+                labelContent
+              )}
+            </Box>
+          );
+        })}
       </Box>
       <Box
         sx={{
@@ -349,14 +390,13 @@ const ColorsLine = ({ palette }: { palette: string[] }) => {
   );
 };
 
-const YesNoColorsLine = () => {
-  const yesNoColors = [
-    chartPalette.diverging.GreenToOrange[
-      chartPalette.diverging.GreenToOrange.length - 1
-    ],
-    chartPalette.diverging.GreenToOrange[0],
-  ];
-
+const YesNoColorsLine = ({
+  palette,
+}: {
+  palette: string[];
+  thresholds?: Threshold[];
+}) => {
+  const yesNoColors = [palette[0], palette[palette.length - 1]];
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
@@ -396,5 +436,3 @@ const YesNoColorsLine = () => {
     </Box>
   );
 };
-
-const PRICE_THRESHOLDS = ["-15%", "-5%", "+5%", "+15%"];

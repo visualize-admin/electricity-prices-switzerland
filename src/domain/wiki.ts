@@ -30,9 +30,10 @@ export const wikiPageSlugs = {
     "help-service-quality",
     "help-year-electricity",
     "help-year-indicators",
+    "help-outageInfo",
     "home-banner",
   ],
-  missing: [],
+  missing: ["help-outageInfo"],
 } as const;
 
 export type WikiPageSlug = (typeof wikiPageSlugs)[

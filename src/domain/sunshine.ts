@@ -60,7 +60,7 @@ export const indicatorOptions = [
  */
 export const networkLevelOptions: NetworkLevelId[] = ["NE5", "NE6", "NE7"];
 
-export const netElectricityCategoryOptions: ElectricityCategory[] = [
+export const sunshineCategories: ElectricityCategory[] = [
   "C2",
   "C3",
   "C4",

@@ -9,7 +9,7 @@ import { useCallback, useId, useMemo, useState } from "react";
 import { MapColorLegend } from "src/components/color-legend";
 import { GenericMap, GenericMapControls } from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { useMap } from "src/components/map-context";
 import { HoverState } from "src/components/map-helpers";
 import {
@@ -28,6 +28,7 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
+import { thresholdEncodings } from "src/domain/charts";
 import { ValueFormatter } from "src/domain/data";
 import { networkLevelUnits } from "src/domain/metrics";
 import {
@@ -45,15 +46,15 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { chartPalette } from "src/themes/palette";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
-const legendTitleMapping: Record<
+// Must be a function to be lazy evaluated in the correct i18n context
+const getLegends: () => Record<
   | Exclude<SunshineIndicator, "networkCosts">
   | "networkCosts-CHF/km"
   | "networkCosts-CHF/kVA",
   string
-> = {
+> = () => ({
   "networkCosts-CHF/km": t({
     message: "Network costs in CHF/km",
     id: "sunshine.indicator.networkCosts-CHF/km",
@@ -90,7 +91,7 @@ const legendTitleMapping: Record<
     message: "Complies with the franc rule",
     id: "sunshine.indicator.compliance",
   }),
-};
+});
 
 type SunshineMapProps = {
   enrichedDataResult: UseEnrichedSunshineDataResult;
@@ -132,6 +133,8 @@ const SunshineMap = ({
   networkLevel,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
+
+  const legends = getLegends();
 
   const isLoading =
     enrichedDataResult.fetching || geoDataResult.state === "fetching";
@@ -389,20 +392,52 @@ const SunshineMap = ({
 
   const legendId = useId();
 
-  const renderLegend = useCallback(() => {
+  const legend = useMemo(() => {
     if (indicator === "compliance" || indicator === "outageInfo") {
-      const complianceTicks = [
-        { value: 0, label: t({ id: "legend.no", message: "No" }) },
-        { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
-      ];
+      const thresholdEncoding = thresholdEncodings[indicator];
+      const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
+      // This should come from the encoding function to avoid duplication
+      // but right now the encoding function does not have access to t
+      const thresholdValue = thresholds[0].value ?? 0;
+      const ticks =
+        indicator === "compliance"
+          ? [
+              {
+                value: 1,
+                label: t({
+                  id: "legend.compliant",
+                  message: "Compliant (≤ {threshold})",
+                  values: { threshold: Math.round(thresholdValue) },
+                }),
+              },
+              {
+                value: 0,
+                label: t({
+                  id: "legend.not-compliant",
+                  message: "Not compliant (> {threshold})",
+                  values: { threshold: Math.round(thresholdValue) },
+                }),
+              },
+            ]
+          : [
+              { value: 0, label: t({ id: "legend.no", message: "No" }) },
+              { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
+            ];
+      // Get palette for consistency
+
       return (
         <MapColorLegend
           id={legendId}
-          title={legendTitleMapping[indicator]}
-          ticks={complianceTicks}
+          title={legends[indicator]}
+          ticks={ticks}
           mode="yesNo"
-          palette={chartPalette.diverging.GreenToOrange}
-          infoDialogButtonProps={infoDialogProps["help-compliance"]}
+          palette={palette}
+          infoDialogButtonProps={
+            indicator === "compliance"
+              ? getInfoDialogProps("help-compliance")
+              : getInfoDialogProps("help-outageInfo")
+          }
+          thresholds={thresholds}
         />
       );
     }
@@ -415,24 +450,33 @@ const SunshineMap = ({
             networkLevelUnits[networkLevel ?? ("NE5" as const)]
           }` as const)
         : indicator;
+
+    // Get the threshold encoding function and generate thresholds and palette from a single source
+    const thresholdEncoding = thresholdEncodings[indicator];
+    const values: number[] = (enrichedData.observations ?? [])
+      .map((x) => x.value)
+      .filter((v): v is number => v !== null && v !== undefined);
+    const { thresholds, palette } = thresholdEncoding(
+      enrichedData.median,
+      values,
+      +period
+    );
+
     return (
       <MapColorLegend
         id={legendId}
-        title={legendTitleMapping[legendKey]}
+        title={legends[legendKey]}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
         }))}
-        palette={
-          indicator === "daysInAdvanceOutageNotification"
-            ? chartPalette.diverging.GreenToOrange.slice().reverse()
-            : chartPalette.diverging.GreenToOrange
-        }
+        palette={palette}
+        thresholds={thresholds}
         infoDialogButtonProps={{
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
             id: `help.${indicator}`,
-            message: legendTitleMapping[legendKey],
+            message: legends[legendKey],
           }),
         }}
       />
@@ -440,17 +484,19 @@ const SunshineMap = ({
   }, [
     indicator,
     valuesExtent,
-    enrichedData?.median,
+    enrichedData,
     colorScale,
-    legendId,
     networkLevel,
+    period,
+    legendId,
+    legends,
     valueFormatter,
   ]);
 
   return (
     <GenericMap
       layers={mapLayers}
-      legend={renderLegend()}
+      legend={legend}
       tooltipContent={tooltipContent}
       isLoading={isLoading}
       controls={controls}

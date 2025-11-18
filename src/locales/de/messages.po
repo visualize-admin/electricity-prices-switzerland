@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -510,8 +510,16 @@ msgid "legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
 #: src/components/sunshine-map.tsx
+msgid "legend.compliant"
+msgstr "Konform (≤ {threshold})"
+
+#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "Nein"
+
+#: src/components/sunshine-map.tsx
+msgid "legend.not-compliant"
+msgstr "Nicht konform (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
@@ -1426,6 +1434,10 @@ msgstr "Anteil der Netzbetreiber"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
 msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen und die Vorankündigungsfrist informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zum Maximalgewinn im Vertrieb eingehalten wird und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
+
+#: src/components/info-dialog-props.ts
+msgid "sunshine.operational-standards.outage-info.info-dialog-label"
+msgstr "Informationen zu Ausfällen"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
