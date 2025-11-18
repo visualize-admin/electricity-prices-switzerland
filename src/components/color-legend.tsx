@@ -364,7 +364,7 @@ const ColorsLine = ({
                   borderRight: "1px solid #FFF",
                 }}
               />
-              {threshold ? (
+              {threshold && threshold.value !== undefined ? (
                 <Tooltip title={threshold.value.toFixed(2)} arrow>
                   {labelContent}
                 </Tooltip>
@@ -396,7 +396,7 @@ const YesNoColorsLine = ({
   palette: string[];
   thresholds?: Threshold[];
 }) => {
-  const yesNoColors = palette;
+  const yesNoColors = [palette[0], palette[palette.length - 1]];
   return (
     <Box
       sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}

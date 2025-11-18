@@ -16,7 +16,7 @@ const createThresholdsAroundMedian = (
 };
 
 export type Threshold = {
-  value: number;
+  value: number | undefined;
   label: string;
 };
 
@@ -53,7 +53,10 @@ const makeThresholdEncoding: (
     });
 
     const makeScale = () => {
-      const domainValues = thresholds.map((t) => t.value);
+      const domainValues = thresholds
+
+        .map((t) => t.value)
+        .filter((v) => v !== undefined);
       return scaleThreshold<number, string>()
         .domain(domainValues)
         .range(palette);
@@ -108,7 +111,9 @@ export const createEncodings = (palette: string[]) => {
     const reversedPalette = result.palette.slice().reverse();
 
     const makeScale = () => {
-      const domainValues = result.thresholds.map((t) => t.value);
+      const domainValues = result.thresholds
+        .map((t) => t.value)
+        .filter((v) => v !== undefined);
       return scaleThreshold<number, string>()
         .domain(domainValues)
         .range(reversedPalette);

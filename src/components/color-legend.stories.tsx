@@ -57,6 +57,13 @@ export const Default: Story = {
       { value: 1000, label: "$1000" },
     ],
     palette: chartPalette.diverging.GreenToOrange,
+    thresholds: [
+      { value: 100, label: "-15%" },
+      { value: 250, label: "-5%" },
+      { value: 500, label: "0%" },
+      { value: 750, label: "5%" },
+      { value: 1000, label: "15%" },
+    ],
   },
 };
 
@@ -83,6 +90,13 @@ export const EmptyTicks: Story = {
       { value: undefined, label: "" },
       { value: undefined, label: "" },
     ],
+    thresholds: [
+      { value: undefined, label: "-15%" },
+      { value: undefined, label: "-5%" },
+      { value: undefined, label: "0%" },
+      { value: undefined, label: "5%" },
+      { value: undefined, label: "15%" },
+    ],
     palette: chartPalette.diverging.GreenToOrange,
   },
 };
@@ -98,6 +112,13 @@ export const ReversedColors: Story = {
       { value: 10000, label: "$10,000" },
       { value: 50000, label: "$50,000" },
       { value: 100000, label: "$100,000" },
+    ],
+    thresholds: [
+      { value: 100, label: "-15%" },
+      { value: 250, label: "-5%" },
+      { value: 500, label: "0%" },
+      { value: 750, label: "5%" },
+      { value: 1000, label: "15%" },
     ],
     palette: chartPalette.diverging.GreenToOrange.slice().reverse(),
   },
