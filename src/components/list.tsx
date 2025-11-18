@@ -6,8 +6,8 @@ import { MouseEventHandler, useContext, useMemo, useState } from "react";
 import { MiniSelect, SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
 import { Stack } from "src/components/stack";
+import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
-import { getContrastColor } from "src/domain/helpers";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   CantonMedianObservationFieldsFragment,
@@ -43,26 +43,15 @@ const ListItem = ({
 }: ListItemProps) => {
   const { setValue: setHighlightContext } = useContext(HighlightContext);
   const backgroundColor = colorScale(value);
-  const textColor = getContrastColor(backgroundColor);
 
   return (
     <AnchorNav
       icon={<Icon name="arrowright" />}
       tag={
-        <Box
-          sx={{
-            borderRadius: 9999,
-            px: 2,
-            flexShrink: 0,
-            display: "flex",
-            alignItems: "center",
-          }}
-          style={{ background: backgroundColor }}
-        >
-          <Typography variant="body3" color={textColor}>
-            {formatNumber(value)}
-          </Typography>
-        </Box>
+        <ValueChip
+          color={backgroundColor}
+          formattedValue={formatNumber(value)}
+        />
       }
       size="sm"
       label={label}
