@@ -48,12 +48,13 @@ import {
 import { truthy } from "src/lib/truthy";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
-const legendTitleMapping: Record<
+// Must be a function to be lazy evaluated in the correct i18n context
+const getLegends: () => Record<
   | Exclude<SunshineIndicator, "networkCosts">
   | "networkCosts-CHF/km"
   | "networkCosts-CHF/kVA",
   string
-> = {
+> = () => ({
   "networkCosts-CHF/km": t({
     message: "Network costs in CHF/km",
     id: "sunshine.indicator.networkCosts-CHF/km",
@@ -90,7 +91,7 @@ const legendTitleMapping: Record<
     message: "Complies with the franc rule",
     id: "sunshine.indicator.compliance",
   }),
-};
+});
 
 type SunshineMapProps = {
   enrichedDataResult: UseEnrichedSunshineDataResult;
@@ -132,6 +133,8 @@ const SunshineMap = ({
   networkLevel,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
+
+  const legends = getLegends();
 
   const isLoading =
     enrichedDataResult.fetching || geoDataResult.state === "fetching";
@@ -425,7 +428,7 @@ const SunshineMap = ({
       return (
         <MapColorLegend
           id={legendId}
-          title={legendTitleMapping[indicator]}
+          title={legends[indicator]}
           ticks={ticks}
           mode="yesNo"
           palette={palette}
@@ -462,7 +465,7 @@ const SunshineMap = ({
     return (
       <MapColorLegend
         id={legendId}
-        title={legendTitleMapping[legendKey]}
+        title={legends[legendKey]}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
@@ -473,7 +476,7 @@ const SunshineMap = ({
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
             id: `help.${indicator}`,
-            message: legendTitleMapping[legendKey],
+            message: legends[legendKey],
           }),
         }}
       />
@@ -481,13 +484,13 @@ const SunshineMap = ({
   }, [
     indicator,
     valuesExtent,
-    enrichedData?.median,
-    enrichedData?.observations,
+    enrichedData,
     colorScale,
-    legendId,
     networkLevel,
-    valueFormatter,
     period,
+    legendId,
+    legends,
+    valueFormatter,
   ]);
 
   return (
