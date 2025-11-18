@@ -142,7 +142,7 @@ const ProgressOvertimeChartView = (
       mini={mini}
       xField="period"
       yField="rate"
-      yAxisLabel={RP_PER_KM}
+      yAxisLabel={RP_PER_KWH}
       entityField="operator_id"
     />
   );
