@@ -33,6 +33,20 @@ type ThresholdEncoding = (
   palette?: string[]
 ) => ThresholdEncodingResult;
 
+const createMakeScale = (
+  thresholds: Threshold[],
+  palette: string[]
+): (() => ScaleThreshold<number, string>) => {
+  return () => {
+    const domainValues = thresholds
+      .map((t) => t.value)
+      .filter((v) => v !== undefined);
+    return scaleThreshold<number, string>()
+      .domain(domainValues)
+      .range(palette);
+  };
+};
+
 const makeThresholdEncoding: (
   coeffs: ThresholdCoeffs,
   defaultPalette: string[]
@@ -52,17 +66,11 @@ const makeThresholdEncoding: (
       return { value, label: `${sign}${Math.round(percentDiff)}%` };
     });
 
-    const makeScale = () => {
-      const domainValues = thresholds
-
-        .map((t) => t.value)
-        .filter((v) => v !== undefined);
-      return scaleThreshold<number, string>()
-        .domain(domainValues)
-        .range(palette);
+    return {
+      thresholds,
+      palette,
+      makeScale: createMakeScale(thresholds, palette),
     };
-
-    return { thresholds, palette, makeScale };
   };
 
 export const createEncodings = (palette: string[]) => {
@@ -91,14 +99,11 @@ export const createEncodings = (palette: string[]) => {
       { value: 0.5, label: "Yes" },
     ];
 
-    const makeScale = () => {
-      const domainValues = thresholds.map((t) => t.value);
-      return scaleThreshold<number, string>()
-        .domain(domainValues)
-        .range(yesNoFromPalette);
+    return {
+      thresholds,
+      palette: yesNoFromPalette,
+      makeScale: createMakeScale(thresholds, yesNoFromPalette),
     };
-
-    return { thresholds, palette: yesNoFromPalette, makeScale };
   };
 
   const daysInAdvanceOutageNotificationThresholdEncoding: ThresholdEncoding = (
@@ -110,19 +115,10 @@ export const createEncodings = (palette: string[]) => {
     const result = defaultThresholdEncoding(medianValue, values, year, palette);
     const reversedPalette = result.palette.slice().reverse();
 
-    const makeScale = () => {
-      const domainValues = result.thresholds
-        .map((t) => t.value)
-        .filter((v) => v !== undefined);
-      return scaleThreshold<number, string>()
-        .domain(domainValues)
-        .range(reversedPalette);
-    };
-
     return {
       thresholds: result.thresholds,
       palette: reversedPalette,
-      makeScale,
+      makeScale: createMakeScale(result.thresholds, reversedPalette),
     };
   };
 
@@ -141,14 +137,11 @@ export const createEncodings = (palette: string[]) => {
       { value: year >= 2026 ? 60.01 : 75.01, label: "Yes" },
     ];
 
-    const makeScale = () => {
-      const domainValues = thresholds.map((t) => t.value);
-      return scaleThreshold<number, string>()
-        .domain(domainValues)
-        .range(yesNoFromPalette);
+    return {
+      thresholds,
+      palette: yesNoFromPalette,
+      makeScale: createMakeScale(thresholds, yesNoFromPalette),
     };
-
-    return { thresholds, palette: yesNoFromPalette, makeScale };
   };
 
   return {
