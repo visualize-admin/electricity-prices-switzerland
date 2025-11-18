@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { createColorMapping } from "src/domain/color-mapping";
 import {
   useQueryStateTariffsTrendCardFilters,
@@ -266,9 +266,9 @@ export const TariffsTrendCardMinified: React.FC<
       linkContent={props.linkContent}
       infoDialogProps={
         props.indicator === "netTariffs"
-          ? infoDialogProps["help-net-tariffs"]
+          ? getInfoDialogProps("help-net-tariffs")
           : props.indicator === "energyTariffs"
-          ? infoDialogProps["help-energy-tariffs"]
+          ? getInfoDialogProps("help-energy-tariffs")
           : ({
               label: "",
               slug: "",

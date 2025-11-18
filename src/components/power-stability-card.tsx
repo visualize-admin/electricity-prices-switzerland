@@ -4,7 +4,7 @@ import React, { ReactNode, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { OverviewCard } from "src/components/overview-card";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
@@ -413,8 +413,8 @@ export const PowerStabilityCardMinified: React.FC<
       {...rest}
       infoDialogProps={
         indicator === "saidi"
-          ? infoDialogProps["help-saidi"]
-          : infoDialogProps["help-saifi"]
+          ? getInfoDialogProps("help-saidi")
+          : getInfoDialogProps("help-saifi")
       }
     />
   );

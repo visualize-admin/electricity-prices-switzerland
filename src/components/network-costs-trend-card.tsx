@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
 import {
@@ -287,7 +287,7 @@ export const NetworkCostsTrendCardMinified: React.FC<
         />
       }
       linkContent={props.linkContent}
-      infoDialogProps={infoDialogProps["help-network-costs"]}
+      infoDialogProps={getInfoDialogProps("help-network-costs")}
     />
   );
 };

@@ -14,7 +14,7 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import OperationalStandardsCard from "src/components/operational-standards-card";
 import PeerGroupCard from "src/components/peer-group-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -189,7 +189,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
           true
         )}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-service-quality"]}
+        infoDialogProps={getInfoDialogProps("help-service-quality")}
       />
 
       <OperationalStandardsCard
@@ -284,7 +284,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
           true
         )}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-compliance"]}
+        infoDialogProps={getInfoDialogProps("help-compliance")}
       />
 
       <OperationalStandardsCard

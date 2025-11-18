@@ -16,7 +16,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
-import { infoDialogProps } from "src/components/info-dialog-props";
+import { getInfoDialogProps } from "src/components/info-dialog-props";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCardState } from "src/components/power-stability-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
@@ -219,7 +219,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-saidi"]}
+        infoDialogProps={getInfoDialogProps("help-saidi")}
       />
 
       <PowerStabilityCardState
@@ -333,7 +333,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       <TableComparisonCard
         {...comparisonCardProps}
         sx={{ gridArea: "comparison" }}
-        infoDialogProps={infoDialogProps["help-saifi"]}
+        infoDialogProps={getInfoDialogProps("help-saifi")}
       />
 
       <PowerStabilityCardState
