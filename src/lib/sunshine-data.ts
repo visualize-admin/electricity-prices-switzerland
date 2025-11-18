@@ -499,6 +499,7 @@ export const fetchSaidi = async (
   return {
     operatorTotal: operatorStability?.[0]?.saidi_total || 0,
     peerGroupTotal: peerGroupMedianStability?.median_saidi_total || 0,
+    operatorUnplanned: operatorStability?.[0]?.saidi_unplanned || 0,
     yearlyData: combinedYearlyData,
   };
 };
@@ -575,6 +576,7 @@ export const fetchSaifi = async (
   return {
     operatorTotal: operatorStability?.[0]?.saifi_total || 0,
     peerGroupTotal: peerGroupMedianStability?.median_saifi_total || 0,
+    operatorUnplanned: operatorStability?.[0]?.saifi_unplanned || 0,
     yearlyData: combinedYearlyData,
   };
 };
