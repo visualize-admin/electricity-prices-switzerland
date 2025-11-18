@@ -121,7 +121,7 @@ test.describe("Legend Thresholds", () => {
     const legendText = await legend.textContent();
 
     // Check that the legend shows compliance information
-    expect(legendText).toContain("Compliance");
+    expect(legendText).toContain("Franc rule");
     expect(legendText).toContain("≤ 60");
 
     tracker.dispose();
@@ -149,7 +149,7 @@ test.describe("Legend Thresholds", () => {
       const legendText = await legend.textContent();
 
       // Check that the legend shows compliance information
-      expect(legendText).toContain("Compliance");
+      expect(legendText).toContain("Franc rule");
       expect(legendText).toContain("≤ 75");
     }
 
