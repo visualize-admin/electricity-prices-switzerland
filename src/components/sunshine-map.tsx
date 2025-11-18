@@ -392,7 +392,7 @@ const SunshineMap = ({
 
   const legendId = useId();
 
-  const renderLegend = useCallback(() => {
+  const legend = useMemo(() => {
     if (indicator === "compliance" || indicator === "outageInfo") {
       const thresholdEncoding = thresholdEncodings[indicator];
       const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
@@ -496,7 +496,7 @@ const SunshineMap = ({
   return (
     <GenericMap
       layers={mapLayers}
-      legend={renderLegend()}
+      legend={legend}
       tooltipContent={tooltipContent}
       isLoading={isLoading}
       controls={controls}
