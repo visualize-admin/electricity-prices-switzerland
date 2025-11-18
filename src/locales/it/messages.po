@@ -653,6 +653,7 @@ msgid "municipality"
 msgstr "Comune"
 
 #: src/domain/translation.tsx
+#: src/domain/translation.tsx
 msgid "network-level"
 msgstr "Livello di rete"
 
@@ -1020,6 +1021,7 @@ msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
 #: src/components/sunshine-selectors/base.tsx
+#: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "Tipologia"
 
@@ -1182,18 +1184,6 @@ msgstr "Regola del franco"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
 msgstr "Anno tariffario attuale ({year})"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.notification-period"
-msgstr "Numero di giorni di preavviso"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "No"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "Sì"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx

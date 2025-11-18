@@ -156,3 +156,118 @@ test.describe("Legend Thresholds", () => {
     tracker.dispose();
   });
 });
+
+test.describe("Map Details Table Information", () => {
+  test("should display correct table information based on selected indicator", async ({
+    page,
+  }) => {
+    test.slow();
+    const tracker = new InflightRequests(page);
+
+    // Navigate to sunshine map
+    await page.goto("/en/map?tab=sunshine&flag__sunshine=true");
+    await tracker.waitForRequests();
+
+    // Table defining expected fields for each indicator
+    const indicatorTestCases = [
+      {
+        indicatorName: "Network costs",
+        indicatorPattern: /Network costs/i,
+        expectedFields: ["Year", "Network level"],
+        notExpectedFields: ["Category", "Typology"],
+      },
+      {
+        indicatorName: "Grid tariffs",
+        indicatorPattern: /Grid tariffs/i,
+        expectedFields: ["Year", "Category"],
+        notExpectedFields: ["Network level", "Typology"],
+      },
+      {
+        indicatorName: "Energy tariffs",
+        indicatorPattern: /Energy tariffs/i,
+        expectedFields: ["Year", "Category"],
+        notExpectedFields: ["Network level", "Typology"],
+      },
+      {
+        indicatorName: "SAIDI",
+        indicatorPattern: /Power Outage Duration \(SAIDI\)/i,
+        expectedFields: ["Year", "Typology"],
+        notExpectedFields: ["Network level", "Category"],
+      },
+      {
+        indicatorName: "SAIFI",
+        indicatorPattern: /Power Outage Frequency \(SAIFI\)/i,
+        expectedFields: ["Year", "Typology"],
+        notExpectedFields: ["Network level", "Category"],
+      },
+      {
+        indicatorName: "Compliance",
+        indicatorPattern: /Compliance/i,
+        expectedFields: ["Year", "Typology"],
+        notExpectedFields: ["Network level", "Category"],
+      },
+      {
+        indicatorName: "Outage information",
+        indicatorPattern: /Outage information/i,
+        expectedFields: ["Year"],
+        notExpectedFields: ["Network level", "Category", "Typology"],
+      },
+      {
+        indicatorName: "Days in advance",
+        indicatorPattern: /Days in advance outage notification/i,
+        expectedFields: ["Year"],
+        notExpectedFields: ["Network level", "Category", "Typology"],
+      },
+    ];
+
+    const detailsContent = page.getByTestId("map-details-content");
+
+    // Test each indicator
+    for (const testCase of indicatorTestCases) {
+      // Select the indicator
+      await page.getByRole("combobox", { name: "Indicator" }).click();
+      await page
+        .getByRole("option", { name: testCase.indicatorPattern })
+        .click()
+        .catch(() => {
+          throw new Error(
+            `Could not find indicator option: ${testCase.indicatorName}`
+          );
+        });
+      await tracker.waitForRequests();
+
+      // Click first item in the list to show details
+
+      const firstListItem = await page
+        .getByTestId("map-sidebar")
+        .locator("a")
+        .first();
+      await firstListItem.click();
+
+      // Verify details panel is visible
+      await expect(detailsContent).toBeVisible();
+
+      // Check expected fields are present
+      for (const field of testCase.expectedFields) {
+        await expect(
+          detailsContent,
+          `Expected field "${field}" not found for indicator "${testCase.indicatorName}"`
+        ).toContainText(field);
+      }
+
+      // Check fields that should NOT be present
+      const detailsText = await detailsContent.textContent();
+      for (const field of testCase.notExpectedFields) {
+        expect(
+          detailsText,
+          `Field "${field}" should not be present for indicator "${testCase.indicatorName}"`
+        ).not.toContain(field);
+      }
+
+      // Go back to filters for next test
+      await page.getByText("Back to filters").click();
+    }
+
+    tracker.dispose();
+  });
+});

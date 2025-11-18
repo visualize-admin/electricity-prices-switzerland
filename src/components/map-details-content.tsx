@@ -13,6 +13,7 @@ import {
   energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
   QueryStateEnergyPricesMap,
+  QueryStateSunshineMap,
   sunshineDetailsLink,
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
@@ -105,22 +106,52 @@ const entityTableRows: Record<Entity, EntityTableValue[]> = {
   canton: ["period", "priceComponent", "category", "product"],
 };
 
+// Table rows configuration for sunshine indicators
+const sunshineIndicatorTableRows: Record<
+  string,
+  Array<keyof QueryStateSunshineMap>
+> = {
+  networkCosts: ["period", "networkLevel"],
+  netTariffs: ["period", "category"],
+  energyTariffs: ["period", "category"],
+  saidi: ["period", "saidiSaifiType"],
+  saifi: ["period", "saidiSaifiType"],
+  compliance: ["period", "complianceType"],
+  outageInfo: ["period"],
+  daysInAdvanceOutageNotification: ["period"],
+};
+
 const MapDetailsEntityTable = (
   props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
 ) => {
   const { entity, operators, colorScale } = props;
-  const [queryState] = useQueryStateEnergyPricesMap();
-  const tableRows = entityTableRows[entity];
+  const [{ tab }] = useQueryStateMapCommon();
+  const [energyPricesQueryState] = useQueryStateEnergyPricesMap();
+  const [sunshineQueryState] = useQueryStateSunshineMap();
   const formatNumber = useFormatCurrency();
+
+  // Determine which table rows to show based on the current tab
+  const tableRows =
+    tab === "sunshine"
+      ? sunshineIndicatorTableRows[sunshineQueryState.indicator] || []
+      : entityTableRows[entity];
+
+  const queryState =
+    tab === "sunshine" ? sunshineQueryState : energyPricesQueryState;
 
   return (
     <Stack direction={"column"} spacing={2}>
       {tableRows.map((row, i) => {
         return (
-          <KeyValueTableRow<QueryStateEnergyPricesMap> // Exclude 'operator' and 'period' for the table rows
+          <KeyValueTableRow<typeof queryState> // Exclude 'operator' and 'period' for the table rows
             key={`${row}-${i}`}
             dataKey={row}
-            state={{ ...queryState, operator: operators?.length.toString() }}
+            state={
+              {
+                ...queryState,
+                operator: operators?.length.toString(),
+              } as typeof queryState
+            }
           />
         );
       })}
@@ -152,7 +183,7 @@ const MapDetailsEntityTable = (
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
 const KeyValueTableRow = <
-  T extends Record<EntityTableValue, string | undefined>
+  T extends Partial<Record<EntityTableValue, string | undefined>>
 >(props: {
   state?: T;
   dataKey: keyof T | string;

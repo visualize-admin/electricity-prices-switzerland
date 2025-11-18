@@ -649,6 +649,7 @@ msgid "municipality"
 msgstr "municipality"
 
 #: src/domain/translation.tsx
+#: src/domain/translation.tsx
 msgid "network-level"
 msgstr "network-level"
 
@@ -1014,6 +1015,7 @@ msgid "selector.compareoperators"
 msgstr "selector.compareoperators"
 
 #: src/components/sunshine-selectors/base.tsx
+#: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "selector.compliance-type"
 
@@ -1176,18 +1178,6 @@ msgstr "sunshine.compliance.francs-rule-regulation"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.latest-year"
 msgstr "sunshine.compliance.latest-year"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.notification-period"
-msgstr "sunshine.compliance.notification-period"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "sunshine.compliance.timely-paper-submission.no"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "sunshine.compliance.timely-paper-submission.yes"
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx

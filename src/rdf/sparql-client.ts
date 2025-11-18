@@ -9,7 +9,7 @@ export const endpointUrl = server.SPARQL_ENDPOINT;
 /**
  * Creates a SPARQL client with the specified endpoint URL.
  */
-function createSparqlClient(endpointUrl: string): ParsingClient {
+export function createSparqlClient(endpointUrl: string): ParsingClient {
   const client = new ParsingClient({
     endpointUrl,
   });
