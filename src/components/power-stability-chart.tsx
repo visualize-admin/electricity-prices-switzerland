@@ -76,7 +76,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
-export const InteractionStackedBars = React.memo(() => {
+const InteractionStackedBars = React.memo(() => {
   const [, dispatch] = useInteraction();
   const ref = useRef<SVGGElement>(null);
 
