@@ -52,7 +52,8 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
       ...d,
-      planned: d.total,
+      total: d.total,
+      planned: d.total - d.unplanned,
       unplanned: d.unplanned,
     }));
   }, [observations]);
