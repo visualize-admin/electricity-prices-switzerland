@@ -33,11 +33,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import {
-  getNetworkLevelMetrics,
-  RP_PER_KM,
-  RP_PER_KWH,
-} from "src/domain/metrics";
+import { getNetworkLevelMetrics, RP_PER_KWH } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineCostsAndTariffs,
@@ -379,7 +375,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_PER_KM,
+              unit: RP_PER_KWH,
               round: 2,
               // TODO
               trend: Trend.Stable,
@@ -395,7 +391,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_PER_KM,
+              unit: RP_PER_KWH,
               round: 2,
               // TODO
               trend: Trend.Stable,

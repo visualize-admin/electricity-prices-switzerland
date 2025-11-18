@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
 import { ElectricityCategory } from "src/domain/data";
-import { RP_PER_KM, RP_PER_KWH } from "src/domain/metrics";
+import { RP_PER_KWH } from "src/domain/metrics";
 import {
   isPeerGroupRow,
   type SunshineCostsAndTariffsData,
@@ -142,7 +142,7 @@ const ProgressOvertimeChartView = (
       mini={mini}
       xField="period"
       yField="rate"
-      yAxisLabel={RP_PER_KM}
+      yAxisLabel={RP_PER_KWH}
       entityField="operator_id"
     />
   );
