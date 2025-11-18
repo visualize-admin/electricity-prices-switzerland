@@ -49,10 +49,6 @@ msgstr "Gemeinden"
 msgid "chart.annotation.operators"
 msgstr "Netzbetreiber"
 
-#: src/components/power-stability-chart.tsx
-msgid "chart.avg.peer-group"
-msgstr "Durchschnitt der Vergleichsgruppe"
-
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "Es sind maximal {max} Einträge erlaubt"
@@ -504,8 +500,6 @@ msgstr "Andere Betreiber"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
@@ -748,6 +742,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Netzbetreiber"
 
 #: src/components/power-stability-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "Geplant"
 
@@ -755,6 +750,7 @@ msgstr "Geplant"
 msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "Insgesamt"
 
+#: src/components/power-stability-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Ungeplant"
@@ -1493,11 +1489,6 @@ msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine SAI
 msgid "sunshine.power-stability.no-saifi-data"
 msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine SAIFI-Daten verfügbar."
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.operator"
-msgstr "{operatorLabel}"
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Gesamt"
@@ -1551,6 +1542,14 @@ msgstr "Totale Unterbrechungsdauer"
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.total"
+msgstr "Insgesamt"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.unplanned"
+msgstr "Ungeplantes"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
@@ -1575,6 +1574,14 @@ msgstr "Total Häufigkeit von Stromunterbrechungen (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.total"
+msgstr "Insgesamt"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.unplanned"
+msgstr "Ungeplantes"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

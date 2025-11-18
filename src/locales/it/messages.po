@@ -49,10 +49,6 @@ msgstr "comuni"
 msgid "chart.annotation.operators"
 msgstr "gestori di rete"
 
-#: src/components/power-stability-chart.tsx
-msgid "chart.avg.peer-group"
-msgstr "Media del gruppo di confronto"
-
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "È consentito un massimo di {max} iscrizioni"
@@ -506,8 +502,6 @@ msgstr "Altri operatori"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Mediana del gruppo di riferimento"
 
@@ -750,6 +744,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Gestore di rete"
 
 #: src/components/power-stability-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "Pianificato"
 
@@ -757,6 +752,7 @@ msgstr "Pianificato"
 msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "Totale"
 
+#: src/components/power-stability-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non pianificato"
@@ -1495,11 +1491,6 @@ msgstr "Non sono disponibili dati SAIDI per questo gestore di rete nell'anno tar
 msgid "sunshine.power-stability.no-saifi-data"
 msgstr "Non sono disponibili dati SAIFI per questo gestore di rete nell'anno tariffario selezionato."
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.operator"
-msgstr "{operatorLabel}"
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Complessivo"
@@ -1553,6 +1544,14 @@ msgstr "Durata totale delle interruzioni"
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durata delle interruzioni di corrente (SAIDI)"
 
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.total"
+msgstr "Totale"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.unplanned"
+msgstr "Non pianificato"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
@@ -1577,6 +1576,14 @@ msgstr "Frequenza totale delle interruzioni di corrente (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Frequenza totale delle interruzioni di corrente (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.total"
+msgstr "Totale"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.unplanned"
+msgstr "Non pianificato"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

@@ -49,10 +49,6 @@ msgstr "Municipalities"
 msgid "chart.annotation.operators"
 msgstr "Network operator"
 
-#: src/components/power-stability-chart.tsx
-msgid "chart.avg.peer-group"
-msgstr "Average Peer Group"
-
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "A maximum of {max} Entries are allowed"
@@ -504,8 +500,6 @@ msgstr "Other operators"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
@@ -748,6 +742,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Grid Operators"
 
 #: src/components/power-stability-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "Planned"
 
@@ -755,6 +750,7 @@ msgstr "Planned"
 msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "Total"
 
+#: src/components/power-stability-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Unplanned"
@@ -1493,11 +1489,6 @@ msgstr "No SAIDI data available for this operator in the selected year."
 msgid "sunshine.power-stability.no-saifi-data"
 msgstr "No SAIFI data available for this operator in the selected year."
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.operator"
-msgstr "{operatorLabel}"
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"
@@ -1551,6 +1542,14 @@ msgstr "Total Outage Duration"
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Total Outage Duration"
 
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.total"
+msgstr "Total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.unplanned"
+msgstr "Unplanned"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
@@ -1575,6 +1574,14 @@ msgstr "Total Outage Frequency"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Total Outage Frequency"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.total"
+msgstr "Total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.unplanned"
+msgstr "Unplanned"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
