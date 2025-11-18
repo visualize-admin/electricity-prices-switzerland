@@ -198,9 +198,6 @@ const LatestYearChartView = (
     sortedData.reverse();
   }
 
-  const average = useMemo(() => {
-    return mean(sortedData.map((d) => d.total)) ?? 0;
-  }, [sortedData]);
   // Move current operator to the top
   const currentOperatorIndex = sortedData.findIndex(
     (d) => d.operator_id.toString() === id
@@ -233,15 +230,6 @@ const LatestYearChartView = (
           type: "stacked",
           componentIri: "unplanned",
         },
-        annotation: [
-          {
-            avgLabel: t({
-              id: "chart.avg.peer-group",
-              message: "Average Peer Group",
-            }),
-            value: Math.round(average * 100) / 100,
-          },
-        ],
         style: {
           colorDomain: ["planned", "unplanned"],
           opacityDomain: [],

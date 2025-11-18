@@ -459,7 +459,6 @@ export type SearchResult = {
 export type StabilityData = {
   __typename: "StabilityData";
   operatorTotal: Scalars["Float"]["output"];
-  peerGroupTotal: Scalars["Float"]["output"];
   operatorUnplanned: Scalars["Float"]["output"];
   yearlyData: Array<StabilityDataRow>;
 };
@@ -1139,7 +1138,6 @@ export type SaidiQuery = {
   saidi: {
     __typename: "StabilityData";
     operatorTotal: number;
-    peerGroupTotal: number;
     operatorUnplanned: number;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
@@ -1161,7 +1159,6 @@ export type SaifiQuery = {
   saifi: {
     __typename: "StabilityData";
     operatorTotal: number;
-    peerGroupTotal: number;
     operatorUnplanned: number;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
@@ -1793,7 +1790,6 @@ export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
       operatorTotal
-      peerGroupTotal
       operatorUnplanned
       yearlyData {
         year
@@ -1818,7 +1814,6 @@ export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
       operatorTotal
-      peerGroupTotal
       operatorUnplanned
       yearlyData {
         year

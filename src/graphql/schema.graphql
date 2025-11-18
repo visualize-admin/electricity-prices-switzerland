@@ -353,7 +353,6 @@ type StabilityDataRow {
 
 type StabilityData {
   operatorTotal: Float!
-  peerGroupTotal: Float!
   operatorUnplanned: Float!
   yearlyData: [StabilityDataRow!]!
 }
