@@ -475,7 +475,7 @@ export type SearchResult = {
 export type StabilityData = {
   __typename?: "StabilityData";
   operatorTotal: Scalars["Float"]["output"];
-  peerGroupTotal: Scalars["Float"]["output"];
+  operatorUnplanned: Scalars["Float"]["output"];
   yearlyData: Array<StabilityDataRow>;
 };
 
@@ -1471,7 +1471,11 @@ export type StabilityDataResolvers<
   ParentType extends ResolversParentTypes["StabilityData"] = ResolversParentTypes["StabilityData"]
 > = ResolversObject<{
   operatorTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
-  peerGroupTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  operatorUnplanned?: Resolver<
+    ResolversTypes["Float"],
+    ParentType,
+    ContextType
+  >;
   yearlyData?: Resolver<
     Array<ResolversTypes["StabilityDataRow"]>,
     ParentType,

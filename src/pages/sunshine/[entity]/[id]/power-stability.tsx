@@ -97,7 +97,7 @@ export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
       operatorTotal
-      peerGroupTotal
+      operatorUnplanned
       yearlyData {
         year
         total
@@ -113,7 +113,7 @@ export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
       operatorTotal
-      peerGroupTotal
+      operatorUnplanned
       yearlyData {
         year
         total
@@ -170,9 +170,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     ),
     rows: [
       {
-        label: (
-          <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
-        ),
+        label: <Trans id="sunshine.power-stability.saidi.total">Total</Trans>,
         value: {
           value: data.saidi.operatorTotal,
           unit: MIN_PER_YEAR,
@@ -183,10 +181,10 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
+          <Trans id="sunshine.power-stability.saidi.unplanned">Unplanned</Trans>
         ),
         value: {
-          value: data.saidi.peerGroupTotal,
+          value: data.saidi.operatorUnplanned,
           unit: MIN_PER_YEAR,
           // TODO Compute the trend
           trend: Trend.Stable,
@@ -284,9 +282,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     ),
     rows: [
       {
-        label: (
-          <Trans id="sunshine.power-stability.operator">{operatorLabel}</Trans>
-        ),
+        label: <Trans id="sunshine.power-stability.saifi.total">Total</Trans>,
         value: {
           value: data.saifi.operatorTotal,
           unit: ANZAHL_PER_YEAR,
@@ -297,10 +293,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       },
       {
         label: (
-          <Trans id="legend-item.peer-group-median">Peer Group Median</Trans>
+          <Trans id="sunshine.power-stability.saifi.unplanned">Unplanned</Trans>
         ),
         value: {
-          value: data.saifi.peerGroupTotal,
+          value: data.saifi.operatorUnplanned,
           unit: ANZAHL_PER_YEAR,
           round: 2,
           // TODO Compute the trend

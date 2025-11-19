@@ -10,6 +10,7 @@ import {
 } from "d3";
 import { ReactNode, useCallback, useMemo } from "react";
 
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   ChartContext,
   ChartProps,
@@ -32,11 +33,16 @@ import { useChartTheme } from "../use-chart-theme";
 const useStackedBarsState = ({
   data,
   fields,
+  measures,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: BarFields;
 }): StackedBarsState => {
   const width = useWidth();
   const { labelFontSize } = useChartTheme();
+
+  const measuresByIri = useMemo(() => {
+    return Object.fromEntries(measures.map((m) => [m.iri, m]));
+  }, [measures]);
 
   const segments = useMemo(() => {
     const iri = fields.x.componentIri;
@@ -93,6 +99,7 @@ const useStackedBarsState = ({
     yScale,
     annotations,
     bounds,
+    getAnnotationInfo,
   } = useMemo(() => {
     const categories = [...new Set(data.map(getCategory))].filter(Boolean);
 
@@ -162,18 +169,48 @@ const useStackedBarsState = ({
       .range([0, chartHeight])
       .paddingOuter(0.1);
 
-    const annotations =
-      annotation?.map((a) => {
-        return {
-          x: xScale(a.value as number),
-          y: yScale("0") ?? 0,
-          nbOfLines: 1,
-          xLabel: xScale(a.value as number),
-          yLabel: 0,
-          value: a.value.toString(),
-          label: getLabel(a),
-        };
-      });
+    const annotations = annotation?.map((a) => {
+      return {
+        x: xScale(a.value as number),
+        y: yScale("0") ?? 0,
+        nbOfLines: 1,
+        xLabel: xScale(a.value as number),
+        yLabel: 0,
+        value: a.value.toString(),
+        label: getLabel(a),
+      };
+    });
+
+    const getAnnotationInfo = (d: GenericObservation): Tooltip => {
+      const avg = segments.reduce((sum, seg) => {
+        return (
+          sum +
+          (typeof d[seg] === "number" ? (d[seg] as number) : 0) /
+            segments.length
+        );
+      }, 0);
+      return {
+        datum: {
+          label: getCategory(d),
+          value: "0",
+          color: "red",
+          yPos: 1,
+          symbol: "arrow",
+        },
+        values: segments.map((seg) => ({
+          label: measuresByIri[seg]?.label ?? seg,
+          value: (+d[seg]).toFixed(2),
+          color: colors(seg),
+        })),
+        xAnchor: xScale(avg),
+        yAnchor: yScale(getCategory(d)) || 0,
+        placement: {
+          x: "center",
+          y: "top",
+        },
+        xValue: getCategory(d),
+      };
+    };
 
     return {
       categories,
@@ -184,16 +221,19 @@ const useStackedBarsState = ({
       annotations,
       yScale,
       bounds,
+      getAnnotationInfo,
     };
   }, [
     data,
-    fields,
-    width,
     getCategory,
     segments,
-    labelFontSize,
+    fields.segment?.palette,
+    fields.style?.opacityDomain,
+    width,
     annotation,
+    labelFontSize,
     getLabel,
+    measuresByIri,
   ]);
 
   const getSegmentValue = useCallback(
@@ -246,6 +286,7 @@ const useStackedBarsState = ({
     getCategory,
     annotations,
     xAxisLabel,
+    getAnnotationInfo,
   };
 };
 

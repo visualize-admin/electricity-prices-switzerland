@@ -1,8 +1,15 @@
 import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
-import { max, mean } from "d3";
-import { useMemo, useState } from "react";
+import { max, pointer } from "d3";
+import { useMemo, useRef, useState } from "react";
+import React from "react";
 
+import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
+import {
+  StackedBarsState,
+  useChartState,
+} from "src/components/charts-generic/use-chart-state";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { ColorMapping } from "src/domain/color-mapping";
 import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
 import type { SunshinePowerStabilityData } from "src/domain/sunshine";
@@ -45,7 +52,8 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
       ...d,
-      planned: d.total,
+      total: d.total,
+      planned: d.total - d.unplanned,
       unplanned: d.unplanned,
     }));
   }, [observations]);
@@ -67,6 +75,56 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
     </Box>
   );
 };
+
+const InteractionStackedBars = React.memo(() => {
+  const [, dispatch] = useInteraction();
+  const ref = useRef<SVGGElement>(null);
+
+  const { data, bounds, yScale, getCategory } =
+    useChartState() as StackedBarsState;
+
+  const { chartWidth, chartHeight, margins } = bounds;
+
+  const findDatum = (e: React.MouseEvent) => {
+    const [x, y] = pointer(e, ref.current!);
+
+    const step = yScale.step();
+    const index = Math.round(y / step);
+    const category = yScale.domain()[index];
+
+    if (category) {
+      const found = data.find((d) => category === getCategory(d));
+      dispatch({
+        type: "INTERACTION_UPDATE",
+        value: {
+          interaction: {
+            visible: true,
+            mouse: { x, y: yScale(category) ?? 0 },
+            d: found,
+          },
+        },
+      });
+    }
+  };
+  const hideTooltip = () => {
+    dispatch({
+      type: "INTERACTION_HIDE",
+    });
+  };
+
+  return (
+    <g ref={ref} transform={`translate(${margins.left} ${margins.top})`}>
+      <rect
+        fillOpacity={0}
+        width={chartWidth}
+        height={chartHeight}
+        onMouseOut={hideTooltip}
+        onMouseOver={findDatum}
+        onMouseMove={findDatum}
+      />
+    </g>
+  );
+});
 
 //TODO: align with query-states
 type PowerStabilitySortableType =
@@ -140,9 +198,14 @@ const LatestYearChartView = (
     sortedData.reverse();
   }
 
-  const average = useMemo(() => {
-    return mean(sortedData.map((d) => d.total)) ?? 0;
-  }, [sortedData]);
+  // Move current operator to the top
+  const currentOperatorIndex = sortedData.findIndex(
+    (d) => d.operator_id.toString() === id
+  );
+  if (currentOperatorIndex > -1) {
+    const [currentOperator] = sortedData.splice(currentOperatorIndex, 1);
+    sortedData.unshift(currentOperator);
+  }
 
   const gridOperatorsLabel = t({
     id: "power-stability-trend-chart.legend-item.grid-operators",
@@ -167,28 +230,29 @@ const LatestYearChartView = (
           type: "stacked",
           componentIri: "unplanned",
         },
-        annotation: [
-          {
-            avgLabel: t({
-              id: "chart.avg.peer-group",
-              message: "Average Peer Group",
-            }),
-            value: Math.round(average * 100) / 100,
-          },
-        ],
         style: {
           colorDomain: ["planned", "unplanned"],
-          opacityDomain: ["2024"],
+          opacityDomain: [],
           colorAcc: "operator",
           opacityAcc: "year",
           highlightValue: id,
         },
       }}
       measures={[
-        { iri: "planned", label: "Planned Minutes", __typename: "Measure" },
+        {
+          iri: "planned",
+          label: t({
+            id: "power-stability-trend-chart.sortable-legend-item.planned",
+            message: "Planned",
+          }),
+          __typename: "Measure",
+        },
         {
           iri: "unplanned",
-          label: "Unplanned Minutes",
+          label: t({
+            id: "power-stability-trend-chart.sortable-legend-item.unplanned",
+            message: "Unplanned",
+          }),
           __typename: "Measure",
         },
       ]}
@@ -269,8 +333,10 @@ const LatestYearChartView = (
           <BarsStacked />
           <BarsStackedAxis />
           {overallOrRatio !== "ratio" && <AnnotationX />}
+          <InteractionStackedBars />
         </ChartSvg>
         {overallOrRatio !== "ratio" && <AnnotationXLabel />}
+        <Tooltip type="multiple" />
       </ChartContainer>
     </StackedBarsChart>
   );

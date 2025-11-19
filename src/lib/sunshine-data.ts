@@ -451,16 +451,6 @@ export const fetchSaidi = async (
 ): Promise<StabilityData> => {
   const operatorData = await db.getOperatorData(operatorId, period);
 
-  // Get peer group median SAIDI
-  const yearlyPeerGroupMedianStability =
-    await db.getYearlyIndicatorMedians<"stability">({
-      peerGroup: operatorData.peer_group,
-      metric: "stability",
-    });
-
-  const { currentData: peerGroupMedianStability } =
-    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianStability, period);
-
   const operatorStability = await db.getStabilityMetrics({
     operatorId,
     period,
@@ -474,31 +464,20 @@ export const fetchSaidi = async (
     peerGroup: operatorData.peer_group,
     operatorId: operatorOnly ? operatorId : undefined,
   });
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
-    (item) => ({
-      year: item.period,
-      total: item.median_saidi_total ?? null,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
-    })
-  );
 
-  const combinedYearlyData = [
-    ...peerGroupYearlyStability.map((x) => ({
+  const combinedYearlyData = peerGroupYearlyStability
+    .map((x) => ({
       year: x.period,
       total: x.saidi_total ?? null,
       operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
       unplanned: x.saidi_unplanned ?? null,
-    })),
-    ...peerGroupMedianAsYearlyData,
-  ].filter((x) => x.total !== null); // Filter out entries with null total
+    }))
+    .filter((x) => x.total !== null); // Filter out entries with null total
 
   return {
     operatorTotal: operatorStability?.[0]?.saidi_total || 0,
-    peerGroupTotal: peerGroupMedianStability?.median_saidi_total || 0,
+    operatorUnplanned: operatorStability?.[0]?.saidi_unplanned || 0,
     yearlyData: combinedYearlyData,
   };
 };
@@ -527,15 +506,6 @@ export const fetchSaifi = async (
     throw new Error(`Peer group not found for operator ID: ${operatorId}`);
   }
 
-  const yearlyPeerGroupMedianStability =
-    await service.getYearlyIndicatorMedians<"stability">({
-      peerGroup: operatorData.peer_group,
-      metric: "stability",
-    });
-
-  const { currentData: peerGroupMedianStability } =
-    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianStability, period);
-
   const operatorStability = await service.getStabilityMetrics({
     operatorId,
     period,
@@ -550,31 +520,19 @@ export const fetchSaifi = async (
     operatorId: operatorOnly ? operatorId : undefined,
   });
 
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
-    (item) => ({
-      year: item.period,
-      total: item.median_saifi_total ?? null,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      unplanned: 0, // Median data doesn't have unplanned breakdown, default to 0
-    })
-  );
-
-  const combinedYearlyData = [
-    ...peerGroupYearlyStability.map((x) => ({
+  const combinedYearlyData = peerGroupYearlyStability
+    .map((x) => ({
       year: x.period,
       total: x.saifi_total ?? null,
       operator_id: x.operator_id,
       operator_name: x.operator_name ?? "",
       unplanned: x.saifi_unplanned ?? null,
-    })),
-    ...peerGroupMedianAsYearlyData,
-  ].filter((x) => x.total !== null); // Filter out entries with null total
+    }))
+    .filter((x) => x.total !== null); // Filter out entries with null total
 
   return {
     operatorTotal: operatorStability?.[0]?.saifi_total || 0,
-    peerGroupTotal: peerGroupMedianStability?.median_saifi_total || 0,
+    operatorUnplanned: operatorStability?.[0]?.saifi_unplanned || 0,
     yearlyData: combinedYearlyData,
   };
 };

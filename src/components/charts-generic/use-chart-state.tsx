@@ -224,6 +224,7 @@ export type StackedBarsState = {
   getCategory: (d: GenericObservation) => string;
   annotations?: Annotation[];
   xAxisLabel?: string;
+  getAnnotationInfo: (d: GenericObservation) => Tooltip;
 };
 
 type ChartState =

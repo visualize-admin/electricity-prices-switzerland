@@ -47,10 +47,6 @@ msgstr "chart.annotation.municipalities"
 msgid "chart.annotation.operators"
 msgstr "chart.annotation.operators"
 
-#: src/components/power-stability-chart.tsx
-msgid "chart.avg.peer-group"
-msgstr "chart.avg.peer-group"
-
 #: src/components/combobox.tsx
 msgid "combobox.maxitems"
 msgstr "combobox.maxitems"
@@ -502,8 +498,6 @@ msgstr "legend-item.other-operators"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "legend-item.peer-group-median"
 msgstr "legend-item.peer-group-median"
 
@@ -746,6 +740,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "power-stability-trend-chart.legend-item.grid-operators"
 
 #: src/components/power-stability-chart.tsx
+#: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "power-stability-trend-chart.sortable-legend-item.planned"
 
@@ -753,6 +748,7 @@ msgstr "power-stability-trend-chart.sortable-legend-item.planned"
 msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "power-stability-trend-chart.sortable-legend-item.total"
 
+#: src/components/power-stability-chart.tsx
 #: src/components/power-stability-chart.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "power-stability-trend-chart.sortable-legend-item.unplanned"
@@ -1489,11 +1485,6 @@ msgstr "sunshine.power-stability.no-saidi-data"
 msgid "sunshine.power-stability.no-saifi-data"
 msgstr "sunshine.power-stability.no-saifi-data"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.operator"
-msgstr "sunshine.power-stability.operator"
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "sunshine.power-stability.overall-option"
@@ -1547,6 +1538,14 @@ msgstr "sunshine.power-stability.saidi.comparison-card-title"
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "sunshine.power-stability.saidi.info-dialog-label"
 
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.total"
+msgstr "sunshine.power-stability.saidi.total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.unplanned"
+msgstr "sunshine.power-stability.saidi.unplanned"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
 msgstr "sunshine.power-stability.saifi"
@@ -1571,6 +1570,14 @@ msgstr "sunshine.power-stability.saifi.comparison-card-title"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "sunshine.power-stability.saifi.info-dialog-label"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.total"
+msgstr "sunshine.power-stability.saifi.total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.unplanned"
+msgstr "sunshine.power-stability.saifi.unplanned"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
