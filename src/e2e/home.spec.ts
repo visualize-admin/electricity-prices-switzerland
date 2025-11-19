@@ -2,6 +2,9 @@ import { test, sleep, ensureLoadingIsComplete, expect } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Home Page", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
   test("default language (de) should render on /", async ({ browser }) => {
     const page = await browser.newPage({
       extraHTTPHeaders: {
@@ -45,9 +48,6 @@ test.describe("The Home Page", () => {
   });
 
   test("sunshine links", async ({ page, snapshot }) => {
-    test.beforeEach(async ({ setFlags, page }) => {
-      await setFlags(page, ["webglDeactivated"]);
-    });
     const tracker = new InflightRequests(page);
     test.setTimeout(120_000);
     await page.goto("/en?flag__sunshine=true");

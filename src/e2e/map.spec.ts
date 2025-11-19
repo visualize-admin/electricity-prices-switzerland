@@ -44,6 +44,7 @@ test.describe("Map Hover Behavior", () => {
   test("should allow selecting network operators with tourism+low energy density comparison group", async ({
     page,
   }) => {
+    test.slow();
     const tracker = new InflightRequests(page);
 
     // Navigate to the map with sunshine tab
@@ -161,6 +162,10 @@ test.describe("Legend Thresholds", () => {
 });
 
 test.describe("Map Details Table Information", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
+
   test("should display correct table information based on selected indicator", async ({
     page,
   }) => {
