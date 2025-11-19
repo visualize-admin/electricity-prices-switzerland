@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.26.0 - 2025-11-19
+
 ## Map
 
 - Feat: Sunshine details panel only show relevant information according to indicator [#410](https://github.com/visualize-admin/electricity-prices-switzerland/issues/410)
@@ -33,6 +37,10 @@ You can also check the
 - Added tooltips to SAIDI/SAIFI charts on the power stability details page (#432)
 - Corrected planned value calculation in SAIDI/SAIFI charts (now: total - unplanned)
 - Removed peer group comparisons and updated comparison table to use unplanned values instead
+
+## Technical
+
+- Deactivate map on end-to-end tests that do not need it (improves e2e tests speed)
 
 # 2.25.2 - 2025-11-17
 
