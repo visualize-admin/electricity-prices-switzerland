@@ -1,6 +1,4 @@
-import { expect } from "@playwright/test";
-
-import { test } from "src/e2e/common";
+import { test, expect } from "src/e2e/common";
 
 test.describe("API Status Page", () => {
   test("should go to API status page and see no errors", async ({ page }) => {

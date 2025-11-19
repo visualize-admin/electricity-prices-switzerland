@@ -1,6 +1,4 @@
-import { expect } from "@playwright/test";
-
-import { test, sleep, ensureLoadingIsComplete } from "src/e2e/common";
+import { test, sleep, ensureLoadingIsComplete, expect } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Home Page", () => {
@@ -47,6 +45,9 @@ test.describe("The Home Page", () => {
   });
 
   test("sunshine links", async ({ page, snapshot }) => {
+    test.beforeEach(async ({ setFlags, page }) => {
+      await setFlags(page, ["webglDeactivated"]);
+    });
     const tracker = new InflightRequests(page);
     test.setTimeout(120_000);
     await page.goto("/en?flag__sunshine=true");
