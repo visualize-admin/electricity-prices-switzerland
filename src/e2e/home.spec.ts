@@ -1,9 +1,10 @@
-import { expect } from "@playwright/test";
-
-import { test, sleep, ensureLoadingIsComplete } from "src/e2e/common";
+import { test, sleep, ensureLoadingIsComplete, expect } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Home Page", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
   test("default language (de) should render on /", async ({ browser }) => {
     const page = await browser.newPage({
       extraHTTPHeaders: {

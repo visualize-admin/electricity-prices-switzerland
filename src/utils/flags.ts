@@ -43,6 +43,9 @@ const specs = {
    * be able to test safely in production.
    */
   noManualLocaleActivate: {},
+
+  /** Deactivate WebGL usage in maps */
+  webglDeactivated: {},
 } as const;
 
 const keysAsValues = <R extends Record<string | number | symbol, unknown>>(

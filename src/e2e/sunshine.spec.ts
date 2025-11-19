@@ -1,8 +1,8 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 import InflightRequests from "src/e2e/inflight";
 
-import { sleep, test } from "./common";
+import { sleep, test, expect } from "./common";
 
 /**
  * FIXME - This test suite is currently flaky and needs to be fixed.
@@ -10,6 +10,9 @@ import { sleep, test } from "./common";
  * waitForLoadState often causes issues it doesn't work as expected causing screenshots while the page is still loading
  */
 test.describe("Sunshine details page", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
   const tabs = [
     {
       url: "/sunshine/operator/426/costs-and-tariffs",

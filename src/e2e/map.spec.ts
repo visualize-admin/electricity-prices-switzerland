@@ -1,7 +1,6 @@
-import { expect } from "@playwright/test";
 import sharp from "sharp";
 
-import { test } from "src/e2e/common";
+import { test, expect } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Map Page", () => {
@@ -45,6 +44,7 @@ test.describe("Map Hover Behavior", () => {
   test("should allow selecting network operators with tourism+low energy density comparison group", async ({
     page,
   }) => {
+    test.slow();
     const tracker = new InflightRequests(page);
 
     // Navigate to the map with sunshine tab
@@ -79,6 +79,10 @@ test.describe("Map Hover Behavior", () => {
 });
 
 test.describe("Legend Thresholds", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
+
   test("should display correct color legend thresholds for network costs (+/- 10%/30%)", async ({
     page,
   }) => {
@@ -158,6 +162,10 @@ test.describe("Legend Thresholds", () => {
 });
 
 test.describe("Map Details Table Information", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
+
   test("should display correct table information based on selected indicator", async ({
     page,
   }) => {

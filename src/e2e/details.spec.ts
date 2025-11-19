@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "src/e2e/common";
 
 test.describe("Segmented control visibility", () => {
   test("should appear for operator with multiple municipalities", async ({

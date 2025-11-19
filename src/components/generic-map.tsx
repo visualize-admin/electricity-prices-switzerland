@@ -58,6 +58,7 @@ import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
 import { frame, sleep } from "src/utils/delay";
+import { useFlag } from "src/utils/flags";
 
 const ZoomWidget = ({
   onZoomIn,
@@ -410,6 +411,7 @@ export const GenericMap = ({
   );
 
   const tooltipMinimumWidth = 200;
+  const webglDeactivated = useFlag("webglDeactivated");
 
   return (
     <>
@@ -558,15 +560,17 @@ export const GenericMap = ({
           )}
         </Box>
 
-        <DeckGL
-          controller={{ type: MapController, scrollZoom, dragRotate: false }}
-          viewState={viewState}
-          onViewStateChange={onViewStateChangeHandler}
-          onResize={onResize}
-          layers={layers}
-          onClick={onLayerClick}
-          ref={deckRef}
-        ></DeckGL>
+        {webglDeactivated ? null : (
+          <DeckGL
+            controller={{ type: MapController, scrollZoom, dragRotate: false }}
+            viewState={viewState}
+            onViewStateChange={onViewStateChangeHandler}
+            onResize={onResize}
+            layers={layers}
+            onClick={onLayerClick}
+            ref={deckRef}
+          ></DeckGL>
+        )}
       </div>
 
       {screenshotting ? (

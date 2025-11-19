@@ -16,6 +16,8 @@ import {
   LocatorFixtures as TestingLibraryFixtures,
 } from "@playwright-testing-library/test/fixture";
 
+import { FlagName } from "src/flags/types";
+
 import slugify from "./slugify";
 
 type SnapshotOptions = { note?: string; page?: Page; locator?: Locator };
@@ -36,7 +38,18 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   demoLogin: (page: Page) => void;
   currentView: () => Promise<Locator | Page>;
   withFlag: (route: string, flags: Record<string, boolean>) => string;
+  setFlags: (page: Page, flags: FlagName[]) => Promise<void>;
 }>({
+  setFlags: async ({}, use) => {
+    const activate = async (page: Page, flags: FlagName[]) => {
+      await page.addInitScript((flags) => {
+        for (const flag of flags) {
+          localStorage.setItem(`flag__strompreise__${flag}`, "true");
+        }
+      }, flags);
+    };
+    await use(activate);
+  },
   snapshot: async ({ page }, use, testInfo) => {
     let index = 0;
     const snapshot = async (

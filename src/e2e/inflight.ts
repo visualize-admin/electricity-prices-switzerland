@@ -1,6 +1,6 @@
-import { expect, Page, Request } from "@playwright/test";
+import { Page, Request } from "@playwright/test";
 
-import { sleep } from "src/e2e/common";
+import { sleep, expect } from "src/e2e/common";
 
 // Simple helper class to track requests
 class InflightRequests {
