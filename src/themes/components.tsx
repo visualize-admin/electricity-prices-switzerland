@@ -106,7 +106,6 @@ export const components = (theme: Theme): Components => ({
       disableRipple: true,
     },
     styleOverrides: {
-      // @ts-expect-error - MUI types are not up to date
       root: {
         textTransform: "none !important",
 
