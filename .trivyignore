@@ -15,3 +15,5 @@ CVE-2025-61724 exp:2026-02-01
 # be exploited
 CVE-2025-4802 exp:2026-02-01
 
+# Affects glob that is not used during application run
+CVE-2025-64756
