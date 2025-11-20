@@ -4,22 +4,24 @@
 
 FROM node:22-slim AS base
 
-# Install npm and force cross-spawn version
+# Install npm and force cross-spawn, glob version
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
     apt-get install --only-upgrade perl-base && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
-    npm install -g npm@10.9.0 && \
-    # Remove old version
+    npm install -g npm@10.9.4 && \
+    # Remove cross-spawn old version
     npm uninstall -g cross-spawn && \
-    npm cache clean --force && \
-    # Find and remove any remaining old versions
-    find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
-    # Install new version
-    npm install -g cross-spawn@7.0.5 --force && \
+        npm cache clean --force && \
+        # Find and remove any remaining old versions
+        find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
+        # Install new version
+        npm install -g cross-spawn@7.0.5 --force && \
     # Configure npm
     npm config set save-exact=true && \
-    npm config set legacy-peer-deps=true
+    npm config set legacy-peer-deps=true && \
+    # Remove npm to avoid vulnerabilities
+    npm r -g npm
 
 
 # Dependency image
