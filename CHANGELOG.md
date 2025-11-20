@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.26.2 - 2025-11-20
+
+- Solve CVE-2025-64756 by removing npm after package installation in Docker image
+
 # 2.26.0 - 2025-11-19
 
 ## Map
