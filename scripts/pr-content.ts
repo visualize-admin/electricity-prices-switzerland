@@ -21,7 +21,7 @@ async function getCommitMessages(baseBranch: string): Promise<string[]> {
     `git log --format=%B ${baseBranch}...head`
   );
   log(`Retrieved ${stdout.split("\n").length} commit messages`);
-  return stdout.split("\n");
+  return stdout.split("\n").filter((line) => line.trim() !== "");
 }
 
 function extractIssueNumbers(text: string): string[] {
@@ -64,6 +64,10 @@ async function getPRTemplate(): Promise<string> {
 async function prepareContext(baseBranch: string): Promise<string> {
   log("Starting context preparation...");
   const commits = await getCommitMessages(baseBranch);
+  if (!commits.length) {
+    log("No commits found between branches.");
+    return "No commits found between branches.";
+  }
   const issueNumbers = new Set<string>();
 
   commits.forEach((commit) => {
