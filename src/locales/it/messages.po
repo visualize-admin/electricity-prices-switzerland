@@ -1181,6 +1181,18 @@ msgstr "Regola del franco"
 msgid "sunshine.compliance.latest-year"
 msgstr "Anno tariffario attuale ({year})"
 
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "Presentazione tempestiva dei documenti"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr "No"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr "Sì"
+
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx

@@ -1175,6 +1175,18 @@ msgstr "sunshine.compliance.francs-rule-regulation"
 msgid "sunshine.compliance.latest-year"
 msgstr "sunshine.compliance.latest-year"
 
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "sunshine.compliance.timely-paper-submission"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr "sunshine.compliance.timely-paper-submission.no"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr "sunshine.compliance.timely-paper-submission.yes"
+
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx

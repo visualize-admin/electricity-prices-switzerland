@@ -1179,6 +1179,18 @@ msgstr "Francs Rule"
 msgid "sunshine.compliance.latest-year"
 msgstr "Latest year ({year})"
 
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "Timely Paper Submission"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr "No"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr "Yes"
+
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
