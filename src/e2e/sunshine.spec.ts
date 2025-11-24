@@ -247,3 +247,24 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     tracker.dispose();
   });
 });
+
+test.describe("Operational Standards page", () => {
+  test("it should display the correct tabs and content", async ({ page }) => {
+    await page.goto("/en/sunshine/operator/468/operational-standards");
+
+    // Check table row labelled "Information on planned interruptions" has "Yes"
+    const infoRow = page.getByRole("row", {
+      name: /Information on planned interruptions Yes/i,
+    });
+    await expect(infoRow).toBeVisible();
+
+    // Click on Compliance tab
+    await page.getByTestId("compliance-tab").click();
+
+    // Check table row labelled "Compliance with timely paper submissions" has "No"
+    const complianceRow = page.getByRole("row", {
+      name: /Timely Paper Submission Yes/i,
+    });
+    await expect(complianceRow).toBeVisible();
+  });
+});
