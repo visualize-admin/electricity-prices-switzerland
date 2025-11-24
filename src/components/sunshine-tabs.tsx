@@ -75,20 +75,20 @@ export const PowerStabilityNavigation: React.FC<{
   );
 };
 
-export enum OperationalStandardsTabOption {
-  SERVICE_QUALITY = 0,
-  COMPLIANCE = 1,
-}
+export type OperationalStandardsTab = "outageInfo" | "compliance";
 
 export const OperationalStandardsNavigation: React.FC<{
-  activeTab: OperationalStandardsTabOption;
-  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  activeTab: OperationalStandardsTab;
+  handleTabChange: (
+    event: React.SyntheticEvent,
+    newValue: OperationalStandardsTab
+  ) => void;
 }> = ({ activeTab, handleTabChange }) => {
   return (
     <Tabs value={activeTab} onChange={handleTabChange}>
       <Tab
-        data-testid="service-quality-tab"
-        value={OperationalStandardsTabOption.SERVICE_QUALITY}
+        data-testid="outage-info-tab"
+        value={"outageInfo" satisfies OperationalStandardsTab}
         label={
           <Trans id="sunshine.operational-standards.service-quality">
             Service Quality
@@ -97,7 +97,7 @@ export const OperationalStandardsNavigation: React.FC<{
       />
       <Tab
         data-testid="compliance-tab"
-        value={OperationalStandardsTabOption.COMPLIANCE}
+        value={"compliance" satisfies OperationalStandardsTab}
         label={
           <Trans id="sunshine.operational-standards.compliance">
             Compliance

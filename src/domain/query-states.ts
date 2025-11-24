@@ -124,7 +124,18 @@ const sunshineMapSchema = z.object({
 
 export const sunshineMapLink = makeLinkGenerator(sunshineMapSchema);
 
-const detailTabsSchema = z.union([sunshineIndicatorSchema, z.undefined()]); // TODO Add Operational Standards page
+const detailTabsSchema = z.union([
+  z.enum([
+    "networkCosts",
+    "netTariffs",
+    "energyTariffs",
+    "saidi",
+    "saifi",
+    "outageInfo",
+    "compliance",
+  ]),
+  z.undefined(),
+]);
 
 export type QueryStateSunshineSaidiSaifiType =
   QueryStateSunshineMap["saidiSaifiType"];

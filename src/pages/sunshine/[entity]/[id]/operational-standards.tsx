@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -20,7 +20,7 @@ import PeerGroupCard from "src/components/peer-group-card";
 import { SessionConfigDebug } from "src/components/session-config-debug";
 import {
   OperationalStandardsNavigation,
-  OperationalStandardsTabOption,
+  OperationalStandardsTab,
 } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
@@ -29,6 +29,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
+import { useQueryStateSunshineDetails } from "src/domain/query-states";
 import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
@@ -238,6 +239,30 @@ export const prepComplianceCardProps = (
           ),
         },
       },
+      {
+        label: (
+          <Trans id="sunshine.compliance.timely-paper-submission">
+            Timely Paper Submission
+          </Trans>
+        ),
+
+        value: {
+          // TODO Translate
+          value: (
+            <Typography variant="inherit" fontWeight="bold">
+              {compliance.timelyPaperSubmission ? (
+                <Trans id="sunshine.compliance.timely-paper-submission.yes">
+                  Yes
+                </Trans>
+              ) : (
+                <Trans id="sunshine.compliance.timely-paper-submission.no">
+                  No
+                </Trans>
+              )}
+            </Typography>
+          ),
+        },
+      },
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 };
@@ -300,11 +325,11 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
   );
 };
 
-const PowerStability = (props: Props) => {
+const OperationalStandards = (props: Props) => {
   const { query } = useRouter();
-  const [activeTab, setActiveTab] = useState<OperationalStandardsTabOption>(
-    OperationalStandardsTabOption.SERVICE_QUALITY
-  );
+  const [{ tab: _tab }, setQueryState] = useQueryStateSunshineDetails();
+  const tab = ((_tab as OperationalStandardsTab) ??
+    "outageInfo") satisfies OperationalStandardsTab;
 
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
@@ -317,8 +342,11 @@ const PowerStability = (props: Props) => {
     message: "Power Stability",
   })}`;
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
+  const handleTabChange = (
+    _: React.SyntheticEvent,
+    newValue: OperationalStandardsTab
+  ) => {
+    setQueryState({ tab: newValue });
   };
 
   const bannerContent = (
@@ -367,16 +395,12 @@ const PowerStability = (props: Props) => {
 
       {/* Tab Navigation */}
       <OperationalStandardsNavigation
-        activeTab={activeTab}
+        activeTab={tab}
         handleTabChange={handleTabChange}
       />
 
-      {activeTab === OperationalStandardsTabOption.SERVICE_QUALITY && (
-        <ServiceQuality {...props} />
-      )}
-      {activeTab === OperationalStandardsTabOption.COMPLIANCE && (
-        <Compliance {...props} />
-      )}
+      {tab === "outageInfo" && <ServiceQuality {...props} />}
+      {tab === "compliance" && <Compliance {...props} />}
     </>
   );
 
@@ -396,4 +420,4 @@ const PowerStability = (props: Props) => {
   );
 };
 
-export default PowerStability;
+export default OperationalStandards;
