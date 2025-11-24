@@ -147,7 +147,6 @@ export type OperationalStandardsData = {
   compliance: OperationalStandardsCompliance;
   latestYear: Scalars["String"]["output"];
   operator: OperationalStandardsOperator;
-  productVariety: OperationalStandardsProductVariety;
   serviceQuality: OperationalStandardsServiceQuality;
   updateDate: Scalars["String"]["output"];
 };
@@ -174,20 +173,6 @@ export type OperationalStandardsOperatorNotification = {
   days: Scalars["Int"]["output"];
   operatorId: Scalars["String"]["output"];
   year: Scalars["String"]["output"];
-};
-
-export type OperationalStandardsOperatorProduct = {
-  __typename: "OperationalStandardsOperatorProduct";
-  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
-  operatorId: Scalars["String"]["output"];
-  year: Scalars["String"]["output"];
-};
-
-export type OperationalStandardsProductVariety = {
-  __typename: "OperationalStandardsProductVariety";
-  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
-  operatorsProductsOffered: Array<OperationalStandardsOperatorProduct>;
-  productCombinationsOptions: Scalars["Boolean"]["output"];
 };
 
 export type OperationalStandardsServiceQuality = {
@@ -1025,17 +1010,6 @@ export type OperationalStandardsQuery = {
         energyDensity: string;
       };
     };
-    productVariety: {
-      __typename: "OperationalStandardsProductVariety";
-      ecoFriendlyProductsOffered: number;
-      productCombinationsOptions: boolean;
-      operatorsProductsOffered: Array<{
-        __typename: "OperationalStandardsOperatorProduct";
-        operatorId: string;
-        ecoFriendlyProductsOffered: number;
-        year: string;
-      }>;
-    };
     serviceQuality: {
       __typename: "OperationalStandardsServiceQuality";
       notificationPeriodDays: number;
@@ -1665,15 +1639,6 @@ export const OperationalStandardsDocument = gql`
         peerGroup {
           settlementDensity
           energyDensity
-        }
-      }
-      productVariety {
-        ecoFriendlyProductsOffered
-        productCombinationsOptions
-        operatorsProductsOffered {
-          operatorId
-          ecoFriendlyProductsOffered
-          year
         }
       }
       serviceQuality {

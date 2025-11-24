@@ -305,15 +305,6 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
         energyDensity
       }
     }
-    productVariety {
-      ecoFriendlyProductsOffered
-      productCombinationsOptions
-      operatorsProductsOffered {
-        operatorId
-        ecoFriendlyProductsOffered
-        year
-      }
-    }
     serviceQuality {
       notificationPeriodDays
       informingCustomersOfOutage

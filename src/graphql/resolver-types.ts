@@ -163,7 +163,6 @@ export type OperationalStandardsData = {
   compliance: OperationalStandardsCompliance;
   latestYear: Scalars["String"]["output"];
   operator: OperationalStandardsOperator;
-  productVariety: OperationalStandardsProductVariety;
   serviceQuality: OperationalStandardsServiceQuality;
   updateDate: Scalars["String"]["output"];
 };
@@ -190,20 +189,6 @@ export type OperationalStandardsOperatorNotification = {
   days: Scalars["Int"]["output"];
   operatorId: Scalars["String"]["output"];
   year: Scalars["String"]["output"];
-};
-
-export type OperationalStandardsOperatorProduct = {
-  __typename?: "OperationalStandardsOperatorProduct";
-  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
-  operatorId: Scalars["String"]["output"];
-  year: Scalars["String"]["output"];
-};
-
-export type OperationalStandardsProductVariety = {
-  __typename?: "OperationalStandardsProductVariety";
-  ecoFriendlyProductsOffered: Scalars["Int"]["output"];
-  operatorsProductsOffered: Array<OperationalStandardsOperatorProduct>;
-  productCombinationsOptions: Scalars["Boolean"]["output"];
 };
 
 export type OperationalStandardsServiceQuality = {
@@ -751,8 +736,6 @@ export type ResolversTypes = ResolversObject<{
   OperationalStandardsOperator: ResolverTypeWrapper<OperationalStandardsOperator>;
   OperationalStandardsOperatorFrancs: ResolverTypeWrapper<OperationalStandardsOperatorFrancs>;
   OperationalStandardsOperatorNotification: ResolverTypeWrapper<OperationalStandardsOperatorNotification>;
-  OperationalStandardsOperatorProduct: ResolverTypeWrapper<OperationalStandardsOperatorProduct>;
-  OperationalStandardsProductVariety: ResolverTypeWrapper<OperationalStandardsProductVariety>;
   OperationalStandardsServiceQuality: ResolverTypeWrapper<OperationalStandardsServiceQuality>;
   Operator: ResolverTypeWrapper<ResolvedOperator>;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
@@ -809,8 +792,6 @@ export type ResolversParentTypes = ResolversObject<{
   OperationalStandardsOperator: OperationalStandardsOperator;
   OperationalStandardsOperatorFrancs: OperationalStandardsOperatorFrancs;
   OperationalStandardsOperatorNotification: OperationalStandardsOperatorNotification;
-  OperationalStandardsOperatorProduct: OperationalStandardsOperatorProduct;
-  OperationalStandardsProductVariety: OperationalStandardsProductVariety;
   OperationalStandardsServiceQuality: OperationalStandardsServiceQuality;
   Operator: ResolvedOperator;
   OperatorDocument: OperatorDocument;
@@ -1050,11 +1031,6 @@ export type OperationalStandardsDataResolvers<
     ParentType,
     ContextType
   >;
-  productVariety?: Resolver<
-    ResolversTypes["OperationalStandardsProductVariety"],
-    ParentType,
-    ContextType
-  >;
   serviceQuality?: Resolver<
     ResolversTypes["OperationalStandardsServiceQuality"],
     ParentType,
@@ -1089,42 +1065,6 @@ export type OperationalStandardsOperatorNotificationResolvers<
   days?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type OperationalStandardsOperatorProductResolvers<
-  ContextType = GraphqlRequestContext,
-  ParentType extends ResolversParentTypes["OperationalStandardsOperatorProduct"] = ResolversParentTypes["OperationalStandardsOperatorProduct"]
-> = ResolversObject<{
-  ecoFriendlyProductsOffered?: Resolver<
-    ResolversTypes["Int"],
-    ParentType,
-    ContextType
-  >;
-  operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type OperationalStandardsProductVarietyResolvers<
-  ContextType = GraphqlRequestContext,
-  ParentType extends ResolversParentTypes["OperationalStandardsProductVariety"] = ResolversParentTypes["OperationalStandardsProductVariety"]
-> = ResolversObject<{
-  ecoFriendlyProductsOffered?: Resolver<
-    ResolversTypes["Int"],
-    ParentType,
-    ContextType
-  >;
-  operatorsProductsOffered?: Resolver<
-    Array<ResolversTypes["OperationalStandardsOperatorProduct"]>,
-    ParentType,
-    ContextType
-  >;
-  productCombinationsOptions?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1705,8 +1645,6 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperationalStandardsOperator?: OperationalStandardsOperatorResolvers<ContextType>;
   OperationalStandardsOperatorFrancs?: OperationalStandardsOperatorFrancsResolvers<ContextType>;
   OperationalStandardsOperatorNotification?: OperationalStandardsOperatorNotificationResolvers<ContextType>;
-  OperationalStandardsOperatorProduct?: OperationalStandardsOperatorProductResolvers<ContextType>;
-  OperationalStandardsProductVariety?: OperationalStandardsProductVarietyResolvers<ContextType>;
   OperationalStandardsServiceQuality?: OperationalStandardsServiceQualityResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;

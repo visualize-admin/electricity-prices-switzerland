@@ -362,18 +362,6 @@ input StabilityFilter {
   year: Int!
 }
 
-type OperationalStandardsProductVariety {
-  ecoFriendlyProductsOffered: Int!
-  productCombinationsOptions: Boolean!
-  operatorsProductsOffered: [OperationalStandardsOperatorProduct!]!
-}
-
-type OperationalStandardsOperatorProduct {
-  operatorId: String!
-  ecoFriendlyProductsOffered: Int!
-  year: String!
-}
-
 type OperationalStandardsServiceQuality {
   notificationPeriodDays: Int!
   informingCustomersOfOutage: Boolean!
@@ -405,7 +393,6 @@ type OperationalStandardsOperator {
 type OperationalStandardsData {
   latestYear: String!
   operator: OperationalStandardsOperator!
-  productVariety: OperationalStandardsProductVariety!
   serviceQuality: OperationalStandardsServiceQuality!
   compliance: OperationalStandardsCompliance!
   updateDate: String!

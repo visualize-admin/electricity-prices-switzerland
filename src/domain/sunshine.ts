@@ -115,15 +115,6 @@ export type SunshinePowerStabilityData = {
 
 export type SunshineOperationalStandardsData = {
   latestYear: string;
-  productVariety: {
-    ecoFriendlyProductsOffered: number;
-    productCombinationsOptions: boolean;
-    operatorsProductsOffered: {
-      operatorId: string;
-      ecoFriendlyProductsOffered: number;
-      year: string;
-    }[];
-  };
   serviceQuality: {
     notificationPeriodDays: number;
     informingCustomersOfOutage: boolean;
