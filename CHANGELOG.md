@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.27.0 - 2025-11-25
+
 - Feat: Display timely paper submissions on "compliance" tab (fix [#468](https://github.com/visualize-admin/electricity-prices-switzerland/issues/468))
 
 # 2.26.2 - 2025-11-20
