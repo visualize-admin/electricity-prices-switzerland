@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 
 import InflightRequests from "src/e2e/inflight";
 
-import { sleep, test, expect } from "./common";
+import { sleep, test, expect, TestFixtures } from "./common";
 
 /**
  * FIXME - This test suite is currently flaky and needs to be fixed.
@@ -13,61 +13,115 @@ test.describe("Sunshine details page", () => {
   test.beforeEach(async ({ setFlags, page }) => {
     await setFlags(page, ["webglDeactivated"]);
   });
-  const tabs = [
-    {
-      url: "/sunshine/operator/426/costs-and-tariffs",
-      buttonLabel: "net-tariffs-tab",
-      screenshotLabel: "Net Tariffs",
-    },
-    {
-      url: "/sunshine/operator/426/costs-and-tariffs",
-      buttonLabel: "energy-tariffs-tab",
-      screenshotLabel: "Energy Tariffs",
-    },
-    {
-      url: "/sunshine/operator/426/power-stability",
-      buttonLabel: "saifi-tab",
-      screenshotLabel: "SAIFI",
-    },
-    {
-      url: "/sunshine/operator/426/operational-standards",
-      buttonLabel: "service-quality-tab",
-      screenshotLabel: "Service Quality",
-    },
-    {
-      url: "/sunshine/operator/426/operational-standards",
-      buttonLabel: "compliance-tab",
-      screenshotLabel: "Compliance",
-    },
-  ];
 
-  for (const { url, buttonLabel, screenshotLabel } of tabs) {
-    test(`it should load the sunshine details page for ${screenshotLabel}`, async ({
+  const performTest = async ({
+    withFlag,
+    page,
+    snapshot,
+    screenshotLabel,
+    buttonLabel,
+    url,
+  }: Pick<TestFixtures, "withFlag" | "page" | "snapshot"> & {
+    screenshotLabel: string;
+    buttonLabel: string;
+    url: string;
+  }) => {
+    const resp = await page.goto(withFlag(url, { sunshine: true }));
+    await expect(resp?.status()).toEqual(200);
+    await page.waitForLoadState("networkidle");
+
+    await snapshot({
+      note: `${screenshotLabel} - Initial`,
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+
+    const tabButton = await page.getByTestId(buttonLabel);
+    await tabButton.click();
+    await page.waitForLoadState("networkidle");
+
+    await snapshot({
+      note: `${screenshotLabel} - After Click`,
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+  };
+
+  test(`it should load the sunshine details page for Net Tariffs`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
       withFlag,
       page,
       snapshot,
-    }) => {
-      const resp = await page.goto(withFlag(url, { sunshine: true }));
-      await expect(resp?.status()).toEqual(200);
-      await page.waitForLoadState("networkidle");
-
-      await snapshot({
-        note: `${screenshotLabel} - Initial`,
-        locator: await page.getByTestId("details-page-content"),
-        fullPage: true,
-      });
-
-      const tabButton = await page.getByTestId(buttonLabel);
-      await tabButton.click();
-      await page.waitForLoadState("networkidle");
-
-      await snapshot({
-        note: `${screenshotLabel} - After Click`,
-        locator: await page.getByTestId("details-page-content"),
-        fullPage: true,
-      });
+      screenshotLabel: "Net Tariffs",
+      buttonLabel: "net-tariffs-tab",
+      url: "/sunshine/operator/426/costs-and-tariffs",
     });
-  }
+  });
+
+  test(`it should load the sunshine details page for Energy Tariffs`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "Energy Tariffs",
+      buttonLabel: "energy-tariffs-tab",
+      url: "/sunshine/operator/426/costs-and-tariffs",
+    });
+  });
+
+  test(`it should load the sunshine details page for SAIFI`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "SAIFI",
+      buttonLabel: "saifi-tab",
+      url: "/sunshine/operator/426/power-stability",
+    });
+  });
+
+  test(`it should load the sunshine details page for Service Quality`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "Service Quality",
+      buttonLabel: "outage-info-tab",
+      url: "/sunshine/operator/426/operational-standards",
+    });
+    await page.getByTestId("outage-info-tab").press("Escape");
+  });
+
+  test(`it should load the sunshine details page for Compliance`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "Compliance",
+      buttonLabel: "compliance-tab",
+      url: "/sunshine/operator/426/operational-standards",
+    });
+  });
 });
 
 test.describe("Sunshine map details panel", () => {
@@ -245,5 +299,26 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     await tracker.waitForRequests();
     await checkCategories(page);
     tracker.dispose();
+  });
+});
+
+test.describe("Operational Standards page", () => {
+  test("it should display the correct tabs and content", async ({ page }) => {
+    await page.goto("/en/sunshine/operator/468/operational-standards");
+
+    // Check table row labelled "Information on planned interruptions" has "Yes"
+    const infoRow = page.getByRole("row", {
+      name: /Information on planned interruptions Yes/i,
+    });
+    await expect(infoRow).toBeVisible();
+
+    // Click on Compliance tab
+    await page.getByTestId("compliance-tab").click();
+
+    // Check table row labelled "Compliance with timely paper submissions" has "No"
+    const complianceRow = page.getByRole("row", {
+      name: /Timely Paper Submission Yes/i,
+    });
+    await expect(complianceRow).toBeVisible();
   });
 });

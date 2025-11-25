@@ -291,7 +291,12 @@ const SunshineMap = ({
             `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
               indicator
             )}`,
-            { tab: indicator }
+            {
+              tab:
+                indicator === "daysInAdvanceOutageNotification"
+                  ? "outageInfo"
+                  : indicator,
+            }
           );
           window.open(href, "_blank");
         } else {

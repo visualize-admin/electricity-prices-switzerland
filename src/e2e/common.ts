@@ -10,6 +10,7 @@ import {
   Page,
   PageScreenshotOptions,
   TestInfo,
+  TestType,
 } from "@playwright/test";
 import {
   locatorFixtures as fixtures,
@@ -96,6 +97,10 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
     await use(withFlag);
   },
 });
+
+export type TestFixtures = typeof test extends TestType<infer U, infer W>
+  ? U
+  : never;
 
 const { expect } = test;
 

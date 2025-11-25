@@ -1179,6 +1179,18 @@ msgstr "Franken-Regel"
 msgid "sunshine.compliance.latest-year"
 msgstr "Aktuelles Tarifjahr ({latestYear})"
 
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission"
+msgstr "Rechtzeitige Einreichung von Papieren"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.no"
+msgstr "Nein"
+
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+msgid "sunshine.compliance.timely-paper-submission.yes"
+msgstr "Ja"
+
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
