@@ -640,17 +640,6 @@ export const fetchOperationalStandards = async (
         energyDensity: operatorData.energy_density,
       },
     },
-    productVariety: {
-      ecoFriendlyProductsOffered: 0, // TODO
-      productCombinationsOptions: false, // TODO,
-      operatorsProductsOffered: [
-        {
-          operatorId: `${operatorId}`, // TODO
-          ecoFriendlyProductsOffered: 0, // TODO
-          year: `${period}`,
-        },
-      ],
-    },
     serviceQuality: {
       notificationPeriodDays: data.info_days_in_advance || 0,
       informingCustomersOfOutage,
