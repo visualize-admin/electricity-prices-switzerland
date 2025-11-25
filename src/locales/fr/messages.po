@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -613,7 +613,7 @@ msgstr "Afficher tous les indicateurs Sunshine"
 
 #: src/components/generic-map.tsx
 msgid "map.error.description"
-msgstr "Malheureusement, les données de la carte n'ont pas pu être chargées. Vous trouverez les détails techniques ci-dessous."
+msgstr "Malheureusement, les données de la carte n'ont pas pu être chargées."
 
 #: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
@@ -1184,15 +1184,15 @@ msgstr "Année tarifaire en cours ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Soumission des documents dans les délais"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "Non"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "Oui"
+msgstr ""
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
@@ -1437,7 +1437,7 @@ msgstr "Part des gestionnaires de réseau"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Sur cette page, les principaux indicateurs sont évalués afin de fournir des informations sur la qualité des prestations des entreprises de fourniture d’électricité. Ces indicateurs incluent la diversité des produits, qui mesure l’offre de produits énergétiques respectueux de l’environnement et de produits combinés, la qualité du service, qui évalue dans quelle mesure les entreprises informent leurs consommateurs des interruptions de courant prévues et du délai de préavis, ainsi que la conformité, qui garantit que les règles de l’ElCom relatives au bénéfice maximal dans la distribution sont respectées et que les documents officiels sont soumis dans les délais à la Commission fédérale de l’électricité (ElCom)."
+msgstr "Sur cette page, les principaux indicateurs sont évalués afin de fournir des informations sur la qualité des prestations des entreprises de fourniture d’électricité. Ces indicateurs incluent la qualité du service, qui évalue dans quelle mesure les entreprises informent leurs consommateurs des interruptions de courant prévues, ainsi que la conformité, qui garantit que les règles de l’ElCom relatives au bénéfice maximal dans la distribution sont respectées et que les documents officiels sont soumis dans les délais à la Commission fédérale de l’électricité (ElCom)."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"

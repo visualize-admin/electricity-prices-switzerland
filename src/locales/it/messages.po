@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -129,7 +129,7 @@ msgstr "Panoramiche sull’elettricità"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
-msgstr "Tariffe elettricità"
+msgstr "Tariffe dell'elettricità"
 
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
@@ -355,11 +355,11 @@ msgstr "Numero di cantoni"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.max"
-msgstr "max"
+msgstr "Max"
 
 #: src/components/charts-generic/histogram/histogram-min-max-values.tsx
 msgid "histogram.min"
-msgstr "min"
+msgstr "Min"
 
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "histogram.municipality-count"
@@ -383,7 +383,7 @@ msgstr "Scoprite le tariffe dell’elettricità nella cartina"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.map-view"
-msgstr "Cartina"
+msgstr "Vista cartografica"
 
 #: src/components/app-layout.tsx
 msgid "home.menu.overview"
@@ -612,7 +612,7 @@ msgstr "Mostra tutti gli indicatori Sunshine"
 
 #: src/components/generic-map.tsx
 msgid "map.error.description"
-msgstr "Purtroppo non è stato possibile caricare i dati della mappa. I dettagli tecnici sono riportati di seguito."
+msgstr "Purtroppo non è stato possibile caricare i dati della mappa."
 
 #: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
@@ -1183,15 +1183,15 @@ msgstr "Anno tariffario attuale ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Presentazione tempestiva dei documenti"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "No"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "Sì"
+msgstr ""
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
@@ -1433,7 +1433,7 @@ msgstr "Quota di gestori di rete"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "In questa pagina vengono valutati importanti parametri che forniscono informazioni sulla qualità delle prestazioni delle aziende fornitrici di energia elettrica. Tra questi indicatori figurano la varietà dei prodotti, che misura l'offerta di prodotti energetici ecologici e combinati, la qualità del servizio, che valuta la capacità delle aziende di informare i propri consumatori in merito alle interruzioni di corrente programmate e ai termini di preavviso, e la conformità, che garantisce il rispetto delle norme dell'ElCom sul profitto massimo nella distribuzione e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+msgstr "In questa pagina vengono valutati importanti parametri che forniscono informazioni sulla qualità delle prestazioni delle aziende fornitrici di energia elettrica. Tra questi indicatori figurano la qualità del servizio, che valuta la capacità delle aziende di informare i propri consumatori in merito alle interruzioni di corrente programmate, e la conformità, che garantisce il rispetto delle norme dell'ElCom sul profitto massimo nella distribuzione e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"

@@ -1431,7 +1431,7 @@ msgstr "Share of operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Service Quality, assessing how well companies inform consumers about planned electricity interruptions and the notice period provided, and Compliance, ensuring adherence to the francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
+msgstr "The Operational Standards page evaluates key performance indicators that highlight the quality of service provided by electricity companies. These indicators include Service Quality, assessing how well companies inform consumers about planned electricity interruptions, and Compliance, ensuring adherence to the francs rule and the timely submission of official documents to the Federal Electricity Commission (ElCom)."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"

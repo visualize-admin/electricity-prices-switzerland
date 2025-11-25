@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -501,7 +501,7 @@ msgstr "Andere Betreiber"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "legend-item.peer-group-median"
-msgstr "Peer Group Median"
+msgstr "Median der Vergleichsgruppe"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
@@ -1181,15 +1181,15 @@ msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Rechtzeitige Einreichung von Papieren"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
-msgstr "Nein"
+msgstr ""
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.yes"
-msgstr "Ja"
+msgstr ""
 
 #: src/components/network-costs-trend-card.tsx
 #: src/components/operational-standards-card.tsx
@@ -1431,7 +1431,7 @@ msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Produktvielfalt, die das Angebot an umweltfreundlichen und kombinierten Energieprodukten misst, die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen und die Vorankündigungsfrist informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zum Maximalgewinn im Vertrieb eingehalten wird und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
+msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zu den maximalen Kosten bzw. dem Gewinn im Vertrieb eingehalten werden und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
@@ -1527,7 +1527,7 @@ msgstr "Verhältnis"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Anzeigen, wie sich die Werte im Verhältnis zueinander vergleichen."
+msgstr "Anzeigen, wie sich die Werte im Verhältnis zueinander verhalten."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
@@ -1560,7 +1560,7 @@ msgstr "Insgesamt"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.unplanned"
-msgstr "Ungeplantes"
+msgstr "Ungeplant"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saifi"
