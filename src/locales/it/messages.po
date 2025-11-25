@@ -295,7 +295,7 @@ msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettr
 
 #: src/components/footer.tsx
 msgid "footer.elcom-electricity-tariffs-url"
-msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica.html"
+msgstr "https://www.elcom.admin.ch/it/prezzi-e-tariffe-dellenergia-elettrica"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework"
@@ -308,6 +308,14 @@ msgstr "https://www.admin.ch/gov/it/pagina-iniziale/basi-legali.html"
 #: src/components/footer.tsx
 msgid "footer.more-information"
 msgstr "Informazioni complementari"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "Regolazione Sunshine"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "https://www.elcom.admin.ch/it/regolazione-sunshine"
 
 #: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"

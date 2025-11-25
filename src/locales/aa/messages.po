@@ -306,6 +306,14 @@ msgid "footer.more-information"
 msgstr "footer.more-information"
 
 #: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "footer.sunshine-regulation"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "footer.sunshine-regulation-url"
+
+#: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
 msgstr "footer.swiss-municipalities-grid"
 

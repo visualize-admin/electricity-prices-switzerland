@@ -289,11 +289,11 @@ msgstr "Daten herunterladen"
 
 #: src/components/footer.tsx
 msgid "footer.elcom-dataviz-url"
-msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise/tarif-rohdaten-verteilnetzbetreiber.html"
+msgstr "https://www.elcom.admin.ch/de/tarifdaten-und-visualisierungen"
 
 #: src/components/footer.tsx
 msgid "footer.elcom-electricity-tariffs-url"
-msgstr "https://www.elcom.admin.ch/elcom/de/home/themen/strompreise.html"
+msgstr "https://www.elcom.admin.ch/de/strompreise-und-tarife"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework"
@@ -306,6 +306,14 @@ msgstr "https://www.admin.ch/gov/de/start/rechtliches.html"
 #: src/components/footer.tsx
 msgid "footer.more-information"
 msgstr "Weitere Informationen"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "Sunshine-Regulierung"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "https://www.elcom.admin.ch/de/sunshine-regulierung"
 
 #: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"

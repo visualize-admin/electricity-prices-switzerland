@@ -289,11 +289,11 @@ msgstr "Télécharger les données"
 
 #: src/components/footer.tsx
 msgid "footer.elcom-dataviz-url"
-msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite/donnees-brutes-des-gestionnaires-suisses-de-reseau-de-distributi.html"
+msgstr "https://www.elcom.admin.ch/fr/donnees-tarifaires-et-visualisation"
 
 #: src/components/footer.tsx
 msgid "footer.elcom-electricity-tariffs-url"
-msgstr "https://www.elcom.admin.ch/elcom/fr/home/themes/prix-de-l_electricite.html"
+msgstr "https://www.elcom.admin.ch/fr/prix-et-tarifs-de-lelectricite"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework"
@@ -306,6 +306,14 @@ msgstr "https://www.admin.ch/gov/fr/accueil/conditions-utilisation.html"
 #: src/components/footer.tsx
 msgid "footer.more-information"
 msgstr "Informations complémentaires"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "Régulation Sunshine"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "https://www.elcom.admin.ch/fr/regulation-sunshine"
 
 #: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
