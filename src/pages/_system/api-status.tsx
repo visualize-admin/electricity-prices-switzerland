@@ -9,9 +9,9 @@ import { FormEvent, useCallback, useMemo, useState } from "react";
 import { OperationResult, UseQueryState } from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
-import serverEnv from "src/env/server";
 import * as Queries from "src/graphql/queries";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
+import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 
 const IndicatorFail = () => (
@@ -836,7 +836,7 @@ export const getServerSideProps = createGetServerSideProps(
 
     return {
       props: {
-        defaultEndpoint: serverEnv.SPARQL_ENDPOINT,
+        defaultEndpoint: defaultSparqlEndpointUrl,
         sessionEndpoint: sessionConfig.flags.sparqlEndpoint,
         cubeHealth: serializeOperation(validResults.cubeHealth.value),
         systemInfo: serializeOperation(validResults.systemInfo.value),
