@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.28.1 - 2025-11-26
+
+- Fix a bug where the SPARQL client would not take into account the session endpoint URL
+
 # 2.28.0 - 2025-11-26
 
 - Add new links in footer and fixing broken links ([#475](https://github.com/visualize-admin/electricity-prices-switzerland/pull/475))
