@@ -11,7 +11,12 @@ You can also check the
 
 # Unreleased
 
-- Adding new link in footer and fixing broken links ([#475](https://github.com/visualize-admin/electricity-prices-switzerland/pull/475))
+Nothing yet.
+
+# 2.28.0 - 2025-11-26
+
+- Add new links in footer and fixing broken links ([#475](https://github.com/visualize-admin/electricity-prices-switzerland/pull/475))
+- Improve display of /\_system/api-status
 
 # 2.27.0 - 2025-11-25
 
