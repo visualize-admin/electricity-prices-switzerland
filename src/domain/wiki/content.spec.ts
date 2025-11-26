@@ -10,8 +10,51 @@ type WikiEntry = {
   slug: string;
 };
 
+const checkURL = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url, { method: "GET" });
+    if (!response.ok) {
+      console.error(`URL ${url} returned status ${response.status}`);
+      console.error(`Response text: ${await response.text()}`);
+    }
+    return response.ok;
+  } catch (e) {
+    console.error(`Error fetching URL ${url}:`, e);
+    return false;
+  }
+};
+
+// Important: the fn should not throw otherwise behavior is undefined
+const promisePool = async <T, TResolve>(
+  items: T[],
+  poolSize: number,
+  fn: (item: T) => Promise<TResolve>
+): Promise<TResolve[]> => {
+  const resolves: TResolve[] = [];
+
+  const executing: Promise<void>[] = [];
+
+  for (const item of items) {
+    const p = fn(item).then((result) => {
+      resolves.push(result);
+      executing.splice(
+        executing.findIndex((e) => e === p),
+        1
+      );
+    });
+    executing.push(p);
+
+    if (executing.length >= poolSize) {
+      await Promise.race(executing);
+    }
+  }
+
+  await Promise.all(executing);
+  return resolves;
+};
+
 describe("wiki-content", () => {
-  it("should have valid markdown links", () => {
+  it("should have valid markdown links", async () => {
     const wikiContent = fs.readFileSync(
       join(__dirname, "./content.json"),
       "utf-8"
@@ -24,22 +67,23 @@ describe("wiki-content", () => {
     const invalidLinks: { slug: string; link: string; url: string }[] = [];
 
     // Process each entry
-    data.forEach((entry) => {
+    const urls = data.flatMap((entry) => {
       if (entry.format === "markdown" && entry.content) {
         const matches = [...entry.content.matchAll(markdownLinkRegex)];
 
-        matches.forEach((match) => {
-          const url = match[2];
+        return matches.map((match) => ({
+          slug: entry.slug,
+          link: match[0],
+          url: match[2],
+        }));
+      }
+      return [];
+    });
 
-          // Check if URL is valid (you can add more validation here)
-          if (!url || url.trim() === "") {
-            invalidLinks.push({
-              slug: entry.slug,
-              link: match[0],
-              url: url,
-            });
-          }
-        });
+    await promisePool(urls, 2, async ({ slug, link, url }) => {
+      const isValid = await checkURL(url).catch(() => false);
+      if (!isValid) {
+        invalidLinks.push({ slug, link, url });
       }
     });
 
