@@ -7,8 +7,8 @@ import { ArgumentParser } from "argparse";
 import { config } from "dotenv";
 import jscodeshift from "jscodeshift";
 
-import { getCachedWikiPages, WikiPage } from "src/domain/gitlab-wiki-api";
-import { wikiPageSlugs } from "src/domain/wiki";
+import { wikiPageSlugs } from "src/domain/types";
+import { getCachedWikiPages, WikiPage } from "src/domain/wiki/gitlab-api";
 
 // Load environment variables from .env file
 config();
@@ -102,7 +102,7 @@ const main = async (): Promise<void> => {
 
   contentParser.add_argument("-f", "--filename", {
     required: false,
-    default: "./src/wiki-content.json",
+    default: "./src/domain/wiki/content.json",
     help: "Filename to save the wiki page content",
   });
 

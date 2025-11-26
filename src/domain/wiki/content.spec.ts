@@ -13,7 +13,7 @@ type WikiEntry = {
 describe("wiki-content", () => {
   it("should have valid markdown links", () => {
     const wikiContent = fs.readFileSync(
-      join(__dirname, "./wiki-content.json"),
+      join(__dirname, "./content.json"),
       "utf-8"
     );
     const data = JSON.parse(wikiContent) as WikiEntry[];

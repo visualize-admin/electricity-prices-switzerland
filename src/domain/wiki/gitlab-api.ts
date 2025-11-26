@@ -4,7 +4,7 @@ import path from "path";
 
 import fs from "fs-extra";
 
-import { getWikiPage as getStaticWikiPage } from "src/domain/gitlab-wiki-static";
+import { getWikiPage as getStaticWikiPage } from "src/domain/wiki/static";
 import serverEnv from "src/env/server";
 import { setupUndiciHttpAgent } from "src/pages/api/http-agent";
 

@@ -1,4 +1,4 @@
-import wikiPages_ from "src/wiki-content.json";
+import wikiPages_ from "./content.json";
 
 const wikiPages = wikiPages_ as WikiPage[];
 

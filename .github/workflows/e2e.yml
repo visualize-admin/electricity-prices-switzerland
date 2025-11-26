@@ -20,7 +20,7 @@ jobs:
         uses: ./.github/workflows/install-playwright
 
       - name: Create fake wiki content
-        run: echo "[]" > src/wiki-content.json
+        run: echo "[]" > src/domain/wiki/content.json
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
