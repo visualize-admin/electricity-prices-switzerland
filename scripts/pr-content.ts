@@ -38,7 +38,11 @@ async function downloadIssueContent(issueNumber: string): Promise<string> {
     log(`Successfully fetched issue #${issueNumber}`);
     return stdout;
   } catch (error) {
-    log(`Failed to fetch issue #${issueNumber}`);
+    log(
+      `Failed to fetch issue #${issueNumber}: ${
+        error instanceof Error ? error.message : `${error}`
+      }`
+    );
     return "";
   }
 }
@@ -127,6 +131,7 @@ async function main(): Promise<void> {
 
   try {
     const context = await prepareContext(args.base);
+    // eslint-disable-next-line no-console
     console.log(context);
   } catch (error) {
     log(

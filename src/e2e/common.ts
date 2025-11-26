@@ -98,7 +98,7 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   },
 });
 
-export type TestFixtures = typeof test extends TestType<infer U, infer W>
+export type TestFixtures = typeof test extends TestType<infer U, infer _W>
   ? U
   : never;
 
