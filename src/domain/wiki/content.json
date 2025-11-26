@@ -1,15 +1,6 @@
 [
   {
     "format": "markdown",
-    "slug": "_sidebar",
-    "title": "_sidebar",
-    "wiki_page_meta_id": 68,
-    "content": "#### Banner\n\n- [Deutsch](home-banner/de)\n- [Français](home-banner/fr)\n- [Italiano](home-banner/it)\n\n---\n\n#### Hilfetexte\n\n##### Berechnungsgrundlage\n\n- [Deutsch](help-calculation/de)\n- [Français](help-calculation/fr)\n- [Italiano](help-calculation/it)\n\n##### Preiskategorien\n\n- [Deutsch](help-categories/de)\n- [Français](help-categories/fr)\n- [Italiano](help-categories/it)\n\n##### Fixkosten\n\n- [Deutsch](help-fixcosts/de)\n- [Français](help-fixcosts/fr)\n- [Italiano](help-fixcosts/it)\n\n##### Tarifvergleich\n\n- [Deutsch](help-price-comparison/de)\n- [Français](help-price-comparison/fr)\n- [Italiano](help-price-comparison/it)\n\n##### Preiskomponenten\n\n- [Deutsch](help-price-components/de)\n- [Français](help-price-components/fr)\n- [Italiano](help-price-components/it)\n\n##### Produkte\n\n- [Deutsch](help-products/de)\n- [Français](help-products/fr)\n- [Italiano](help-products/it)\n\n\n##### Tarifentwicklung\n\n- [Deutsch](help-price-evolution/de)\n- [Français](help-price-evolution/fr)\n- [Italiano](help-price-evolution/it)\n\n##### Preisverteilung\n\n- [Deutsch](help-price-distribution/de)\n- [Français](help-price-distribution/fr)\n- [Italiano](help-price-distribution/it)\n\n##### Kantonsvergleich\n\n- [Deutsch](help-canton-comparison/de)\n- [Français](help-canton-comparison/fr)\n- [Italiano](help-canton-comparison/it)\n\n##### Liste filtern\n\n- [Deutsch](help-search-list/de)\n- [Français](help-search-list/fr)\n- [Italiano](help-search-list/it)\n\n##### Rohdaten herunterladen \n\n- [Deutsch](help-download-raw-data/de)\n- [Français](help-download-raw-data/fr)\n- [Italiano](help-download-raw-data/it)\n\n#####  Kommunen und Netzbetreiber Info Download \n\n- [Deutsch](help-municipalities-and-grid-operators-info/de)\n- [Français](help-municipalities-and-grid-operators-info/fr)\n- [Italiano](help-municipalities-and-grid-operators-info/it)",
-    "encoding": "UTF-8",
-    "front_matter": {}
-  },
-  {
-    "format": "markdown",
     "slug": "help-calculation/de",
     "title": "de",
     "wiki_page_meta_id": 120,

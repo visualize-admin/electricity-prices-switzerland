@@ -132,7 +132,9 @@ const main = async (): Promise<void> => {
     case "download": {
       const filename = args.filename as string;
       console.log(`Downloading wiki content to ${filename}...`);
-      const wikiPages = await getAllWikiPages();
+      const wikiPages = (await getAllWikiPages()).filter((page) => {
+        return page.slug !== "_sidebar";
+      });
       console.log(`Fetched ${wikiPages.length} wiki pages.`);
       fs.writeFileSync(filename, JSON.stringify(wikiPages, null, 2), "utf-8");
       console.log(`Wiki content saved to ${filename}`);
