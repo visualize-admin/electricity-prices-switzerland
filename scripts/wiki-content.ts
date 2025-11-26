@@ -24,6 +24,7 @@ const getAllWikiPages = async (): Promise<WikiPage[]> => {
   }
 
   try {
+    console.log("Fetching wiki pages from GitLab API...", gitlabWikiUrl);
     const wikiPages = await getCachedWikiPages(
       `${gitlabWikiUrl}?with_content=1`,
       gitlabWikiToken
@@ -95,6 +96,16 @@ const main = async (): Promise<void> => {
     required: true,
   });
 
+  const contentParser = subparsers.add_parser("download", {
+    help: "Fetch and display wiki content",
+  });
+
+  contentParser.add_argument("-f", "--filename", {
+    required: false,
+    default: "./src/wiki-content.json",
+    help: "Filename to save the wiki page content",
+  });
+
   // Create pages subparser
   const pagesParser = subparsers.add_parser("pages", {
     help: "Get available and missing wiki pages",
@@ -118,7 +129,16 @@ const main = async (): Promise<void> => {
   const { format, command } = args;
 
   switch (command) {
-    case "pages":
+    case "download": {
+      const filename = args.filename as string;
+      console.log(`Downloading wiki content to ${filename}...`);
+      const wikiPages = await getAllWikiPages();
+      console.log(`Fetched ${wikiPages.length} wiki pages.`);
+      fs.writeFileSync(filename, JSON.stringify(wikiPages, null, 2), "utf-8");
+      console.log(`Wiki content saved to ${filename}`);
+      break;
+    }
+    case "pages": {
       const result = await fetchWikiPages();
       if (format === "json") {
         console.log(JSON.stringify(result, null, 2));
@@ -187,6 +207,7 @@ const main = async (): Promise<void> => {
         });
       }
       break;
+    }
     default:
       console.error(`Unknown command: ${command}`);
       process.exit(1);

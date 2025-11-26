@@ -5,4 +5,4 @@
 content: src/wiki-content.json
 
 src/wiki-content.json:
-	curl -k -o $@ -H PRIVATE-TOKEN:$(GITLAB_WIKI_TOKEN) $(GITLAB_WIKI_URL)?with_content=1
+	bun src/wiki-content download
