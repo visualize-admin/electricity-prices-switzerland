@@ -11,7 +11,7 @@ export const defaultSparqlEndpointUrl = server.SPARQL_ENDPOINT;
 /**
  * Creates a SPARQL client with the specified endpoint URL.
  */
-export function createSparqlClient(endpointUrl: string): ParsingClient {
+function createSparqlClient(endpointUrl: string): ParsingClient {
   const client = new ParsingClient({
     endpointUrl,
   });
@@ -35,7 +35,7 @@ export function createSparqlClientForCube(
   return createSparqlClient(maybeCachedEndpointUrl);
 }
 
-export const getSparqlEndpointFromSession = (
+const getSparqlEndpointFromSession = (
   session: SessionPayload | null
 ) => {
   return session?.flags.sparqlEndpoint ?? defaultSparqlEndpointUrl;
