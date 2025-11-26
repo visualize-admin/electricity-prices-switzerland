@@ -16,8 +16,12 @@ jobs:
       - name: Compile locales
         run: yarn run lingui compile
 
-      - name: Create fake wiki content
-        run: echo "[]" > src/domain/wiki/content.json
+      - name: Download wiki content from ref
+        env:
+          GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
+          GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
+        run: |
+          yarn run wiki:update-content
 
       - name: Knip
         run: yarn run knip
