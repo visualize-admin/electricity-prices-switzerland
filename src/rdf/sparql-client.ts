@@ -4,8 +4,10 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import server from "src/env/server";
 import { parseSessionFromRequest } from "src/session-config";
+import { SessionPayload } from "src/session-config/session";
 
-export const endpointUrl = server.SPARQL_ENDPOINT;
+export const defaultSparqlEndpointUrl = server.SPARQL_ENDPOINT;
+
 /**
  * Creates a SPARQL client with the specified endpoint URL.
  */
@@ -32,8 +34,15 @@ export function createSparqlClientForCube(
 
   return createSparqlClient(maybeCachedEndpointUrl);
 }
+
+export const getSparqlEndpointFromSession = (
+  session: SessionPayload | null
+) => {
+  return session?.flags.sparqlEndpoint ?? defaultSparqlEndpointUrl;
+};
+
 /**
- * Session-aware function to get SPARQL client from API request.
+ * Session-aware functions to get SPARQL client from API request.
  * This function tries to get the endpoint from the admin session,
  * then falls back to the default endpoint.
  */
@@ -41,6 +50,14 @@ export async function getSparqlClientFromRequest(
   req: NextApiRequest | GetServerSidePropsContext["req"] | NextRequest
 ): Promise<ParsingClient> {
   const session = await parseSessionFromRequest(req);
-  const endpoint = session?.flags.sparqlEndpoint ?? server.SPARQL_ENDPOINT;
+  const endpoint = getSparqlEndpointFromSession(session);
+  return createSparqlClient(endpoint);
+}
+
+export async function getSparqlClientFromGetServerSidePropsContext(ctx: {
+  req: GetServerSidePropsContext["req"];
+}): Promise<ParsingClient> {
+  const session = await parseSessionFromRequest(ctx.req);
+  const endpoint = getSparqlEndpointFromSession(session);
   return createSparqlClient(endpoint);
 }
