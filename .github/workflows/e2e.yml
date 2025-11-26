@@ -19,8 +19,12 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
-      - name: Create fake wiki content
-        run: echo "[]" > src/domain/wiki/content.json
+      - name: Download wiki content from ref
+        env:
+          GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
+          GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
+        run: |
+          yarn run wiki:update-content
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
