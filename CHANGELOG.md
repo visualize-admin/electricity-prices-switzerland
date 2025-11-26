@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Adding new link in footer and fixing broken links ([#475](https://github.com/visualize-admin/electricity-prices-switzerland/pull/475))
 
 # 2.27.0 - 2025-11-25
 

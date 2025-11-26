@@ -6,7 +6,7 @@ import type { IndicatorMedianParams } from "src/lib/sunshine-data";
 import type { PeerGroupRecord } from "src/lib/sunshine-data-service";
 
 import { searchGeverDocuments } from "src/domain/gever";
-import { getWikiPage } from "src/domain/gitlab-wiki-api";
+import { getWikiPage } from "src/domain/wiki/gitlab-api";
 import {
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,

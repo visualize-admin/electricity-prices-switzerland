@@ -306,6 +306,14 @@ msgid "footer.more-information"
 msgstr "footer.more-information"
 
 #: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "footer.sunshine-regulation"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "footer.sunshine-regulation-url"
+
+#: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
 msgstr "footer.swiss-municipalities-grid"
 
@@ -1172,10 +1180,6 @@ msgid "sunshine.compliance.francs-rule-regulation"
 msgstr "sunshine.compliance.francs-rule-regulation"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.latest-year"
-msgstr "sunshine.compliance.latest-year"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "sunshine.compliance.timely-paper-submission"
 
@@ -1227,13 +1231,6 @@ msgstr "sunshine.costs-and-tariffs.energy-tariffs-trend"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
 msgstr "sunshine.costs-and-tariffs.energy-tariffs.overview"
-
-#: src/components/peer-group-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "sunshine.costs-and-tariffs.latest-year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1369,6 +1366,17 @@ msgstr "sunshine.indicator.saidi"
 msgid "sunshine.indicator.saifi"
 msgstr "sunshine.indicator.saifi"
 
+#: src/components/peer-group-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.latest-year"
+msgstr "sunshine.latest-year"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
 msgstr "sunshine.metric-unit.anzahl-year"
@@ -1479,11 +1487,6 @@ msgstr "sunshine.power-stability.description"
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "sunshine.power-stability.duration"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.latest-year"
-msgstr "sunshine.power-stability.latest-year"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
@@ -1633,10 +1636,6 @@ msgstr "sunshine.service-quality.informing-customers-outage.no"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.yes"
 msgstr "sunshine.service-quality.informing-customers-outage.yes"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.service-quality.latest-year"
-msgstr "sunshine.service-quality.latest-year"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"

@@ -5,7 +5,7 @@ import {
   QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "src/domain/query-states";
-import { WikiPageSlug } from "src/domain/wiki";
+import { WikiPageSlug } from "src/domain/types";
 import { runtimeEnv } from "src/env/runtime";
 import {
   NetworkCostsData,

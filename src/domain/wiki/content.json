@@ -1,0 +1,870 @@
+[
+  {
+    "format": "markdown",
+    "slug": "help-calculation/de",
+    "title": "de",
+    "wiki_page_meta_id": 120,
+    "content": "Die Rohdaten der Strompreis-Übersicht stammen direkt von den Netzbetreibern und werden von der ElCom nicht geprüft. **Die Verantwortung für die Qualität der Daten liegt bei den Netzbetreibern.**\n\nDie Netzbetreiber haben verschiedene Stromtarife, folglich werden für den Tarifvergleich sogenannte Stromverbrauchsprofile (Kategorien z. B. H1 oder C1) verwendet. \n\nAlle Tarife werden in Bezug zum Tarif des Schweizer Mediankunden gesetzt und die Abweichung dargestellt. Der Tarif des Mediankunden wird aus allen Tarifen der entsprechenden Kategorie unter Berücksichtigung der Einwohnerzahlen ermittelt. \n\nDer Tarif des Mediankunden ist der Wert, welcher in der Mitte des gelben Intervalls liegt. Würde also jeder Einwohner das gewählte Verbrauchsprofil aufweisen, hätte die eine Hälfte der Einwohner einen günstigeren, die andere Hälfte einen teureren Tarif zu bezahlen. \n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-calculation/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 113,
+    "content": "Les données brutes de l'aperçu des prix de l'électricité proviennent directement des gestionnaires de réseau et ne sont pas vérifiées par l'ElCom. **La responsabilité de la qualité des données incombe aux gestionnaires de réseau.**\n\nLes gestionnaires de réseau proposent des tarifs de l’électricité différents, c’est pourquoi on utilise des catégories de consommation standards (H1 à C7 par exemple) pour comparer les tarifs. \n\nTous les tarifs sont présentés par rapport au tarif du client médian suisse et les écarts par rapport à ce dernier sont indiqués. Le tarif du client médian de chaque catégorie de consommation est déterminé à partir de tous les tarifs de la catégorie correspondante en tenant compte du nombre d’habitants. \n\nLe tarif payé par le client médian correspond à la valeur se trouvant au milieu de l’intervalle jaune. Ainsi, si on considérait tous les habitants de la catégorie de consommation sélectionnée, une moitié des habitants devrait payer un tarif meilleur marché, et l’autre moitié un tarif plus élevé. \n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-calculation/it",
+    "title": "it",
+    "wiki_page_meta_id": 114,
+    "content": "I dati grezzi del portale delle tariffe elettriche provengono direttamente dai gestori di rete e non vengono verificati dalla ElCom. **La responsabilità della qualità dei dati grava sui gestori di rete.**\r\n\r\nI gestori di rete offrono tariffe elettriche diverse, per questo motivo delle categorie standard di consumo (da H1 a C7) vengono utilizzate per confrontare le tariffe.\r\n\r\nTutte le tariffe sono presentate in relazione alla tariffa per il cliente svizzero mediano e le deviazioni da quest'ultima sono indicate. La tariffa del cliente mediano di ogni categoria di consumo viene determinata in base a tutte le tariffe della categoria corrispondente, tenendo conto del numero di abitanti.\r\n\r\nLa tariffa pagata dal cliente mediano è quindi il valore che si trova a metà dell'intervallo giallo. Se si considerassero tutti gli abitanti facenti parte della categoria di consumo selezionata, metà degli abitanti pagherebbe una tariffa inferiore e l'altra metà una superiore.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-canton-comparison/de",
+    "title": "de",
+    "wiki_page_meta_id": 164,
+    "content": "Das nachfolgende Diagramm zeigt die Bandbreite der Tarife aller Gemeinden in den verschiedenen Kantonen an. Zusätzlich wird die Lage der Tarife der ausgewählten Gemeinde bzw. des Netzbetreibers im Vergleich angezeigt. Hier sind die Tarife jeweils auf der x-Achse dargestellt als Strahl, der durch das Minimum und das Maximum des jeweiligen Kantons begrenzt ist. Die Darstellung kann nach Median (CH Mittelwert) oder Kantonsnamen sortiert werden (jeweils auf- bzw. absteigend). Auch hier ist der Median bezogen auf die ganze Schweiz abgebildet. Die Farben zeigen – wie auf der Kartendarstellung – die Abweichung der jeweiligen Tarife vom Median. \nDas Diagramm können Sie jeweils für das Total sowie für die unterschiedlichen Preiskomponenten Netz, Energie, Abgaben an Gemeinden und Förderabgaben anzeigen lassen.\n\nBeliefert ein Unternehmen mehrere Gemeinden und hat es für diese Gemeinden unterschiedliche Tarife (hervorgerufen u.U. durch je Gemeinde unterschiedliche Abgaben), wird die Lage der jeweiligen Tarife differenziert angezeigt.\n\nBitte beachten Sie: Die Rohdaten der Strompreis-Übersicht stammen direkt von den Netzbetreibern und werden von der ElCom nicht ",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-canton-comparison/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 167,
+    "content": "Le diagramme ci-dessous présente la fourchette tarifaire des communes dans les différents cantons. De plus, les tarifs de la commune ou du gestionnaire de réseau sélectionné est affichée en comparaison. \n\nLes tarifs sont représentés sur l’axe des x sous forme de rayon. L’axe est délimité par le minimum et le maximum du canton respectif. L’affichage peut être trié par médiane (valeur moyenne CH) ou par nom de canton (par ordre croissant ou décroissant). Ici aussi, la médiane est indiquée pour toute la Suisse. Les couleurs montrent – comme sur la carte – l’écart des tarifs par rapport à la médiane. \n\nVous pouvez afficher le diagramme pour le total ainsi que pour les différentes composantes du prix, à savoir, l’utilisation du réseau, énergie, taxes à la collectivité publique et supplément de réseau. \n\nSi une entreprise approvisionne plusieurs communes, et, a des tarifs différents (probablement dus à des taxes différentes dans chaque commune), la situation des tarifs respectifs de chaque commune s’affiche de manière différencié. \n\nNous vous rendons attentif que les données brutes de l’aperçu des prix de l’électricité proviennent directement des gestionnaires de réseau et ne sont pas contrôlées par l’ElCom. Les opérateurs de réseau sont responsables de la qualité des données. \n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-canton-comparison/it",
+    "title": "it",
+    "wiki_page_meta_id": 170,
+    "content": "Il seguente diagramma a scatola e baffi mostra la gamma di tariffe (min et max) di tutti i comuni nei diversi cantoni. Inoltre, è visibile per il confronto il posizionamento della tariffa del comune o operatore di rete selezionato. Qui le tariffe sono mostrate sull'asse x; sono parimenti indicati i minimi e massimi tariffari del rispettivo cantone. La visualizzazione può essere ordinata per mediana o cantone (in ordine crescente o decrescente). Anche in questo caso la linea tratteggiata verticale indica la tariffa mediana Svizzera. I colori mostrano - come sulla mappa – lo scostamento delle rispettive tariffe dalla mediana. Il diagramma può visualizzare il totale come altresì le diverse componenti di prezzo quali rete, energia, oneri per i comuni e tasse d’incitamento.\r\n\r\nSe un gestore di rete approvvigiona diversi comuni ed a questi applica tariffe differenziate (p. es. a causa della diversificazione degli oneri comunali), il posizionamento delle rispettive tariffe viene visualizzato in modo differenziato.\r\n\r\nAvviso: i dati grezzi per la panoramica delle tariffe dell’elettricità provengono direttamente dai gestori di rete e non vengono controllati dalla ElCom. La responsabilità per la qualità dei dati è degli operatori di rete.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-categories/de",
+    "title": "de",
+    "wiki_page_meta_id": 121,
+    "content": "## Was sind Verbrauchskategorien?\n\nViele Stromlieferanten haben keinen Einheitspreis für alle Kunden, sondern machen ihre Tarife vom Zeitpunkt des Stromkonsums (Tag, Nacht, Wochentag, Saison) und der Menge des Stromkonsums (Verbrauchsprofil) abhängig. Um trotzdem einen Preisvergleich zu ermöglichen, arbeitet diese Seite mit 15 vorgegebenen Verbrauchskategorien.\n\nDiese Verbrauchskategorien bilden einerseits unterschiedliche Verbrauchsmengen ab, andererseits werden die Tarife vereinheitlicht: Es wird ein Durchschnittswert pro Tag gerechnet, auch wenn der Netzbetreiber unterschiedliche Tarife für Tag, Nacht, Mo-Fr., Sa, So, Winter und Sommer hat.\n\n### Verbrauchsprofile typischer Haushalte:\n\n<details>\n  <summary>H1: 1'600 kWh/Jahr: 2-Zimmerwohnung mit Elektroherd</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **1'600 kWh**, aufgeteilt wie folgt:\n\n|            |         |         |\n| ---------- | ------- | ------- |\n| **Winter** | 06h-12h | 250 kWh |\n|            | 12h-18h | 200 kWh |\n|            | 18h-22h | 300 kWh |\n|            | 22h-06h | 120 kWh |\n| **Sommer** | 06h-12h | 220 kWh |\n|            | 12h-18h | 150 kWh |\n|            | 18h-22h | 240 kWh |\n|            | 22h-06h | 120 kWh |\n\n</details>\n<details>\n  <summary>H2: 2'500 kWh/Jahr: 4-Zimmerwohnung mit Elektroherd</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **2'500 kWh**, aufgeteilt wie folgt:\n\n|            |         |         |\n| ---------- | ------- | ------- |\n| **Winter** | 06h-12h | 360 kWh |\n|            | 12h-18h | 330 kWh |\n|            | 18h-22h | 420 kWh |\n|            | 22h-06h | 240 kWh |\n| **Sommer** | 06h-12h | 300 kWh |\n|            | 12h-18h | 270 kWh |\n|            | 18h-22h | 340 kWh |\n|            | 22h-06h | 240 kWh |\n\n</details>\n<details>\n  <summary>H3: 4'500 kWh/Jahr: 4-Zimmerwohnung mit Elektroherd und Elektroboiler</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **4'500 kWh**, aufgeteilt wie folgt:\n\n|            |         |          |\n| ---------- | ------- | -------- |\n| **Winter** | 06h-12h | 360 kWh  |\n|            | 12h-18h | 330 kWh  |\n|            | 18h-22h | 420 kWh  |\n|            | 22h-06h | 1200 kWh |\n| **Sommer** | 06h-12h | 300 kWh  |\n|            | 12h-18h | 270 kWh  |\n|            | 18h-22h | 340 kWh  |\n|            | 22h-06h | 1280 kWh |\n\n</details>\n<details>\n  <summary>H4: 4'500 kWh/Jahr: 5-Zimmerwohnung mit Elektroherd und Tumbler (ohne Elektroboiler)</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **4'500 kWh**, aufgeteilt wie folgt:\n\n|            |         |         |\n| ---------- | ------- | ------- |\n| **Winter** | 06h-12h | 690 kWh |\n|            | 12h-18h | 630 kWh |\n|            | 18h-22h | 600 kWh |\n|            | 22h-06h | 500 kWh |\n| **Sommer** | 06h-12h | 600 kWh |\n|            | 12h-18h | 540 kWh |\n|            | 18h-22h | 500 kWh |\n|            | 22h-06h | 440 kWh |\n\n</details>\n<details>\n  <summary>H5: 7'500 kWh/Jahr: 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler und Tumbler</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **7'500 kWh**, aufgeteilt wie folgt:\n\n|            |         |         | Boiler    |\n| ---------- | ------- | ------- | --------- |\n| **Winter** | 06h-12h | 690 kWh |           |\n|            | 12h-18h | 630 kWh |           |\n|            | 18h-22h | 600 kWh | 60 kWh    |\n|            | 22h-06h | 500 kWh | 1'340 kWh |\n| **Sommer** | 06h-12h | 600 kWh |           |\n|            | 12h-18h | 540 kWh |           |\n|            | 18h-22h | 500 kWh |           |\n|            | 22h-06h | 440 kWh | 1'600 kWh |\n\n</details>\n<details>\n  <summary>H6: 25'000 kWh/Jahr: 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler, Tumbler und mit elektrischer Widerstandsheizung</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **25'000 kWh**, aufgeteilt wie folgt:\n\n|            |         |         | Boiler/Heizung |\n| ---------- | ------- | ------- | -------------- |\n| **Winter** | 06h-12h | 690 kWh |                |\n|            | 12h-18h | 630 kWh |                |\n|            | 18h-22h | 600 kWh | 60 kWh         |\n|            | 22h-06h | 500 kWh | 15'780 kWh     |\n| **Sommer** | 06h-12h | 600 kWh |                |\n|            | 12h-18h | 540 kWh |                |\n|            | 18h-22h | 500 kWh |                |\n|            | 22h-06h | 440 kWh | 4'660 kWh      |\n\nDie Mengenverteilung für H6 wurden aufgrund einer Korrektur per 31.01.2015 rückwirkend für die Jahre 2009 – 2014 angepasst.\n\n</details>\n<details>\n  <summary>H7: 13'000 kWh/Jahr: 5-Zimmer-Einfamilienhaus mit Elektroherd, Elektroboiler, Tumbler, Wärmepumpe 5 kW zur Beheizung</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **13'000 kWh**, aufgeteilt wie folgt:\n\n|            |         |         | Wärmepumpe |\n| ---------- | ------- | ------- | ---------- |\n| **Winter** | 06h-12h | 690 kWh | 1'500 kWh  |\n|            | 12h-18h | 630 kWh | 1'200 kWh  |\n|            | 18h-22h | 660 kWh | 400 kWh    |\n|            | 22h-06h | 500 kWh | 2'940 kWh  |\n| **Sommer** | 06h-12h | 600 kWh | 270 kWh    |\n|            | 12h-18h | 540 kWh | 150 kWh    |\n|            | 18h-22h | 500 kWh | 100 kWh    |\n|            | 22h-06h | 440 kWh | 1'880 kWh  |\n\n</details>\n<details>\n  <summary>H8: 7'500 kWh/Jahr: Grosse, hoch elektrifizierte Eigentumswohnung</summary>\n\nWohnung mit einem Gesamtverbrauch pro Jahr von **7'500 kWh**, aufgeteilt wie folgt:\n\n|            |         |           |\n| ---------- | ------- | --------- |\n| **Winter** | 06h-12h | 1'150 kWh |\n|            | 12h-18h | 1'050 kWh |\n|            | 18h-22h | 1'000 kWh |\n|            | 22h-06h | 835 kWh   |\n| **Sommer** | 06h-12h | 1'000 kWh |\n|            | 12h-18h | 900 kWh   |\n|            | 18h-22h | 835 kWh   |\n|            | 22h-06h | 730 kWh   |\n\n</details>\n\n### Verbrauchsprofile von Gewerbe- und Industriebetrieben:\n\n<details>\n  <summary>C1: 8'000 kWh/Jahr: Kleinstbetrieb, max. beanspruchte Leistung: 8 kW</summary>\n\n|            |         | Mo - Fr   | Sa - So | Total     |\n| ---------- | ------- | --------- | ------- | --------- |\n| **Winter** | 06h-12h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|            | 12h-18h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|            | 18h-22h | 250 kWh   | 30 kWh  | 280 kWh   |\n|            | 22h-06h | 330 kWh   | 40 kWh  | 370 kWh   |\n| **Sommer** | 06h-12h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|            | 12h-18h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|            | 18h-22h | 200 kWh   | 30 kWh  | 230 kWh   |\n|            | 22h-06h | 280 kWh   | 40 kWh  | 320 kWh   |\n\n</details>\n\n<details>\n  <summary>C2: 30'000 kWh/Jahr: Kleinbetrieb, max. beanspruchte Leistung: 15 kW</summary>\n\n|            |         | Mo - Fr   | Sa - So | Total     |\n| ---------- | ------- | --------- | ------- | --------- |\n| **Winter** | 06h-12h | 6'660 kWh | 350 kWh | 7'010 kWh |\n|            | 12h-18h | 6'210 kWh | 350 kWh | 6'560 kWh |\n|            | 18h-22h | 1'040 kWh | 150 kWh | 1'190 kWh |\n|            | 22h-06h | 1'440 kWh | 300 kWh | 1'740 kWh |\n| **Sommer** | 06h-12h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|            | 12h-18h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|            | 18h-22h | 920 kWh   | 150 kWh | 1'070 kWh |\n|            | 22h-06h | 1'270 kWh | 300 kWh | 1'570 kWh |\n\n</details>\n\n<details>\n  <summary>C3: 150'000 kWh/Jahr: Mittlerer Betrieb, max. beanspruchte Leistung: 50 kW</summary>\n\n|            |         | Mo - Fr    | Sa - So   | Total      |\n| ---------- | ------- | ---------- | --------- | ---------- |\n| **Winter** | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|            | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|            | 18h-22h | 4'500 kWh  | 500 kWh   | 5'000 kWh  |\n|            | 22h-06h | 6'000 kWh  | 1'000 kWh | 7'000 kWh  |\n| **Sommer** | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|            | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|            | 18h-22h | 3'500 kWh  | 500 kWh   | 4'000 kWh  |\n|            | 22h-06h | 5'000 kWh  | 1'000 kWh | 6'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C4: 500'000 kWh/Jahr: Grosser Betrieb , max. beanspruchte Leistung: 150 kW, Niederspannung</summary>\n\n|            |         | Mo - Fr    | Sa - So   | Total      |\n| ---------- | ------- | ---------- | --------- | ---------- |\n| **Winter** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|            | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|            | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|            | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **Sommer** | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|            | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|            | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|            | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C5: 500'000 kWh/Jahr: Grosser Betrieb, max. beanspruchte Leistung: 150 kW, Mittelspannung, eigene Transformatorenstation</summary>\n\n|            |         | Mo - Fr    | Sa - So   | Total      |\n| ---------- | ------- | ---------- | --------- | ---------- |\n| **Winter** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|            | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|            | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|            | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **Sommer** | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|            | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|            | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|            | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C6: 1'500'000 kWh/Jahr: Grosser Betrieb, max. beanspruchte Leistung: 400 kW, Mittelspannung, eigene Transformatorenstation</summary>\n\n|            |         | Mo - Fr     | Sa - So    | Total       |\n| ---------- | ------- | ----------- | ---------- | ----------- |\n| **Winter** | 06h-12h | 227'000 kWh | 33'500 kWh | 260'500 kWh |\n|            | 12h-18h | 226'500 kWh | 33'500 kWh | 260'000 kWh |\n|            | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|            | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n| **Sommer** | 06h-12h | 240'000 kWh | 33'500 kWh | 273'500 kWh |\n|            | 12h-18h | 212'500 kWh | 33'500 kWh | 246'000 kWh |\n|            | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|            | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C7: 7'500'000 kWh/Jahr: Grosser Betrieb, max. beanspruchte Leistung: 1'630 kW, Mittelspannung, eigene Transformatorenstation</summary>\n\n|            |         | Mo - Fr     | Sa - So     | Total         |\n| ---------- | ------- | ----------- | ----------- | ------------- |\n| **Winter** | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|            | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|            | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|            | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n| **Sommer** | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|            | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|            | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|            | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n\n</details>\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-categories/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 214,
+    "content": "## A quoi correspondent les catégories de consommation?\n\nDe nombreux fournisseurs de courant ne pratiquent pas un prix unique pour tous leurs clients mais font dépendre leurs tarifs du moment de la consommation d’électricité (jour, nuit, jour de la semaine, saison) et de la quantité consommée (profil de consommation). Afin de permettre tout de même une comparaison de prix, cette page utilise 15 catégories de consommation prédéfinies.\n\nCes catégories de consommation représentent, d’une part, différentes quantités de consommation et, d’autre part, les tarifs sont uniformisés : une valeur moyenne par jour est calculée, y compris si le gestionnaire de réseau prévoit des tarifs différents pour le jour, la nuit, le lundi-vendredi, le samedi, le dimanche, l’hiver et l’été.\n\n### Profils de consommation de ménages types:\n\n<details>\n  <summary>H1: 1600 kWh/an: logement de 2 pièces avec cuisinière électrique</summary>\n\nLogement avec une consommation annuelle totale de 1'600 kWh, répartis de la façon suivante:\n\n|           |         |         |\n| --------- | ------- | ------- |\n| **hiver** | 06h-12h | 250 kWh |\n|           | 12h-18h | 200 kWh |\n|           | 18h-22h | 300 kWh |\n|           | 22h-06h | 120 kWh |\n| **été**   | 06h-12h | 220 kWh |\n|           | 12h-18h | 150 kWh |\n|           | 18h-22h | 240 kWh |\n|           | 22h-06h | 120 kWh |\n\n</details>\n\n<details>\n  <summary>H2: 2500 kWh/an: logement de 4 pièces avec cuisinière électrique</summary>\n\nLogement avec une consommation annuelle totale de 2'500 kWh, répartis de la façon suivante:\n\n|           |         |         |\n| --------- | ------- | ------- |\n| **hiver** | 06h-12h | 360 kWh |\n|           | 12h-18h | 330 kWh |\n|           | 18h-22h | 420 kWh |\n|           | 22h-06h | 240 kWh |\n| **été**   | 06h-12h | 300 kWh |\n|           | 12h-18h | 270 kWh |\n|           | 18h-22h | 340 kWh |\n|           | 22h-06h | 240 kWh |\n\n</details>\n\n<details>\n  <summary>H3: 4500 kWh/an: logement de 4 pièces avec cuisinière électrique et chauffe-eau électrique</summary>\n\nLogement avec une consommation annuelle totale de 4'500 kWh, répartis de la façon suivante:\n\n|           |         |          |\n| --------- | ------- | -------- |\n| **hiver** | 06h-12h | 360 kWh  |\n|           | 12h-18h | 330 kWh  |\n|           | 18h-22h | 420 kWh  |\n|           | 22h-06h | 1200 kWh |\n| **été**   | 06h-12h | 300 kWh  |\n|           | 12h-18h | 270 kWh  |\n|           | 18h-22h | 340 kWh  |\n|           | 22h-06h | 1280 kWh |\n\n</details>\n\n<details>\n  <summary>H4: 4500 kWh/an: logement de 5 pièces avec cuisinière électrique et sèche-linge (sans chauffe-eau électrique)</summary>\n\nLogement avec une consommation annuelle totale de 4'500 kWh, répartis de la façon suivante:\n\n|           |         |         |\n| --------- | ------- | ------- |\n| **hiver** | 06h-12h | 690 kWh |\n|           | 12h-18h | 630 kWh |\n|           | 18h-22h | 600 kWh |\n|           | 22h-06h | 500 kWh |\n| **été**   | 06h-12h | 600 kWh |\n|           | 12h-18h | 540 kWh |\n|           | 18h-22h | 500 kWh |\n|           | 22h-06h | 440 kWh |\n\n</details>\n\n<details>\n  <summary>H5: 7500 kWh/an: maison individuelle de 5 pièces avec cuisinière électrique , chauffe-eau électrique et sèche-linge</summary>\n\nLogement avec une consommation annuelle totale de 4'500 kWh et 3'000 kWh pour le chauffe-eau, répartis de la façon suivante:\n\n|           |         |         | Chauffe-eau |\n| --------- | ------- | ------- | ----------- |\n| **hiver** | 06h-12h | 690 kWh |             |\n|           | 12h-18h | 630 kWh |             |\n|           | 18h-22h | 600 kWh | 60 kWh      |\n|           | 22h-06h | 500 kWh | 1'340 kWh   |\n| **été**   | 06h-12h | 600 kWh |             |\n|           | 12h-18h | 540 kWh |             |\n|           | 18h-22h | 500 kWh |             |\n|           | 22h-06h | 440 kWh | 1'600 kWh   |\n\n</details>\n\n<details>\n  <summary>H6: 25 000 kWh/an: maison individuelle de 5 pièces avec cuisinière électrique , chauffe-eau électrique, sèche-linge et chauffage électrique à résistance</summary>\n\nLogement avec une consommation annuelle totale de 4'500 kWh et 20'500 kWh pour le chauffe-eau/chauffage, répartis de la façon suivante:\n\n|           |         |         | Chauffe-eau/chauffage |\n| --------- | ------- | ------- | --------------------- |\n| **hiver** | 06h-12h | 690 kWh |                       |\n|           | 12h-18h | 630 kWh |                       |\n|           | 18h-22h | 600 kWh | 60 kWh                |\n|           | 22h-06h | 500 kWh | 15'780 kWh            |\n| **été**   | 06h-12h | 600 kWh |                       |\n|           | 12h-18h | 540 kWh |                       |\n|           | 18h-22h | 500 kWh |                       |\n|           | 22h-06h | 440 kWh | 4'660 kWh             |\n\nA cause d'une correction au 31 janvier 2015, la distribution des quantités pour la catégorie H6 a subi une adaptation rétroactive pour les années 2009 à 2014.\n\n</details>\n\n<details>\n  <summary>H7: 13 000 kWh/an: maison individuelle de 5 pièces avec cuisinière électrique , chauffe-eau électrique, sèche-linge et pompe à chaleur de 5 kW pour le chauffage</summary>\n\nLogement avec une consommation annuelle totale de 4'500 kWh et 8'500 kWh pour la pompe à chaleur, répartis de la façon suivante:\n\n|           |         |         | Pompe à chaleur |\n| --------- | ------- | ------- | --------------- |\n| **hiver** | 06h-12h | 690 kWh | 1'500 kWh       |\n|           | 12h-18h | 630 kWh | 1'200 kWh       |\n|           | 18h-22h | 660 kWh | 400 kWh         |\n|           | 22h-06h | 500 kWh | 2'940 kWh       |\n| **été**   | 06h-12h | 600 kWh | 270 kWh         |\n|           | 12h-18h | 540 kWh | 150 kWh         |\n|           | 18h-22h | 500 kWh | 100 kWh         |\n|           | 22h-06h | 440 kWh | 1'880 kWh       |\n\n</details>\n\n<details>\n  <summary>H8: 7500 kWh/an: grand logement en propriété, avec large utilisation de l'électricité</summary>\n\nLogement avec une consommation annuelle totale de 7'500 kWh, répartis de la façon suivante:\n\n|           |         |           |\n| --------- | ------- | --------- |\n| **hiver** | 06h-12h | 1'150 kWh |\n|           | 12h-18h | 1'050 kWh |\n|           | 18h-22h | 1'000 kWh |\n|           | 22h-06h | 835 kWh   |\n| **été**   | 06h-12h | 1'000 kWh |\n|           | 12h-18h | 900 kWh   |\n|           | 18h-22h | 835 kWh   |\n|           | 22h-06h | 730 kWh   |\n\n</details>\n\n### Profils de consommation pour les entreprises artisanales et industrielles:\n\n<details>\n  <summary>C1: 8000 kWh/an: très petite entreprise, puissance max.: 8 kW</summary>\n\n|           |         | lu - ve   | sa - di | total     |\n| --------- | ------- | --------- | ------- | --------- |\n| **hiver** | 06h-12h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|           | 12h-18h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|           | 18h-22h | 250 kWh   | 30 kWh  | 280 kWh   |\n|           | 22h-06h | 330 kWh   | 40 kWh  | 370 kWh   |\n| **été**   | 06h-12h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|           | 12h-18h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|           | 18h-22h | 200 kWh   | 30 kWh  | 230 kWh   |\n|           | 22h-06h | 280 kWh   | 40 kWh  | 320 kWh   |\n\n</details>\n\n<details>\n  <summary>C2: 30 000 kWh/an: petite entreprise, puissance max.: 15 kW</summary>\n\n|           |         | lu - ve   | sa - di | total     |\n| --------- | ------- | --------- | ------- | --------- |\n| **hiver** | 06h-12h | 6'660 kWh | 350 kWh | 7'010 kWh |\n|           | 12h-18h | 6'210 kWh | 350 kWh | 6'560 kWh |\n|           | 18h-22h | 1'040 kWh | 150 kWh | 1'190 kWh |\n|           | 22h-06h | 1'440 kWh | 300 kWh | 1'740 kWh |\n| **été**   | 06h-12h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|           | 12h-18h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|           | 18h-22h | 920 kWh   | 150 kWh | 1'070 kWh |\n|           | 22h-06h | 1'270 kWh | 300 kWh | 1'570 kWh |\n\n</details>\n\n<details>\n  <summary>C3: 150 000 kWh/an: entreprise moyenne, puissance max.: 50 kW</summary>\n\n|           |         | lu - ve    | sa - di   | total      |\n| --------- | ------- | ---------- | --------- | ---------- |\n| **hiver** | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|           | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|           | 18h-22h | 4'500 kWh  | 500 kWh   | 5'000 kWh  |\n|           | 22h-06h | 6'000 kWh  | 1'000 kWh | 7'000 kWh  |\n| **été**   | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|           | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|           | 18h-22h | 3'500 kWh  | 500 kWh   | 4'000 kWh  |\n|           | 22h-06h | 5'000 kWh  | 1'000 kWh | 6'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C4: 500 000 kWh/an: grande entreprise, puissance max.: 150 kW, courant basse tension</summary>\n\n|           |         | lu - ve    | sa - di   | total      |\n| --------- | ------- | ---------- | --------- | ---------- |\n| **hiver** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|           | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|           | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|           | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **été**   | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|           | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|           | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|           | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C5: 500 000 kWh/an: grande entreprise, puissance max.: 150 kW, courant moyenne tension, propre station de transformation</summary>\n\n|           |         | lu - ve    | sa - di   | total      |\n| --------- | ------- | ---------- | --------- | ---------- |\n| **hiver** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|           | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|           | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|           | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **été**   | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|           | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|           | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|           | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C6: 1 500 000 kWh/an: grande entreprise, puissance max.: 400 kW, courant moyenne tension, propre station de transformation</summary>\n\n|           |         | lu - ve     | sa - di    | total       |\n| --------- | ------- | ----------- | ---------- | ----------- |\n| **hiver** | 06h-12h | 227'000 kWh | 33'500 kWh | 260'500 kWh |\n|           | 12h-18h | 226'500 kWh | 33'500 kWh | 260'000 kWh |\n|           | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|           | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n| **été**   | 06h-12h | 240'000 kWh | 33'500 kWh | 273'500 kWh |\n|           | 12h-18h | 212'500 kWh | 33'500 kWh | 246'000 kWh |\n|           | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|           | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C7: 7 500 000 kWh/an: grande entreprise, puissance max.: 1630 kW, courant moyenne tension, propre station de transformation </summary>\n\n|           |         | lu - ve     | sa - di     | total         |\n| --------- | ------- | ----------- | ----------- | ------------- |\n| **hiver** | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|           | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|           | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|           | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n| **été**   | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|           | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|           | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|           | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n\n</details>\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-categories/it",
+    "title": "it",
+    "wiki_page_meta_id": 215,
+    "content": "## Che cosa sono le categorie di consumo?\n\nMolti fornitori di elettricità non hanno un prezzo unitario per tutti i clienti, ma fanno dipendere le loro tariffe dal momento del consumo (diurno, notturno, giorno della settimana e stagione) e dalla quantità consumata (profilo di consumo). Malgrado ciò, affinché sia possibile un confronto, la presente pagina si basa su 15 categorie di consumo predefinite.\n\nTali categorie di consumo indicano da un lato le quantità consumate e dall’altro le tariffe standardizzate: viene calcolato un valore medio giornaliero, anche se il gestore di rete ha tariffe diverse in base agli orari, ai giorni della settimana e alle stagioni.\n\n### Categorie di consumo di nuclei familiari tipo:\n\n<details>\n  <summary>H1: 1'600 kWh/anno: appartamento due locali con piastre elettriche</summary>\n\nAppartamento con un consumo globale annuo di 1'600 kWh, suddiviso nel modo seguente:\n\n|             |         |         |\n| ----------- | ------- | ------- |\n| **Inverno** | 06h-12h | 250 kWh |\n|             | 12h-18h | 200 kWh |\n|             | 18h-22h | 300 kWh |\n|             | 22h-06h | 120 kWh |\n| **Estate**  | 06h-12h | 220 kWh |\n|             | 12h-18h | 150 kWh |\n|             | 18h-22h | 240 kWh |\n|             | 22h-06h | 120 kWh |\n\n</details>\n\n<details>\n  <summary>H2: 2'500 kWh/anno: appartamento quattro locali con piastre elettriche</summary>\n\nAppartamento con un consumo globale annuo di 2'500 kWh, suddiviso nel modo seguente:\n\n|             |         |         |\n| ----------- | ------- | ------- |\n| **Inverno** | 06h-12h | 360 kWh |\n|             | 12h-18h | 330 kWh |\n|             | 18h-22h | 420 kWh |\n|             | 22h-06h | 240 kWh |\n| **Estate**  | 06h-12h | 300 kWh |\n|             | 12h-18h | 270 kWh |\n|             | 18h-22h | 340 kWh |\n|             | 22h-06h | 240 kWh |\n\n</details>\n\n<details>\n  <summary>H3: 4'500 kWh/anno: appartamento quattro locali con piastre e boiler elettrici</summary>\n\nAppartamento con un consumo globale annuo di 4'500 kWh, suddiviso nel modo seguente:\n\n|             |         |          |\n| ----------- | ------- | -------- |\n| **Inverno** | 06h-12h | 360 kWh  |\n|             | 12h-18h | 330 kWh  |\n|             | 18h-22h | 420 kWh  |\n|             | 22h-06h | 1200 kWh |\n| **Estate**  | 06h-12h | 300 kWh  |\n|             | 12h-18h | 270 kWh  |\n|             | 18h-22h | 340 kWh  |\n|             | 22h-06h | 1280 kWh |\n\n</details>\n\n<details>\n  <summary>H4: 4'500 kWh/anno: appartamento cinque locali con piastre elettriche e asciugabiancheria (senza boiler elettrico)</summary>\n\nAppartamento con un consumo globale annuo di 4'500 kWh, suddiviso nel modo seguente:\n\n|             |         |         |\n| ----------- | ------- | ------- |\n| **Inverno** | 06h-12h | 690 kWh |\n|             | 12h-18h | 630 kWh |\n|             | 18h-22h | 600 kWh |\n|             | 22h-06h | 500 kWh |\n| **Estate**  | 06h-12h | 600 kWh |\n|             | 12h-18h | 540 kWh |\n|             | 18h-22h | 500 kWh |\n|             | 22h-06h | 440 kWh |\n\n</details>\n\n<details>\n  <summary>H5: 7'500 kWh/anno: casa monofamiliare cinque locali con piastre e boiler elettrici e asciugabiancheria</summary>\n\nAppartamento con un consumo globale annuo di 4'500 kWh e 3'000 kWh per boiler, suddiviso nel modo seguente:\n\n|             |         |         | Boiler    |\n| ----------- | ------- | ------- | --------- |\n| **Inverno** | 06h-12h | 690 kWh |           |\n|             | 12h-18h | 630 kWh |           |\n|             | 18h-22h | 600 kWh | 60 kWh    |\n|             | 22h-06h | 500 kWh | 1'340 kWh |\n| **Estate**  | 06h-12h | 600 kWh |           |\n|             | 12h-18h | 540 kWh |           |\n|             | 18h-22h | 500 kWh |           |\n|             | 22h-06h | 440 kWh | 1'600 kWh |\n\n</details>\n\n<details>\n  <summary>H6: 25'000 kWh/anno:casa monofamiliare con piastre elettriche, boiler elettrico, asciugabiancheria e riscaldamento a resistenza</summary>\n\nAppartamento con un consumo globale annuo di 4'500 kWh e 20'500 kWh per boiler/riscaldamento, suddiviso nel modo seguente:\n\n|             |         |         | Boiler/riscaldamento |\n| ----------- | ------- | ------- | -------------------- |\n| **Inverno** | 06h-12h | 690 kWh |                      |\n|             | 12h-18h | 630 kWh |                      |\n|             | 18h-22h | 600 kWh | 60 kWh               |\n|             | 22h-06h | 500 kWh | 15'780 kWh           |\n| **Estate**  | 06h-12h | 600 kWh |                      |\n|             | 12h-18h | 540 kWh |                      |\n|             | 18h-22h | 500 kWh |                      |\n|             | 22h-06h | 440 kWh | 4'660 kWh            |\n\nA causa di una correzione al 31 gennaio 2015, la distribuzione delle quantità per la categoria H6 ha subito un adattamento retroattivo per gli anni 2009 al 2014.\n\n</details>\n\n<details>\n  <summary>H7: 13'000 kWh/anno:casa monofamiliare cinque locali con piastre elettriche, boiler elettrico, asciugabiancheria, pompa di calore da 5 kW per il riscaldamento</summary>\n\nAppartamento con un consumo globale annuo di 4'500 kWh e 8'500 kWh per pompa di calore, suddiviso nel modo seguente:\n\n|             |         |         | Pompa di calore |\n| ----------- | ------- | ------- | --------------- |\n| **Inverno** | 06h-12h | 690 kWh | 1'500 kWh       |\n|             | 12h-18h | 630 kWh | 1'200 kWh       |\n|             | 18h-22h | 660 kWh | 400 kWh         |\n|             | 22h-06h | 500 kWh | 2'940 kWh       |\n| **Estate**  | 06h-12h | 600 kWh | 270 kWh         |\n|             | 12h-18h | 540 kWh | 150 kWh         |\n|             | 18h-22h | 500 kWh | 100 kWh         |\n|             | 22h-06h | 440 kWh | 1'880 kWh       |\n\n</details>\n\n<details>\n  <summary>H8: 7'500 kWh/anno: grande condominio con molti collegamenti elettrici</summary>\n\nAppartamento con un consumo globale annuo di 7'500 kWh, suddiviso nel modo seguente:\n\n|             |         |           |\n| ----------- | ------- | --------- |\n| **Inverno** | 06h-12h | 1'150 kWh |\n|             | 12h-18h | 1'050 kWh |\n|             | 18h-22h | 1'000 kWh |\n|             | 22h-06h | 835 kWh   |\n| **Estate**  | 06h-12h | 1'000 kWh |\n|             | 12h-18h | 900 kWh   |\n|             | 18h-22h | 835 kWh   |\n|             | 22h-06h | 730 kWh   |\n\n</details>\n\n### Categorie di consumo delle aziende nel settore commerciale e industriale:\n\n<details>\n  <summary>C1: 8'000 kWh/anno: azienda molto piccola, potenza massima richiesta: 8 kW</summary>\n\n|             |         | Lu - Ve   | Sa - Do | Totale    |\n| ----------- | ------- | --------- | ------- | --------- |\n| **Inverno** | 06h-12h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|             | 12h-18h | 1'600 kWh | 125 kWh | 1'725 kWh |\n|             | 18h-22h | 250 kWh   | 30 kWh  | 280 kWh   |\n|             | 22h-06h | 330 kWh   | 40 kWh  | 370 kWh   |\n| **Estate**  | 06h-12h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|             | 12h-18h | 1'550 kWh | 125 kWh | 1'675 kWh |\n|             | 18h-22h | 200 kWh   | 30 kWh  | 230 kWh   |\n|             | 22h-06h | 280 kWh   | 40 kWh  | 320 kWh   |\n\n</details>\n\n<details>\n  <summary>C2: 30'000 kWh/anno: azienda piccola, potenza massima richiesta: 15 kW</summary>\n\n|             |         | Lu - Ve   | Sa - Do | Totale    |\n| ----------- | ------- | --------- | ------- | --------- |\n| **Inverno** | 06h-12h | 6'660 kWh | 350 kWh | 7'010 kWh |\n|             | 12h-18h | 6'210 kWh | 350 kWh | 6'560 kWh |\n|             | 18h-22h | 1'040 kWh | 150 kWh | 1'190 kWh |\n|             | 22h-06h | 1'440 kWh | 300 kWh | 1'740 kWh |\n| **Estate**  | 06h-12h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|             | 12h-18h | 5'130 kWh | 300 kWh | 5'430 kWh |\n|             | 18h-22h | 920 kWh   | 150 kWh | 1'070 kWh |\n|             | 22h-06h | 1'270 kWh | 300 kWh | 1'570 kWh |\n\n</details>\n\n<details>\n  <summary>C3: 150'000 kWh/anno: azienda di medie dimensioni, potenza massima richiesta: 50 kW</summary>\n\n|             |         | Lu - Ve    | Sa - Do   | Totale     |\n| ----------- | ------- | ---------- | --------- | ---------- |\n| **Inverno** | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|             | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|             | 18h-22h | 4'500 kWh  | 500 kWh   | 5'000 kWh  |\n|             | 22h-06h | 6'000 kWh  | 1'000 kWh | 7'000 kWh  |\n| **Estate**  | 06h-12h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|             | 12h-18h | 30'000 kWh | 2'000 kWh | 32'000 kWh |\n|             | 18h-22h | 3'500 kWh  | 500 kWh   | 4'000 kWh  |\n|             | 22h-06h | 5'000 kWh  | 1'000 kWh | 6'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C4: 500'000 kWh/anno: azienda di grandi dimensioni, potenza massima richiesta: 150 kW, bassa tensione</summary>\n\n|             |         | Lu - Ve    | Sa - Do   | Totale     |\n| ----------- | ------- | ---------- | --------- | ---------- |\n| **Inverno** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|             | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|             | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|             | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **Estate**  | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|             | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|             | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|             | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C5: 500'000 kWh/anno: azienda di grandi dimensioni, potenza massima richiesta: 150 kW, media tensione, cabina di trasformazione propria</summary>\n\n|             |         | Lu - Ve    | Sa - Do   | Totale     |\n| ----------- | ------- | ---------- | --------- | ---------- |\n| **Inverno** | 06h-12h | 90'000 kWh | 5'000 kWh | 95'000 kWh |\n|             | 12h-18h | 90'000 kWh | 3'000 kWh | 93'000 kWh |\n|             | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|             | 22h-06h | 62'000 kWh | 3'000 kWh | 65'000 kWh |\n| **Estate**  | 06h-12h | 87'000 kWh | 3'000 kWh | 90'000 kWh |\n|             | 12h-18h | 72'000 kWh | 3'000 kWh | 75'000 kWh |\n|             | 18h-22h | 11'000 kWh | 1'500 kWh | 12'500 kWh |\n|             | 22h-06h | 53'000 kWh | 4'000 kWh | 57'000 kWh |\n\n</details>\n\n<details>\n  <summary>C6: 1'500'000 kWh/anno: azienda di grandi dimensioni, potenza massima richiesta: 400 kW, media tensione, cabina di trasformazione propria</summary>\n\n|             |         | Lu - Ve     | Sa - Do    | Totale      |\n| ----------- | ------- | ----------- | ---------- | ----------- |\n| **Inverno** | 06h-12h | 227'000 kWh | 33'500 kWh | 260'500 kWh |\n|             | 12h-18h | 226'500 kWh | 33'500 kWh | 260'000 kWh |\n|             | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|             | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n| **Estate**  | 06h-12h | 240'000 kWh | 33'500 kWh | 273'500 kWh |\n|             | 12h-18h | 212'500 kWh | 33'500 kWh | 246'000 kWh |\n|             | 18h-22h | 150'000 kWh | 15'000 kWh | 165'000 kWh |\n|             | 22h-06h | 60'000 kWh  | 5'000 kWh  | 65'000 kWh  |\n\n</details>\n\n<details>\n  <summary>C7: 7'500'000 kWh/anno: azienda di grandi dimensioni, potenza massima richiesta: 1'630 kW, media tensione, cabina di trasformazione propria </summary>\n\n|             |         | Lu - Ve     | Sa - Do     | Totale        |\n| ----------- | ------- | ----------- | ----------- | ------------- |\n| **Inverno** | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|             | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|             | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|             | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n| **Estate**  | 06h-12h | 897'253 kWh | 211'735 kWh | 1'108'988 kWh |\n|             | 12h-18h | 935'561 kWh | 215'195 kWh | 1'150'755 kWh |\n|             | 18h-22h | 453'806 kWh | 128'852 kWh | 582'658 kWh   |\n|             | 22h-06h | 672'510 kWh | 235'089 kWh | 907'599 kWh   |\n\n</details>\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-compliance",
+    "title": "help compliance",
+    "wiki_page_meta_id": 426,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-compliance/de",
+    "title": "de",
+    "wiki_page_meta_id": 427,
+    "content": "### Compliance\r\n\r\nCompliance bewertet die Einhaltung der rechtlichen Anforderungen und regulatorischen Standards durch die Energieversorgungsunternehmen. Dies umfasst die Einhaltung der Stromversorgungsverordnung (StromVV), die fristgerechte Einreichung von Kostenrechnungen und Tarifblättern bis zum 31. August bei der ElCom, sowie die Einhaltung der Weisung für administrative und Vertriebskosten in der Grundversorgung.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-compliance/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 428,
+    "content": "La \"compliance\" (=conformité) évalue le respect des exigences légales et des normes réglementaires par les entreprises d'approvisionnement en énergie. Cela comprend le respect de l'ordonnance sur l'approvisionnement en électricité (OApEl), la remise dans les délais des décomptes de coûts et des listes tarifaires à l'ElCom avant le 31 août, ainsi que le respect de la directive sur les coûts administratifs et de distribution dans l'approvisionnement de base.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-compliance/it",
+    "title": "it",
+    "wiki_page_meta_id": 429,
+    "content": "La compliance valuta il rispetto dei requisiti legali e degli standard normativi da parte delle aziende fornitrici di energia. Ciò comprende il rispetto dell'ordinanza sull'approvvigionamento elettrico (OAEl), la presentazione dei conteggi dei costi e delle tariffe all'ElCom entro il 31 agosto, nonché il rispetto delle direttive relative ai costi amministrativi e di distribuzione nel servizio universale.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-download-raw-data/de",
+    "title": "de",
+    "wiki_page_meta_id": 197,
+    "content": "Das csv-File enthält die Rohdaten für die Standard- und günstigsten Tarife aller Preiskategorien sämtlicher Netzbetreiber. Zur Berechnung der Durchschnittswerte vgl. auch www.elcom.admin.ch \\>  Themen \\> Strompreise \\> EDES – Neues ElCom Dateneinliefersystem \\> Wegleitung zur Tarifdeklaration.  Es werden folgende Komponenten ausgewiesen:\n\n|  |  |\n|--|--|\n| period | Tarifjahr (es wird standardmässig das csv des Jahres angezeigt, das Sie in der Auswahl gewählt haben) |\n| operator | Netzbetreiber ID |\n| operatorLabel | Netzbetreiber |\n| product | Produkt |\n| category | Tarifkategorie |\n| gridusagename | Name Tarifprodukt Netz |\n| gridusage before discount (cts./kWh) | Total Netznutzungsentgeld vor Rabatt in Rp / kWh |\n| gridusage discount (cts./kWh) | Rabatt Netznutzung (falls vorhanden) |\n| gridusage after discount (cts./kWh) | Total Netznutzungsentgelt in Rp. / kWh |\n| hereof grid: fixcosts (CHF p.a.) | Grundpreis Netznutzung, in CHF pro Jahr (falls vorhanden) |\n| hereof grid: power price (CHF p.a.) | Leistungspreis Netznutzung in CHF pro Jahr |\n| hereof grid: working price (cts./kWh) | Durchschnittlicher Arbeitspreis Netznutzung in Rp. / kWh |\n| energyname | Name Tarifprodukt Energie |\n| energy before discount (cts./kWh) | Total Energieentgeld vor Rabatt in Rp / kWh |\n| energy discount (cts./kWh) | Rabatt Energie (falls vorhanden) |\n| energy after discount (cts./kWh) | Total Elektrizitätspreis in Rp. / kWh |\n| hereof energy: fixcosts (CHF p.a.) | Grundpreis Energie in CHF pro Jahr |\n| hereof energy: power price (CHF p.a.) | Leistungspreis Energie in CHF pro Jahr |\n| hereof energy working price (cts./kWh) | Durchschnittlicher Arbeitspreis Energie in Rp. / kWh |\n| charge (cts./kWh) | Abgaben an Kantone und Gemeinden in Rp. / kWh |\n| aidfee (cts./kWh) | Förderabgaben (KEV) in Rp. / kWh |\n| total | Total Elektrizitätstarife in Rp. / kWh |\n\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-download-raw-data/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 195,
+    "content": "Le fichier csv contient les données brutes des tarifs standard et meilleur marché de toutes les catégories de prix ainsi que de tous les opérateurs de réseau. Pour le calcul des valeurs moyennes voir également www.elcom.admin.ch \\> Thèmes \\> Prix de l’électricité \\> EDES – Nouveau système de livraison de données de l'ElCom \\> Guide de la Déclaration tarifaire. Les composants suivants sont affichés :\n\n|  |  |\n|--|--|\n| period | Année tarifaire (par défaut, le csv de l’année que vous avez sélectionnée est affiché) |\n| operator | Numéro ID du gestionnaire de réseau |\n| operatorLabel | Gestionnaire de réseau |\n| product | Produit |\n| category | Catégorie tarifaire |\n| gridusagename | Nom du produit tarifaire Réseau |\n| gridusage before discount (cts./kWh) | Total de la rétribution pour l'utilisation du réseau avant rabais en ct./kWh |\n| gridusage discount (cts./kWh) | Remise sur l'utilisation du réseau (le cas échéant) |\n| gridusage after discount (cts./kWh) | Rétribution totale de l'utilisation du réseau en ct./kWh |\n| hereof grid: fixcosts (CHF p.a.) | Prix moyen de base et prix moyen de la puissance, en CHF par an (le cas échéant) |\n| hereof grid: power price (CHF p.a.) | Prix de la puissance pour l'utilisation du réseau en CHF par an |\n| hereof grid: working price (cts./kWh) | Prix moyen de la composante de travail pour l'utilisation du réseau en ct. / kWh |\n| energyname | Nom du produit tarifaire énergie |\n| energy before discount (cts./kWh) | Total des redevances énergétiques sans rabais en ct./kWh |\n| energy discount (cts./kWh) | Rabais énergie (le cas échéant) |\n| energy after discount (cts./kWh) | Prix total de l'électricité en ct./kWh |\n| hereof energy: fixcosts (CHF p.a.) | Prix de base de l'énergie en CHF par an |\n| hereof energy: power price (CHF p.a.) | Prix de la puissance pour l'énergie en CHF par an |\n| hereof energy working price (cts./kWh) | Prix moyen de la composante de travail pour l'énergie en ct./kWh |\n| charge (cts./kWh) | Redevances et prestations communales et cantonales en ct./kWh |\n| aidfee (cts./kWh) | Supplément de réseau en ct. / kWh |\n| total (cts./kWh) | Total tarifs de l'électricité en ct./kWh |\n\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-download-raw-data/it",
+    "title": "it",
+    "wiki_page_meta_id": 196,
+    "content": "Il documento csv contiene i dati grezzi per le tariffe standard più economiche tra tutte le categorie di prezzo di tutti gli operatori di rete. Per il calcolo dei valori medi, si veda anche www.elcom.admin.ch \\> Temi \\> Prezzi dell'energia elettrica \\> EDES – Nuovo sistema per la fornitura di dati della ElCom \\> Guida alla dichiarazione delle tariffe. I seguenti elementi sono qui di seguito indicati:\r\n\r\n|  |  |\r\n|--|--|\r\n| period | Anno tariffario (di default, viene visualizzato il csv dell'anno che avete scelto nella selezione) |\r\n| operator | ID gestore di rete |\r\n| operatorLabel | Gestore di rete |\r\n| product | Prodotto |\r\n| category | Categoria tariffaria |\r\n| gridusagename | Nome del prodotto tariffario Rete |\r\n| gridusage before discount (cts./kWh) | Canone totale per l'utilizzazione della rete senza sconto in cts./kWh |\r\n| gridusage discount (cts./kWh) | Sconto sull'utilizzazione della rete (se del caso) |\r\n| gridusage after discount (cts./kWh) | Canone totale per l'utilizzazione della rete in cts./kWh |\r\n| hereof grid: fixcosts (CHF p.a.) | Prezzo medio di base e di potenza, in CHF all'anno (se del caso) |\r\n| hereof grid: power price (CHF p.a.) | Prezzo della potenza per l'utilizzazione della rete in CHF all'anno |\r\n| hereof grid: working price (cts./kWh) | Prezzo medio della componente di lavoro per l'utilizzazione della rete in cts./kWh |\r\n| energyname | Nome Prodotto tariffario energetico |\r\n| energy before discount (cts./kWh) | Costo totale dell'energia senza sconto in cts./kWh |\r\n| energy discount (cts./kWh) | Sconto sull'energia (se del caso) |\r\n| energy after discount (cts./kWh) | Prezzo totale dell'elettricità in cts./kWh |\r\n| hereof energy: fixcosts (CHF p.a.) | Prezzo base dell'energia in CHF all'anno |\r\n| hereof energy: power price (CHF p.a.) | Prezzo della potenza per l'energia in CHF all'anno |\r\n| hereof energy working price (cts./kWh) | Prezzo medio della componente di lavoro per l'energia in cts./kWh |\r\n| charge (cts./kWh) | Tributi e prestazioni comunali e cantonali in cts./kWh |\r\n| aidfee (cts./kWh) | Supplemento di rete in cts./kWh |\r\n| total (cts./kWh) | Totale tariffe dell'elettricità in cts./kWh |\r\n\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-dynamic-tariffs",
+    "title": "help dynamic tariffs",
+    "wiki_page_meta_id": 456,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-dynamic-tariffs/de",
+    "title": "de",
+    "wiki_page_meta_id": 457,
+    "content": "## Was sind dynamische Tarife?\r\n\r\nDynamische Tarife sind zeitvariable Strompreise, die sich je nach Tageszeit, Wochentag oder Marktsituation ändern. Sie bilden die realen Kosten der Stromerzeugung genauer ab als Pauschalpreise.\r\n\r\nSie ermöglichen Kosteneinsparungen durch bewussten Stromverbrauch zu günstigen Zeiten und schaffen Anreize für flexible Gerätenutzung, insbesondere bei hoher Verfügbarkeit erneuerbarer Energien.\r",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-dynamic-tariffs/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 458,
+    "content": "**Que sont les tarifs dynamiques ?**\r\nLes tarifs dynamiques sont des prix de l'électricité variables dans le temps, qui changent en fonction de l'heure, du jour de la semaine ou de la situation du marché. Ils reflètent plus fidèlement les coûts réels de la production d'électricité que les prix forfaitaires.\r\nIls permettent de réaliser des économies grâce à une consommation d'électricité consciente à des moments avantageux et incitent à une utilisation flexible des appareils, en particulier lorsque les énergies renouvelables sont largement disponibles.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-dynamic-tariffs/it",
+    "title": "it",
+    "wiki_page_meta_id": 459,
+    "content": "**Cosa sono le tariffe dinamiche?**\r\n\r\nLe tariffe dinamiche sono prezzi dell'energia elettrica variabili nel tempo, che cambiano a seconda dell'ora del giorno, del giorno della settimana o della situazione di mercato. Esse riflettono i costi reali della produzione di energia elettrica in modo più accurato rispetto ai prezzi forfettari.\r\n\r\nConsentono di risparmiare sui costi grazie a un consumo consapevole di energia elettrica in orari convenienti e incentivano un utilizzo flessibile degli apparecchi, in particolare in caso di elevata disponibilità di energie rinnovabili.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-energy-tariffs",
+    "title": "help energy tariffs",
+    "wiki_page_meta_id": 409,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-energy-tariffs/de",
+    "title": "de",
+    "wiki_page_meta_id": 411,
+    "content": "## Was sind Energietarife?\r\n\r\nDer Energietarif widerspiegelt die Kosten, welche der Netzbetreiber als Gestehungskosten bei der Produktion und / oder bei der Beschaffung der Elektrizität für die Kunden in der Grundversorgung geltend macht. Darin enthalten sind auch seine Kosten für Vertrieb, Verwaltung und ein angemessener Gewinnanteil.\r\n\r\nDifferenzen im Energietarif ergeben sich einerseits aus einem differenzierten ökologischen Produktemix, andererseits aber auch aus einem unterschiedlichen Anteil an Eigenproduktion. Insbesondere in Zeiten mit volatilen Marktpreisen können Zeitpunkt des Abschlusses und Dauer von Beschaffungsverträgen grosse Unterschiede ausmachen: Netzbetreiber mit vorteilhaft ausgehandelten Bezugsverträgen im Energieeinkauf können die Energie günstiger anbieten als Unternehmen, welche zu einem ungünstigen Zeitpunkt Verträge abschliessen mussten. Unternehmen mit einem hohen Anteil an Eigenproduktion wiederum können günstiger anbieten, wenn die Marktpreise höher als die Gestehungskosten liegen. Zudem bestehen erhebliche Differenzen bei den Vertriebsmargen der Netzbetreiber.\r\n\r\n## Verbrauchskategorien\r\n\r\nDie Energietarife spiegeln den tatsächlichen Verbrauch in Haushalten oder Unternehmen wider. Sie werden über die Verbrauchskategorien für durchschnittliche Haushalte mit unterschiedlichem Verbrauchsprofil (H2: Verbrauch von 2'500 kWh/Jahr, H4: 4'500 kWh Verbrauch pro Jahr und H7: Verbrauch von 13'000 kWh/Jahr) und für Gewerbe- bzw. Industriebetriebe unterschiedlicher Grösse (C2: Verbrauch von 30'000 kWh/Jahr, C4: Verbrauch von 500'000 kWh/Jahr und C6: Verbrauch von 1'500'000 kWh/Jahr) berechnet.\r",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-energy-tariffs/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 412,
+    "content": "**Que sont les tarifs énergétiques ?**\r\n\r\nLe tarif énergétique reflète les coûts que le gestionnaire de réseau facture comme coûts de production et/ou d'approvisionnement en électricité pour les clients bénéficiant du service universel. Il comprend également ses coûts de distribution, d'administration et une marge bénéficiaire raisonnable.\r\nLes différences de tarifs énergétiques résultent d'une part d'une gamme de produits écologiques différenciée, mais aussi d'une part variable de production propre. En particulier en période de volatilité des prix du marché, la date de conclusion et la durée des contrats d'approvisionnement peuvent faire une grande différence : les gestionnaires de réseau qui ont négocié des contrats d'achat d'énergie avantageux peuvent proposer l'énergie à un prix plus bas que les entreprises qui ont dû conclure des contrats à un moment défavorable. Les entreprises qui ont une part importante de production propre peuvent quant à elles proposer des prix plus avantageux lorsque les prix du marché sont supérieurs aux coûts de production. Il existe en outre des différences considérables entre les marges de distribution des gestionnaires de réseau.\r\n\r\n**Catégories de consommation**\r\n\r\nLes tarifs énergétiques reflètent la consommation réelle des ménages ou des entreprises. Ils sont déterminés à partir des catégories de consommation pour des ménages moyens ayant différents profils de consommation (H2 : consommation de 2 500 kWh/an, H4 : consommation de 4 500 kWh/an et H7 : consommation de 13 000 kWh/an) et pour les entreprises commerciales ou industrielles de différentes tailles (C2 : consommation de 30 000 kWh/an, C4 : consommation de 500 000 kWh/an et C6 : consommation de 1 500 000 kWh/an).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-energy-tariffs/it",
+    "title": "it",
+    "wiki_page_meta_id": 413,
+    "content": "**Cosa sono le tariffe energetiche?**\r\n\r\nLa tariffa energetica riflette i costi che il gestore di rete addebita come costi di produzione e/o di approvvigionamento dell'energia elettrica per i clienti nel servizio di base. Sono inclusi anche i costi di distribuzione, amministrazione e un adeguato margine di profitto.\r\nLe differenze nella tariffa energetica derivano da un lato da un mix di prodotti ecologici differenziato, dall'altro però anche da una diversa quota di produzione propria. Soprattutto in periodi di volatilità dei prezzi di mercato, il momento della stipula e la durata dei contratti di approvvigionamento possono fare una grande differenza: i gestori di rete con contratti di acquisto negoziati in modo vantaggioso possono offrire l'energia a prezzi più convenienti rispetto alle aziende che hanno dovuto stipulare contratti in un momento sfavorevole. Le aziende con un'elevata quota di produzione propria possono invece offrire prezzi più convenienti quando i prezzi di mercato sono superiori ai costi di produzione. Inoltre, esistono notevoli differenze nei margini di distribuzione dei gestori di rete.\r\n\r\n**Categorie di consumo**\r\n\r\nLe tariffe energetiche riflettono il consumo effettivo delle famiglie o delle aziende. Sono determinate in base alle categorie di consumo per famiglie medie con profili di consumo diversi (H2: consumo di 2'500 kWh/anno, H4: consumo di 4'500 kWh/anno e H7: consumo di 13 000 kWh/anno) e per le imprese commerciali o industriali di diverse dimensioni (C2: consumo di 30 000 kWh/anno, C4: consumo di 500 000 kWh/anno e C6: consumo di 1 500 000 kWh/anno).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-fixcosts/de",
+    "title": "de",
+    "wiki_page_meta_id": 387,
+    "content": "Zu den Fixkosten zählt der Grundpreis - dieser umfasst Kosten, die nicht über den Stromverbrauch beeinflusst werden können.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-fixcosts/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 475,
+    "content": "Les coûts fixes comprennent le prix de base, qui englobe les coûts ne pouvant pas être influencés par la consommation d’électricité.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-fixcosts/it",
+    "title": "it",
+    "wiki_page_meta_id": 476,
+    "content": "Tra i costi fissi rientra il prezzo base, che comprende i costi che non possono essere influenzati dal consumo di energia elettrica.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-indicator",
+    "title": "help indicator",
+    "wiki_page_meta_id": 440,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-indicator/de",
+    "title": "de",
+    "wiki_page_meta_id": 441,
+    "content": "## Was sind Effizienz-Indikatoren?\r\n\r\nEffizienz-Indikatoren sind standardisierte Kennzahlen, die verschiedene Aspekte der Leistung von Netzbetreibern messen und vergleichbar machen. Sie ermöglichen es der ElCom und den Verbrauchern, die Effizienz und Qualität der Stromversorgung objektiv zu bewerten.\r\n\r\n## Die sieben Hauptindikatoren:\r\n\r\n### 1. Netzkosten\r\n\r\n- **Zweck:** Messung der Kosteneffizienz beim Betrieb und Unterhalt der Netzinfrastruktur\r\n\r\n- **Berechnung:** Kosten pro Kilometer Leitungsnetz (NE 5 und 7) bzw. pro installierte Transformatorenleistung (NE 6)\r\n\r\n### 2. Netztarife\r\n\r\n- **Zweck:** Vergleich der Preise, die Endverbraucher für die Netznutzung bezahlen\r\n\r\n- **Berechnung:** Basiert auf standardisierten Verbrauchsprofilen (NC2, NC3, NC4, NC6, NH2, NH4, NH7)\r\n\r\n### 3. Energietarife\r\n\r\n- **Zweck:** Vergleich der Energiepreise zwischen verschiedenen Anbietern\r\n\r\n- **Berechnung:** Basiert auf standardisierten Verbrauchsprofilen (EC2, EC3, EC4, EC6, EH2, EH4, EH7)\r\n\r\n### 4. SAIDI (System Average Interruption Duration Index)\r\n\r\n- **Zweck:** Messung der durchschnittlichen Dauer von Stromunterbrechungen\r\n\r\n- **Berechnung:** Minuten pro Jahr und Endverbraucher\r\n\r\n### 5. SAIFI (System Average Interruption Frequency Index)\r\n\r\n- **Zweck:** Messung der durchschnittlichen Häufigkeit von Stromunterbrechungen\r\n\r\n- **Berechnung:** Anzahl Unterbrechungen pro Jahr und Endverbraucher\r\n\r\n### 6. Dienstleistungsqualität\r\n\r\n- **Zweck:** Bewertung der Servicequalität über die reine Stromlieferung hinaus\r\n- **Bewertung:** Informiert der Netzbetreiber über geplante Stromunterbrüche? Wenn ja, wie viele Tage im Voraus?\r\n\r\n### 7. Compliance (Regelkonformität)\r\n\r\n- **Zweck:** Überprüfung der Einhaltung regulatorischer Vorgaben\r\n- **Bewertung:** Hält der Netzbetreiber die Weisung der ElCom zum Gewinn im Vertrieb ein? Wie hoch ist sein Gewinn im Vertrieb pro Rechnungsempfänger pro Jahr? Vergleich: Tarifjahr 2024 - 75 Franken, Tarifjahr 2025 - 60 Franken, Tarifjahr 2026 - 60 Franken. \r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-indicator/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 442,
+    "content": "**Qu’est-ce que les indicateurs d’efficacité ?** \r\n\r\nLes indicateurs d’efficacité sont des mesures normalisées qui permettent d’évaluer différents aspects de la performance des gestionnaires de réseau et de les rendre comparables. Ils permettent à l’ElCom et aux consommateurs d’évaluer de manière objective l’efficacité et la qualité de l’approvisionnement en électricité.\r\n\r\n**Les sept indicateurs principaux :**\r\n\r\n**1. Coûts du réseau**\r\n\r\n**Objectif :** Mesurer l’efficacité des coûts liés à l’exploitation et à l’entretien de l’infrastructure réseau\r\n\r\n**Calcul :** Coûts par kilomètre de réseau (NR 5 et 7) ou par puissance de transformateur installée (NR 6)\r\n\r\n**2. Tarifs du réseau**\r\n\r\n**Objectif :** comparer les prix payés par les consommateurs finaux pour l'utilisation du réseau\r\n\r\n**Calcul :** basé sur des profils de consommation standardisés (NC2, NC3, NC4, NC6, NH2, NH4, NH7)\r\n\r\n**3. Tarifs de l'énergie**\r\n\r\n**Objectif :** comparer les prix de l'énergie entre différents fournisseurs\r\n\r\n**Calcul :** basé sur des profils de consommation standardisés (EC2, EC3, EC4, EC6, EH2, EH4, EH7)\r\n\r\n**4. SAIDI** (System Average Interruption Duration Index)\r\n\r\n**Objectif :** mesurer la durée moyenne des coupures de courant\r\n\r\n**Calcul :** minutes par an et par consommateur final\r\n\r\n**5. SAIFI** (System Average Interruption Frequency Index)\r\n\r\n**Objectif :** mesurer la fréquence moyenne des coupures de courant\r\n\r\n**Calcul :** nombre de coupures par an et par consommateur final\r\n\r\n**6. Qualité du service**\r\n\r\n**Objectif :** évaluer la qualité du service au-delà de la simple fourniture d'électricité\r\n\r\n**Évaluation :** le gestionnaire de réseau informe-t-il des coupures d'électricité prévues ? Si oui, combien de jours à l'avance ?\r\n\r\n**7. Conformité**\r\n\r\n**Objectif :** vérifier le respect des exigences réglementaires Le gestionnaire de réseau respecte-t-il les directives de l'ElCom en matière de bénéfices dans la distribution ? Quel est son bénéfice dans la distribution par destinataire de facture et par an ?\r\n\r\n**Évaluation :** année tarifaire 2024 - 75 francs, année tarifaire 2025 - 60 francs, année tarifaire 2026 - 60 francs.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-indicator/it",
+    "title": "it",
+    "wiki_page_meta_id": 443,
+    "content": "**Cosa sono gli indicatori di efficienza?** Gli indicatori di efficienza sono parametri standardizzati che misurano diversi aspetti delle prestazioni dei gestori di rete e li rendono comparabili. Consentono all'ElCom e ai consumatori di valutare in modo obiettivo l'efficienza e la qualità dell'approvvigionamento elettrico.\r\n\r\n**I sette indicatori principali:**\r\n\r\n**1. Costi di rete** **Scopo:** misurare l'efficienza dei costi di esercizio e manutenzione dell'infrastruttura di rete\r\n\r\n**Calcolo:** costi per chilometro di rete di linee (LR 5 e 7) o per potenza installata dei trasformatori (LR 6)\r\n\r\n**2. Tariffe di rete** **Scopo:** confrontare i prezzi pagati dai consumatori finali per l'utilizzo della rete **Calcolo:** basato su profili di consumo standardizzati (NC2, NC3, NC4, NC6, NH2, NH4, NH7)\r\n\r\n**3. Tariffe energetiche** **Scopo:** confronto dei prezzi dell'energia tra diversi fornitori **Calcolo:** basato su profili di consumo standardizzati (EC2, EC3, EC4, EC6, EH2, EH4, EH7)\r\n\r\n**4. SAIDI** (System Average Interruption Duration Index) \\*\\*Scopo: \\*\\*misurazione della durata media delle interruzioni di corrente **Calcolo:** minuti all'anno per consumatore finale\r\n\r\n**5. SAIFI** (System Average Interruption Frequency Index) **Scopo:** misurazione della frequenza media delle interruzioni di corrente **Calcolo:** numero di interruzioni all'anno per consumatore finale\r\n\r\n**6. Qualità del servizio** **Scopo:** valutazione della qualità del servizio oltre alla semplice fornitura di energia elettrica **Valutazione:** il gestore di rete comunica le interruzioni di corrente programmate? Se sì, con quanti giorni di anticipo?\r\n\r\n**7. Conformità (rispetto delle norme)** \\*\\*Scopo: \\*\\*verifica del rispetto dei requisiti normativi Il gestore di rete rispetta le direttive dell'ElCom relative al profitto nella distribuzione? A quanto ammonta il suo profitto nella distribuzione per destinatario della fattura all'anno? **Confronto:** anno tariffario 2024 - 75 franchi, anno tariffario 2025 - 60 franchi, anno tariffario 2026 - 60 franchi.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-municipalities-and-grid-operators-info/de",
+    "title": "de",
+    "wiki_page_meta_id": 350,
+    "content": "Das csv-File enthält die Rohdaten von den Netzbetreibern und die von ihnen versorgten Gemeinden. Es werden folgende Komponenten ausgewiesen:\n\n|  |  |\n|--|--|\n| operator | Netzbetreiber |\n| website | Webseite des Netzbetreibers |\n| municipalityNumber | Gemeindenummer (gem. Bundesamt für Statistik) |\n| municipalityName | Gemeindename |\n| operatorAddress | Adresse des Netzbetreibers |\n| postalCode | Postleitzahl der Gemeinde |\n| canton | Kantonszugehörigkeit der Gemeinde |\n\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-municipalities-and-grid-operators-info/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 351,
+    "content": "Le fichier csv contient les données brutes des gestionnaires de réseau et les communes qu'ils desservent. Les composantes suivantes sont indiquées :\n\n|  |  |\n|--|--|\n| operator | Gestionnaire de réseau |\n| website | Site internet du gestionnaire de réseau |\n| municipalityNumber | Numéro de commune (selon l'Office fédéral de la statistique) |\n| municipalityName | Nom de la commune |\n| operatorAddress | Adresse de l'opérateur de réseau |\n| postalCode | Code postal de la commune |\n| canton | Canton d'appartenance de la commune |\n\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-municipalities-and-grid-operators-info/it",
+    "title": "it",
+    "wiki_page_meta_id": 352,
+    "content": "Il file csv contiene i dati grezzi dei gestori di rete e dei Comuni da essi approvvigionati. Vengono visualizzate le informazioni seguenti:\r\n\r\n|  |  |\r\n|--|--|\r\n| operator | Gestore di rete |\r\n| website | Sito internet del gestore di rete |\r\n| municipalityNumber | Numero del Comune (cfr. Ufficio federale di statistica) |\r\n| municipalityName | Nome del Comune |\r\n| operatorAddress | Indirizzo del gestore di rete |\r\n| postalCode | Codice postale del Comune |\r\n| canton | Cantone di appartenenza del Comune |\r\n\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-net-tariffs",
+    "title": "help net tariffs",
+    "wiki_page_meta_id": 398,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-net-tariffs/de",
+    "title": "de",
+    "wiki_page_meta_id": 399,
+    "content": "## Was sind Netztarife?\r\n\r\nDie Netztarife widerspiegeln die Kosten, welche dem Netzbetreiber für die Finanzierung, den Betrieb und den Unterhalt der Netze entstehen. Unterschiedliche Netzkosten bestehen aufgrund von topografischen Gegebenheiten des Versorgungsgebiets, unterschiedlichem Konsumverhalten der Endverbraucher oder Effizienzunterschieden der Netzbetreiber.\r\n\r\nDer Vergleich mit anderen Netzbetreiber ähnlicher Grösse und ähnlicher Topologie erlaubt damit einen differenzierten Blick auf die Tarife, seine Kosten und schliesslich auf die Effizienz seines Netzbetriebs.\r\n\r\n## Verbrauchskategorien\r\n\r\nDie Netztarife spiegeln den tatsächlichen Verbrauch in Haushalten oder Unternehmen wider. Sie werden über die Verbrauchskategorien für durchschnittliche Haushalte mit unterschiedlichem Verbrauchsprofil (H2: Verbrauch von 2'500 kWh/Jahr, H4: 4'500 kWh Verbrauch pro Jahr und H7: Verbrauch von 13'000 kWh/Jahr) und für Gewerbe- bzw. Industriebetriebe unterschiedlicher Grösse (C2: Verbrauch von 30'000 kWh/Jahr, C4: Verbrauch von 500'000 kWh/Jahr und C6: Verbrauch von 1'500'000 kWh/Jahr) berechnet.\r",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-net-tariffs/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 430,
+    "content": "**Que sont les tarifs de réseau ?**\r\n\r\nLes tarifs de réseau reflètent les coûts engagés par l'exploitant du réseau pour le financement, l'exploitation et l'entretien des réseaux. Les coûts de réseau varient en fonction des conditions topographiques de la zone d'approvisionnement, des différents comportements de consommation des consommateurs finaux ou des différences d'efficacité entre les exploitants de réseau.\r\nLa comparaison avec d'autres gestionnaires de réseau de taille et de topologie similaires permet ainsi d'avoir une vision différenciée des tarifs, de leurs coûts et, enfin, de l'efficacité de l'exploitation du réseau.\r\n\r\n**Catégories de consommation**\r\n\r\nLes tarifs de réseau reflètent la consommation réelle des ménages ou des entreprises. Ils sont déterminés à partir des catégories de consommation pour des ménages moyens ayant des profils de consommation différents (H2 : consommation de 2 500 kWh/an, H4 : consommation de 4 500 kWh/an et H7 : consommation de 13 000 kWh/an) et pour les entreprises commerciales ou industrielles de différentes tailles (C2 : consommation de 30 000 kWh/an, C4 : consommation de 500 000 kWh/an et C6 : consommation de 1 500 000 kWh/an).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-net-tariffs/it",
+    "title": "it",
+    "wiki_page_meta_id": 431,
+    "content": "**Cosa sono le tariffe di rete?**\r\n\r\nLe tariffe di rete riflettono i costi sostenuti dal gestore di rete per il finanziamento, il funzionamento e la manutenzione delle reti. I costi di rete variano a seconda delle condizioni topografiche dell'area di fornitura, dei diversi comportamenti di consumo degli utenti finali o delle differenze di efficienza dei gestori di rete.\r\nIl confronto con altri gestori di rete di dimensioni e topologia simili consente quindi di avere una visione differenziata delle tariffe, dei costi e, infine, dell'efficienza della gestione della rete.\r\n\r\n**Categorie di consumo**\r\n\r\nLe tariffe di rete riflettono il consumo effettivo delle famiglie o delle imprese. Esse sono determinate in base alle categorie di consumo per famiglie medie con profili di consumo diversi (H2: consumo di 2'500 kWh/anno, H4: consumo di 4'500 kWh/anno e H7: consumo di 13 000 kWh/anno) e per aziende commerciali o industriali di diverse dimensioni (C2: consumo di 30'000 kWh/anno, C4: consumo di 500'000 kWh/anno e C6: consumo di 1'500'000 kWh/anno).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-costs",
+    "title": "help network costs",
+    "wiki_page_meta_id": 401,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-costs/de",
+    "title": "de",
+    "wiki_page_meta_id": 402,
+    "content": "## Was sind Netzkosten?\r\n\r\nStromrechnungen setzen sich aus Netznutzungsentgelten und Energietarifen zusammen. Die Netztarife decken die Kosten für die Nutzung der Netze ab, d. h. die Infrastruktur, den Netzbetrieb, den Netzunterhalt, die Messung sowie die Verwaltungskosten. Diese Netzkosten werden auf den verschiedenen Netzebenen vom Höchst- zum Niederspannungsnetz verrechnet (Netzebenen 1 bis 7). In der Sunshine-Regulierung werden nur die Netzebenen betrachtet, auf welchen die meisten Endverbraucher angeschlossen sind. Dies sind die Netzebenen 5, 6 und 7.\r\n\r\nEine wesentliche Rolle bei den Kosten spielen bei einigen Netzbetreibern die Steuern und Abgaben an die Gemeinwesen, die schweizweit stark variieren. Diese werden bei den vorliegenden Kostenvergleichen daher nicht berücksichtigt.\r\n\r\n## Kostenberechnung nach Netzebene\r\n\r\nAuf den Netzebenen 5 und 7 werden die Kosten vor allem durch die Länge der Netze getrieben, daher zeigt der Indikator die Netzkosten der entsprechenden Netzebene im Verhältnis zu den Leitungskilometern von Kabel, Freiletungen und Hausanschlusskabeln an. Auf der Netzebene 6 hingegen werden die Kosten durch die installierte Transformations-Anlage getrieben. Hier werden die Kosten daher im Verhältnis zur installierten Leistung gemessen.\r",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-costs/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 403,
+    "content": "**Que sont les coûts de réseau ?**\r\n\r\nLes factures d'électricité se composent des frais d'utilisation du réseau et des tarifs énergétiques. Les tarifs de réseau couvrent les coûts liés à l'utilisation des réseaux, c'est-à-dire l'infrastructure, l'exploitation et l'entretien du réseau, le comptage et les frais administratifs. Ces coûts de réseau sont facturés aux différents niveaux du réseau, du réseau à haute tension au réseau à basse tension (niveaux de réseau 1 à 7). La réglementation Sunshine ne prend en compte que les niveaux de réseau auxquels la plupart des consommateurs finaux sont raccordés. Il s'agit des niveaux de réseau 5, 6 et 7.\r\nPour certains gestionnaires de réseau, les impôts et les taxes versés aux collectivités publiques, qui varient considérablement d'une région à l'autre en Suisse, jouent un rôle important dans les coûts. Celles-ci ne sont donc pas prises en compte dans les comparaisons de coûts présentées ici.\r\n\r\n**Calcul des coûts par niveau de réseau**\r\n\r\nAux niveaux de réseau 5 et 7, les coûts sont principalement déterminés par la longueur des réseaux. L'indicateur montre donc les coûts de réseau du niveau de réseau correspondant par rapport au nombre de kilomètres de câbles, de lignes aériennes et de câbles de raccordement domestiques. Au niveau de réseau 6, en revanche, les coûts sont déterminés par l'installation de transformation mise en place. Ici, les coûts sont donc mesurés par rapport à la puissance installée.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-costs/it",
+    "title": "it",
+    "wiki_page_meta_id": 404,
+    "content": "**Cosa sono i costi di rete?**\r\n\r\nLe bollette dell'elettricità sono composte dai costi di utilizzo della rete e dalle tariffe energetiche. Le tariffe di rete coprono i costi di utilizzo delle reti, ovvero l'infrastruttura, il funzionamento della rete, la manutenzione della rete, la misurazione e i costi amministrativi. Questi costi di rete vengono addebitati ai diversi livelli di rete, dalla rete ad alta tensione a quella a bassa tensione (livelli di rete da 1 a 7). Nella regolamentazione Sunshine vengono considerati solo i livelli di rete a cui è collegata la maggior parte dei consumatori finali. Si tratta dei livelli di rete 5, 6 e 7.\r\nPer alcuni gestori di rete, le tasse e le imposte versate alle comunità, che variano notevolmente in tutta la Svizzera, giocano un ruolo significativo nei costi. Queste non vengono quindi prese in considerazione nei presenti confronti dei costi.\r\n\r\n**Calcolo dei costi in base al livello di rete**\r\n\r\nAi livelli di rete 5 e 7, i costi sono determinati principalmente dalla lunghezza delle reti, pertanto l'indicatore mostra i costi di rete del livello di rete corrispondente in relazione ai chilometri di cavi, linee aeree e cavi di allacciamento domestico. Al livello di rete 6, invece, i costi sono determinati dall'impianto di trasformazione installato. In questo caso, i costi sono quindi misurati in rapporto alla potenza installata.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-level",
+    "title": "help network level",
+    "wiki_page_meta_id": 448,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-level/de",
+    "title": "de",
+    "wiki_page_meta_id": 449,
+    "content": "\r\n## Netzebenen in der Schweiz\r\n\r\nDas Schweizer Stromnetz ist in sieben Ebenen unterteilt: Ebene 1-3 für Höchst- und Hochspannung (Transport über weite Strecken), Ebene 4-6 für Mittelspannung (regionale Verteilung) und Ebene 7 für Niederspannung (Haushalte und kleine Betriebe).\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-level/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 450,
+    "content": "**Niveaux de réseau en Suisse**\r\n\r\nLe réseau électrique suisse est divisé en sept niveaux : niveaux 1 à 3 pour la très haute et la haute tension (transport sur de longues distances), niveaux 4 à 6 pour la moyenne tension (distribution régionale) et niveau 7 pour la basse tension (ménages et petites entreprises).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-network-level/it",
+    "title": "it",
+    "wiki_page_meta_id": 451,
+    "content": "**Livelli di rete in Svizzera**\r\n\r\nLa rete elettrica svizzera è suddivisa in sette livelli: livelli 1-3 per l'alta e altissima tensione (trasporto su lunghe distanze), livelli 4-6 per la media tensione (distribuzione regionale) e livello 7 per la bassa tensione (famiglie e piccole imprese).",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-peer-group",
+    "title": "help peer group",
+    "wiki_page_meta_id": 468,
+    "content": "---\r\ntitle: help peer group\r\n---\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {
+      "title": "help peer group"
+    }
+  },
+  {
+    "format": "markdown",
+    "slug": "help-peer-group/de",
+    "title": "de",
+    "wiki_page_meta_id": 477,
+    "content": "## Was sind die Vergleichsgruppen der Netzbetreiber?\r\n\r\nUm faire Vergleiche zwischen den Schweizer Netzbetreibern zu ermöglichen, teilt die ElCom diese in verschiedene Gruppen ein. Diese Gruppierung basiert auf objektiven Kriterien, die von den Netzbetreibern nur beschränkt beeinflusst werden können und berücksichtigt die unterschiedlichen betrieblichen Herausforderungen je nach Versorgungsgebiet.\r\n\r\nDie Einteilung erfolgt anhand von zwei Hauptkriterien:\r\n\r\n### 1. Siedlungsdichte\r\nDie Siedlungsdichte wird auf Basis der permanenten Wohnbevölkerung in Kombination mit der Siedlungsfläche berechnet. Sie gibt Auskunft über die Bevölkerungsdichte im Versorgungsgebiet des Netzbetreibers.\r\n\r\n### 2. Energiedichte  \r\nDie Energiedichte errechnet sich aus der gesamthaft über alle Netzebenen ausgespeisten Energiemenge geteilt durch die Gesamtlänge der Kabel und Freileitungen auf der Netzebene 5 (Mittelspannung) und 7 (Niederspannung). Eine hohe Energiedichte bedeutet, dass pro Kilometer Leitung viel Energie transportiert wird.\r\n\r\n## Die verschiedenen Ansichtsgruppen:\r\n\r\n### Hohe Energiedichte\r\nNetzbetreiber mit hoher Energiedichte transportieren überdurchschnittlich viel Energie pro Kilometer Leitung. Dies ist typisch für:\r\n- Gebiete mit vielen Grossverbrauchern (Industrie, Gewerbe)\r\n- Dicht besiedelte Gebiete mit hohem Stromverbrauch\r\n- Effizient genutzte Netzinfrastruktur\r\n\r\n### Geringe Energiedichte \r\nNetzbetreiber mit geringer Energiedichte transportieren weniger Energie pro Kilometer Leitung. Dies trifft zu auf:\r\n- Ländliche Gebiete mit langen Leitungen zu wenigen Verbrauchern\r\n- Gebiete mit hauptsächlich kleineren Haushalten\r\n- Weniger dicht besiedelte Versorgungsgebiete\r\n\r\n### Mittlere Siedlungsdichte\r\nGebiete mit mittlerer Siedlungsdichte umfassen typische Schweizer Gemeinden ausserhalb der grossen Städte aber mit kompakter Siedlungsstruktur.\r\n\r\n### Ländliche Siedlungsdichte\r\nLändliche Gebiete sind durch geringe Bevölkerungsdichte und weite Distanzen zwischen den Verbrauchern gekennzeichnet. Die Netzinfrastruktur muss oft grosse Gebiete mit verhältnismässig wenigen Anschlüssen versorgen.\r\n\r\n### Bergregion\r\nBergregionen stellen besondere Herausforderungen dar durch:\r\n- Schwieriges Gelände für den Netzausbau\r\n- Höhere Bau- und Unterhaltskosten\r\n- Oft saisonal schwankende Lasten\r\n- Längere Leitungswege aufgrund der Topographie\r\n\r\n\r\n\r\n\r\n### Tourismusgebiet\r\nTourismusgebiete sind geprägt durch:\r\n- Stark saisonal schwankende Stromlasten\r\n- Hohe Spitzenlasten während der Tourismussaison\r\n- Netzauslegung auf temporäre Bevölkerungsspitzen\r\n- Besondere Anforderungen an die Versorgungssicherheit\r\n\r\n## Warum diese Einteilung?\r\n\r\nDiese Gruppierung ermöglicht faire Vergleiche zwischen Netzbetreibern mit ähnlichen strukturellen Herausforderungen. So werden beispielsweise die Netzkosten in Bergregionen nicht direkt mit jenen in städtischen Gebieten verglichen.\r\n\r\nEs werden nur Netzbetreiber gruppiert, welche Endkunden auf der Netzebene 7 haben.\r\n\r\nDie Gruppeneinteilung wird jährlich neu bestimmt, da sich die Verhältnisse durch Bevölkerungswachstum, Veränderungen beim Stromverbrauch oder Fusionen zwischen Netzbetreibern ändern können.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-peer-group/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 480,
+    "content": "**Quels sont les groupes de comparaison des gestionnaires de réseau ?**\r\n\r\nAfin de permettre des comparaisons entre les gestionnaires de réseau suisses, l’ElCom les répartit en différents groupes. Cette classification repose sur des critères objectifs, que les gestionnaires de réseau ne peuvent influencer que de manière limitée, et tient compte des différents défis opérationnels selon les zones de desserte.\r\n\r\nLa répartition se fait selon deux critères principaux :\r\n\r\n**1. Densité de population**\r\n\r\nLa densité de population est calculée sur la base de la population résidente permanente combinée à la surface urbanisée. Elle indique la densité d’habitants dans la zone de desserte du gestionnaire de réseau.\r\n\r\n**2. Densité énergétique**\r\n\r\nLa densité énergétique se calcule en divisant la quantité totale d’énergie injectée sur l’ensemble des niveaux de réseau par la longueur totale des câbles et lignes aériennes des niveaux de réseau 5 (moyenne tension) et 7 (basse tension).\\\r\nUne densité énergétique élevée signifie que beaucoup d’énergie est transportée par kilomètre de ligne.\r\n\r\n \r\n\r\n**Les différents groupes d’analyse :**\r\n\r\n**Haute densité énergétique**\r\n\r\nLes gestionnaires de réseau à haute densité énergétique transportent une quantité d’énergie supérieure à la moyenne par kilomètre de ligne. Cela est typique :\r\n\r\n* des zones avec de nombreux gros consommateurs (industrie, entreprises),\r\n* des zones densément peuplées à forte consommation électrique,\r\n* d’une infrastructure de réseau utilisée de façon très efficace.\r\n\r\n**Faible densité énergétique**\r\n\r\nLes gestionnaires de réseau à faible densité énergétique transportent moins d’énergie par kilomètre de ligne. Cela correspond :\r\n\r\n* aux zones rurales avec de longues lignes pour peu de consommateurs,\r\n* aux régions avec principalement de petits ménages,\r\n* aux zones de desserte peu densément peuplées.\r\n\r\n**Densité de population moyenne**\r\n\r\nLes zones à densité de population moyenne regroupent des communes suisses typiques situées hors des grandes villes, mais présentant une structure urbanisée relativement compacte.\r\n\r\n**Densité de population rurale**\r\n\r\nLes zones rurales se caractérisent par une faible densité de population et de grandes distances entre les consommateurs. L’infrastructure de réseau doit souvent couvrir de vastes surfaces avec relativement peu de raccordements.\r\n\r\n**Régions de montagne**\r\n\r\nLes régions de montagne présentent des défis particuliers, tels que :\r\n\r\n* un terrain difficile pour le développement du réseau,\r\n* des coûts de construction et d’entretien plus élevés,\r\n* des charges souvent fluctuantes selon les saisons,\r\n* des lignes plus longues en raison de la topographie.\r\n\r\n**Régions touristiques**\r\n\r\nLes régions touristiques se distinguent par :\r\n\r\n* des charges électriques très fluctuantes selon les saisons,\r\n* des pics de consommation élevés pendant les périodes touristiques,\r\n* un réseau dimensionné pour des afflux temporaires importants de population,\r\n* des exigences élevées en matière de sécurité d’approvisionnement.\r\n\r\n \r\n\r\n**Pourquoi cette classification ?**\r\n\r\nCette répartition permet d’effectuer des comparaisons équitables entre des gestionnaires de réseau qui font face à des défis structurels similaires. Ainsi, par exemple, les coûts de réseau en régions de montagne ne sont pas directement comparés avec ceux des zones urbaines.\r\n\r\nSeuls les gestionnaires de réseau desservant des clients finaux au niveau de réseau 7 sont regroupés.\r\n\r\nLa classification des groupes est réévaluée chaque année, car les conditions peuvent évoluer en fonction de la croissance démographique, des changements de consommation électrique ou des fusions entre gestionnaires de réseau.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-peer-group/it",
+    "title": "it",
+    "wiki_page_meta_id": 481,
+    "content": "## Quali sono i gruppi di riferimento dei gestori di rete?\r\n\r\nPer consentire confronti equi tra i gestori di rete svizzeri, l'ElCom li suddivide in diversi gruppi. Questa suddivisione si basa su criteri oggettivi, sui quali i gestori di rete possono influire solo in misura limitata, e tiene conto delle diverse sfide operative a seconda dell'area di fornitura.\r\n\r\nLa suddivisione avviene sulla base di due criteri principali:\r\n\r\n### 1. Densità di insediamento\r\n\r\nLa densità di insediamento viene calcolata sulla base della popolazione residente permanente in combinazione con la superficie insediativa. Fornisce informazioni sulla densità di popolazione nell'area di fornitura del gestore di rete.\r\n\r\n### 2. Densità energetica\r\n\r\nLa densità energetica è calcolata dalla quantità totale di energia immessa in tutti i livelli di rete divisa per la lunghezza totale dei cavi e delle linee aeree ai livelli di rete 5 (media tensione) e 7 (bassa tensione). Un'elevata densità energetica significa che per ogni chilometro di linea viene trasportata molta energia.\r\n\r\n## I diversi gruppi di visualizzazione:\r\n\r\n### Elevata densità energetica\r\n\r\nI gestori di rete con un'elevata densità energetica trasportano una quantità di energia superiore alla media per chilometro di linea. Ciò è tipico di:\r\n\r\n* Aree con molti grandi consumatori (industria, commercio)\r\n* Aree densamente popolate con un elevato consumo di energia elettrica\r\n* Infrastruttura di rete utilizzata in modo efficiente\r\n\r\n### Bassa densità energetica\r\n\r\nI gestori di rete con una bassa densità energetica trasportano meno energia per chilometro di linea. Ciò vale per:\r\n\r\n* Aree rurali con linee lunghe che servono pochi consumatori\r\n* Aree con prevalentemente piccole utenze domestiche\r\n* Aree di approvvigionamento meno densamente popolate\r\n\r\n### Densità di insediamento media\r\n\r\nLe aree con densità di insediamento media comprendono i tipici comuni svizzeri al di fuori delle grandi città, ma con una struttura insediativa compatta.\r\n\r\n### Densità di insediamento rurale\r\n\r\nLe zone rurali sono caratterizzate da una bassa densità di popolazione e da grandi distanze tra i consumatori. L'infrastruttura di rete deve spesso rifornire vaste aree con un numero relativamente esiguo di allacciamenti.\r\n\r\n### Zone montane\r\n\r\nLe zone montane presentano sfide particolari a causa di:\r\n\r\n* Terreno difficile per l'ampliamento della rete\r\n* Costi di costruzione e manutenzione più elevati\r\n* Carichi spesso soggetti a fluttuazioni stagionali\r\n* Percorsi più lunghi delle linee a causa della topografia\r\n\r\n### Zone turistiche\r\n\r\nLe zone turistiche sono caratterizzate da:\r\n\r\n* Carichi elettrici fortemente variabili a seconda della stagione\r\n* Carichi di picco elevati durante la stagione turistica\r\n* Progettazione della rete in funzione dei picchi temporanei di popolazione\r\n* Requisiti particolari in materia di sicurezza dell'approvvigionamento\r\n\r\n## Perché questa classificazione?\r\n\r\nQuesto raggruppamento consente di effettuare confronti equi tra gestori di rete con sfide strutturali simili. Ad esempio, i costi di rete nelle regioni montane non vengono confrontati direttamente con quelli delle aree urbane.\r\n\r\nVengono raggruppati solo i gestori di rete che hanno clienti finali al livello di rete 7.\r\n\r\nLa classificazione dei gruppi viene ridefinita ogni anno, poiché le condizioni possono cambiare a causa della crescita demografica, delle variazioni nel consumo di energia elettrica o delle fusioni tra gestori di rete.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-comparison/de",
+    "title": "de",
+    "wiki_page_meta_id": 397,
+    "content": "Beim Vergleich der Tarifkomponenten auf der Schweizerkarte wird den Gemeinden eine von fünf Farben zugewiesen. Dazu werden die Werte sämtlicher Gemeinden aufsteigend sortiert und dann der CH-Mittelwert (Median) ermittelt:\r\n\r\nIst eine Gemeinde\r\n\r\n− **dunkelgrün**, so ist der in dieser Gemeinde gültige Tarif **deutlich günstiger** (> 15%) als der CH-Mittelwert.\r\n\r\n− **hellgrün**, so ist der in dieser Gemeinde gültige Tarif **günstiger**(zwischen 5 und 15%) als der CH-Mittelwert.\r\n\r\n− **gelb**, so ist der in dieser Gemeinde gültige Tarif **durchschnittlich hoch** (+/- 5% Abweichung vom CH-Mittelwert).\r\n\r\n− **orange**, so ist der in dieser Gemeinde gültige Tarif **teurer** (zwischen 5 und 15%) als der CH-Mittelwert.\r\n\r\n− **dunkelrot**, so ist der in dieser Gemeinde gültige Tarif **deutlich teurer** (> 15%) als der CH-Mittelwert.\r\n\r\nAngaben exkl. MWST",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-comparison/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 466,
+    "content": "Lors de la comparaison des composantes tarifaires sur la carte suisse, les communes se voient attribuer l'une des cinq couleurs. Pour ce faire, toutes les valeurs des communes suisses sont classées par ordre croissant, avant de calculer la moyenne suisse (médiane):\r\n\r\nsi une commune est colorée en\r\n\r\n- **vert foncé**, le tarif communal est **clairement plus avantageux** (> 15%) que la moyenne suisse,\r\n\r\n- **vert clair**, le tarif communal est **plus avantageux** (entre 5 et 15%) que la moyenne suisse,\r\n\r\n- **jaune**, le tarif communal est moyennement **élevé** (+/- 5% d'écart par rapport à la moyenne suisse),\r\n\r\n- **orange**, le tarif communal est **plus élevé** (entre 5 et 15%) que la moyenne suisse,\r\n\r\n- **rouge foncé**, le tarif communal est **clairement plus élevé** (> 15%) que la moyenne suisse.\r\n\r\nTVA exclus",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-comparison/it",
+    "title": "it",
+    "wiki_page_meta_id": 467,
+    "content": "Nel confronto delle componenti tariffarie, nella carta della Svizzera a ciascun comune è attribuito uno dei cinque colori. A tale scopo, i valori di tutti i comuni svizzeri vengono classificati in ordine crescente e in seguito viene determinato il valore medio (mediana) svizzero:\r\n\r\nSe un comune è\r\n\r\n- **verde scuro**, la tariffa media comunale è **molto più conveniente** (> 15%) rispetto al valore mediano svizzero,\r\n\r\n- **verde chiaro**, la tariffa media comunale è **piuttosto conveniente** (tra 5 e 15%) rispetto al valore mediano svizzero,\r\n\r\n- **giallo**, la tariffa media comunale è **nella media** (+/- 5% scostamento dal valore mediano svizzero),\r\n\r\n- **arancione**, la tariffa media comunale è **più elevata** (tra 5 e 15%) rispetto al valore mediano svizzero,\r\n\r\n- **rosso scuro**, la tariffa media comunale è **molto più elevata** (> 15%) rispetto al valore mediano svizzero.\r\n\r\n\r\n\r\nIVA esclusa",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-components/de",
+    "title": "de",
+    "wiki_page_meta_id": 107,
+    "content": "## Wie setzt sich der Strompreis zusammen?\r\n\r\nDer Strompreis setzt sich aus verschiedenen Komponenten zusammen, die von den Netzbetreibern jedes Jahr publiziert werden müssen. Die Publikation erfolgt jeweils bis spätestens Ende August für die Preise des Folgejahres. Die Tarife bleiben im Normalfall für ein Jahr fest, können also nicht jederzeit angepasst werden.\r\n\r\nDie 4 Komponenten des Strompreises:\r\n\r\n### 1\\. Netznutzungstarif\r\n\r\nPreis für den Stromtransport vom Kraftwerk bis ins Haus. Mit den Einnahmen wird die Wartung und der Ausbau des Stromnetzes finanziert, also zum Beispiel Freileitungen, Masten und Transformatoren. Ebenfalls Bestandteil des Netznutzungsentgelts bilden die Kosten für die Systemdienstleistungen (SDL). Diese werden für die Stabilität zwischen Produktion und Verbrauch von Energie eingesetzt. Ebenfalls Bestandteil des Netznutzungstarifs ist der Preis für die sog. Stromreserve, welche einen Beitrag an die Stromproduzenten für die Vorhaltung von Reserven im Winter zur Vermeidung von Stromlücken im Winter darstellt. Beide Komponenten werden von Swissgrid an die Schweizer Netzbetreiber verrechnet. Diese wiederum stellen die Kosten ihren Endverbrauchern in Rechnung. Die Tarife der Swissgrid können hier abgerufen werden: [Tabelle-Tarife-de.pdf (swissgrid.ch)](https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-de.pdf)\r\n\r\n### 2\\. Energiepreis\r\n\r\nPreis für die gelieferte elektrische Energie. Diese Energie erzeugt der Netzbetreiber entweder mit eigenen Kraftwerken, oder er kauft sie von Vorlieferanten ein. Der Energiepreis wird auch von der Art der Energiequelle beeinflusst. So führen hohe Anteile an erneuerbaren Energien (z.B. Wind-, Solar-, Biomasse-Energie) in der Regel zu höheren Energiepreisen.\r\n\r\n### 3\\. Abgaben an das Gemeinwesen\r\n\r\nKommunale und kantonale Abgaben und Gebühren. Darunter fallen z.B. Konzessionsabgaben oder lokalpolitische Energieabgaben.\r\n\r\n### 4\\. Messtarife (Tarif für das Messwesen)\r\n\r\nPreis für die Bereitstellung, Installation, den Betrieb und die Wartung der Messeinrichtungen sowie die Datenerfassung, -übertragung und -verarbeitung. Diese Kosten umfassen die Beschaffung moderner Stromzähler (Smart Meter und konventionelle Zähler), deren fachgerechte Installation vor Ort, die regelmässige Wartung und Kalibrierung der Messgeräte sowie die sichere Übertragung der Verbrauchsdaten an den Netzbetreiber.\r\n\r\n#### 5\\. Netzzuschlag gem. Art. 35 EnG\r\n\r\nFür die Förderung der Stromproduktion aus erneuerbaren Energien und Gewässersanierungen bezahlen die Schweizer Stromkonsumentinnen und -konsumenten einen Zuschlag pro Kilowattstunde (vgl. Art. 35 Energiegesetz). Der bei den Stromkonsumentinnen und -konsumenten erhobene Netzzuschlag fliesst in den so genannten Netzzuschlagsfonds. Mit diesem Fonds werden die Kostendeckende Einspeisevergütung (KEV), die Einmalvergütungen für kleine Photovoltaik-Anlagen, die wettbewerblichen Ausschreibungen für Stromeffizienz, die Rückerstattungen an Grossverbraucher, die Risikogarantien für Geothermieprojekte, die Vollzugskosten sowie Gewässersanierungsmassnahmen finanziert. Die Höhe der Abgabe wird jährlich vom Bundesrat festgelegt. Die Abgabe ist überall gleich hoch.\r\n\r\n## Was sind dynamische Tarife?\r\n\r\nDynamische Tarife sind zeitvariable Strompreise, die sich je nach Tageszeit, Wochentag oder Marktsituation ändern. Sie bilden die realen Kosten der Stromerzeugung genauer ab als Pauschalpreise.\r\n\r\nSie ermöglichen Kosteneinsparungen durch bewussten Stromverbrauch zu günstigen Zeiten und schaffen Anreize für flexible Gerätenutzung, insbesondere bei hoher Verfügbarkeit erneuerbarer Energien.\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-components/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 108,
+    "content": "## Quelles sont les composantes du prix de l'électricité?\r\n\r\nLe prix de l'électricité se compose de plusieurs élements que les gestionnaires de réseau doivent publier chaque année, au plus tard jusqu'à la fin du mois d'août pour les prix de l'année suivante. Les tarifs sont normalement fixés pour un an et ne peuvent donc PAS être adaptés n'importe quand.\r\n\r\nLes quatre composantes du prix de l’électricité\r\n\r\n### 1\\. Tarif d’utilisation du réseau\r\n\r\nPrix du transport de l'électricité de la centrale électrique jusqu'au domicile. Les recettes servent à financer l'entretien et le développement du réseau électrique, c'est-à-dire par exemple les lignes aériennes, les pylônes et les transformateurs. Les coûts des services système (SDL) font également partie de la rémunération de l'utilisation du réseau. Ceux-ci sont utilisés pour assurer la stabilité entre la production et la consommation d'énergie. Le prix de ce que l'on appelle la réserve d'électricité, qui représente une contribution aux producteurs d'électricité pour la constitution de réserves en hiver afin d'éviter les pénuries d'électricité en hiver, fait également partie du tarif d'utilisation du réseau. Ces deux composantes sont facturées par Swissgrid aux gestionnaires de réseau suisses. Ceux-ci les facturent à leur tour à leurs consommateurs finaux. Les tarifs de Swissgrid peuvent être consultés ici : [Tabelle-Tarife-fr.pdf (swissgrid.ch)](https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-fr.pdf)\r\n\r\n### 2\\. Tarif de l’énergie\r\n\r\nPrix de l’énergie électrique fournie. Soit l’exploitant du réseau produit cette énergie dans ses propres centrales, soit il l’achète à des fournisseurs en amont.\r\n\r\n### 3\\. Redevances dues aux collectivités publiques\r\n\r\nTaxes et redevances communales et cantonales. Il s’agit, par exemple, des redevances de concessions ou des taxes énergétiques locales.\r\n\r\n### 4\\. Tarifs de mesure (Tarif pour le service de comptage)\r\n\r\nPrix pour la mise à disposition, l’installation, l’exploitation et la maintenance des équipements de mesure, ainsi que pour la collecte, la transmission et le traitement des données. Ces coûts comprennent l’acquisition de compteurs électriques modernes (compteurs intelligents et compteurs conventionnels), leur installation professionnelle sur site, l’entretien régulier et l’étalonnage des appareils de mesure, ainsi que la transmission sécurisée des données de consommation à l’opérateur de réseau.\r\n\r\n### 5\\. Supplément de réseau selon l'art. 35 LEne\r\n\r\nLes consommateurs et consommatrices suisses paient un supplément par kilowattheure destiné à promouvoir la production d'électricité à partir de sources d'énergie renouvelables et l'assainissement des cours d’eau (cf. art. 35 de la loi sur l’énergie). Le supplément sur les coûts de transport perçu auprès des consommateurs et consommatrices d’électricité aliment un fonds qui finance la rétribution à prix coûtant du courant injecté (RPC), les rétributions uniques pour les petites installations photovoltaïques, les appels d’offres publics visant à promouvoir l’efficacité énergétique, les remboursements aux gros consommateurs, la couverture des risques liés aux projets de géothermie, les coûts d’exécution et les mesures d’assainissement des cours d’eau. Le montant de la redevance est fixé chaque année par le conseil fédéral. La redevance est la même partout.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-components/it",
+    "title": "it",
+    "wiki_page_meta_id": 109,
+    "content": "## Quali sono le componenti della tariffa elettrica?\r\n\r\nLa tariffa elettrica è costituita da diverse componenti, che ogni anno devono essere pubblicate dai gestori di rete. La pubblicazione avviene al più tardi entro la fine di agosto per i prezzi dell'anno successivo. Di norma le tariffe rimangono fisse per un anno e non possono quindi essere adeguate in qualsiasi momento.\r\n\r\nLe 4 componenti della tariffa elettrica:\r\n\r\n### 1. Tariffa per l'utilizzazione della rete\r\n\r\nPrezzo del trasporto dell'elettricità dalla centrale elettrica al domicilio. I ricavi vengono utilizzati per finanziare la manutenzione e lo sviluppo della rete elettrica, come le linee aeree, i tralicci e i trasformatori. Anche i costi per le prestazioni di servizio relative al sistema (PSRS) fanno parte della remunerazione per l'utilizzazione della rete. Queste servono a garantire la stabilità tra produzione e consumo di energia. Anche il prezzo della cosiddetta riserva invernale, che rappresenta un contributo ai produttori di energia elettrica per costituire riserve in inverno al fine di evitare carenze di energia elettrica in inverno, fa parte della tariffa di utilizzo della rete. Queste due componenti sono fatturate da Swissgrid ai gestori di rete svizzeri. Questi ultimi, a loro volta, le fatturano ai loro consumatori finali. Le tariffe di Swissgrid possono essere consultate qui: [Tabelle-Tarife-it.pdf (swissgrid.ch)](https://www.swissgrid.ch/dam/swissgrid/customers/topics/tariffs/Tabelle-Tarife-it.pdf)\r\n\r\n### 2.Prezzo dell'energia\r\n\r\nPrezzo per l'energia elettrica fornita. Il gestore di rete produce quest'energia nelle proprie centrali oppure la acquista da un fornitore. Il prezzo dell’energia è influenzato anche dal tipo di fonte energetica: quote importanti di energia rinnovabile (p.es. eolica, solare, biomassa) inducono, di regola, a prezzi dell’energia più elevati.\r\n\r\n### 3. Tributi a enti pubblici\r\n\r\nTributi e tasse comunali e cantonali, come ad esempio le tasse di concessione o tasse sull'energia locali.\r\n\r\n### 4. Tariffe di misura (Tariffa per il servizio di misurazione)\r\n\r\nPrezzo per la fornitura, l’installazione, l’esercizio e la manutenzione delle apparecchiature di misurazione, nonché per la raccolta, la trasmissione e l’elaborazione dei dati. Questi costi comprendono l’acquisto di contatori elettrici moderni (contatori intelligenti e contatori convenzionali), la loro installazione professionale in loco, la manutenzione periodica e la taratura degli strumenti di misura, nonché la trasmissione sicura dei dati di consumo al gestore di rete.\r\n\r\n### 5. Supplemento rete ai sensi dell'art. 35 LEne\r\n\r\nI consumatori svizzeri di energia elettrica pagano un supplemento per chilowattora per promuovere la produzione di energia elettrica da fonti rinnovabili e il risanamento delle acque (cfr. art. 35 della legge sull'energia). Il supplemento di rete riscosso dai consumatori di energia elettrica confluisce nel cosiddetto fondo per il supplemento di rete. Questo fondo viene utilizzato per finanziare i costi per la remunerazione per l'immissione di energia a copertura dei costi (RIC), la remunerazione unica per impianti fotovoltaici, i costi dei bandi di gara per misure di efficienza energetica, i rimborsi ai grandi consumatori, i contributi per il rischio dei progetti geotermici, i costi di applicazione e le misure di risanamento delle acque. Il supplemento è fissato annualmente dal Consiglio federale ed è uguale per tutti.\r\n\r\n## **Cosa sono le tariffe dinamiche?**\r\n\r\nLe tariffe dinamiche sono composte da prezzi dell'energia elettrica variabili nel tempo, che cambiano a seconda dell'ora del giorno, del giorno della settimana o della situazione di mercato. Esse riflettono i costi reali della produzione di energia elettrica in modo più accurato rispetto ai prezzi forfettari.\r\n\r\nConsentono di risparmiare sui costi grazie a un consumo consapevole di energia elettrica nelle fasce orarie più convenienti e incentivano un utilizzo flessibile degli apparecchi, in particolare in caso di elevata disponibilità di energie rinnovabili.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-distribution/de",
+    "title": "de",
+    "wiki_page_meta_id": 163,
+    "content": "Das nachfolgende Diagramm zeigt die Lage der Tarife der ausgewählten Gemeinde(n) im Vergleich mit den anderen Gemeinden in der Schweiz. Hier zeigt die y-Achse jeweils die Anzahl von Gemeinden, welche einen bestimmten Tarif ausweisen. Dieser Tarif ist auf der x-Achse dargestellt. Ebenfalls ausgewiesen ist jeweils der Median bezogen auf die gesamte Schweiz (CH Mittelwert). Die Farben zeigen – wie auf der Kartendarstellung – die Abweichung der jeweiligen Tarife vom Median. \nDas Diagramm können Sie jeweils für das Total sowie für die unterschiedlichen Preiskomponenten Netz, Energie, Abgaben an Gemeinden und Förderabgaben anzeigen lassen.\n\nBeliefert ein Unternehmen mehrere Gemeinden und hat es für diese Gemeinden unterschiedliche Tarife (hervorgerufen u.U. durch je Gemeinde unterschiedliche Abgaben), wird die Lage der jeweiligen Tarife differenziert angezeigt.\n\nBitte beachten Sie: Die Rohdaten der Strompreis-Übersicht stammen direkt von den Netzbetreibern und werden von der ElCom nicht geprüft. Die Verantwortung für die Qualität der Daten liegt bei den Netzbetreibern.\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-distribution/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 166,
+    "content": "Le diagramme ci-dessous présente la situation tarifaire de la ou des communes sélectionnées par rapport aux autres communes Suisse. Ici, l’ordonnée (axe des y) montre le nombre de communes qui ont un tarif spécifique. Le tarif est indiqué sur l’abscisse (axe des x). La médiane pour l’ensemble de la Suisse (moyenne CH) est également indiquée. Les couleurs montrent – comme sur la carte – l’écart des tarifs par rapport à la médiane. \n\nVous pouvez afficher le diagramme pour le total ainsi que pour les différentes composantes du prix, à savoir, l’utilisation du réseau, énergie, taxes à la collectivité publique et supplément de réseau. \n\nSi une entreprise approvisionne plusieurs communes, et, a des tarifs différents (probablement dus à des taxes différentes dans chaque commune), la situation des tarifs respectifs de chaque commune s’affiche de manière différencié.\n\nNous vous rendons attentif que les données brutes de l’aperçu des prix de l’électricité proviennent directement des gestionnaires de réseau et ne sont pas contrôlées par l’ElCom. Les opérateurs de réseau sont responsables de la qualité des données. \n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-distribution/it",
+    "title": "it",
+    "wiki_page_meta_id": 169,
+    "content": "Il seguente diagramma mostra il posizionamento delle tariffe del/dei comune/i selezionato/i rispetto agli altri comuni della Svizzera. L'asse y mostra il numero di comuni che hanno la stessa tariffa. Questa tariffa è indicata sull'asse delle ascisse. La linea tratteggiata verticale indica la tariffa mediana Svizzera. I colori mostrano - come sulla mappa – lo scostamento delle rispettive tariffe dalla mediana. Il diagramma può visualizzare il totale come altresì le diverse componenti di prezzo quali rete, energia, oneri per i comuni e tasse d’incitamento. Se un gestore di rete approvvigiona diversi comuni ed a questi applica tariffe differenziate (p. es. a causa della diversificazione degli oneri comunali), il posizionamento delle rispettive tariffe viene visualizzato in modo differenziato.\r\n\r\nAvviso: i dati grezzi per la panoramica delle tariffe dell’elettricità provengono direttamente dai gestori di rete e non vengono controllati dalla ElCom. La responsabilità per la qualità dei dati è degli operatori di rete.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-evolution/de",
+    "title": "de",
+    "wiki_page_meta_id": 162,
+    "content": "Die nachfolgenden Diagramme zeigen die Entwicklung der Tarife über die ausgewählten Jahre bezogen auf die unterschiedlichen Preiskomponenten Netz, Energie, Abgaben an Gemeinden und Förderabgaben. \n\nBeliefert ein Unternehmen mehrere Gemeinden und hat es für diese Gemeinden unterschiedliche Tarife (hervorgerufen u.U. durch je Gemeinde unterschiedliche Abgaben), werden mehrere Graphen angezeigt. Im Normalfall wird nur ein Graph abgebildet. \n\nBitte beachten Sie: Die Rohdaten der Strompreis-Übersicht stammen direkt von den Netzbetreibern und werden von der ElCom nicht geprüft. Die Verantwortung für die Qualität der Daten liegt bei den Netzbetreibern.\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-evolution/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 165,
+    "content": "Les diagrammes suivants montrent l’évolution des tarifs sur les années sélectionnées par rapport aux différentes composantes tarifaires comme l’utilisation du réseau, énergie, taxes à la collectivité publique et supplément de réseau. \n\nSi une entreprise approvisionne plusieurs communes, et, a des tarifs différents pour ces communes (probablement dus à des taxes différentes dans chaque commune), plusieurs graphiques s’affichent.\nGénéralement, un seul graphique est affiché.\n\nNous vous rendons attentif que les données brutes de l’aperçu des prix de l’électricité proviennent directement des gestionnaires de réseau et ne sont pas contrôlées par l’ElCom. Les opérateurs de réseau sont responsables de la qualité des données. \n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-price-evolution/it",
+    "title": "it",
+    "wiki_page_meta_id": 168,
+    "content": "I seguenti diagrammi mostrano lo sviluppo delle tariffe nel corso degli anni selezionati in relazione alle diverse componenti di prezzo quali rete, energia, oneri per i comuni e tasse d’incitamento. \r\n\r\nSe un gestore di rete approvvigiona diversi comuni ed a questi applica tariffe differenziate (p. es. a causa della diversificazione degli oneri comunali), saranno visualizzati diversi diagrammi. Normalmente, un solo diagramma sarà visualizzato.\r\n\r\nAvviso: i dati grezzi per la panoramica delle tariffe dell’elettricità provengono direttamente dai gestori di rete e non vengono controllati dalla ElCom. La responsabilità per la qualità dei dati è dei gestori di rete.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-products/de",
+    "title": "de",
+    "wiki_page_meta_id": 122,
+    "content": "Das **Standard-Produkt** ist in der Regel ein Produkt mit ökologischem Mehrwert und wird dem Endverbraucher, sofern er nicht explizit ein anderes Produkt wünscht, standardmässig geliefert. \r\n\r\nDas **günstigste Produkt** kommt oft nur auf expliziten Wunsch des Endverbrauchers zur Anwendung. Allerdings verfügen viele Netzbetreiber, insbesondere kleinere, über nur ein Produkt. Bei ihnen entspricht das Standardprodukt dem günstigsten Produkt. \r\n\r\nVor 2018 wurden nur Angaben zum Standardprodukt erfragt.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-products/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 374,
+    "content": "Le **produit standard** est généralement un produit à valeur ajoutée écologique et est livré à l'utilisateur final en standard, à moins qu'il ne demande explicitement un produit différent.\r\n\r\nLe **produit meilleur** marché n'est souvent utilisé qu'à la demande explicite de l'utilisateur final. Cependant, de nombreux opérateurs de réseau, en particulier les plus petits, n'ont qu'un seul produit. Pour eux, le produit standard correspond au produit le meilleur marché. \r\n\r\nAvant 2018, seules des informations sur le produit standard étaient demandées.\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-products/it",
+    "title": "it",
+    "wiki_page_meta_id": 375,
+    "content": "Il **prodotto standard** è solitamente un prodotto con plusvalore ecologico e viene fornito d'ufficio al consumatore finale nel caso non venisse espressamente richiesto un altro prodotto.\r\n\r\nIl **prodotto più economico** viene fornito solo su esplicita richiesta del consumatore finale. Tuttavia molti gestori di rete, in particolare i più piccoli, dispongono di un unico prodotto: in questo caso, il prodotto standard corrisponde a quello più economico.\r\n\r\nPrima del 2018 venivano richiesti i dati concernenti solamente il prodotto standard.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi-saifi-type",
+    "title": "help saidi saifi type",
+    "wiki_page_meta_id": 444,
+    "content": "---\r\ntitle: help saidi saifi type\r\n---\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {
+      "title": "help saidi saifi type"
+    }
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi-saifi-type/de",
+    "title": "de",
+    "wiki_page_meta_id": 483,
+    "content": "## Stromunterbrechungen\r\n\r\nStromunterbrechungen werden in zwei Kategorien unterteilt: Geplante Unterbrechungen (im Voraus bekannte Unterbrechungen für Wartungsarbeiten, die den Kunden vorgängig kommuniziert werden) und ungeplante Unterbrechungen (unerwartete Unterbrechungen durch Naturereignisse, Tiere oder technische Defekte).\r\n\r\nDie Daten werden nur bei den grössten Netzbetreibern erhoben. Einige Versorgungsgebiete sind daher grau dargestellt.\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi-saifi-type/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 485,
+    "content": "Interruptions de courant\r\n\r\nLes interruptions de courant sont réparties en deux catégories : les interruptions planifiées (interventions connues à l’avance pour des travaux de maintenance, communiquées préalablement aux clients) et les interruptions non planifiées (interruptions inattendues dues à des phénomènes naturels, des animaux ou des défaillances techniques).\r\n\r\nLes données ne sont collectées que chez les plus grands gestionnaires de réseau. Certaines zones d’approvisionnement sont donc représentées en gris.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi-saifi-type/it",
+    "title": "it",
+    "wiki_page_meta_id": 486,
+    "content": "## Interruzioni di corrente\r\n\r\nLe interruzioni di corrente si dividono in due categorie: interruzioni programmate (interruzioni note in anticipo per lavori di manutenzione, comunicate preventivamente ai clienti) e interruzioni non programmate (interruzioni impreviste dovute a eventi naturali, animali o guasti tecnici).\r\n\r\nI dati vengono raccolti solo dai maggiori gestori di rete. Alcune aree di fornitura sono quindi indicate in grigio.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi",
+    "title": "help saidi",
+    "wiki_page_meta_id": 414,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi/de",
+    "title": "de",
+    "wiki_page_meta_id": 415,
+    "content": "## Was ist SAIDI?\r\n\r\nSAIDI ist die Abkürzung für «System Average Interruption Duration Index». Dieser Index wird verwendet, um die durchschnittliche Dauer von Stromunterbrechungen in einem Netz zu messen.\r\n\r\nDie Daten werden nur bei den grössten Netzbetreibern in der Schweiz erhoben, daher sind einige Versorgungsgebiete in der Karte grau dargestellt – hier liegen keine Werte vor.\r\n\r\nDie Werte werden jeweils in Minuten für die ungeplanten Unterbrechungen und für die Gesamtheit der Unterbrechungen pro Jahr ausgewiesen.\r\n\r\n## Arten von Unterbrechungen\r\n\r\nGeplante Unterbrechungen sind im Voraus bekannte und womöglich kommunizierte Unterbrechungen, die beispielsweise mit Unterhalts- und Ausbauarbeiten zusammenhängen.\r\n\r\nUngeplante Unterbrechungen haben ihre Gründe häufig durch Naturereignisse wie Blitzschlag oder durch Tiere, können aber auch auf betriebliche Störungen oder menschliches Versagen zurück zu führen sein.\r\n",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 416,
+    "content": "**Qu'est-ce que le SAIDI ?**\r\n\r\nSAIDI est l'abréviation de « System Average Interruption Duration Index ». Cet indice sert à mesurer la durée moyenne des coupures de courant dans un réseau.\r\nLes données ne sont collectées que auprès des plus grands gestionnaires de réseau en Suisse, c'est pourquoi certaines zones d'approvisionnement apparaissent en gris sur la carte : aucune valeur n'est disponible pour ces zones.\r\nLes valeurs sont indiquées en minutes pour les coupures imprévues et pour l'ensemble des coupures par an.\r\n\r\n**Types de coupures**\r\n\r\nLes coupures planifiées sont des coupures connues à l'avance et éventuellement communiquées, liées par exemple à des travaux d'entretien et d'extension.\r\nLes interruptions imprévues sont souvent dues à des phénomènes naturels tels que la foudre ou des animaux, mais peuvent également être causées par des dysfonctionnements opérationnels ou des erreurs humaines.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saidi/it",
+    "title": "it",
+    "wiki_page_meta_id": 417,
+    "content": "## **Che cos'è il SAIDI?**\r\n\r\nSAIDI è l'acronimo di «System Average Interruption Duration Index». Questo indice viene utilizzato per misurare la durata media delle interruzioni di corrente in una rete. \r\n\r\nI dati vengono raccolti solo dai maggiori gestori di rete in Svizzera, pertanto alcune aree di fornitura sono indicate in grigio sulla mappa, poiché non sono disponibili valori. \r\n\r\nI valori sono indicati in minuti per le interruzioni non pianificate e per il totale delle interruzioni all'anno.\r\n\r\n## **Tipi di interruzioni**\r\n\r\nLe interruzioni pianificate sono interruzioni note in anticipo e possibilmente comunicate, ad esempio quelle legate a lavori di manutenzione e ampliamento. Le interruzioni non pianificate sono spesso causate da eventi naturali come fulmini o animali, ma possono anche essere dovute a guasti operativi o errori umani.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saifi",
+    "title": "help saifi",
+    "wiki_page_meta_id": 418,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saifi/de",
+    "title": "de",
+    "wiki_page_meta_id": 419,
+    "content": "## Was ist SAIFI?\r\n\r\nSAIFI ist die Abkürzung für «System Average Interruption Frequency Index». Dieser Index wird verwendet, um die durchschnittliche Unterbrechungshäufigkeit in einem Versorgungsnetz zu messen.\r\n\r\nDie Daten werden nur bei den grössten Netzbetreibern in der Schweiz erhoben, daher sind einige Versorgungsgebiete in der Karte grau dargestellt – hier liegen keine Werte vor.\r\n\r\nDie Werte werden jeweils als Anzahl für die ungeplanten Unterbrechungen und für die Gesamtheit der Unterbrechungen pro Jahr ausgewiesen.\r\n\r\n## Arten von Unterbrechungen\r\n\r\nGeplante Unterbrechungen sind im Voraus bekannte und womöglich kommunizierte Unterbrechungen, die beispielsweise mit Unterhalts- und Ausbauarbeiten zusammenhängen.\r\n\r\nUngeplante Unterbrechungen haben ihre Gründe häufig durch Naturereignisse wie Blitzschlag oder durch Tiere, können aber auch auf betriebliche Störungen oder menschliches versagen zurück zu führen sein.\r",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saifi/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 420,
+    "content": "**Qu'est-ce que le SAIFI ?**\r\n\r\nSAIFI est l'abréviation de « System Average Interruption Frequency Index » (indice de fréquence moyenne des interruptions du système). Cet indice est utilisé pour mesurer la fréquence moyenne des interruptions dans un réseau d'approvisionnement.\r\nLes données ne sont collectées qu'auprès des plus grands gestionnaires de réseau en Suisse, c'est pourquoi certaines zones d'approvisionnement sont représentées en gris sur la carte : aucune valeur n'est disponible pour ces zones.\r\nLes valeurs sont indiquées sous forme de nombre d'interruptions imprévues et de nombre total d'interruptions par an.\r\n\r\n**Types d'interruptions**\r\n\r\nLes interruptions prévues sont des interruptions connues à l'avance et éventuellement communiquées, liées par exemple à des travaux d'entretien et d'extension.\r\nLes interruptions imprévues sont souvent dues à des phénomènes naturels tels que la foudre ou des animaux, mais peuvent également être causées par des dysfonctionnements opérationnels ou des erreurs humaines.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-saifi/it",
+    "title": "it",
+    "wiki_page_meta_id": 421,
+    "content": "## **Che cos'è il SAIFI?**\r\n\r\nSAIFI è l'acronimo di «System Average Interruption Frequency Index» (indice di frequenza media delle interruzioni del sistema). Questo indice viene utilizzato per misurare la frequenza media delle interruzioni in una rete di distribuzione. \r\n\r\nI dati vengono raccolti solo dai maggiori gestori di rete in Svizzera, pertanto alcune aree di distribuzione sono indicate in grigio sulla mappa, poiché non sono disponibili valori. \r\n\r\nI valori sono indicati come numero di interruzioni non pianificate e come numero totale di interruzioni all'anno.\r\n\r\n## **Tipi di interruzioni**\r\n\r\nLe interruzioni pianificate sono interruzioni note in anticipo e possibilmente comunicate, ad esempio quelle legate a lavori di manutenzione e ampliamento. Le interruzioni non pianificate sono spesso causate da eventi naturali come fulmini o animali, ma possono anche essere dovute a guasti operativi o errori umani.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-search-list/de",
+    "title": "de",
+    "wiki_page_meta_id": 183,
+    "content": "Das Suchresultat wird durch die oben eingetragen Parameter bestimmt. Bei sehr vielen Treffern wird nur eine erste Trefferauswahl angezeigt. Mit der Schaltfläche am Ende der Liste können mehr Treffer nachgeladen werden.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-search-list/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 184,
+    "content": "Le résultat de la recherche est déterminé par les paramètres saisis ci-dessus. Si le nombre de résultats est très élevé, seule une première sélection de résultats s'affiche. Le bouton à la fin de la liste permet de charger davantage de résultats.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-search-list/it",
+    "title": "it",
+    "wiki_page_meta_id": 185,
+    "content": "Il risultato della ricerca è determinato dai parametri inseriti sopra. Se il numero di risultati è elevato, unicamente una prima selezione di questi sarà visibile. Il bottone alla fine della lista permette di visualizzare ulteriori risultati.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-service-quality",
+    "title": "help service quality",
+    "wiki_page_meta_id": 462,
+    "content": "Die Servicequalität gibt Auskunft darüber, ob und wenn ja wie viele Tage im Voraus Kunden über geplante Netzausfälle informiert werden.\r\n\r\nDer Indikator «Informationen zu Ausfällen» wird als einfacher ja / nein Indikator gezeigt\r\n\r\nDer Indikator «Benachrichtigung über Ausfälle Tage im Voraus» zeigt die Anzahl Tage im Voraus, welche der Netzbetreiber üblicherweise über geplante Ausfälle informiert.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-service-quality/de",
+    "title": "de",
+    "wiki_page_meta_id": 463,
+    "content": "## Servicequalität\r\n\r\nDie Servicequalität bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen und die Vorankündigungsfrist informieren.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-service-quality/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 464,
+    "content": "La qualité du service indique si les clients sont informés à l'avance des coupures de courant prévues et, le cas échéant, combien de jours à l'avance.\r\n\r\nL'indicateur « informations sur les coupures » est présenté sous la forme d'un simple indicateur oui/non.\r\n\r\nL'indicateur « notification des coupures plusieurs jours à l'avance » indique le nombre de jours à l'avance dont le gestionnaire de réseau informe généralement les clients des coupures prévues.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-service-quality/it",
+    "title": "it",
+    "wiki_page_meta_id": 465,
+    "content": "Il servizio Qualità valuta l'efficacia con cui le aziende informano i consumatori in merito alle interruzioni programmate dell'erogazione di energia elettrica e ai termini di preavviso.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-electricity",
+    "title": "help year electricity",
+    "wiki_page_meta_id": 491,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-electricity/de",
+    "title": "de",
+    "wiki_page_meta_id": 492,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-electricity/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 493,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-electricity/it",
+    "title": "it",
+    "wiki_page_meta_id": 494,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-indicators",
+    "title": "help year indicators",
+    "wiki_page_meta_id": 495,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-indicators/de",
+    "title": "de",
+    "wiki_page_meta_id": 497,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-indicators/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 498,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "help-year-indicators/it",
+    "title": "it",
+    "wiki_page_meta_id": 499,
+    "content": "",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "home-banner/de",
+    "title": "de",
+    "wiki_page_meta_id": 117,
+    "content": "Wir verbessern fortlaufend unsere Dienste für die Öffentlichkeit. Aufgrund von Wartungsarbeiten werden zurzeit auf der Strompreiswebseite keine Daten veröffentlicht. Bitte besuchen Sie die Seite zu einem späteren Zeitpunkt. Vielen Dank für Ihr Verständnis.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "home-banner/fr",
+    "title": "fr",
+    "wiki_page_meta_id": 119,
+    "content": "Nous améliorons continuellement nos services. En raison de travaux de maintenance, aucune donnée n'est actuellement publiée sur le site Internet des prix de l'électricité. Veuillez visiter le site ultérieurement. Merci pour votre compréhension.",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "home-banner/it",
+    "title": "it",
+    "wiki_page_meta_id": 207,
+    "content": "Stiamo migliorando continuamente i nostri servizi per il pubblico. A causa di lavori di manutenzione, attualmente i dati non vengono pubblicati sul portale delle tariffe elettriche della Svizzera. Vi invitiamo dunque a consultare il sito web in un secondo momento. Vi ringraziamo per la vostra comprensione. ",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  },
+  {
+    "format": "markdown",
+    "slug": "home",
+    "title": "home",
+    "wiki_page_meta_id": 67,
+    "content": "```yaml\r\nhome_banner_enabled: false\r\n```",
+    "encoding": "UTF-8",
+    "front_matter": {}
+  }
+]

@@ -193,9 +193,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
-        Latest year ({latestYear})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),
     rows: [
       operatorRate !== null && operatorRate !== undefined
@@ -361,9 +359,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
-        Latest year ({latestYear})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),
     rows: [
       operatorRate !== null && operatorRate !== undefined
@@ -534,9 +530,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.costs-and-tariffs.latest-year">
-        Latest year ({latestYear})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),
     rows: [
       operatorRate !== null && operatorRate !== undefined

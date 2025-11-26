@@ -164,9 +164,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.power-stability.latest-year">
-        Latest year ({latestYear})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),
     rows: [
       {
@@ -276,9 +274,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       </Trans>
     ),
     subtitle: (
-      <Trans id="sunshine.power-stability.latest-year">
-        Latest year ({latestYear})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),
     rows: [
       {

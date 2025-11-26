@@ -81,7 +81,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           href={t({
             id: "footer.elcom-electricity-tariffs-url",
             message:
-              "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs.html",
+              "https://www.elcom.admin.ch/en/prices-and-electricity-tariffs",
           })}
           target="_blank"
           underline="none"
@@ -91,6 +91,22 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             label={t({
               id: "footer.additional-information",
               message: "Further information on tariffs in Switzerland",
+            })}
+          />
+        </Link>
+        <Link
+          href={t({
+            id: "footer.sunshine-regulation-url",
+            message: "https://www.elcom.admin.ch/en/sunshine-regulation",
+          })}
+          target="_blank"
+          underline="none"
+        >
+          <FooterSectionButton
+            iconName="external"
+            label={t({
+              id: "footer.sunshine-regulation",
+              message: "Sunshine Regulation",
             })}
           />
         </Link>
@@ -155,7 +171,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           href={t({
             id: "footer.elcom-dataviz-url",
             message:
-              "https://www.elcom.admin.ch/elcom/en/home/topics/electricity-tariffs/basic-data-for-tariffs-of-the-swiss-distribution-network-operato.html",
+              "https://www.elcom.admin.ch/en/tariff-data-and-visualisation",
           })}
           target="_blank"
           underline="none"

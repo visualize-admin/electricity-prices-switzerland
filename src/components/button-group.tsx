@@ -2,7 +2,7 @@ import { Box, BoxProps, Tooltip, Typography } from "@mui/material";
 import { ChangeEventHandler, useCallback } from "react";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
-import { WikiPageSlug } from "src/domain/wiki";
+import { WikiPageSlug } from "src/domain/types";
 
 import { InfoDialogButton } from "./info-dialog";
 import TooltipContent from "./tooltip-content";

@@ -10,8 +10,8 @@
   },
   "scripts": {
     "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
-    "update-wiki-content": "make content",
-    "wiki-content:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/wiki.ts",
+    "wiki:update-content": "tsx scripts/wiki-content.ts download",
+    "wiki:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/wiki.ts",
     "build": "lingui compile && yarn build-storybook && yarn build:next",
     "build:next": "NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",

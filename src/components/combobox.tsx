@@ -14,7 +14,7 @@ import { useEffect, useId, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
 import { InfoDialogButton } from "src/components/info-dialog";
-import { WikiPageSlug } from "src/domain/wiki";
+import { WikiPageSlug } from "src/domain/types";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
 

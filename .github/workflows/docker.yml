@@ -43,7 +43,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create fake wiki content
-        run: echo "[]" > src/wiki-content.json
+        run: echo "[]" > src/domain/wiki/content.json
 
         # Build app
       - name: Extract metadata (tags, labels) for Docker

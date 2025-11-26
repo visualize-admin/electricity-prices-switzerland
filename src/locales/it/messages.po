@@ -295,7 +295,7 @@ msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettr
 
 #: src/components/footer.tsx
 msgid "footer.elcom-electricity-tariffs-url"
-msgstr "https://www.elcom.admin.ch/elcom/it/home/temi/prezzi-dell-energia-elettrica.html"
+msgstr "https://www.elcom.admin.ch/it/prezzi-e-tariffe-dellenergia-elettrica"
 
 #: src/components/footer.tsx
 msgid "footer.legal-framework"
@@ -308,6 +308,14 @@ msgstr "https://www.admin.ch/gov/it/pagina-iniziale/basi-legali.html"
 #: src/components/footer.tsx
 msgid "footer.more-information"
 msgstr "Informazioni complementari"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation"
+msgstr "Regolazione Sunshine"
+
+#: src/components/footer.tsx
+msgid "footer.sunshine-regulation-url"
+msgstr "https://www.elcom.admin.ch/it/regolazione-sunshine"
 
 #: src/components/footer.tsx
 msgid "footer.swiss-municipalities-grid"
@@ -1178,10 +1186,6 @@ msgid "sunshine.compliance.francs-rule-regulation"
 msgstr "Regola del franco"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.latest-year"
-msgstr "Anno tariffario attuale ({year})"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "Presentazione tempestiva dei documenti"
 
@@ -1233,13 +1237,6 @@ msgstr "Evoluzione delle tariffe energetiche"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
 msgstr "Tariffe energetiche"
-
-#: src/components/peer-group-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Anno tariffario attuale ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1375,6 +1372,17 @@ msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
 msgid "sunshine.indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 
+#: src/components/peer-group-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.latest-year"
+msgstr "Anno tariffario attuale ({latestYear})"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
 msgstr "Numero/anno"
@@ -1485,11 +1493,6 @@ msgstr "Questa pagina offre informazioni dettagliate sull'affidabilità della fo
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "Durata dell'interruzione"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.latest-year"
-msgstr "Anno tariffario attuale ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
@@ -1639,10 +1642,6 @@ msgstr "No"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.yes"
 msgstr "Sì"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.service-quality.latest-year"
-msgstr "Anno tariffario attuale ({year})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"
