@@ -15,9 +15,7 @@ export interface SessionConfigFlagInfo {
  */
 export async function getSessionConfigFlagsInfo(
   context: GetServerSidePropsContext
-): Promise<{
-  flags: Record<string, SessionConfigFlagInfo>;
-}> {
+) {
   const flags = await getSessionConfigFlagsFromContext(context);
 
   return {

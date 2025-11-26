@@ -6,10 +6,7 @@ import { contextFromGetServerSidePropsContext } from "src/graphql/server-context
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
-import {
-  getSessionConfigFlagsInfo,
-  SessionConfigFlagInfo,
-} from "src/session-config/info";
+import { getSessionConfigFlagsInfo } from "src/session-config/info";
 
 type Props = Record<string, $IntentionalAny>;
 
@@ -22,7 +19,7 @@ type EnhancedGSSP<
     urqlClient: Client;
     sparqlClient: ParsingClient;
     sunshineDataService: SunshineDataService;
-    sessionConfig: { flags: Record<string, SessionConfigFlagInfo> };
+    sessionConfig: Awaited<ReturnType<typeof getSessionConfigFlagsInfo>>;
   }
 ) => ReturnType<GetServerSideProps<P, { locale: string }>>;
 

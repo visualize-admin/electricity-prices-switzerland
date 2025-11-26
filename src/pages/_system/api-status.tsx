@@ -1,4 +1,10 @@
-import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Link,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { OperationResult, UseQueryState } from "urql";
 
@@ -66,10 +72,10 @@ const StatusBox = (props: BoxProps) => {
       sx={{
         py: 2,
         px: 3,
-        borderRadius: 1,
-        bgcolor: "secondary.200",
+        bgcolor: "secondary.100",
         mb: 3,
-        borderColor: "secondary.400",
+        borderRadius: 2,
+        borderColor: "secondary.300",
         borderWidth: 1,
         borderStyle: "solid",
         ...props.sx,
@@ -209,7 +215,7 @@ const CubeHealth = ({ query }: { query: PageProps["cubeHealth"] }) => {
 
 const SectionHeading = (props: TypographyProps) => {
   return (
-    <Typography variant="h2" {...props} sx={{ my: 3, ...props.sx }}>
+    <Typography variant="h2" {...props} sx={{ mb: 3, ...props.sx }}>
       {props.children}
     </Typography>
   );
@@ -227,50 +233,83 @@ const Page = ({
   observations,
   cantonMedian,
   swissMedian,
+  defaultEndpoint,
+  sessionEndpoint,
 }: PageProps) => {
   return (
-    <Box sx={{ p: 5 }}>
+    <Box sx={{ p: 5, display: "flex", flexDirection: "column", gap: 4 }}>
+      <Box sx={{ maxWidth: 600 }}>
+        <Typography variant="h1" mb={3}>
+          Configuration
+        </Typography>
+        <Typography variant="body1" mb={1}>
+          Default SPARQL Endpoint: {defaultEndpoint}
+        </Typography>
+
+        <Typography variant="body1" mb={1}>
+          Session SPARQL Endpoint: {sessionEndpoint?.value}
+        </Typography>
+        {sessionEndpoint?.value && sessionEndpoint.value !== defaultEndpoint ? (
+          <Typography variant="body2" mb={1} color="warning.main">
+            ⚠️ Warning: Your session SPARQL endpoint differs from the default
+            endpoint. This means you may see different data from users if the
+            two endpoints data are not in sync. Go to{" "}
+            <Link href="/api/session-config">Session Config</Link> if you want
+            to change it.
+          </Typography>
+        ) : null}
+      </Box>
+
       <Typography variant="h1">API Status</Typography>
+      <Box
+        display="grid"
+        gridTemplateAreas={`
+          "api-status data-status"
+          "search-status data-status"`}
+        gridTemplateColumns="1fr 1fr"
+        gridTemplateRows="auto auto"
+        gap={4}
+      >
+        <Box gridArea="api-status">
+          <SectionHeading>Internal</SectionHeading>
 
-      <SectionHeading>Internal</SectionHeading>
+          <SystemInfoStatus query={systemInfo} />
 
-      <Typography variant="body1" mb={1}>
-        Default SPARQL Endpoint: {serverEnv.SPARQL_ENDPOINT}
-      </Typography>
+          <WikiContentStatus query={wikiContent} />
+        </Box>
 
-      <SystemInfoStatus query={systemInfo} />
+        <Box gridArea="data-status">
+          <SectionHeading>Data (Lindas)</SectionHeading>
 
-      <WikiContentStatus query={wikiContent} />
+          <CubeHealth query={cubeHealth} />
 
-      <Typography variant="h2" sx={{ mt: 3 }}>
-        Data (Lindas)
-      </Typography>
+          <ObservationsStatus query={observations} />
 
-      <CubeHealth query={cubeHealth} />
+          <CantonMedianStatus query={cantonMedian} />
 
-      <ObservationsStatus query={observations} />
+          <SwissMedianStatus query={swissMedian} />
 
-      <CantonMedianStatus query={cantonMedian} />
+          <SunshineMedianStatus />
 
-      <SwissMedianStatus query={swissMedian} />
+          <DocumentDownloadStatus />
 
-      <SunshineMedianStatus />
+          <MunicipalityStatus />
+        </Box>
 
-      <DocumentDownloadStatus />
+        <Box gridArea="search-status">
+          <SectionHeading>Search</SectionHeading>
 
-      <MunicipalityStatus />
+          <MunicipalitiesStatus query={municipalities} />
 
-      <SectionHeading>Search</SectionHeading>
+          <CantonsStatus query={cantons} />
 
-      <MunicipalitiesStatus query={municipalities} />
+          <OperatorStatus query={operators} />
 
-      <CantonsStatus query={cantons} />
+          <SearchStatus query={search} />
 
-      <OperatorStatus query={operators} />
-
-      <SearchStatus query={search} />
-
-      <SearchZipStatus query={searchZip} />
+          <SearchZipStatus query={searchZip} />
+        </Box>
+      </Box>
     </Box>
   );
 };
@@ -683,7 +722,7 @@ const objectPromiseAllSettled = <
 };
 
 export const getServerSideProps = createGetServerSideProps(
-  async (_serverSidePropsCtx, { urqlClient: client }) => {
+  async (_serverSidePropsCtx, { urqlClient: client, sessionConfig }) => {
     // The code is generic enough here to accomodate for all queries of the page
     // TODO: Put all requests here so that they are executed server side
     const results = await objectPromiseAllSettled({
@@ -797,7 +836,8 @@ export const getServerSideProps = createGetServerSideProps(
 
     return {
       props: {
-        endpoint: serverEnv.SPARQL_ENDPOINT,
+        defaultEndpoint: serverEnv.SPARQL_ENDPOINT,
+        sessionEndpoint: sessionConfig.flags.sparqlEndpoint,
         cubeHealth: serializeOperation(validResults.cubeHealth.value),
         systemInfo: serializeOperation(validResults.systemInfo.value),
         wikiContent: serializeOperation(validResults.wikiContent.value),
