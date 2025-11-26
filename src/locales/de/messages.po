@@ -1184,10 +1184,6 @@ msgid "sunshine.compliance.francs-rule-regulation"
 msgstr "Franken-Regel"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.latest-year"
-msgstr "Aktuelles Tarifjahr ({latestYear})"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "Rechtzeitige Einreichung von Papieren"
 
@@ -1239,13 +1235,6 @@ msgstr "Entwicklung der Energietarife"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.costs-and-tariffs.energy-tariffs.overview"
 msgstr "Energietarife"
-
-#: src/components/peer-group-card.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.latest-year"
-msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.costs-and-tariffs.latest-year-option"
@@ -1381,6 +1370,17 @@ msgstr "Dauer der Stromunterbrechung (SAIDI) in Minuten"
 msgid "sunshine.indicator.saifi"
 msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
 
+#: src/components/peer-group-card.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.latest-year"
+msgstr "Aktuelles Tarifjahr ({latestYear})"
+
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
 msgstr "Anzahl/Jahr"
@@ -1491,11 +1491,6 @@ msgstr "Diese Seite bietet anhand von zwei wichtigen Kennzahlen Einblicke in die
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.duration"
 msgstr "Unterbrechungsdauer"
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.latest-year"
-msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.latest-year-option"
@@ -1645,10 +1640,6 @@ msgstr "Nein"
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.yes"
 msgstr "Ja"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.service-quality.latest-year"
-msgstr "Aktuelles Tarifjahr ({latestYear})"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.notification-period"

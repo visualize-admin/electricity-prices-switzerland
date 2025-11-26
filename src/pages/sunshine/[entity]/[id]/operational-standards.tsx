@@ -93,7 +93,7 @@ export const prepServiceQualityCardProps = (
     Props,
     { status: "found" }
   >["operationalStandards"]["serviceQuality"],
-  year: number,
+  latestYear: number,
   isLatestYear: boolean = true
 ) => {
   return {
@@ -103,9 +103,7 @@ export const prepServiceQualityCardProps = (
       </Trans>
     ),
     subtitle: isLatestYear ? (
-      <Trans id="sunshine.service-quality.latest-year">
-        Latest year ({year})
-      </Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ) : null,
     rows: [
       {
@@ -211,7 +209,7 @@ export const prepComplianceCardProps = (
     Props,
     { status: "found" }
   >["operationalStandards"]["compliance"],
-  year: number,
+  latestYear: number,
   isLatestYear: boolean = true
 ) => {
   return {
@@ -221,7 +219,7 @@ export const prepComplianceCardProps = (
       </Trans>
     ),
     subtitle: isLatestYear ? (
-      <Trans id="sunshine.compliance.latest-year">Latest year ({year})</Trans>
+      <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ) : null,
     rows: [
       {
