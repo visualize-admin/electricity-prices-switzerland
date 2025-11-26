@@ -6,7 +6,7 @@ import { NextApiHandler } from "next";
 import { z } from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
-import serverEnv from "src/env/server";
+import { contextFromAPIRequest } from "src/graphql/server-context";
 
 const MunicipalityInfo = z
   .object({
@@ -63,7 +63,10 @@ type SparqlResponse = {
   };
 };
 
-const fetchMunicipalitiesInfo = async (year: number) => {
+const fetchMunicipalitiesInfo = async (
+  sparqlEndpointUrl: string,
+  year: number
+) => {
   const sp = new URLSearchParams();
   const query = /* sparql */ `
   PREFIX schema: <http://schema.org/>
@@ -117,7 +120,7 @@ const fetchMunicipalitiesInfo = async (year: number) => {
 
   sp.append("query", query);
 
-  const resp = await fetch(serverEnv.SPARQL_ENDPOINT, {
+  const resp = await fetch(sparqlEndpointUrl, {
     method: "POST",
     body: sp.toString(),
     headers: {
@@ -138,7 +141,9 @@ const handler: NextApiHandler = async (req, res) => {
   const period = Number(
     req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD
   );
-  const data = await fetchMunicipalitiesInfo(period);
+  const context = await contextFromAPIRequest(req);
+  const sparqlEndpointUrl = context.sparqlClient.query.endpoint.endpointUrl;
+  const data = await fetchMunicipalitiesInfo(sparqlEndpointUrl, period);
   const filename = `municipalities-data-${period}.csv`;
   const csv = csvFormat(data, [
     "operator",

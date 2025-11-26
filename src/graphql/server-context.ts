@@ -1,14 +1,16 @@
 import { GetServerSidePropsContext, NextApiRequest } from "next";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
+import {
+  getSparqlClientFromGetServerSidePropsContext,
+  getSparqlClientFromRequest,
+} from "src/rdf/sparql-client";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import {
   getDefaultedFlags,
   getSessionConfigFlagsFromCookies,
   SessionConfigFlags,
 } from "src/session-config";
-import { getSparqlClientFromGetServerSidePropsContext } from "src/lib/sparql-client-context";
 import { createSunshineDataService } from "src/rdf/sunshine";
 
 export type GraphqlRequestContext = {

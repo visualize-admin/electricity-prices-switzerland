@@ -4,7 +4,7 @@ import { searchGeverDocuments } from "src/domain/gever";
 import serverEnv from "src/env/server";
 import assert from "src/lib/assert";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
-import { endpointUrl, getSparqlClientFromRequest } from "src/rdf/sparql-client";
+import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 import { api } from "src/server/nextkit";
 
 assert(!!serverEnv, "serverEnv is not defined");
@@ -14,6 +14,7 @@ const secret = serverEnv.DEBUG_DOWNLOAD_SECRET;
 const handler = api({
   GET: async ({ req }) => {
     const { oid: queryOid, uid: queryUid, secret: querySecret } = req.query;
+    const client = await getSparqlClientFromRequest(req);
 
     if (!querySecret || querySecret !== secret) {
       throw new Error("Incorrect secret");
@@ -44,7 +45,7 @@ const handler = api({
       uid,
     });
     return {
-      lindasEndpoint: endpointUrl,
+      lindasEndpoint: client.query.endpoint.endpointUrl,
       lindasInfo,
       uid,
       searchResp,

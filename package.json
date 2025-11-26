@@ -9,7 +9,7 @@
     "node": "22"
   },
   "scripts": {
-    "dev": "make content && NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "wiki:update-content": "tsx scripts/wiki-content.ts download",
     "wiki:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/wiki.ts",
     "build": "lingui compile && yarn build-storybook && yarn build:next",

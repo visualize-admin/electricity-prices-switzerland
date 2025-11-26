@@ -187,10 +187,10 @@ const Query: QueryResolvers = {
       });
     return sunshineData;
   },
-  systemInfo: async () => {
+  systemInfo: async (_parent, args, context) => {
+    const SPARQL_ENDPOINT = context.sparqlClient.query.endpoint.endpointUrl;
     return {
-      SPARQL_ENDPOINT:
-        process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
+      SPARQL_ENDPOINT,
       VERSION: process.env.VERSION!,
     };
   },

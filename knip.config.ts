@@ -28,8 +28,6 @@ const config: KnipConfig = {
   tags: ["-knipignore"],
 
   ignoreBinaries: [
-    // Used to download content, can be removed when we switch to DatoCMS
-    "make",
     // Used for running file encryptions
     "dotenv",
     // Used for opening accent project in the browser
