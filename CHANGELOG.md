@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.29.1
+
+- Upgrade esbuild to latest version 0.27.1 to prevent vulnerabilty problems (that did not affect us)
+
 # 2.29.0
 
 - Upgrade next.js to solve CVE-2025-55182 (app not using Server components, so we were not affect anyway)
