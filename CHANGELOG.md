@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.29.0
+
+- Upgrade next.js to solve CVE-2025-55182 (app not using Server components, so we were not affect anyway)
+
 # 2.28.1 - 2025-11-26
 
 - Fix a bug where the SPARQL client would not take into account the session endpoint URL
