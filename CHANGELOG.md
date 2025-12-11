@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.30.0 - 2025-12-11
+
+- Franc rule is now top level indicator, replaces compliance
+- Days in advance and outage notification are removed from the map
+
 # 2.29.1
 
 - Upgrade esbuild to latest version 0.27.1 to prevent vulnerabilty problems (that did not affect us)
