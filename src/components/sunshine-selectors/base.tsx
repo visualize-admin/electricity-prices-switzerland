@@ -51,8 +51,6 @@ export const SunshineSelectorsBase = ({
   getPeerGroupLabel = (id) => id,
   saidiSaifiType,
   setSaidiSaifiType,
-  complianceType,
-  complianceTypes,
   setComplianceType,
   saidiSaifiTypes,
   indicator,
@@ -92,7 +90,15 @@ export const SunshineSelectorsBase = ({
         id="indicator"
         label={t({ id: "selector.indicator", message: "Indicator" })}
         items={indicatorOptions}
-        getItemLabel={getItemLabel}
+        getItemLabel={(id) => {
+          // The client has decided for franc-rule to be directly in the indicator selector
+          // instead of compliance, so we map it here. It should be changed if in the future,
+          // we show more "compliance" types on the map.
+          if (id === "compliance") {
+            return getItemLabel("franc-rule");
+          }
+          return getItemLabel(id);
+        }}
         selectedItem={indicator}
         setSelectedItem={setIndicator}
         infoDialogSlug="help-indicator"
@@ -106,17 +112,6 @@ export const SunshineSelectorsBase = ({
           selectedItem={saidiSaifiType}
           setSelectedItem={setSaidiSaifiType}
           infoDialogSlug="help-saidi-saifi-type"
-        />
-      ) : null}
-      {indicator === "compliance" ? (
-        <Combobox<QueryStateSunshineComplianceType>
-          id="typology"
-          label={t({ id: "selector.compliance-type", message: "Typology" })}
-          items={complianceTypes}
-          getItemLabel={getItemLabel}
-          selectedItem={complianceType}
-          setSelectedItem={setComplianceType}
-          infoDialogSlug="help-compliance"
         />
       ) : null}
 

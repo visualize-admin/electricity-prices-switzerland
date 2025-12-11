@@ -224,7 +224,7 @@ test.describe("Map Details Table Information", () => {
         indicatorName: "Days in advance",
         indicatorPattern: /Days in advance outage notification/i,
         expectedFields: ["Year"],
-        notExpectedFields: ["Network level", "Category", "Typology"],
+        notExpectedFields: ["Network level", "Category"],
       },
     ];
 
