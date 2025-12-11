@@ -89,7 +89,9 @@ export const SunshineSelectorsBase = ({
       <Combobox
         id="indicator"
         label={t({ id: "selector.indicator", message: "Indicator" })}
-        items={indicatorOptions}
+        items={indicatorOptions.filter((x) => {
+          return x !== "outageInfo" && x !== "daysInAdvanceOutageNotification";
+        })}
         getItemLabel={(id) => {
           // The client has decided for franc-rule to be directly in the indicator selector
           // instead of compliance, so we map it here. It should be changed if in the future,
