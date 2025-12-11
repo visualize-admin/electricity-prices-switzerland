@@ -209,22 +209,10 @@ test.describe("Map Details Table Information", () => {
         notExpectedFields: ["Network level", "Category"],
       },
       {
-        indicatorName: "Compliance",
-        indicatorPattern: /Compliance/i,
-        expectedFields: ["Year", "Typology"],
+        indicatorName: "Franc Rule",
+        indicatorPattern: /Franc Rule/i,
+        expectedFields: ["Year"],
         notExpectedFields: ["Network level", "Category"],
-      },
-      {
-        indicatorName: "Outage information",
-        indicatorPattern: /Outage information/i,
-        expectedFields: ["Year"],
-        notExpectedFields: ["Network level", "Category", "Typology"],
-      },
-      {
-        indicatorName: "Days in advance",
-        indicatorPattern: /Days in advance outage notification/i,
-        expectedFields: ["Year"],
-        notExpectedFields: ["Network level", "Category", "Typology"],
       },
     ];
 
