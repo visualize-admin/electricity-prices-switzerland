@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -25,9 +25,7 @@ msgstr "Sì"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr ""
-"Analisi dettagliate dei prezzi di cantoni, comuni e gestori di rete.\n"
-"Attenzione: i dati relativi a Sunshine conterranno i valori definitivi solo a partire dalla pubblicazione nel 2026."
+msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e gestori di rete."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -838,9 +836,7 @@ msgstr "Non pianificato"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Analisi dettagliata dei prezzi per cantone, comune e gestore di rete.\n"
-"Attenzione: i dati relativi a Sunshine conterranno i valori definitivi solo a partire dalla pubblicazione nel 2026."
+msgstr "Analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1024,7 +1020,6 @@ msgstr "Confrontare con il comune…"
 msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
-#: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "Tipologia"

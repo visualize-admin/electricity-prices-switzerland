@@ -1018,7 +1018,6 @@ msgstr "selector.comparemunicipalities"
 msgid "selector.compareoperators"
 msgstr "selector.compareoperators"
 
-#: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "selector.compliance-type"

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -25,9 +25,7 @@ msgstr "Ja"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr ""
-"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern. \n"
-"Achtung: Die Daten zu Sunshine enthalten die endgültigen Werte erst ab der Veröffentlichung im Jahr 2026."
+msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -836,9 +834,7 @@ msgstr "Ungeplant"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern.\n"
-"Achtung: Die Daten zu Sunshine enthalten die endgültigen Werte erst ab der Veröffentlichung im Jahr 2026."
+msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1022,7 +1018,6 @@ msgstr "Gemeinden zum Vergleich"
 msgid "selector.compareoperators"
 msgstr "Netzbetreiber zum Vergleich"
 
-#: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "Typologie"

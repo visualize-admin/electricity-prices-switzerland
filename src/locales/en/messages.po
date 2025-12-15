@@ -25,9 +25,7 @@ msgstr "Yes"
 
 #: src/pages/_app.tsx
 msgid "app.meta.description"
-msgstr ""
-"Detailed price analyses of cantons, municipalities and grid operators.\n"
-"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 
 #: src/pages/_app.tsx
 msgid "app.meta.title"
@@ -836,9 +834,7 @@ msgstr "Unplanned"
 
 #: src/components/app-layout.tsx
 msgid "search.global"
-msgstr ""
-"Detailed price analyses of cantons, municipalities and grid operators.\n"
-"Please note: The data for Sunshine will only contain the final values from the 2026 publication onwards."
+msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 
 #: src/components/search.tsx
 msgid "search.global.hint.canton.muni.operator"
@@ -1022,7 +1018,6 @@ msgstr "Municipalities for comparison"
 msgid "selector.compareoperators"
 msgstr "Network operator for comparison"
 
-#: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
 msgstr "Typology"
