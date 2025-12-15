@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.30.1 - 2025-12-15
+
+- Update locales
+
 # 2.30.0 - 2025-12-11
 
 - Franc rule is now top level indicator, replaces compliance
