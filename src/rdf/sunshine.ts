@@ -1,3 +1,4 @@
+import memoize from "lodash/memoize";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { ElectricityCategory } from "src/domain/data";
@@ -1220,89 +1221,97 @@ const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
 };
 
 // Helper function to add performance logging to a method
-const withPerformanceLog = <
-  T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>
+const withPerformanceLog =
+  (methodName: string) =>
+  <T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>>(
+    method: T
+  ): T => {
+    return (async (...args: $IntentionalAny[]) => {
+      const start = performance.now();
+      try {
+        const result = await method(...args);
+        const end = performance.now();
+        // eslint-disable-next-line no-console
+        console.log(
+          `[${methodName}] completed in ${(end - start).toFixed(2)}ms`
+        );
+        return result;
+      } catch (error) {
+        const end = performance.now();
+        // eslint-disable-next-line no-console
+        console.log(
+          `[${methodName}] failed after ${(end - start).toFixed(2)}ms`
+        );
+        throw error;
+      }
+    }) as T;
+  };
+
+// Helper to create memoized method with JSON stringify resolver
+const memoizeWithJsonKey = <
+  T extends (...args: $IntentionalAny[]) => $IntentionalAny
 >(
-  methodName: string,
-  method: T
-): T => {
-  return (async (...args: $IntentionalAny[]) => {
-    const start = performance.now();
-    try {
-      const result = await method(...args);
-      const end = performance.now();
-      console.log(`[${methodName}] completed in ${(end - start).toFixed(2)}ms`);
-      return result;
-    } catch (error) {
-      const end = performance.now();
-      console.log(`[${methodName}] failed after ${(end - start).toFixed(2)}ms`);
-      throw error;
-    }
-  }) as T;
-};
+  fn: T
+): T => memoize(fn, (...args) => JSON.stringify(args)) as T;
 
 export const createSunshineDataService = (
   client: ParsingClient
 ): SunshineDataService => ({
   name: "sparql",
-  getNetworkCosts: withPerformanceLog("getNetworkCosts", (params) => {
-    return getNetworkCosts(client, params);
-  }),
-  getOperationalStandards: withPerformanceLog(
-    "getOperationalStandards",
-    (params) => {
-      return getOperationalStandards(client, params);
-    }
+  getNetworkCosts: memoizeWithJsonKey(
+    withPerformanceLog("getNetworkCosts")((params) =>
+      getNetworkCosts(client, params)
+    )
   ),
-  getStabilityMetrics: withPerformanceLog("getStabilityMetrics", (params) => {
-    return getStabilityMetrics(client, params);
-  }),
-  getTariffs: withPerformanceLog("getTariffs", (params) => {
-    return getTariffs(client, params);
-  }),
-  getOperatorData: withPerformanceLog(
-    "getOperatorData",
-    (operatorId, period) => {
-      return getOperatorData(client, operatorId, period);
-    }
+  getOperationalStandards: memoizeWithJsonKey(
+    withPerformanceLog("getOperationalStandards")((params) =>
+      getOperationalStandards(client, params)
+    )
   ),
-  getYearlyIndicatorMedians: withPerformanceLog(
-    "getYearlyIndicatorMedians",
-    (params) => {
-      return getYearlyIndicatorMedians(client, params);
-    }
+  getStabilityMetrics: memoizeWithJsonKey(
+    withPerformanceLog("getStabilityMetrics")((params) =>
+      getStabilityMetrics(client, params)
+    )
   ),
-  getLatestYearSunshine: withPerformanceLog(
-    "getLatestYearSunshine",
-    (operatorId) => {
-      return getLatestYearSunshine(client, operatorId);
-    }
+  getTariffs: memoizeWithJsonKey(
+    withPerformanceLog("getTariffs")((params) => getTariffs(client, params))
   ),
-  getLatestYearPowerStability: withPerformanceLog(
-    "getLatestYearPowerStability",
-    (operatorId) => {
-      return getLatestYearPowerStability(client, operatorId);
-    }
+  getOperatorData: memoizeWithJsonKey(
+    withPerformanceLog("getOperatorData")((operatorId, period) =>
+      getOperatorData(client, operatorId, period)
+    )
   ),
-  getOperatorPeerGroup: withPerformanceLog(
-    "getOperatorPeerGroup",
-    (operatorId, period) => {
-      return getOperatorPeerGroup(client, operatorId, period);
-    }
+  getYearlyIndicatorMedians: memoizeWithJsonKey(
+    withPerformanceLog("getYearlyIndicatorMedians")((params) =>
+      getYearlyIndicatorMedians(client, params)
+    )
   ),
-  getPeerGroups: withPerformanceLog("getPeerGroups", (locale) => {
-    return getPeerGroups(client, locale);
-  }),
-  getSunshineData: withPerformanceLog("getSunshineData", (params) => {
-    return getSunshineData(client, params);
-  }),
-  getSunshineDataByIndicator: withPerformanceLog(
-    "getSunshineDataByIndicator",
-    (params) => {
-      return getSunshineDataByIndicator(client, params);
-    }
+  getLatestYearSunshine: memoizeWithJsonKey(
+    withPerformanceLog("getLatestYearSunshine")((operatorId) =>
+      getLatestYearSunshine(client, operatorId)
+    )
   ),
-  fetchUpdateDate: withPerformanceLog("fetchUpdateDate", () => {
-    return fetchUpdateDate(client);
-  }),
+  getOperatorPeerGroup: memoizeWithJsonKey(
+    withPerformanceLog("getOperatorPeerGroup")((operatorId, period) =>
+      getOperatorPeerGroup(client, operatorId, period)
+    )
+  ),
+  getPeerGroups: memoizeWithJsonKey(
+    withPerformanceLog("getPeerGroups")((locale) =>
+      getPeerGroups(client, locale)
+    )
+  ),
+  getSunshineData: memoizeWithJsonKey(
+    withPerformanceLog("getSunshineData")((params) =>
+      getSunshineData(client, params)
+    )
+  ),
+  getSunshineDataByIndicator: memoizeWithJsonKey(
+    withPerformanceLog("getSunshineDataByIndicator")((params) =>
+      getSunshineDataByIndicator(client, params)
+    )
+  ),
+  fetchUpdateDate: memoizeWithJsonKey(
+    withPerformanceLog("fetchUpdateDate")(() => fetchUpdateDate(client))
+  ),
 });
