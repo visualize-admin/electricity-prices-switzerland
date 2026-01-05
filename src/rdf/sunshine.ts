@@ -851,37 +851,6 @@ const getLatestYearSunshine = async (
   return results.length > 0 ? parseInt(results[0].period, 10) : 2024;
 };
 
-const getLatestYearPowerStability = async (
-  client: ParsingClient,
-  operatorId: number
-): Promise<string> => {
-  const query = `
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX cube: <https://cube.link/>
-    PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
-    
-    SELECT ?period
-    WHERE {
-      <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
-      ?obs
-        :operator <${convertOperatorIdToUri(operatorId)}> ;
-        :period ?period ;
-        ?stabilityProperty ?stabilityValue .
-      
-      FILTER(?stabilityProperty IN (:saidi_total, :saidi_unplanned, :saifi_total, :saifi_unplanned))
-      FILTER(BOUND(?stabilityValue))
-    }
-    ORDER BY DESC(?period)
-    LIMIT 1
-  `;
-
-  const results = await executeSparqlQuery<{
-    period: string;
-  }>(client, query);
-
-  return results.length > 0 ? results[0].period : "2024";
-};
-
 const getOperatorPeerGroup = async (
   client: ParsingClient,
   _operatorId: number | string,
