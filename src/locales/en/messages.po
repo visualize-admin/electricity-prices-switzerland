@@ -509,6 +509,10 @@ msgstr "Other operators"
 msgid "legend-item.peer-group-median"
 msgstr "Peer Group Median"
 
+#: src/components/power-stability-chart.tsx
+msgid "legend-item.total-peer-group-median"
+msgstr "Total (Peer Group Median)"
+
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
 msgstr "Compliant (≤ {threshold})"

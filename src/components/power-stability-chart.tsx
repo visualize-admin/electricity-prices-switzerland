@@ -12,7 +12,10 @@ import {
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { ColorMapping } from "src/domain/color-mapping";
 import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
-import type { SunshinePowerStabilityData } from "src/domain/sunshine";
+import {
+  peerGroupOperatorName,
+  type SunshinePowerStabilityData,
+} from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
 
 import {
@@ -212,15 +215,33 @@ const LatestYearChartView = (
     message: "Grid Operators",
   });
 
+  const sortedDataWithoutMedian = sortedData.filter(
+    (d) => d.operator_name !== peerGroupOperatorName
+  );
+  const medianPeerGroupObservation = sortedData.find(
+    (d) => d.operator_name === peerGroupOperatorName
+  );
+
   return (
     <StackedBarsChart
-      data={sortedData}
+      data={sortedDataWithoutMedian}
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
           axisLabel: overallOrRatio === "ratio" ? PERCENT : MIN_PER_YEAR,
         },
         domain: xDomain,
+        annotation: medianPeerGroupObservation
+          ? [
+              {
+                value: medianPeerGroupObservation.total,
+                avgLabel: t({
+                  id: "legend-item.total-peer-group-median",
+                  message: "Total (Peer Group Median)",
+                }),
+              },
+            ]
+          : [],
         y: {
           componentIri: "operator_name",
         },

@@ -15,7 +15,10 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import { SunshineDataService } from "src/lib/sunshine-data-service";
+import {
+  OperatorDataRecord,
+  SunshineDataService,
+} from "src/lib/sunshine-data-service";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -120,11 +123,13 @@ export const fetchNetworkCostsData = async (
   db: SunshineDataService,
   {
     operatorId,
+    operatorData: operatorData_,
     networkLevel = "NE5",
     period,
     operatorOnly,
   }: {
     operatorId: number;
+    operatorData?: OperatorDataRecord;
     networkLevel?: NetworkLevel["id"];
     period?: number;
     operatorOnly?: boolean;
@@ -135,7 +140,9 @@ export const fetchNetworkCostsData = async (
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const yearlyPeerGroupMedianNetworkCosts =
     await db.getYearlyIndicatorMedians<"network_costs">({
@@ -225,17 +232,21 @@ const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
     db: SunshineDataService,
     {
       operatorId,
+      operatorData: operatorData_,
       category,
       period,
       operatorOnly,
     }: {
       operatorId: number;
+      operatorData?: OperatorDataRecord;
       category: ElectricityCategory;
       period: number;
       operatorOnly?: boolean;
     }
   ): Promise<TariffsData> => {
-    const operatorData = await db.getOperatorData(operatorId, period);
+    const operatorData = operatorData_
+      ? operatorData_
+      : await db.getOperatorData(operatorId, period);
 
     const yearlyPeerGroupMedianTariffs = await db.getYearlyIndicatorMedians<T>({
       peerGroup: operatorData.peer_group,
@@ -323,12 +334,14 @@ export const fetchOperatorCostsAndTariffsData = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     networkLevel,
     category,
     period,
     operatorOnly,
   }: {
     operatorId: string;
+    operatorData?: OperatorDataRecord;
     networkLevel: NetworkLevel["id"];
     category: ElectricityCategory;
     period?: number;
@@ -342,7 +355,9 @@ export const fetchOperatorCostsAndTariffsData = async (
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const [networkCostsData, netTariffsData, energyTariffsData, updateDate] =
     await Promise.all([
@@ -354,12 +369,14 @@ export const fetchOperatorCostsAndTariffsData = async (
       }),
       fetchNetTariffsData(db, {
         operatorId,
+        operatorData,
         category,
         period: targetPeriod,
         operatorOnly,
       }),
       fetchEnergyTariffsData(db, {
         operatorId,
+        operatorData,
         category,
         period: targetPeriod,
         operatorOnly,
@@ -402,15 +419,21 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
     db: SunshineDataService,
     {
       operatorId,
+
+      operatorData: _operatorData,
       period,
       operatorOnly,
     }: {
       operatorId: number;
+
+      operatorData?: OperatorDataRecord;
       period: number;
       operatorOnly?: boolean;
     }
   ): Promise<StabilityData> => {
-    const operatorData = await db.getOperatorData(operatorId, period);
+    const operatorData = _operatorData
+      ? _operatorData
+      : await db.getOperatorData(operatorId, period);
 
     // Get yearly peer group median stability data
     const yearlyPeerGroupMedianStability =
@@ -490,37 +513,45 @@ export const fetchPowerStability = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     operatorOnly,
+    period,
   }: {
     operatorId: string; // Operator ID as a string
+    operatorData?: OperatorDataRecord;
     operatorOnly?: boolean;
+    period?: number;
   }
 ): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
 
-  const latestYear = await db.getLatestYearPowerStability(operatorId);
-  const operatorData = await db.getOperatorData(
-    operatorId,
-    parseInt(latestYear, 10)
-  );
-  const targetYear = parseInt(latestYear, 10);
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    targetPeriod = await db.getLatestYearSunshine(operatorId);
+  }
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const [saidiData, saifiData, updateDate] = await Promise.all([
     fetchSaidi(db, {
       operatorId: operatorId,
-      period: targetYear,
+      operatorData,
+      period: targetPeriod,
       operatorOnly,
     }),
     fetchSaifi(db, {
       operatorId: operatorId,
-      period: targetYear,
+      operatorData,
+      period: targetPeriod,
       operatorOnly,
     }),
     db.fetchUpdateDate(),
   ]);
 
   return {
-    latestYear,
+    latestYear: `${targetPeriod}`,
     operator: {
       peerGroup: {
         id: operatorData.peer_group,
@@ -544,9 +575,11 @@ export const fetchOperationalStandards = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     period: periodParam,
   }: {
     operatorId: string;
+    operatorData?: OperatorDataRecord;
     period?: number;
   }
 ): Promise<SunshineOperationalStandardsData> => {
@@ -559,10 +592,13 @@ export const fetchOperationalStandards = async (
   } else {
     period = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, period);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, period);
   const [operationalData, updateDate] = await Promise.all([
     db.getOperationalStandards({
       operatorId: operatorId,
+      operatorData: operatorData,
       period: period,
     }),
     db.fetchUpdateDate(),

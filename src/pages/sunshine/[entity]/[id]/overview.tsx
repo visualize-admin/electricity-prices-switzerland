@@ -103,17 +103,29 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
+    const operatorId = parseInt(id, 10);
+    const period = await sunshineDataService.getLatestYearSunshine(operatorId);
+    const operatorData = await sunshineDataService.getOperatorData(
+      operatorId,
+      period
+    );
     const [operationalStandards, powerStability, costsAndTariffs] =
       await Promise.all([
         fetchOperationalStandards(sunshineDataService, {
+          period,
           operatorId: id,
+          operatorData,
         }),
         fetchPowerStability(sunshineDataService, {
           operatorId: id,
           operatorOnly: true,
+          operatorData,
+          period,
         }),
         fetchOperatorCostsAndTariffsData(sunshineDataService, {
+          period,
           operatorId: id,
+          operatorData,
           networkLevel: "NE7",
           category: "H4",
           operatorOnly: true,

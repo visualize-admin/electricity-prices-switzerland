@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -508,6 +508,10 @@ msgstr "Andere Betreiber"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Median der Vergleichsgruppe"
+
+#: src/components/power-stability-chart.tsx
+msgid "legend-item.total-peer-group-median"
+msgstr "Insgesamt (Median der Peer Group)"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
