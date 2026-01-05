@@ -445,6 +445,12 @@ export type StabilityData = {
   __typename: "StabilityData";
   operatorTotal: Scalars["Float"]["output"];
   operatorUnplanned: Scalars["Float"]["output"];
+  peerGroupMedianTotal: Scalars["Float"]["output"];
+  peerGroupMedianTrendTotal: Trend;
+  peerGroupMedianTrendUnplanned: Trend;
+  peerGroupMedianUnplanned: Scalars["Float"]["output"];
+  trendTotal: Trend;
+  trendUnplanned: Trend;
   yearlyData: Array<StabilityDataRow>;
 };
 
@@ -1114,7 +1120,13 @@ export type SaidiQuery = {
   saidi: {
     __typename: "StabilityData";
     operatorTotal: number;
+    peerGroupMedianTotal: number;
+    peerGroupMedianTrendTotal: Trend;
+    trendTotal: Trend;
     operatorUnplanned: number;
+    peerGroupMedianUnplanned: number;
+    peerGroupMedianTrendUnplanned: Trend;
+    trendUnplanned: Trend;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
@@ -1135,7 +1147,13 @@ export type SaifiQuery = {
   saifi: {
     __typename: "StabilityData";
     operatorTotal: number;
+    peerGroupMedianTotal: number;
+    peerGroupMedianTrendTotal: Trend;
+    trendTotal: Trend;
     operatorUnplanned: number;
+    peerGroupMedianUnplanned: number;
+    peerGroupMedianTrendUnplanned: Trend;
+    trendUnplanned: Trend;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
@@ -1757,7 +1775,13 @@ export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
       operatorTotal
+      peerGroupMedianTotal
+      peerGroupMedianTrendTotal
+      trendTotal
       operatorUnplanned
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendUnplanned
+      trendUnplanned
       yearlyData {
         year
         total
@@ -1781,7 +1805,13 @@ export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
       operatorTotal
+      peerGroupMedianTotal
+      peerGroupMedianTrendTotal
+      trendTotal
       operatorUnplanned
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendUnplanned
+      trendUnplanned
       yearlyData {
         year
         total

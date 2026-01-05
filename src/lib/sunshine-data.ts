@@ -435,6 +435,11 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
       ? _operatorData
       : await db.getOperatorData(operatorId, period);
 
+    const peerGroupYearlyStability = await db.getStabilityMetrics({
+      peerGroup: operatorData.peer_group,
+      operatorId: operatorOnly ? operatorId : undefined,
+    });
+
     // Get yearly peer group median stability data
     const yearlyPeerGroupMedianStability =
       await db.getYearlyIndicatorMedians<"stability">({
@@ -442,21 +447,31 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
         metric: "stability",
       });
 
-    const operatorStability = await db.getStabilityMetrics({
-      operatorId,
-      period,
-    });
+    const {
+      currentData: peerGroupMedianStability,
+      previousData: previousPeerGroupMedianStability,
+      previousYear,
+    } = findCurrentAndPreviousPeriodData(
+      yearlyPeerGroupMedianStability,
+      period
+    );
+
+    const [operatorStability, previousOperatorStability] = await Promise.all([
+      db.getStabilityMetrics({
+        operatorId,
+        period,
+      }),
+      db.getStabilityMetrics({
+        operatorId,
+        period: previousYear,
+      }),
+    ]);
 
     if (operatorStability.length > 1) {
       throw new Error(
         "Cannot have multiple stability records for one operator in one year"
       );
     }
-
-    const peerGroupYearlyStability = await db.getStabilityMetrics({
-      peerGroup: operatorData.peer_group,
-      operatorId: operatorOnly ? operatorId : undefined,
-    });
 
     const totalKey = `${metricType}_total` as const;
     const unplannedKey = `${metricType}_unplanned` as const;
@@ -491,9 +506,44 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
       ...peerGroupMedianAsYearlyData,
     ];
 
+    const peerGroupMedianTotal = peerGroupMedianStability
+      ? peerGroupMedianStability[medianTotalKey]
+      : 0;
+    const peerGroupMedianUnplanned = peerGroupMedianStability
+      ? peerGroupMedianStability[medianUnplannedKey]
+      : 0;
+
+    const operatorStabilityRecord = operatorStability?.[0];
+    const previousOperatorStabilityRecord = previousOperatorStability?.[0];
+
     return {
-      operatorTotal: operatorStability?.[0]?.[totalKey] || 0,
-      operatorUnplanned: operatorStability?.[0]?.[unplannedKey] || 0,
+      operatorTotal: operatorStabilityRecord?.[totalKey] || 0,
+      operatorUnplanned: operatorStabilityRecord?.[unplannedKey] || 0,
+      trendTotal: getTrend(
+        previousOperatorStabilityRecord?.[totalKey],
+        operatorStabilityRecord?.[totalKey]
+      ),
+      trendUnplanned: getTrend(
+        previousOperatorStabilityRecord?.[unplannedKey],
+        operatorStabilityRecord?.[unplannedKey]
+      ),
+
+      peerGroupMedianTotal: peerGroupMedianTotal,
+      peerGroupMedianUnplanned: peerGroupMedianUnplanned,
+
+      peerGroupMedianTrendTotal: getTrend(
+        previousPeerGroupMedianStability
+          ? previousPeerGroupMedianStability[medianTotalKey]
+          : null,
+        peerGroupMedianTotal
+      ),
+      peerGroupMedianTrendUnplanned: getTrend(
+        previousPeerGroupMedianStability
+          ? previousPeerGroupMedianStability[medianUnplannedKey]
+          : null,
+        peerGroupMedianUnplanned
+      ),
+
       yearlyData: combinedYearlyData,
     };
   };
