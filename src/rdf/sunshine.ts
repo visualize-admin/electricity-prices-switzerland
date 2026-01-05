@@ -188,6 +188,8 @@ const parseFloatOrUndefined = <T extends string | undefined>(
   ) as T extends string ? number : undefined;
 };
 
+const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
+
 const getNetworkCosts = async (
   client: ParsingClient,
   {
@@ -278,37 +280,21 @@ const getNetworkCosts = async (
     const operatorName = row.operator_name;
 
     // Convert the SPARQL results to NetworkCostRecord format
-    if (networkLevel) {
-      const rateKey =
-        `gridcost_${networkLevel.toLowerCase()}` as keyof typeof row;
-      const rate = row[rateKey];
-      if (rate) {
+    const levels: Array<{ level: NetworkLevel["id"]; rate?: string }> = [
+      { level: "NE5" as const, rate: row.gridcost_ne5 },
+      { level: "NE6" as const, rate: row.gridcost_ne6 },
+      { level: "NE7" as const, rate: row.gridcost_ne7 },
+    ].filter(({ level }) => !networkLevel || level === networkLevel);
+
+    for (const { level, rate } of levels) {
+      if (rate && isValidNumber(parseFloatOrUndefined(rate))) {
         networkCosts.push({
           operator_id: operatorId,
           operator_name: operatorName,
           year,
-          network_level: networkLevel,
+          network_level: level,
           rate: parseFloatOrUndefined(rate),
         });
-      }
-    } else {
-      // Return all network levels
-      const levels: Array<{ level: NetworkLevel["id"]; rate?: string }> = [
-        { level: "NE5", rate: row.gridcost_ne5 },
-        { level: "NE6", rate: row.gridcost_ne6 },
-        { level: "NE7", rate: row.gridcost_ne7 },
-      ];
-
-      for (const { level, rate } of levels) {
-        if (rate) {
-          networkCosts.push({
-            operator_id: operatorId,
-            operator_name: operatorName,
-            year,
-            network_level: level,
-            rate: parseFloatOrUndefined(rate),
-          });
-        }
       }
     }
   }

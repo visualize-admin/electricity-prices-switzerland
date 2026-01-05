@@ -317,7 +317,9 @@ type NetworkCostRow {
 type TariffsData {
   category: ElectricityCategory!
   operatorRate: Float
+  operatorTrend: Trend
   peerGroupMedianRate: Float
+  peerGroupMedianTrend: Trend
   yearlyData: [TariffRow!]!
 }
 
