@@ -56,51 +56,49 @@ export const AnnotationX = () => {
   return (
     <>
       {annotations?.map((a, i) => {
-          let x = a.x;
-          if (bandScale && binMeta && groupedBy && getX && a.datum) {
-            const value = getX(a.datum);
-            const bin =
-              binMeta.find(
-                (b) => !b.isNoData && value >= b.x0 && value <= b.x1
-              ) || binMeta[0];
-            if (bin?.label) {
-              x = (bandScale(bin.label) ?? 0) + bandScale.bandwidth() / 2;
-            }
+        let x = a.x;
+        if (bandScale && binMeta && groupedBy && getX && a.datum) {
+          const value = getX(a.datum);
+          const bin =
+            binMeta.find(
+              (b) => !b.isNoData && value >= b.x0 && value <= b.x1
+            ) || binMeta[0];
+          if (bin?.label) {
+            x = (bandScale(bin.label) ?? 0) + bandScale.bandwidth() / 2;
           }
-          x = margins.left + x;
-          const y1 =
-            (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
-            annotationFontSize * a.nbOfLines;
-          return (
-            <React.Fragment key={i}>
-              <g transform={`translate(0, 0)`}>
-                <line
-                  x1={x}
-                  y1={y1}
-                  x2={x}
-                  y2={
-                    a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS
-                  }
-                  stroke={annotationLineColor}
-                />
-                <line
-                  x1={0}
-                  y1={y1 + 0.5}
-                  x2={x}
-                  y2={y1 + 0.5}
-                  stroke={annotationLabelUnderlineColor}
-                  strokeDasharray="2px 4px"
-                />
-                <polygon
-                  points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
-                    x + ANNOTATION_TRIANGLE_WIDTH
-                  },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
-                  fill={annotationColor}
-                />
-              </g>
-            </React.Fragment>
-          );
-        })}
+        }
+        x = margins.left + x;
+        const y1 =
+          (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
+          annotationFontSize * a.nbOfLines;
+        return (
+          <React.Fragment key={i}>
+            <g transform={`translate(0, 0)`}>
+              <line
+                x1={x}
+                y1={y1}
+                x2={x}
+                y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
+                stroke={annotationLineColor}
+              />
+              <line
+                x1={0}
+                y1={y1 + 0.5}
+                x2={x}
+                y2={y1 + 0.5}
+                stroke={annotationLabelUnderlineColor}
+                strokeDasharray="2px 4px"
+              />
+              <polygon
+                points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
+                  x + ANNOTATION_TRIANGLE_WIDTH
+                },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
+                fill={annotationColor}
+              />
+            </g>
+          </React.Fragment>
+        );
+      })}
     </>
   );
 };
@@ -115,23 +113,23 @@ export const AnnotationXDataPoint = () => {
   return (
     <>
       {annotations?.map((a, i) => {
-          return (
-            <React.Fragment key={i}>
-              <g
-                transform={`translate(${margins.left}, ${
-                  margins.top + (margins.annotations ?? 0)
-                })`}
-              >
-                <circle
-                  cx={a.x}
-                  cy={a.y + DOT_RADIUS}
-                  r={ANNOTATION_DOT_RADIUS}
-                  fill={annotationColor}
-                />
-              </g>
-            </React.Fragment>
-          );
-        })}
+        return (
+          <React.Fragment key={i}>
+            <g
+              transform={`translate(${margins.left}, ${
+                margins.top + (margins.annotations ?? 0)
+              })`}
+            >
+              <circle
+                cx={a.x}
+                cy={a.y + DOT_RADIUS}
+                r={ANNOTATION_DOT_RADIUS}
+                fill={annotationColor}
+              />
+            </g>
+          </React.Fragment>
+        );
+      })}
     </>
   );
 };
@@ -147,32 +145,32 @@ export const AnnotationXLabel = () => {
   return (
     <>
       {annotations?.map((a, i) => (
-          <Box
-            key={`${a.label}-${i}`}
-            sx={{
-              width: width,
-              p: { xxs: 0, md: 1 },
-              zIndex: 2,
-              position: "absolute",
-              left: 0,
-              top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
-              pointerEvents: "none",
-              textAlign: "left",
-              transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
-              fontFamily,
-              fontSize: annotationFontSize,
-              color: annotationColor,
-              bgcolor: "transparent",
-              hyphens: "auto",
-              wordBreak: "break-word",
-            }}
-          >
-            <Box component="span" sx={{ fontWeight: 700 }}>
-              {a.value} {xAxisLabel}{" "}
-            </Box>
-            {a.label}
+        <Box
+          key={`${a.label}-${i}`}
+          sx={{
+            width: width,
+            p: { xxs: 0, md: 1 },
+            zIndex: 2,
+            position: "absolute",
+            left: 0,
+            top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
+            pointerEvents: "none",
+            textAlign: "left",
+            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
+            fontFamily,
+            fontSize: annotationFontSize,
+            color: annotationColor,
+            bgcolor: "transparent",
+            hyphens: "auto",
+            wordBreak: "break-word",
+          }}
+        >
+          <Box component="span" sx={{ fontWeight: 700 }}>
+            {a.value} {xAxisLabel}{" "}
           </Box>
-        ))}
+          {a.label}
+        </Box>
+      ))}
     </>
   );
 };
