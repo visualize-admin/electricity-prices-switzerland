@@ -211,187 +211,113 @@ export const fetchNetworkCostsData = async (
   };
 };
 
-export const fetchNetTariffsData = async (
-  db: SunshineDataService,
-  {
-    operatorId,
-    category,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    category: ElectricityCategory;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId, period);
+type TariffType = "net-tariffs" | "energy-tariffs";
 
-  const yearlyPeerGroupMedianNetTariffs =
-    await db.getYearlyIndicatorMedians<"net-tariffs">({
+/**
+ * Creates a fetcher function for tariffs data (net or energy)
+ * @param tariffType The type of tariff ('net-tariffs' or 'energy-tariffs')
+ * @returns A function that fetches the specified tariff data
+ */
+const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
+  const dbTariffType = tariffType === "net-tariffs" ? "network" : "energy";
+
+  return async (
+    db: SunshineDataService,
+    {
+      operatorId,
+      category,
+      period,
+      operatorOnly,
+    }: {
+      operatorId: number;
+      category: ElectricityCategory;
+      period: number;
+      operatorOnly?: boolean;
+    }
+  ): Promise<TariffsData> => {
+    const operatorData = await db.getOperatorData(operatorId, period);
+
+    const yearlyPeerGroupMedianTariffs = await db.getYearlyIndicatorMedians<T>({
       peerGroup: operatorData.peer_group,
-      metric: "net-tariffs",
+      metric: tariffType,
       category: category,
     });
 
-  const {
-    currentData: peerGroupMedianNetTariffs,
-    previousData: previousPeerGroupMedianNetTariffs,
-    previousYear,
-  } = findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianNetTariffs, period);
+    const {
+      currentData: peerGroupMedianTariffs,
+      previousData: previousPeerGroupMedianTariffs,
+      previousYear,
+    } = findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianTariffs, period);
 
-  const operatorNetTariffs = await db.getTariffs({
-    category: category,
-    operatorId,
-    period: period,
-    tariffType: "network",
-  });
+    const [operatorTariffs, previousOperatorTariffs, tariffs] =
+      await Promise.all([
+        db.getTariffs({
+          category: category,
+          operatorId,
+          period: period,
+          tariffType: dbTariffType,
+        }),
+        db.getTariffs({
+          category: category,
+          operatorId,
+          period: previousYear,
+          tariffType: dbTariffType,
+        }),
+        db.getTariffs({
+          category: category,
+          operatorId: operatorOnly ? operatorId : undefined,
+          peerGroup: operatorData.peer_group,
+          tariffType: dbTariffType,
+        }),
+      ]);
 
-  if (operatorNetTariffs.length > 1) {
-    throw new Error(
-      "Cannot have multiple net tariffs records for one operator in one year"
+    if (operatorTariffs.length > 1) {
+      throw new Error(
+        `Cannot have multiple ${tariffType} records for one operator in one year`
+      );
+    }
+
+    const operatorTariff = first(operatorTariffs);
+    const previousOperatorTariff = first(previousOperatorTariffs);
+
+    const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianTariffs.map(
+      (item) => ({
+        period: item.period,
+        rate: item.median_rate,
+        operator_id: peerGroupOperatorId,
+        operator_name: peerGroupOperatorName,
+        category: item.category,
+      })
     );
-  }
 
-  const operatorNetTariff = first(operatorNetTariffs);
+    const combinedYearlyData = [...tariffs, ...peerGroupMedianAsYearlyData];
 
-  const previousOperatorNetTariffs = await db.getTariffs({
-    category: category,
-    operatorId,
-    period: previousYear,
-    tariffType: "network",
-  });
-
-  const previousOperatorNetTariff = first(previousOperatorNetTariffs);
-
-  const netTariffs = await db.getTariffs({
-    peerGroup: operatorData.peer_group,
-    tariffType: "network",
-    category: category,
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
-
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetTariffs.map(
-    (item) => ({
-      period: item.period,
-      rate: item.median_rate,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      category: item.category,
-    })
-  );
-
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const combinedYearlyData = [...netTariffs, ...peerGroupMedianAsYearlyData];
-
-  return {
-    category: category,
-    operatorRate: operatorNetTariff?.rate ?? null,
-    operatorTrend: getTrend(
-      previousOperatorNetTariff?.rate,
-      operatorNetTariff?.rate
-    ),
-    peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
-    peerGroupMedianTrend: getTrend(
-      previousPeerGroupMedianNetTariffs?.median_rate,
-      peerGroupMedianNetTariffs?.median_rate
-    ),
-    yearlyData: combinedYearlyData,
-  };
-};
-
-export const fetchEnergyTariffsData = async (
-  db: SunshineDataService,
-  {
-    operatorId,
-    category,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    category: ElectricityCategory;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId, period);
-
-  //. Get indicator median data for energy tariffs
-  const yearlyPeerGroupMedianEnergyTariffs =
-    await db.getYearlyIndicatorMedians<"energy-tariffs">({
-      peerGroup: operatorData.peer_group,
-      metric: "energy-tariffs",
+    return {
       category: category,
-    });
-
-  const {
-    currentData: peerGroupMedianEnergyTariffs,
-    previousData: previousPeerGroupMedianEnergyTariffs,
-    previousYear,
-  } = findCurrentAndPreviousPeriodData(
-    yearlyPeerGroupMedianEnergyTariffs,
-    period
-  );
-
-  const operatorEnergyTariffs = await db.getTariffs({
-    category: category,
-    operatorId: operatorId,
-    period: period,
-    tariffType: "energy",
-  });
-
-  if (operatorEnergyTariffs.length > 1) {
-    throw new Error(
-      "Cannot have more than 1 energy tariff record for one operator in one year"
-    );
-  }
-
-  const operatorEnergyTariff = first(operatorEnergyTariffs);
-
-  const previousOperatorEnergyTariffs = await db.getTariffs({
-    category: category,
-    operatorId: operatorId,
-    period: previousYear,
-    tariffType: "energy",
-  });
-
-  const previousOperatorEnergyTariff = first(previousOperatorEnergyTariffs);
-
-  const energyTariffs = await db.getTariffs({
-    peerGroup: operatorData.peer_group,
-    category: category,
-    tariffType: "energy",
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
-
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianEnergyTariffs.map(
-    (item) => ({
-      period: item.period,
-      rate: item.median_rate,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      category: item.category,
-    })
-  );
-
-  const combinedYearlyData = [...energyTariffs, ...peerGroupMedianAsYearlyData];
-
-  return {
-    category: category,
-    operatorRate: operatorEnergyTariff?.rate ?? null,
-    operatorTrend: getTrend(
-      previousOperatorEnergyTariff?.rate,
-      operatorEnergyTariff?.rate
-    ),
-    peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
-    peerGroupMedianTrend: getTrend(
-      previousPeerGroupMedianEnergyTariffs?.median_rate,
-      peerGroupMedianEnergyTariffs?.median_rate
-    ),
-    yearlyData: combinedYearlyData,
+      operatorRate: operatorTariff?.rate ?? null,
+      operatorTrend: getTrend(
+        previousOperatorTariff?.rate,
+        operatorTariff?.rate
+      ),
+      peerGroupMedianRate: peerGroupMedianTariffs?.median_rate ?? null,
+      peerGroupMedianTrend: getTrend(
+        previousPeerGroupMedianTariffs?.median_rate,
+        peerGroupMedianTariffs?.median_rate
+      ),
+      yearlyData: combinedYearlyData,
+    };
   };
 };
+
+/**
+ * Fetch net tariffs data for a specific operator
+ */
+export const fetchNetTariffsData = createTariffsFetcher("net-tariffs");
+
+/**
+ * Fetch energy tariffs data for a specific operator
+ */
+export const fetchEnergyTariffsData = createTariffsFetcher("energy-tariffs");
 
 export const fetchOperatorCostsAndTariffsData = async (
   db: SunshineDataService,
