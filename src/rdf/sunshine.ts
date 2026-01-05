@@ -1234,47 +1234,90 @@ const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
     : new Date().toISOString().split("T")[0];
 };
 
+// Helper function to add performance logging to a method
+const withPerformanceLog = <
+  T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>
+>(
+  methodName: string,
+  method: T
+): T => {
+  return (async (...args: $IntentionalAny[]) => {
+    const start = performance.now();
+    try {
+      const result = await method(...args);
+      const end = performance.now();
+      console.log(`[${methodName}] completed in ${(end - start).toFixed(2)}ms`);
+      return result;
+    } catch (error) {
+      const end = performance.now();
+      console.log(`[${methodName}] failed after ${(end - start).toFixed(2)}ms`);
+      throw error;
+    }
+  }) as T;
+};
+
 export const createSunshineDataService = (
   client: ParsingClient
 ): SunshineDataService => ({
   name: "sparql",
-  getNetworkCosts: (params) => {
+  getNetworkCosts: withPerformanceLog("getNetworkCosts", (params) => {
     return getNetworkCosts(client, params);
-  },
-  getOperationalStandards: (params) => {
-    return getOperationalStandards(client, params);
-  },
-  getStabilityMetrics: (params) => {
+  }),
+  getOperationalStandards: withPerformanceLog(
+    "getOperationalStandards",
+    (params) => {
+      return getOperationalStandards(client, params);
+    }
+  ),
+  getStabilityMetrics: withPerformanceLog("getStabilityMetrics", (params) => {
     return getStabilityMetrics(client, params);
-  },
-  getTariffs: (params) => {
+  }),
+  getTariffs: withPerformanceLog("getTariffs", (params) => {
     return getTariffs(client, params);
-  },
-  getOperatorData: (operatorId, period) => {
-    return getOperatorData(client, operatorId, period);
-  },
-  getYearlyIndicatorMedians: (params) => {
-    return getYearlyIndicatorMedians(client, params);
-  },
-  getLatestYearSunshine: (operatorId) => {
-    return getLatestYearSunshine(client, operatorId);
-  },
-  getLatestYearPowerStability: (operatorId) => {
-    return getLatestYearPowerStability(client, operatorId);
-  },
-  getOperatorPeerGroup: (operatorId, period) => {
-    return getOperatorPeerGroup(client, operatorId, period);
-  },
-  getPeerGroups: (locale) => {
+  }),
+  getOperatorData: withPerformanceLog(
+    "getOperatorData",
+    (operatorId, period) => {
+      return getOperatorData(client, operatorId, period);
+    }
+  ),
+  getYearlyIndicatorMedians: withPerformanceLog(
+    "getYearlyIndicatorMedians",
+    (params) => {
+      return getYearlyIndicatorMedians(client, params);
+    }
+  ),
+  getLatestYearSunshine: withPerformanceLog(
+    "getLatestYearSunshine",
+    (operatorId) => {
+      return getLatestYearSunshine(client, operatorId);
+    }
+  ),
+  getLatestYearPowerStability: withPerformanceLog(
+    "getLatestYearPowerStability",
+    (operatorId) => {
+      return getLatestYearPowerStability(client, operatorId);
+    }
+  ),
+  getOperatorPeerGroup: withPerformanceLog(
+    "getOperatorPeerGroup",
+    (operatorId, period) => {
+      return getOperatorPeerGroup(client, operatorId, period);
+    }
+  ),
+  getPeerGroups: withPerformanceLog("getPeerGroups", (locale) => {
     return getPeerGroups(client, locale);
-  },
-  getSunshineData: (params) => {
+  }),
+  getSunshineData: withPerformanceLog("getSunshineData", (params) => {
     return getSunshineData(client, params);
-  },
-  getSunshineDataByIndicator: (params) => {
-    return getSunshineDataByIndicator(client, params);
-  },
-  fetchUpdateDate: () => {
+  }),
+  getSunshineDataByIndicator: withPerformanceLog(
+    "getSunshineDataByIndicator",
+    (params) => {
+      return getSunshineDataByIndicator(client, params);
+    }
+  ),
+  fetchUpdateDate: withPerformanceLog("fetchUpdateDate", () => {
     return fetchUpdateDate(client);
-  },
+  }),
 });
