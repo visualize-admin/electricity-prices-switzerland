@@ -104,7 +104,6 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const now = new Date();
     const operatorId = parseInt(id, 10);
     const period = await sunshineDataService.getLatestYearSunshine(operatorId);
     const operatorData = await sunshineDataService.getOperatorData(
@@ -133,8 +132,6 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
           operatorOnly: true,
         }),
       ]);
-
-    const end = new Date();
 
     return {
       props: {
