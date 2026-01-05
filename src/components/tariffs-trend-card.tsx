@@ -247,9 +247,15 @@ export const TariffsTrendCardMinified: React.FC<
   });
   const { viewBy } = state;
   const chartData = getTariffsTrendCardState(rest, state);
+  const {
+    operatorId: _operatorId,
+    netTariffs: _netTariffs,
+    indicator: _indicator,
+    ...overviewCardProps
+  } = rest;
   return (
     <OverviewCard
-      {...rest}
+      {...overviewCardProps}
       title={cardTitle}
       description={cardDescription}
       chart={
