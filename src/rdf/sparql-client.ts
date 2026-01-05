@@ -15,6 +15,7 @@ function createSparqlClient(endpointUrl: string): ParsingClient {
   const client = new ParsingClient({
     endpointUrl,
   });
+
   // Uncomment to enable verbose logging of SPARQL queries
   // makeClientVerbose(client);
   return client;
@@ -35,9 +36,7 @@ export function createSparqlClientForCube(
   return createSparqlClient(maybeCachedEndpointUrl);
 }
 
-const getSparqlEndpointFromSession = (
-  session: SessionPayload | null
-) => {
+const getSparqlEndpointFromSession = (session: SessionPayload | null) => {
   return session?.flags.sparqlEndpoint ?? defaultSparqlEndpointUrl;
 };
 
