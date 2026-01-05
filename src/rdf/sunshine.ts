@@ -199,7 +199,6 @@ const getNetworkCosts = async (
   }: {
     operatorId?: number;
     period?: number;
-    peerGroup?: string;
     networkLevel?: NetworkLevel["id"];
   } = {}
 ): Promise<NetworkCostRecord[]> => {

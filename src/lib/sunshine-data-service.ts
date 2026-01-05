@@ -100,7 +100,6 @@ export interface SunshineDataService {
   getNetworkCosts(params: {
     operatorId?: number;
     period?: number;
-    peerGroup?: string;
     networkLevel?: NetworkLevel["id"];
   }): Promise<NetworkCostRecord[]>;
 

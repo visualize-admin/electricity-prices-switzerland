@@ -160,7 +160,6 @@ export const fetchNetworkCostsData = async (
         period: targetPeriod,
       }),
       db.getNetworkCosts({
-        peerGroup: operatorData.peer_group,
         networkLevel: networkLevel,
         operatorId: operatorOnly ? operatorId : undefined,
       }),
