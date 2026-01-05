@@ -1,5 +1,6 @@
 import { Box, Theme, useTheme } from "@mui/material";
 import React, { forwardRef, ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { tss } from "tss-react/mui";
 
 import {
@@ -26,44 +27,88 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
     const theme = useTheme();
     const triangle = mkTriangle(theme, placement);
 
-    return (
-      <Box
-        ref={ref}
-        style={{
-          width: "fit-content",
-          zIndex: 2,
-          position: "absolute",
-          left: x! + margins.left,
-          top: mxYOffset(y!, placement) + margins.top,
-          pointerEvents: interactive ? "all" : "none",
-          transform: mkTranslation(placement),
-          boxShadow: theme.shadows[4],
-          ...style,
-        }}
-      >
-        <Box
-          sx={{
-            padding: 3,
-            pointerEvents: interactive ? "all" : "none",
-            bgcolor: theme.palette.background.paper,
-            filter: `drop-shadow(${theme.shadows[6]})`,
+    const [anchorBounds, setAnchorBounds] = React.useState<DOMRect | null>(
+      null
+    );
+    const anchorRef = React.useRef<HTMLDivElement>(null);
 
-            "&::before": {
-              content: "''",
-              display: "block",
-              position: "absolute",
-              pointerEvents: interactive ? "all" : "none",
-              zIndex: -1,
-              width: 0,
-              height: 0,
-              borderStyle: "solid",
-              ...triangle,
-            },
+    React.useEffect(() => {
+      if (!anchorRef.current) return;
+
+      const updateBounds = () => {
+        if (anchorRef.current) {
+          setAnchorBounds(anchorRef.current.getBoundingClientRect());
+        }
+      };
+
+      updateBounds();
+
+      const resizeObserver = new ResizeObserver(updateBounds);
+      resizeObserver.observe(anchorRef.current);
+
+      return () => resizeObserver.disconnect();
+    }, [x, y]);
+
+    const tooltipLeft = anchorBounds ? anchorBounds.left + (x ?? 0) : 0;
+    const tooltipTop = anchorBounds
+      ? anchorBounds.top + mxYOffset(y ?? 0, placement)
+      : 0;
+
+    return (
+      <>
+        <div
+          ref={anchorRef}
+          style={{
+            position: "absolute",
+            left: margins.left,
+            width: "100%",
+            top: margins.top,
+            pointerEvents: "none",
           }}
-        >
-          {children}
-        </Box>
-      </Box>
+        />
+        {anchorBounds &&
+          createPortal(
+            <Box
+              ref={ref}
+              style={{
+                width: "fit-content",
+                maxWidth: anchorBounds ? anchorBounds.width : undefined,
+                zIndex: theme.zIndex.tooltip,
+                position: "fixed",
+                left: tooltipLeft,
+                top: tooltipTop,
+                pointerEvents: interactive ? "all" : "none",
+                transform: mkTranslation(placement),
+                boxShadow: theme.shadows[4],
+                ...style,
+              }}
+            >
+              <Box
+                sx={{
+                  padding: 3,
+                  pointerEvents: interactive ? "all" : "none",
+                  bgcolor: theme.palette.background.paper,
+                  filter: `drop-shadow(${theme.shadows[6]})`,
+
+                  "&::before": {
+                    content: "''",
+                    display: "block",
+                    position: "absolute",
+                    pointerEvents: interactive ? "all" : "none",
+                    zIndex: -1,
+                    width: 0,
+                    height: 0,
+                    borderStyle: "solid",
+                    ...triangle,
+                  },
+                }}
+              >
+                {children}
+              </Box>
+            </Box>,
+            document.body
+          )}
+      </>
     );
   }
 );
