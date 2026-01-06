@@ -514,16 +514,8 @@ msgid "legend-item.total-peer-group-median"
 msgstr "Insgesamt (Median der Peer Group)"
 
 #: src/components/sunshine-map.tsx
-msgid "legend.compliant"
-msgstr "Konform (≤ {threshold})"
-
-#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "Nein"
-
-#: src/components/sunshine-map.tsx
-msgid "legend.not-compliant"
-msgstr "Nicht konform (> {threshold})"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"
