@@ -15,6 +15,8 @@ You can also check the
 - Display medians for power stability in overview page [#479](https://github.com/visualize-admin/electricity-prices-switzerland/issues/479)
 - Display medians for power stability in power stability detail page [#479](https://github.com/visualize-admin/electricity-prices-switzerland/issues/479)
 - Operational standards chart in detail pages shows other peer group operators [#493](https://github.com/visualize-admin/electricity-prices-switzerland/issues/493)
+- Map update to reflect current data and remove outdated gray areas in Wallis region [#494](https://github.com/visualize-admin/electricity-prices-switzerland/issues/494)
+- Fix inconsistent display of "Informationen zu Ausfällen" indicator, which showed "Yes/No" on the map but "0/1" in the detail sidebar [#400](https://github.com/visualize-admin/electricity-prices-switzerland/issues/400)
 
 # 2.30.1 - 2025-12-15
 
