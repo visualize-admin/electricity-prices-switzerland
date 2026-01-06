@@ -51,7 +51,6 @@ export const SunshineSelectorsBase = ({
   getPeerGroupLabel = (id) => id,
   saidiSaifiType,
   setSaidiSaifiType,
-  setComplianceType,
   saidiSaifiTypes,
   indicator,
   setIndicator,

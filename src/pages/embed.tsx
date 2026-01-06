@@ -7,8 +7,8 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent } from "src/domain/data";
+import { thresholdEncodings } from "src/domain/map-encodings";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
