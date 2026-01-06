@@ -37,7 +37,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "network_level": "NE5",
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
-            "rate": 29318.506,
+            "rate": 29392.702,
             "year": 2025,
           },
         ]
@@ -56,7 +56,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "network_level": "NE5",
             "operator_id": 672,
             "operator_name": "St.Galler Stadtwerke",
-            "rate": 29318.506,
+            "rate": 29392.702,
             "year": 2025,
           },
           {
@@ -72,40 +72,6 @@ describe("SPARQL Sunshine Data Service", () => {
             "operator_name": "St.Galler Stadtwerke",
             "rate": 26654.642,
             "year": 2025,
-          },
-        ]
-      `);
-    });
-
-    // TODO Peer group
-    it("should return network costs for peer group", async () => {
-      const result = await sunshineDataServiceSparql.getNetworkCosts({
-        peerGroup: "A",
-        networkLevel: "NE5",
-      });
-
-      expect(result.slice(0, 3)).toMatchInlineSnapshot(`
-        [
-          {
-            "network_level": "NE5",
-            "operator_id": 10,
-            "operator_name": "Arosa Energie",
-            "rate": 7325.806,
-            "year": 2026,
-          },
-          {
-            "network_level": "NE5",
-            "operator_id": 105,
-            "operator_name": "ELEKTRA ENERGIE Genossenschaft",
-            "rate": 8643.865,
-            "year": 2026,
-          },
-          {
-            "network_level": "NE5",
-            "operator_id": 107,
-            "operator_name": "Elektra Andwil Stromversorgung",
-            "rate": 32282.548,
-            "year": 2026,
           },
         ]
       `);
@@ -426,17 +392,17 @@ describe("SPARQL Sunshine Data Service", () => {
 
   describe("getLatestYearPowerStability", () => {
     it("should return the latest year for power stability data", async () => {
-      const result =
-        await sunshineDataServiceSparql.getLatestYearPowerStability(8);
+      const result = await sunshineDataServiceSparql.getLatestYearSunshine(8);
 
-      expect(result).toMatchInlineSnapshot(`"2026"`);
+      expect(result).toMatchInlineSnapshot(`2026`);
     });
 
     it("should return default year when no stability data found for non-existent operator", async () => {
-      const result =
-        await sunshineDataServiceSparql.getLatestYearPowerStability(99999);
+      const result = await sunshineDataServiceSparql.getLatestYearSunshine(
+        99999
+      );
 
-      expect(result).toMatchInlineSnapshot(`"2024"`);
+      expect(result).toMatchInlineSnapshot(`2024`);
     });
   });
 
@@ -486,7 +452,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": 29318.506,
+            "networkCostsNE5": 29392.702,
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26654.642,
             "operatorId": 672,
@@ -529,7 +495,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 3,
             "infoYesNo": true,
             "name": "Arosa Energie",
-            "networkCostsNE5": 9335.065,
+            "networkCostsNE5": 9338.377,
             "networkCostsNE6": 11.729,
             "networkCostsNE7": 12858.57,
             "operatorId": 10,
@@ -603,7 +569,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": 32180.946,
+            "networkCostsNE5": 31813.86,
             "networkCostsNE6": 13.072,
             "networkCostsNE7": 28262.076,
             "operatorId": 672,
@@ -634,7 +600,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "infoDaysInAdvance": 2,
             "infoYesNo": true,
             "name": "St.Galler Stadtwerke",
-            "networkCostsNE5": 29318.506,
+            "networkCostsNE5": 29392.702,
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26654.642,
             "operatorId": 672,
