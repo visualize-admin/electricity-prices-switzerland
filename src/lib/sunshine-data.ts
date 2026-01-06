@@ -15,7 +15,10 @@ import {
   TariffsData,
   Trend,
 } from "src/graphql/resolver-types";
-import { SunshineDataService } from "src/lib/sunshine-data-service";
+import {
+  OperatorDataRecord,
+  SunshineDataService,
+} from "src/lib/sunshine-data-service";
 
 type NetworkCostsParams = {
   metric: "network_costs";
@@ -76,8 +79,6 @@ const getTrend = (
   }
 };
 
-const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
-
 /**
  * Helper function to find current and previous period data from yearly indicator median results
  * @param yearlyData Array of yearly data sorted or unsorted
@@ -122,11 +123,13 @@ export const fetchNetworkCostsData = async (
   db: SunshineDataService,
   {
     operatorId,
+    operatorData: operatorData_,
     networkLevel = "NE5",
     period,
     operatorOnly,
   }: {
     operatorId: number;
+    operatorData?: OperatorDataRecord;
     networkLevel?: NetworkLevel["id"];
     period?: number;
     operatorOnly?: boolean;
@@ -137,7 +140,9 @@ export const fetchNetworkCostsData = async (
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const yearlyPeerGroupMedianNetworkCosts =
     await db.getYearlyIndicatorMedians<"network_costs">({
@@ -154,12 +159,23 @@ export const fetchNetworkCostsData = async (
     yearlyPeerGroupMedianNetworkCosts,
     targetPeriod
   );
-
-  const operatorNetworkCosts = await db.getNetworkCosts({
-    operatorId,
-    networkLevel: networkLevel,
-    period: targetPeriod,
-  });
+  const [operatorNetworkCosts, networkCosts, previousOperatorNetworkCosts] =
+    await Promise.all([
+      db.getNetworkCosts({
+        operatorId,
+        networkLevel: networkLevel,
+        period: targetPeriod,
+      }),
+      db.getNetworkCosts({
+        networkLevel: networkLevel,
+        operatorId: operatorOnly ? operatorId : undefined,
+      }),
+      db.getNetworkCosts({
+        period: previousYear,
+        operatorId,
+        networkLevel,
+      }),
+    ]);
 
   if (operatorNetworkCosts.length > 1) {
     throw new Error(
@@ -167,29 +183,12 @@ export const fetchNetworkCostsData = async (
     );
   }
 
-  const networkCosts = (
-    await db.getNetworkCosts({
-      peerGroup: operatorData.peer_group,
-      networkLevel: networkLevel,
-      operatorId: operatorOnly ? operatorId : undefined,
-    })
-  )
-    // TODO Should be done in the view
-    .filter((x) => isValidNumber(x.rate));
-
   const operatorNetworkCost = first(operatorNetworkCosts);
-
-  const previousOperatorNetworkCosts = await db.getNetworkCosts({
-    period: previousYear,
-    operatorId,
-    networkLevel,
-  });
 
   const previousOperatorNetworkCost = previousOperatorNetworkCosts
     ? previousOperatorNetworkCosts[0]
     : undefined;
 
-  // Concatenate peer group median data into yearlyData with special operator_id and name
   const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetworkCosts.map(
     (item) => ({
       year: item.period,
@@ -200,6 +199,7 @@ export const fetchNetworkCostsData = async (
     })
   );
 
+  // Concatenate peer group median data into yearlyData with special operator_id and name
   const combinedYearlyData = [...networkCosts, ...peerGroupMedianAsYearlyData];
 
   return {
@@ -218,158 +218,130 @@ export const fetchNetworkCostsData = async (
   };
 };
 
-export const fetchNetTariffsData = async (
-  db: SunshineDataService,
-  {
-    operatorId,
-    category,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    category: ElectricityCategory;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId, period);
+type TariffType = "net-tariffs" | "energy-tariffs";
 
-  const yearlyPeerGroupMedianNetTariffs =
-    await db.getYearlyIndicatorMedians<"net-tariffs">({
+/**
+ * Creates a fetcher function for tariffs data (net or energy)
+ * @param tariffType The type of tariff ('net-tariffs' or 'energy-tariffs')
+ * @returns A function that fetches the specified tariff data
+ */
+const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
+  const dbTariffType = tariffType === "net-tariffs" ? "network" : "energy";
+
+  return async (
+    db: SunshineDataService,
+    {
+      operatorId,
+      operatorData: operatorData_,
+      category,
+      period,
+      operatorOnly,
+    }: {
+      operatorId: number;
+      operatorData?: OperatorDataRecord;
+      category: ElectricityCategory;
+      period: number;
+      operatorOnly?: boolean;
+    }
+  ): Promise<TariffsData> => {
+    const operatorData = operatorData_
+      ? operatorData_
+      : await db.getOperatorData(operatorId, period);
+
+    const yearlyPeerGroupMedianTariffs = await db.getYearlyIndicatorMedians<T>({
       peerGroup: operatorData.peer_group,
-      metric: "net-tariffs",
+      metric: tariffType,
       category: category,
     });
 
-  const { currentData: peerGroupMedianNetTariffs } =
-    findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianNetTariffs, period);
+    const {
+      currentData: peerGroupMedianTariffs,
+      previousData: previousPeerGroupMedianTariffs,
+      previousYear,
+    } = findCurrentAndPreviousPeriodData(yearlyPeerGroupMedianTariffs, period);
 
-  const operatorNetTariffs = await db.getTariffs({
-    category: category,
-    operatorId,
-    period: period,
-    tariffType: "network",
-  });
+    const [operatorTariffs, previousOperatorTariffs, tariffs] =
+      await Promise.all([
+        db.getTariffs({
+          category: category,
+          operatorId,
+          period: period,
+          tariffType: dbTariffType,
+        }),
+        db.getTariffs({
+          category: category,
+          operatorId,
+          period: previousYear,
+          tariffType: dbTariffType,
+        }),
+        db.getTariffs({
+          category: category,
+          operatorId: operatorOnly ? operatorId : undefined,
+          peerGroup: operatorData.peer_group,
+          tariffType: dbTariffType,
+        }),
+      ]);
 
-  if (operatorNetTariffs.length > 1) {
-    throw new Error(
-      "Cannot have multiple net tariffs records for one operator in one year"
+    if (operatorTariffs.length > 1) {
+      throw new Error(
+        `Cannot have multiple ${tariffType} records for one operator in one year`
+      );
+    }
+
+    const operatorTariff = first(operatorTariffs);
+    const previousOperatorTariff = first(previousOperatorTariffs);
+
+    const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianTariffs.map(
+      (item) => ({
+        period: item.period,
+        rate: item.median_rate,
+        operator_id: peerGroupOperatorId,
+        operator_name: peerGroupOperatorName,
+        category: item.category,
+      })
     );
-  }
 
-  const operatorNetTariff = first(operatorNetTariffs);
+    const combinedYearlyData = [...tariffs, ...peerGroupMedianAsYearlyData];
 
-  const netTariffs = await db.getTariffs({
-    peerGroup: operatorData.peer_group,
-    tariffType: "network",
-    category: category,
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
-
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianNetTariffs.map(
-    (item) => ({
-      period: item.period,
-      rate: item.median_rate,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      category: item.category,
-    })
-  );
-
-  const combinedYearlyData = [...netTariffs, ...peerGroupMedianAsYearlyData];
-
-  return {
-    category: category,
-    operatorRate: operatorNetTariff?.rate ?? null,
-    peerGroupMedianRate: peerGroupMedianNetTariffs?.median_rate ?? null,
-    yearlyData: combinedYearlyData,
-  };
-};
-
-export const fetchEnergyTariffsData = async (
-  db: SunshineDataService,
-  {
-    operatorId,
-    category,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    category: ElectricityCategory;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<TariffsData> => {
-  const operatorData = await db.getOperatorData(operatorId, period);
-
-  //. Get indicator median data for energy tariffs
-  const yearlyPeerGroupMedianEnergyTariffs =
-    await db.getYearlyIndicatorMedians<"energy-tariffs">({
-      peerGroup: operatorData.peer_group,
-      metric: "energy-tariffs",
+    return {
       category: category,
-    });
-
-  const { currentData: peerGroupMedianEnergyTariffs } =
-    findCurrentAndPreviousPeriodData(
-      yearlyPeerGroupMedianEnergyTariffs,
-      period
-    );
-
-  const operatorEnergyTariffs = await db.getTariffs({
-    category: category,
-    operatorId: operatorId,
-    period: period,
-    tariffType: "energy",
-  });
-
-  if (operatorEnergyTariffs.length > 1) {
-    throw new Error(
-      "Cannot have more than 1 energy tariff record for one operator in one year"
-    );
-  }
-
-  const operatorEnergyTariff = first(operatorEnergyTariffs);
-
-  const energyTariffs = await db.getTariffs({
-    peerGroup: operatorData.peer_group,
-    category: category,
-    tariffType: "energy",
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
-
-  // Concatenate peer group median data into yearlyData with special operator_id and name
-  const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianEnergyTariffs.map(
-    (item) => ({
-      period: item.period,
-      rate: item.median_rate,
-      operator_id: peerGroupOperatorId,
-      operator_name: peerGroupOperatorName,
-      category: item.category,
-    })
-  );
-
-  const combinedYearlyData = [...energyTariffs, ...peerGroupMedianAsYearlyData];
-
-  return {
-    category: category,
-    operatorRate: operatorEnergyTariff?.rate ?? null,
-    peerGroupMedianRate: peerGroupMedianEnergyTariffs?.median_rate ?? null,
-    yearlyData: combinedYearlyData,
+      operatorRate: operatorTariff?.rate ?? null,
+      operatorTrend: getTrend(
+        previousOperatorTariff?.rate,
+        operatorTariff?.rate
+      ),
+      peerGroupMedianRate: peerGroupMedianTariffs?.median_rate ?? null,
+      peerGroupMedianTrend: getTrend(
+        previousPeerGroupMedianTariffs?.median_rate,
+        peerGroupMedianTariffs?.median_rate
+      ),
+      yearlyData: combinedYearlyData,
+    };
   };
 };
+
+/**
+ * Fetch net tariffs data for a specific operator
+ */
+export const fetchNetTariffsData = createTariffsFetcher("net-tariffs");
+
+/**
+ * Fetch energy tariffs data for a specific operator
+ */
+export const fetchEnergyTariffsData = createTariffsFetcher("energy-tariffs");
 
 export const fetchOperatorCostsAndTariffsData = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     networkLevel,
     category,
     period,
     operatorOnly,
   }: {
     operatorId: string;
+    operatorData?: OperatorDataRecord;
     networkLevel: NetworkLevel["id"];
     category: ElectricityCategory;
     period?: number;
@@ -383,7 +355,9 @@ export const fetchOperatorCostsAndTariffsData = async (
   if (!targetPeriod) {
     targetPeriod = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, targetPeriod);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const [networkCostsData, netTariffsData, energyTariffsData, updateDate] =
     await Promise.all([
@@ -395,12 +369,14 @@ export const fetchOperatorCostsAndTariffsData = async (
       }),
       fetchNetTariffsData(db, {
         operatorId,
+        operatorData,
         category,
         period: targetPeriod,
         operatorOnly,
       }),
       fetchEnergyTariffsData(db, {
         operatorId,
+        operatorData,
         category,
         period: targetPeriod,
         operatorOnly,
@@ -430,148 +406,202 @@ export const fetchOperatorCostsAndTariffsData = async (
  * @param operatorId The operator ID
  * @returns Power stability data
  */
+
+type StabilityMetricType = "saidi" | "saifi";
+
 /**
- * Fetch SAIDI (System Average Interruption Duration Index) data for a specific operator
- * @param db Database service
- * @param operatorId The operator ID
- * @param period Year parameter
- * @returns SAIDI data
+ * Creates a fetcher function for SAIDI or SAIFI metrics
+ * @param metricType The type of stability metric ('saidi' or 'saifi')
+ * @returns A function that fetches the specified stability metric data
  */
-export const fetchSaidi = async (
-  db: SunshineDataService,
-  {
-    operatorId,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<StabilityData> => {
-  const operatorData = await db.getOperatorData(operatorId, period);
+const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
+  return async (
+    db: SunshineDataService,
+    {
+      operatorId,
 
-  const operatorStability = await db.getStabilityMetrics({
-    operatorId,
-    period,
-  });
-  if (operatorStability.length > 1) {
-    throw new Error(
-      "Cannot have multiple stability records for one operator in one year"
+      operatorData: _operatorData,
+      period,
+      operatorOnly,
+    }: {
+      operatorId: number;
+
+      operatorData?: OperatorDataRecord;
+      period: number;
+      operatorOnly?: boolean;
+    }
+  ): Promise<StabilityData> => {
+    const operatorData = _operatorData
+      ? _operatorData
+      : await db.getOperatorData(operatorId, period);
+
+    const peerGroupYearlyStability = await db.getStabilityMetrics({
+      peerGroup: operatorData.peer_group,
+      operatorId: operatorOnly ? operatorId : undefined,
+    });
+
+    // Get yearly peer group median stability data
+    const yearlyPeerGroupMedianStability =
+      await db.getYearlyIndicatorMedians<"stability">({
+        peerGroup: operatorData.peer_group,
+        metric: "stability",
+      });
+
+    const {
+      currentData: peerGroupMedianStability,
+      previousData: previousPeerGroupMedianStability,
+      previousYear,
+    } = findCurrentAndPreviousPeriodData(
+      yearlyPeerGroupMedianStability,
+      period
     );
-  }
-  const peerGroupYearlyStability = await db.getStabilityMetrics({
-    peerGroup: operatorData.peer_group,
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
 
-  const combinedYearlyData = peerGroupYearlyStability
-    .map((x) => ({
-      year: x.period,
-      total: x.saidi_total ?? null,
-      operator_id: x.operator_id,
-      operator_name: x.operator_name ?? "",
-      unplanned: x.saidi_unplanned ?? null,
-    }))
-    .filter((x) => x.total !== null); // Filter out entries with null total
+    const [operatorStability, previousOperatorStability] = await Promise.all([
+      db.getStabilityMetrics({
+        operatorId,
+        period,
+      }),
+      db.getStabilityMetrics({
+        operatorId,
+        period: previousYear,
+      }),
+    ]);
 
-  return {
-    operatorTotal: operatorStability?.[0]?.saidi_total || 0,
-    operatorUnplanned: operatorStability?.[0]?.saidi_unplanned || 0,
-    yearlyData: combinedYearlyData,
+    if (operatorStability.length > 1) {
+      throw new Error(
+        "Cannot have multiple stability records for one operator in one year"
+      );
+    }
+
+    const totalKey = `${metricType}_total` as const;
+    const unplannedKey = `${metricType}_unplanned` as const;
+    const medianTotalKey = `median_${metricType}_total` as const;
+    const medianUnplannedKey = `median_${metricType}_unplanned` as const;
+
+    // Map peer group stability data to yearly format
+    const peerGroupYearlyDataFormatted = peerGroupYearlyStability
+      .map((x) => ({
+        year: x.period,
+        total: x[totalKey] ?? null,
+        operator_id: x.operator_id,
+        operator_name: x.operator_name ?? "",
+        unplanned: x[unplannedKey] ?? null,
+      }))
+      .filter((x) => x.total !== null);
+
+    // Map peer group medians to yearly format
+    const peerGroupMedianAsYearlyData = yearlyPeerGroupMedianStability.map(
+      (item) => ({
+        year: item.period,
+        total: item[medianTotalKey],
+        unplanned: item[medianUnplannedKey],
+        operator_id: peerGroupOperatorId,
+        operator_name: peerGroupOperatorName,
+      })
+    );
+
+    // Combine all yearly data
+    const combinedYearlyData = [
+      ...peerGroupYearlyDataFormatted,
+      ...peerGroupMedianAsYearlyData,
+    ];
+
+    const peerGroupMedianTotal = peerGroupMedianStability
+      ? peerGroupMedianStability[medianTotalKey]
+      : 0;
+    const peerGroupMedianUnplanned = peerGroupMedianStability
+      ? peerGroupMedianStability[medianUnplannedKey]
+      : 0;
+
+    const operatorStabilityRecord = operatorStability?.[0];
+    const previousOperatorStabilityRecord = previousOperatorStability?.[0];
+
+    return {
+      operatorTotal: operatorStabilityRecord?.[totalKey] || 0,
+      operatorUnplanned: operatorStabilityRecord?.[unplannedKey] || 0,
+      trendTotal: getTrend(
+        previousOperatorStabilityRecord?.[totalKey],
+        operatorStabilityRecord?.[totalKey]
+      ),
+      trendUnplanned: getTrend(
+        previousOperatorStabilityRecord?.[unplannedKey],
+        operatorStabilityRecord?.[unplannedKey]
+      ),
+
+      peerGroupMedianTotal: peerGroupMedianTotal,
+      peerGroupMedianUnplanned: peerGroupMedianUnplanned,
+
+      peerGroupMedianTrendTotal: getTrend(
+        previousPeerGroupMedianStability
+          ? previousPeerGroupMedianStability[medianTotalKey]
+          : null,
+        peerGroupMedianTotal
+      ),
+      peerGroupMedianTrendUnplanned: getTrend(
+        previousPeerGroupMedianStability
+          ? previousPeerGroupMedianStability[medianUnplannedKey]
+          : null,
+        peerGroupMedianUnplanned
+      ),
+
+      yearlyData: combinedYearlyData,
+    };
   };
 };
+
+/**
+ * Fetch SAIDI (System Average Interruption Duration Index) data for a specific operator
+ */
+export const fetchSaidi = createStabilityMetricFetcher("saidi");
 
 /**
  * Fetch SAIFI (System Average Interruption Frequency Index) data for a specific operator
- * @param service Database service
- * @param operatorId The operator ID
- * @param year Year parameter
- * @returns SAIFI data
  */
-export const fetchSaifi = async (
-  service: SunshineDataService,
-  {
-    operatorId,
-    period,
-    operatorOnly,
-  }: {
-    operatorId: number;
-    period: number;
-    operatorOnly?: boolean;
-  }
-): Promise<StabilityData> => {
-  const operatorData = await service.getOperatorData(operatorId, period);
-  if (!operatorData) {
-    throw new Error(`Peer group not found for operator ID: ${operatorId}`);
-  }
-
-  const operatorStability = await service.getStabilityMetrics({
-    operatorId,
-    period,
-  });
-  if (operatorStability.length > 1) {
-    throw new Error(
-      "Cannot have multiple stability records for one operator in one year"
-    );
-  }
-  const peerGroupYearlyStability = await service.getStabilityMetrics({
-    peerGroup: operatorData.peer_group,
-    operatorId: operatorOnly ? operatorId : undefined,
-  });
-
-  const combinedYearlyData = peerGroupYearlyStability
-    .map((x) => ({
-      year: x.period,
-      total: x.saifi_total ?? null,
-      operator_id: x.operator_id,
-      operator_name: x.operator_name ?? "",
-      unplanned: x.saifi_unplanned ?? null,
-    }))
-    .filter((x) => x.total !== null); // Filter out entries with null total
-
-  return {
-    operatorTotal: operatorStability?.[0]?.saifi_total || 0,
-    operatorUnplanned: operatorStability?.[0]?.saifi_unplanned || 0,
-    yearlyData: combinedYearlyData,
-  };
-};
+export const fetchSaifi = createStabilityMetricFetcher("saifi");
 
 export const fetchPowerStability = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     operatorOnly,
+    period,
   }: {
     operatorId: string; // Operator ID as a string
+    operatorData?: OperatorDataRecord;
     operatorOnly?: boolean;
+    period?: number;
   }
 ): Promise<SunshinePowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
 
-  const latestYear = await db.getLatestYearPowerStability(operatorId);
-  const operatorData = await db.getOperatorData(
-    operatorId,
-    parseInt(latestYear, 10)
-  );
-  const targetYear = parseInt(latestYear, 10);
+  // Get the latest year if period not provided
+  let targetPeriod = period;
+  if (!targetPeriod) {
+    targetPeriod = await db.getLatestYearSunshine(operatorId);
+  }
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, targetPeriod);
 
   const [saidiData, saifiData, updateDate] = await Promise.all([
     fetchSaidi(db, {
       operatorId: operatorId,
-      period: targetYear,
+      operatorData,
+      period: targetPeriod,
       operatorOnly,
     }),
     fetchSaifi(db, {
       operatorId: operatorId,
-      period: targetYear,
+      operatorData,
+      period: targetPeriod,
       operatorOnly,
     }),
     db.fetchUpdateDate(),
   ]);
 
   return {
-    latestYear,
+    latestYear: `${targetPeriod}`,
     operator: {
       peerGroup: {
         id: operatorData.peer_group,
@@ -595,9 +625,11 @@ export const fetchOperationalStandards = async (
   db: SunshineDataService,
   {
     operatorId: operatorId_,
+    operatorData: operatorData_,
     period: periodParam,
   }: {
     operatorId: string;
+    operatorData?: OperatorDataRecord;
     period?: number;
   }
 ): Promise<SunshineOperationalStandardsData> => {
@@ -610,10 +642,13 @@ export const fetchOperationalStandards = async (
   } else {
     period = await db.getLatestYearSunshine(operatorId);
   }
-  const operatorData = await db.getOperatorData(operatorId, period);
+  const operatorData = operatorData_
+    ? operatorData_
+    : await db.getOperatorData(operatorId, period);
   const [operationalData, updateDate] = await Promise.all([
     db.getOperationalStandards({
       operatorId: operatorId,
+      operatorData: operatorData,
       period: period,
     }),
     db.fetchUpdateDate(),

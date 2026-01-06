@@ -265,10 +265,11 @@ export const NetworkCostsTrendCardMinified: React.FC<
   });
   const { viewBy } = state;
   const chartData = getNetworkCostsTrendCardState(rest, state);
+  const { networkCosts: _networkCosts, ...overviewCardProps } = rest;
 
   return (
     <OverviewCard
-      {...rest}
+      {...overviewCardProps}
       title={
         <Trans id="sunshine.costs-and-tariffs.network-cost-trend.overview">
           Network Costs

@@ -461,6 +461,12 @@ export type StabilityData = {
   __typename?: "StabilityData";
   operatorTotal: Scalars["Float"]["output"];
   operatorUnplanned: Scalars["Float"]["output"];
+  peerGroupMedianTotal: Scalars["Float"]["output"];
+  peerGroupMedianTrendTotal: Trend;
+  peerGroupMedianTrendUnplanned: Trend;
+  peerGroupMedianUnplanned: Scalars["Float"]["output"];
+  trendTotal: Trend;
+  trendUnplanned: Trend;
   yearlyData: Array<StabilityDataRow>;
 };
 
@@ -568,7 +574,9 @@ export type TariffsData = {
   __typename?: "TariffsData";
   category: Scalars["ElectricityCategory"]["output"];
   operatorRate?: Maybe<Scalars["Float"]["output"]>;
+  operatorTrend?: Maybe<Trend>;
   peerGroupMedianRate?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrend?: Maybe<Trend>;
   yearlyData: Array<TariffRow>;
 };
 
@@ -1416,6 +1424,28 @@ export type StabilityDataResolvers<
     ParentType,
     ContextType
   >;
+  peerGroupMedianTotal?: Resolver<
+    ResolversTypes["Float"],
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianTrendTotal?: Resolver<
+    ResolversTypes["Trend"],
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianTrendUnplanned?: Resolver<
+    ResolversTypes["Trend"],
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianUnplanned?: Resolver<
+    ResolversTypes["Float"],
+    ParentType,
+    ContextType
+  >;
+  trendTotal?: Resolver<ResolversTypes["Trend"], ParentType, ContextType>;
+  trendUnplanned?: Resolver<ResolversTypes["Trend"], ParentType, ContextType>;
   yearlyData?: Resolver<
     Array<ResolversTypes["StabilityDataRow"]>,
     ParentType,
@@ -1597,8 +1627,18 @@ export type TariffsDataResolvers<
     ParentType,
     ContextType
   >;
+  operatorTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
+    ParentType,
+    ContextType
+  >;
   peerGroupMedianRate?: Resolver<
     Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  peerGroupMedianTrend?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
     ParentType,
     ContextType
   >;

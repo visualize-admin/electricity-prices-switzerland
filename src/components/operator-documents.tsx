@@ -162,33 +162,30 @@ export const OperatorDocumentsPopoverContent = ({
         </Box>
       ) : (
         CATEGORIES.map((category) => {
-            const docs = documentsByCategory.get(category.id);
-            if (!docs) return null;
+          const docs = documentsByCategory.get(category.id);
+          if (!docs) return null;
 
-            return (
-              <Accordion
-                key={category.id}
-                expanded={expanded === category.id}
-                onChange={(_, isExpanded) =>
-                  setExpanded(isExpanded ? category.id : false)
-                }
-                sx={{
-                  px: 10,
-                }}
-                disableGutters
-              >
-                <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
-                  {category.categoryLabel}
-                </AccordionSummary>
-                <AccordionDetails sx={{ "&&": { px: 0 } }}>
-                  <DocumentList
-                    itemLabel={category.itemLabel}
-                    documents={docs}
-                  />
-                </AccordionDetails>
-              </Accordion>
-            );
-          })
+          return (
+            <Accordion
+              key={category.id}
+              expanded={expanded === category.id}
+              onChange={(_, isExpanded) =>
+                setExpanded(isExpanded ? category.id : false)
+              }
+              sx={{
+                px: 10,
+              }}
+              disableGutters
+            >
+              <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+                {category.categoryLabel}
+              </AccordionSummary>
+              <AccordionDetails sx={{ "&&": { px: 0 } }}>
+                <DocumentList itemLabel={category.itemLabel} documents={docs} />
+              </AccordionDetails>
+            </Accordion>
+          );
+        })
       )}
     </>
   );
@@ -231,6 +228,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
         startIcon={<Icon name="download" size={20} />}
         onClick={handleOpen}
         color="tertiary"
+        sx={{ flexShrink: 0 }}
       >
         <Typography
           variant="body2"

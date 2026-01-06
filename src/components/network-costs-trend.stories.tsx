@@ -14,16 +14,14 @@ export const NetworkCostLatestYear = () => {
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
-      title="Dot Plot Chart"
+      title="Network Costs Trend Chart"
       reference="ElCom Library (Sunshine Indicators)"
     >
       <DesignGrid>
         <NetworkCostTrendChart
           id="11"
           operatorLabel="Fluxwave Energy"
-          observations={yearlyData.filter(
-            (d) => d.year === new Date().getFullYear()
-          )}
+          observations={yearlyData.filter((d) => d.year === 2025)}
           networkCosts={restNetworkCosts}
           viewBy="latest"
           compareWith={["sunshine.select-all"]}
@@ -42,9 +40,11 @@ export const NetworkCostLatestYearCard = () => {
     compareWith: ["sunshine.select-all"],
     viewBy: "latest",
   });
+  const date = new Date("2025-11-31T00:00:00Z");
+
   return (
     <DesignStory
-      title="Dot Plot Chart"
+      title="Network Costs Trend Card"
       reference="ElCom Library (Sunshine Indicators)"
     >
       <NetworkCostsTrendCard
@@ -55,8 +55,8 @@ export const NetworkCostLatestYearCard = () => {
         }}
         operatorLabel="Fluxwave Energy"
         networkCosts={networkCosts}
-        latestYear={new Date().getFullYear()}
-        updateDate={new Date().toISOString()}
+        latestYear={date.getFullYear()}
+        updateDate={date.toISOString()}
         operatorId="11"
         state={state}
         setQueryState={(newState) =>

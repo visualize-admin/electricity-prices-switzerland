@@ -99,18 +99,20 @@ export interface SunshineDataService {
   name: string;
   getNetworkCosts(params: {
     operatorId?: number;
+    operatorData?: OperatorDataRecord;
     period?: number;
-    peerGroup?: string;
     networkLevel?: NetworkLevel["id"];
   }): Promise<NetworkCostRecord[]>;
 
   getOperationalStandards(params: {
     operatorId: number;
+    operatorData?: OperatorDataRecord;
     period?: number;
   }): Promise<OperationalStandardRecord[]>;
 
   getStabilityMetrics(params: {
     operatorId?: number;
+    operatorData?: OperatorDataRecord;
     period?: number;
     peerGroup?: string;
   }): Promise<StabilityMetricRecord[]>;
@@ -133,8 +135,6 @@ export interface SunshineDataService {
   ): Promise<PeerGroupRecord<Metric>[]>;
 
   getLatestYearSunshine(operatorId: number): Promise<number>;
-
-  getLatestYearPowerStability(operatorId: number): Promise<string>;
 
   getOperatorPeerGroup(
     operatorId: number | string,
