@@ -159,7 +159,7 @@ export const getSunshineDetailsPageFromIndicator = (
   }
 };
 const sunshineDetailsSchema = z.object({
-  tab: detailTabsSchema,
+  tabDetails: detailTabsSchema,
 });
 
 export const energyPricesDetailsLink = makeLinkGenerator(

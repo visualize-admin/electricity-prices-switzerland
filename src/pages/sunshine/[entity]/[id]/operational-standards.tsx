@@ -325,7 +325,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
 
 const OperationalStandards = (props: Props) => {
   const { query } = useRouter();
-  const [{ tab: _tab }, setQueryState] = useQueryStateSunshineDetails();
+  const [{ tabDetails: _tab }, setQueryState] = useQueryStateSunshineDetails();
   const tab = ((_tab as OperationalStandardsTab) ??
     "outageInfo") satisfies OperationalStandardsTab;
 
@@ -344,7 +344,7 @@ const OperationalStandards = (props: Props) => {
     _: React.SyntheticEvent,
     newValue: OperationalStandardsTab
   ) => {
-    setQueryState({ tab: newValue });
+    setQueryState({ tabDetails: newValue });
   };
 
   const bannerContent = (
