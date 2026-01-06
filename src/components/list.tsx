@@ -115,6 +115,7 @@ const ListItems = ({
             entity={entity}
             selectedItem={selectedItem}
             onBack={() => setActiveId(null)}
+            formatValue={valueFormatter}
           />
         </InlineDrawer>
       )}

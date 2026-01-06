@@ -122,9 +122,12 @@ const sunshineIndicatorTableRows: Record<
 };
 
 const MapDetailsEntityTable = (
-  props: MapDetailProps & { colorScale: ScaleThreshold<number, string> }
+  props: MapDetailProps & {
+    colorScale: ScaleThreshold<number, string>;
+    formatValue: (value: number) => string;
+  }
 ) => {
-  const { entity, operators, colorScale } = props;
+  const { entity, operators, colorScale, formatValue } = props;
   const [{ tab }] = useQueryStateMapCommon();
   const [energyPricesQueryState] = useQueryStateEnergyPricesMap();
   const [sunshineQueryState] = useQueryStateSunshineMap();
@@ -168,7 +171,7 @@ const MapDetailsEntityTable = (
                 style={{ background: colorScale(operator.value) }}
                 label={
                   <Typography variant="body3" color="black">
-                    {formatNumber(operator.value)}
+                    {formatValue(operator.value)}
                   </Typography>
                 }
               />
@@ -242,7 +245,8 @@ export const MapDetailsContent: React.FC<{
   entity: Entity;
   selectedItem: ListItemType;
   onBack: () => void;
-}> = ({ colorScale, entity, selectedItem, onBack }) => {
+  formatValue: (value: number) => string;
+}> = ({ colorScale, entity, selectedItem, onBack, formatValue }) => {
   const [{ tab }] = useQueryStateMapCommon();
   const [
     {
@@ -260,6 +264,7 @@ export const MapDetailsContent: React.FC<{
         colorScale={colorScale}
         entity={entity}
         {...selectedItem}
+        formatValue={formatValue}
       />
       <Divider />
       {tab === "electricity" ? (

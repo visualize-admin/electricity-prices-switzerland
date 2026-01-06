@@ -324,6 +324,7 @@ const MapPageContent = ({
       entity={entity}
       selectedItem={selectedItem}
       onBack={() => setActiveId(null)}
+      formatValue={valueFormatter}
     />
   ) : null;
 
@@ -332,6 +333,7 @@ const MapPageContent = ({
       selectedItem={selectedItem}
       colorScale={colorScale}
       entity={entity}
+      formatValue={valueFormatter}
     />
   );
 
@@ -509,10 +511,12 @@ const DetailsDrawer = ({
   selectedItem,
   colorScale,
   entity,
+  formatValue,
 }: {
   selectedItem: ListItemType | undefined | null;
   colorScale: ScaleThreshold<number, string, never>;
   entity: Entity;
+  formatValue: (value: number) => string;
 }) => {
   const { setActiveId } = useMap();
   return (
@@ -523,6 +527,7 @@ const DetailsDrawer = ({
           entity={entity}
           selectedItem={selectedItem}
           onBack={() => setActiveId(null)}
+          formatValue={formatValue}
         />
       </InlineDrawer>
     )
