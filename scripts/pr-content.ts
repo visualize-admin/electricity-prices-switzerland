@@ -20,8 +20,9 @@ async function getCommitMessages(baseBranch: string): Promise<string[]> {
   const { stdout } = await execAsync(
     `git log --format=%B ${baseBranch}...head`
   );
-  log(`Retrieved ${stdout.split("\n").length} commit messages`);
-  return stdout.split("\n").filter((line) => line.trim() !== "");
+  const filtered = stdout.split("\n").filter((line) => line.trim() !== "");
+  log(`Retrieved ${filtered.length} commit messages`);
+  return filtered;
 }
 
 function extractIssueNumbers(text: string): string[] {
