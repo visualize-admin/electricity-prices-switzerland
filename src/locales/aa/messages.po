@@ -514,16 +514,8 @@ msgid "legend-item.total-peer-group-median"
 msgstr "legend-item.total-peer-group-median"
 
 #: src/components/sunshine-map.tsx
-msgid "legend.compliant"
-msgstr "legend.compliant"
-
-#: src/components/sunshine-map.tsx
 msgid "legend.no"
 msgstr "legend.no"
-
-#: src/components/sunshine-map.tsx
-msgid "legend.not-compliant"
-msgstr "legend.not-compliant"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.yes"

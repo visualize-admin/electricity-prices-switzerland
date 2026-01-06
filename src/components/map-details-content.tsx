@@ -303,7 +303,7 @@ export const MapDetailsContent: React.FC<{
                   selectedItem.id
                 }/${getSunshineDetailsPageFromIndicator(indicator)}`,
                 {
-                  tab:
+                  tabDetails:
                     indicator === "daysInAdvanceOutageNotification"
                       ? "outageInfo"
                       : indicator,

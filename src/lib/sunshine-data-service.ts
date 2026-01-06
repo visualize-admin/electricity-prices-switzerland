@@ -105,9 +105,10 @@ export interface SunshineDataService {
   }): Promise<NetworkCostRecord[]>;
 
   getOperationalStandards(params: {
-    operatorId: number;
+    operatorId?: number;
     operatorData?: OperatorDataRecord;
     period?: number;
+    peerGroup?: string;
   }): Promise<OperationalStandardRecord[]>;
 
   getStabilityMetrics(params: {

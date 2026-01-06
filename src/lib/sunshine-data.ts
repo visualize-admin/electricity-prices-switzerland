@@ -642,17 +642,24 @@ export const fetchOperationalStandards = async (
   } else {
     period = await db.getLatestYearSunshine(operatorId);
   }
+
   const operatorData = operatorData_
     ? operatorData_
     : await db.getOperatorData(operatorId, period);
-  const [operationalData, updateDate] = await Promise.all([
-    db.getOperationalStandards({
-      operatorId: operatorId,
-      operatorData: operatorData,
-      period: period,
-    }),
-    db.fetchUpdateDate(),
-  ]);
+  const [operationalData, peerGroupOperationalData, updateDate] =
+    await Promise.all([
+      db.getOperationalStandards({
+        operatorId: operatorId,
+        operatorData,
+        period: period,
+      }),
+      db.getOperationalStandards({
+        peerGroup: operatorData.peer_group,
+        operatorData,
+        period: period,
+      }),
+      db.fetchUpdateDate(),
+    ]);
 
   const data = operationalData[0] || {
     frankenRegel: 0,
@@ -666,6 +673,20 @@ export const fetchOperationalStandards = async (
   const informingCustomersOfOutage = data.info_yes_no;
   const timelyPaperSubmission = data.timely;
 
+  const operatorsNotificationPeriodDays = peerGroupOperationalData.map(
+    (op) => ({
+      operatorId: `${op.operator_id}`,
+      days: op.info_days_in_advance || 0,
+      year: `${op.period}`,
+    })
+  );
+
+  const operatorsFrancsPerInvoice = peerGroupOperationalData.map((op) => ({
+    operatorId: `${op.operator_id}`,
+    francsPerInvoice: op.franc_rule || 0,
+    year: `${op.period}`,
+  }));
+
   return {
     latestYear: `${period}`,
     operator: {
@@ -678,26 +699,14 @@ export const fetchOperationalStandards = async (
     serviceQuality: {
       notificationPeriodDays: data.info_days_in_advance || 0,
       informingCustomersOfOutage,
-      operatorsNotificationPeriodDays: [
-        {
-          operatorId: `${operatorId}`, // TODO
-          days: data.info_days_in_advance || 0,
-          year: `${period}`,
-        },
-      ],
+      operatorsNotificationPeriodDays,
     },
     compliance: {
       francsRule: Number.isFinite(data.franc_rule)
         ? `CHF ${data.franc_rule.toFixed(2)}`
         : "N/A",
       timelyPaperSubmission,
-      operatorsFrancsPerInvoice: [
-        {
-          operatorId: `${operatorId}`, // TODO
-          francsPerInvoice: data.franc_rule || 0,
-          year: `${period}`,
-        },
-      ],
+      operatorsFrancsPerInvoice,
     },
     updateDate,
   };

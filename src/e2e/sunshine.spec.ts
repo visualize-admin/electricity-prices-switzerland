@@ -222,6 +222,40 @@ test.describe("Sunshine map details panel", () => {
   });
 });
 
+const checkCategories = async (page: Page) => {
+  // Get the page content
+  const pageContent = page.getByTestId("details-page-content");
+  await expect(pageContent).toBeVisible();
+
+  const contentText = await pageContent.textContent();
+
+  // Verify only sunshine categories C2, C3, C4, C6, H2, H4, H7 are displayed
+  const sunshineCategories = ["C2", "C3", "C4", "C6", "H2", "H4", "H7"];
+  const foundCategories = sunshineCategories.filter((category) =>
+    contentText?.includes(category)
+  ).length;
+
+  // Expect at least some sunshine categories to be displayed
+  expect(foundCategories).toBeGreaterThan(0);
+
+  const nonSunshineCategories = [
+    "C1",
+    "C5",
+    "C7",
+    "H1",
+    "H3",
+    "H5",
+    "H6",
+    "H8",
+  ];
+  const foundNonSunshineCount = nonSunshineCategories.filter((category) => {
+    const regex = new RegExp(`\\b${category}\\b`);
+    return regex.test(contentText || "");
+  }).length;
+
+  expect(foundNonSunshineCount).toEqual(0);
+};
+
 test.describe("Sunshine Costs and Tariffs page", () => {
   test("it should display the correct title", async ({ page }) => {
     await page.goto("/en/sunshine/operator/36/costs-and-tariffs");
@@ -253,40 +287,6 @@ test.describe("Sunshine Costs and Tariffs page", () => {
       .click();
   });
 
-  const checkCategories = async (page: Page) => {
-    // Get the page content
-    const pageContent = page.getByTestId("details-page-content");
-    await expect(pageContent).toBeVisible();
-
-    const contentText = await pageContent.textContent();
-
-    // Verify only sunshine categories C2, C3, C4, C6, H2, H4, H7 are displayed
-    const sunshineCategories = ["C2", "C3", "C4", "C6", "H2", "H4", "H7"];
-    const foundCategories = sunshineCategories.filter((category) =>
-      contentText?.includes(category)
-    ).length;
-
-    // Expect at least some sunshine categories to be displayed
-    expect(foundCategories).toBeGreaterThan(0);
-
-    const nonSunshineCategories = [
-      "C1",
-      "C5",
-      "C7",
-      "H1",
-      "H3",
-      "H5",
-      "H6",
-      "H8",
-    ];
-    const foundNonSunshineCount = nonSunshineCategories.filter((category) => {
-      const regex = new RegExp(`\\b${category}\\b`);
-      return regex.test(contentText || "");
-    }).length;
-
-    expect(foundNonSunshineCount).toEqual(0);
-  };
-
   test("should only display sunshine categories in costs-and-tariffs page", async ({
     page,
   }) => {
@@ -294,7 +294,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
 
     // Navigate to operator 426 costs-and-tariffs page with net tariffs tab
     await page.goto(
-      "/en/sunshine/operator/426/costs-and-tariffs?tab=netTariffs"
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
     );
     await tracker.waitForRequests();
     await checkCategories(page);

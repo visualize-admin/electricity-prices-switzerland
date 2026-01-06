@@ -411,7 +411,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  { tab: "networkCosts" }
+                  { tabDetails: "networkCosts" }
                 )}
               >
                 <IconButton variant="outlined" color="primary" size="sm">
@@ -449,7 +449,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  { tab: "netTariffs" }
+                  { tabDetails: "netTariffs" }
                 )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
@@ -487,7 +487,7 @@ const OverviewPage = (props: Props) => {
               <Link
                 href={sunshineDetailsLink(
                   `/sunshine/${entity}/${id}/costs-and-tariffs`,
-                  { tab: "energyTariffs" }
+                  { tabDetails: "energyTariffs" }
                 )}
               >
                 <IconButton variant="outlined" size="sm" color="primary">
@@ -531,7 +531,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
-                { tab: "saidi" }
+                { tabDetails: "saidi" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -567,7 +567,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/power-stability`,
-                { tab: "saifi" }
+                { tabDetails: "saifi" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -597,7 +597,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
-                { tab: "outageInfo" }
+                { tabDetails: "outageInfo" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">
@@ -623,7 +623,7 @@ const OverviewPage = (props: Props) => {
             <Link
               href={sunshineDetailsLink(
                 `/sunshine/${entity}/${id}/operational-standards`,
-                { tab: "compliance" }
+                { tabDetails: "compliance" }
               )}
             >
               <IconButton variant="outlined" size="sm" color="primary">

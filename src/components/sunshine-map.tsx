@@ -292,7 +292,7 @@ const SunshineMap = ({
               indicator
             )}`,
             {
-              tab:
+              tabDetails:
                 indicator === "daysInAdvanceOutageNotification"
                   ? "outageInfo"
                   : indicator,

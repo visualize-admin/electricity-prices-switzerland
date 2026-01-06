@@ -224,7 +224,7 @@ describe("Query States", () => {
   describe("Sunshine Details Schema", () => {
     it("should handle tab parameter correctly", () => {
       const mockRouter = createMockRouter({
-        tab: "saidi",
+        tabDetails: "saidi",
       });
 
       const { result } = renderHook(() =>
@@ -232,7 +232,7 @@ describe("Query States", () => {
       );
 
       expect(result.current[0]).toEqual({
-        tab: "saidi",
+        tabDetails: "saidi",
       });
     });
   });
@@ -240,9 +240,9 @@ describe("Query States", () => {
   describe("Link Generator", () => {
     it("should generate correct link with query params", () => {
       const link = queryStates.sunshineDetailsLink("/details", {
-        tab: "saidi",
+        tabDetails: "saidi",
       });
-      expect(link).toBe("/details?tab=saidi#main-content");
+      expect(link).toBe("/details?tabDetails=saidi#main-content");
     });
 
     it("should correctly convert arrays to comma-separated strings in URLs", () => {
