@@ -4,7 +4,7 @@ import { Box, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { InfoDialogButton } from "src/components/info-dialog";
-import { Threshold } from "src/domain/charts";
+import { Threshold } from "src/domain/map-encodings";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";

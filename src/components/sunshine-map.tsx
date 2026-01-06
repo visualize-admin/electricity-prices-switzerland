@@ -28,7 +28,7 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
-import { thresholdEncodings } from "src/domain/charts";
+import { thresholdEncodings } from "src/domain/map-encodings";
 import { ValueFormatter } from "src/domain/data";
 import { networkLevelUnits } from "src/domain/metrics";
 import {

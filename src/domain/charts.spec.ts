@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createEncodings } from "./charts";
+import { createEncodings } from "./map-encodings";
 
 // Dummy palette with simple names for easy testing
 const dummyPalette = ["1", "2", "3", "4", "5"];
