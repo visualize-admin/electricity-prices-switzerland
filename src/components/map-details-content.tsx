@@ -8,7 +8,6 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
 import {
   energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
@@ -131,7 +130,6 @@ const MapDetailsEntityTable = (
   const [{ tab }] = useQueryStateMapCommon();
   const [energyPricesQueryState] = useQueryStateEnergyPricesMap();
   const [sunshineQueryState] = useQueryStateSunshineMap();
-  const formatNumber = useFormatCurrency();
 
   // Determine which table rows to show based on the current tab
   const tableRows =
