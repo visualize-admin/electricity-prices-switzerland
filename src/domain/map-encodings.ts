@@ -41,9 +41,7 @@ const createMakeScale = (
     const domainValues = thresholds
       .map((t) => t.value)
       .filter((v) => v !== undefined);
-    return scaleThreshold<number, string>()
-      .domain(domainValues)
-      .range(palette);
+    return scaleThreshold<number, string>().domain(domainValues).range(palette);
   };
 };
 
@@ -123,24 +121,22 @@ export const createEncodings = (palette: string[]) => {
   };
 
   const complianceThresholdEncoding: ThresholdEncoding = (
-    _medianValue,
-    _values,
+    medianValue,
+    values,
     year,
     paletteParam
   ) => {
-    const usePalette = paletteParam ?? yesNoPalette;
-    const yesNoFromPalette = [last(usePalette), first(usePalette)] as string[];
-
-    const thresholds = [
-      // Labels are not used in this case, but kept for consistency
-      { value: year >= 2026 ? 60.01 : 75.01, label: "No" },
-      { value: year >= 2026 ? 60.01 : 75.01, label: "Yes" },
-    ];
+    const result = defaultThresholdEncoding(
+      medianValue,
+      values,
+      year,
+      paletteParam
+    );
 
     return {
-      thresholds,
-      palette: yesNoFromPalette,
-      makeScale: createMakeScale(thresholds, yesNoFromPalette),
+      thresholds: result.thresholds,
+      palette: result.palette,
+      makeScale: createMakeScale(result.thresholds, result.palette),
     };
   };
 

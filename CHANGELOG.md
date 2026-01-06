@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Franc rule is now a sequential color palette [#469](https://github.com/visualize-admin/electricity-prices-switzerland/issues/469)
 
 # 2.30.1 - 2025-12-15
 

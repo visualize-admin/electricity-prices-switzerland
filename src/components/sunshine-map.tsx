@@ -28,8 +28,8 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
-import { thresholdEncodings } from "src/domain/map-encodings";
 import { ValueFormatter } from "src/domain/data";
+import { thresholdEncodings } from "src/domain/map-encodings";
 import { networkLevelUnits } from "src/domain/metrics";
 import {
   getSunshineDetailsPageFromIndicator,
@@ -398,36 +398,13 @@ const SunshineMap = ({
   const legendId = useId();
 
   const legend = useMemo(() => {
-    if (indicator === "compliance" || indicator === "outageInfo") {
+    if (indicator === "outageInfo") {
       const thresholdEncoding = thresholdEncodings[indicator];
       const { thresholds, palette } = thresholdEncoding(undefined, [], +period);
-      // This should come from the encoding function to avoid duplication
-      // but right now the encoding function does not have access to t
-      const thresholdValue = thresholds[0].value ?? 0;
-      const ticks =
-        indicator === "compliance"
-          ? [
-              {
-                value: 1,
-                label: t({
-                  id: "legend.compliant",
-                  message: "Compliant (≤ {threshold})",
-                  values: { threshold: Math.round(thresholdValue) },
-                }),
-              },
-              {
-                value: 0,
-                label: t({
-                  id: "legend.not-compliant",
-                  message: "Not compliant (> {threshold})",
-                  values: { threshold: Math.round(thresholdValue) },
-                }),
-              },
-            ]
-          : [
-              { value: 0, label: t({ id: "legend.no", message: "No" }) },
-              { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
-            ];
+      const ticks = [
+        { value: 0, label: t({ id: "legend.no", message: "No" }) },
+        { value: 1, label: t({ id: "legend.yes", message: "Yes" }) },
+      ];
       // Get palette for consistency
 
       return (
@@ -437,11 +414,7 @@ const SunshineMap = ({
           ticks={ticks}
           mode="yesNo"
           palette={palette}
-          infoDialogButtonProps={
-            indicator === "compliance"
-              ? getInfoDialogProps("help-compliance")
-              : getInfoDialogProps("help-outageInfo")
-          }
+          infoDialogButtonProps={getInfoDialogProps("help-outageInfo")}
           thresholds={thresholds}
         />
       );
