@@ -261,7 +261,7 @@ const useHistogramState = ({
       })
     : [{ height: 0, nbOfLines: 1 }];
 
-  let bandScale: d3.ScaleBand<string> | undefined ;
+  let bandScale: d3.ScaleBand<string> | undefined;
   let bandDomain: string[] = [];
   if (groupedBy && binMeta) {
     bandDomain = binMeta.map((b, i) => b.label ?? String(i));
@@ -273,7 +273,11 @@ const useHistogramState = ({
   }
 
   const getAnnotationInfo = (
-    d: Bin<GenericObservation, number> & { metaIndex?: number; label?: string }
+    d: Bin<GenericObservation, number> & {
+      metaIndex?: number;
+      label?: string;
+      type?: BinType;
+    }
   ) => {
     let xAnchor;
     const binIndex = d.metaIndex ?? 0;
@@ -289,8 +293,8 @@ const useHistogramState = ({
       yAnchor: yScale(getY(d)),
       xValue: "",
       tooltipContent: (
-        <>
-          <Box sx={{ alignItems: "center", gap: "0.375rem" }} display="flex">
+        <Box display="flex" flexDirection="column" gap="0.25rem">
+          <Box alignItems="center" gap="0.375rem" display="flex">
             <LegendSymbol
               symbol="square"
               color={getBarColor({
@@ -303,14 +307,18 @@ const useHistogramState = ({
               })}
             />
             <Typography variant="caption" sx={{ fontWeight: 700 }}>
-              {d.label || `${d.x0}-${d.x1}`}
-              {xAxisUnit}
+              {d.label || `${d.x0}-${d.x1}`}{" "}
+              {d.type !== "no-data" ? xAxisUnit : ""}
             </Typography>
           </Box>
-          <Typography variant="caption">
+          <Typography
+            variant="caption"
+            lineHeight={1.5}
+            display="block"
+          >
             {yAxisLabel}: {formatPercentage(d.length / totalCount)}
           </Typography>
-        </>
+        </Box>
       ),
     };
   };
@@ -330,22 +338,21 @@ const useHistogramState = ({
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, annotationSpace || 0]);
 
-  const annotations =
-    annotation
-      ?.sort((a, b) => ascending(getX(a), getX(b)))
-      .map((datum, i) => {
-        return {
-          datum,
-          x: xScale(getX(datum)),
-          y: yScale(0),
-          xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i + 1].height - 40,
-          nbOfLines: annotationSpaces[i + 1].nbOfLines,
-          value: formatCurrency(getX(datum)),
-          label: getLabel(datum),
-          onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2 ),
-        };
-      });
+  const annotations = annotation
+    ?.sort((a, b) => ascending(getX(a), getX(b)))
+    .map((datum, i) => {
+      return {
+        datum,
+        x: xScale(getX(datum)),
+        y: yScale(0),
+        xLabel: xScale(getX(datum)),
+        yLabel: annotationSpaces[i + 1].height - 40,
+        nbOfLines: annotationSpaces[i + 1].nbOfLines,
+        value: formatCurrency(getX(datum)),
+        label: getLabel(datum),
+        onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2),
+      };
+    });
 
   return {
     bounds,

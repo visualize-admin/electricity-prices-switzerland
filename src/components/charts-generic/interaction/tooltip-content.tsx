@@ -20,8 +20,8 @@ export const TooltipSingle = ({
   color?: string;
 }) => {
   return (
-    <Box>
-      <Box sx={{ alignItems: "center" }} display="flex">
+    <div>
+      <Box alignItems="center" display="flex">
         {color && <LegendSymbol color={color} symbol="square" />}
         {xValue && (
           <Typography variant="caption" sx={{ fontWeight: 700 }}>
@@ -31,7 +31,7 @@ export const TooltipSingle = ({
       </Box>
       {segment && <Typography variant="caption">{segment}</Typography>}
       {yValue && <Typography variant="caption">{yValue}</Typography>}
-    </Box>
+    </div>
   );
 };
 
@@ -43,7 +43,7 @@ export const TooltipMultiple = ({
   segmentValues: TooltipValue[];
 }) => {
   return (
-    <Box>
+    <div>
       {xValue && (
         <Typography variant="caption" display="block" fontWeight={700}>
           {xValue}
@@ -67,6 +67,6 @@ export const TooltipMultiple = ({
           />
         ) : null
       )}
-    </Box>
+    </div>
   );
 };

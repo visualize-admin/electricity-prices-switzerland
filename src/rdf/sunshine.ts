@@ -310,42 +310,63 @@ const getOperationalStandards = async (
   {
     operatorId,
     period,
+    peerGroup,
   }: {
-    operatorId: number;
+    operatorId?: number;
     period?: number;
+    peerGroup?: string;
   }
 ): Promise<OperationalStandardRecord[]> => {
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
     : `:period ?period`;
 
-  const values = period ? `VALUES ?period { "${period.toString()}" } ` : "";
+  const groupFilter =
+    peerGroup && peerGroup !== "all_grid_operators"
+      ? `:group <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>;`
+      : "";
+
+  const values = `
+    ${
+      operatorId
+        ? `VALUES ?operator { <${convertOperatorIdToUri(operatorId)}> } `
+        : ""
+    }
+    ${period ? `VALUES ?period { "${period.toString()}" } ` : ""}
+  `;
 
   const query = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
     PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
-    
-    SELECT ?operator_name ?period ?franken_regel ?info ?days_in_advance ?in_time
+
+    SELECT ?operator ?operator_name ?period ?franken_regel ?info ?days_in_advance ?in_time
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
 
       ${values}
       ?obs
-        :operator <${convertOperatorIdToUri(operatorId)}> ;
+        ${groupFilter}
+        :operator ?operator ;
         ${periodFilter} ;
         :franken_regel ?franken_regel ;
         :info ?info ;
         :days_in_advance ?days_in_advance ;
         :in_time ?in_time .
-      
-      <${convertOperatorIdToUri(operatorId)}> schema:name ?operator_name .
+      ${
+        operatorId
+          ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId)}>)`
+          : ""
+      }
+
+      ?operator schema:name ?operator_name .
     }
-    ORDER BY DESC(?period)
+    ORDER BY DESC(?period) ?operator
   `;
 
   const results = await executeSparqlQuery<{
+    operator: string;
     operator_name: string;
     period: string;
     franken_regel: string;
@@ -355,7 +376,7 @@ const getOperationalStandards = async (
   }>(client, query);
 
   return results.map((row) => ({
-    operator_id: operatorId,
+    operator_id: extractOperatorIdFromUri(row.operator),
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
     franc_rule: parseFloatOrUndefined(row.franken_regel),
