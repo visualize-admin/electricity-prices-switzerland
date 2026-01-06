@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -508,6 +508,10 @@ msgstr "Andere Betreiber"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Median der Vergleichsgruppe"
+
+#: src/components/power-stability-chart.tsx
+msgid "legend-item.total-peer-group-median"
+msgstr "Insgesamt (Median der Peer Group)"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
@@ -1024,7 +1028,7 @@ msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr "Frankenregel"
+msgstr "Kosten und Gewinn Energievertrieb"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
@@ -1335,7 +1339,7 @@ msgstr "Franken-Regel"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Tage im Voraus für die Meldung von Ausfällen"
+msgstr "So viele Tage im Voraus erfolgt die Meldung von Unterbrüchen"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1434,7 +1438,7 @@ msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zu den maximalen Kosten bzw. dem Gewinn im Vertrieb eingehalten werden und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
+msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zu den maximalen Kosten bzw. dem Gewinn im Vertrieb (sog. \"Frankenregel\" zur Kostenobergrenze) eingehalten werden und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
@@ -1553,6 +1557,14 @@ msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "Peer Group Median (Gesamt)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "Median der Peer Group (ungeplant)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
 msgstr "Insgesamt"
 
@@ -1584,6 +1596,14 @@ msgstr "Total Häufigkeit von Stromunterbrechungen (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "Peer Group Median (Gesamt)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "Median der Peer Group (ungeplant)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"

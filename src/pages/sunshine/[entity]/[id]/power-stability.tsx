@@ -38,7 +38,6 @@ import {
 import { SunshinePowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
-import { Trend } from "src/graphql/resolver-types";
 import { fetchPowerStability } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
@@ -97,7 +96,13 @@ export const SaidiDocument = gql`
   query Saidi($filter: StabilityFilter!) {
     saidi(filter: $filter) {
       operatorTotal
+      peerGroupMedianTotal
+      peerGroupMedianTrendTotal
+      trendTotal
       operatorUnplanned
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendUnplanned
+      trendUnplanned
       yearlyData {
         year
         total
@@ -113,7 +118,13 @@ export const SaifiDocument = gql`
   query Saifi($filter: StabilityFilter!) {
     saifi(filter: $filter) {
       operatorTotal
+      peerGroupMedianTotal
+      peerGroupMedianTrendTotal
+      trendTotal
       operatorUnplanned
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendUnplanned
+      trendUnplanned
       yearlyData {
         year
         total
@@ -172,8 +183,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saidi.operatorTotal,
           unit: MIN_PER_YEAR,
-          // TODO Compute the trend
-          trend: Trend.Down,
+          trend: data.saidi.trendTotal,
           round: 2,
         },
       },
@@ -184,9 +194,34 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         value: {
           value: data.saidi.operatorUnplanned,
           unit: MIN_PER_YEAR,
-          // TODO Compute the trend
-          trend: Trend.Stable,
+          trend: data.saidi.trendUnplanned,
           round: 2,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.power-stability.saidi.peer-group-median-total">
+            Peer Group Median (Total)
+          </Trans>
+        ),
+        value: {
+          value: data.saidi.peerGroupMedianTotal,
+          unit: MIN_PER_YEAR,
+          round: 2,
+          trend: data.saidi.peerGroupMedianTrendTotal,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.power-stability.saidi.peer-group-median-unplanned">
+            Peer Group Median (Unplanned)
+          </Trans>
+        ),
+        value: {
+          value: data.saidi.peerGroupMedianUnplanned,
+          unit: MIN_PER_YEAR,
+          round: 2,
+          trend: data.saidi.peerGroupMedianTrendUnplanned,
         },
       },
     ],
@@ -283,8 +318,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           value: data.saifi.operatorTotal,
           unit: ANZAHL_PER_YEAR,
           round: 2,
-          // TODO Compute the trend
-          trend: Trend.Down,
+          trend: data.saifi.trendTotal,
         },
       },
       {
@@ -295,8 +329,33 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           value: data.saifi.operatorUnplanned,
           unit: ANZAHL_PER_YEAR,
           round: 2,
-          // TODO Compute the trend
-          trend: Trend.Stable,
+          trend: data.saifi.trendUnplanned,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.power-stability.saifi.peer-group-median-total">
+            Peer Group Median (Total)
+          </Trans>
+        ),
+        value: {
+          value: data.saifi.peerGroupMedianTotal,
+          unit: MIN_PER_YEAR,
+          round: 2,
+          trend: data.saifi.peerGroupMedianTrendTotal,
+        },
+      },
+      {
+        label: (
+          <Trans id="sunshine.power-stability.saifi.peer-group-median-unplanned">
+            Peer Group Median (Unplanned)
+          </Trans>
+        ),
+        value: {
+          value: data.saifi.peerGroupMedianUnplanned,
+          unit: MIN_PER_YEAR,
+          round: 2,
+          trend: data.saifi.peerGroupMedianTrendUnplanned,
         },
       },
     ],

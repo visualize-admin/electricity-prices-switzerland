@@ -317,7 +317,9 @@ type NetworkCostRow {
 type TariffsData {
   category: ElectricityCategory!
   operatorRate: Float
+  operatorTrend: Trend
   peerGroupMedianRate: Float
+  peerGroupMedianTrend: Trend
   yearlyData: [TariffRow!]!
 }
 
@@ -354,6 +356,12 @@ type StabilityDataRow {
 type StabilityData {
   operatorTotal: Float!
   operatorUnplanned: Float!
+  trendTotal: Trend!
+  trendUnplanned: Trend!
+  peerGroupMedianTotal: Float!
+  peerGroupMedianUnplanned: Float!
+  peerGroupMedianTrendTotal: Trend!
+  peerGroupMedianTrendUnplanned: Trend!
   yearlyData: [StabilityDataRow!]!
 }
 

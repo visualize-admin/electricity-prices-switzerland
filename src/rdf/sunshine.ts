@@ -19,6 +19,8 @@ import type {
   TariffRecord,
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
+import { createMemoize } from "src/utils/memoize";
+import { withPerformanceLog } from "src/utils/performance-log";
 
 const yesPredicateValue =
   "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
@@ -188,6 +190,8 @@ const parseFloatOrUndefined = <T extends string | undefined>(
   ) as T extends string ? number : undefined;
 };
 
+const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
+
 const getNetworkCosts = async (
   client: ParsingClient,
   {
@@ -197,7 +201,6 @@ const getNetworkCosts = async (
   }: {
     operatorId?: number;
     period?: number;
-    peerGroup?: string;
     networkLevel?: NetworkLevel["id"];
   } = {}
 ): Promise<NetworkCostRecord[]> => {
@@ -278,37 +281,21 @@ const getNetworkCosts = async (
     const operatorName = row.operator_name;
 
     // Convert the SPARQL results to NetworkCostRecord format
-    if (networkLevel) {
-      const rateKey =
-        `gridcost_${networkLevel.toLowerCase()}` as keyof typeof row;
-      const rate = row[rateKey];
-      if (rate) {
+    const levels: Array<{ level: NetworkLevel["id"]; rate?: string }> = [
+      { level: "NE5" as const, rate: row.gridcost_ne5 },
+      { level: "NE6" as const, rate: row.gridcost_ne6 },
+      { level: "NE7" as const, rate: row.gridcost_ne7 },
+    ].filter(({ level }) => !networkLevel || level === networkLevel);
+
+    for (const { level, rate } of levels) {
+      if (rate && isValidNumber(parseFloatOrUndefined(rate))) {
         networkCosts.push({
           operator_id: operatorId,
           operator_name: operatorName,
           year,
-          network_level: networkLevel,
+          network_level: level,
           rate: parseFloatOrUndefined(rate),
         });
-      }
-    } else {
-      // Return all network levels
-      const levels: Array<{ level: NetworkLevel["id"]; rate?: string }> = [
-        { level: "NE5", rate: row.gridcost_ne5 },
-        { level: "NE6", rate: row.gridcost_ne6 },
-        { level: "NE7", rate: row.gridcost_ne7 },
-      ];
-
-      for (const { level, rate } of levels) {
-        if (rate) {
-          networkCosts.push({
-            operator_id: operatorId,
-            operator_name: operatorName,
-            year,
-            network_level: level,
-            rate: parseFloatOrUndefined(rate),
-          });
-        }
       }
     }
   }
@@ -865,37 +852,6 @@ const getLatestYearSunshine = async (
   return results.length > 0 ? parseInt(results[0].period, 10) : 2024;
 };
 
-const getLatestYearPowerStability = async (
-  client: ParsingClient,
-  operatorId: number
-): Promise<string> => {
-  const query = `
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX cube: <https://cube.link/>
-    PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
-    
-    SELECT ?period
-    WHERE {
-      <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
-      ?obs
-        :operator <${convertOperatorIdToUri(operatorId)}> ;
-        :period ?period ;
-        ?stabilityProperty ?stabilityValue .
-      
-      FILTER(?stabilityProperty IN (:saidi_total, :saidi_unplanned, :saifi_total, :saifi_unplanned))
-      FILTER(BOUND(?stabilityValue))
-    }
-    ORDER BY DESC(?period)
-    LIMIT 1
-  `;
-
-  const results = await executeSparqlQuery<{
-    period: string;
-  }>(client, query);
-
-  return results.length > 0 ? results[0].period : "2024";
-};
-
 const getOperatorPeerGroup = async (
   client: ParsingClient,
   _operatorId: number | string,
@@ -1234,47 +1190,65 @@ const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
     : new Date().toISOString().split("T")[0];
 };
 
+// Helper to create memoized method with JSON stringify resolver
+const memoizeWithJsonKey = <
+  T extends (...args: $IntentionalAny[]) => $IntentionalAny
+>(
+  fn: T,
+  label: string
+): T => createMemoize(fn, label);
+
+// Helper to wrap service methods with memoization and performance logging
+const wrapServiceMethod = <
+  T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>
+>(
+  methodName: string,
+  fn: T
+): T => withPerformanceLog(methodName, memoizeWithJsonKey(fn, methodName));
+
 export const createSunshineDataService = (
   client: ParsingClient
 ): SunshineDataService => ({
   name: "sparql",
-  getNetworkCosts: (params) => {
-    return getNetworkCosts(client, params);
-  },
-  getOperationalStandards: (params) => {
-    return getOperationalStandards(client, params);
-  },
-  getStabilityMetrics: (params) => {
-    return getStabilityMetrics(client, params);
-  },
-  getTariffs: (params) => {
-    return getTariffs(client, params);
-  },
-  getOperatorData: (operatorId, period) => {
-    return getOperatorData(client, operatorId, period);
-  },
-  getYearlyIndicatorMedians: (params) => {
-    return getYearlyIndicatorMedians(client, params);
-  },
-  getLatestYearSunshine: (operatorId) => {
-    return getLatestYearSunshine(client, operatorId);
-  },
-  getLatestYearPowerStability: (operatorId) => {
-    return getLatestYearPowerStability(client, operatorId);
-  },
-  getOperatorPeerGroup: (operatorId, period) => {
-    return getOperatorPeerGroup(client, operatorId, period);
-  },
-  getPeerGroups: (locale) => {
-    return getPeerGroups(client, locale);
-  },
-  getSunshineData: (params) => {
-    return getSunshineData(client, params);
-  },
-  getSunshineDataByIndicator: (params) => {
-    return getSunshineDataByIndicator(client, params);
-  },
-  fetchUpdateDate: () => {
-    return fetchUpdateDate(client);
-  },
+  getNetworkCosts: wrapServiceMethod("getNetworkCosts", (params) =>
+    getNetworkCosts(client, params)
+  ),
+  getOperationalStandards: wrapServiceMethod(
+    "getOperationalStandards",
+    (params) => getOperationalStandards(client, params)
+  ),
+  getStabilityMetrics: wrapServiceMethod("getStabilityMetrics", (params) =>
+    getStabilityMetrics(client, params)
+  ),
+  getTariffs: wrapServiceMethod("getTariffs", (params) =>
+    getTariffs(client, params)
+  ),
+  getOperatorData: wrapServiceMethod("getOperatorData", (operatorId, period) =>
+    getOperatorData(client, operatorId, period)
+  ),
+  getYearlyIndicatorMedians: wrapServiceMethod(
+    "getYearlyIndicatorMedians",
+    (params) => getYearlyIndicatorMedians(client, params)
+  ),
+  getLatestYearSunshine: wrapServiceMethod(
+    "getLatestYearSunshine",
+    (operatorId) => getLatestYearSunshine(client, operatorId)
+  ),
+  getOperatorPeerGroup: wrapServiceMethod(
+    "getOperatorPeerGroup",
+    (operatorId, period) => getOperatorPeerGroup(client, operatorId, period)
+  ),
+  getPeerGroups: wrapServiceMethod("getPeerGroups", (locale) =>
+    getPeerGroups(client, locale)
+  ),
+  getSunshineData: wrapServiceMethod("getSunshineData", (params) =>
+    getSunshineData(client, params)
+  ),
+  getSunshineDataByIndicator: wrapServiceMethod(
+    "getSunshineDataByIndicator",
+    (params) => getSunshineDataByIndicator(client, params)
+  ),
+  fetchUpdateDate: wrapServiceMethod("fetchUpdateDate", () =>
+    fetchUpdateDate(client)
+  ),
 });

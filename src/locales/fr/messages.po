@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -403,7 +403,7 @@ msgstr "Indicateurs d’efficacité Sunshine"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "La qualité de service indique dans quelle mesure les clients sont informés des pannes prévues du réseau. La conformité mesure la constance avec laquelle un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
+msgstr "La qualité de service indique dans quelle mesure les clients sont informés des interruptions prévues du réseau. La conformité montre dans quelle mesure un gestionnaire de réseau respecte les lois, les réglementations et les normes internes."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -486,15 +486,15 @@ msgstr "Coûts du réseau"
 
 #: src/domain/translation.tsx
 msgid "indicator.outage-info"
-msgstr "Informations sur les pannes"
+msgstr "Informations sur les interruptions"
 
 #: src/domain/translation.tsx
 msgid "indicator.saidi"
-msgstr "Durée de la panne d'électricité (SAIDI)"
+msgstr "Durée de l'interruption d'électricité (SAIDI)"
 
 #: src/domain/translation.tsx
 msgid "indicator.saifi"
-msgstr "Fréquence des pannes d'électricité (SAIFI)"
+msgstr "Fréquence des interruptions d'électricité (SAIFI)"
 
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
@@ -511,6 +511,10 @@ msgstr "Autres opérateurs"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "legend-item.peer-group-median"
 msgstr "Médiane du groupe de référence"
+
+#: src/components/power-stability-chart.tsx
+msgid "legend-item.total-peer-group-median"
+msgstr "Total (médiane du groupe de référence)"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.compliant"
@@ -1027,7 +1031,7 @@ msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr "Règle du franc"
+msgstr "Coûts et bénéfices de la distribution d'énergie"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
@@ -1341,7 +1345,7 @@ msgstr "Règle du franc"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Jours à l'avance pour signaler les pannes"
+msgstr "Les interruptions sont signalées autant de jours à l'avance"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1369,7 +1373,7 @@ msgstr "Durée de la coupure de courant (SAIDI) en minutes"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.saifi"
-msgstr "Fréquence des pannes de courant (SAIFI) par an"
+msgstr "Fréquence des interruptions de courant (SAIFI) par an"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1440,11 +1444,11 @@ msgstr "Part des gestionnaires de réseau"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Sur cette page, les principaux indicateurs sont évalués afin de fournir des informations sur la qualité des prestations des entreprises de fourniture d’électricité. Ces indicateurs incluent la qualité du service, qui évalue dans quelle mesure les entreprises informent leurs consommateurs des interruptions de courant prévues, ainsi que la conformité, qui garantit que les règles de l’ElCom relatives au bénéfice maximal dans la distribution sont respectées et que les documents officiels sont soumis dans les délais à la Commission fédérale de l’électricité (ElCom)."
+msgstr "Sur cette page, les principaux indicateurs sont évalués afin de fournir des informations sur la qualité des prestations des entreprises de fourniture d’électricité. Ces indicateurs incluent la qualité du service, qui évalue dans quelle mesure les entreprises informent leurs consommateurs des interruptions de courant prévues, ainsi que la conformité, qui garantit que les règles de l’ElCom relatives aux coûts et au bénéfice maximal dans la distribution (\"règle de plafonnement des coûts\") sont respectées et que les documents officiels sont soumis dans les délais à la Commission fédérale de l’électricité (ElCom)."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
-msgstr "Informations sur les pannes"
+msgstr "Informations sur les interruptions"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
@@ -1531,11 +1535,11 @@ msgstr "Ratio"
 
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.ratio-tooltip"
-msgstr "Afficher la comparaison entre les différentes valeurs."
+msgstr "Afficher comment les valeurs relatives se comportent les unes par rapport aux autres."
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.power-stability.saidi"
-msgstr "Durée de la panne d'électricité (SAIDI)"
+msgstr "Durée des interruptions d'électricité (SAIDI)"
 
 #: src/components/map-details-chart-adapters.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
@@ -1557,6 +1561,14 @@ msgstr "Durée totale des interruptions"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durée des interruptions de courant (SAIDI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "Médiane du groupe de référence (total)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "Médiane du groupe de référence (non planifiée)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
@@ -1590,6 +1602,14 @@ msgstr "Fréquence totale des interruptions de courant (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Fréquence moyenne des interruptions de courant (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "Médiane du groupe de référence (total)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "Médiane du groupe de référence (non planifiée)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"

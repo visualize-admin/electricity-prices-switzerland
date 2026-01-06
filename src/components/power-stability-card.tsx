@@ -393,6 +393,11 @@ export const PowerStabilityCardMinified: React.FC<
   });
   const { viewBy, saidiSaifiType: duration, overallOrRatio } = state;
   const chartData = getPowerStabilityCardState(rest, state);
+  const {
+    updateDate: _updateDate,
+    operatorId: _operatorId,
+    ...overviewCardProps
+  } = rest;
   return (
     <OverviewCard
       title={cardTitle}
@@ -410,7 +415,7 @@ export const PowerStabilityCardMinified: React.FC<
           rootProps={{ sx: { mt: 2 } }}
         />
       }
-      {...rest}
+      {...overviewCardProps}
       infoDialogProps={
         indicator === "saidi"
           ? getInfoDialogProps("help-saidi")

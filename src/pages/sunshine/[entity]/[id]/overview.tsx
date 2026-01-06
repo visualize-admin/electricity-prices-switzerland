@@ -17,6 +17,7 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { SafeHydration } from "src/components/hydration";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
 import { PowerStabilityCardMinified } from "src/components/power-stability-card";
@@ -103,17 +104,29 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
+    const operatorId = parseInt(id, 10);
+    const period = await sunshineDataService.getLatestYearSunshine(operatorId);
+    const operatorData = await sunshineDataService.getOperatorData(
+      operatorId,
+      period
+    );
     const [operationalStandards, powerStability, costsAndTariffs] =
       await Promise.all([
         fetchOperationalStandards(sunshineDataService, {
+          period,
           operatorId: id,
+          operatorData,
         }),
         fetchPowerStability(sunshineDataService, {
           operatorId: id,
           operatorOnly: true,
+          operatorData,
+          period,
         }),
         fetchOperatorCostsAndTariffsData(sunshineDataService, {
+          period,
           operatorId: id,
+          operatorData,
           networkLevel: "NE7",
           category: "H4",
           operatorOnly: true,
@@ -629,13 +642,15 @@ const OverviewPage = (props: Props) => {
       {props.status === "found" && (
         <SessionConfigDebug flags={props.sessionConfig.flags} />
       )}
-      <DetailsPageLayout
-        title={pageTitle}
-        BannerContent={bannerContent}
-        SidebarContent={sidebarContent}
-        MainContent={mainContent}
-        download={query.download}
-      />
+      <SafeHydration>
+        <DetailsPageLayout
+          title={pageTitle}
+          BannerContent={bannerContent}
+          SidebarContent={sidebarContent}
+          MainContent={mainContent}
+          download={query.download}
+        />
+      </SafeHydration>
     </>
   );
 };
