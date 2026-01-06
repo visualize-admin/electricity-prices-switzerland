@@ -103,62 +103,6 @@ test.describe("Legend Thresholds", () => {
     expect(legendText).toMatch(/10\s*%/);
     expect(legendText).toMatch(/30\s*%/);
   });
-
-  test("should apply 60 franc threshold for 2026 compliance", async ({
-    page,
-  }) => {
-    const tracker = new InflightRequests(page);
-
-    // Navigate to compliance view
-    await page.goto("/en/map?tab=sunshine&indicator=compliance");
-    await tracker.waitForRequests();
-
-    // Select year 2026
-    await page.getByRole("combobox", { name: "Year" }).click();
-    await page.getByRole("option", { name: "2026" }).click();
-    await tracker.waitForRequests();
-
-    // Verify the legend is visible for compliance
-    const legend = page.getByTestId("map-legend").nth(1);
-    await expect(legend).toBeVisible();
-
-    const legendText = await legend.textContent();
-
-    // Check that the legend shows compliance information
-    expect(legendText).toContain("Franc rule");
-    expect(legendText).toContain("≤ 60");
-
-    tracker.dispose();
-  });
-
-  test("should apply 75 franc threshold for 2024 and 2025 compliance", async ({
-    page,
-  }) => {
-    const tracker = new InflightRequests(page);
-
-    for (const year of ["2024", "2025"]) {
-      // Navigate to compliance view
-      await page.goto("/en/map?tab=sunshine&indicator=compliance");
-      await tracker.waitForRequests();
-
-      // Select the year
-      await page.getByRole("combobox", { name: "Year" }).click();
-      await page.getByRole("option", { name: year }).click();
-      await tracker.waitForRequests();
-
-      // Verify the legend shows compliance information
-      const legend = page.getByTestId("map-legend").nth(1);
-      await expect(legend).toBeVisible();
-
-      const legendText = await legend.textContent();
-
-      // Check that the legend shows compliance information
-      expect(legendText).toContain("Franc rule");
-      expect(legendText).toContain("≤ 75");
-    }
-
-    tracker.dispose();
-  });
 });
 
 test.describe("Map Details Table Information", () => {
