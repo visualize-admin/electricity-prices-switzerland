@@ -397,7 +397,7 @@ msgstr "Panoramica"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.description"
-msgstr "In Svizzera, le tariffe dell’elettricità si basano sui costi effettivi (regolazione cost plus). La ElCom ha introdotto la regolazione Sunshine per promuovere l'efficienza e creare trasparenza. I suoi indicatori permettono di effettuare dei confronti tra i gestori di rete in termini di efficienza dei costi, della qualità dell'approvvigionamento, della qualità del servizio e della compliance. Le differenze topografiche e strutturali possono influenzare tali valori, perciò i paragoni vengono effettuati sia a livello nazionale sia all'interno di gruppi di confronto basati sulla densità abitativa e sulla densità energetica."
+msgstr "In Svizzera, le tariffe dell’elettricità si basano sui costi effettivi (regolazione cost plus). La ElCom ha introdotto la regolazione Sunshine per promuovere l'efficienza e creare trasparenza. I suoi indicatori permettono di effettuare dei confronti tra i gestori di rete in termini di efficienza dei costi, della qualità dell'approvvigionamento, della qualità del servizio e della conformità. Le differenze topografiche e strutturali possono influenzare tali valori, perciò i paragoni vengono effettuati sia a livello nazionale sia all'interno di gruppi di confronto basati sulla densità abitativa e sulla densità energetica."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-regulation.title"
@@ -405,7 +405,7 @@ msgstr "Indicatori di efficienza"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.description"
-msgstr "La qualità del servizio indica quanto bene i clienti siano informati riguardo alle interruzioni di rete pianificate. La compliance misura quanto rigorosamente un gestore di rete rispetta leggi, regolamenti e standard interni."
+msgstr "La qualità del servizio indica in che misura i clienti sono informati riguardo alle interruzioni pianificate della rete. La compliance misura quanto rigorosamente un gestore di rete rispetta leggi, regolamenti e standard interni."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.compliance.title"
@@ -429,7 +429,7 @@ msgstr "Qualità dell'approvvigionamento"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Compliance"
+msgstr "Conformità"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
@@ -465,7 +465,7 @@ msgstr "Scaricare l'immagine"
 
 #: src/domain/translation.tsx
 msgid "indicator.compliance"
-msgstr "Compliance"
+msgstr "Conformità"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -585,7 +585,7 @@ msgstr "Torna ai filtri"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.compliance"
-msgstr "La compliance in dettaglio"
+msgstr "La conformità in dettaglio"
 
 #: src/components/map-details-content.tsx
 msgid "map.details-sidebar-panel.next-button.energy-prices"
@@ -622,7 +622,7 @@ msgstr "Mostra tutti gli indicatori Sunshine"
 
 #: src/components/generic-map.tsx
 msgid "map.error.description"
-msgstr "Purtroppo non è stato possibile caricare i dati della mappa."
+msgstr "Purtroppo non è stato possibile caricare i dati della carta."
 
 #: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
@@ -770,12 +770,12 @@ msgstr "Non pianificato"
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"
-msgstr "max"
+msgstr "Max"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.median"
-msgstr "mediana"
+msgstr "Mediana"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
@@ -1030,7 +1030,7 @@ msgstr "Tipologia"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr "Regola del franco"
+msgstr "Costi e utili della distribuzione di energia"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
@@ -1186,7 +1186,7 @@ msgstr "Regola del franco"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Presentazione tempestiva dei documenti"
+msgstr "Consegna dei documenti entro i termini"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1213,7 +1213,7 @@ msgstr "Confronta con"
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
-msgstr "Selezionare gli operatori da confrontare"
+msgstr "Selezionare i gestori da confrontare"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
@@ -1420,7 +1420,7 @@ msgstr "CHF"
 
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
-msgstr "Compliance"
+msgstr "Conformità"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.compliance-trend"
@@ -1428,11 +1428,11 @@ msgstr "Confronto in franchi per destinatario di fattura"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
-msgstr "Compliance"
+msgstr "Conformità"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
-msgstr "Conformità"
+msgstr "Conformità alle prescrizioni"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
@@ -1440,7 +1440,7 @@ msgstr "Quota di gestori di rete"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "In questa pagina vengono valutati importanti parametri che forniscono informazioni sulla qualità delle prestazioni delle aziende fornitrici di energia elettrica. Tra questi indicatori figurano la qualità del servizio, che valuta la capacità delle aziende di informare i propri consumatori in merito alle interruzioni di corrente programmate, e la conformità, che garantisce il rispetto delle norme dell'ElCom sul profitto massimo nella distribuzione e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
+msgstr "In questa pagina vengono valutati importanti parametri che forniscono informazioni sulla qualità delle prestazioni delle aziende fornitrici di energia elettrica. Tra questi indicatori figurano la qualità del servizio, che valuta la capacità delle aziende di informare i propri consumatori in merito alle interruzioni di corrente programmate, e la conformità, che garantisce il rispetto delle norme dell'ElCom ai costi massimi e sul profitto massimo nella distribuzione (\"regola di plafonamento dei costi\") e la presentazione tempestiva dei documenti ufficiali alla Commissione federale dell'energia elettrica (ElCom)."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
@@ -1477,7 +1477,7 @@ msgstr "Indicatori di prestazione"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.overview-sunshine.description"
-msgstr "In Svizzera, le tariffe dell’elettricità si basano sui costi effettivi (regolazione cost plus). La ElCom ha introdotto la regolazione Sunshine per promuovere l'efficienza e creare trasparenza. I suoi indicatori permettono di effettuare dei confronti tra i gestori di rete in termini di efficienza dei costi, della qualità dell'approvvigionamento, della qualità del servizio e della compliance. Le differenze topografiche e strutturali possono influenzare tali valori, perciò i paragoni vengono effettuati sia a livello nazionale sia all'interno di gruppi di confronto basati sulla densità abitativa e sulla densità energetica."
+msgstr "In Svizzera, le tariffe dell’elettricità si basano sui costi effettivi (regolazione cost plus). La ElCom ha introdotto la regolazione Sunshine per promuovere l'efficienza e creare trasparenza. I suoi indicatori permettono di effettuare dei confronti tra i gestori di rete in termini di efficienza dei costi, della qualità dell'approvvigionamento, della qualità del servizio e della conformità. Le differenze topografiche e strutturali possono influenzare tali valori, perciò i paragoni vengono effettuati sia a livello nazionale sia all'interno di gruppi di confronto basati sulla densità abitativa e sulla densità energetica."
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1648,7 +1648,7 @@ msgstr "Seleziona tutto"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage"
-msgstr "Informare i clienti sulle interruzioni di corrente"
+msgstr "Informazioni sulle interruzioni pianificate"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.service-quality.informing-customers-outage.no"

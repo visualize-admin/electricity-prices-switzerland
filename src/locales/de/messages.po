@@ -1028,7 +1028,7 @@ msgstr "Typologie"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type.franc-rule"
-msgstr "Frankenregel"
+msgstr "Kosten und Gewinn Energievertrieb"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.energy-tariffs-category"
@@ -1339,7 +1339,7 @@ msgstr "Franken-Regel"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Tage im Voraus für die Meldung von Ausfällen"
+msgstr "So viele Tage im Voraus erfolgt die Meldung von Unterbrüchen"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.energyTariffs"
@@ -1438,7 +1438,7 @@ msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
-msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zu den maximalen Kosten bzw. dem Gewinn im Vertrieb eingehalten werden und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
+msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss über die Qualität der Leistungen der Stromversorgungsunternehmen geben. Zu diesen Indikatoren gehören die Servicequalität, die bewertet, wie gut die Unternehmen ihre Verbraucher über geplante Stromunterbrechungen informieren, sowie die Compliance, die sicherstellt, dass die Regeln der ElCom zu den maximalen Kosten bzw. dem Gewinn im Vertrieb (sog. \"Frankenregel\" zur Kostenobergrenze) eingehalten werden und die offiziellen Dokumente fristgerecht bei der Eidgenössischen Elektrizitätskommission (ElCom) eingereicht werden."
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
