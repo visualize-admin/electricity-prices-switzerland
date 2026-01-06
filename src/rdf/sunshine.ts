@@ -1,4 +1,3 @@
-import memoize from "lodash/memoize";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { ElectricityCategory } from "src/domain/data";
@@ -20,6 +19,8 @@ import type {
   TariffRecord,
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
+import { createMemoize } from "src/utils/memoize";
+import { withPerformanceLog } from "src/utils/performance-log";
 
 const yesPredicateValue =
   "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
@@ -1189,98 +1190,65 @@ const fetchUpdateDate = async (client: ParsingClient): Promise<string> => {
     : new Date().toISOString().split("T")[0];
 };
 
-// Helper function to add performance logging to a method
-const withPerformanceLog =
-  (methodName: string) =>
-  <T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>>(
-    method: T
-  ): T => {
-    return (async (...args: $IntentionalAny[]) => {
-      const start = performance.now();
-      try {
-        const result = await method(...args);
-        const end = performance.now();
-        // eslint-disable-next-line no-console
-        console.log(
-          `[${methodName}] completed in ${(end - start).toFixed(2)}ms`
-        );
-        return result;
-      } catch (error) {
-        const end = performance.now();
-        // eslint-disable-next-line no-console
-        console.log(
-          `[${methodName}] failed after ${(end - start).toFixed(2)}ms`
-        );
-        throw error;
-      }
-    }) as T;
-  };
-
 // Helper to create memoized method with JSON stringify resolver
 const memoizeWithJsonKey = <
   T extends (...args: $IntentionalAny[]) => $IntentionalAny
 >(
+  fn: T,
+  label: string
+): T => createMemoize(fn, label);
+
+// Helper to wrap service methods with memoization and performance logging
+const wrapServiceMethod = <
+  T extends (...args: $IntentionalAny[]) => Promise<$IntentionalAny>
+>(
+  methodName: string,
   fn: T
-): T => memoize(fn, (...args) => JSON.stringify(args)) as T;
+): T => withPerformanceLog(methodName, memoizeWithJsonKey(fn, methodName));
 
 export const createSunshineDataService = (
   client: ParsingClient
 ): SunshineDataService => ({
   name: "sparql",
-  getNetworkCosts: memoizeWithJsonKey(
-    withPerformanceLog("getNetworkCosts")((params) =>
-      getNetworkCosts(client, params)
-    )
+  getNetworkCosts: wrapServiceMethod("getNetworkCosts", (params) =>
+    getNetworkCosts(client, params)
   ),
-  getOperationalStandards: memoizeWithJsonKey(
-    withPerformanceLog("getOperationalStandards")((params) =>
-      getOperationalStandards(client, params)
-    )
+  getOperationalStandards: wrapServiceMethod(
+    "getOperationalStandards",
+    (params) => getOperationalStandards(client, params)
   ),
-  getStabilityMetrics: memoizeWithJsonKey(
-    withPerformanceLog("getStabilityMetrics")((params) =>
-      getStabilityMetrics(client, params)
-    )
+  getStabilityMetrics: wrapServiceMethod("getStabilityMetrics", (params) =>
+    getStabilityMetrics(client, params)
   ),
-  getTariffs: memoizeWithJsonKey(
-    withPerformanceLog("getTariffs")((params) => getTariffs(client, params))
+  getTariffs: wrapServiceMethod("getTariffs", (params) =>
+    getTariffs(client, params)
   ),
-  getOperatorData: memoizeWithJsonKey(
-    withPerformanceLog("getOperatorData")((operatorId, period) =>
-      getOperatorData(client, operatorId, period)
-    )
+  getOperatorData: wrapServiceMethod("getOperatorData", (operatorId, period) =>
+    getOperatorData(client, operatorId, period)
   ),
-  getYearlyIndicatorMedians: memoizeWithJsonKey(
-    withPerformanceLog("getYearlyIndicatorMedians")((params) =>
-      getYearlyIndicatorMedians(client, params)
-    )
+  getYearlyIndicatorMedians: wrapServiceMethod(
+    "getYearlyIndicatorMedians",
+    (params) => getYearlyIndicatorMedians(client, params)
   ),
-  getLatestYearSunshine: memoizeWithJsonKey(
-    withPerformanceLog("getLatestYearSunshine")((operatorId) =>
-      getLatestYearSunshine(client, operatorId)
-    )
+  getLatestYearSunshine: wrapServiceMethod(
+    "getLatestYearSunshine",
+    (operatorId) => getLatestYearSunshine(client, operatorId)
   ),
-  getOperatorPeerGroup: memoizeWithJsonKey(
-    withPerformanceLog("getOperatorPeerGroup")((operatorId, period) =>
-      getOperatorPeerGroup(client, operatorId, period)
-    )
+  getOperatorPeerGroup: wrapServiceMethod(
+    "getOperatorPeerGroup",
+    (operatorId, period) => getOperatorPeerGroup(client, operatorId, period)
   ),
-  getPeerGroups: memoizeWithJsonKey(
-    withPerformanceLog("getPeerGroups")((locale) =>
-      getPeerGroups(client, locale)
-    )
+  getPeerGroups: wrapServiceMethod("getPeerGroups", (locale) =>
+    getPeerGroups(client, locale)
   ),
-  getSunshineData: memoizeWithJsonKey(
-    withPerformanceLog("getSunshineData")((params) =>
-      getSunshineData(client, params)
-    )
+  getSunshineData: wrapServiceMethod("getSunshineData", (params) =>
+    getSunshineData(client, params)
   ),
-  getSunshineDataByIndicator: memoizeWithJsonKey(
-    withPerformanceLog("getSunshineDataByIndicator")((params) =>
-      getSunshineDataByIndicator(client, params)
-    )
+  getSunshineDataByIndicator: wrapServiceMethod(
+    "getSunshineDataByIndicator",
+    (params) => getSunshineDataByIndicator(client, params)
   ),
-  fetchUpdateDate: memoizeWithJsonKey(
-    withPerformanceLog("fetchUpdateDate")(() => fetchUpdateDate(client))
+  fetchUpdateDate: wrapServiceMethod("fetchUpdateDate", () =>
+    fetchUpdateDate(client)
   ),
 });
