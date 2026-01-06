@@ -28,10 +28,10 @@ import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
 import { SessionConfigDebugProps } from "src/data/shared-page-props";
-import { thresholdEncodings } from "src/domain/charts";
 import { Entity } from "src/domain/data";
 import { PriceComponent } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
+import { thresholdEncodings } from "src/domain/map-encodings";
 import {
   useQueryStateEnergyPricesMap,
   useQueryStateMapCommon,
@@ -203,7 +203,9 @@ const MapPageContent = ({
     const validObservations = (
       energyPricesEnrichedData.data?.observations ?? []
     ).filter(isValidValue);
-    const values = isElectricityTab ? validObservations.map(colorAccessor) : sunshineValues;
+    const values = isElectricityTab
+      ? validObservations.map(colorAccessor)
+      : sunshineValues;
     const encoding = thresholdEncoding(medianValue, values, +period);
     return encoding.makeScale();
   }, [

@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Franc rule is now a sequential color palette [#469](https://github.com/visualize-admin/electricity-prices-switzerland/issues/469)
 - Display medians for power stability in overview page [#479](https://github.com/visualize-admin/electricity-prices-switzerland/issues/479)
 - Display medians for power stability in power stability detail page [#479](https://github.com/visualize-admin/electricity-prices-switzerland/issues/479)
 

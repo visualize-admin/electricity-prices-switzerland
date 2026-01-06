@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createEncodings } from "./charts";
+import { createEncodings } from "./map-encodings";
 
 // Dummy palette with simple names for easy testing
 const dummyPalette = ["1", "2", "3", "4", "5"];
@@ -161,62 +161,6 @@ describe("createEncodings", () => {
       expect(scale(0.4)).toBe("5");
       expect(scale(0.5)).toBe("1");
       expect(scale(1)).toBe("1");
-    });
-  });
-
-  describe("Compliance Threshold Encoding", () => {
-    const yesNoPalette = ["yes", "no"];
-    it("should use 75.01 threshold for years before 2026", () => {
-      const encodings = createEncodings(yesNoPalette);
-
-      const result2024 = encodings.compliance(undefined, [], 2024);
-      const result2025 = encodings.compliance(undefined, [], 2025);
-
-      expect(result2024.thresholds[0].value).toBe(75.01);
-      expect(result2024.thresholds[1].value).toBe(75.01);
-      expect(result2025.thresholds[0].value).toBe(75.01);
-      expect(result2025.thresholds[1].value).toBe(75.01);
-    });
-
-    it("should use 60.01 threshold for year 2026 and after", () => {
-      const encodings = createEncodings(yesNoPalette);
-
-      const result2026 = encodings.compliance(undefined, [], 2026);
-      const result2027 = encodings.compliance(undefined, [], 2027);
-
-      expect(result2026.thresholds[0].value).toBe(60.01);
-      expect(result2026.thresholds[1].value).toBe(60.01);
-      expect(result2027.thresholds[0].value).toBe(60.01);
-      expect(result2027.thresholds[1].value).toBe(60.01);
-    });
-
-    it("should reverse the yes/no palette", () => {
-      const encodings = createEncodings(yesNoPalette);
-
-      const result = encodings.compliance(undefined, [], 2024);
-
-      expect(result.palette).toEqual(yesNoPalette);
-    });
-
-    it("should have No/Yes labels", () => {
-      const encodings = createEncodings(yesNoPalette);
-
-      const result = encodings.compliance(undefined, [], 2024);
-
-      expect(result.thresholds[0].label).toBe("No");
-      expect(result.thresholds[1].label).toBe("Yes");
-    });
-
-    it("should create a working scale with reversed colors", () => {
-      const encodings = createEncodings(yesNoPalette);
-
-      const result = encodings.compliance(undefined, [], 2024);
-      const scale = result.makeScale();
-
-      // Palette is ["5", "1"], so values < 75.01 get "5", values >= 75.01 get "1"
-      expect(scale(70)).toBe("yes");
-      expect(scale(75.01)).toBe("no");
-      expect(scale(80)).toBe("no");
     });
   });
 
