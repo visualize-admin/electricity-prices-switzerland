@@ -1557,6 +1557,14 @@ msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "sunshine.power-stability.saidi.info-dialog-label"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "sunshine.power-stability.saidi.peer-group-median-total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "sunshine.power-stability.saidi.peer-group-median-unplanned"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
 msgstr "sunshine.power-stability.saidi.total"
 
@@ -1588,6 +1596,14 @@ msgstr "sunshine.power-stability.saifi.comparison-card-title"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "sunshine.power-stability.saifi.info-dialog-label"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "sunshine.power-stability.saifi.peer-group-median-total"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "sunshine.power-stability.saifi.peer-group-median-unplanned"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"

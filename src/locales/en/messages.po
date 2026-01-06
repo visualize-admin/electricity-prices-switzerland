@@ -1557,6 +1557,14 @@ msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Total Outage Duration"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "Peer Group Median (Total)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "Peer Group Median (Unplanned)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
 msgstr "Total"
 
@@ -1588,6 +1596,14 @@ msgstr "Total Outage Frequency"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Total Outage Frequency"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "Peer Group Median (Total)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "Peer Group Median (Unplanned)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"

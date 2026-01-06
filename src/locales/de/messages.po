@@ -1557,6 +1557,14 @@ msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "Peer Group Median (Gesamt)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "Median der Peer Group (ungeplant)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
 msgstr "Insgesamt"
 
@@ -1588,6 +1596,14 @@ msgstr "Total Häufigkeit von Stromunterbrechungen (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "Peer Group Median (Gesamt)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "Median der Peer Group (ungeplant)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"

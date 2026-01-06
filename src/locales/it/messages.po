@@ -1559,6 +1559,14 @@ msgid "sunshine.power-stability.saidi.info-dialog-label"
 msgstr "Durata delle interruzioni di corrente (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-total"
+msgstr "Mediana del gruppo di riferimento (totale)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
+msgstr "Mediana del gruppo Peer (non pianificata)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
 msgstr "Totale"
 
@@ -1590,6 +1598,14 @@ msgstr "Frequenza totale delle interruzioni di corrente (SAIFI)"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"
 msgstr "Frequenza totale delle interruzioni di corrente (SAIFI)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-total"
+msgstr "Mediana del gruppo di riferimento (totale)"
+
+#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
+msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
+msgstr "Mediana del gruppo Peer (non pianificata)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"
