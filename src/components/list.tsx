@@ -3,8 +3,9 @@ import { Box, Button, Typography } from "@mui/material";
 import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
 import { MouseEventHandler, useContext, useMemo, useState } from "react";
 
-import { MiniSelect, SearchField } from "src/components/form";
+import { SearchField } from "src/components/form";
 import { HighlightContext } from "src/components/highlight-context";
+import { MiniSelect } from "src/components/mini-select";
 import { Stack } from "src/components/stack";
 import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
