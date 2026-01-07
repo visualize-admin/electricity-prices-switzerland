@@ -22,7 +22,7 @@ type ResponsiveNavigationProps<T extends string> = {
   onChange: (event: React.SyntheticEvent, newValue: T) => void;
 } & Omit<TabsProps, "onChange" | "value">;
 
-export const ResponsiveNavigation = <T extends string>({
+const ResponsiveNavigation = <T extends string>({
   activeTab,
   items,
   onChange,
