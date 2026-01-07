@@ -182,6 +182,7 @@ export const AnnotationXLabel = () => {
             bgcolor: "transparent",
             hyphens: "auto",
             wordBreak: "break-word",
+            lineHeight: 1.5,
           }}
         >
           <Box component="span" sx={{ fontWeight: 700 }}>
