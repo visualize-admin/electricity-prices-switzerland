@@ -46,30 +46,12 @@ type CardHeaderProps = {
 export const CardHeader = (props: CardHeaderProps) => {
   const { children, trailingContent } = props;
   return (
-    <Box
-      display={"flex"}
-      sx={{
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-      }}
-    >
-      <Box
-        display={"flex"}
-        sx={{
-          flexDirection: "column",
-          gap: 1.5,
-        }}
-      >
+    <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+      <Box display="flex" flexDirection="column" gap={1.5}>
         {children}
       </Box>
       {trailingContent && (
-        <Box
-          display={"flex"}
-          sx={{
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
+        <Box display="flex" alignItems="center" gap={2}>
           {trailingContent}
         </Box>
       )}

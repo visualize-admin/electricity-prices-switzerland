@@ -128,12 +128,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
           }
         >
           <Typography variant="h3">{title}</Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            gutterBottom
-            mb={8}
-          >
+          <Typography variant="body2" color="text.secondary" gutterBottom>
             <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
               Benchmarking within the Peer Group: {peerGroupLabel}
             </Trans>
