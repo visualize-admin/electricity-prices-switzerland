@@ -154,8 +154,13 @@ export const MultiCombobox = ({
           flexDirection="column"
           width="100%"
           display="flex"
+          gap="8px"
         >
-          <ComboboxLabel label={label} htmlFor={htmlFor} />
+          <ComboboxLabel
+            label={label}
+            htmlFor={htmlFor}
+            sx={{ minHeight: "auto" }}
+          />
           <TextField
             {...params}
             variant="outlined"

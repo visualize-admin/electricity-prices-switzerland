@@ -228,7 +228,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
               }
             />
           </Grid>
-          <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
+          <Grid item xs={12} sm={4}>
             {viewBy === "latest" ? (
               <ButtonGroup
                 id="view-by-button-group-2"
