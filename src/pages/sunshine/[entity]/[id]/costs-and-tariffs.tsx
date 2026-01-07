@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -229,23 +229,26 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
+  const theme = useTheme();
+
   return (
     <CardGrid
       sx={{
-        gridTemplateColumns: {
-          xs: "1fr", // Single column on small screens
-          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "selector"
+          "comparison"
+          "peer-group"
+          "trend"
+        `,
+        [theme.breakpoints.up("sm")]: {
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          // On Desktop, peer group and network costs cards are side by side
+          // Network costs trend is below them
+          // On Mobile, they are stacked
+          gridTemplateAreas: `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens,
         },
-
-        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-
-        // On Desktop, peer group and network costs cards are side by side
-        // Network costs trend is below them
-        // On Mobile, they are stacked
-        gridTemplateAreas: [
-          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-        ],
       }}
     >
       <Box sx={{ mb: 2, gridArea: "selector" }}>
