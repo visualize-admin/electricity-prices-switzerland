@@ -11,7 +11,14 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Map
+  - Improve dropdown menu styling: titles now use secondary text color (#6B7280) for better visual distinction from clickable entries
+  - Add loading indicator when downloading map images [#444](https://github.com/visualize-admin/electricity-prices-switzerland/issues/444)
+  - Fix "Sort by" label being cut off in map list
+  - Fix filter input field height to match adjacent select components
+  - Align zoom button margins with legend positioning
+- Overview page
+  - Improve overview page responsive layout: cards now stack vertically below 1280px (xl breakpoint) and have better responsive padding
 
 # 2.31.0 - 2026-01-06
 
