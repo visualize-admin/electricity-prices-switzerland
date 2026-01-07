@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { ComponentProps, useMemo } from "react";
 
 import CardGrid from "src/components/card-grid";
-import { Combobox } from "src/components/combobox";
+import { Combobox, ComboboxItem } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageHeader,
@@ -177,13 +177,13 @@ const OverviewPage = (props: Props) => {
   }, [props.powerStability.saifi.yearlyData]);
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-    ] as ComponentProps<typeof Combobox>["items"];
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    const cGroup = getItemLabel("C-group");
+    const hGroup = getItemLabel("H-group");
+    return categories.map((value) => ({
+      value,
+      group: value.startsWith("C") ? cGroup : hGroup,
+    }));
   }, []);
 
   const [overviewFilters, setOverviewFilters] =

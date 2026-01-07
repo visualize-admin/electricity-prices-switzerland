@@ -2,27 +2,33 @@ import { t, Trans } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 
-import { Combobox, MultiCombobox } from "src/components/combobox";
+import { Combobox, ComboboxItem, MultiCombobox } from "src/components/combobox";
 import {
   CantonsCombobox,
   MunicipalitiesCombobox,
   OperatorsCombobox,
 } from "src/components/query-combobox";
-import { categories, Entity, periods, products } from "src/domain/data";
+import {
+  categories,
+  ElectricityCategory,
+  Entity,
+  periods,
+  products,
+} from "src/domain/data";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
 export const SelectorMulti = ({ entity }: { entity: Entity }) => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesDetails();
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-      { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-    ] as React.ComponentProps<typeof Combobox>["items"];
-  }, []);
+  const hGroup = getItemLabel("H-group");
+  const cGroup = getItemLabel("C-group");
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    return categories.map((value) => ({
+      value,
+      group: value.startsWith("H") ? hGroup : cGroup,
+    }));
+  }, [cGroup, hGroup]);
 
   return (
     <Box

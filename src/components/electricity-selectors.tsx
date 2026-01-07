@@ -1,10 +1,11 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
-import { ComponentProps, useMemo } from "react";
+import { useMemo } from "react";
 
-import { Combobox } from "src/components/combobox";
+import { Combobox, ComboboxItem } from "src/components/combobox";
 import {
   categories,
+  ElectricityCategory,
   periods,
   mapPriceComponents,
   products,
@@ -15,14 +16,14 @@ import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 export const ElectricitySelectors = () => {
   const [queryState, setQueryState] = useQueryStateEnergyPricesMap();
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-      { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-    ] as ComponentProps<typeof Combobox>["items"];
-  }, []);
+  const hGroup = getLocalizedLabel({ id: "H-group" });
+  const cGroup = getLocalizedLabel({ id: "C-group" });
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    return categories.map((value) => ({
+      value,
+      group: value.startsWith("H") ? hGroup : cGroup,
+    }));
+  }, [cGroup, hGroup]);
 
   return (
     <Box

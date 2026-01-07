@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-import { Combobox, ComboboxItem, MultiCombobox } from "./combobox";
+import {
+  Combobox,
+  ComboboxItem,
+  MultiCombobox,
+  toComboboxItems,
+} from "./combobox";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -21,7 +26,14 @@ type Story = StoryObj<typeof Combobox>;
 export const YearSelection: Story = {
   render: () => {
     const [selectedYear, setSelectedYear] = useState("2023");
-    const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
+    const years = toComboboxItems([
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+    ]);
 
     return (
       <div style={{ width: "300px" }}>
@@ -42,18 +54,16 @@ export const YearSelection: Story = {
 export const MunicipalitySelection: Story = {
   render: () => {
     const [selectedMunicipality, setSelectedMunicipality] = useState("zurich");
-    const municipalities = [
-      { type: "header", title: "Popular Cities" },
-      "zurich",
-      "geneva",
-      "basel",
-      { type: "header", title: "Other Cities" },
-      "bern",
-      "lausanne",
-      "winterthur",
-      "lucerne",
-      "st-gallen",
-    ] satisfies ComboboxItem[];
+    const municipalities: ComboboxItem[] = [
+      { value: "zurich", group: "Popular Cities" },
+      { value: "geneva", group: "Popular Cities" },
+      { value: "basel", group: "Popular Cities" },
+      { value: "bern", group: "Other Cities" },
+      { value: "lausanne", group: "Other Cities" },
+      { value: "winterthur", group: "Other Cities" },
+      { value: "lucerne", group: "Other Cities" },
+      { value: "st-gallen", group: "Other Cities" },
+    ];
 
     const getLabel = (id: string) => {
       const labels: Record<string, string> = {
@@ -89,23 +99,21 @@ export const MunicipalitySelection: Story = {
 export const UsageCategorySelection: Story = {
   render: () => {
     const [selectedCategory, setSelectedCategory] = useState("H1");
-    const categories = [
-      { type: "header", title: "Household Categories" },
-      "H1",
-      "H2",
-      "H3",
-      "H4",
-      "H5",
-      "H6",
-      "H7",
-      { type: "header", title: "Business Categories" },
-      "C1",
-      "C2",
-      "C3",
-      "C4",
-      "C5",
-      "C6",
-    ] satisfies ComboboxItem[];
+    const categories: ComboboxItem[] = [
+      { value: "H1", group: "Household Categories" },
+      { value: "H2", group: "Household Categories" },
+      { value: "H3", group: "Household Categories" },
+      { value: "H4", group: "Household Categories" },
+      { value: "H5", group: "Household Categories" },
+      { value: "H6", group: "Household Categories" },
+      { value: "H7", group: "Household Categories" },
+      { value: "C1", group: "Business Categories" },
+      { value: "C2", group: "Business Categories" },
+      { value: "C3", group: "Business Categories" },
+      { value: "C4", group: "Business Categories" },
+      { value: "C5", group: "Business Categories" },
+      { value: "C6", group: "Business Categories" },
+    ];
 
     const getCategoryLabel = (category: string) => {
       const descriptions: Record<string, string> = {
@@ -193,7 +201,14 @@ export const MultiSelection: StoryObj<typeof MultiCombobox> = {
 export const DisabledCombobox: Story = {
   render: () => {
     const [selectedYear, setSelectedYear] = useState("2023");
-    const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
+    const years = toComboboxItems([
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+    ]);
 
     return (
       <div style={{ width: "300px" }}>
@@ -214,7 +229,14 @@ export const DisabledCombobox: Story = {
 export const ErrorCombobox: Story = {
   render: () => {
     const [selectedYear, setSelectedYear] = useState("2023");
-    const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
+    const years = toComboboxItems([
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+    ]);
 
     return (
       <div style={{ width: "300px" }}>
