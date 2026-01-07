@@ -243,7 +243,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         `,
         [theme.breakpoints.up("sm")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
-          gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
+          gridTemplateRows: "auto auto auto",
           // On Desktop, peer group and network costs cards are side by side
           // Network costs trend is below them
           // On Mobile, they are stacked
@@ -400,18 +400,26 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
+  const theme = useTheme();
+
   return (
     <CardGrid
       sx={{
-        gridTemplateColumns: {
-          xs: "1fr", // Single column on small screens
-          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "selector"
+          "comparison"
+          "peer-group"
+          "trend"
+        `,
+        [theme.breakpoints.up("sm")]: {
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: "auto auto auto",
+          // On Desktop, peer group and comparison cards are side by side
+          // Trend chart is below them
+          // On Mobile, they are stacked
+          gridTemplateAreas: `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens,
         },
-        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-        gridTemplateAreas: [
-          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-        ],
       }}
     >
       <Box sx={{ mb: 2, gridArea: "selector" }}>
@@ -571,18 +579,26 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     ].filter(truthy),
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
+  const theme = useTheme();
+
   return (
     <CardGrid
       sx={{
-        gridTemplateColumns: {
-          xs: "1fr", // Single column on small screens
-          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "selector"
+          "comparison"
+          "peer-group"
+          "trend"
+        `,
+        [theme.breakpoints.up("sm")]: {
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
+          // On Desktop, peer group and comparison cards are side by side
+          // Trend chart is below them
+          // On Mobile, they are stacked
+          gridTemplateAreas: `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens,
         },
-        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-        gridTemplateAreas: [
-          `"selector" "comparison" "peer-group" "trend"`, // One column on small screens
-          `"selector space" "comparison peer-group" "trend trend"`, // Two columns on medium screens
-        ],
       }}
     >
       <Box sx={{ mb: 2, gridArea: "selector" }}>
