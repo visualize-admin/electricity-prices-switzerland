@@ -8,14 +8,7 @@ import {
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  IconButton,
-  iconButtonClasses,
-  Typography,
-} from "@mui/material";
+import { Alert, AlertTitle, Box, IconButton, Typography } from "@mui/material";
 import bbox from "@turf/bbox";
 // eslint-disable-next-line
 // @ts-ignore - Package import is reported as a problem in tsgo - TODO Recheck later if we can remove this
@@ -32,6 +25,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { makeStyles } from "tss-react/mui";
 
 import {
   HighlightContext,
@@ -60,49 +54,74 @@ import { useIsMobile } from "src/lib/use-mobile";
 import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
+const useStyles = makeStyles()((theme) => ({
+  container: {
+    zIndex: 1,
+    display: "flex",
+    gap: theme.spacing(2),
+  },
+  iconButton: {
+    backgroundColor: theme.palette.background.paper,
+    height: 40,
+    "& svg": {
+      width: 16,
+      height: 16,
+      color: theme.palette.text.primary,
+    },
+  },
+}));
+
 const ZoomWidget = ({
   onZoomIn,
   onZoomOut,
+  scrollZoom,
+  displayScrollZoom,
 }: {
   onZoomIn: () => void;
   onZoomOut: () => void;
+  scrollZoom: boolean;
+  displayScrollZoom: boolean;
 }) => {
+  const { classes } = useStyles();
+  const isMobile = useIsMobile();
+
+  const isMacOS = useMemo(
+    () =>
+      typeof navigator !== "undefined" &&
+      navigator.userAgent.indexOf("Mac OS X") !== -1,
+    []
+  );
   return (
-    <Box
-      zIndex={1}
-      top={16}
-      right={16}
-      display="flex"
-      gap={2}
-      sx={{
-        [`.${iconButtonClasses.root}`]: {
-          backgroundColor: "background.paper",
-          height: 40,
-          "&:hover": {
-            backgroundColor: "secondary.100",
-          },
-          "& svg": {
-            width: 16,
-            height: 16,
-            color: "text.primary",
-          },
-        },
-      }}
-    >
-      <IconButton onClick={onZoomIn} size="sm" sx={{}}>
+    <Box className={classes.container}>
+      <IconButton onClick={onZoomIn} size="sm" className={classes.iconButton}>
         <IconPlus />
       </IconButton>
-      <IconButton
-        onClick={onZoomOut}
-        sx={{
-          backgroundColor: "background.paper",
-          "&:hover": {
-            backgroundColor: "action.hover",
-          },
-        }}
-      >
+      <IconButton onClick={onZoomOut} className={classes.iconButton}>
         <IconMinus />
       </IconButton>
+      {isMobile ? null : (
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "white",
+            opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
+            transition: "opacity 0.25s ease-in",
+          }}
+        >
+          <Typography variant="caption">
+            <Trans
+              id="map.scrollzoom.hint"
+              values={{
+                key: isMacOS ? "⌘" : "Ctrl",
+              }}
+            >
+              {`Hold {key} and scroll to zoom`}
+            </Trans>
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };
@@ -403,13 +422,6 @@ export const GenericMap = ({
     };
   }, []);
 
-  const isMacOS = useMemo(
-    () =>
-      typeof navigator !== "undefined" &&
-      navigator.userAgent.indexOf("Mac OS X") !== -1,
-    []
-  );
-
   const tooltipMinimumWidth = 200;
   const webglDeactivated = useFlag("webglDeactivated");
 
@@ -483,7 +495,7 @@ export const GenericMap = ({
         </MapTooltip>
       )}
 
-      <div
+      <Box
         className={isLoading ? "" : downloadId || "map"}
         ref={mapContainerRef}
         onMouseOver={() => {
@@ -492,18 +504,19 @@ export const GenericMap = ({
         onMouseLeave={() => {
           mouseOverRef.current = false;
         }}
+        sx={{
+          "--map-widget-margin-x": (theme) => theme.spacing(3),
+          "--map-widget-margin-y": (theme) => theme.spacing(3),
+        }}
       >
         {legend && (
           <Box
             sx={{
               zIndex: 13,
               position: "absolute",
-              top: 0,
-              right: 0,
-              mt: 3,
-              mr: 3,
+              top: "var(--map-widget-margin-y)",
+              right: "var(--map-widget-margin-x)",
               backgroundColor: "background.paper",
-              borderRadius: "2px",
               p: 4,
             }}
             id={legendId}
@@ -515,15 +528,14 @@ export const GenericMap = ({
         <Box
           sx={{
             position: "absolute",
-            top: 0,
-            left: 0,
+            top: "var(--map-widget-margin-y)",
+            left: "var(--map-widget-margin-x)",
             zIndex: 10,
-            display: "flex",
-            gap: 2,
-            p: 2,
           }}
         >
           <ZoomWidget
+            scrollZoom={scrollZoom}
+            displayScrollZoom={displayScrollZoom}
             onZoomIn={() => {
               setViewState((viewState) =>
                 zoomIn(viewState || getInitialViewState(isMobile))
@@ -535,29 +547,6 @@ export const GenericMap = ({
               );
             }}
           />
-          {isMobile ? null : (
-            <Box
-              sx={{
-                p: 2,
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "white",
-                opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
-                transition: "opacity 0.25s ease-in",
-              }}
-            >
-              <Typography variant="caption">
-                <Trans
-                  id="map.scrollzoom.hint"
-                  values={{
-                    key: isMacOS ? "⌘" : "Ctrl",
-                  }}
-                >
-                  {`Hold {key} and scroll to zoom`}
-                </Trans>
-              </Typography>
-            </Box>
-          )}
         </Box>
 
         {webglDeactivated ? null : (
@@ -571,7 +560,7 @@ export const GenericMap = ({
             ref={deckRef}
           ></DeckGL>
         )}
-      </div>
+      </Box>
 
       {screenshotting ? (
         <Box
