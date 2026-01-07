@@ -1,8 +1,9 @@
 import { Card, CardContent, CardProps, Stack, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
-import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 import { vars as cardGridVars } from "src/components/card-grid";
+
+import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 
 interface OverviewCardProps extends Omit<CardProps, "title"> {
   title: ReactNode;
