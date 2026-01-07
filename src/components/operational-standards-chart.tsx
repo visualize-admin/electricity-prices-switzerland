@@ -2,7 +2,6 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
 
-
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
 import {
@@ -41,7 +40,7 @@ export const ServiceQualityChart = ({
   const median = d3Median(chartData, (d) => d.days);
 
   return (
-    <Box sx={{ mt: 8, position: "relative" }}>
+    <Box position="relative">
       <Histogram
         data={chartData}
         medianValue={median}
@@ -105,7 +104,7 @@ export const ComplianceChart = ({
   const chartData = mock ? complianceMock : data.operatorsFrancsPerInvoice;
   const median = d3Median(chartData, (d) => d.francsPerInvoice);
   return (
-    <Box sx={{ mt: 8, position: "relative" }}>
+    <Box position="relative">
       <Histogram
         data={chartData}
         medianValue={median}
