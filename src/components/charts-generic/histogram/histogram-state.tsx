@@ -311,11 +311,7 @@ const useHistogramState = ({
               {d.type !== "no-data" ? xAxisUnit : ""}
             </Typography>
           </Box>
-          <Typography
-            variant="caption"
-            lineHeight={1.5}
-            display="block"
-          >
+          <Typography variant="caption" lineHeight={1.5} display="block">
             {yAxisLabel}: {formatPercentage(d.length / totalCount)}
           </Typography>
         </Box>
