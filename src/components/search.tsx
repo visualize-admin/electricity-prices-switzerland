@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
 import {
   Autocomplete,
+  autocompleteClasses,
   AutocompleteProps,
   Box,
   ClickAwayListener,
-  Divider,
   IconButton,
   InputAdornment,
   TextField,
@@ -15,6 +15,10 @@ import { sortBy } from "lodash";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  AutocompleteGroupLabel,
+  AutocompleteGroupUl,
+} from "src/components/autocomplete";
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { analyticsSiteSearch } from "src/domain/analytics";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -260,15 +264,16 @@ const SearchField = ({
         sx={{ width: "100%" }}
         groupBy={groupBy}
         renderGroup={(params) => (
-          <React.Fragment key={params.group}>
-            <Typography variant="body2" sx={{ mx: 4, mt: 4 }}>
+          <li key={params.group}>
+            <AutocompleteGroupLabel className={autocompleteClasses.groupLabel}>
               {getLocalizedLabel({
                 id: params.group as ReturnType<typeof groupBy>,
               })}
-            </Typography>
-            <Divider sx={{ mx: 4, my: 2 }} />
-            {params.children}
-          </React.Fragment>
+            </AutocompleteGroupLabel>
+            <AutocompleteGroupUl className={autocompleteClasses.groupUl}>
+              {params.children}
+            </AutocompleteGroupUl>
+          </li>
         )}
         renderInput={(params) => (
           <TextField
