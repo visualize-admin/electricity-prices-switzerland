@@ -7,12 +7,16 @@ import {
   NativeSelect,
   Typography,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
+import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { hsl } from "d3";
 import { useEffect, useId, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
+import {
+  AutocompleteGroupLabel,
+  AutocompleteGroupUl,
+} from "src/components/autocomplete";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/types";
 import { Icon } from "src/icons";
@@ -243,7 +247,16 @@ export const MultiCombobox = ({
   );
 };
 
-export type ComboboxItem = string | { type: "header"; title: string };
+export type ComboboxItem<T extends string = string> = {
+  value: T;
+  group?: string;
+};
+
+export const toComboboxItems = <T extends string>(
+  values: readonly T[]
+): ComboboxItem<T>[] => {
+  return values.map((value) => ({ value }));
+};
 
 export const Combobox = <T extends string>({
   id,
@@ -261,7 +274,7 @@ export const Combobox = <T extends string>({
 }: {
   id: string;
   label: string;
-  items: readonly ComboboxItem[];
+  items: readonly (T | ComboboxItem<T>)[];
   selectedItem: T;
   setSelectedItem: (selectedItem: T) => void;
   getItemLabel?: (item: T) => string;
@@ -278,25 +291,23 @@ export const Combobox = <T extends string>({
     setInputValue(getItemLabel(selectedItem));
   }, [getItemLabel, selectedItem]);
 
-  const filteredItems = useMemo(() => {
-    return items.filter((item) => typeof item === "string");
+  const normalizedItems = useMemo(() => {
+    return items.map((item) =>
+      typeof item === "string" ? { value: item } : item
+    );
   }, [items]);
 
-  const groupsByLabel = useMemo(() => {
-    const res: Record<string, string> = {};
-    let currentGroup = null;
-    for (const item of items) {
-      if (typeof item === "string") {
-        if (!currentGroup) {
-          continue;
-        }
-        res[item] = currentGroup;
-      } else {
-        currentGroup = item.title;
-      }
+  const values = useMemo(() => {
+    return normalizedItems.map((item) => item.value);
+  }, [normalizedItems]);
+
+  const groupByValue = useMemo(() => {
+    const res: Record<string, string | undefined> = {};
+    for (const item of normalizedItems) {
+      res[item.value] = item.group;
     }
     return res;
-  }, [items]);
+  }, [normalizedItems]);
 
   const isMobile = useIsMobile();
   const inputId = `combobox-${id}`;
@@ -319,9 +330,9 @@ export const Combobox = <T extends string>({
           value={selectedItem}
           onChange={(e) => setSelectedItem(e.target.value as T)}
         >
-          {filteredItems.map((item) => (
-            <option key={item} value={item}>
-              {getItemLabel(item as T)}
+          {values.map((value) => (
+            <option key={value} value={value}>
+              {getItemLabel(value)}
             </option>
           ))}
         </NativeSelect>
@@ -349,17 +360,23 @@ export const Combobox = <T extends string>({
       <Autocomplete
         id={inputId}
         disabled={disabled}
-        options={filteredItems as T[]}
+        options={values}
         groupBy={(option) => {
-          return groupsByLabel[option];
+          return groupByValue[option] ?? "";
         }}
         renderGroup={(params) => {
           return (
             <li key={params.key}>
               {params.group ? (
-                <div className="MuiAutocomplete-groupLabel">{params.group}</div>
+                <AutocompleteGroupLabel
+                  className={autocompleteClasses.groupLabel}
+                >
+                  {params.group}
+                </AutocompleteGroupLabel>
               ) : null}
-              <ul className="MuiAutocomplete-groupUl">{params.children}</ul>
+              <AutocompleteGroupUl className={autocompleteClasses.groupUl}>
+                {params.children}
+              </AutocompleteGroupUl>
             </li>
           );
         }}

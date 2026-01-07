@@ -3,11 +3,11 @@ import { Box, Typography } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { ComponentProps, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
-import { Combobox } from "src/components/combobox";
+import { Combobox, ComboboxItem } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageHeader,
@@ -310,13 +310,13 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   } = props.costsAndTariffs;
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("C-group") },
-      ...sunshineCategories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("H-group") },
-      ...sunshineCategories.filter((x) => x.startsWith("H")),
-    ] as ComponentProps<typeof Combobox>["items"];
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    const cGroup = getItemLabel("C-group");
+    const hGroup = getItemLabel("H-group");
+    return sunshineCategories.map((value) => ({
+      value,
+      group: value.startsWith("C") ? cGroup : hGroup,
+    }));
   }, []);
 
   const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();
@@ -482,13 +482,13 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   } = props.costsAndTariffs;
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("C-group") },
-      ...sunshineCategories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("H-group") },
-      ...sunshineCategories.filter((x) => x.startsWith("H")),
-    ] as ComponentProps<typeof Combobox>["items"];
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    const cGroup = getItemLabel("C-group");
+    const hGroup = getItemLabel("H-group");
+    return sunshineCategories.map((value) => ({
+      value,
+      group: value.startsWith("C") ? cGroup : hGroup,
+    }));
   }, []);
 
   const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();

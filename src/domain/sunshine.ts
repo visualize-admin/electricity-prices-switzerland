@@ -55,6 +55,30 @@ export const indicatorOptions = [
   "compliance",
 ] satisfies SunshineIndicator[];
 
+export type IndicatorGroup =
+  | "costs-and-tariffs"
+  | "power-stability"
+  | "operational-standards";
+
+export const getGroup = (indicator: SunshineIndicator): IndicatorGroup => {
+  switch (indicator) {
+    case "networkCosts":
+    case "netTariffs":
+    case "energyTariffs":
+      return "costs-and-tariffs";
+    case "saidi":
+    case "saifi":
+      return "power-stability";
+    case "outageInfo":
+    case "daysInAdvanceOutageNotification":
+    case "compliance":
+      return "operational-standards";
+    default:
+      const _exhaustiveCheck: never = indicator;
+      return _exhaustiveCheck;
+  }
+};
+
 /**
  * Network level options for filtering
  */

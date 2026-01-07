@@ -1,4 +1,4 @@
-import { Components, Theme } from "@mui/material";
+import { autocompleteClasses, Components, Theme } from "@mui/material";
 
 import { Icon } from "src/icons";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
@@ -59,7 +59,7 @@ export const components = (theme: Theme): Components => ({
         marginLeft: "-4px",
       },
       listbox: {
-        "& .MuiAutocomplete-groupLabel": {
+        [`& .${autocompleteClasses.groupLabel}`]: {
           ...typography.h6,
           fontWeight: 400,
           color: palette.text[500],
@@ -67,7 +67,7 @@ export const components = (theme: Theme): Components => ({
           borderBottom: `1px solid ${palette.monochrome[300]}`,
           margin: 0,
         },
-        "& .MuiAutocomplete-groupUl": {
+        [`& .${autocompleteClasses.groupUl}`]: {
           padding: 0,
           "&:not(:last-child)": {
             borderBottom: `1px solid ${palette.monochrome[200]}`,

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { MiniSelect } from "src/components/form";
+import { MiniSelect } from "src/components/mini-select";
 import { StoryGrid } from "src/components/storybook/story-grid";
 import { getIconSize, Icon } from "src/icons";
 import { chartPalette, palette } from "src/themes/palette";

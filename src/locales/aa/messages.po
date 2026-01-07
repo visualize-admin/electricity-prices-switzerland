@@ -1297,6 +1297,7 @@ msgstr "sunshine.costs-and-tariffs.progress-over-time"
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "sunshine.costs-and-tariffs.selected-operators"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "sunshine.costs-and-tariffs.title"
@@ -1460,6 +1461,7 @@ msgstr "sunshine.operational-standards.service-quality.info-dialog-label"
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "sunshine.operational-standards.service-quality.share-of-operators"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1605,6 +1607,7 @@ msgstr "sunshine.power-stability.saifi.total"
 msgid "sunshine.power-stability.saifi.unplanned"
 msgstr "sunshine.power-stability.saifi.unplanned"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

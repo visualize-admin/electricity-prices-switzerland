@@ -100,11 +100,18 @@ export const DownloadImage = ({
 
   return (
     <Box>
-      {!downloading && !iconOnly && (
+      {!iconOnly && (
         <Button
           variant="text"
           onClick={onDownload}
-          startIcon={<Icon name="download" size={iconSize} />}
+          disabled={downloading}
+          startIcon={
+            downloading ? (
+              <LoadingIconInline size={iconSize} />
+            ) : (
+              <Icon name="download" size={iconSize} />
+            )
+          }
           sx={{
             color: "text.primary",
           }}

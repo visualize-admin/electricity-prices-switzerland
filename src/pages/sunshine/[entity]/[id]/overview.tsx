@@ -1,13 +1,13 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ComponentProps, useMemo } from "react";
+import { useMemo } from "react";
 
-import CardGrid from "src/components/card-grid";
-import { Combobox } from "src/components/combobox";
+import CardGrid, { CardGridSectionTitle } from "src/components/card-grid";
+import { Combobox, ComboboxItem } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
   DetailsPageHeader,
@@ -177,13 +177,13 @@ const OverviewPage = (props: Props) => {
   }, [props.powerStability.saifi.yearlyData]);
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
-  const groupedCategories = useMemo(() => {
-    return [
-      { type: "header", title: getItemLabel("C-group") },
-      ...categories.filter((x) => x.startsWith("C")),
-      { type: "header", title: getItemLabel("H-group") },
-      ...categories.filter((x) => x.startsWith("H")),
-    ] as ComponentProps<typeof Combobox>["items"];
+  const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
+    const cGroup = getItemLabel("C-group");
+    const hGroup = getItemLabel("H-group");
+    return categories.map((value) => ({
+      value,
+      group: value.startsWith("C") ? cGroup : hGroup,
+    }));
   }, []);
 
   const [overviewFilters, setOverviewFilters] =
@@ -287,6 +287,8 @@ const OverviewPage = (props: Props) => {
     return [currentYear - 2, currentYear - 1, currentYear];
   }, []);
 
+  const theme = useTheme();
+
   const mainContent = (
     <>
       <Head>
@@ -320,25 +322,24 @@ const OverviewPage = (props: Props) => {
           display: "grid",
           columnGap: 4,
           rowGap: 8,
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(6, 1fr)",
-          },
-          gridTemplateAreas: {
-            xs: `
-        "row-title-1"
-        "filters"
-        "network-costs"
-        "net-tariffs"
-        "energy-tariffs"
-        "row-title-2"
-        "saidi"
-        "saifi"
-        "row-title-3"
-        "service-quality"
-        "compliance"
-      `,
-            sm: `
+          gridTemplateColumns: "1fr",
+          gridTemplateAreas: `
+            "row-title-1"
+            "filters"
+            "network-costs"
+            "net-tariffs"
+            "energy-tariffs"
+            "row-title-2"
+            "saidi"
+            "saifi"
+            "row-title-3"
+            "service-quality"
+            "compliance"
+          `,
+
+          [theme.breakpoints.up("xl")]: {
+            gridTemplateColumns: "repeat(6, 1fr)",
+            gridTemplateAreas: `
         "row-title-1 row-title-1 row-title-1 row-title-1 row-title-1 row-title-1"
         "filters filters filters filters filters filters"
         "network-costs network-costs net-tariffs net-tariffs energy-tariffs energy-tariffs"
@@ -346,13 +347,13 @@ const OverviewPage = (props: Props) => {
         "saidi saidi saidi saifi saifi saifi"
         "row-title-3 row-title-3 row-title-3 row-title-3 row-title-3 row-title-3"
         "service-quality service-quality service-quality compliance compliance compliance"
-      `,
+          `,
           },
         }}
       >
-        <Typography variant="h2" sx={{ gridArea: "row-title-1" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-1" }}>
           <Trans id="sunshine.grid.network-costs-title">Network Costs</Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <Box
           sx={{
             gap: 4,
@@ -499,11 +500,11 @@ const OverviewPage = (props: Props) => {
         ) : (
           <LoadingSkeleton height={280} sx={{ gridArea: "energy-tariffs" }} />
         )}
-        <Typography variant="h2" sx={{ gridArea: "row-title-2" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-2" }}>
           <Trans id="sunshine.grid.power-stability-title">
             Power Stability
           </Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <PowerStabilityCardMinified
           filters={{
             viewBy: "progress",
@@ -576,11 +577,11 @@ const OverviewPage = (props: Props) => {
             </Link>
           }
         />
-        <Typography variant="h2" sx={{ gridArea: "row-title-3" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-3" }}>
           <Trans id="sunshine.grid.operational-standards-title">
             Operational Standards
           </Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <TableComparisonCard
           {...yearServiceQualityProps}
           subtitle={null}

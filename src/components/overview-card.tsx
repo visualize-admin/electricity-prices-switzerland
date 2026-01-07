@@ -1,6 +1,8 @@
 import { Card, CardContent, CardProps, Stack, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
+import { vars as cardGridVars } from "src/components/card-grid";
+
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
 
 interface OverviewCardProps extends Omit<CardProps, "title"> {
@@ -24,8 +26,8 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
       <InfoDialogButton
         sx={{
           position: "absolute",
-          top: (theme) => theme.spacing(3),
-          right: (theme) => theme.spacing(3),
+          top: `var(${cardGridVars.cardGridPaddingY})`,
+          right: `var(${cardGridVars.cardGridPaddingX})`,
         }}
         iconOnly
         slug={infoDialogProps.slug}
