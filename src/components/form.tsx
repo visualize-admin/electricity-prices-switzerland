@@ -4,6 +4,7 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
+  outlinedInputClasses,
 } from "@mui/material";
 import React, { ReactNode } from "react";
 
@@ -37,10 +38,18 @@ export const SearchField = ({
       size="sm"
       sx={{
         color: "text.500",
-        fontSize: "0.875rem",
+        fontSize: "0.75rem",
         position: "relative",
-        height: 44,
+        height: 40,
+        minHeight: 40,
         borderColor: "monochrome.500",
+        paddingRight: "8px",
+        [`& .${outlinedInputClasses.input}`]: {
+          height: "100%",
+          paddingTop: 0,
+          paddingBottom: 0,
+          fontSize: "0.875rem",
+        },
         ...sx,
       }}
       id={id}
@@ -50,7 +59,11 @@ export const SearchField = ({
       endAdornment={
         <InputAdornment position="end">
           {value && value !== "" && onReset ? (
-            <IconButton size="sm" sx={{ mr: -2 }} onClick={onReset}>
+            <IconButton
+              size="sm"
+              sx={{ mr: -2, border: "1px solid red !important" }}
+              onClick={onReset}
+            >
               <VisuallyHidden>
                 <Trans id="controls.search.clear">Clear search field</Trans>
               </VisuallyHidden>
