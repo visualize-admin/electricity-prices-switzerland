@@ -1,12 +1,12 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
-import CardGrid from "src/components/card-grid";
+import CardGrid, { CardGridSectionTitle } from "src/components/card-grid";
 import { Combobox, ComboboxItem } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import {
@@ -351,9 +351,9 @@ const OverviewPage = (props: Props) => {
           },
         }}
       >
-        <Typography variant="h2" sx={{ gridArea: "row-title-1" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-1" }}>
           <Trans id="sunshine.grid.network-costs-title">Network Costs</Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <Box
           sx={{
             gap: 4,
@@ -500,11 +500,11 @@ const OverviewPage = (props: Props) => {
         ) : (
           <LoadingSkeleton height={280} sx={{ gridArea: "energy-tariffs" }} />
         )}
-        <Typography variant="h2" sx={{ gridArea: "row-title-2" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-2" }}>
           <Trans id="sunshine.grid.power-stability-title">
             Power Stability
           </Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <PowerStabilityCardMinified
           filters={{
             viewBy: "progress",
@@ -577,11 +577,11 @@ const OverviewPage = (props: Props) => {
             </Link>
           }
         />
-        <Typography variant="h2" sx={{ gridArea: "row-title-3" }}>
+        <CardGridSectionTitle sx={{ gridArea: "row-title-3" }}>
           <Trans id="sunshine.grid.operational-standards-title">
             Operational Standards
           </Trans>
-        </Typography>
+        </CardGridSectionTitle>
         <TableComparisonCard
           {...yearServiceQualityProps}
           subtitle={null}
