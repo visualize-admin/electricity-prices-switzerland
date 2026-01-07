@@ -1,4 +1,4 @@
-import { Box, Theme, useTheme } from "@mui/material";
+import { Box, BoxProps, Theme, useTheme } from "@mui/material";
 import React, { forwardRef, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { tss } from "tss-react/mui";
@@ -22,10 +22,51 @@ type TooltipBoxProps = {
   interactive?: boolean;
 };
 
-export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
-  ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
+type TooltipChromeProps = {
+  placement: TooltipPlacement;
+  children: ReactNode;
+  interactive?: boolean;
+  sx?: BoxProps["sx"];
+};
+
+export const TooltipBox = forwardRef<HTMLDivElement, TooltipChromeProps>(
+  ({ placement, children, interactive = false, sx }, ref) => {
     const theme = useTheme();
     const triangle = mkTriangle(theme, placement);
+
+    return (
+      <Box
+        ref={ref}
+        sx={{
+          padding: 3,
+          pointerEvents: interactive ? "all" : "none",
+          bgcolor: theme.palette.background.paper,
+          filter: `drop-shadow(${theme.shadows[6]})`,
+
+          ...sx,
+
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            pointerEvents: interactive ? "all" : "none",
+            zIndex: -1,
+            width: 0,
+            height: 0,
+            borderStyle: "solid",
+            ...triangle,
+          },
+        }}
+      >
+        {children}
+      </Box>
+    );
+  }
+);
+
+export const TooltipBoxPositioned = forwardRef<HTMLDivElement, TooltipBoxProps>(
+  ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
+    const theme = useTheme();
 
     const [anchorBounds, setAnchorBounds] = React.useState<DOMRect | null>(
       null
@@ -83,28 +124,9 @@ export const TooltipBox = forwardRef<HTMLDivElement, TooltipBoxProps>(
                 ...style,
               }}
             >
-              <Box
-                sx={{
-                  padding: 3,
-                  pointerEvents: interactive ? "all" : "none",
-                  bgcolor: theme.palette.background.paper,
-                  filter: `drop-shadow(${theme.shadows[6]})`,
-
-                  "&::before": {
-                    content: "''",
-                    display: "block",
-                    position: "absolute",
-                    pointerEvents: interactive ? "all" : "none",
-                    zIndex: -1,
-                    width: 0,
-                    height: 0,
-                    borderStyle: "solid",
-                    ...triangle,
-                  },
-                }}
-              >
+              <TooltipBox placement={placement} interactive={interactive}>
                 {children}
-              </Box>
+              </TooltipBox>
             </Box>,
             document.body
           )}
