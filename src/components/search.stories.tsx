@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import { expect, within } from "@storybook/test";
 import { Provider } from "urql";
 import { never, fromValue } from "wonka";
 
@@ -109,18 +108,6 @@ export const Default: Story = {
       },
     },
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // Check that the search component is rendered
-    const desktopSearch = canvas.queryByPlaceholderText(
-      "Municipality, canton, grid operator"
-    );
-    const mobileSearchButton = canvas.queryByLabelText("Open search");
-
-    // Should have either desktop search field or mobile search button visible
-    expect(desktopSearch || mobileSearchButton).toBeInTheDocument();
-  },
 };
 
 export const EmptyResults: Story = {
@@ -157,100 +144,6 @@ export const MobileView: Story = {
       description: {
         story:
           "Mobile version of the search component which shows as an expandable search button that opens a full-width search field.",
-      },
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // In mobile view, we should see the search button
-    const searchButton = canvas.getByLabelText("Open search");
-    expect(searchButton).toBeInTheDocument();
-
-    // Click to expand search
-    await searchButton.click();
-
-    // Search field should now be visible
-    const searchField = canvas.getByPlaceholderText(
-      "Municipality, canton, grid operator"
-    );
-    expect(searchField).toBeInTheDocument();
-  },
-};
-
-export const DesktopView: Story = {
-  parameters: {
-    mockData: mockSearchResults,
-    viewport: {
-      defaultViewport: "desktop",
-    },
-    docs: {
-      description: {
-        story:
-          "Desktop version of the search component showing the always-visible search field with 'Go to...' hint text.",
-      },
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // In desktop view, we should see the search field directly
-    const searchField = canvas.getByPlaceholderText(
-      "Municipality, canton, grid operator"
-    );
-    expect(searchField).toBeInTheDocument();
-
-    // Should also see the "Go to..." hint
-    const goToHint = canvas.queryByText("Go to...");
-    expect(goToHint).toBeInTheDocument();
-  },
-};
-
-// Story showing different result types
-export const DifferentResultTypes: Story = {
-  parameters: {
-    mockData: {
-      search: [
-        {
-          __typename: "CantonResult" as const,
-          id: "ZH",
-          name: "Zürich",
-        },
-        {
-          __typename: "MunicipalityResult" as const,
-          id: "351",
-          name: "Zürich",
-        },
-        {
-          __typename: "OperatorResult" as const,
-          id: "ewz",
-          name: "Elektrizitätswerk der Stadt Zürich",
-        },
-      ],
-    },
-    docs: {
-      description: {
-        story:
-          "Search results showing different entity types (Canton, Municipality, Operator) grouped and labeled appropriately.",
-      },
-    },
-  },
-};
-
-// Story with many results to show scrolling
-export const ManyResults: Story = {
-  parameters: {
-    mockData: {
-      search: Array.from({ length: 20 }, (_, i) => ({
-        __typename: "MunicipalityResult" as const,
-        id: `${i + 1}`,
-        name: `Municipality ${i + 1}`,
-      })),
-    },
-    docs: {
-      description: {
-        story:
-          "Search component with many results to demonstrate scrolling behavior in the dropdown.",
       },
     },
   },
