@@ -1,10 +1,10 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ComponentProps, useMemo } from "react";
+import { useMemo } from "react";
 
 import CardGrid from "src/components/card-grid";
 import { Combobox, ComboboxItem } from "src/components/combobox";
@@ -287,6 +287,8 @@ const OverviewPage = (props: Props) => {
     return [currentYear - 2, currentYear - 1, currentYear];
   }, []);
 
+  const theme = useTheme();
+
   const mainContent = (
     <>
       <Head>
@@ -320,25 +322,24 @@ const OverviewPage = (props: Props) => {
           display: "grid",
           columnGap: 4,
           rowGap: 8,
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(6, 1fr)",
-          },
-          gridTemplateAreas: {
-            xs: `
-        "row-title-1"
-        "filters"
-        "network-costs"
-        "net-tariffs"
-        "energy-tariffs"
-        "row-title-2"
-        "saidi"
-        "saifi"
-        "row-title-3"
-        "service-quality"
-        "compliance"
-      `,
-            sm: `
+          gridTemplateColumns: "1fr",
+          gridTemplateAreas: `
+            "row-title-1"
+            "filters"
+            "network-costs"
+            "net-tariffs"
+            "energy-tariffs"
+            "row-title-2"
+            "saidi"
+            "saifi"
+            "row-title-3"
+            "service-quality"
+            "compliance"
+          `,
+
+          [theme.breakpoints.up("xl")]: {
+            gridTemplateColumns: "repeat(6, 1fr)",
+            gridTemplateAreas: `
         "row-title-1 row-title-1 row-title-1 row-title-1 row-title-1 row-title-1"
         "filters filters filters filters filters filters"
         "network-costs network-costs net-tariffs net-tariffs energy-tariffs energy-tariffs"
@@ -346,7 +347,7 @@ const OverviewPage = (props: Props) => {
         "saidi saidi saidi saifi saifi saifi"
         "row-title-3 row-title-3 row-title-3 row-title-3 row-title-3 row-title-3"
         "service-quality service-quality service-quality compliance compliance compliance"
-      `,
+          `,
           },
         }}
       >
