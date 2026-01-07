@@ -34,7 +34,6 @@ import {
   useFormatPercentage,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
-import { useIsMobile } from "src/lib/use-mobile";
 import { chartPalette } from "src/themes/palette";
 
 type BinType = "no-data" | "rest" | "normal";
@@ -239,16 +238,14 @@ const useHistogramState = ({
     )
   );
 
-  const isMobile = useIsMobile();
-
-  const margins = {
-    top: isMobile ? 140 : 70,
+  const baseMargins = {
+    top: 0,
     right: 40,
     bottom: 100,
     left: left + LEFT_MARGIN_OFFSET,
   };
 
-  const chartWidth = width - margins.left - margins.right;
+  const chartWidth = width - baseMargins.left - baseMargins.right;
 
   const annotationSpaces = annotation
     ? getAnnotationSpaces({
@@ -267,7 +264,7 @@ const useHistogramState = ({
     bandDomain = binMeta.map((b, i) => b.label ?? String(i));
     bandScale = scaleBand<string>()
       .domain(bandDomain)
-      .range([margins.left, chartWidth])
+      .range([baseMargins.left, chartWidth])
       .paddingInner(0.01)
       .paddingOuter(0.01);
   }
@@ -285,7 +282,7 @@ const useHistogramState = ({
     if (groupedBy && binMeta && bandScale) {
       xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
     } else {
-      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + margins.left;
+      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + baseMargins.left;
     }
     return {
       placement: { x: "center", y: "top" },
@@ -324,13 +321,6 @@ const useHistogramState = ({
 
   const chartHeight = chartWidth * aspectRatio + annotationSpace;
 
-  const bounds = {
-    width,
-    height: chartHeight + margins.top + margins.bottom,
-    margins,
-    chartWidth,
-    chartHeight,
-  };
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, annotationSpace || 0]);
 
@@ -342,7 +332,7 @@ const useHistogramState = ({
         x: xScale(getX(datum)),
         y: yScale(0),
         xLabel: xScale(getX(datum)),
-        yLabel: annotationSpaces[i + 1].height - 40,
+        yLabel: annotationSpaces[i + 1].height - 20,
         nbOfLines: annotationSpaces[i + 1].nbOfLines,
         value: formatCurrency(getX(datum)),
         label: getLabel(datum),
@@ -350,6 +340,18 @@ const useHistogramState = ({
       };
     });
 
+  const margins = {
+    ...baseMargins,
+    top: annotationSpaces[annotationSpaces.length - 1].height + 36,
+  };
+
+  const bounds = {
+    width,
+    height: chartHeight + margins.top + margins.bottom,
+    margins,
+    chartWidth,
+    chartHeight,
+  };
   return {
     bounds,
     data,

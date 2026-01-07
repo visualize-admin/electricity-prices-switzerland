@@ -10,7 +10,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
-import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
 const ANNOTATION_TRIANGLE_WIDTH = 5;
@@ -75,7 +74,6 @@ export const AnnotationX = () => {
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
-  const isMobile = useIsMobile();
   const chartState = useChartState() as
     | HistogramState
     | RangePlotState
@@ -102,9 +100,7 @@ export const AnnotationX = () => {
           }
         }
         x = margins.left + x;
-        const y1 =
-          (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
-          annotationFontSize * a.nbOfLines;
+        const y1 = a.yLabel + annotationFontSize * a.nbOfLines;
         return (
           <React.Fragment key={i}>
             <AnnotationLine
@@ -168,11 +164,10 @@ export const AnnotationXLabel = () => {
           key={`${a.label}-${i}`}
           sx={{
             width: width,
-            p: { xxs: 0, md: 1 },
             zIndex: 2,
             position: "absolute",
             left: 0,
-            top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
+            top: a.yLabel,
             pointerEvents: "none",
             textAlign: "left",
             transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
