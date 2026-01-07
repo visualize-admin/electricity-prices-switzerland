@@ -28,6 +28,40 @@ export interface Annotation {
   onTheLeft?: boolean;
 }
 
+const AnnotationLine = ({
+  x,
+  y1,
+  y2,
+  annotationLineColor,
+  annotationLabelUnderlineColor,
+  annotationColor,
+}: {
+  x: number;
+  y1: number;
+  y2: number;
+  annotationLineColor: string;
+  annotationLabelUnderlineColor: string;
+  annotationColor: string;
+}) => (
+  <g transform={`translate(0, 0)`}>
+    <line x1={x} y1={y1} x2={x} y2={y2} stroke={annotationLineColor} />
+    <line
+      x1={0}
+      y1={y1 + 0.5}
+      x2={x}
+      y2={y1 + 0.5}
+      stroke={annotationLabelUnderlineColor}
+      strokeDasharray="2px 4px"
+    />
+    <polygon
+      points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
+        x + ANNOTATION_TRIANGLE_WIDTH
+      },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
+      fill={annotationColor}
+    />
+  </g>
+);
+
 export const AnnotationX = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
@@ -73,29 +107,14 @@ export const AnnotationX = () => {
           annotationFontSize * a.nbOfLines;
         return (
           <React.Fragment key={i}>
-            <g transform={`translate(0, 0)`}>
-              <line
-                x1={x}
-                y1={y1}
-                x2={x}
-                y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
-                stroke={annotationLineColor}
-              />
-              <line
-                x1={0}
-                y1={y1 + 0.5}
-                x2={x}
-                y2={y1 + 0.5}
-                stroke={annotationLabelUnderlineColor}
-                strokeDasharray="2px 4px"
-              />
-              <polygon
-                points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
-                  x + ANNOTATION_TRIANGLE_WIDTH
-                },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
-                fill={annotationColor}
-              />
-            </g>
+            <AnnotationLine
+              x={x}
+              y1={y1}
+              y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
+              annotationLineColor={annotationLineColor}
+              annotationLabelUnderlineColor={annotationLabelUnderlineColor}
+              annotationColor={annotationColor}
+            />
           </React.Fragment>
         );
       })}
