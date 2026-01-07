@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -1303,6 +1303,7 @@ msgstr " Évolution dans le temps "
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Gestionnaires de réseau sélectionnés"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Coûts du réseau et tarifs"
@@ -1466,6 +1467,7 @@ msgstr "Qualité du service"
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "Part des gestionnaires de réseau"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1611,6 +1613,7 @@ msgstr "Total"
 msgid "sunshine.power-stability.saifi.unplanned"
 msgstr "Non planifié"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

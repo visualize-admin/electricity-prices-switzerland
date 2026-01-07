@@ -1297,6 +1297,7 @@ msgstr "Progress over time"
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Selected network operators"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Costs and Tariffs"
@@ -1460,6 +1461,7 @@ msgstr "Service Quality"
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "Share of operators"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1605,6 +1607,7 @@ msgstr "Total"
 msgid "sunshine.power-stability.saifi.unplanned"
 msgstr "Unplanned"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -496,7 +496,7 @@ msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
-msgstr "Andere Betreiber"
+msgstr "Andere Netzbetreiber"
 
 #: src/components/charts-generic/interaction/tooltip-content.tsx
 #: src/components/charts-generic/latest-year-chart-view.tsx
@@ -511,7 +511,7 @@ msgstr "Median der Vergleichsgruppe"
 
 #: src/components/power-stability-chart.tsx
 msgid "legend-item.total-peer-group-median"
-msgstr "Insgesamt (Median der Peer Group)"
+msgstr "Median der Vergleichsgruppe (Gesamt)"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -1176,7 +1176,7 @@ msgstr "Franken-Regel"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
-msgstr "Rechtzeitige Einreichung von Papieren"
+msgstr "Rechtzeitige Einreichung der Tarifblätter"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission.no"
@@ -1203,7 +1203,7 @@ msgstr "Vergleichen mit"
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
-msgstr "Operatoren zum Vergleich auswählen"
+msgstr "Netzbetreiber zum Vergleich auswählen"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
@@ -1297,6 +1297,7 @@ msgstr "Entwicklung über die Zeit"
 msgid "sunshine.costs-and-tariffs.selected-operators"
 msgstr "Ausgewählte Netzbetreiber"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.title"
 msgstr "Netzkosten und Tarife"
@@ -1422,7 +1423,7 @@ msgstr "Compliance"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
-msgstr "Einhaltung der Vorschriften"
+msgstr "Einhaltung der Weisungen"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance.share-of-operators"
@@ -1434,7 +1435,7 @@ msgstr "Auf dieser Seite werden wichtige Kenngrössen bewertet, die Aufschluss �
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.outage-info.info-dialog-label"
-msgstr "Informationen zu Ausfällen"
+msgstr "Informationen über Ausfälle"
 
 #: src/domain/translation.tsx
 msgid "sunshine.operational-standards.product-variety-trend"
@@ -1454,12 +1455,13 @@ msgstr "Servicequalität"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.service-quality.info-dialog-label"
-msgstr "Qualität der Dienstleistungen"
+msgstr "Servicequalität"
 
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality.share-of-operators"
 msgstr "Anteil der Netzbetreiber"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.title"
@@ -1550,11 +1552,11 @@ msgstr "Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.peer-group-median-total"
-msgstr "Peer Group Median (Gesamt)"
+msgstr "Median der Vergleichsgruppe (Gesamt)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.peer-group-median-unplanned"
-msgstr "Median der Peer Group (ungeplant)"
+msgstr "Median der Vergleichsgruppe (Ungeplant)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.total"
@@ -1591,11 +1593,11 @@ msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.peer-group-median-total"
-msgstr "Peer Group Median (Gesamt)"
+msgstr "Median der Vergleichsgruppe (Insgesamt)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.peer-group-median-unplanned"
-msgstr "Median der Peer Group (ungeplant)"
+msgstr "Median der Vergleichsgruppe (Ungeplant)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.total"
@@ -1603,8 +1605,9 @@ msgstr "Insgesamt"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.unplanned"
-msgstr "Ungeplantes"
+msgstr "Ungeplant"
 
+#: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
