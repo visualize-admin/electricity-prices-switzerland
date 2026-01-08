@@ -10,13 +10,11 @@ import { getTextWidth } from "src/domain/helpers";
 import { useChartTheme } from "../use-chart-theme";
 
 type AxisHeightCategoriesProps = {
-  stretch?: boolean;
   hideXAxis?: boolean;
   highlightedCategory?: string;
 };
 
 export const AxisHeightCategories = ({
-  stretch,
   hideXAxis = false,
   highlightedCategory,
 }: AxisHeightCategoriesProps) => {
@@ -24,10 +22,9 @@ export const AxisHeightCategories = ({
   const { labelFontSize } = useChartTheme();
 
   const theme = useTheme();
-  // I do not know why we use 3 grays, ideally these would be in the palette
-  const gray1 = "#e0e0e0";
-  const gray2 = "#666";
-  const gray3 = theme.palette.monochrome[200];
+
+  const textFill = theme.palette.monochrome[500];
+  const lineAndTicksFill = theme.palette.monochrome[200];
 
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
@@ -40,33 +37,33 @@ export const AxisHeightCategories = ({
         return (
           <g key={category}>
             <text
-              x={stretch ? -(bounds.margins.left - textWidth) : -10}
-              y={y + (stretch ? -10 : 0)}
+              x={-(bounds.margins.left - textWidth)}
+              y={y - 10}
               textAnchor="end"
               dominantBaseline="middle"
               fontSize={labelFontSize}
-              fill={gray2}
+              fill={textFill}
               fontWeight={highlightedCategory === category ? "bold" : "normal"}
             >
               {category}
             </text>
             {highlightedCategory === category && (
               <line
-                x1={stretch ? -bounds.margins.left : -5}
-                x2={stretch ? bounds.width - bounds.margins.left : 0}
+                x1={-bounds.margins.left}
+                x2={bounds.width - bounds.margins.left}
                 y1={y + labelFontSize / 2}
                 y2={y + labelFontSize / 2}
-                stroke={stretch ? gray3 : gray1}
+                stroke={lineAndTicksFill}
                 strokeWidth={1}
               />
             )}
             {!hideXAxis && (
               <line
-                x1={stretch ? -bounds.margins.left : -5}
-                x2={stretch ? bounds.width - bounds.margins.left : 0}
+                x1={-bounds.margins.left}
+                x2={bounds.width - bounds.margins.left}
                 y1={y}
                 y2={y}
-                stroke={stretch ? gray3 : gray1}
+                stroke={lineAndTicksFill}
                 strokeWidth={1}
               />
             )}

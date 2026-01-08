@@ -346,11 +346,7 @@ const LatestYearChartView = (
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear />
-          <AxisHeightCategories
-            stretch
-            hideXAxis
-            highlightedCategory={operatorLabel}
-          />
+          <AxisHeightCategories hideXAxis highlightedCategory={operatorLabel} />
           <BarsStacked />
           <BarsStackedAxis />
           {overallOrRatio !== "ratio" && <AnnotationX />}
