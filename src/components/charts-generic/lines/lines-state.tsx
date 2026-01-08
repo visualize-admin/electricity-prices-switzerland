@@ -165,7 +165,7 @@ const useLinesState = ({
   }, [yScale, labelFontSize]);
 
   const margins = {
-    top: yAxisLabel ? 80 : 50,
+    top: 50,
     right: 40,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
