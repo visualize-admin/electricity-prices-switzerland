@@ -33,7 +33,6 @@ export const sunshineYearsSchema = z
  */
 export const saidiSaifiTypes = [
   "total",
-  "planned",
   "unplanned",
 ] satisfies QueryStateSunshineSaidiSaifiType[];
 

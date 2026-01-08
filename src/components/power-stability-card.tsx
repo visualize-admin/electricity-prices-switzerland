@@ -275,15 +275,6 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
                     }),
                   },
                   {
-                    value: "planned",
-                    label: getLocalizedLabel({
-                      id: "power-stability.planned-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.planned-tooltip",
-                    }),
-                  },
-                  {
                     value: "unplanned",
                     label: getLocalizedLabel({
                       id: "power-stability.unplanned-option",
