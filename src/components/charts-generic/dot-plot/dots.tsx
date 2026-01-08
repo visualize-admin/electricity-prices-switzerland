@@ -28,6 +28,8 @@ const MedianDiamond: React.FC<{
     width={MEDIAN_DIAMOND_SIZE}
     height={MEDIAN_DIAMOND_SIZE}
     fill={palette.monochrome[800]}
+    stroke={palette.background.paper}
+    strokeWidth={1}
     transform={`rotate(45, ${x}, ${y})`}
   />
 );
