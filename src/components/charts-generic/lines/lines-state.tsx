@@ -166,7 +166,7 @@ const useLinesState = ({
 
   const margins = {
     top: yAxisLabel ? 80 : 50,
-    right: 40,
+    right: 0,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
@@ -180,7 +180,9 @@ const useLinesState = ({
     chartWidth,
     chartHeight,
   };
-  xScale.range([0, chartWidth]);
+
+  const xInset = 20;
+  xScale.range([xInset, chartWidth - xInset]);
   yScale.range([chartHeight, 0]);
 
   // Grouped by x (for mouse interaction on x)
