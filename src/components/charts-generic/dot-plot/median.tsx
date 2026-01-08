@@ -25,6 +25,8 @@ export const DotPlotMedian = () => {
             width={diamondSize}
             height={diamondSize}
             fill={palette.monochrome[800]}
+            stroke={palette.background.paper}
+            strokeWidth={1}
             transform={`rotate(45, ${x}, ${y})`}
           />
         );
