@@ -345,7 +345,7 @@ const LatestYearChartView = (
       </Box>
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" />
+          <AxisWidthLinear />
           <AxisHeightCategories
             stretch
             hideXAxis
