@@ -13,7 +13,7 @@ import { estimateTextWidth } from "src/lib/estimate-text-width";
 export const AxisWidthLinear = ({
   format = "number",
 }: {
-  format: "number" | "currency";
+  format?: "number" | "currency";
 }) => {
   const formatCurrency = useFormatCurrency();
   const { xScale, bounds, xAxisLabel } = useChartState() as
