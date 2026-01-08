@@ -1,41 +1,25 @@
 import { t } from "@lingui/macro";
 import { Box, BoxProps } from "@mui/material";
-import { max, pointer } from "d3";
-import { useMemo, useRef, useState } from "react";
+import { pointer } from "d3";
+import { useMemo, useRef } from "react";
 import React from "react";
 
-import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   StackedBarsState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { PowerStabilityHorizontalStackedBars } from "src/components/power-stability-horizontal-stacked-bars";
 import { ColorMapping } from "src/domain/color-mapping";
-import { MIN_PER_YEAR, PERCENT } from "src/domain/metrics";
-import {
-  peerGroupOperatorName,
-  type SunshinePowerStabilityData,
-} from "src/domain/sunshine";
+import { type SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
 
-import {
-  AnnotationX,
-  AnnotationXLabel,
-} from "./charts-generic/annotation/annotation-x";
-import { AxisHeightCategories } from "./charts-generic/axis/axis-height-categories";
-import { AxisWidthLinear } from "./charts-generic/axis/axis-width-linear";
-import {
-  BarsStacked,
-  BarsStackedAxis,
-} from "./charts-generic/bars/bars-stacked";
-import { StackedBarsChart } from "./charts-generic/bars/bars-stacked-state";
-import { ChartContainer, ChartSvg } from "./charts-generic/containers";
 import { SortableLegendItem } from "./charts-generic/legends/color";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { PowerStabilityCardFilters } from "./power-stability-card";
 
-type PowerStabilityChartProps = {
+export type PowerStabilityChartProps = {
   observations:
     | SunshinePowerStabilityData["saifi"]["yearlyData"]
     | SunshinePowerStabilityData["saidi"]["yearlyData"];
@@ -46,7 +30,7 @@ type PowerStabilityChartProps = {
 } & Omit<SectionProps, "entity"> &
   PowerStabilityCardFilters;
 
-type PowerStabilityRow =
+export type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
@@ -64,7 +48,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   return (
     <Box {...rootProps}>
       {viewBy === "latest" ? (
-        <LatestYearHorizontalStackedBarChart
+        <PowerStabilityHorizontalStackedBars
           observations={dataWithStackFields}
           {...restProps}
         />
@@ -79,7 +63,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
-const InteractionStackedBars = React.memo(() => {
+export const InteractionStackedBars = React.memo(() => {
   const [, dispatch] = useInteraction();
   const ref = useRef<SVGGElement>(null);
 
@@ -130,13 +114,13 @@ const InteractionStackedBars = React.memo(() => {
 });
 
 //TODO: align with query-states
-type PowerStabilitySortableType =
+export type PowerStabilitySortableType =
   | "planned"
   | "unplanned"
   | "total"
   | "operator";
 
-const SortOptions = ({
+export const SortOptions = ({
   sortByItem,
   sortDirection,
   handleSortByItem,
@@ -208,185 +192,6 @@ const SortOptions = ({
         />
       )}
     </Box>
-  );
-};
-
-const LatestYearHorizontalStackedBarChart = (
-  props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
-    observations: PowerStabilityRow[];
-  }
-) => {
-  const { observations, id, operatorLabel, overallOrRatio } = props;
-  const [sortByItem, setSortByItem] =
-    useState<PowerStabilitySortableType>("planned");
-
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-
-  const handleSortByItem = (item: PowerStabilitySortableType) => {
-    if (sortByItem === item) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortByItem(item);
-      setSortDirection("asc");
-    }
-  };
-
-  const { dataWithRatioApplied, xDomain } = useMemo(() => {
-    const data = observations.map((d) => {
-      const total = d.planned + d.unplanned;
-      if (overallOrRatio === "ratio" && total > 0) {
-        return {
-          ...d,
-          planned: (d.planned / total) * 100,
-          unplanned: (d.unplanned / total) * 100,
-          total,
-        };
-      }
-      return {
-        ...d,
-        total,
-      };
-    });
-
-    const maxVal = max(data, (d) => d.planned + d.unplanned) ?? 0;
-    const domain: [number, number] =
-      overallOrRatio === "ratio" ? [0, 100] : [0, maxVal];
-
-    return {
-      dataWithRatioApplied: data,
-      xDomain: domain,
-      maxValue: maxVal,
-    };
-  }, [observations, overallOrRatio]);
-
-  const { sortedDataWithoutMedian, medianPeerGroupObservation } =
-    useMemo(() => {
-      const sorted = [...dataWithRatioApplied].sort((a, b) => {
-        if (a.operator_id.toString() === id) return -1;
-        if (b.operator_id.toString() === id) return 1;
-
-        switch (sortByItem) {
-          case "operator":
-            return a.operator_name.localeCompare(b.operator_name);
-          case "planned":
-            return b.planned - a.planned;
-          case "unplanned":
-            return b.unplanned - a.unplanned;
-          case "total":
-            return b.planned + b.unplanned - (a.planned + a.unplanned);
-          default:
-            return 0;
-        }
-      });
-
-      if (sortDirection === "asc") {
-        sorted.reverse();
-      }
-
-      // Move current operator to the top
-      const currentOperatorIndex = sorted.findIndex(
-        (d) => d.operator_id.toString() === id
-      );
-      if (currentOperatorIndex > -1) {
-        const [currentOperator] = sorted.splice(currentOperatorIndex, 1);
-        sorted.unshift(currentOperator);
-      }
-
-      const withoutMedian = sorted.filter(
-        (d) => d.operator_name !== peerGroupOperatorName
-      );
-      const median = sorted.find(
-        (d) => d.operator_name === peerGroupOperatorName
-      );
-
-      return {
-        sortedDataWithoutMedian: withoutMedian,
-        medianPeerGroupObservation: median,
-      };
-    }, [dataWithRatioApplied, sortByItem, sortDirection, id]);
-
-  return (
-    <StackedBarsChart
-      data={sortedDataWithoutMedian}
-      fields={{
-        x: {
-          componentIri: ["planned", "unplanned"],
-          axisLabel: overallOrRatio === "ratio" ? PERCENT : MIN_PER_YEAR,
-        },
-        domain: xDomain,
-        annotation: medianPeerGroupObservation
-          ? [
-              {
-                value: medianPeerGroupObservation.total,
-                avgLabel: t({
-                  id: "legend-item.total-peer-group-median",
-                  message: "Total (Peer Group Median)",
-                }),
-              },
-            ]
-          : [],
-        y: {
-          componentIri: "operator_name",
-        },
-        label: { componentIri: "avgLabel" },
-        segment: {
-          palette: "elcom",
-          type: "stacked",
-          componentIri: "unplanned",
-        },
-        style: {
-          colorDomain: ["planned", "unplanned"],
-          opacityDomain: [],
-          colorAcc: "operator",
-          opacityAcc: "year",
-          highlightValue: id,
-        },
-      }}
-      measures={[
-        {
-          iri: "planned",
-          label: t({
-            id: "power-stability-trend-chart.sortable-legend-item.planned",
-            message: "Planned",
-          }),
-          __typename: "Measure",
-        },
-        {
-          iri: "unplanned",
-          label: t({
-            id: "power-stability-trend-chart.sortable-legend-item.unplanned",
-            message: "Unplanned",
-          }),
-          __typename: "Measure",
-        },
-      ]}
-      dimensions={[
-        {
-          iri: "operator_name",
-          label: "Operator",
-          __typename: "NominalDimension",
-        },
-      ]}
-    >
-      <SortOptions
-        sortByItem={sortByItem}
-        sortDirection={sortDirection}
-        overallOrRatio={overallOrRatio}
-        handleSortByItem={handleSortByItem}
-      />
-      <ChartContainer>
-        <ChartSvg>
-          <AxisWidthLinear />
-          <AxisHeightCategories hideXAxis highlightedCategory={operatorLabel} />
-          <BarsStacked />
-          <BarsStackedAxis />
-          {overallOrRatio !== "ratio" && <AnnotationX />}
-          <InteractionStackedBars />
-        </ChartSvg>
-        {overallOrRatio !== "ratio" && <AnnotationXLabel />}
-        <Tooltip type="multiple" />
-      </ChartContainer>
-    </StackedBarsChart>
   );
 };
 
