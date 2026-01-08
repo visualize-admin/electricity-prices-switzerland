@@ -57,21 +57,15 @@ export const Dots = (props: DotProps) => {
     }));
   }, [data, getX, getY, xScale, yScale]);
 
-  const regularDots = dotProps.filter(
+  const { true: regularDots = [], false: selectedDots = [] } = groupBy(
+    dotProps,
     ({ d }) =>
       d !== hovered &&
       (!highlightedValue ||
         getHighlightEntity(d)?.toString() !== highlightedValue.toString())
   );
 
-  const selectedDots = dotProps.filter(
-    ({ d }) =>
-      highlightedValue &&
-      getHighlightEntity(d)?.toString() === highlightedValue.toString()
-  );
-
   const hoveredDot = dotProps.find(({ d }) => d === hovered);
-
   const medianX = medianValue ? xScale(medianValue) : null;
 
   return (

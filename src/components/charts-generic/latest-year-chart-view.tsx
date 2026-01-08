@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
+import { groupBy } from "lodash";
 import { useMemo } from "react";
 
 import { ColorMapping } from "src/domain/color-mapping";
