@@ -156,8 +156,8 @@ const LatestYearHorizontalStackedBarChart = (
     }
   };
 
-  const dataWithRatioApplied = useMemo(() => {
-    return observations.map((d) => {
+  const { dataWithRatioApplied, xDomain } = useMemo(() => {
+    const data = observations.map((d) => {
       const total = d.planned + d.unplanned;
       if (overallOrRatio === "ratio" && total > 0) {
         return {
@@ -172,55 +172,68 @@ const LatestYearHorizontalStackedBarChart = (
         total,
       };
     });
+
+    const maxVal = max(data, (d) => d.planned + d.unplanned) ?? 0;
+    const domain: [number, number] =
+      overallOrRatio === "ratio" ? [0, 100] : [0, maxVal];
+
+    return {
+      dataWithRatioApplied: data,
+      xDomain: domain,
+      maxValue: maxVal,
+    };
   }, [observations, overallOrRatio]);
 
-  const maxValue =
-    max(dataWithRatioApplied, (d) => d.planned + d.unplanned) ?? 0;
-  const xDomain: [number, number] =
-    overallOrRatio === "ratio" ? [0, 100] : [0, maxValue];
+  const { sortedDataWithoutMedian, medianPeerGroupObservation } =
+    useMemo(() => {
+      const sorted = [...dataWithRatioApplied].sort((a, b) => {
+        if (a.operator_id.toString() === id) return -1;
+        if (b.operator_id.toString() === id) return 1;
 
-  const sortedData = [...dataWithRatioApplied].sort((a, b) => {
-    if (a.operator_id.toString() === id) return -1;
-    if (b.operator_id.toString() === id) return 1;
+        switch (sortByItem) {
+          case "operator":
+            return a.operator_name.localeCompare(b.operator_name);
+          case "planned":
+            return b.planned - a.planned;
+          case "unplanned":
+            return b.unplanned - a.unplanned;
+          case "total":
+            return b.planned + b.unplanned - (a.planned + a.unplanned);
+          default:
+            return 0;
+        }
+      });
 
-    switch (sortByItem) {
-      case "operator":
-        return a.operator_name.localeCompare(b.operator_name);
-      case "planned":
-        return b.planned - a.planned;
-      case "unplanned":
-        return b.unplanned - a.unplanned;
-      case "total":
-        return b.planned + b.unplanned - (a.planned + a.unplanned);
-      default:
-        return 0;
-    }
-  });
+      if (sortDirection === "asc") {
+        sorted.reverse();
+      }
 
-  if (sortDirection === "asc") {
-    sortedData.reverse();
-  }
+      // Move current operator to the top
+      const currentOperatorIndex = sorted.findIndex(
+        (d) => d.operator_id.toString() === id
+      );
+      if (currentOperatorIndex > -1) {
+        const [currentOperator] = sorted.splice(currentOperatorIndex, 1);
+        sorted.unshift(currentOperator);
+      }
 
-  // Move current operator to the top
-  const currentOperatorIndex = sortedData.findIndex(
-    (d) => d.operator_id.toString() === id
-  );
-  if (currentOperatorIndex > -1) {
-    const [currentOperator] = sortedData.splice(currentOperatorIndex, 1);
-    sortedData.unshift(currentOperator);
-  }
+      const withoutMedian = sorted.filter(
+        (d) => d.operator_name !== peerGroupOperatorName
+      );
+      const median = sorted.find(
+        (d) => d.operator_name === peerGroupOperatorName
+      );
+
+      return {
+        sortedDataWithoutMedian: withoutMedian,
+        medianPeerGroupObservation: median,
+      };
+    }, [dataWithRatioApplied, sortByItem, sortDirection, id]);
 
   const gridOperatorsLabel = t({
     id: "power-stability-trend-chart.legend-item.grid-operators",
     message: "Grid Operators",
   });
-
-  const sortedDataWithoutMedian = sortedData.filter(
-    (d) => d.operator_name !== peerGroupOperatorName
-  );
-  const medianPeerGroupObservation = sortedData.find(
-    (d) => d.operator_name === peerGroupOperatorName
-  );
 
   return (
     <StackedBarsChart
