@@ -345,12 +345,8 @@ const LatestYearChartView = (
       </Box>
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" />
-          <AxisHeightCategories
-            stretch
-            hideXAxis
-            highlightedCategory={operatorLabel}
-          />
+          <AxisWidthLinear />
+          <AxisHeightCategories hideXAxis highlightedCategory={operatorLabel} />
           <BarsStacked />
           <BarsStackedAxis />
           {overallOrRatio !== "ratio" && <AnnotationX />}

@@ -402,7 +402,7 @@ const CantonsComparisonRangePlot = memo(
                 <ChartSvg>
                   <RangeplotMedian label="CH Median" />
                   <Range id={year} />
-                  <AxisWidthLinear position="top" />
+                  <AxisWidthLinear />
                   <RangePoints />
                   <AnnotationX />
                   <AnnotationXDataPoint />

@@ -22,12 +22,18 @@ export const TOOLTIP_OFFSET = 4;
 export const Tooltip = ({
   type = "single",
   forceYAnchor,
+  id,
 }: {
   type: TooltipType;
   forceYAnchor?: boolean;
+  id?: string;
 }) => {
   const [state] = useInteraction();
-  const { visible, mouse, d } = state.interaction;
+  const { visible, mouse, d, id: interactionId } = state.interaction;
+
+  if (id && id !== interactionId) {
+    return null;
+  }
 
   return (
     <>

@@ -36,3 +36,5 @@ export const getChartColorMapping = <T extends GenericObservation>({
 
   return baseMapping;
 };
+
+export type ChartColorMapping = ReturnType<typeof getChartColorMapping>;

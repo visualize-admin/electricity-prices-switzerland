@@ -8,12 +8,22 @@ import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { GenericObservation } from "src/domain/data";
 
 export const InteractionDotted = memo(
-  ({ debug = false }: { debug?: boolean }) => {
+  ({
+    debug = false,
+    data: dataProp,
+    id,
+  }: {
+    debug?: boolean;
+    data?: GenericObservation[];
+    id?: string;
+  }) => {
     const [, dispatch] = useInteraction();
 
-    const { data, bounds, xScale, yScale, getX, getY } =
+    const { data: dataContext, bounds, xScale, yScale, getX, getY } =
       useChartState() as RangePlotState;
-    const { margins, chartWidth, chartHeight } = bounds;
+
+    const data = dataProp ?? dataContext;
+    const { margins, chartWidth } = bounds;
 
     const showTooltip = (d: GenericObservation, event: React.MouseEvent) => {
       const rect = (event.currentTarget as SVGElement).getBoundingClientRect();
@@ -26,6 +36,7 @@ export const InteractionDotted = memo(
           interaction: {
             visible: true,
             d,
+            id,
             mouse: { x, y },
           },
         },
@@ -42,11 +53,7 @@ export const InteractionDotted = memo(
 
     return (
       <>
-        <g
-          transform={`translate(${margins.left}, ${
-            (margins.annotations ?? 0) + margins.top
-          })`}
-        >
+        <g>
           {data.map((d, i) => (
             <circle
               key={i}
@@ -78,7 +85,7 @@ export const InteractionDotted = memo(
                 stroke="Orchid"
               />
             </g>
-            <g transform={`translate(0, ${margins.annotations})`}>
+            <g>
               <rect
                 x={0}
                 y={0}
@@ -89,11 +96,7 @@ export const InteractionDotted = memo(
                 stroke="LightSeaGreen"
               />
             </g>
-            <g
-              transform={`translate(0, ${
-                (margins.annotations ?? 0) + margins.top + chartHeight
-              })`}
-            >
+            <g>
               <rect
                 x={0}
                 y={0}

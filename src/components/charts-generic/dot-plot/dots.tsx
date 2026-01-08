@@ -1,9 +1,11 @@
+import { groupBy } from "lodash";
 import { memo, useMemo } from "react";
 
 import {
   DotPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
+import { GenericObservation } from "src/domain/data";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { MEDIAN_DIAMOND_SIZE } from "../constants";
@@ -11,11 +13,28 @@ import { useInteraction } from "../use-interaction";
 
 type DotProps = {
   compareWith?: string[];
+  data?: GenericObservation[];
 };
+
+const MedianDiamond: React.FC<{
+  x: number;
+  y: number;
+  yValue: unknown;
+}> = ({ x, y, yValue }) => (
+  <rect
+    key={`median-${yValue}`}
+    x={x - MEDIAN_DIAMOND_SIZE / 2}
+    y={y - MEDIAN_DIAMOND_SIZE / 2}
+    width={MEDIAN_DIAMOND_SIZE}
+    height={MEDIAN_DIAMOND_SIZE}
+    fill={palette.monochrome[800]}
+    transform={`rotate(45, ${x}, ${y})`}
+  />
+);
 
 export const Dots = (props: DotProps) => {
   const {
-    data,
+    data: contextData,
     getX,
     getY,
     xScale,
@@ -28,7 +47,9 @@ export const Dots = (props: DotProps) => {
     medianValue,
   } = useChartState() as DotPlotState;
 
-  const { compareWith } = props;
+  const { compareWith, data: propsData } = props;
+
+  const data = propsData ?? contextData;
 
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
@@ -41,25 +62,19 @@ export const Dots = (props: DotProps) => {
     }));
   }, [data, getX, getY, xScale, yScale]);
 
-  const regularDots = dotProps.filter(
+  const { true: regularDots = [], false: selectedDots = [] } = groupBy(
+    dotProps,
     ({ d }) =>
       d !== hovered &&
       (!highlightedValue ||
         getHighlightEntity(d)?.toString() !== highlightedValue.toString())
   );
 
-  const selectedDots = dotProps.filter(
-    ({ d }) =>
-      highlightedValue &&
-      getHighlightEntity(d)?.toString() === highlightedValue.toString()
-  );
-
   const hoveredDot = dotProps.find(({ d }) => d === hovered);
-
   const medianX = medianValue ? xScale(medianValue) : null;
 
   return (
-    <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
+    <>
       {/* Regular dots */}
       {regularDots.map(({ cx, cy, d }, i) => (
         <Dot
@@ -77,6 +92,7 @@ export const Dots = (props: DotProps) => {
 
       {/* Connector lines under selected/hovered */}
       {hovered &&
+        hoveredDot &&
         selectedDots.map(({ d, cx }, i) => (
           <line
             key={`connector-${i}`}
@@ -120,19 +136,9 @@ export const Dots = (props: DotProps) => {
       {medianX &&
         yScale.domain().map((yValue) => {
           const y = (yScale(yValue) || 0) + yScale.bandwidth() / 2;
-          return (
-            <rect
-              key={`median-${yValue}`}
-              x={medianX - MEDIAN_DIAMOND_SIZE / 2}
-              y={y - MEDIAN_DIAMOND_SIZE / 2}
-              width={MEDIAN_DIAMOND_SIZE}
-              height={MEDIAN_DIAMOND_SIZE}
-              fill={palette.monochrome[800]}
-              transform={`rotate(45, ${medianX}, ${y})`}
-            />
-          );
+          return <MedianDiamond x={medianX} y={y} yValue={yValue} />;
         })}
-    </g>
+    </>
   );
 };
 

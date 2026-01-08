@@ -13,6 +13,9 @@ type InteractionState = {
     visible: boolean;
     mouse?: { x: number; y: number } | undefined;
     d: GenericObservation | undefined;
+    // Optional interaction id to distinguish multiple interactions
+    // from the same context
+    id?: string;
   };
 };
 
@@ -42,14 +45,12 @@ const InteractionStateReducer = (
       return {
         ...state,
         interaction: {
-          visible: action.value.interaction.visible,
+          ...action.value.interaction,
           mouse: action.value.interaction.mouse
             ? {
-                x: action.value.interaction.mouse.x,
-                y: action.value.interaction.mouse.y,
+                ...action.value.interaction.mouse,
               }
             : undefined,
-          d: action.value.interaction.d,
         },
       };
     case "INTERACTION_HIDE":

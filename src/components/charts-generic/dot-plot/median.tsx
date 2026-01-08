@@ -3,8 +3,7 @@ import { palette } from "src/themes/palette";
 import { DotPlotState, useChartState } from "../use-chart-state";
 
 export const DotPlotMedian = () => {
-  const { medianValue, bounds, xScale, yScale } =
-    useChartState() as DotPlotState;
+  const { medianValue, xScale, yScale } = useChartState() as DotPlotState;
 
   const diamondSize = 8;
 
@@ -15,7 +14,7 @@ export const DotPlotMedian = () => {
   const x = xScale(medianValue);
 
   return (
-    <g transform={`translate(${bounds.margins.left}, ${bounds.margins.top})`}>
+    <>
       {yScale.domain().map((yValue) => {
         const y = (yScale(yValue) || 0) + yScale.bandwidth() / 2;
         return (
@@ -30,6 +29,6 @@ export const DotPlotMedian = () => {
           />
         );
       })}
-    </g>
+    </>
   );
 };
