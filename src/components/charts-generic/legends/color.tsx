@@ -192,14 +192,10 @@ const useLegendItemStyles = makeStyles()(() => ({
     alignItems: "center",
     paddingLeft: 0,
     gap: "1rem",
-    lineHeight: "1rem",
+    lineHeight: "1.125rem",
     fontWeight: 400,
-    fontSize: "0.625rem",
+    fontSize: "0.75rem",
     color: "#424242",
-    "@media (min-width: 600px)": {
-      lineHeight: "1.125rem",
-      fontSize: "0.75rem",
-    },
   },
 }));
 
