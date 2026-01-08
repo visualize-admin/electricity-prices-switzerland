@@ -136,6 +136,81 @@ type PowerStabilitySortableType =
   | "total"
   | "operator";
 
+const SortOptions = ({
+  sortByItem,
+  sortDirection,
+  handleSortByItem,
+  overallOrRatio,
+}: {
+  sortByItem: PowerStabilitySortableType;
+  sortDirection: "asc" | "desc";
+  handleSortByItem: (item: PowerStabilitySortableType) => void;
+  overallOrRatio: "overall" | "ratio" | undefined;
+}) => {
+  const gridOperatorsLabel = t({
+    id: "power-stability-trend-chart.legend-item.grid-operators",
+    message: "Grid Operators",
+  });
+  return (
+    <Box
+      display="flex"
+      position="relative"
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      flexWrap="wrap"
+      minHeight="20px"
+      gap={4}
+      mb={6}
+    >
+      <SortableLegendItem<PowerStabilitySortableType>
+        item={gridOperatorsLabel}
+        color={palette.text.primary}
+        value={"operator"}
+        active={sortByItem === "operator"}
+        direction={sortDirection}
+        handleClick={handleSortByItem}
+      />
+
+      <SortableLegendItem<PowerStabilitySortableType>
+        item={t({
+          id: "power-stability-trend-chart.sortable-legend-item.planned",
+          message: "Planned",
+        })}
+        color={chartPalette.categorical[1]}
+        value="planned"
+        active={sortByItem === "planned"}
+        direction={sortDirection}
+        handleClick={handleSortByItem}
+      />
+
+      <SortableLegendItem<PowerStabilitySortableType>
+        item={t({
+          id: "power-stability-trend-chart.sortable-legend-item.unplanned",
+          message: "Unplanned",
+        })}
+        color={chartPalette.categorical[2]}
+        value="unplanned"
+        active={sortByItem === "unplanned"}
+        direction={sortDirection}
+        handleClick={handleSortByItem}
+      />
+      {overallOrRatio !== "ratio" && (
+        <SortableLegendItem<PowerStabilitySortableType>
+          item={t({
+            id: "power-stability-trend-chart.sortable-legend-item.total",
+            message: "Total",
+          })}
+          color={palette.text.primary}
+          value="total"
+          active={sortByItem === "total"}
+          direction={sortDirection}
+          handleClick={handleSortByItem}
+        />
+      )}
+    </Box>
+  );
+};
+
 const LatestYearHorizontalStackedBarChart = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
@@ -230,11 +305,6 @@ const LatestYearHorizontalStackedBarChart = (
       };
     }, [dataWithRatioApplied, sortByItem, sortDirection, id]);
 
-  const gridOperatorsLabel = t({
-    id: "power-stability-trend-chart.legend-item.grid-operators",
-    message: "Grid Operators",
-  });
-
   return (
     <StackedBarsChart
       data={sortedDataWithoutMedian}
@@ -298,64 +368,12 @@ const LatestYearHorizontalStackedBarChart = (
         },
       ]}
     >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 4,
-          mb: 6,
-        }}
-        display="flex"
-      >
-        <SortableLegendItem<PowerStabilitySortableType>
-          item={gridOperatorsLabel}
-          color={palette.text.primary}
-          value={"operator"}
-          active={sortByItem === "operator"}
-          direction={sortDirection}
-          handleClick={handleSortByItem}
-        />
-
-        <SortableLegendItem<PowerStabilitySortableType>
-          item={t({
-            id: "power-stability-trend-chart.sortable-legend-item.planned",
-            message: "Planned",
-          })}
-          color={chartPalette.categorical[1]}
-          value="planned"
-          active={sortByItem === "planned"}
-          direction={sortDirection}
-          handleClick={handleSortByItem}
-        />
-
-        <SortableLegendItem<PowerStabilitySortableType>
-          item={t({
-            id: "power-stability-trend-chart.sortable-legend-item.unplanned",
-            message: "Unplanned",
-          })}
-          color={chartPalette.categorical[2]}
-          value="unplanned"
-          active={sortByItem === "unplanned"}
-          direction={sortDirection}
-          handleClick={handleSortByItem}
-        />
-        {overallOrRatio !== "ratio" && (
-          <SortableLegendItem<PowerStabilitySortableType>
-            item={t({
-              id: "power-stability-trend-chart.sortable-legend-item.total",
-              message: "Total",
-            })}
-            color={palette.text.primary}
-            value="total"
-            active={sortByItem === "total"}
-            direction={sortDirection}
-            handleClick={handleSortByItem}
-          />
-        )}
-      </Box>
+      <SortOptions
+        sortByItem={sortByItem}
+        sortDirection={sortDirection}
+        overallOrRatio={overallOrRatio}
+        handleSortByItem={handleSortByItem}
+      />
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear />
