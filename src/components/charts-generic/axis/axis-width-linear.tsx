@@ -46,7 +46,11 @@ export const AxisWidthLinear = ({
       .attr("font-family", fontFamily)
       .attr("fill", labelColor)
       .attr("x", 0)
-      .attr("text-anchor", "middle");
+      .attr("text-anchor", (d, i) => {
+        if (i === 0) return "start";
+        if (i === tickValues.length - 1) return "end";
+        return "middle";
+      });
 
     g.select("path.domain").remove();
   };
