@@ -39,7 +39,6 @@ export const Dots = (props: DotProps) => {
     getY,
     xScale,
     yScale,
-    bounds,
     getHighlightEntity,
     highlightedValue,
     colors,

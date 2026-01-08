@@ -34,6 +34,7 @@ export const TrendIcon: React.FC<
       viewBox="4 4 16 16"
       width="12"
       height="12"
+      data-testid={`trend-icon-${trend?.toLowerCase()}`}
     />
   ) : null;
 };

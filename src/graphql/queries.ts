@@ -1077,7 +1077,9 @@ export type EnergyTariffsQuery = {
     __typename: "TariffsData";
     category: any;
     operatorRate?: number | null;
+    operatorTrend?: Trend | null;
     peerGroupMedianRate?: number | null;
+    peerGroupMedianTrend?: Trend | null;
     yearlyData: Array<{
       __typename: "TariffRow";
       period: number;
@@ -1099,7 +1101,9 @@ export type NetTariffsQuery = {
     __typename: "TariffsData";
     category: any;
     operatorRate?: number | null;
+    operatorTrend?: Trend | null;
     peerGroupMedianRate?: number | null;
+    peerGroupMedianTrend?: Trend | null;
     yearlyData: Array<{
       __typename: "TariffRow";
       period: number;
@@ -1726,7 +1730,9 @@ export const EnergyTariffsDocument = gql`
     energyTariffs(filter: $filter) {
       category
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         period
         rate
@@ -1751,7 +1757,9 @@ export const NetTariffsDocument = gql`
     netTariffs(filter: $filter) {
       category
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         period
         rate
