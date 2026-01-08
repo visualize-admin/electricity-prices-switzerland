@@ -118,7 +118,7 @@ const ChartLegend: React.FC<{
   </Box>
 );
 
-export const LatestYearChartView = <T extends GenericObservation>(
+export const LatestYearDotsChartView = <T extends GenericObservation>(
   props: LatestYearChartViewProps<T>
 ) => {
   const {
@@ -210,10 +210,7 @@ export const LatestYearChartView = <T extends GenericObservation>(
                 <AxisWidthLinear format="number" />
                 <PlotArea>
                   <DotRowLine />
-                  <Dots
-                    data={dataByYValue[yValue]}
-                    compareWith={compareWith}
-                  />
+                  <Dots data={dataByYValue[yValue]} compareWith={compareWith} />
                   <InteractionDotted id={yValue} data={dataByYValue[yValue]} />
                 </PlotArea>
               </ChartSvg>

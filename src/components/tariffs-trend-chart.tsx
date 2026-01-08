@@ -11,7 +11,7 @@ import {
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 
-import { LatestYearChartView as LatestYearChartViewGeneric } from "./charts-generic/latest-year-chart-view";
+import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { TariffsTrendCardFilters } from "./tariffs-trend-card";
@@ -81,7 +81,7 @@ const TariffsLatestYearChartView = (
   }, [observations]);
 
   return (
-    <LatestYearChartViewGeneric
+    <LatestYearDotsChartView
       observations={mappedObservations}
       medianValue={netTariffs.peerGroupMedianRate ?? undefined}
       id={id}

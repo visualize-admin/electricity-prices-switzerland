@@ -12,7 +12,7 @@ import {
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 
-import { LatestYearChartView } from "./charts-generic/latest-year-chart-view";
+import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
@@ -82,7 +82,7 @@ const NetworkCostLatestYearChartView = (
   }, [observations]);
 
   return (
-    <LatestYearChartView
+    <LatestYearDotsChartView
       observations={mappedObservations}
       medianValue={networkCosts.peerGroupMedianRate ?? undefined}
       id={id}

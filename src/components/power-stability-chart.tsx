@@ -64,7 +64,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   return (
     <Box {...rootProps}>
       {viewBy === "latest" ? (
-        <LatestYearChartView
+        <LatestYearHorizontalStackedBarChart
           observations={dataWithStackFields}
           {...restProps}
         />
@@ -136,7 +136,7 @@ type PowerStabilitySortableType =
   | "total"
   | "operator";
 
-const LatestYearChartView = (
+const LatestYearHorizontalStackedBarChart = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
   }
