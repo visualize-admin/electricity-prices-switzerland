@@ -19,6 +19,12 @@ You can also check the
   - Align zoom button margins with legend positioning
 - Overview page
   - Improve overview page responsive layout: cards now stack vertically below 1280px (xl breakpoint) and have better responsive padding
+- Detail pages
+  - Fix SAIDI/SAIFI Chart Download #513
+  - Improve responsiveness of latest year dot charts #503
+- General
+  - Make layout generally more compact
+  - Several design fixes from design review #501
 
 # 2.31.0 - 2026-01-06
 
