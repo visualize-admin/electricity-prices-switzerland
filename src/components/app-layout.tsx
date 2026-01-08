@@ -21,11 +21,13 @@ import { Search } from "src/components/search";
 type ApplicationLayoutProps = {
   children: ReactNode;
   errorState?: boolean;
+  displayTitle?: boolean;
 };
 
 export const ApplicationLayout = ({
   children,
   errorState,
+  displayTitle = true,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
@@ -51,7 +53,7 @@ export const ApplicationLayout = ({
         >
           {!errorState && (
             <SafeHydration>
-              <AppNavigation />
+              <AppNavigation displayTitle={displayTitle} />
             </SafeHydration>
           )}
           {children}
@@ -62,7 +64,7 @@ export const ApplicationLayout = ({
   );
 };
 
-const AppNavigation = () => {
+const AppNavigation = ({ displayTitle = true }: { displayTitle?: boolean }) => {
   const { asPath: asPathWithQueryString } = useRouter();
   const asPath = asPathWithQueryString.split("?")[0];
 
@@ -72,43 +74,45 @@ const AppNavigation = () => {
         position: "relative",
       }}
     >
-      <ContentWrapper>
-        <Box
-          sx={{
-            py: 8,
-            flexDirection: "column",
-            gap: 4,
-          }}
-          display="flex"
-        >
-          <Typography
-            component="h1"
-            variant="display2"
-            sx={{ textAlign: "left" }}
-          >
-            <Trans id="site.title">Electricity tariffs in Switzerland</Trans>
-          </Typography>
-          <Typography
-            variant="h3"
+      {displayTitle ? (
+        <ContentWrapper>
+          <Box
             sx={{
-              width: "100%",
-              color: "secondary.500",
-              mt: 2,
-              mb: 2,
+              py: 8,
+              flexDirection: "column",
+              gap: 4,
             }}
+            display="flex"
           >
-            <Trans id="search.global">
-              Detailed price analyses of cantons, municipalities and grid
-              operators.
-            </Trans>
-          </Typography>
-        </Box>
-      </ContentWrapper>
+            <Typography
+              component="h1"
+              variant="display2"
+              sx={{ textAlign: "left" }}
+            >
+              <Trans id="site.title">Electricity tariffs in Switzerland</Trans>
+            </Typography>
+            <Typography
+              variant="h3"
+              sx={{
+                width: "100%",
+                color: "secondary.500",
+                mt: 2,
+                mb: 2,
+              }}
+            >
+              <Trans id="search.global">
+                Detailed price analyses of cantons, municipalities and grid
+                operators.
+              </Trans>
+            </Typography>
+          </Box>
+        </ContentWrapper>
+      ) : null}
       {/* FIXME: creates ugly x-scroll  due to nested ContentWrapper */}
       <MenuContainer
         sx={{
           px: 3,
-          borderTopWidth: 1,
+          borderTopWidth: displayTitle ? 1 : 0,
           borderTopStyle: "solid",
           borderTopColor: "monochrome.300",
         }}
