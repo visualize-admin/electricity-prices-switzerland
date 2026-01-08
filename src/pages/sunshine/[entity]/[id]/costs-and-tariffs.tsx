@@ -56,12 +56,12 @@ import {
   useNetworkCostsQuery,
 } from "src/graphql/queries";
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
-import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
+
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       costsAndTariffs: Omit<
@@ -351,7 +351,12 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     );
   }
 
-  const { operatorRate, operatorTrend, peerGroupMedianRate, peerGroupMedianTrend } = energyTariffs;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+  } = energyTariffs;
 
   const categoryLabels = getCategoryLabels(category);
 
@@ -531,7 +536,12 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     );
   }
 
-  const { operatorRate, operatorTrend, peerGroupMedianRate, peerGroupMedianTrend } = netTariffs;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+  } = netTariffs;
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
