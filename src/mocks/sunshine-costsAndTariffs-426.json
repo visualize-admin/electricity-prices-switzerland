@@ -54,49 +54,49 @@
         "operator_id": 107,
         "operator_name": "EcoVerra Solutions",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE6",
         "rate": 16171.40373
       },
       {
         "operator_id": 122,
         "operator_name": "ArcMatter Energy",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE6",
         "rate": 30679.42728
       },
       {
         "operator_id": 916,
         "operator_name": "Windnetic Energy",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE6",
         "rate": 13792.84079
       },
       {
         "operator_id": 784,
         "operator_name": "Radianta Power",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE7",
         "rate": 10461.58221
       },
       {
         "operator_id": 421,
         "operator_name": "TurbineX Solutions",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE7",
         "rate": 4418.947295
       },
       {
         "operator_id": 864,
         "operator_name": "Helionix Power Co.",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE7",
         "rate": 8681.291639
       },
       {
         "operator_id": 814,
         "operator_name": "BlueCrest Power",
         "year": 2025,
-        "network_level": "NE5",
+        "network_level": "NE7",
         "rate": 27386.36152
       },
       {
