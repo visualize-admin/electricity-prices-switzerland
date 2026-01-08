@@ -63,55 +63,72 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   );
 };
 
-export const InteractionStackedBars = React.memo(() => {
-  const [, dispatch] = useInteraction();
-  const ref = useRef<SVGGElement>(null);
+export const InteractionStackedBars = React.memo(
+  ({
+    data: dataProp,
+    id,
+    debug = false,
+  }: {
+    data?: StackedBarsState["data"];
+    id?: string;
+    debug?: boolean;
+  }) => {
+    const [, dispatch] = useInteraction();
+    const ref = useRef<SVGGElement>(null);
 
-  const { data, bounds, yScale, getCategory } =
-    useChartState() as StackedBarsState;
+    const {
+      data: dataContext,
+      bounds,
+      yScale,
+      getCategory,
+      getCategoryFromYValue,
+    } = useChartState() as StackedBarsState;
 
-  const { chartWidth, chartHeight, margins } = bounds;
+    const data = dataProp ?? dataContext;
+    const { chartWidth, chartHeight } = bounds;
 
-  const findDatum = (e: React.MouseEvent) => {
-    const [x, y] = pointer(e, ref.current!);
+    const findDatum = (e: React.MouseEvent) => {
+      const [x, y] = pointer(e, ref.current!);
 
-    const step = yScale.step();
-    const index = Math.round(y / step);
-    const category = yScale.domain()[index];
+      const category = getCategoryFromYValue(y, data);
 
-    if (category) {
-      const found = data.find((d) => category === getCategory(d));
-      dispatch({
-        type: "INTERACTION_UPDATE",
-        value: {
-          interaction: {
-            visible: true,
-            mouse: { x, y: yScale(category) ?? 0 },
-            d: found,
+      if (category) {
+        const found = data.find((d) => category === getCategory(d));
+        dispatch({
+          type: "INTERACTION_UPDATE",
+          value: {
+            interaction: {
+              visible: true,
+              mouse: { x, y: yScale(category) ?? 0 },
+              d: found,
+              id,
+            },
           },
-        },
+        });
+      }
+    };
+    const hideTooltip = () => {
+      dispatch({
+        type: "INTERACTION_HIDE",
       });
-    }
-  };
-  const hideTooltip = () => {
-    dispatch({
-      type: "INTERACTION_HIDE",
-    });
-  };
+    };
 
-  return (
-    <g ref={ref} transform={`translate(${margins.left} ${margins.top})`}>
-      <rect
-        fillOpacity={0}
-        width={chartWidth}
-        height={chartHeight}
-        onMouseOut={hideTooltip}
-        onMouseOver={findDatum}
-        onMouseMove={findDatum}
-      />
-    </g>
-  );
-});
+    return (
+      <g ref={ref}>
+        <rect
+          fill={debug ? "hotpink" : "transparent"}
+          fillOpacity={debug ? 0.3 : 0}
+          stroke={debug ? "hotpink" : "none"}
+          width={chartWidth}
+          height={chartHeight}
+          onMouseOut={hideTooltip}
+          onMouseOver={findDatum}
+          onMouseMove={findDatum}
+        />
+      </g>
+    );
+  }
+);
 
 //TODO: align with query-states
 export type PowerStabilitySortableType =

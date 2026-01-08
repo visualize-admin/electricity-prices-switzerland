@@ -1,5 +1,7 @@
 import { t } from "@lingui/macro";
+import { Box, Typography } from "@mui/material";
 import { max } from "d3";
+import { groupBy } from "lodash";
 import React, { useState, useMemo } from "react";
 
 import {
@@ -9,6 +11,10 @@ import {
 import { AxisHeightCategories } from "src/components/charts-generic/axis/axis-height-categories";
 import { AxisWidthLinear } from "src/components/charts-generic/axis/axis-width-linear";
 import {
+  BarRowLine,
+  MedianVerticalLine,
+} from "src/components/charts-generic/bars/bar-row-line";
+import {
   BarsStacked,
   BarsStackedAxis,
 } from "src/components/charts-generic/bars/bars-stacked";
@@ -17,6 +23,7 @@ import {
   ChartContainer,
   ChartSvg,
 } from "src/components/charts-generic/containers";
+import PlotArea from "src/components/charts-generic/dot-plot/plot-area";
 import { Tooltip } from "src/components/charts-generic/interaction/tooltip";
 import {
   PowerStabilityChartProps,
@@ -27,6 +34,7 @@ import {
 } from "src/components/power-stability-chart";
 import { PERCENT, MIN_PER_YEAR } from "src/domain/metrics";
 import { peerGroupOperatorName } from "src/domain/sunshine";
+import { useIsMobile } from "src/lib/use-mobile";
 
 export const PowerStabilityHorizontalStackedBars = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
@@ -34,6 +42,7 @@ export const PowerStabilityHorizontalStackedBars = (
   }
 ) => {
   const { observations, id, operatorLabel, overallOrRatio } = props;
+  const isMobile = useIsMobile();
   const [sortByItem, setSortByItem] =
     useState<PowerStabilitySortableType>("planned");
 
@@ -122,6 +131,19 @@ export const PowerStabilityHorizontalStackedBars = (
       };
     }, [dataWithRatioApplied, sortByItem, sortDirection, id]);
 
+  // Group data by operator name for mobile view
+  const { dataByOperator, operatorsSorted } = useMemo(() => {
+    if (!isMobile) return { dataByOperator: {}, operatorsSorted: [] };
+
+    const grouped = groupBy(sortedDataWithoutMedian, (d) => d.operator_name);
+    const sorted = sortedDataWithoutMedian.map((d) => d.operator_name);
+    // Remove duplicates while preserving order
+    const uniqueSorted = [...new Set(sorted)];
+
+    return { dataByOperator: grouped, operatorsSorted: uniqueSorted };
+  }, [isMobile, sortedDataWithoutMedian]);
+  const rowHeight = 20;
+
   return (
     <StackedBarsChart
       data={sortedDataWithoutMedian}
@@ -184,6 +206,7 @@ export const PowerStabilityHorizontalStackedBars = (
           __typename: "NominalDimension",
         },
       ]}
+      isMobile={isMobile}
     >
       <SortOptions
         sortByItem={sortByItem}
@@ -191,18 +214,60 @@ export const PowerStabilityHorizontalStackedBars = (
         overallOrRatio={overallOrRatio}
         handleSortByItem={handleSortByItem}
       />
-      <ChartContainer>
-        <ChartSvg>
-          <AxisWidthLinear />
-          <AxisHeightCategories hideXAxis highlightedCategory={operatorLabel} />
-          <BarsStacked />
-          <BarsStackedAxis />
-          {overallOrRatio !== "ratio" && <AnnotationX />}
-          <InteractionStackedBars />
-        </ChartSvg>
-        {overallOrRatio !== "ratio" && <AnnotationXLabel />}
-        <Tooltip type="multiple" />
-      </ChartContainer>
+      {isMobile ? (
+        <Box position="relative" mt={2}>
+          {operatorsSorted.map((operatorName) => {
+            const rowData = dataByOperator[operatorName];
+            const medianTotal = medianPeerGroupObservation?.total;
+            const isHighlighted = operatorName === operatorLabel;
+
+            return (
+              <Box position="relative" key={operatorName}>
+                <Box position="relative" top={24}>
+                  <Tooltip type="multiple" forceYAnchor id={operatorName} />
+                </Box>
+
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: isHighlighted ? "bold" : "normal", pl: 1 }}
+                >
+                  {operatorName}
+                </Typography>
+                <ChartSvg height={rowHeight} style={{ position: "static" }}>
+                  <AxisWidthLinear format="number" />
+                  <PlotArea>
+                    <BarRowLine />
+                    <BarsStacked data={rowData} />
+                    {medianTotal !== undefined &&
+                      overallOrRatio !== "ratio" && (
+                        <MedianVerticalLine value={medianTotal} />
+                      )}
+                    <InteractionStackedBars id={operatorName} data={rowData} />
+                  </PlotArea>
+                </ChartSvg>
+              </Box>
+            );
+          })}
+        </Box>
+      ) : (
+        <ChartContainer>
+          <ChartSvg>
+            <AxisWidthLinear />
+            <AxisHeightCategories
+              hideXAxis
+              highlightedCategory={operatorLabel}
+            />
+            <PlotArea>
+              <BarsStacked />
+              <InteractionStackedBars />
+            </PlotArea>
+            {overallOrRatio !== "ratio" && <AnnotationX />}
+            <BarsStackedAxis />
+          </ChartSvg>
+          <Tooltip type="multiple" />
+          {overallOrRatio !== "ratio" && <AnnotationXLabel />}
+        </ChartContainer>
+      )}
     </StackedBarsChart>
   );
 };
