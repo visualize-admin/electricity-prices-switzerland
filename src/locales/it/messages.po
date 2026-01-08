@@ -98,10 +98,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "Evoluzione delle tariffe"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "Torna alla mappa"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "Comuni"
 
@@ -1166,6 +1162,7 @@ msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
@@ -1330,7 +1327,7 @@ msgstr "Qualità dell'approvvigionamento"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Regola del franco"
+msgstr "Costi e profitti in CHF/anno"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"

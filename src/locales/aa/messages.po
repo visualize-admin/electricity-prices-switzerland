@@ -98,10 +98,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "detail.card.title.prices.evolution"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "detail.maplink"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "detail.municipalities"
 
@@ -1164,6 +1160,7 @@ msgid "share.url-copied"
 msgstr "share.url-copied"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx

@@ -98,10 +98,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "Évolution des tarifs"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "Retour à la carte"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "Communes"
 
@@ -1167,6 +1163,7 @@ msgid "share.url-copied"
 msgstr "URL copiée ✅"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
@@ -1334,7 +1331,7 @@ msgstr "Qualité de l’approvisionnement"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Règle du franc"
+msgstr "Coûts et bénéfices en CHF/an"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
