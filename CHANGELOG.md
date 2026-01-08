@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.32.0 - 2026-01-08
+
 - Map
   - Improve dropdown menu styling: titles now use secondary text color (#6B7280) for better visual distinction from clickable entries
   - Add loading indicator when downloading map images [#444](https://github.com/visualize-admin/electricity-prices-switzerland/issues/444)
