@@ -1,5 +1,3 @@
-import { useTheme } from "@mui/material";
-
 import {
   DotPlotState,
   StackedBarsState,
@@ -19,12 +17,7 @@ export const AxisHeightCategories = ({
   highlightedCategory,
 }: AxisHeightCategoriesProps) => {
   const { yScale, bounds } = useChartState() as DotPlotState | StackedBarsState;
-  const { labelFontSize } = useChartTheme();
-
-  const theme = useTheme();
-
-  const textFill = theme.palette.monochrome[500];
-  const lineAndTicksFill = theme.palette.monochrome[200];
+  const { labelFontSize, gridColor, gridTicksColor } = useChartTheme();
 
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
@@ -42,7 +35,7 @@ export const AxisHeightCategories = ({
               textAnchor="end"
               dominantBaseline="middle"
               fontSize={labelFontSize}
-              fill={textFill}
+              fill={gridTicksColor}
               fontWeight={highlightedCategory === category ? "bold" : "normal"}
             >
               {category}
@@ -53,7 +46,7 @@ export const AxisHeightCategories = ({
                 x2={bounds.width - bounds.margins.left}
                 y1={y + labelFontSize / 2}
                 y2={y + labelFontSize / 2}
-                stroke={lineAndTicksFill}
+                stroke={gridColor}
                 strokeWidth={1}
               />
             )}
@@ -63,7 +56,7 @@ export const AxisHeightCategories = ({
                 x2={bounds.width - bounds.margins.left}
                 y1={y}
                 y2={y}
-                stroke={lineAndTicksFill}
+                stroke={gridColor}
                 strokeWidth={1}
               />
             )}
