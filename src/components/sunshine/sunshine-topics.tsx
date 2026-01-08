@@ -227,17 +227,6 @@ export const SunshineTopics = () => {
                 </Stack>
                 <AnchorNav
                   label={t({
-                    id: "home.sunshine-topics.service-quality.link",
-                    message: "Service Quality",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "outageInfo",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
                     id: "home.sunshine-topics.compliance.link",
                     message: "Compliance",
                   })}
