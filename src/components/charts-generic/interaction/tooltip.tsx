@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import { TooltipBoxPositioned } from "src/components/charts-generic/interaction/tooltip-box";
 import {
   TooltipMultiple,
   TooltipSingle,
@@ -92,7 +92,7 @@ const TooltipInner = ({
     getAnnotationInfo(d);
 
   return (
-    <TooltipBox
+    <TooltipBoxPositioned
       x={xAnchor}
       y={
         mouse && values && values.length > 1
@@ -116,6 +116,6 @@ const TooltipInner = ({
           color={datum.color}
         />
       ) : null}
-    </TooltipBox>
+    </TooltipBoxPositioned>
   );
 };

@@ -45,6 +45,7 @@ export const AxisWidthHistogram = () => {
   const { chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
+  const binTickSpace = bandScale ? bandScale.bandwidth() : 0;
 
   useEffect(() => {
     const g = select(xAxisRef.current) as Selection<
@@ -66,6 +67,8 @@ export const AxisWidthHistogram = () => {
       return;
     }
 
+    const shouldRotate = binTickSpace < 60;
+
     binMeta.forEach((bin, i) => {
       const label = bin.label ?? String(i);
       const x = (bandScale(label) ?? 0) + bandScale.bandwidth() / 2;
@@ -77,9 +80,14 @@ export const AxisWidthHistogram = () => {
         .attr("stroke", gridColor);
       g.append("text")
         .attr("x", x)
-        .attr("y", labelFontSize + 8)
+        .attr("y", labelFontSize + 8 + (shouldRotate ? 10 : 0))
         .attr("font-size", labelFontSize)
         .attr("font-family", fontFamily)
+        // rotate text 45 deg on mobiel
+        .attr(
+          "transform",
+          shouldRotate ? `rotate(45, ${x}, ${labelFontSize + 8})` : ""
+        )
         .attr("fill", labelColor)
         .attr("text-anchor", "middle")
         .text(bin.label);
@@ -93,6 +101,7 @@ export const AxisWidthHistogram = () => {
     fontFamily,
     binMeta,
     bandScale,
+    binTickSpace,
   ]);
 
   return (

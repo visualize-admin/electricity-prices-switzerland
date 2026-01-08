@@ -158,14 +158,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
         </CardHeader>
         {/* Dropdown Controls */}
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            sx={{
-              mt: 2.5,
-            }}
-          >
+          <Grid item xs={12} sm={6}>
             <ButtonGroup
               id="view-by-button-group"
               label={getLocalizedLabel({

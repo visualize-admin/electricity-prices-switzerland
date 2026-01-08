@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, Button, Input, Typography } from "@mui/material";
-import { useRef } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useRef, useState } from "react";
 
 import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
 import { useDisclosure } from "src/components/use-disclosure";
@@ -10,26 +10,14 @@ import { copyToClipboard } from "src/lib/copy-to-clipboard";
 
 const ShareButton = () => {
   const { isOpen, open, close } = useDisclosure();
-  const {
-    isOpen: hasInputFocus,
-    open: setFocusOn,
-    close: setFocusOff,
-  } = useDisclosure();
+  const { open: setFocusOn, close: setFocusOff } = useDisclosure();
   const tooltipBoxRef = useRef<HTMLDivElement>(null);
   const linkRef = useRef<HTMLButtonElement>(null);
-  const mouse = useRef({ x: 0, y: 0 });
+  const [linkRect, setLinkRect] = useState<DOMRect | null>(null);
 
   const handleClick = () => {
     open();
-    const linkRect = linkRef.current?.getBoundingClientRect() || {
-      x: 0,
-      y: 0,
-      width: 0,
-    };
-    Object.assign(mouse.current, {
-      x: linkRect.width ?? 0,
-      y: linkRect.y ?? 0,
-    });
+    setLinkRect(linkRef.current?.getBoundingClientRect() ?? null);
   };
 
   useOutsideClick(tooltipBoxRef, () => {
@@ -45,7 +33,7 @@ const ShareButton = () => {
   };
 
   return (
-    <>
+    <Box position="relative">
       <Button
         variant="text"
         ref={linkRef}
@@ -61,10 +49,15 @@ const ShareButton = () => {
         <TooltipBox
           ref={tooltipBoxRef}
           placement={{ x: "center", y: "top" }}
-          margins={{ top: 0, bottom: 0, left: 0, right: 0 }}
-          x={mouse.current.x}
-          y={0}
           interactive
+          sx={{
+            position: "absolute",
+            bottom: (linkRect?.height ?? 0) + 16,
+            width: "300px",
+            left: -1000,
+            right: -1000,
+            margin: "auto",
+          }}
         >
           <Box
             display="flex"
@@ -79,48 +72,29 @@ const ShareButton = () => {
                 : ""}
             </Typography>
           </Box>
-          <Box
+          <TextField
+            onFocus={setFocusOn}
+            onBlur={setFocusOff}
+            value={window.location.toString()}
             sx={{
-              borderStyle: "solid",
-              boxSizing: "border-box",
-              borderWidth: 1,
-              borderColor: "monochrome.300",
-              outline: hasInputFocus ? "2px solid" : "none",
-              outlineColor: "primary.main",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 6,
-              overflow: "hidden",
+              minWidth: "100%",
+              mr: 5,
             }}
-          >
-            <Input
-              onFocus={setFocusOn}
-              onBlur={setFocusOff}
-              sx={{
-                width: 300,
-                border: "none",
-                height: "100%",
-                "&:focus": { border: "none", outline: 0 },
-              }}
-              value={window.location.toString()}
-            />
-            <Button
-              color="secondary"
-              onClick={handleClickCopyButton}
-              sx={{
-                width: "3rem",
-                height: "3rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="duplicate" />
-            </Button>
-          </Box>
+            InputProps={{
+              endAdornment: (
+                <Button
+                  color="secondary"
+                  onClick={handleClickCopyButton}
+                  sx={{ minWidth: "auto" }}
+                >
+                  <Icon name="duplicate" />
+                </Button>
+              ),
+            }}
+          />
         </TooltipBox>
       )}
-    </>
+    </Box>
   );
 };
 

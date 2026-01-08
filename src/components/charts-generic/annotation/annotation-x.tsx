@@ -10,7 +10,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { GenericObservation } from "src/domain/data";
-import { useIsMobile } from "src/lib/use-mobile";
 
 const ANNOTATION_DOT_RADIUS = 2.5;
 const ANNOTATION_TRIANGLE_WIDTH = 5;
@@ -28,6 +27,40 @@ export interface Annotation {
   onTheLeft?: boolean;
 }
 
+const AnnotationLine = ({
+  x,
+  y1,
+  y2,
+  annotationLineColor,
+  annotationLabelUnderlineColor,
+  annotationColor,
+}: {
+  x: number;
+  y1: number;
+  y2: number;
+  annotationLineColor: string;
+  annotationLabelUnderlineColor: string;
+  annotationColor: string;
+}) => (
+  <g transform={`translate(0, 0)`}>
+    <line x1={x} y1={y1} x2={x} y2={y2} stroke={annotationLineColor} />
+    <line
+      x1={0}
+      y1={y1 + 0.5}
+      x2={x}
+      y2={y1 + 0.5}
+      stroke={annotationLabelUnderlineColor}
+      strokeDasharray="2px 4px"
+    />
+    <polygon
+      points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
+        x + ANNOTATION_TRIANGLE_WIDTH
+      },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
+      fill={annotationColor}
+    />
+  </g>
+);
+
 export const AnnotationX = () => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
@@ -41,7 +74,6 @@ export const AnnotationX = () => {
     annotationLabelUnderlineColor,
   } = useChartTheme();
 
-  const isMobile = useIsMobile();
   const chartState = useChartState() as
     | HistogramState
     | RangePlotState
@@ -68,34 +100,17 @@ export const AnnotationX = () => {
           }
         }
         x = margins.left + x;
-        const y1 =
-          (isMobile ? margins.top / 2 + a.yLabel : a.yLabel) +
-          annotationFontSize * a.nbOfLines;
+        const y1 = a.yLabel + annotationFontSize * a.nbOfLines;
         return (
           <React.Fragment key={i}>
-            <g transform={`translate(0, 0)`}>
-              <line
-                x1={x}
-                y1={y1}
-                x2={x}
-                y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
-                stroke={annotationLineColor}
-              />
-              <line
-                x1={0}
-                y1={y1 + 0.5}
-                x2={x}
-                y2={y1 + 0.5}
-                stroke={annotationLabelUnderlineColor}
-                strokeDasharray="2px 4px"
-              />
-              <polygon
-                points={`${x - ANNOTATION_TRIANGLE_WIDTH},${y1} ${
-                  x + ANNOTATION_TRIANGLE_WIDTH
-                },${y1} ${x},${y1 + ANNOTATION_TRIANGLE_HEIGHT} `}
-                fill={annotationColor}
-              />
-            </g>
+            <AnnotationLine
+              x={x}
+              y1={y1}
+              y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
+              annotationLineColor={annotationLineColor}
+              annotationLabelUnderlineColor={annotationLabelUnderlineColor}
+              annotationColor={annotationColor}
+            />
           </React.Fragment>
         );
       })}
@@ -149,11 +164,10 @@ export const AnnotationXLabel = () => {
           key={`${a.label}-${i}`}
           sx={{
             width: width,
-            p: { xxs: 0, md: 1 },
             zIndex: 2,
             position: "absolute",
             left: 0,
-            top: { xxs: bounds.margins.top / 2 + a.yLabel, md: a.yLabel },
+            top: a.yLabel,
             pointerEvents: "none",
             textAlign: "left",
             transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
@@ -163,6 +177,7 @@ export const AnnotationXLabel = () => {
             bgcolor: "transparent",
             hyphens: "auto",
             wordBreak: "break-word",
+            lineHeight: 1.5,
           }}
         >
           <Box component="span" sx={{ fontWeight: 700 }}>

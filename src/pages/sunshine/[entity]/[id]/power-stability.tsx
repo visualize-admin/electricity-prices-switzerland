@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -227,18 +227,25 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
+  const theme = useTheme();
+
   return (
     <CardGrid
       sx={{
-        gridTemplateColumns: {
-          xs: "1fr", // Single column on small screens
-          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "comparison"
+          "peer-group"
+          "trend"
+        `,
+        [theme.breakpoints.up("sm")]: {
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
+          // On Desktop, peer group and comparison cards are side by side
+          // Trend chart is below them
+          // On Mobile, they are stacked
+          gridTemplateAreas: `"comparison peer-group" "trend trend"`, // Two columns on medium screens,
         },
-        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-        gridTemplateAreas: [
-          `"comparison" "peer-group" "trend"`, // One column on small screens
-          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-        ],
       }}
     >
       <PeerGroupCard
@@ -361,18 +368,25 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     ],
   } satisfies React.ComponentProps<typeof TableComparisonCard>;
 
+  const theme = useTheme();
+
   return (
     <CardGrid
       sx={{
-        gridTemplateColumns: {
-          xs: "1fr", // Single column on small screens
-          sm: "repeat(2, 1fr)", // Two columns on medium screens
+        gridTemplateColumns: "1fr",
+        gridTemplateAreas: `
+          "comparison"
+          "peer-group"
+          "trend"
+        `,
+        [theme.breakpoints.up("sm")]: {
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
+          // On Desktop, peer group and comparison cards are side by side
+          // Trend chart is below them
+          // On Mobile, they are stacked
+          gridTemplateAreas: `"comparison peer-group" "trend trend"`, // Two columns on medium screens,
         },
-        gridTemplateRows: ["auto auto auto", "auto auto"], // Three rows: two for cards, one for trend chart
-        gridTemplateAreas: [
-          `"comparison" "peer-group" "trend"`, // One column on small screens
-          `"comparison peer-group" "trend trend"`, // Two columns on medium screens
-        ],
       }}
     >
       <PeerGroupCard

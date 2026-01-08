@@ -9,7 +9,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
-import { useIsMobile } from "src/lib/use-mobile";
 
 const TICK_MIN_HEIGHT = 50;
 
@@ -84,7 +83,6 @@ interface AxisLabelProps {
 }
 
 const AxisLabel = ({ yAxisLabel }: AxisLabelProps) => {
-  const isMobile = useIsMobile();
   const { bounds } = useChartState() as ColumnsState | LinesState | AreasState;
   const { axisLabelColor, labelFontSize } = useChartTheme();
 
@@ -92,8 +90,7 @@ const AxisLabel = ({ yAxisLabel }: AxisLabelProps) => {
     <g>
       <text
         x={0}
-        y={isMobile ? bounds.margins.top / 2 - labelFontSize : 0}
-        dy={bounds.margins.top / 2 - labelFontSize / 2}
+        y={bounds.margins.top - 24}
         fontSize={labelFontSize}
         fill={axisLabelColor}
       >

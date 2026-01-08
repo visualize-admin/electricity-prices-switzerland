@@ -150,14 +150,17 @@ export const MultiCombobox = ({
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
         <Box
-          sx={{
-            position: "relative",
-            flexDirection: "column",
-            width: "100%",
-          }}
-          display={"flex"}
+          position="relative"
+          flexDirection="column"
+          width="100%"
+          display="flex"
+          gap="8px"
         >
-          <ComboboxLabel label={label} htmlFor={htmlFor} />
+          <ComboboxLabel
+            label={label}
+            htmlFor={htmlFor}
+            sx={{ minHeight: "auto" }}
+          />
           <TextField
             {...params}
             variant="outlined"
