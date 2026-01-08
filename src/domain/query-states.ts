@@ -107,7 +107,7 @@ const energyPricesDetailsSchema = z.object({
   view: stringToArray<["collapsed", "expanded"]>(["collapsed"]),
 });
 
-const saidiSaifiTypeSchema = z.enum(["total", "planned", "unplanned"]);
+const saidiSaifiTypeSchema = z.enum(["total", "unplanned"]);
 
 // TODO: Sunshine params are currently not validated
 const sunshineMapSchema = z.object({

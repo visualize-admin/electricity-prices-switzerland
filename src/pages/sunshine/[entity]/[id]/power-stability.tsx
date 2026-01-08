@@ -347,7 +347,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.peerGroupMedianTotal,
-          unit: MIN_PER_YEAR,
+          unit: ANZAHL_PER_YEAR,
           round: 2,
           trend: data.saifi.peerGroupMedianTrendTotal,
         },
@@ -360,7 +360,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.peerGroupMedianUnplanned,
-          unit: MIN_PER_YEAR,
+          unit: ANZAHL_PER_YEAR,
           round: 2,
           trend: data.saifi.peerGroupMedianTrendUnplanned,
         },
