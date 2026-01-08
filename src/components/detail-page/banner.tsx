@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
 import { SafeHydration } from "src/components/hydration";
-import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -103,33 +102,16 @@ export const DetailPageBanner = ({
             `1fr`,
             `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
           ],
-          gridTemplateRows: [`auto 3rem 0`, `auto`],
+          gridTemplateRows: [`auto 0`, `auto`],
           gridTemplateAreas: [
             `"search"
-             "back"
              "."`,
-            `"back search ."`,
+            `"search ."`,
           ],
           gap: 0,
           alignItems: "center",
         }}
-      >
-        <Box sx={{ gridArea: "back" }}>
-          <UILink
-            variant="body2"
-            component={MapLink}
-            color={"text.primary"}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              "& > svg": { mr: 1 },
-            }}
-          >
-            <Icon name="arrowleft" size={24}></Icon>
-            <Trans id="detail.maplink">Back to map view</Trans>
-          </UILink>
-        </Box>
-      </Box>
+      ></Box>
 
       <Box sx={{ mx: "auto", my: 2 }}>
         <Typography
