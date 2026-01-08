@@ -1,11 +1,10 @@
 import { palette } from "src/themes/palette";
 
+import { MEDIAN_DIAMOND_SIZE } from "../constants";
 import { DotPlotState, useChartState } from "../use-chart-state";
 
 export const DotPlotMedian = () => {
   const { medianValue, xScale, yScale } = useChartState() as DotPlotState;
-
-  const diamondSize = 8;
 
   if (!medianValue) {
     return null;
@@ -20,10 +19,10 @@ export const DotPlotMedian = () => {
         return (
           <rect
             key={yValue}
-            x={x - diamondSize / 2}
-            y={y - diamondSize / 2}
-            width={diamondSize}
-            height={diamondSize}
+            x={x - MEDIAN_DIAMOND_SIZE / 2}
+            y={y - MEDIAN_DIAMOND_SIZE / 2}
+            width={MEDIAN_DIAMOND_SIZE}
+            height={MEDIAN_DIAMOND_SIZE}
             fill={palette.monochrome[800]}
             stroke={palette.background.paper}
             strokeWidth={1}
