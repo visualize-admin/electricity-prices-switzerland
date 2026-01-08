@@ -42,11 +42,7 @@ export const InteractionDotted = memo(
 
     return (
       <>
-        <g
-          transform={`translate(${margins.left}, ${
-            (margins.annotations ?? 0) + margins.top
-          })`}
-        >
+        <g>
           {data.map((d, i) => (
             <circle
               key={i}
@@ -78,7 +74,7 @@ export const InteractionDotted = memo(
                 stroke="Orchid"
               />
             </g>
-            <g transform={`translate(0, ${margins.annotations})`}>
+            <g>
               <rect
                 x={0}
                 y={0}
@@ -89,11 +85,7 @@ export const InteractionDotted = memo(
                 stroke="LightSeaGreen"
               />
             </g>
-            <g
-              transform={`translate(0, ${
-                (margins.annotations ?? 0) + margins.top + chartHeight
-              })`}
-            >
+            <g>
               <rect
                 x={0}
                 y={0}

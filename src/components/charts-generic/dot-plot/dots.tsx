@@ -69,7 +69,7 @@ export const Dots = (props: DotProps) => {
   const medianX = medianValue ? xScale(medianValue) : null;
 
   return (
-    <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
+    <>
       {/* Regular dots */}
       {regularDots.map(({ cx, cy, d }, i) => (
         <Dot
@@ -132,7 +132,7 @@ export const Dots = (props: DotProps) => {
           const y = (yScale(yValue) || 0) + yScale.bandwidth() / 2;
           return <MedianDiamond x={medianX} y={y} yValue={yValue} />;
         })}
-    </g>
+    </>
   );
 };
 

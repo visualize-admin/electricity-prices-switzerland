@@ -2,7 +2,9 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { groupBy } from "lodash";
 import { useMemo } from "react";
+import React from "react";
 
+import PlotArea from "src/components/charts-generic/dot-plot/plot-area";
 import { ColorMapping } from "src/domain/color-mapping";
 import { ComponentFieldsFragment, GenericObservation } from "src/domain/data";
 import { peerGroupOperatorName } from "src/domain/sunshine";
@@ -62,15 +64,13 @@ const ChartLegend: React.FC<{
   otherOperatorsLegend,
 }) => (
   <Box
-    sx={{
-      position: "relative",
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
-      flexWrap: "wrap",
-      minHeight: "20px",
-      gap: 2,
-    }}
     display="flex"
+    position="relative"
+    justifyContent="flex-start"
+    alignItems="flex-start"
+    flexWrap="wrap"
+    minHeight="20px"
+    gap={1}
   >
     <LegendItem
       item={operatorLabel}
@@ -175,13 +175,16 @@ export const LatestYearChartView = <T extends GenericObservation>(
         operatorLabel={operatorLabel}
         otherOperatorsLegend={otherOperatorsLegend}
       />
+
       <ChartContainer>
         <ChartSvg>
-          <AxisWidthLinear position="top" format="number" />
-          <AxisHeightCategories stretch />
-          <Dots compareWith={compareWith} />
-          <InteractionDotted />
-          <DotPlotMedian />
+          <AxisWidthLinear format="number" />
+          <AxisHeightCategories />
+          <PlotArea>
+            <Dots compareWith={compareWith} />
+            <InteractionDotted />
+            <DotPlotMedian />
+          </PlotArea>
         </ChartSvg>
         <Tooltip type="multiple" forceYAnchor />
       </ChartContainer>
