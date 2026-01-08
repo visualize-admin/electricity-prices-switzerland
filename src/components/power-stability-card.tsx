@@ -164,7 +164,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
   const colorMapping = createColorMapping(compareWith, "elcom2");
 
   return (
-    <Card {...cardProps}>
+    <Card {...cardProps} id={DOWNLOAD_ID}>
       <CardContent>
         <CardHeader
           trailingContent={
