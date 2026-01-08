@@ -44,6 +44,7 @@ export const Lines = ({
         const isMedianTotal = medianTotal === lineData[0];
         return (
           <path
+            key={index}
             d={
               lineGenerator(
                 lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
