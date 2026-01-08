@@ -63,6 +63,7 @@ import { IconListBullet } from "./ic-list-bullet";
 import { IconListNumber } from "./ic-list-number";
 import { IconLogin } from "./ic-login";
 import { IconLogout } from "./ic-logout";
+import { IconMap } from "./ic-map";
 import { IconMapMarker } from "./ic-map-marker";
 import { IconMenu } from "./ic-menu";
 import { IconMessage } from "./ic-message";
@@ -163,6 +164,7 @@ export const Icons = {
   loading: IconRefresh,
   login: IconLogin,
   logout: IconLogout,
+  map: IconMap,
   mapmarker: IconMapMarker,
   menu: IconMenu,
   message: IconMessage,
