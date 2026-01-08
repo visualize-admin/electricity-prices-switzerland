@@ -42,14 +42,12 @@ const InteractionStateReducer = (
       return {
         ...state,
         interaction: {
-          visible: action.value.interaction.visible,
+          ...action.value.interaction,
           mouse: action.value.interaction.mouse
             ? {
-                x: action.value.interaction.mouse.x,
-                y: action.value.interaction.mouse.y,
+                ...action.value.interaction.mouse,
               }
             : undefined,
-          d: action.value.interaction.d,
         },
       };
     case "INTERACTION_HIDE":
