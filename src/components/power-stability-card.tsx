@@ -190,19 +190,14 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           <Typography variant="h3" gutterBottom>
             {props.cardTitle}
           </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            gutterBottom
-            mb={8}
-          >
+          <Typography variant="body2" color="text.secondary" gutterBottom>
             <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
               Benchmarking within the Peer Group: {peerGroupLabel}
             </Trans>
           </Typography>
         </CardHeader>
         <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={4} sx={{ mt: 2.5 }}>
+          <Grid item xs={12} sm={4}>
             <ButtonGroup
               id="view-by-button-group-1"
               label={getLocalizedLabel({
