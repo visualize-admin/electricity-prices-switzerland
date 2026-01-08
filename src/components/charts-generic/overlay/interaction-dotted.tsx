@@ -10,16 +10,20 @@ import { GenericObservation } from "src/domain/data";
 export const InteractionDotted = memo(
   ({
     debug = false,
+    data: dataProp,
     id,
   }: {
     debug?: boolean;
+    data?: GenericObservation[];
     id?: string;
   }) => {
     const [, dispatch] = useInteraction();
 
-    const { data, bounds, xScale, yScale, getX, getY } =
+    const { data: dataContext, bounds, xScale, yScale, getX, getY } =
       useChartState() as RangePlotState;
-    const { margins, chartWidth, chartHeight } = bounds;
+
+    const data = dataProp ?? dataContext;
+    const { margins, chartWidth } = bounds;
 
     const showTooltip = (d: GenericObservation, event: React.MouseEvent) => {
       const rect = (event.currentTarget as SVGElement).getBoundingClientRect();

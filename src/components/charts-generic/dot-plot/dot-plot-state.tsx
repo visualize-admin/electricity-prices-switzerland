@@ -26,10 +26,12 @@ const useScatterPlotState = ({
   fields,
   aspectRatio,
   medianValue,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
+  isMobile?: boolean;
 }): DotPlotState => {
   const width = useWidth();
   const formatCurrency = useFormatCurrency();
@@ -78,6 +80,8 @@ const useScatterPlotState = ({
   const yAxisLabel = fields.y.axisLabel;
   const xAxisLabel = fields.x.axisLabel;
 
+  const MOBILE_ROW_HEIGHT = 60;
+
   const { sortedData, xScale, yScale, bounds, segments, colors } =
     useMemo(() => {
       const sortedData = [...data];
@@ -92,10 +96,14 @@ const useScatterPlotState = ({
       const xScale = scaleLinear().domain(xDomain).nice();
 
       const yDomain = [...new Set(sortedData.map(getY))].filter(Boolean);
-      const yScale = scaleBand()
-        .domain(yDomain)
-        .paddingInner(0.3)
-        .paddingOuter(0.2);
+      // For mobile, use placeholder domain - components use (yScale(getY(d)) || 0) + bandwidth/2
+      // which naturally centers when the lookup returns undefined
+      const yScale = isMobile
+        ? scaleBand<string>().domain(["_"]).range([0, MOBILE_ROW_HEIGHT])
+        : scaleBand()
+            .domain(yDomain)
+            .paddingInner(0.3)
+            .paddingOuter(0.2);
 
       const segments = [
         ...new Set(
@@ -123,10 +131,10 @@ const useScatterPlotState = ({
       );
 
       const margins = {
-        top: 80,
+        top: isMobile ? 0 : 80,
         right: 60,
         bottom: 60,
-        left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
+        left: isMobile ? 0 : maxYLabelWidth + LEFT_MARGIN_OFFSET,
       };
 
       const chartWidth = width - margins.left - margins.right;
@@ -140,7 +148,9 @@ const useScatterPlotState = ({
       };
 
       xScale.range([0, chartWidth]);
-      yScale.range([0, chartHeight]);
+      if (!isMobile) {
+        yScale.range([0, chartHeight]);
+      }
 
       return { sortedData, xScale, yScale, bounds, segments, colors };
     }, [
@@ -152,6 +162,7 @@ const useScatterPlotState = ({
       fields.style?.colorMapping,
       fields.style?.highlightValue,
       fields.segment?.palette,
+      isMobile,
       width,
       aspectRatio,
       getHighlightEntity,
@@ -251,12 +262,14 @@ const DotPlotProvider = ({
   aspectRatio,
   medianValue,
   children,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: DotPlotFields;
   aspectRatio: number;
   medianValue?: number;
   colorScale?: ReturnType<typeof scaleOrdinal<string, string>>;
+  isMobile?: boolean;
 }) => {
   const state = useScatterPlotState({
     data,
@@ -265,6 +278,7 @@ const DotPlotProvider = ({
     measures,
     aspectRatio,
     medianValue,
+    isMobile,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -280,12 +294,14 @@ export const DotPlot = ({
   medianValue,
   colorScale,
   children,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: DotPlotFields;
   medianValue?: number;
   children: ReactNode;
   colorScale?: ReturnType<typeof scaleOrdinal<string, string>>;
+  isMobile?: boolean;
 }) => {
   return (
     <Observer>
@@ -298,6 +314,7 @@ export const DotPlot = ({
           aspectRatio={aspectRatio}
           medianValue={medianValue}
           colorScale={colorScale}
+          isMobile={isMobile}
         >
           {children}
         </DotPlotProvider>

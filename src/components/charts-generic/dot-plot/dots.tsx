@@ -1,9 +1,11 @@
+import { groupBy } from "lodash";
 import { memo, useMemo } from "react";
 
 import {
   DotPlotState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
+import { GenericObservation } from "src/domain/data";
 import { chartPalette, palette } from "src/themes/palette";
 
 import { MEDIAN_DIAMOND_SIZE } from "../constants";
@@ -11,6 +13,7 @@ import { useInteraction } from "../use-interaction";
 
 type DotProps = {
   compareWith?: string[];
+  data?: GenericObservation[];
 };
 
 const MedianDiamond: React.FC<{
@@ -31,7 +34,7 @@ const MedianDiamond: React.FC<{
 
 export const Dots = (props: DotProps) => {
   const {
-    data,
+    data: contextData,
     getX,
     getY,
     xScale,
@@ -44,7 +47,9 @@ export const Dots = (props: DotProps) => {
     medianValue,
   } = useChartState() as DotPlotState;
 
-  const { compareWith } = props;
+  const { compareWith, data: propsData } = props;
+
+  const data = propsData ?? contextData;
 
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
@@ -87,6 +92,7 @@ export const Dots = (props: DotProps) => {
 
       {/* Connector lines under selected/hovered */}
       {hovered &&
+        hoveredDot &&
         selectedDots.map(({ d, cx }, i) => (
           <line
             key={`connector-${i}`}
