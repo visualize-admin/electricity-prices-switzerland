@@ -9,7 +9,7 @@ import { chartPalette, palette } from "src/themes/palette";
 
 import { AxisHeightCategories } from "./axis/axis-height-categories";
 import { AxisWidthLinear } from "./axis/axis-width-linear";
-import { getChartColorMapping } from "./chart-color-mapping";
+import { ChartColorMapping, getChartColorMapping } from "./chart-color-mapping";
 import { ChartContainer, ChartSvg } from "./containers";
 import { DotPlot } from "./dot-plot/dot-plot-state";
 import { Dots } from "./dot-plot/dots";
@@ -46,6 +46,74 @@ type LatestYearChartViewProps<T extends GenericObservation> = {
   medianLegend: string;
   otherOperatorsLegend: string;
 };
+
+const ChartLegend: React.FC<{
+  chartColorMappings: ChartColorMapping;
+  compareWith: string[] | undefined;
+  medianLegend: string;
+  operatorLabel: string;
+  otherOperatorsLegend: string;
+}> = ({
+  chartColorMappings,
+  compareWith,
+  medianLegend,
+  operatorLabel,
+  otherOperatorsLegend,
+}) => (
+  <Box
+    sx={{
+      position: "relative",
+      justifyContent: "flex-start",
+      alignItems: "flex-start",
+      flexWrap: "wrap",
+      minHeight: "20px",
+      gap: 2,
+    }}
+    display="flex"
+  >
+    <LegendItem
+      item={operatorLabel}
+      color={chartPalette.categorical[0]}
+      symbol={"circle"}
+    />
+    <LegendItem
+      item={medianLegend}
+      color={palette.monochrome[800]}
+      symbol={"diamond"}
+    />
+    {chartColorMappings.map((item) => {
+      if (
+        item.label === peerGroupOperatorName ||
+        item.label === operatorLabel
+      ) {
+        return null;
+      }
+      return (
+        <LegendItem
+          key={item.label}
+          item={
+            item.label === peerGroupOperatorName
+              ? t({
+                  id: "legend-item.peer-group-median",
+                  message: "Peer Group Median",
+                })
+              : item.label
+          }
+          color={item.color}
+          symbol={"circle"}
+        />
+      );
+    })}
+
+    {compareWith?.includes("sunshine.select-all") && (
+      <LegendItem
+        item={otherOperatorsLegend}
+        color={palette.monochrome[200]}
+        symbol={"circle"}
+      />
+    )}
+  </Box>
+);
 
 export const LatestYearChartView = <T extends GenericObservation>(
   props: LatestYearChartViewProps<T>
@@ -99,59 +167,13 @@ export const LatestYearChartView = <T extends GenericObservation>(
       dimensions={dimensions}
       aspectRatio={aspectRatio}
     >
-      <Box
-        sx={{
-          position: "relative",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          minHeight: "20px",
-          gap: 2,
-        }}
-        display="flex"
-      >
-        <LegendItem
-          item={operatorLabel}
-          color={chartPalette.categorical[0]}
-          symbol={"circle"}
-        />
-        <LegendItem
-          item={medianLegend}
-          color={palette.monochrome[800]}
-          symbol={"diamond"}
-        />
-        {chartColorMappings.map((item) => {
-          if (
-            item.label === peerGroupOperatorName ||
-            item.label === operatorLabel
-          ) {
-            return null;
-          }
-          return (
-            <LegendItem
-              key={item.label}
-              item={
-                item.label === peerGroupOperatorName
-                  ? t({
-                      id: "legend-item.peer-group-median",
-                      message: "Peer Group Median",
-                    })
-                  : item.label
-              }
-              color={item.color}
-              symbol={"circle"}
-            />
-          );
-        })}
-
-        {compareWith?.includes("sunshine.select-all") && (
-          <LegendItem
-            item={otherOperatorsLegend}
-            color={palette.monochrome[200]}
-            symbol={"circle"}
-          />
-        )}
-      </Box>
+      <ChartLegend
+        chartColorMappings={chartColorMappings}
+        compareWith={compareWith}
+        medianLegend={medianLegend}
+        operatorLabel={operatorLabel}
+        otherOperatorsLegend={otherOperatorsLegend}
+      />
       <ChartContainer>
         <ChartSvg>
           <AxisWidthLinear position="top" format="number" />

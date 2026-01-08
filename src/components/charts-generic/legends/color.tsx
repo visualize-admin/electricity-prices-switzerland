@@ -42,6 +42,61 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
 
 const ARROW_WIDTH = 16;
 
+const useLegendSymbolStyles = makeStyles()(() => ({
+  root: {
+    display: "inline-block",
+  },
+  sizeSmall: {
+    width: "0.5rem",
+    minWidth: "0.5rem",
+    height: "0.5rem",
+  },
+  sizeLine: {
+    width: "1rem",
+    minWidth: "0.5rem",
+    height: "3px",
+  },
+  circle: {
+    borderRadius: "50%",
+  },
+  square: {},
+  line: {},
+  diamond: {
+    transform: "rotate(45deg)",
+    transformOrigin: "center",
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    borderLeft: "0.25rem solid transparent",
+    borderRight: "0.25rem solid transparent",
+  },
+  dashedLine: {
+    position: "relative",
+  },
+  dashSegment: {
+    position: "absolute",
+    top: 0,
+    height: "3px",
+  },
+  dashSegment1: {
+    left: 0,
+    width: "0.4rem",
+  },
+  dashSegment2: {
+    left: "0.6rem",
+    width: "0.4rem",
+  },
+  dashDotSegment1: {
+    left: 0,
+    width: "0.2rem",
+  },
+  dashDotSegment2: {
+    left: "0.4rem",
+    width: "0.6rem",
+  },
+}));
+
 export const LegendSymbol = ({
   symbol,
   color,
@@ -49,109 +104,61 @@ export const LegendSymbol = ({
   symbol: LegendSymbol;
   color: string;
 }) => {
+  const { classes, cx } = useLegendSymbolStyles();
+
   switch (symbol) {
     case "circle":
       return (
-        <Box
-          sx={{
-            width: "0.5rem",
-            minWidth: "0.5rem",
-            height: "0.5rem",
-            borderRadius: "50%",
-            bgcolor: color,
-            display: "inline-block",
-          }}
+        <div
+          className={cx(classes.root, classes.sizeSmall, classes.circle)}
+          style={{ backgroundColor: color }}
         />
       );
 
     case "square":
       return (
-        <Box
-          sx={{
-            width: "0.5rem",
-            minWidth: "0.5rem",
-            height: "0.5rem",
-            bgcolor: color,
-            display: "inline-block",
-          }}
+        <div
+          className={cx(classes.root, classes.sizeSmall, classes.square)}
+          style={{ backgroundColor: color }}
         />
       );
 
     case "line":
       return (
-        <Box
-          sx={{
-            width: "1rem",
-            minWidth: "0.5rem",
-            height: "3px",
-            bgcolor: color,
-            display: "inline-block",
-          }}
+        <div
+          className={cx(classes.root, classes.sizeLine, classes.line)}
+          style={{ backgroundColor: color }}
         />
       );
 
     case "diamond":
       return (
-        <Box
-          sx={{
-            width: "0.5rem",
-            minWidth: "0.5rem",
-            height: "0.5rem",
-            bgcolor: color,
-            transform: "rotate(45deg)",
-            transformOrigin: "center",
-            display: "inline-block",
-          }}
+        <div
+          className={cx(classes.root, classes.sizeSmall, classes.diamond)}
+          style={{ backgroundColor: color }}
         />
       );
 
     case "triangle":
       return (
-        <Box
-          component="span"
-          sx={{
-            width: 0,
-            height: 0,
-            display: "inline-block",
-            borderLeft: "0.25rem solid transparent",
-            borderRight: "0.25rem solid transparent",
-            borderBottom: `0.5rem solid ${color}`,
-          }}
+        <span
+          className={cx(classes.root, classes.triangle)}
+          style={{ borderBottomColor: color }}
         />
       );
 
     case "dashed-line":
       return (
-        <Box
-          sx={{
-            width: "1rem",
-            minWidth: "0.5rem",
-            height: "3px",
-            display: "inline-block",
-            position: "relative",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              left: "0",
-              top: "0",
-              width: "0.4rem",
-              height: "3px",
-              bgcolor: color,
-            }}
+        <div className={cx(classes.root, classes.sizeLine, classes.dashedLine)}>
+          <div
+            className={cx(classes.dashSegment, classes.dashSegment1)}
+            style={{ backgroundColor: color }}
           />
-          <Box
-            sx={{
-              position: "absolute",
-              left: "0.6rem",
-              top: "0",
-              width: "0.4rem",
-              height: "3px",
-              bgcolor: color,
-            }}
+          <div
+            className={cx(classes.dashSegment, classes.dashSegment2)}
+            style={{ backgroundColor: color }}
           />
-        </Box>
+        </div>
       );
 
     case "arrow":
@@ -159,42 +166,42 @@ export const LegendSymbol = ({
 
     case "dash-dot-line":
       return (
-        <Box
-          sx={{
-            width: "1rem",
-            minWidth: "0.5rem",
-            height: "3px",
-            display: "inline-block",
-            position: "relative",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              left: "0",
-              top: "0",
-              width: "0.2rem",
-              height: "3px",
-              bgcolor: color,
-            }}
+        <div className={cx(classes.root, classes.sizeLine, classes.dashedLine)}>
+          <div
+            className={cx(classes.dashSegment, classes.dashDotSegment1)}
+            style={{ backgroundColor: color }}
           />
-          <Box
-            sx={{
-              position: "absolute",
-              left: "0.4rem",
-              top: "0",
-              width: "0.6rem",
-              height: "3px",
-              bgcolor: color,
-            }}
+          <div
+            className={cx(classes.dashSegment, classes.dashDotSegment2)}
+            style={{ backgroundColor: color }}
           />
-        </Box>
+        </div>
       );
 
     default:
       return null;
   }
 };
+
+const useLegendItemStyles = makeStyles()(() => ({
+  root: {
+    position: "relative",
+    marginTop: "0.5rem",
+    marginRight: "2rem",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingLeft: 0,
+    gap: "1rem",
+    lineHeight: "1rem",
+    fontWeight: 400,
+    fontSize: "0.625rem",
+    color: "#424242",
+    "@media (min-width: 600px)": {
+      lineHeight: "1.125rem",
+      fontSize: "0.75rem",
+    },
+  },
+}));
 
 export const LegendItem = ({
   item,
@@ -204,27 +211,17 @@ export const LegendItem = ({
   item: string;
   color: string;
   symbol: LegendSymbol;
-}) => (
-  <Box
-    sx={{
-      position: "relative",
-      mt: 1,
-      mr: 4,
-      justifyContent: "flex-start",
-      alignItems: "center",
-      pl: 0,
-      gap: 1,
-      lineHeight: ["1rem", "1.125rem", "1.125rem"],
-      fontWeight: "regular",
-      fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-      color: "secondary.700",
-    }}
-    display="flex"
-  >
-    <LegendSymbol color={color} symbol={symbol} />
-    {item}
-  </Box>
-);
+}) => {
+  const { classes } = useLegendItemStyles();
+
+  return (
+    <Box className={classes.root} display="flex">
+      <LegendSymbol color={color} symbol={symbol} />
+      {item}
+    </Box>
+  );
+};
+
 const useStyles = makeStyles()(() => ({
   button: {
     cursor: "pointer",
