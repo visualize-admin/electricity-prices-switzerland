@@ -13,6 +13,9 @@ type InteractionState = {
     visible: boolean;
     mouse?: { x: number; y: number } | undefined;
     d: GenericObservation | undefined;
+    // Optional interaction id to distinguish multiple interactions
+    // from the same context
+    id?: string;
   };
 };
 

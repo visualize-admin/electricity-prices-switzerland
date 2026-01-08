@@ -8,7 +8,13 @@ import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { GenericObservation } from "src/domain/data";
 
 export const InteractionDotted = memo(
-  ({ debug = false }: { debug?: boolean }) => {
+  ({
+    debug = false,
+    id,
+  }: {
+    debug?: boolean;
+    id?: string;
+  }) => {
     const [, dispatch] = useInteraction();
 
     const { data, bounds, xScale, yScale, getX, getY } =
@@ -26,6 +32,7 @@ export const InteractionDotted = memo(
           interaction: {
             visible: true,
             d,
+            id,
             mouse: { x, y },
           },
         },
