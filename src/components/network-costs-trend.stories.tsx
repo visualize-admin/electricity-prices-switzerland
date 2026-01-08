@@ -6,7 +6,7 @@ import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
 import { NetworkCostsTrendCard } from "./network-costs-trend-card";
-import { DesignGrid, DesignStory } from "./storybook/base-style";
+import { DesignStory } from "./storybook/base-style";
 
 export const NetworkCostLatestYear = () => {
   const networkCosts =
@@ -17,16 +17,14 @@ export const NetworkCostLatestYear = () => {
       title="Network Costs Trend Chart"
       reference="ElCom Library (Sunshine Indicators)"
     >
-      <DesignGrid>
-        <NetworkCostTrendChart
-          id="11"
-          operatorLabel="Fluxwave Energy"
-          observations={yearlyData.filter((d) => d.year === 2025)}
-          networkCosts={restNetworkCosts}
-          viewBy="latest"
-          compareWith={["sunshine.select-all"]}
-        />
-      </DesignGrid>
+      <NetworkCostTrendChart
+        id="11"
+        operatorLabel="Fluxwave Energy"
+        observations={yearlyData.filter((d) => d.year === 2025)}
+        networkCosts={restNetworkCosts}
+        viewBy="latest"
+        compareWith={["sunshine.select-all"]}
+      />
     </DesignStory>
   );
 };
