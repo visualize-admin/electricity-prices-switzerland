@@ -102,12 +102,12 @@ const DetailPageContentLayout = ({ children, selector, download }: Props) => {
 export const DetailsPageHeader = ({ children }: DetailsPageBaseProps) => {
   return (
     <Box
+      display="flex"
+      flexDirection="column"
+      gap={4}
       sx={{
-        flexDirection: "column",
-        gap: 4,
         scrollMarginTop: "100px",
       }}
-      display={"flex"}
     >
       {children}
     </Box>
@@ -153,7 +153,7 @@ export const DetailsPageLayout = ({
       <Head>
         <title>{title}</title>
       </Head>
-      <ApplicationLayout>
+      <ApplicationLayout displayTitle={false}>
         <Box
           sx={{
             borderBottomWidth: "1px",

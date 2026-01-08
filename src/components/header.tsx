@@ -1,6 +1,6 @@
 import { TopBar } from "@interactivethings/swiss-federal-ci/dist/components";
 import { Header as SwissFederalCiHeader } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -143,10 +143,20 @@ export const Header = ({
       </TopBar>
       {hideLogo ? null : (
         <SwissFederalCiHeader
-          longTitle={t({
-            id: "header.long-title",
-            message: "Federal Electricity Commission ElCom",
-          })}
+          // @ts-expect-error longTitle can be ReactNode
+          longTitle={
+            <>
+              <Trans id="header.long-title">
+                Federal Electricity Commission ElCom
+              </Trans>
+              <br />
+              <Typography fontWeight="normal" variant="inherit">
+                <Trans id="site.title">
+                  Electricity tariffs in Switzerland
+                </Trans>
+              </Typography>
+            </>
+          }
           shortTitle="ElCom"
           rootHref="/"
           sx={{ backgroundColor: "white" }}

@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
 import { SafeHydration } from "src/components/hydration";
-import { MapLink } from "src/components/links";
 import { Entity } from "src/domain/data";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -68,6 +67,27 @@ const RelationsList = ({
   );
 };
 
+// match entity to render function with exhaustive check
+const matchEntity = <T,>(
+  entity: Entity,
+  cases: {
+    canton: () => T;
+    municipality: () => T;
+    operator: () => T;
+  }
+): T => {
+  switch (entity) {
+    case "canton":
+      return cases.canton();
+    case "municipality":
+      return cases.municipality();
+    case "operator":
+      return cases.operator();
+    default:
+      throw new Error(`Unhandled entity case: ${entity}`);
+  }
+};
+
 export const DetailPageBanner = ({
   id,
   name,
@@ -87,61 +107,12 @@ export const DetailPageBanner = ({
   const isMobile = useIsMobile();
 
   return (
-    <Box
-      sx={{
-        py: 5,
-        bgcolor: "background.paper",
-        width: "100%",
-      }}
-      id="main-content"
-    >
-      <Box
-        display="grid"
-        sx={{
-          mb: { md: 6 },
-          gridTemplateColumns: [
-            `1fr`,
-            `minmax(150px,1fr) minmax(300px,3fr) minmax(150px,1fr)`,
-          ],
-          gridTemplateRows: [`auto 3rem 0`, `auto`],
-          gridTemplateAreas: [
-            `"search"
-             "back"
-             "."`,
-            `"back search ."`,
-          ],
-          gap: 0,
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ gridArea: "back" }}>
-          <UILink
-            variant="body2"
-            component={MapLink}
-            color={"text.primary"}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              "& > svg": { mr: 1 },
-            }}
-          >
-            <Icon name="arrowleft" size={24}></Icon>
-            <Trans id="detail.maplink">Back to map view</Trans>
-          </UILink>
-        </Box>
-      </Box>
-
-      <Box sx={{ mx: "auto", my: 2 }}>
+    <Box py={6} bgcolor="background.paper" width="100%" id="main-content">
+      <Box sx={{ mx: "auto" }}>
         <Typography
           variant="caption"
-          sx={{
-            color: "secondary.main",
-            display: {
-              xxs: "none",
-              md: "block",
-            },
-          }}
-          display="block"
+          color="secondary.main"
+          display={["none", "block"]}
         >
           {entity === "canton" ? (
             <Trans id="detail.canton">Canton</Trans>
@@ -169,7 +140,14 @@ export const DetailPageBanner = ({
                 justifyContent={"space-between"}
                 alignItems={"center"}
               >
-                <Icon name="industry" size={32} />
+                <Icon
+                  name={matchEntity(entity, {
+                    canton: () => "map",
+                    municipality: () => "mapmarker",
+                    operator: () => "industry",
+                  })}
+                  size={32}
+                />
               </Stack>
               <Typography
                 component="h1"

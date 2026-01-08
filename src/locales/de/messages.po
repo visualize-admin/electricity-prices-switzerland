@@ -98,10 +98,6 @@ msgid "detail.card.title.prices.evolution"
 msgstr "Tarifentwicklung"
 
 #: src/components/detail-page/banner.tsx
-msgid "detail.maplink"
-msgstr "Zurück zur Kartenansicht"
-
-#: src/components/detail-page/banner.tsx
 msgid "detail.municipalities"
 msgstr "Gemeinden"
 
@@ -427,7 +423,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.compliance.link"
-msgstr "Compliance"
+msgstr "Leistungsindikatoren"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.energy-tariff.link"
@@ -1164,6 +1160,7 @@ msgid "share.url-copied"
 msgstr "URL kopiert ✅"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
@@ -1328,7 +1325,7 @@ msgstr "Versorgungsqualität"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Franken-Regel"
+msgstr "Kosten und Gewinn in CHF/Jahr"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"
