@@ -157,13 +157,6 @@ const sunshineTopics: () => SunshineTopic[] = () => [
     links: [
       {
         label: t({
-          id: "home.sunshine-topics.service-quality.link",
-          message: "Service Quality",
-        }),
-        indicator: "outageInfo",
-      },
-      {
-        label: t({
           id: "home.sunshine-topics.compliance.link",
           message: "Compliance",
         }),

@@ -45,6 +45,8 @@ Nothing yet.
 - General
   - Make layout generally more compact
   - Several design fixes from design review #501
+- Home page
+  - Removed "Service Quality" link in sunshine section
 
 # 2.31.0 - 2026-01-06
 

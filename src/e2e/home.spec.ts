@@ -57,7 +57,6 @@ test.describe("The Home Page", () => {
       "Energy Tariffs",
       "Power Outage Duration (SAIDI)",
       "Power Outage Frequency (SAIFI)",
-      "Service Quality",
       "Compliance",
     ];
     for (const link of links) {
