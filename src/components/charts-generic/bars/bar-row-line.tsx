@@ -24,7 +24,7 @@ export const BarRowLine = () => {
 };
 
 export const MedianVerticalLine = ({ value }: { value: number }) => {
-  const { xScale, bounds, yScale } = useChartState() as StackedBarsState;
+  const { xScale, yScale } = useChartState() as StackedBarsState;
 
   const x = xScale(value);
   const height = yScale.bandwidth();

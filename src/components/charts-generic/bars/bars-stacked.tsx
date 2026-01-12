@@ -19,7 +19,6 @@ type BarsStackedProps = {
 
 export const BarsStacked = (props: BarsStackedProps) => {
   const {
-    bounds,
     xScale,
     yScale,
     colors,
@@ -57,13 +56,7 @@ export const BarsStacked = (props: BarsStackedProps) => {
       .offset(stackOffsetNone);
 
     return { stackedData: stackGenerator(stackData), categories: cats };
-  }, [
-    propsData,
-    contextStackedData,
-    contextCategories,
-    getCategory,
-    segments,
-  ]);
+  }, [propsData, contextStackedData, contextCategories, getCategory, segments]);
 
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
