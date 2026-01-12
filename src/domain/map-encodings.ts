@@ -76,10 +76,6 @@ export const createEncodings = (palette: string[]) => {
     [0.85, 0.95, 1.05, 1.15],
     palette
   );
-  const networkCostsThresholdEncoding = makeThresholdEncoding(
-    [0.7, 0.9, 1.1, 1.3],
-    palette
-  );
 
   const yesNoPalette = [last(palette), first(palette)] as string[];
 
@@ -143,7 +139,7 @@ export const createEncodings = (palette: string[]) => {
   return {
     energyPrices: defaultThresholdEncoding,
     outageInfo: outageInfoThresholdEncoding,
-    networkCosts: networkCostsThresholdEncoding,
+    networkCosts: defaultThresholdEncoding,
     netTariffs: defaultThresholdEncoding,
     energyTariffs: defaultThresholdEncoding,
     saidi: defaultThresholdEncoding,

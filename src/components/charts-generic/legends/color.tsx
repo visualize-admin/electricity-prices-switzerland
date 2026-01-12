@@ -7,7 +7,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { Icon } from "src/icons";
-import { IconArrowUp } from "src/icons/ic-arrow-up";
+import { IconLegacyArrowUpwardFilled } from "src/icons/ic-legacy-arrow-upward-filled";
 
 export type LegendSymbol =
   | "square"
@@ -232,21 +232,22 @@ const useStyles = makeStyles()(() => ({
     "--icon-opacity": 1,
   },
   iconInactive: {
-    "--icon-opacity": 0,
+    "--icon-opacity": 0.35,
   },
   icon: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
     display: "inline-block",
     transformOrigin: "center",
     transition: "opacity 0.1s ease-in-out, transform 0.2s ease-in-out",
     opacity: "var(--icon-opacity)",
+    transform: "scale(0.66) rotate(0deg)",
   },
   iconAsc: {
-    transform: "rotate(0deg)",
+    transform: "scale(0.66) rotate(0deg)",
   },
   iconDesc: {
-    transform: "rotate(180deg)",
+    transform: "scale(0.66) rotate(180deg)",
   },
 }));
 
@@ -271,9 +272,9 @@ export const SortableLegendItem = <T extends string>({
     <Button
       variant="text"
       endIcon={
-        <IconArrowUp
-          width={16}
-          height={16}
+        <IconLegacyArrowUpwardFilled
+          width={24}
+          height={24}
           className={cx(
             classes.icon,
 

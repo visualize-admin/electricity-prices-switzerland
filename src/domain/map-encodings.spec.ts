@@ -92,35 +92,6 @@ describe("createEncodings", () => {
     });
   });
 
-  describe("Network Costs Threshold Encoding", () => {
-    it("should create thresholds at 70%, 90%, 110%, 130% of median", () => {
-      const encodings = createEncodings(dummyPalette);
-      const median = 100;
-      const values = [70, 90, 100, 110, 130];
-
-      const result = encodings.networkCosts(median, values, 2024);
-
-      expect(result.thresholds).toHaveLength(4);
-      expect(result.thresholds[0].value).toBeCloseTo(70); // 100 * 0.7
-      expect(result.thresholds[1].value).toBeCloseTo(90); // 100 * 0.9
-      expect(result.thresholds[2].value).toBeCloseTo(110); // 100 * 1.1
-      expect(result.thresholds[3].value).toBeCloseTo(130); // 100 * 1.3
-    });
-
-    it("should create percentage labels for network costs", () => {
-      const encodings = createEncodings(dummyPalette);
-      const median = 100;
-      const values = [70, 90, 100, 110, 130];
-
-      const result = encodings.networkCosts(median, values, 2024);
-
-      expect(result.thresholds[0].label).toBe("-30%");
-      expect(result.thresholds[1].label).toBe("-10%");
-      expect(result.thresholds[2].label).toBe("+10%");
-      expect(result.thresholds[3].label).toBe("+30%");
-    });
-  });
-
   describe("Outage Info Threshold Encoding", () => {
     it("should create yes/no palette from first and last colors", () => {
       const encodings = createEncodings(dummyPalette);
