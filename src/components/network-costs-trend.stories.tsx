@@ -29,13 +29,13 @@ export const NetworkCostLatestYear = () => {
   );
 };
 
-export const NetworkCostLatestYearMobile = () => {
+export const NetworkCostLatestYearCompact = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
-      title="Network Costs Trend Chart (Mobile)"
+      title="Network Costs Trend Chart (Compact)"
       reference="ElCom Library (Sunshine Indicators)"
     >
       <NetworkCostTrendChart
@@ -45,7 +45,7 @@ export const NetworkCostLatestYearMobile = () => {
         networkCosts={restNetworkCosts}
         viewBy="latest"
         compareWith={["sunshine.select-all"]}
-        isMobile={true}
+        compact={true}
       />
     </DesignStory>
   );

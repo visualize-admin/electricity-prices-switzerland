@@ -39,12 +39,12 @@ import { useIsMobile } from "src/lib/use-mobile";
 export const PowerStabilityHorizontalStackedBars = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
-    isMobile?: boolean;
+    compact?: boolean;
   }
 ) => {
-  const { observations, id, operatorLabel, overallOrRatio, isMobile: isMobileProp } = props;
-  const isMobileHook = useIsMobile();
-  const isMobile = isMobileProp ?? isMobileHook;
+  const { observations, id, operatorLabel, overallOrRatio, compact: compactProp } = props;
+  const isMobile = useIsMobile();
+  const compact = compactProp ?? isMobile;
   const [sortByItem, setSortByItem] =
     useState<PowerStabilitySortableType>("planned");
 
@@ -133,9 +133,9 @@ export const PowerStabilityHorizontalStackedBars = (
       };
     }, [dataWithRatioApplied, sortByItem, sortDirection, id]);
 
-  // Group data by operator name for mobile view
+  // Group data by operator name for compact view
   const { dataByOperator, operatorsSorted } = useMemo(() => {
-    if (!isMobile) return { dataByOperator: {}, operatorsSorted: [] };
+    if (!compact) return { dataByOperator: {}, operatorsSorted: [] };
 
     const grouped = groupBy(sortedDataWithoutMedian, (d) => d.operator_name);
     const sorted = sortedDataWithoutMedian.map((d) => d.operator_name);
@@ -143,7 +143,7 @@ export const PowerStabilityHorizontalStackedBars = (
     const uniqueSorted = [...new Set(sorted)];
 
     return { dataByOperator: grouped, operatorsSorted: uniqueSorted };
-  }, [isMobile, sortedDataWithoutMedian]);
+  }, [compact, sortedDataWithoutMedian]);
   const rowHeight = 20;
 
   return (
@@ -208,7 +208,7 @@ export const PowerStabilityHorizontalStackedBars = (
           __typename: "NominalDimension",
         },
       ]}
-      isMobile={isMobile}
+      isMobile={compact}
     >
       <SortOptions
         sortByItem={sortByItem}
@@ -216,7 +216,7 @@ export const PowerStabilityHorizontalStackedBars = (
         overallOrRatio={overallOrRatio}
         handleSortByItem={handleSortByItem}
       />
-      {isMobile ? (
+      {compact ? (
         <Box position="relative" mt={2}>
           {operatorsSorted.map((operatorName) => {
             const rowData = dataByOperator[operatorName];

@@ -59,10 +59,10 @@ export const HorizontalBarChart = () => {
   );
 };
 
-export const HorizontalBarChartMobile = () => {
+export const HorizontalBarChartCompact = () => {
   return (
     <DesignStory
-      title="Horizontal Bar Chart (Mobile)"
+      title="Horizontal Bar Chart (Compact)"
       reference="ElCom Library (Sunshine Indicators)"
     >
       <DesignGrid>
@@ -74,7 +74,7 @@ export const HorizontalBarChartMobile = () => {
           overallOrRatio="overall"
           saidiSaifiType={"total"}
           compareWith={[]}
-          isMobile={true}
+          compact={true}
         />
       </DesignGrid>
     </DesignStory>

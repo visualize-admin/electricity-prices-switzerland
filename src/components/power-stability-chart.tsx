@@ -27,7 +27,11 @@ export type PowerStabilityChartProps = {
   mini?: boolean;
   colorMapping?: ColorMapping;
   rootProps?: Omit<BoxProps, "children">;
-  isMobile?: boolean;
+  /**
+   * Renders the chart in compact mode with stacked rows.
+   * If not provided, defaults to true on mobile viewports.
+   */
+  compact?: boolean;
 } & Omit<SectionProps, "entity"> &
   PowerStabilityCardFilters;
 
@@ -35,7 +39,7 @@ export type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { viewBy, observations, rootProps, colorMapping, isMobile, ...restProps } = props;
+  const { viewBy, observations, rootProps, colorMapping, compact, ...restProps } = props;
 
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
@@ -51,7 +55,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
       {viewBy === "latest" ? (
         <PowerStabilityHorizontalStackedBars
           observations={dataWithStackFields}
-          isMobile={isMobile}
+          compact={compact}
           {...restProps}
         />
       ) : (
