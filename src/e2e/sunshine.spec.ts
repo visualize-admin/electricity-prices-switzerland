@@ -29,6 +29,9 @@ test.describe("Sunshine details page", () => {
     const resp = await page.goto(withFlag(url, { sunshine: true }));
     await expect(resp?.status()).toEqual(200);
     await page.waitForLoadState("networkidle");
+    await page.waitForSelector('[data-testid="loading"]', {
+      state: "detached",
+    });
 
     await snapshot({
       note: `${screenshotLabel} - Initial`,
@@ -39,9 +42,20 @@ test.describe("Sunshine details page", () => {
     const tabButton = await page.getByTestId(buttonLabel);
     await tabButton.click();
     await page.waitForLoadState("networkidle");
+    await page.waitForSelector('[data-testid="loading"]', {
+      state: "detached",
+    });
 
     await snapshot({
       note: `${screenshotLabel} - After Click`,
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+
+    // Switch to mobile view and take another screenshot
+    await page.setViewportSize({ width: 375, height: 812 });
+    await snapshot({
+      note: `${screenshotLabel} - Mobile View`,
       locator: await page.getByTestId("details-page-content"),
       fullPage: true,
     });
@@ -105,7 +119,6 @@ test.describe("Sunshine details page", () => {
       buttonLabel: "outage-info-tab",
       url: "/sunshine/operator/426/operational-standards",
     });
-    await page.getByTestId("outage-info-tab").press("Escape");
   });
 
   test(`it should load the sunshine details page for Compliance`, async ({
