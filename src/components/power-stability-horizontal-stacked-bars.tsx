@@ -39,10 +39,12 @@ import { useIsMobile } from "src/lib/use-mobile";
 export const PowerStabilityHorizontalStackedBars = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
     observations: PowerStabilityRow[];
+    isMobile?: boolean;
   }
 ) => {
-  const { observations, id, operatorLabel, overallOrRatio } = props;
-  const isMobile = useIsMobile();
+  const { observations, id, operatorLabel, overallOrRatio, isMobile: isMobileProp } = props;
+  const isMobileHook = useIsMobile();
+  const isMobile = isMobileProp ?? isMobileHook;
   const [sortByItem, setSortByItem] =
     useState<PowerStabilitySortableType>("planned");
 

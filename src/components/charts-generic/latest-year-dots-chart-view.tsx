@@ -50,6 +50,7 @@ type LatestYearChartViewProps<T extends GenericObservation> = {
   aspectRatio?: number;
   medianLegend: string;
   otherOperatorsLegend: string;
+  isMobile?: boolean;
 };
 
 const ChartLegend: React.FC<{
@@ -138,9 +139,11 @@ export const LatestYearDotsChartView = <T extends GenericObservation>(
     aspectRatio = 0.15,
     medianLegend,
     otherOperatorsLegend,
+    isMobile: isMobileProp,
   } = props;
 
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const isMobile = isMobileProp ?? isMobileHook;
 
   // Create chart color mappings - either use provided colorMapping or build default
   const chartColorMappings = useMemo(() => {

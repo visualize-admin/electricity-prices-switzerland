@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { useQueryStatePowerStabilityCardFilters } from "src/domain/query-states";
 import {
@@ -11,36 +11,34 @@ import { PowerStabilityCard } from "./power-stability-card";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { DesignGrid, DesignStory } from "./storybook/base-style";
 
+const yearData = data.saidi.yearlyData.filter((x) => x.year === 2024);
+const totals = yearData.map((d) => d.total);
+const sortedTotals = [...totals].sort((a, b) => a - b);
+const mid = Math.floor(sortedTotals.length / 2);
+const medianTotal =
+  sortedTotals.length % 2 !== 0
+    ? sortedTotals[mid]
+    : (sortedTotals[mid - 1] + sortedTotals[mid]) / 2;
+
+const unplannedValues = yearData.map((d) => d.unplanned);
+const sortedUnplanned = [...unplannedValues].sort((a, b) => a - b);
+const medianUnplanned =
+  sortedUnplanned.length % 2 !== 0
+    ? sortedUnplanned[mid]
+    : (sortedUnplanned[mid - 1] + sortedUnplanned[mid]) / 2;
+
+const observationsWithMedian = [
+  ...yearData,
+  {
+    year: 2024,
+    total: medianTotal,
+    operator_id: peerGroupOperatorId,
+    operator_name: peerGroupOperatorName,
+    unplanned: medianUnplanned,
+  },
+];
+
 export const HorizontalBarChart = () => {
-  const observationsWithMedian = useMemo(() => {
-    const yearData = data.saidi.yearlyData.filter((x) => x.year === 2024);
-    const totals = yearData.map((d) => d.total);
-    const sortedTotals = [...totals].sort((a, b) => a - b);
-    const mid = Math.floor(sortedTotals.length / 2);
-    const medianTotal =
-      sortedTotals.length % 2 !== 0
-        ? sortedTotals[mid]
-        : (sortedTotals[mid - 1] + sortedTotals[mid]) / 2;
-
-    const unplannedValues = yearData.map((d) => d.unplanned);
-    const sortedUnplanned = [...unplannedValues].sort((a, b) => a - b);
-    const medianUnplanned =
-      sortedUnplanned.length % 2 !== 0
-        ? sortedUnplanned[mid]
-        : (sortedUnplanned[mid - 1] + sortedUnplanned[mid]) / 2;
-
-    return [
-      ...yearData,
-      {
-        year: 2024,
-        total: medianTotal,
-        operator_id: peerGroupOperatorId,
-        operator_name: peerGroupOperatorName,
-        unplanned: medianUnplanned,
-      },
-    ];
-  }, []);
-
   return (
     <DesignStory
       title="Horizontal Bar Chart"
@@ -55,6 +53,28 @@ export const HorizontalBarChart = () => {
           overallOrRatio="overall"
           saidiSaifiType={"total"}
           compareWith={[]}
+        />
+      </DesignGrid>
+    </DesignStory>
+  );
+};
+
+export const HorizontalBarChartMobile = () => {
+  return (
+    <DesignStory
+      title="Horizontal Bar Chart (Mobile)"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <DesignGrid>
+        <PowerStabilityChart
+          observations={observationsWithMedian}
+          id="11"
+          operatorLabel="Fluxwave Energy"
+          viewBy="latest"
+          overallOrRatio="overall"
+          saidiSaifiType={"total"}
+          compareWith={[]}
+          isMobile={true}
         />
       </DesignGrid>
     </DesignStory>

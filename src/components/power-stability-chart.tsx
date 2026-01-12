@@ -27,6 +27,7 @@ export type PowerStabilityChartProps = {
   mini?: boolean;
   colorMapping?: ColorMapping;
   rootProps?: Omit<BoxProps, "children">;
+  isMobile?: boolean;
 } & Omit<SectionProps, "entity"> &
   PowerStabilityCardFilters;
 
@@ -34,7 +35,7 @@ export type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { viewBy, observations, rootProps, colorMapping, ...restProps } = props;
+  const { viewBy, observations, rootProps, colorMapping, isMobile, ...restProps } = props;
 
   const dataWithStackFields = useMemo(() => {
     return observations.map((d) => ({
@@ -50,6 +51,7 @@ export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
       {viewBy === "latest" ? (
         <PowerStabilityHorizontalStackedBars
           observations={dataWithStackFields}
+          isMobile={isMobile}
           {...restProps}
         />
       ) : (

@@ -24,11 +24,12 @@ type NetworkCostTrendChartProps = {
   operatorLabel: string;
   mini?: boolean;
   colorMapping?: ColorMapping;
+  isMobile?: boolean;
 } & Omit<SectionProps, "entity"> &
   NetworkCostsTrendCardFilters;
 
 export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
-  const { observations, viewBy, rootProps, colorMapping, ...restProps } = props;
+  const { observations, viewBy, rootProps, colorMapping, isMobile, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -39,6 +40,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
           observations={observations}
           operatorsNames={operatorsNames}
           colorMapping={colorMapping}
+          isMobile={isMobile}
           {...restProps}
         />
       ) : (
@@ -65,6 +67,7 @@ const NetworkCostLatestYearChartView = (
     operatorLabel,
     compareWith,
     colorMapping,
+    isMobile,
   } = props;
 
   const entityField = "operator_id";
@@ -90,6 +93,7 @@ const NetworkCostLatestYearChartView = (
       compareWith={compareWith}
       colorMapping={colorMapping}
       entityField={entityField}
+      isMobile={isMobile}
       xField={{
         componentIri: "rate",
         axisLabel: getNetworkLevelMetrics(
