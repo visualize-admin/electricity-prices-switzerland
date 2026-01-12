@@ -32,6 +32,7 @@ You can also check the
 - Detail pages
   - Fix SAIDI/SAIFI Chart Download #513
   - Improve responsiveness of latest year dot charts #503
+  - Make median diamond more visible [#508](https://github.com/visualize-admin/electricity-prices-switzerland/issues/508)
 - General
   - Make layout generally more compact
   - Several design fixes from design review #501
