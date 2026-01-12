@@ -19,8 +19,14 @@ export const InteractionDotted = memo(
   }) => {
     const [, dispatch] = useInteraction();
 
-    const { data: dataContext, bounds, xScale, yScale, getX, getY } =
-      useChartState() as RangePlotState;
+    const {
+      data: dataContext,
+      bounds,
+      xScale,
+      yScale,
+      getX,
+      getY,
+    } = useChartState() as RangePlotState;
 
     const data = dataProp ?? dataContext;
     const { margins, chartWidth } = bounds;
