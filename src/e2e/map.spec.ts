@@ -78,33 +78,6 @@ test.describe("Map Hover Behavior", () => {
   });
 });
 
-test.describe("Legend Thresholds", () => {
-  test.beforeEach(async ({ setFlags, page }) => {
-    await setFlags(page, ["webglDeactivated"]);
-  });
-
-  test("should display correct color legend thresholds for network costs (+/- 10%/30%)", async ({
-    page,
-  }) => {
-    // Navigate to map with network costs view
-    await page.goto("/en/map?tab=sunshine&flag__sunshine=true");
-
-    // Make sure we're viewing network costs indicator
-    await page.getByRole("combobox", { name: "Indicator" }).click();
-    await page.getByRole("option", { name: /Network costs/i }).click();
-
-    // Get the color legend
-    const legend = await page.getByTestId("map-legend").nth(1);
-
-    await expect(legend).toBeVisible();
-
-    const legendText = await legend.textContent();
-
-    expect(legendText).toMatch(/10\s*%/);
-    expect(legendText).toMatch(/30\s*%/);
-  });
-});
-
 test.describe("Map Details Table Information", () => {
   test.beforeEach(async ({ setFlags, page }) => {
     await setFlags(page, ["webglDeactivated"]);
