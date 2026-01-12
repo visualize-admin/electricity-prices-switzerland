@@ -213,6 +213,10 @@ const useStackedBarsState = ({
             segments.length
         );
       }, 0);
+
+      const xAnchor = xScale(avg);
+      const yAnchor = yScale(getCategory(d)) || 0;
+
       return {
         datum: {
           label: getCategory(d),
@@ -226,10 +230,15 @@ const useStackedBarsState = ({
           value: (+d[seg]).toFixed(2),
           color: colors(seg),
         })),
-        xAnchor: xScale(avg),
-        yAnchor: yScale(getCategory(d)) || 0,
+        xAnchor: xAnchor,
+        yAnchor: yAnchor,
         placement: {
-          x: "center",
+          x:
+            xAnchor < bounds.chartWidth * 0.2
+              ? ("right" as const)
+              : xAnchor > bounds.chartWidth * 0.8
+              ? ("left" as const)
+              : ("center" as const),
           y: "top",
         },
         xValue: getCategory(d),
