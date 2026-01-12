@@ -16,6 +16,8 @@ import { useLocale } from "src/lib/use-locale";
 
 import { SunshineSelectorsBase } from "./base";
 
+const NO_ALLOCATION_PEER_GROUP_ID = "0";
+
 export const SunshineSelectors = () => {
   const [queryState, setQueryState] = useQueryStateSunshineMap();
   const locale = useLocale();
@@ -41,11 +43,15 @@ export const SunshineSelectors = () => {
   const peerGroupOptions = peerGroupsResult.data
     ? [
         "all_grid_operators",
-        ...(peerGroupsResult.data?.peerGroups.map((x) => x.id) ?? []).sort(
-          (a, b) => {
-            return parseFloat(a) - parseFloat(b);
-          }
-        ),
+        ...(
+          peerGroupsResult.data?.peerGroups
+            .filter((x) => {
+              return x.id !== NO_ALLOCATION_PEER_GROUP_ID;
+            })
+            .map((x) => x.id) ?? []
+        ).sort((a, b) => {
+          return parseFloat(a) - parseFloat(b);
+        }),
       ]
     : [];
 
