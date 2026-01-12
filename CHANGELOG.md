@@ -12,7 +12,12 @@ You can also check the
 # Unreleased
 
 - Costs and Tariffs page
+
   - Show trends arrows on in tariffs tabs
+
+- Sunshine map
+  - Remove "keine Zuteilung" (no allocation) option from dropdown [#519](https://github.com/visualize-admin/electricity-prices-switzerland/issues/519)
+  - Revert grid cost color thresholds [#435](https://github.com/visualize-admin/electricity-prices-switzerland/issues/435)
 
 # 2.32.0 - 2026-01-08
 
