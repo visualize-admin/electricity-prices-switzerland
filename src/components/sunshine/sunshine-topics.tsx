@@ -21,14 +21,8 @@ interface SunshineTopic {
     src: string;
     alt: string;
   };
-  title: {
-    id: string;
-    message: string;
-  };
-  description: {
-    id: string;
-    message: string;
-  };
+  title: string;
+  description: string;
   links: TopicLink[];
 }
 
@@ -72,22 +66,23 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const sunshineTopics: SunshineTopic[] = [
+// Use a function to lazy evaluate the topics for i18n
+const sunshineTopics: () => SunshineTopic[] = () => [
   {
     id: "costs-and-tariffs",
     image: {
       src: "/assets/map-sunshine-networkCosts.webp",
       alt: "map preview",
     },
-    title: {
+    title: t({
       id: "home.sunshine-topics.card.costs-and-tariffs.title",
       message: "Costs and Tariffs",
-    },
-    description: {
+    }),
+    description: t({
       id: "home.sunshine-topics.card.costs-and-tariffs.description",
       message:
         "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C).",
-    },
+    }),
     links: [
       {
         label: t({
@@ -118,15 +113,15 @@ const sunshineTopics: SunshineTopic[] = [
       src: "/assets/map-sunshine-saidi.webp",
       alt: "map preview",
     },
-    title: {
+    title: t({
       id: "home.sunshine-topics.card.power-stability.title",
       message: "Power Stability",
-    },
-    description: {
+    }),
+    description: t({
       id: "home.sunshine-topics.card.power-stability.description",
       message:
         "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period.",
-    },
+    }),
     links: [
       {
         label: t({
@@ -150,15 +145,15 @@ const sunshineTopics: SunshineTopic[] = [
       src: "/assets/map-sunshine-compliance.webp",
       alt: "map preview",
     },
-    title: {
+    title: t({
       id: "home.sunshine-topics.card.compliance.title",
       message: "Compliance",
-    },
-    description: {
+    }),
+    description: t({
       id: "home.sunshine-topics.card.compliance.description",
       message:
         "Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards.",
-    },
+    }),
     links: [
       {
         label: t({
@@ -231,7 +226,7 @@ export const SunshineTopics = () => {
           <Trans id="home.sunshine-topics.title">Sunshine Topics</Trans>
         </Typography>
         <div className={classes.grid}>
-          {sunshineTopics.map((topic) => (
+          {sunshineTopics().map((topic) => (
             <div key={topic.id} className={classes.card}>
               <div className={classes.header}>
                 <div className={classes.imageWrapper}>
@@ -256,13 +251,9 @@ export const SunshineTopics = () => {
                     lineHeight={1.4}
                     variant="h3"
                   >
-                    <Trans id={topic.title.id}>{topic.title.message}</Trans>
+                    {topic.title}
                   </Typography>
-                  <Typography variant="body2">
-                    <Trans id={topic.description.id}>
-                      {topic.description.message}
-                    </Trans>
-                  </Typography>
+                  <Typography variant="body2">{topic.description}</Typography>
                 </Stack>
                 <div className={classes.linksContainer}>
                   {topic.links.map((link, index) => (
