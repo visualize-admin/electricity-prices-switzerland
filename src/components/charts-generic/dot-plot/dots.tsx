@@ -1,6 +1,7 @@
 import { groupBy } from "lodash";
 import { memo, useMemo } from "react";
 
+import { MedianDiamond } from "src/components/charts-generic/dot-plot/median-diamond.tsx";
 import {
   DotPlotState,
   useChartState,
@@ -8,31 +9,12 @@ import {
 import { GenericObservation } from "src/domain/data";
 import { chartPalette, palette } from "src/themes/palette";
 
-import { MEDIAN_DIAMOND_SIZE } from "../constants";
 import { useInteraction } from "../use-interaction";
 
 type DotProps = {
   compareWith?: string[];
   data?: GenericObservation[];
 };
-
-const MedianDiamond: React.FC<{
-  x: number;
-  y: number;
-  yValue: unknown;
-}> = ({ x, y, yValue }) => (
-  <rect
-    key={`median-${yValue}`}
-    x={x - MEDIAN_DIAMOND_SIZE / 2}
-    y={y - MEDIAN_DIAMOND_SIZE / 2}
-    width={MEDIAN_DIAMOND_SIZE}
-    height={MEDIAN_DIAMOND_SIZE}
-    fill={palette.monochrome[800]}
-    stroke={palette.background.paper}
-    strokeWidth={1}
-    transform={`rotate(45, ${x}, ${y})`}
-  />
-);
 
 export const Dots = (props: DotProps) => {
   const {
