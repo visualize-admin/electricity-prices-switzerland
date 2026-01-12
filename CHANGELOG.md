@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.33.0 - 2026-01-12
+
 - Costs and Tariffs page
 
   - Show trends arrows on in tariffs tabs
