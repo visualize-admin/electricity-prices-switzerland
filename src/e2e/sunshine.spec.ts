@@ -302,6 +302,30 @@ test.describe("Sunshine Costs and Tariffs page", () => {
   });
 });
 
+test.describe("Trend icons on Costs and Tariffs page", () => {
+  test("should display trend icons for energy tariffs", async ({ page }) => {
+    await page.goto(
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=energyTariffs"
+    );
+    await page.waitForLoadState("networkidle");
+
+    // Check that trend icons are visible
+    const trendIcons = page.getByTestId(/^trend-icon-(up|down)$/);
+    await expect(trendIcons.first()).toBeVisible();
+  });
+
+  test("should display trend icons for net tariffs", async ({ page }) => {
+    await page.goto(
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
+    );
+    await page.waitForLoadState("networkidle");
+
+    // Check that trend icons are visible
+    const trendIcons = page.getByTestId(/^trend-icon-(up|down)$/);
+    await expect(trendIcons.first()).toBeVisible();
+  });
+});
+
 test.describe("Operational Standards page", () => {
   test("it should display the correct tabs and content", async ({ page }) => {
     await page.goto("/en/sunshine/operator/468/operational-standards");

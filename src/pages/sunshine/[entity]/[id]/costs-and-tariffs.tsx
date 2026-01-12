@@ -56,12 +56,12 @@ import {
   useNetworkCostsQuery,
 } from "src/graphql/queries";
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
-import { Trend } from "src/graphql/resolver-types";
 import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
+
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       costsAndTariffs: Omit<
@@ -293,7 +293,9 @@ export const EnergyTariffsDocument = gql`
     energyTariffs(filter: $filter) {
       category
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         period
         rate
@@ -349,7 +351,12 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     );
   }
 
-  const { operatorRate, peerGroupMedianRate } = energyTariffs;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+  } = energyTariffs;
 
   const categoryLabels = getCategoryLabels(category);
 
@@ -376,8 +383,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
               value: operatorRate,
               unit: RP_PER_KWH,
               round: 2,
-              // TODO
-              trend: Trend.Stable,
+              trend: operatorTrend,
             },
           }
         : null,
@@ -392,8 +398,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
               value: peerGroupMedianRate,
               unit: RP_PER_KWH,
               round: 2,
-              // TODO
-              trend: Trend.Stable,
+              trend: peerGroupMedianTrend,
             },
           }
         : null,
@@ -473,7 +478,9 @@ export const NetTariffsDocument = gql`
     netTariffs(filter: $filter) {
       category
       operatorRate
+      operatorTrend
       peerGroupMedianRate
+      peerGroupMedianTrend
       yearlyData {
         period
         rate
@@ -529,7 +536,12 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     );
   }
 
-  const { operatorRate, peerGroupMedianRate } = netTariffs;
+  const {
+    operatorRate,
+    operatorTrend,
+    peerGroupMedianRate,
+    peerGroupMedianTrend,
+  } = netTariffs;
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
@@ -555,8 +567,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
               value: operatorRate,
               unit: RP_PER_KWH,
               round: 2,
-              // TODO
-              trend: "stable" as Trend,
+              trend: operatorTrend,
             },
           }
         : null,
@@ -571,8 +582,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
               value: peerGroupMedianRate,
               unit: RP_PER_KWH,
               round: 2,
-              // TODO
-              trend: "stable" as Trend,
+              trend: peerGroupMedianTrend,
             },
           }
         : null,
