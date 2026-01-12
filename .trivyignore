@@ -14,3 +14,7 @@ CVE-2025-61724 exp:2026-02-01
 # This affects libc and we do not believe the vulnerability can
 # be exploited
 CVE-2025-4802 exp:2026-02-01
+
+# This affects libpam and gnupg, we are not using them in-app
+CVE-2025-68973 exp:2026-03-01
+CVE-2025-6020  exp:2026-03-01
