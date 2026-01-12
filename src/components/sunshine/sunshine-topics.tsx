@@ -1,23 +1,13 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { makeStyles } from "tss-react/mui";
 
 import { sunshineMapLink } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "../anchor-nav";
-
-import {
-  SunshineCard,
-  SunshineCardContent,
-  SunshineCardDescription,
-  SunshineCardGrid,
-  SunshineCardHeader,
-  SunshineCardLinks,
-  SunshineCardTitle,
-  SunshineImageWrapper,
-} from "./sunshine-card";
 
 interface TopicLink {
   label: string;
@@ -41,6 +31,46 @@ interface SunshineTopic {
   };
   links: TopicLink[];
 }
+
+const useStyles = makeStyles()((theme) => ({
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: theme.spacing(8),
+    // Define grid template rows for consistent alignment
+    gridTemplateRows: "auto auto auto",
+  },
+  card: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[3],
+    borderRadius: theme.shape.borderRadius,
+    display: "grid",
+    // Use subgrid to align with parent grid rows
+    gridTemplateRows: "subgrid",
+    gridRow: "span 3",
+    height: "fit-content",
+  },
+  header: {
+    padding: theme.spacing(6.5, 6),
+  },
+  content: {
+    padding: theme.spacing(0, 6.5, 6.5, 6.5),
+    gridTemplateRows: "subgrid",
+    gridRow: "span 3",
+    display: "grid",
+    gap: theme.spacing(6),
+  },
+  linksContainer: {},
+  imageWrapper: {
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    aspectRatio: "1.5",
+  },
+  imageInner: {
+    flex: 1,
+  },
+}));
 
 const sunshineTopics: SunshineTopic[] = [
   {
@@ -149,6 +179,8 @@ const sunshineTopics: SunshineTopic[] = [
 ];
 
 export const SunshineTopics = () => {
+  const { classes } = useStyles();
+
   return (
     <Box
       sx={{
@@ -198,34 +230,41 @@ export const SunshineTopics = () => {
         <Typography variant="h2" fontWeight={700} component={"h3"}>
           <Trans id="home.sunshine-topics.title">Sunshine Topics</Trans>
         </Typography>
-        <SunshineCardGrid>
+        <div className={classes.grid}>
           {sunshineTopics.map((topic) => (
-            <SunshineCard key={topic.id}>
-              <SunshineCardHeader>
-                <SunshineImageWrapper>
-                  <Image
-                    src={topic.image.src}
-                    alt={topic.image.alt}
-                    layout="fill"
-                    objectFit="contain"
-                    priority={false}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                </SunshineImageWrapper>
-              </SunshineCardHeader>
+            <div key={topic.id} className={classes.card}>
+              <div className={classes.header}>
+                <div className={classes.imageWrapper}>
+                  <div className={classes.imageInner}>
+                    <Image
+                      src={topic.image.src}
+                      alt={topic.image.alt}
+                      layout="fill"
+                      objectFit="contain"
+                      priority={false}
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
+                </div>
+              </div>
 
-              <SunshineCardContent>
+              <div className={classes.content}>
                 <Stack direction={"column"} spacing={4}>
-                  <SunshineCardTitle>
+                  <Typography
+                    fontWeight={700}
+                    component={"h4"}
+                    lineHeight={1.4}
+                    variant="h3"
+                  >
                     <Trans id={topic.title.id}>{topic.title.message}</Trans>
-                  </SunshineCardTitle>
-                  <SunshineCardDescription>
+                  </Typography>
+                  <Typography variant="body2">
                     <Trans id={topic.description.id}>
                       {topic.description.message}
                     </Trans>
-                  </SunshineCardDescription>
+                  </Typography>
                 </Stack>
-                <SunshineCardLinks>
+                <div className={classes.linksContainer}>
                   {topic.links.map((link, index) => (
                     <AnchorNav
                       key={`${link.indicator}-${index}`}
@@ -242,11 +281,11 @@ export const SunshineTopics = () => {
                       }
                     />
                   ))}
-                </SunshineCardLinks>
-              </SunshineCardContent>
-            </SunshineCard>
+                </div>
+              </div>
+            </div>
           ))}
-        </SunshineCardGrid>
+        </div>
       </Box>
     </Box>
   );
