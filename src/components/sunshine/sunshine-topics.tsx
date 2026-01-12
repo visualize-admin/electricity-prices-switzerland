@@ -3,6 +3,7 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 import { sunshineMapLink } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "../anchor-nav";
@@ -15,6 +16,135 @@ import {
   SunshineCardTitle,
   SunshineImageWrapper,
 } from "./sunshine-card";
+
+interface TopicLink {
+  label: string;
+  indicator: SunshineIndicator;
+  hideBorder?: boolean;
+}
+
+interface SunshineTopic {
+  id: string;
+  image: {
+    src: string;
+    alt: string;
+  };
+  title: {
+    id: string;
+    message: string;
+  };
+  description: {
+    id: string;
+    message: string;
+  };
+  links: TopicLink[];
+}
+
+const sunshineTopics: SunshineTopic[] = [
+  {
+    id: "costs-and-tariffs",
+    image: {
+      src: "/assets/map-sunshine-networkCosts.webp",
+      alt: "map preview",
+    },
+    title: {
+      id: "home.sunshine-topics.card.costs-and-tariffs.title",
+      message: "Costs and Tariffs",
+    },
+    description: {
+      id: "home.sunshine-topics.card.costs-and-tariffs.description",
+      message:
+        "Electricity bills consist of energy tariffs and network costs. Network tariffs (levels 5-7) cover infrastructure, grid maintenance, metering, and administrative services, while energy tariffs reflect actual consumption in households (H) or businesses (C).",
+    },
+    links: [
+      {
+        label: t({
+          id: "home.sunshine-topics.network-costs.link",
+          message: "Network Costs",
+        }),
+        indicator: "networkCosts",
+      },
+      {
+        label: t({
+          id: "home.sunshine-topics.net-tariff.link",
+          message: "Net Tariffs",
+        }),
+        indicator: "netTariffs",
+      },
+      {
+        label: t({
+          id: "home.sunshine-topics.energy-tariff.link",
+          message: "Energy Tariffs",
+        }),
+        indicator: "energyTariffs",
+      },
+    ],
+  },
+  {
+    id: "power-stability",
+    image: {
+      src: "/assets/map-sunshine-saidi.webp",
+      alt: "map preview",
+    },
+    title: {
+      id: "home.sunshine-topics.card.power-stability.title",
+      message: "Power Stability",
+    },
+    description: {
+      id: "home.sunshine-topics.card.power-stability.description",
+      message:
+        "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period.",
+    },
+    links: [
+      {
+        label: t({
+          id: "home.sunshine-topics.power-outage-duration.link",
+          message: "Power Outage Duration (SAIDI)",
+        }),
+        indicator: "saidi",
+      },
+      {
+        label: t({
+          id: "home.sunshine-topics.power-outage-frequency.link",
+          message: "Power Outage Frequency (SAIFI)",
+        }),
+        indicator: "saifi",
+      },
+    ],
+  },
+  {
+    id: "compliance",
+    image: {
+      src: "/assets/map-sunshine-compliance.webp",
+      alt: "map preview",
+    },
+    title: {
+      id: "home.sunshine-topics.card.compliance.title",
+      message: "Compliance",
+    },
+    description: {
+      id: "home.sunshine-topics.card.compliance.description",
+      message:
+        "Service quality captures how well customers are informed about outages. Compliance measures how consistently a grid operator follows laws, regulations, and internal standards.",
+    },
+    links: [
+      {
+        label: t({
+          id: "home.sunshine-topics.service-quality.link",
+          message: "Service Quality",
+        }),
+        indicator: "outageInfo",
+      },
+      {
+        label: t({
+          id: "home.sunshine-topics.compliance.link",
+          message: "Compliance",
+        }),
+        indicator: "compliance",
+      },
+    ],
+  },
+];
 
 export const SunshineTopics = () => {
   return (
@@ -67,190 +197,55 @@ export const SunshineTopics = () => {
           <Trans id="home.sunshine-topics.title">Sunshine Topics</Trans>
         </Typography>
         <Grid container spacing={12}>
-          <Grid item xs={12} sm={6} lg={4}>
-            <SunshineCard>
-              <SunshineCardHeader>
-                <SunshineImageWrapper>
-                  <Image
-                    src="/assets/map-sunshine-networkCosts.webp"
-                    alt="map preview"
-                    layout="fill"
-                    objectFit="contain"
-                    priority={false}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                </SunshineImageWrapper>
-              </SunshineCardHeader>
+          {sunshineTopics.map((topic) => (
+            <Grid key={topic.id} item xs={12} sm={6} lg={4}>
+              <SunshineCard>
+                <SunshineCardHeader>
+                  <SunshineImageWrapper>
+                    <Image
+                      src={topic.image.src}
+                      alt={topic.image.alt}
+                      layout="fill"
+                      objectFit="contain"
+                      priority={false}
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </SunshineImageWrapper>
+                </SunshineCardHeader>
 
-              <SunshineCardContent>
-                <Stack direction={"column"} spacing={4} pb={6}>
-                  <SunshineCardTitle>
-                    <Trans id="home.sunshine-topics.card.costs-and-tariffs.title">
-                      Costs and Tariffs
-                    </Trans>
-                  </SunshineCardTitle>
-                  <SunshineCardDescription>
-                    <Trans id="home.sunshine-topics.card.costs-and-tariffs.description">
-                      Electricity bills consist of energy tariffs and network
-                      costs. Network tariffs (levels 5-7) cover infrastructure,
-                      grid maintenance, metering, and administrative services,
-                      while energy tariffs reflect actual consumption in
-                      households (H) or businesses (C).
-                    </Trans>
-                  </SunshineCardDescription>
-                </Stack>
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.network-costs.link",
-                    message: "Network Costs",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "networkCosts",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.net-tariff.link",
-                    message: "Net Tariffs",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "netTariffs",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.energy-tariff.link",
-                    message: "Energy Tariffs",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "energyTariffs",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                  hideBorder
-                />
-              </SunshineCardContent>
-            </SunshineCard>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <SunshineCard>
-              <SunshineCardHeader>
-                <SunshineImageWrapper>
-                  <Image
-                    src="/assets/map-sunshine-saidi.webp"
-                    alt="map preview"
-                    layout="fill"
-                    objectFit="contain"
-                    priority={false}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                </SunshineImageWrapper>
-              </SunshineCardHeader>
-
-              <SunshineCardContent>
-                <Stack direction={"column"} spacing={4} pb={6}>
-                  <SunshineCardTitle>
-                    <Trans id="home.sunshine-topics.card.power-stability.title">
-                      Power Stability
-                    </Trans>
-                  </SunshineCardTitle>
-                  <SunshineCardDescription>
-                    <Trans id="home.sunshine-topics.card.power-stability.description">
-                      SAIDI measures the total duration of power outages per
-                      customer each year, while SAIFI indicates how often
-                      outages occur. Together, they provide key insights into
-                      the reliability and stability of the electricity supply
-                      over a defined period.
-                    </Trans>
-                  </SunshineCardDescription>
-                </Stack>
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.power-outage-duration.link",
-                    message: "Power Outage Duration (SAIDI)",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "saidi",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.power-outage-frequency.link",
-                    message: "Power Outage Frequency (SAIFI)",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "saifi",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                  hideBorder
-                />
-              </SunshineCardContent>
-            </SunshineCard>
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <SunshineCard>
-              <SunshineCardHeader>
-                <SunshineImageWrapper>
-                  <Image
-                    src="/assets/map-sunshine-compliance.webp"
-                    alt="map preview"
-                    layout="fill"
-                    objectFit="contain"
-                    priority={false}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                </SunshineImageWrapper>
-              </SunshineCardHeader>
-
-              <SunshineCardContent>
-                <Stack direction={"column"} spacing={4} pb={6}>
-                  <SunshineCardTitle>
-                    <Trans id="home.sunshine-topics.card.compliance.title">
-                      Compliance
-                    </Trans>
-                  </SunshineCardTitle>
-                  <SunshineCardDescription>
-                    <Trans id="home.sunshine-topics.card.compliance.description">
-                      Service quality captures how well customers are informed
-                      about outages. Compliance measures how consistently a grid
-                      operator follows laws, regulations, and internal
-                      standards.
-                    </Trans>
-                  </SunshineCardDescription>
-                </Stack>
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.service-quality.link",
-                    message: "Service Quality",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "outageInfo",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                />
-                <AnchorNav
-                  label={t({
-                    id: "home.sunshine-topics.compliance.link",
-                    message: "Compliance",
-                  })}
-                  href={sunshineMapLink("/map", {
-                    tab: "sunshine",
-                    indicator: "compliance",
-                  })}
-                  icon={<Icon name="arrowright" />}
-                  hideBorder
-                />
-              </SunshineCardContent>
-            </SunshineCard>
-          </Grid>
+                <SunshineCardContent>
+                  <Stack direction={"column"} spacing={4} pb={6}>
+                    <SunshineCardTitle>
+                      <Trans id={topic.title.id}>{topic.title.message}</Trans>
+                    </SunshineCardTitle>
+                    <SunshineCardDescription>
+                      <Trans id={topic.description.id}>
+                        {topic.description.message}
+                      </Trans>
+                    </SunshineCardDescription>
+                  </Stack>
+                  <div>
+                    {topic.links.map((link, index) => (
+                      <AnchorNav
+                        key={`${link.indicator}-${index}`}
+                        label={link.label}
+                        href={sunshineMapLink("/map", {
+                          tab: "sunshine",
+                          indicator: link.indicator,
+                        })}
+                        icon={<Icon name="arrowright" />}
+                        hideBorder={
+                          index === topic.links.length - 1
+                            ? true
+                            : link.hideBorder
+                        }
+                      />
+                    ))}
+                  </div>
+                </SunshineCardContent>
+              </SunshineCard>
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Box>
