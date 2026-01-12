@@ -7,23 +7,49 @@ type SunshineCardProps = {
 };
 
 const useStyles = makeStyles()((theme) => ({
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: theme.spacing(12),
+    // Define grid template rows for consistent alignment
+    gridTemplateRows: "auto auto auto",
+  },
   card: {
-    flexDirection: "column",
-    height: "100%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[3],
     borderRadius: theme.shape.borderRadius,
-    display: "flex",
+    display: "grid",
+    // Use subgrid to align with parent grid rows
+    gridTemplateRows: "subgrid",
+    gridRow: "span 3",
+    height: "fit-content",
   },
   header: {
     padding: theme.spacing(6.5, 6),
   },
   content: {
     padding: theme.spacing(0, 6.5, 6.5, 6.5),
+    gridTemplateRows: "subgrid",
+    gridRow: "span 3",
+    display: "grid",
+    gap: theme.spacing(6),
+  },
+  linksContainer: {
+    border: "1px solid red",
   },
 }));
 
 type SunshineCardPropsWithClassName = SunshineCardProps & {
+  className?: string;
+};
+
+type SunshineCardGridProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+type SunshineCardLinksProps = {
+  children: ReactNode;
   className?: string;
 };
 
@@ -80,3 +106,20 @@ export const SunshineImageWrapper = (props: SunshineCardProps) => {
     </Box>
   );
 };
+
+export const SunshineCardGrid = (props: SunshineCardGridProps) => {
+  const { children, className } = props;
+  const { classes, cx } = useStyles();
+  return <div className={cx(classes.grid, className)}>{children}</div>;
+};
+
+export const SunshineCardLinks = (props: SunshineCardLinksProps) => {
+  const { children, className } = props;
+  const { classes, cx } = useStyles();
+  return (
+    <div className={cx(classes.linksContainer, className)}>{children}</div>
+  );
+};
+
+// Export useStyles hook for additional customization
+export { useStyles as useSunshineCardStyles };

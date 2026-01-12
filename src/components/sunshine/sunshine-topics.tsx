@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 import { sunshineMapLink } from "src/domain/query-states";
@@ -12,7 +12,9 @@ import {
   SunshineCard,
   SunshineCardContent,
   SunshineCardDescription,
+  SunshineCardGrid,
   SunshineCardHeader,
+  SunshineCardLinks,
   SunshineCardTitle,
   SunshineImageWrapper,
 } from "./sunshine-card";
@@ -196,57 +198,55 @@ export const SunshineTopics = () => {
         <Typography variant="h2" fontWeight={700} component={"h3"}>
           <Trans id="home.sunshine-topics.title">Sunshine Topics</Trans>
         </Typography>
-        <Grid container spacing={12}>
+        <SunshineCardGrid>
           {sunshineTopics.map((topic) => (
-            <Grid key={topic.id} item xs={12} sm={6} lg={4}>
-              <SunshineCard>
-                <SunshineCardHeader>
-                  <SunshineImageWrapper>
-                    <Image
-                      src={topic.image.src}
-                      alt={topic.image.alt}
-                      layout="fill"
-                      objectFit="contain"
-                      priority={false}
-                      sizes="(max-width: 768px) 100vw, 400px"
-                    />
-                  </SunshineImageWrapper>
-                </SunshineCardHeader>
+            <SunshineCard key={topic.id}>
+              <SunshineCardHeader>
+                <SunshineImageWrapper>
+                  <Image
+                    src={topic.image.src}
+                    alt={topic.image.alt}
+                    layout="fill"
+                    objectFit="contain"
+                    priority={false}
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                </SunshineImageWrapper>
+              </SunshineCardHeader>
 
-                <SunshineCardContent>
-                  <Stack direction={"column"} spacing={4} pb={6}>
-                    <SunshineCardTitle>
-                      <Trans id={topic.title.id}>{topic.title.message}</Trans>
-                    </SunshineCardTitle>
-                    <SunshineCardDescription>
-                      <Trans id={topic.description.id}>
-                        {topic.description.message}
-                      </Trans>
-                    </SunshineCardDescription>
-                  </Stack>
-                  <div>
-                    {topic.links.map((link, index) => (
-                      <AnchorNav
-                        key={`${link.indicator}-${index}`}
-                        label={link.label}
-                        href={sunshineMapLink("/map", {
-                          tab: "sunshine",
-                          indicator: link.indicator,
-                        })}
-                        icon={<Icon name="arrowright" />}
-                        hideBorder={
-                          index === topic.links.length - 1
-                            ? true
-                            : link.hideBorder
-                        }
-                      />
-                    ))}
-                  </div>
-                </SunshineCardContent>
-              </SunshineCard>
-            </Grid>
+              <SunshineCardContent>
+                <Stack direction={"column"} spacing={4}>
+                  <SunshineCardTitle>
+                    <Trans id={topic.title.id}>{topic.title.message}</Trans>
+                  </SunshineCardTitle>
+                  <SunshineCardDescription>
+                    <Trans id={topic.description.id}>
+                      {topic.description.message}
+                    </Trans>
+                  </SunshineCardDescription>
+                </Stack>
+                <SunshineCardLinks>
+                  {topic.links.map((link, index) => (
+                    <AnchorNav
+                      key={`${link.indicator}-${index}`}
+                      label={link.label}
+                      href={sunshineMapLink("/map", {
+                        tab: "sunshine",
+                        indicator: link.indicator,
+                      })}
+                      icon={<Icon name="arrowright" />}
+                      hideBorder={
+                        index === topic.links.length - 1
+                          ? true
+                          : link.hideBorder
+                      }
+                    />
+                  ))}
+                </SunshineCardLinks>
+              </SunshineCardContent>
+            </SunshineCard>
           ))}
-        </Grid>
+        </SunshineCardGrid>
       </Box>
     </Box>
   );
