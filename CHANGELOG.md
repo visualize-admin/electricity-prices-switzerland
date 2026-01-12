@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.33.1 - 2026-01-12
+
+- Security
+  - Ignore CVE-2025-68973 and CVE-2025-6020 that we are not affected with
+
 # 2.33.0 - 2026-01-12
 
 - Costs and Tariffs page
