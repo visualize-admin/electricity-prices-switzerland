@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
 import {
+  alpha,
   Box,
   Card,
   CardContent,
@@ -183,7 +184,9 @@ const MobileControls = ({
             margin: "auto",
             transition: "background-color 0.3s ease",
             cursor: "pointer",
-            backgroundColor: (theme) => theme.palette.background.paper,
+            backdropFilter: "blur(10px)",
+            backgroundColor: (theme) =>
+              alpha(theme.palette.background.paper, 0.8),
           }}
           onClick={(ev) => {
             if (ev.defaultPrevented) {
