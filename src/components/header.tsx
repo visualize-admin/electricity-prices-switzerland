@@ -62,10 +62,12 @@ export const Header = ({
   contentId,
   hideLogo,
   extendTopBar,
+  showCaption = true,
 }: {
   contentId?: string;
   hideLogo?: boolean;
   extendTopBar?: boolean;
+  showCaption?: boolean;
 }) => {
   const currentLocale = useLocale();
   const { push, pathname, query } = useRouter();
@@ -145,19 +147,48 @@ export const Header = ({
         <SwissFederalCiHeader
           // @ts-expect-error longTitle can be ReactNode
           longTitle={
-            <>
+            <Box
+              width="100%"
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+            >
               <Trans id="header.long-title">
                 Federal Electricity Commission ElCom
               </Trans>
-              <br />
-              <Typography fontWeight="normal" variant="inherit">
-                <Trans id="site.title">
-                  Electricity tariffs in Switzerland
-                </Trans>
-              </Typography>
-            </>
+              {showCaption ? (
+                <>
+                  <br />
+                  <Typography fontWeight="normal" variant="inherit">
+                    <Trans id="site.title">
+                      Electricity tariffs in Switzerland
+                    </Trans>
+                  </Typography>
+                </>
+              ) : null}
+            </Box>
           }
-          shortTitle="ElCom"
+          // @ts-expect-error shortTitle can be ReactNode
+          shortTitle={
+            <Box
+              width="100%"
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+            >
+              <Trans id="header.short-title">ElCom</Trans>
+              {showCaption ? (
+                <>
+                  <br />
+                  <Typography fontWeight="normal" variant="inherit">
+                    <Trans id="site.title">
+                      Electricity tariffs in Switzerland
+                    </Trans>
+                  </Typography>
+                </>
+              ) : null}
+            </Box>
+          }
           rootHref="/"
           sx={{ backgroundColor: "white" }}
         />

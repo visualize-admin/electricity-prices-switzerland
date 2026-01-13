@@ -37,13 +37,35 @@ const IndexPage = () => {
       <Head>
         <title>{makePageTitle()}</title>
       </Head>
-      <ApplicationLayout>
+      <ApplicationLayout showHeaderCaption={false}>
         <Box
           sx={{
             flexDirection: "column",
           }}
           display="flex"
         >
+          <Box
+            sx={{
+              borderBottom: "1px solid",
+              borderColor: "monochrome.300",
+            }}
+          >
+            <ContentWrapper>
+              <Box py={8} flexDirection="column" gap={4} display="flex">
+                <Typography component="h1" variant="display2">
+                  <Trans id="site.title">
+                    Electricity tariffs in Switzerland
+                  </Trans>
+                </Typography>
+                <Typography variant="h3" width="100%" color="secondary.500">
+                  <Trans id="search.global">
+                    Detailed price analyses of cantons, municipalities and grid
+                    operators.
+                  </Trans>
+                </Typography>
+              </Box>
+            </ContentWrapper>
+          </Box>
           <ContentWrapper
             sx={{
               py: 20,
