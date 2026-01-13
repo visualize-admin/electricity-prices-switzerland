@@ -20,14 +20,17 @@ import parse, {
 } from "html-react-parser";
 import { ComponentProps } from "react";
 import { createPortal } from "react-dom";
+import * as Vaul from "vaul";
 
 import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
+import useVaulStyles from "src/components/use-vaul-styles";
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { WikiPageSlug } from "src/domain/types";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
+import { useIsMobile } from "src/lib/use-mobile";
 import { theme } from "src/themes/elcom";
 import { useFlag } from "src/utils/flags";
 
@@ -122,7 +125,33 @@ export const HelpDialog: React.FC<{
     pause: !open,
   });
 
-  return (
+  const { classes } = useVaulStyles();
+  const isMobile = useIsMobile();
+
+  return isMobile ? (
+    <Vaul.Root open={open} onOpenChange={(isOpen) => !isOpen && close()}>
+      <Vaul.Portal>
+        <Vaul.Overlay className={classes.overlay} />
+        <Vaul.Content className={classes.content}>
+          <div className={classes.handle}></div>
+          <IconButton onClick={close} className={classes.closeButton}>
+            <Icon name="close" />
+          </IconButton>
+          <div className={classes.scrollArea}>
+            <Box sx={{ p: 2 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "secondary.main", mb: 2 }}
+              >
+                <Trans id="dialog.infoprefix">Info:</Trans> {label}
+              </Typography>
+              <DialogContent contentQuery={contentQuery} />
+            </Box>
+          </div>
+        </Vaul.Content>
+      </Vaul.Portal>
+    </Vaul.Root>
+  ) : (
     <>
       {contentQuery.fetching ? (
         createPortal(
@@ -207,6 +236,7 @@ export const InfoDialogButton = ({
     open: openDialog,
   } = useDisclosure();
   const debugInfoDialog = useFlag("debugInfoDialog");
+
   return (
     <>
       {debugInfoDialog && (

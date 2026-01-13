@@ -11,7 +11,8 @@ const useVaulStyles = tss.create(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    maxHeight: "85vh",
+    "--max-height": "85vh",
+    maxHeight: "var(--max-height)",
     marginTop: 96, // 24rem
     position: "fixed",
     bottom: 0,
@@ -29,11 +30,12 @@ const useVaulStyles = tss.create(({ theme }) => ({
     overflowY: "scroll",
     overflowX: "hidden",
     height: "100%",
+    maxHeight: "var(--max-height)",
     position: "relative",
   },
   closeButton: {
     position: "absolute",
-    top: -10,
+    top: 0,
     right: 0,
     zIndex: 1000,
     backgroundColor: theme.palette.background.paper,
