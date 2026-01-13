@@ -1,10 +1,10 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, useEventCallback } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   CombinedSelectors,
@@ -27,6 +27,7 @@ import {
   ListItemType,
 } from "src/components/list";
 import { MapProvider, useMap } from "src/components/map-context";
+import { WidgetIcon } from "src/components/map-widget-icon";
 import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
@@ -47,6 +48,7 @@ import {
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import { useEnrichedSunshineData } from "src/hooks/use-enriched-sunshine-data";
 import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
+import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
@@ -222,6 +224,37 @@ const MapPageContent = ({
     sunshineEnrichedDataResult.data?.observations,
   ]);
 
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
+    "parameters"
+  );
+
+  const handleCloseMobileControlsDrawer = useEventCallback(() => {
+    setMobileDrawerOpen(false);
+  });
+
+  const handleClickMobileControlsCard = useEventCallback(() => {
+    setMobileDrawerOpen(true);
+    setMobileDrawerTab("parameters");
+  });
+
+  const isMobile = useIsMobile();
+
+  const mapWidgets = useMemo(() => {
+    return {
+      right: isMobile ? (
+        <WidgetIcon
+          onClick={() => {
+            setMobileDrawerOpen(true);
+            setMobileDrawerTab("list");
+          }}
+        >
+          <Icon name="menu" fontSize="inherit" />
+        </WidgetIcon>
+      ) : null,
+    };
+  }, [isMobile]);
+
   const map = isElectricityTab ? (
     <EnergyPricesMap
       enrichedDataQuery={energyPricesEnrichedData}
@@ -229,6 +262,7 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       priceComponent={priceComponent as PriceComponent}
+      widgets={mapWidgets}
     />
   ) : (
     <SunshineMap
@@ -240,6 +274,7 @@ const MapPageContent = ({
       period={period}
       indicator={indicator}
       networkLevel={networkLevel}
+      widgets={mapWidgets}
     />
   );
 
@@ -339,8 +374,6 @@ const MapPageContent = ({
       formatValue={valueFormatter}
     />
   );
-
-  const isMobile = useIsMobile();
 
   const shouldShowInfoBanner = !!(
     energyPricesEnrichedData.fetching === false &&
@@ -509,6 +542,10 @@ const MapPageContent = ({
               selectors={<CombinedSelectors showTabs={false} />}
               entity={entity}
               selectedEntityData={selectedEntityData}
+              drawerTab={mobileDrawerTab}
+              drawerOpen={mobileDrawerOpen}
+              onClickCard={handleClickMobileControlsCard}
+              onCloseMobileDrawer={handleCloseMobileControlsDrawer}
             />
             <Box
               display="flex"

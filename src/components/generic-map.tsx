@@ -168,6 +168,7 @@ export const GenericMap = ({
   getEntityFromHighlight,
   setHovered,
   featureMatchesId = defaultFeatureMatchesId,
+  widgets,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -186,6 +187,10 @@ export const GenericMap = ({
   getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
   setHovered: Dispatch<HoverState | undefined>;
   featureMatchesId?: (feature: Feature, id: string) => boolean;
+  widgets?: {
+    left?: React.ReactNode;
+    right?: React.ReactNode;
+  };
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -508,12 +513,12 @@ export const GenericMap = ({
               position: "absolute",
               top: "var(--map-widget-margin-y)",
               right: "var(--map-widget-margin-x)",
-              backgroundColor: "background.paper",
-              p: 4,
+              display: "flex",
+              gap: 2,
             }}
-            id={legendId}
           >
-            {legend}
+            {widgets?.right}
+            <Box id={legendId}>{legend}</Box>
           </Box>
         )}
 
@@ -523,8 +528,11 @@ export const GenericMap = ({
             top: "var(--map-widget-margin-y)",
             left: "var(--map-widget-margin-x)",
             zIndex: 10,
+            display: "flex",
+            gap: 2,
           }}
         >
+          {widgets?.left}
           <ZoomWidget
             scrollZoom={scrollZoom}
             displayScrollZoom={displayScrollZoom}
@@ -620,3 +628,5 @@ function findFeatureInLayers(
 function defaultFeatureMatchesId(feature: Feature, id: string): boolean {
   return feature.id?.toString() === id;
 }
+
+export type GenericMapProps = React.ComponentProps<typeof GenericMap>;

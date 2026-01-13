@@ -1,17 +1,15 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Box,
   Card,
   CardContent,
   createTheme,
   IconButton,
-  Tab,
-  Tabs,
   Theme,
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import * as Vaul from "vaul";
 
 import { useMap } from "src/components/map-context";
@@ -34,6 +32,7 @@ const MobileDrawer = ({
   selectors,
   onClose,
   open,
+  tab,
 }: {
   list: React.ReactNode;
   details: React.ReactNode;
@@ -41,9 +40,9 @@ const MobileDrawer = ({
   listButtonGroup: React.ReactNode;
   onClose?: () => void;
   open: boolean;
+  tab: "parameters" | "list";
 }) => {
   const { classes } = useVaulStyles();
-  const [tab, setTab] = useState<"list" | "parameters">("parameters");
   const vaultContentRef = useRef<HTMLDivElement>(null);
   const [queryState] = useQueryStateMapCommon();
   return (
@@ -82,33 +81,6 @@ const MobileDrawer = ({
                 details
               ) : (
                 <>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Tabs
-                      value={tab}
-                      sx={{ mb: 6 }}
-                      onChange={(_event, newValue) => setTab(newValue)}
-                    >
-                      <Tab
-                        label={t({
-                          id: "mobile-controls.tabs.parameters",
-                          message: "Parameters",
-                        })}
-                        value="parameters"
-                      />
-                      <Tab
-                        label={t({
-                          id: "mobile-controls.tabs.list",
-                          message: "List",
-                        })}
-                        value="list"
-                      />
-                    </Tabs>
-                  </Box>
                   <Box mx={2}>
                     {tab === "list" ? (
                       <Box display="flex" flexDirection="column" gap={2}>
@@ -138,6 +110,10 @@ const MobileControls = ({
   selectors,
   selectedEntityData,
   listButtonGroup,
+  drawerTab,
+  drawerOpen,
+  onCloseMobileDrawer,
+  onClickCard,
 }: {
   list: React.ReactNode;
   listButtonGroup: React.ReactNode;
@@ -145,9 +121,11 @@ const MobileControls = ({
   selectors: React.ReactNode;
   selectedEntityData?: ReturnType<typeof useSelectedEntityData> | null;
   entity?: Entity;
+  drawerTab: "parameters" | "list";
+  drawerOpen: boolean;
+  onCloseMobileDrawer: () => void;
+  onClickCard: () => void;
 }) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
   const [queryState] = useQueryStateMapCommon();
   const [energyQueryState] = useQueryStateEnergyPricesMap();
   const [sunshineQueryState] = useQueryStateSunshineMap();
@@ -196,7 +174,7 @@ const MobileControls = ({
         }}
       >
         <Card
-          elevation={2}
+          elevation={1}
           sx={{
             position: "absolute",
             bottom: "20px",
@@ -211,7 +189,7 @@ const MobileControls = ({
             if (ev.defaultPrevented) {
               return;
             }
-            return setDrawerOpen(true);
+            onClickCard();
           }}
         >
           <CardContent sx={{ pb: "16px !important" }}>
@@ -270,7 +248,8 @@ const MobileControls = ({
         selectors={selectors}
         details={details}
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={onCloseMobileDrawer}
+        tab={drawerTab}
       />
     </>
   );
