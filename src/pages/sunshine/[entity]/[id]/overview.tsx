@@ -31,13 +31,14 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { categories, ElectricityCategory } from "src/domain/data";
+import { ElectricityCategory } from "src/domain/data";
 import {
   sunshineDetailsLink,
   useQueryStateSunshineOverviewFilters,
 } from "src/domain/query-states";
 import {
   NetworkLevel,
+  sunshineCategories,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
@@ -180,7 +181,7 @@ const OverviewPage = (props: Props) => {
   const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
     const cGroup = getItemLabel("C-group");
     const hGroup = getItemLabel("H-group");
-    return categories.map((value) => ({
+    return sunshineCategories.map((value) => ({
       value,
       group: value.startsWith("C") ? cGroup : hGroup,
     }));
