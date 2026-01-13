@@ -1,11 +1,9 @@
 import { t, Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
-import React, { ReactNode, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { getInfoDialogProps } from "src/components/info-dialog-props";
-import { OverviewCard } from "src/components/overview-card";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
 import {
@@ -25,10 +23,172 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
+import { NoDataAvailable } from "./no-data-available";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { ItemMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "power-stability";
+
+type PowerStabilityControlsProps = {
+  viewBy: ViewByFilter | undefined;
+  overallOrRatio: OverallOrRatioFilter | undefined;
+  saidiSaifiType: QueryStateSunshineMap["saidiSaifiType"] | undefined;
+  compareWith: CompareWithFilter;
+  multiComboboxOptions: SunshinePowerStabilityData["saidi"]["yearlyData"];
+  colorMapping: ReturnType<typeof createColorMapping>;
+  state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
+  setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
+};
+
+const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
+  viewBy = "progress",
+  overallOrRatio = "overall",
+  saidiSaifiType = "total",
+  compareWith,
+  multiComboboxOptions,
+  colorMapping,
+  state,
+  setQueryState,
+}) => (
+  <Grid container spacing={3} sx={{ mb: 3 }}>
+    <Grid item xs={12} sm={4}>
+      <ButtonGroup
+        id="view-by-button-group-1"
+        label={getLocalizedLabel({
+          id: "power-stability.view-by",
+        })}
+        options={[
+          {
+            value: "latest",
+            label: getLocalizedLabel({
+              id: "power-stability.latest-year-option",
+            }),
+          },
+          {
+            value: "progress",
+            label: getLocalizedLabel({
+              id: "power-stability.progress-over-time",
+            }),
+          },
+        ]}
+        value={viewBy}
+        setValue={(value) =>
+          setQueryState({ ...state, viewBy: value as ViewByFilter })
+        }
+      />
+    </Grid>
+    <Grid item xs={12} sm={4}>
+      {viewBy === "latest" ? (
+        <ButtonGroup
+          id="view-by-button-group-2"
+          label={getLocalizedLabel({
+            id: "power-stability.view-by",
+          })}
+          options={[
+            {
+              value: "overall",
+              label: getLocalizedLabel({
+                id: "power-stability.overall-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.overall-tooltip",
+              }),
+            },
+            {
+              value: "ratio",
+              label: getLocalizedLabel({
+                id: "power-stability.ratio-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.ratio-tooltip",
+              }),
+            },
+          ]}
+          value={overallOrRatio}
+          setValue={(value) =>
+            setQueryState({
+              ...state,
+              overallOrRatio: value as OverallOrRatioFilter,
+            })
+          }
+        />
+      ) : (
+        <ButtonGroup
+          id="view-by-button-group-3"
+          label={getLocalizedLabel({
+            id: "power-stability.duration",
+          })}
+          options={[
+            {
+              value: "total",
+              label: getLocalizedLabel({
+                id: "power-stability.total-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.total-tooltip",
+              }),
+            },
+            {
+              value: "unplanned",
+              label: getLocalizedLabel({
+                id: "power-stability.unplanned-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.unplanned-tooltip",
+              }),
+            },
+          ]}
+          value={saidiSaifiType}
+          setValue={(value) =>
+            setQueryState({
+              ...state,
+              saidiSaifiType: value as QueryStateSunshineMap["saidiSaifiType"],
+            })
+          }
+        />
+      )}
+    </Grid>
+    <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+      <ItemMultiCombobox
+        label={t({
+          id: "sunshine.costs-and-tariffs.compare-with",
+          message: "Compare With",
+        })}
+        colorMapping={colorMapping}
+        InputProps={
+          compareWith.length === 0
+            ? {
+                placeholder: t({
+                  id: "sunshine.costs-and-tariffs.compare-with-placeholder",
+                  message: "Select operators to compare",
+                }),
+              }
+            : undefined
+        }
+        items={[
+          { id: "sunshine.select-all" },
+          ...multiComboboxOptions.map((item) => {
+            return {
+              id: String(item.operator_id),
+              name: item.operator_name,
+            };
+          }),
+        ]}
+        selectedItems={compareWith}
+        setSelectedItems={(items) =>
+          setQueryState({
+            ...state,
+            compareWith: filterBySeparator(
+              items,
+              compareWith ?? [],
+              "sunshine.select-all"
+            ),
+          })
+        }
+      />
+    </Grid>
+  </Grid>
+);
 
 export type PowerStabilityCardFilters = {
   compareWith?: CompareWithFilter;
@@ -50,9 +210,11 @@ type PowerStabilityCardProps = {
   infoDialogProps?: Pick<InfoDialogButtonProps, "slug" | "label">;
   state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
   setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
+  /** When true, shows NoDataAvailable instead of the chart */
+  noData?: boolean;
 } & CardProps;
 
-const getPowerStabilityCardState = (
+export const getPowerStabilityCardState = (
   props: Omit<
     PowerStabilityCardProps,
     "cardTitle" | "infoDialogProps" | "state" | "setQueryState"
@@ -127,6 +289,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
     state,
     setQueryState,
     infoDialogProps,
+    noData,
 
     peerGroup: _peerGroup,
     updateDate: _updateDate,
@@ -196,217 +359,37 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             </Trans>
           </Typography>
         </CardHeader>
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={4}>
-            <ButtonGroup
-              id="view-by-button-group-1"
-              label={getLocalizedLabel({
-                id: "power-stability.view-by",
-              })}
-              options={[
-                {
-                  value: "latest",
-                  label: getLocalizedLabel({
-                    id: "power-stability.latest-year-option",
-                  }),
-                },
-                {
-                  value: "progress",
-                  label: getLocalizedLabel({
-                    id: "power-stability.progress-over-time",
-                  }),
-                },
-              ]}
-              value={viewBy}
-              setValue={(value) =>
-                setQueryState({ ...state, viewBy: value as ViewByFilter })
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            {viewBy === "latest" ? (
-              <ButtonGroup
-                id="view-by-button-group-2"
-                label={getLocalizedLabel({
-                  id: "power-stability.view-by",
-                })}
-                options={[
-                  {
-                    value: "overall",
-                    label: getLocalizedLabel({
-                      id: "power-stability.overall-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.overall-tooltip",
-                    }),
-                  },
-                  {
-                    value: "ratio",
-                    label: getLocalizedLabel({
-                      id: "power-stability.ratio-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.ratio-tooltip",
-                    }),
-                  },
-                ]}
-                value={overallOrRatio}
-                setValue={(value) =>
-                  setQueryState({
-                    ...state,
-                    overallOrRatio: value as OverallOrRatioFilter,
-                  })
-                }
-              />
-            ) : (
-              <ButtonGroup
-                id="view-by-button-group-3"
-                label={getLocalizedLabel({
-                  id: "power-stability.duration",
-                })}
-                options={[
-                  {
-                    value: "total",
-                    label: getLocalizedLabel({
-                      id: "power-stability.total-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.total-tooltip",
-                    }),
-                  },
-                  {
-                    value: "unplanned",
-                    label: getLocalizedLabel({
-                      id: "power-stability.unplanned-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.unplanned-tooltip",
-                    }),
-                  },
-                ]}
-                value={saidiSaifiType}
-                setValue={(value) =>
-                  setQueryState({
-                    ...state,
-                    saidiSaifiType:
-                      value as QueryStateSunshineMap["saidiSaifiType"],
-                  })
-                }
-              />
-            )}
-          </Grid>
-          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <ItemMultiCombobox
-              label={t({
-                id: "sunshine.costs-and-tariffs.compare-with",
-                message: "Compare With",
-              })}
-              colorMapping={colorMapping}
-              InputProps={
-                compareWith.length === 0
-                  ? {
-                      placeholder: t({
-                        id: "sunshine.costs-and-tariffs.compare-with-placeholder",
-                        message: "Select operators to compare",
-                      }),
-                    }
-                  : undefined
-              }
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator_id),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
-              selectedItems={compareWith}
-              setSelectedItems={(items) =>
-                setQueryState({
-                  ...state,
-                  compareWith: filterBySeparator(
-                    items,
-                    compareWith ?? [],
-                    "sunshine.select-all"
-                  ),
-                })
-              }
-            />
-          </Grid>
-        </Grid>
-        <PowerStabilityChart
-          observations={observations}
-          id={operatorId}
-          operatorLabel={operatorLabel}
+        <PowerStabilityControls
           viewBy={viewBy}
           overallOrRatio={overallOrRatio}
           saidiSaifiType={saidiSaifiType}
           compareWith={compareWith}
+          multiComboboxOptions={multiComboboxOptions}
           colorMapping={colorMapping}
-          rootProps={{
-            sx: {
-              mt: 8,
-            },
-          }}
+          state={state}
+          setQueryState={setQueryState}
         />
+        {noData ? (
+          <NoDataAvailable sx={{ mt: 8 }} />
+        ) : (
+          <PowerStabilityChart
+            observations={observations}
+            id={operatorId}
+            operatorLabel={operatorLabel}
+            viewBy={viewBy}
+            overallOrRatio={overallOrRatio}
+            saidiSaifiType={saidiSaifiType}
+            compareWith={compareWith}
+            colorMapping={colorMapping}
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
+          />
+        )}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
     </Card>
-  );
-};
-
-export const PowerStabilityCardMinified: React.FC<
-  Omit<
-    PowerStabilityCardProps,
-    "infoDialogProps" | "state" | "setQueryState"
-  > & {
-    linkContent?: ReactNode;
-    filters?: PowerStabilityCardFilters;
-    cardDescription?: ReactNode;
-    indicator: "saidi" | "saifi";
-  }
-> = (props) => {
-  const {
-    filters: defaultFilters,
-    cardTitle,
-    cardDescription,
-    indicator,
-    ...rest
-  } = props;
-  const [state] = useQueryStatePowerStabilityCardFilters({
-    defaultValue: defaultFilters,
-  });
-  const { viewBy, saidiSaifiType: duration, overallOrRatio } = state;
-  const chartData = getPowerStabilityCardState(rest, state);
-  const {
-    updateDate: _updateDate,
-    operatorId: _operatorId,
-    ...overviewCardProps
-  } = rest;
-  return (
-    <OverviewCard
-      title={cardTitle}
-      description={cardDescription}
-      linkContent={props.linkContent}
-      chart={
-        <PowerStabilityChart
-          observations={chartData.observations}
-          id={chartData.operatorId}
-          operatorLabel={chartData.operatorLabel}
-          viewBy={viewBy ?? "progress"}
-          overallOrRatio={overallOrRatio ?? "overall"}
-          saidiSaifiType={duration ?? "total"}
-          compareWith={[]}
-          rootProps={{ sx: { mt: 2 } }}
-        />
-      }
-      {...overviewCardProps}
-      infoDialogProps={
-        indicator === "saidi"
-          ? getInfoDialogProps("help-saidi")
-          : getInfoDialogProps("help-saifi")
-      }
-    />
   );
 };

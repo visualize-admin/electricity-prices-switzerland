@@ -29,7 +29,7 @@ const TableComparisonCard: React.FC<
       label: React.ReactNode;
       value:
         | {
-            value: number;
+            value: number | null | undefined;
             unit: string;
             trend: Trend | undefined | null;
             round?: number;
@@ -81,12 +81,18 @@ const TableComparisonCard: React.FC<
               </TableCell>
               <TableCell sx={{ whiteSpace: "nowrap" }}>
                 {"unit" in row.value ? (
-                  <UnitValueWithTrend
-                    value={row.value.value}
-                    unit={row.value.unit}
-                    trend={row.value.trend}
-                    round={row.value.round}
-                  />
+                  row.value.value != null ? (
+                    <UnitValueWithTrend
+                      value={row.value.value}
+                      unit={row.value.unit}
+                      trend={row.value.trend}
+                      round={row.value.round}
+                    />
+                  ) : (
+                    <Typography variant="body3" color="text.secondary">
+                      –
+                    </Typography>
+                  )
                 ) : (
                   <Typography variant="body3">{row.value.value}</Typography>
                 )}

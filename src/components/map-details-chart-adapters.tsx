@@ -211,16 +211,14 @@ const SaidiSaifiChartAdapter = ({
     variables: {
       filter: {
         operatorId: parseInt(id, 10),
+        operatorOnly: true,
         // TODO Change in graphql to use period
         year: parseInt(period, 10),
       },
     },
   });
 
-  // TODO Do the filtering to get only operator observations at
-  // graphql level
   const yearlyData = useMemo(() => {
-    const operatorId = parseInt(id, 10);
     if (!data) {
       return [];
     }
@@ -230,11 +228,8 @@ const SaidiSaifiChartAdapter = ({
         : "saifi" in data
         ? data.saifi.yearlyData
         : [];
-    return yearlyData.filter(
-      // TODO Change in graphql to use operatorId
-      (p) => p.operator_id === operatorId
-    );
-  }, [data, id, indicator]);
+    return yearlyData;
+  }, [data, indicator]);
 
   if (fetching) {
     return <LoadingSkeleton height={170} />;

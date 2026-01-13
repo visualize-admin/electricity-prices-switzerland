@@ -446,10 +446,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "home.sunshine-topics.power-outage-frequency.link"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.service-quality.link"
-msgstr "home.sunshine-topics.service-quality.link"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
 msgstr "home.sunshine-topics.title"
 
@@ -495,7 +491,7 @@ msgid "legend-item.other-operators"
 msgstr "legend-item.other-operators"
 
 #: src/components/charts-generic/interaction/tooltip-content.tsx
-#: src/components/charts-generic/latest-year-chart-view.tsx
+#: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
@@ -505,7 +501,7 @@ msgstr "legend-item.other-operators"
 msgid "legend-item.peer-group-median"
 msgstr "legend-item.peer-group-median"
 
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "legend-item.total-peer-group-median"
 msgstr "legend-item.total-peer-group-median"
 
@@ -683,6 +679,14 @@ msgstr "network-level.NE7.long"
 msgid "network-level.NE7.short"
 msgstr "network-level.NE7.short"
 
+#: src/components/no-data-available.tsx
+msgid "no-data-available.description"
+msgstr "no-data-available.description"
+
+#: src/components/no-data-available.tsx
+msgid "no-data-available.title"
+msgstr "no-data-available.title"
+
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "operator"
@@ -740,7 +744,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "power-stability-trend-chart.legend-item.grid-operators"
 
 #: src/components/power-stability-chart.tsx
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "power-stability-trend-chart.sortable-legend-item.planned"
 
@@ -749,7 +753,7 @@ msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "power-stability-trend-chart.sortable-legend-item.total"
 
 #: src/components/power-stability-chart.tsx
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "power-stability-trend-chart.sortable-legend-item.unplanned"
 

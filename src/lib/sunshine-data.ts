@@ -517,16 +517,20 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
     const previousOperatorStabilityRecord = previousOperatorStability?.[0];
 
     return {
-      operatorTotal: operatorStabilityRecord?.[totalKey] || 0,
-      operatorUnplanned: operatorStabilityRecord?.[unplannedKey] || 0,
-      trendTotal: getTrend(
-        previousOperatorStabilityRecord?.[totalKey],
-        operatorStabilityRecord?.[totalKey]
-      ),
-      trendUnplanned: getTrend(
-        previousOperatorStabilityRecord?.[unplannedKey],
-        operatorStabilityRecord?.[unplannedKey]
-      ),
+      operatorTotal: operatorStabilityRecord?.[totalKey] ?? null,
+      operatorUnplanned: operatorStabilityRecord?.[unplannedKey] ?? null,
+      trendTotal: operatorStabilityRecord
+        ? getTrend(
+            previousOperatorStabilityRecord?.[totalKey],
+            operatorStabilityRecord[totalKey]
+          )
+        : null,
+      trendUnplanned: operatorStabilityRecord
+        ? getTrend(
+            previousOperatorStabilityRecord?.[unplannedKey],
+            operatorStabilityRecord[unplannedKey]
+          )
+        : null,
 
       peerGroupMedianTotal: peerGroupMedianTotal,
       peerGroupMedianUnplanned: peerGroupMedianUnplanned,

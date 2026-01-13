@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -448,10 +448,6 @@ msgid "home.sunshine-topics.power-outage-frequency.link"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
 #: src/components/sunshine/sunshine-topics.tsx
-msgid "home.sunshine-topics.service-quality.link"
-msgstr "Qualità del servizio"
-
-#: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.title"
 msgstr "Indicatori"
 
@@ -497,7 +493,7 @@ msgid "legend-item.other-operators"
 msgstr "Altri operatori"
 
 #: src/components/charts-generic/interaction/tooltip-content.tsx
-#: src/components/charts-generic/latest-year-chart-view.tsx
+#: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
@@ -507,7 +503,7 @@ msgstr "Altri operatori"
 msgid "legend-item.peer-group-median"
 msgstr "Mediana del gruppo di riferimento"
 
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "legend-item.total-peer-group-median"
 msgstr "Totale (mediana del Gruppo Peer)"
 
@@ -685,6 +681,14 @@ msgstr "Rete di distribuzione e allacciamenti domestici (Livello di rete LR7)"
 msgid "network-level.NE7.short"
 msgstr "LR7"
 
+#: src/components/no-data-available.tsx
+msgid "no-data-available.description"
+msgstr "Non ci sono dati disponibili per questo operatore"
+
+#: src/components/no-data-available.tsx
+msgid "no-data-available.title"
+msgstr "Nessun dato disponibile"
+
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Gestore di rete"
@@ -742,7 +746,7 @@ msgid "power-stability-trend-chart.legend-item.grid-operators"
 msgstr "Gestore di rete"
 
 #: src/components/power-stability-chart.tsx
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.planned"
 msgstr "Pianificato"
 
@@ -751,7 +755,7 @@ msgid "power-stability-trend-chart.sortable-legend-item.total"
 msgstr "Totale"
 
 #: src/components/power-stability-chart.tsx
-#: src/components/power-stability-chart.tsx
+#: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non pianificato"
 

@@ -4,11 +4,42 @@ import InflightRequests from "src/e2e/inflight";
 
 import { sleep, test, expect, TestFixtures } from "./common";
 
-/**
- * FIXME - This test suite is currently flaky and needs to be fixed.
- *
- * waitForLoadState often causes issues it doesn't work as expected causing screenshots while the page is still loading
- */
+test.describe("Sunshine overview page", () => {
+  test("it should load the sunshine overview page (partial data)", async ({
+    page,
+    snapshot,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await page.goto("/en/sunshine/operator/72/overview");
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    await snapshot({
+      note: "Sunshine Overview Page - Partial data",
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+    inflight.dispose();
+  });
+
+  test("it should load the sunshine overview page (full data)", async ({
+    page,
+    snapshot,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await page.goto("/en/sunshine/operator/426/overview");
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    await snapshot({
+      note: "Sunshine Overview Page - Full data",
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+    inflight.dispose();
+  });
+});
+
 test.describe("Sunshine details page", () => {
   test.beforeEach(async ({ setFlags, page }) => {
     await setFlags(page, ["webglDeactivated"]);
@@ -26,9 +57,10 @@ test.describe("Sunshine details page", () => {
     buttonLabel: string;
     url: string;
   }) => {
+    const inflight = new InflightRequests(page);
     const resp = await page.goto(withFlag(url, { sunshine: true }));
     await expect(resp?.status()).toEqual(200);
-    await page.waitForLoadState("networkidle");
+    await inflight.waitForRequests();
     await page.waitForSelector('[data-testid="loading"]', {
       state: "detached",
     });
@@ -41,10 +73,11 @@ test.describe("Sunshine details page", () => {
 
     const tabButton = await page.getByTestId(buttonLabel);
     await tabButton.click();
-    await page.waitForLoadState("networkidle");
+    await inflight.waitForRequests();
     await page.waitForSelector('[data-testid="loading"]', {
       state: "detached",
     });
+    inflight.dispose();
 
     await snapshot({
       note: `${screenshotLabel} - After Click`,
@@ -103,6 +136,21 @@ test.describe("Sunshine details page", () => {
       screenshotLabel: "SAIFI",
       buttonLabel: "saifi-tab",
       url: "/sunshine/operator/426/power-stability",
+    });
+  });
+
+  test(`it should load the sunshine details page for SAIFI (no data)`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "SAIFI-no-data",
+      buttonLabel: "saifi-tab",
+      url: "/sunshine/operator/72/power-stability",
     });
   });
 
@@ -200,6 +248,25 @@ test.describe("Sunshine map details panel", () => {
 
     await snapshot({
       note: "Sunshine Map - Network costs - Clicked on a list item",
+      locator: page.getByTestId("map-details-content"),
+    });
+  });
+
+  test("it should show median for saidi/saifi", async ({
+    page,
+    setFlags,
+    snapshot,
+  }) => {
+    await setFlags(page, ["webglDeactivated"]);
+    const tracker = new InflightRequests(page);
+    await page.goto(
+      "/en/map?tab=sunshine&indicator=saidi&peerGroup=4&activeId=31"
+    );
+    await tracker.waitForRequests();
+    // loading should be detached
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+    await snapshot({
+      note: "Sunshine Map - SAIDI - Details panel",
       locator: page.getByTestId("map-details-content"),
     });
   });

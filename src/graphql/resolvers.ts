@@ -563,12 +563,14 @@ const Query: QueryResolvers = {
     return await fetchSaidi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   saifi: async (_, { filter }, context) => {
     return await fetchSaifi(context.sunshineDataService, {
       operatorId: filter.operatorId,
       period: filter.year,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   operationalStandards: async (_, { filter }, context) => {

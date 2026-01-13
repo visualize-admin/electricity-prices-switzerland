@@ -459,14 +459,14 @@ export type SearchResult = {
 
 export type StabilityData = {
   __typename?: "StabilityData";
-  operatorTotal: Scalars["Float"]["output"];
-  operatorUnplanned: Scalars["Float"]["output"];
+  operatorTotal?: Maybe<Scalars["Float"]["output"]>;
+  operatorUnplanned?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianTotal: Scalars["Float"]["output"];
   peerGroupMedianTrendTotal: Trend;
   peerGroupMedianTrendUnplanned: Trend;
   peerGroupMedianUnplanned: Scalars["Float"]["output"];
-  trendTotal: Trend;
-  trendUnplanned: Trend;
+  trendTotal?: Maybe<Trend>;
+  trendUnplanned?: Maybe<Trend>;
   yearlyData: Array<StabilityDataRow>;
 };
 
@@ -481,6 +481,7 @@ export type StabilityDataRow = {
 
 export type StabilityFilter = {
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   year: Scalars["Int"]["input"];
 };
 
@@ -1418,9 +1419,13 @@ export type StabilityDataResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["StabilityData"] = ResolversParentTypes["StabilityData"]
 > = ResolversObject<{
-  operatorTotal?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  operatorTotal?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   operatorUnplanned?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType
   >;
@@ -1444,8 +1449,16 @@ export type StabilityDataResolvers<
     ParentType,
     ContextType
   >;
-  trendTotal?: Resolver<ResolversTypes["Trend"], ParentType, ContextType>;
-  trendUnplanned?: Resolver<ResolversTypes["Trend"], ParentType, ContextType>;
+  trendTotal?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
+    ParentType,
+    ContextType
+  >;
+  trendUnplanned?: Resolver<
+    Maybe<ResolversTypes["Trend"]>,
+    ParentType,
+    ContextType
+  >;
   yearlyData?: Resolver<
     Array<ResolversTypes["StabilityDataRow"]>,
     ParentType,

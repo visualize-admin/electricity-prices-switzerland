@@ -112,6 +112,8 @@ declare module "@mui/material/styles" {
     blue: FederalColor & {
       main: string;
     };
+    accent1: { main: string };
+    accent2: { main: string };
   }
 
   interface PaletteOptions {
@@ -120,6 +122,8 @@ declare module "@mui/material/styles" {
     blue: FederalColor & {
       main: string;
     };
+    accent1: { main: string };
+    accent2: { main: string };
   }
 }
 

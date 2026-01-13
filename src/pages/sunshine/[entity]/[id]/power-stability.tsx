@@ -272,6 +272,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saidi-trend",
           message: "Average Power Outage Duration (SAIDI)",
         })}
+        noData={data.saidi.operatorTotal == null}
       />
     </CardGrid>
   );
@@ -413,6 +414,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           id: "sunshine.power-stability.saifi-trend",
           message: "Average Power Outage Frequency (SAIFI)",
         })}
+        noData={data.saifi.operatorTotal == null}
       />
     </CardGrid>
   );

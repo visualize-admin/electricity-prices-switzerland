@@ -443,14 +443,14 @@ export type SearchResult = {
 
 export type StabilityData = {
   __typename: "StabilityData";
-  operatorTotal: Scalars["Float"]["output"];
-  operatorUnplanned: Scalars["Float"]["output"];
+  operatorTotal?: Maybe<Scalars["Float"]["output"]>;
+  operatorUnplanned?: Maybe<Scalars["Float"]["output"]>;
   peerGroupMedianTotal: Scalars["Float"]["output"];
   peerGroupMedianTrendTotal: Trend;
   peerGroupMedianTrendUnplanned: Trend;
   peerGroupMedianUnplanned: Scalars["Float"]["output"];
-  trendTotal: Trend;
-  trendUnplanned: Trend;
+  trendTotal?: Maybe<Trend>;
+  trendUnplanned?: Maybe<Trend>;
   yearlyData: Array<StabilityDataRow>;
 };
 
@@ -465,6 +465,7 @@ export type StabilityDataRow = {
 
 export type StabilityFilter = {
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   year: Scalars["Int"]["input"];
 };
 
@@ -1123,14 +1124,14 @@ export type SaidiQuery = {
   __typename: "Query";
   saidi: {
     __typename: "StabilityData";
-    operatorTotal: number;
+    operatorTotal?: number | null;
     peerGroupMedianTotal: number;
     peerGroupMedianTrendTotal: Trend;
-    trendTotal: Trend;
-    operatorUnplanned: number;
+    trendTotal?: Trend | null;
+    operatorUnplanned?: number | null;
     peerGroupMedianUnplanned: number;
     peerGroupMedianTrendUnplanned: Trend;
-    trendUnplanned: Trend;
+    trendUnplanned?: Trend | null;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
@@ -1150,14 +1151,14 @@ export type SaifiQuery = {
   __typename: "Query";
   saifi: {
     __typename: "StabilityData";
-    operatorTotal: number;
+    operatorTotal?: number | null;
     peerGroupMedianTotal: number;
     peerGroupMedianTrendTotal: Trend;
-    trendTotal: Trend;
-    operatorUnplanned: number;
+    trendTotal?: Trend | null;
+    operatorUnplanned?: number | null;
     peerGroupMedianUnplanned: number;
     peerGroupMedianTrendUnplanned: Trend;
-    trendUnplanned: Trend;
+    trendUnplanned?: Trend | null;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
