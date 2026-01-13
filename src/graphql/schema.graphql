@@ -354,10 +354,10 @@ type StabilityDataRow {
 }
 
 type StabilityData {
-  operatorTotal: Float!
-  operatorUnplanned: Float!
-  trendTotal: Trend!
-  trendUnplanned: Trend!
+  operatorTotal: Float
+  operatorUnplanned: Float
+  trendTotal: Trend
+  trendUnplanned: Trend
   peerGroupMedianTotal: Float!
   peerGroupMedianUnplanned: Float!
   peerGroupMedianTrendTotal: Trend!

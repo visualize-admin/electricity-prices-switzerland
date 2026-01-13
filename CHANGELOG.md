@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Overview page + Detail page
+  - Correct handling of "0" & "null" data for SAIDI/SAIFI. Null shows "no data" while 0 is shown. [#499](https://github.com/visualize-admin/electricity-prices-switzerland/issues/499)
 
 # 2.33.1 - 2026-01-12
 
