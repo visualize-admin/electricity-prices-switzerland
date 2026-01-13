@@ -8,7 +8,7 @@ import {
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Alert, AlertTitle, Box, IconButton, Typography } from "@mui/material";
+import { Alert, AlertTitle, Box, Typography } from "@mui/material";
 import bbox from "@turf/bbox";
 // eslint-disable-next-line
 // @ts-ignore - Package import is reported as a problem in tsgo - TODO Recheck later if we can remove this
@@ -47,6 +47,7 @@ import {
   defaultMapTooltipPlacement,
   MapTooltip,
 } from "src/components/map-tooltip";
+import { WidgetIcon } from "src/components/map-widget-icon";
 import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
@@ -59,15 +60,6 @@ const useStyles = makeStyles()((theme) => ({
     zIndex: 1,
     display: "flex",
     gap: theme.spacing(2),
-  },
-  iconButton: {
-    backgroundColor: theme.palette.background.paper,
-    height: 40,
-    "& svg": {
-      width: 16,
-      height: 16,
-      color: theme.palette.text.primary,
-    },
   },
 }));
 
@@ -93,12 +85,12 @@ const ZoomWidget = ({
   );
   return (
     <Box className={classes.container}>
-      <IconButton onClick={onZoomIn} size="sm" className={classes.iconButton}>
-        <IconPlus />
-      </IconButton>
-      <IconButton onClick={onZoomOut} className={classes.iconButton}>
-        <IconMinus />
-      </IconButton>
+      <WidgetIcon onClick={onZoomIn}>
+        <IconPlus fontSize="inherit" />
+      </WidgetIcon>
+      <WidgetIcon onClick={onZoomOut} size="sm">
+        <IconMinus fontSize="inherit" />
+      </WidgetIcon>
       {isMobile ? null : (
         <Box
           sx={{

@@ -1,9 +1,10 @@
-import styled from "@emotion/styled";
 import { Trans } from "@lingui/macro";
 import { Box, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { makeStyles } from "tss-react/mui";
 
 import { InfoDialogButton } from "src/components/info-dialog";
+import { WidgetIcon } from "src/components/map-widget-icon";
 import { Threshold } from "src/domain/map-encodings";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -14,17 +15,34 @@ const TOP_LABEL_HEIGHT = 14;
 const COLOR_HEIGHT = 12;
 const BOTTOM_LABEL_HEIGHT = 16;
 
-const LegendBox = styled(Box)({
-  zIndex: 13,
-  bgcolor: "rgba(245, 245, 245, 0.8)",
-  borderRadius: 1,
-  height: "fit-content",
-  px: 4,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  py: 2,
-});
+const useStyles = makeStyles()((theme) => ({
+  legendBox: {
+    zIndex: 13,
+    backgroundColor: "white",
+    borderRadius: theme.shape.borderRadius,
+    height: "fit-content",
+    paddingLeft: 16,
+    paddingRight: 16,
+    display: "flex",
+    boxShadow: theme.shadows[1],
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
+}));
+
+const LegendBox = ({
+  children,
+  ...props
+}: React.ComponentProps<typeof Box>) => {
+  const { classes } = useStyles();
+  return (
+    <Box className={classes.legendBox} {...props}>
+      {children}
+    </Box>
+  );
+};
 
 type Tick = {
   value: number | undefined;
@@ -55,19 +73,13 @@ export const MapColorLegend = ({
 
   if (!open) {
     return (
-      <LegendBox sx={{ width: "auto" }} id={id} data-testid="map-legend">
-        <Box
-          onClick={() => setOpen(true)}
-          sx={{
-            cursor: "pointer",
-            flexGrow: 1,
-            justifyContent: "flex-end",
-          }}
-          display="flex"
-        >
-          <Icon name="infocircle" color="#333" />
-        </Box>
-      </LegendBox>
+      <WidgetIcon
+        id={id}
+        data-testid="map-legend"
+        onClick={() => setOpen(true)}
+      >
+        <Icon name="infocircle" />
+      </WidgetIcon>
     );
   }
 
