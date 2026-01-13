@@ -42,7 +42,13 @@ export const PowerStabilityHorizontalStackedBars = (
     compact?: boolean;
   }
 ) => {
-  const { observations, id, operatorLabel, overallOrRatio, compact: compactProp } = props;
+  const {
+    observations,
+    id,
+    operatorLabel,
+    overallOrRatio,
+    compact: compactProp,
+  } = props;
   const isMobile = useIsMobile();
   const compact = compactProp ?? isMobile;
   const [sortByItem, setSortByItem] =
@@ -254,6 +260,7 @@ export const PowerStabilityHorizontalStackedBars = (
       ) : (
         <ChartContainer>
           <ChartSvg>
+            hello
             <AxisWidthLinear />
             <AxisHeightCategories
               hideXAxis
