@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import {
   alpha,
   Box,
+  Button,
   Card,
   CardContent,
   createTheme,
@@ -23,7 +24,10 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
+import {
+  SelectedEntityData,
+  useSelectedEntityData,
+} from "src/hooks/use-selected-entity-data";
 import { Icon } from "src/icons";
 
 const MobileDrawer = ({
@@ -34,6 +38,7 @@ const MobileDrawer = ({
   onClose,
   open,
   tab,
+  selectedEntityData,
 }: {
   list: React.ReactNode;
   details: React.ReactNode;
@@ -42,6 +47,7 @@ const MobileDrawer = ({
   onClose?: () => void;
   open: boolean;
   tab: "parameters" | "list";
+  selectedEntityData?: SelectedEntityData | null;
 }) => {
   const { classes } = useVaulStyles();
   const vaultContentRef = useRef<HTMLDivElement>(null);
@@ -74,10 +80,38 @@ const MobileDrawer = ({
             {/* Tabs that can select between list & selectors */}
 
             <div className={classes.handle} />
+            <Box
+              sx={{
+                px: 4,
+                pt: 0,
+                pb: 2,
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+                mb: 4,
+              }}
+            >
+              <Typography variant="h5" component="div" fontWeight="bold">
+                {tab === "list" ? (
+                  <Trans id="mobile-drawer.list-title">Map View</Trans>
+                ) : selectedEntityData ? (
+                  <Trans id="mobile-drawer.details-title">Details</Trans>
+                ) : (
+                  <Trans id="mobile-drawer.parameters-title">Parameter</Trans>
+                )}
+              </Typography>
+              <Button
+                variant="text"
+                onClick={onClose}
+                color="primary"
+                sx={{ pr: 0 }}
+              >
+                <Trans id="mobile-drawer.close">Close</Trans>
+              </Button>
+            </Box>
             <div className={classes.scrollArea}>
-              <IconButton onClick={onClose} className={classes.closeButton}>
-                <Icon name="close" />
-              </IconButton>
               {details ? (
                 details
               ) : (
@@ -253,6 +287,7 @@ const MobileControls = ({
         open={drawerOpen}
         onClose={onCloseMobileDrawer}
         tab={drawerTab}
+        selectedEntityData={selectedEntityData}
       />
     </>
   );

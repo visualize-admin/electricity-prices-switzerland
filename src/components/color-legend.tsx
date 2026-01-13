@@ -85,11 +85,8 @@ export const MapColorLegend = ({
 
   return (
     <LegendBox id={id} data-testid="map-legend">
-      <Box sx={{ alignItems: "center", width: "100%", mb: 2 }} display="flex">
-        <Typography
-          variant="inherit"
-          sx={{ fontSize: "0.625rem", lineHeight: 1.5 }}
-        >
+      <Box alignItems="center" width="100%" mb={2} display="flex">
+        <Typography variant="inherit" fontSize="0.625rem" lineHeight={1.5}>
           {title}
         </Typography>
         {infoDialogButtonProps ? (
@@ -101,12 +98,10 @@ export const MapColorLegend = ({
         ) : null}
         <Box
           onClick={() => setOpen(false)}
-          sx={{
-            display: ["flex", "none"],
-            cursor: "pointer",
-            flexGrow: 1,
-            justifyContent: "flex-end",
-          }}
+          display={["flex", "none"]}
+          sx={{ cursor: "pointer" }}
+          justifyContent="flex-end"
+          flexGrow={1}
         >
           <Icon name="clear" size={16} color="#666" />
         </Box>

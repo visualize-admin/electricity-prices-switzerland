@@ -42,7 +42,7 @@ type UseSelectedEntityDataOptions = {
     }
 );
 
-interface SelectedEntityData {
+export type SelectedEntityData = {
   entityIds: string[] | null;
   isHovered: boolean;
   isSelected: boolean;
@@ -54,7 +54,7 @@ interface SelectedEntityData {
     | EnrichedEnergyObservation[]
     | EnrichedSunshineObservation[]
     | null;
-}
+};
 
 const isEqualWithoutOrder = (arr1: string[] | null, arr2: string[] | null) => {
   if (arr1 === null && arr2 === null) return true;

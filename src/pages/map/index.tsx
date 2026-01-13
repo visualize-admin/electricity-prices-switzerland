@@ -359,6 +359,7 @@ const MapPageContent = ({
   const mobileDetailsContent = selectedItem ? (
     <MapDetailsContent
       colorScale={colorScale}
+      showBackButton={false}
       entity={entity}
       selectedItem={selectedItem}
       onBack={() => setActiveId(null)}
