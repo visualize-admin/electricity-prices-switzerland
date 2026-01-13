@@ -1,10 +1,8 @@
-import { ContentWrapper } from "@interactivethings/swiss-federal-ci/dist/components";
 import {
   MenuButton,
   MenuContainer,
 } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { t, Trans } from "@lingui/macro";
-import { Typography } from "@mui/material";
+import { t } from "@lingui/macro";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
@@ -21,13 +19,11 @@ import { Search } from "src/components/search";
 type ApplicationLayoutProps = {
   children: ReactNode;
   errorState?: boolean;
-  showTitle?: boolean;
 };
 
 export const ApplicationLayout = ({
   children,
   errorState,
-  showTitle = true,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
@@ -53,7 +49,7 @@ export const ApplicationLayout = ({
         >
           {!errorState && (
             <SafeHydration>
-              <AppNavigation displayTitle={showTitle} />
+              <AppNavigation />
             </SafeHydration>
           )}
           {children}
@@ -64,7 +60,7 @@ export const ApplicationLayout = ({
   );
 };
 
-const AppNavigation = ({ displayTitle = true }: { displayTitle?: boolean }) => {
+const AppNavigation = () => {
   const { asPath: asPathWithQueryString } = useRouter();
   const asPath = asPathWithQueryString.split("?")[0];
 
@@ -74,47 +70,10 @@ const AppNavigation = ({ displayTitle = true }: { displayTitle?: boolean }) => {
         position: "relative",
       }}
     >
-      {displayTitle ? (
-        <ContentWrapper>
-          <Box
-            sx={{
-              py: 8,
-              flexDirection: "column",
-              gap: 4,
-            }}
-            display="flex"
-          >
-            <Typography
-              component="h1"
-              variant="display2"
-              sx={{ textAlign: "left" }}
-            >
-              <Trans id="site.title">Electricity tariffs in Switzerland</Trans>
-            </Typography>
-            <Typography
-              variant="h3"
-              sx={{
-                width: "100%",
-                color: "secondary.500",
-                mt: 2,
-                mb: 2,
-              }}
-            >
-              <Trans id="search.global">
-                Detailed price analyses of cantons, municipalities and grid
-                operators.
-              </Trans>
-            </Typography>
-          </Box>
-        </ContentWrapper>
-      ) : null}
       {/* FIXME: creates ugly x-scroll  due to nested ContentWrapper */}
       <MenuContainer
         sx={{
           px: 3,
-          borderTopWidth: displayTitle ? 1 : 0,
-          borderTopStyle: "solid",
-          borderTopColor: "monochrome.300",
         }}
       >
         <MenuButton

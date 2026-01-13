@@ -153,7 +153,7 @@ export const DetailsPageLayout = ({
       <Head>
         <title>{title}</title>
       </Head>
-      <ApplicationLayout showTitle={false}>
+      <ApplicationLayout>
         <Box
           sx={{
             borderBottomWidth: "1px",

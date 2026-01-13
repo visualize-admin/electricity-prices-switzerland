@@ -375,7 +375,7 @@ const MapPageContent = ({
   );
 
   return (
-    <ApplicationLayout showTitle={false}>
+    <ApplicationLayout>
       <InfoBanner bypassBannerEnabled={shouldShowInfoBanner} />
       <Box
         sx={{
