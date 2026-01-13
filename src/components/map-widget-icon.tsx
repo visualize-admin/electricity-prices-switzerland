@@ -2,7 +2,7 @@ import { IconButton } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton/IconButton";
 import { makeStyles } from "tss-react/mui";
 
-export const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   iconButton: {
     backgroundColor: theme.palette.background.paper,
     height: 40,
