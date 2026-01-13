@@ -141,8 +141,10 @@ test.describe("Sunshine map details panel", () => {
   test("it should show the mini chart when clicking on a map item", async ({
     page,
     snapshot,
+    setFlags,
   }) => {
     test.setTimeout(120_000);
+    await setFlags(page, ["webglDeactivated"]);
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
