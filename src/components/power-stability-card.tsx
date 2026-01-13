@@ -28,6 +28,167 @@ import { ItemMultiCombobox } from "./query-combobox";
 
 const DOWNLOAD_ID: Download = "power-stability";
 
+type PowerStabilityControlsProps = {
+  viewBy: ViewByFilter | undefined;
+  overallOrRatio: OverallOrRatioFilter | undefined;
+  saidiSaifiType: QueryStateSunshineMap["saidiSaifiType"] | undefined;
+  compareWith: CompareWithFilter;
+  multiComboboxOptions: SunshinePowerStabilityData["saidi"]["yearlyData"];
+  colorMapping: ReturnType<typeof createColorMapping>;
+  state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
+  setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
+};
+
+const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
+  viewBy = "progress",
+  overallOrRatio = "overall",
+  saidiSaifiType = "total",
+  compareWith,
+  multiComboboxOptions,
+  colorMapping,
+  state,
+  setQueryState,
+}) => (
+  <Grid container spacing={3} sx={{ mb: 3 }}>
+    <Grid item xs={12} sm={4}>
+      <ButtonGroup
+        id="view-by-button-group-1"
+        label={getLocalizedLabel({
+          id: "power-stability.view-by",
+        })}
+        options={[
+          {
+            value: "latest",
+            label: getLocalizedLabel({
+              id: "power-stability.latest-year-option",
+            }),
+          },
+          {
+            value: "progress",
+            label: getLocalizedLabel({
+              id: "power-stability.progress-over-time",
+            }),
+          },
+        ]}
+        value={viewBy}
+        setValue={(value) =>
+          setQueryState({ ...state, viewBy: value as ViewByFilter })
+        }
+      />
+    </Grid>
+    <Grid item xs={12} sm={4}>
+      {viewBy === "latest" ? (
+        <ButtonGroup
+          id="view-by-button-group-2"
+          label={getLocalizedLabel({
+            id: "power-stability.view-by",
+          })}
+          options={[
+            {
+              value: "overall",
+              label: getLocalizedLabel({
+                id: "power-stability.overall-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.overall-tooltip",
+              }),
+            },
+            {
+              value: "ratio",
+              label: getLocalizedLabel({
+                id: "power-stability.ratio-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.ratio-tooltip",
+              }),
+            },
+          ]}
+          value={overallOrRatio}
+          setValue={(value) =>
+            setQueryState({
+              ...state,
+              overallOrRatio: value as OverallOrRatioFilter,
+            })
+          }
+        />
+      ) : (
+        <ButtonGroup
+          id="view-by-button-group-3"
+          label={getLocalizedLabel({
+            id: "power-stability.duration",
+          })}
+          options={[
+            {
+              value: "total",
+              label: getLocalizedLabel({
+                id: "power-stability.total-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.total-tooltip",
+              }),
+            },
+            {
+              value: "unplanned",
+              label: getLocalizedLabel({
+                id: "power-stability.unplanned-option",
+              }),
+              content: getLocalizedLabel({
+                id: "power-stability.unplanned-tooltip",
+              }),
+            },
+          ]}
+          value={saidiSaifiType}
+          setValue={(value) =>
+            setQueryState({
+              ...state,
+              saidiSaifiType: value as QueryStateSunshineMap["saidiSaifiType"],
+            })
+          }
+        />
+      )}
+    </Grid>
+    <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+      <ItemMultiCombobox
+        label={t({
+          id: "sunshine.costs-and-tariffs.compare-with",
+          message: "Compare With",
+        })}
+        colorMapping={colorMapping}
+        InputProps={
+          compareWith.length === 0
+            ? {
+                placeholder: t({
+                  id: "sunshine.costs-and-tariffs.compare-with-placeholder",
+                  message: "Select operators to compare",
+                }),
+              }
+            : undefined
+        }
+        items={[
+          { id: "sunshine.select-all" },
+          ...multiComboboxOptions.map((item) => {
+            return {
+              id: String(item.operator_id),
+              name: item.operator_name,
+            };
+          }),
+        ]}
+        selectedItems={compareWith}
+        setSelectedItems={(items) =>
+          setQueryState({
+            ...state,
+            compareWith: filterBySeparator(
+              items,
+              compareWith ?? [],
+              "sunshine.select-all"
+            ),
+          })
+        }
+      />
+    </Grid>
+  </Grid>
+);
+
 export type PowerStabilityCardFilters = {
   compareWith?: CompareWithFilter;
   viewBy?: ViewByFilter;
@@ -194,145 +355,16 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
             </Trans>
           </Typography>
         </CardHeader>
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={4}>
-            <ButtonGroup
-              id="view-by-button-group-1"
-              label={getLocalizedLabel({
-                id: "power-stability.view-by",
-              })}
-              options={[
-                {
-                  value: "latest",
-                  label: getLocalizedLabel({
-                    id: "power-stability.latest-year-option",
-                  }),
-                },
-                {
-                  value: "progress",
-                  label: getLocalizedLabel({
-                    id: "power-stability.progress-over-time",
-                  }),
-                },
-              ]}
-              value={viewBy}
-              setValue={(value) =>
-                setQueryState({ ...state, viewBy: value as ViewByFilter })
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            {viewBy === "latest" ? (
-              <ButtonGroup
-                id="view-by-button-group-2"
-                label={getLocalizedLabel({
-                  id: "power-stability.view-by",
-                })}
-                options={[
-                  {
-                    value: "overall",
-                    label: getLocalizedLabel({
-                      id: "power-stability.overall-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.overall-tooltip",
-                    }),
-                  },
-                  {
-                    value: "ratio",
-                    label: getLocalizedLabel({
-                      id: "power-stability.ratio-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.ratio-tooltip",
-                    }),
-                  },
-                ]}
-                value={overallOrRatio}
-                setValue={(value) =>
-                  setQueryState({
-                    ...state,
-                    overallOrRatio: value as OverallOrRatioFilter,
-                  })
-                }
-              />
-            ) : (
-              <ButtonGroup
-                id="view-by-button-group-3"
-                label={getLocalizedLabel({
-                  id: "power-stability.duration",
-                })}
-                options={[
-                  {
-                    value: "total",
-                    label: getLocalizedLabel({
-                      id: "power-stability.total-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.total-tooltip",
-                    }),
-                  },
-                  {
-                    value: "unplanned",
-                    label: getLocalizedLabel({
-                      id: "power-stability.unplanned-option",
-                    }),
-                    content: getLocalizedLabel({
-                      id: "power-stability.unplanned-tooltip",
-                    }),
-                  },
-                ]}
-                value={saidiSaifiType}
-                setValue={(value) =>
-                  setQueryState({
-                    ...state,
-                    saidiSaifiType:
-                      value as QueryStateSunshineMap["saidiSaifiType"],
-                  })
-                }
-              />
-            )}
-          </Grid>
-          <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
-            <ItemMultiCombobox
-              label={t({
-                id: "sunshine.costs-and-tariffs.compare-with",
-                message: "Compare With",
-              })}
-              colorMapping={colorMapping}
-              InputProps={
-                compareWith.length === 0
-                  ? {
-                      placeholder: t({
-                        id: "sunshine.costs-and-tariffs.compare-with-placeholder",
-                        message: "Select operators to compare",
-                      }),
-                    }
-                  : undefined
-              }
-              items={[
-                { id: "sunshine.select-all" },
-                ...multiComboboxOptions.map((item) => {
-                  return {
-                    id: String(item.operator_id),
-                    name: item.operator_name,
-                  };
-                }),
-              ]}
-              selectedItems={compareWith}
-              setSelectedItems={(items) =>
-                setQueryState({
-                  ...state,
-                  compareWith: filterBySeparator(
-                    items,
-                    compareWith ?? [],
-                    "sunshine.select-all"
-                  ),
-                })
-              }
-            />
-          </Grid>
-        </Grid>
+        <PowerStabilityControls
+          viewBy={viewBy}
+          overallOrRatio={overallOrRatio}
+          saidiSaifiType={saidiSaifiType}
+          compareWith={compareWith}
+          multiComboboxOptions={multiComboboxOptions}
+          colorMapping={colorMapping}
+          state={state}
+          setQueryState={setQueryState}
+        />
         <PowerStabilityChart
           observations={observations}
           id={operatorId}
