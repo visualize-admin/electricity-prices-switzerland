@@ -11,7 +11,10 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Overview page
+  - Only show relevant sunshine categories in dropdown [#526](https://github.com/visualize-admin/electricity-prices-switzerland/issues/526)
+- Map
+  - Ensures typology is not displayed on the sunshine map details panel, as for now Franc rule has no subcategories [[#500](https://github.com/visualize-admin/electricity-prices-switzerland/issues/500)]
 
 # 2.33.1 - 2026-01-12
 
