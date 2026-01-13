@@ -31,6 +31,29 @@ import { useLocale } from "src/lib/use-locale";
 import { theme } from "src/themes/elcom";
 import { useFlag } from "src/utils/flags";
 
+const transform: HTMLReactParserOptions["replace"] = (node, index) => {
+  if (node.type === "tag" && node.name === "details") {
+    const element = node as Element;
+    const summaryNode = element.children.find(
+      (c): c is Element => c.type === "tag" && c.name === "summary"
+    );
+
+    const contentNodes = element.children.filter(
+      (c): c is import("html-react-parser").DOMNode => c !== summaryNode
+    );
+    return (
+      <Accordion key={index}>
+        <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+          <Typography fontWeight={700}>
+            {summaryNode ? domToReact(summaryNode.children as DOMNode[]) : null}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>{domToReact(contentNodes)}</AccordionDetails>
+      </Accordion>
+    );
+  }
+};
+
 const DialogContent = ({
   contentQuery,
 }: {
@@ -51,31 +74,6 @@ const DialogContent = ({
       </Box>
     );
   }
-
-  const transform: HTMLReactParserOptions["replace"] = (node, index) => {
-    if (node.type === "tag" && node.name === "details") {
-      const element = node as Element;
-      const summaryNode = element.children.find(
-        (c): c is Element => c.type === "tag" && c.name === "summary"
-      );
-
-      const contentNodes = element.children.filter(
-        (c): c is import("html-react-parser").DOMNode => c !== summaryNode
-      );
-      return (
-        <Accordion key={index}>
-          <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
-            <Typography fontWeight={700}>
-              {summaryNode
-                ? domToReact(summaryNode.children as DOMNode[])
-                : null}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>{domToReact(contentNodes)}</AccordionDetails>
-        </Accordion>
-      );
-    }
-  };
 
   return (
     <Box
@@ -235,15 +233,13 @@ export const InfoDialogButton = ({
         }}
         onClick={openDialog}
       >
-        <Box sx={{ alignItems: "center" }} display="flex">
-          <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon
-              name={type === "fill" ? "infocirclefilled" : "infocircle"}
-              size={iconSize}
-            />
-          </Box>{" "}
-          {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
+        <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
+          <Icon
+            name={type === "fill" ? "infocirclefilled" : "infocircle"}
+            size={iconSize}
+          />
         </Box>
+        {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
       </IconButton>
       <HelpDialog
         close={closeDialog}
