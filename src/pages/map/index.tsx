@@ -493,14 +493,30 @@ const MapPageContent = ({
         )}
 
         {!isMobile ? null : (
-          <MobileControls
-            list={list}
-            listButtonGroup={listButtonGroup}
-            details={mobileDetailsContent}
-            selectors={<CombinedSelectors />}
-            entity={entity}
-            selectedEntityData={selectedEntityData}
-          />
+          <>
+            <MobileControls
+              list={list}
+              listButtonGroup={listButtonGroup}
+              details={mobileDetailsContent}
+              selectors={<CombinedSelectors showTabs={false} />}
+              entity={entity}
+              selectedEntityData={selectedEntityData}
+            />
+            <Box
+              display="flex"
+              bgcolor="background.paper"
+              borderTop="1px solid"
+              borderColor="divider"
+              py={1}
+            >
+              <DownloadImage
+                fileName={"map.png"}
+                downloadType={DOWNLOAD_ID}
+                getImageData={async () => controlsRef.current?.getImageData()}
+              />
+              <ShareButton />
+            </Box>
+          </>
         )}
       </Box>
     </ApplicationLayout>
