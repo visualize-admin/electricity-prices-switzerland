@@ -21,13 +21,13 @@ import { Search } from "src/components/search";
 type ApplicationLayoutProps = {
   children: ReactNode;
   errorState?: boolean;
-  displayTitle?: boolean;
+  showTitle?: boolean;
 };
 
 export const ApplicationLayout = ({
   children,
   errorState,
-  displayTitle = true,
+  showTitle = true,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
@@ -53,7 +53,7 @@ export const ApplicationLayout = ({
         >
           {!errorState && (
             <SafeHydration>
-              <AppNavigation displayTitle={displayTitle} />
+              <AppNavigation displayTitle={showTitle} />
             </SafeHydration>
           )}
           {children}
