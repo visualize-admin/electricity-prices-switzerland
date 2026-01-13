@@ -146,7 +146,8 @@ export const ColorPaletteStack = (props: ColorPaletteProps) => {
               variant="body2"
               color="#666"
               component="div"
-              sx={{ display: "inline", mr: 1 }}
+              display="inline"
+              mr={1}
             >
               <strong>{key}:</strong> {value}
             </Typography>

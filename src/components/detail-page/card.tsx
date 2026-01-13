@@ -68,7 +68,8 @@ export const CardTitle = (props: CardBase) => {
     <Typography
       component="h2"
       variant="h2"
-      sx={{ color: "text.primary", lineHeight: "140%" }}
+      color="text.primary"
+      lineHeight="140%"
     >
       {children}
     </Typography>
@@ -81,7 +82,8 @@ export const CardDescription = (props: CardBase) => {
     <Typography
       component="h3"
       variant="body1"
-      sx={{ color: "text.primary", lineHeight: "150%" }}
+      color="text.primary"
+      lineHeight="150%"
     >
       {children}
     </Typography>

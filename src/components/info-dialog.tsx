@@ -203,7 +203,7 @@ export const HelpDialog: React.FC<{
               mb: "-1rem",
             }}
           >
-            <Typography variant="body2" sx={{ color: "secondary.main" }}>
+            <Typography variant="body2" color="secondary.main">
               <Trans id="dialog.infoprefix">Info:</Trans> {label}
             </Typography>
           </MuiDialogTitle>

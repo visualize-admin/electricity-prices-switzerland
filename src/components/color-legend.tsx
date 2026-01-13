@@ -151,14 +151,15 @@ const MinMedianMaxLegend = ({
           <Typography
             key={index}
             variant="inherit"
+            flex="1 1 0px"
             sx={{
-              flex: "1 1 0px",
               textAlign:
                 index === 0
                   ? "left"
                   : index === ticks.length - 1
                   ? "right"
                   : "center",
+
               ...(index === 0 ? { display: "flex" } : {}),
             }}
           >
@@ -176,21 +177,26 @@ const MinMedianMaxLegend = ({
         <Typography
           variant="inherit"
           component="span"
-          sx={{ flex: "1 1 0px", lineHeight: 1 }}
+          flex="1 1 0px"
+          lineHeight={1}
         >
           <Trans id="price.legend.min">min</Trans>
         </Typography>
         <Typography
           variant="inherit"
           component="span"
-          sx={{ flex: "1 1 0px", textAlign: "center", lineHeight: 1 }}
+          flex="1 1 0px"
+          textAlign="center"
+          lineHeight={1}
         >
           <Trans id="price.legend.median">median</Trans>
         </Typography>
         <Typography
           variant="inherit"
           component="span"
-          sx={{ flex: "1 1 0px", textAlign: "right", lineHeight: 1 }}
+          flex="1 1 0px"
+          textAlign="right"
+          lineHeight={1}
         >
           <Trans id="price.legend.max">max</Trans>
         </Typography>
@@ -229,8 +235,8 @@ const YesNoLegend = ({
           <Typography
             key={index}
             variant="inherit"
+            flex="1 1 0px"
             sx={{
-              flex: "1 1 0px",
               textAlign: index === 0 ? "left" : "right",
               ...(index === 0 ? { display: "flex" } : {}),
             }}
@@ -262,19 +268,13 @@ export const ColorLegend = () => {
         fontSize="0.625rem"
         mb={2}
       >
-        <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
+        <Typography variant="inherit" flex="1 1 0px">
           <Trans id="price.legend.min">min</Trans>
         </Typography>
-        <Typography
-          variant="inherit"
-          sx={{ flex: "1 1 0px", textAlign: "center" }}
-        >
+        <Typography variant="inherit" flex="1 1 0px" textAlign="center">
           <Trans id="price.legend.median">median</Trans>
         </Typography>
-        <Typography
-          variant="inherit"
-          sx={{ flex: "1 1 0px", textAlign: "right" }}
-        >
+        <Typography variant="inherit" flex="1 1 0px" textAlign="right">
           <Trans id="price.legend.max">max</Trans>
         </Typography>
       </Box>
@@ -333,14 +333,14 @@ const ColorsLine = ({
           const labelContent = (
             <Typography
               variant="inherit"
+              mt={1}
+              fontSize="0.625rem"
+              color="secondary.600"
+              letterSpacing={-0.4}
+              textAlign="right"
+              width="fit-content"
               sx={{
-                mt: 1,
-                fontSize: "0.625rem",
-                color: "secondary.600",
                 transform: "translateX(50%)",
-                letterSpacing: -0.4,
-                textAlign: "right",
-                width: "fit-content",
                 cursor: threshold ? "help" : "default",
               }}
             >

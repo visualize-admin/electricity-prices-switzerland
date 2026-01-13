@@ -210,7 +210,7 @@ export const LatestYearDotsChartView = <T extends GenericObservation>(
                 <Tooltip type="multiple" forceYAnchor id={yValue} />
               </Box>
 
-              <Typography variant="caption" sx={{ fontWeight: "bold", pl: 1 }}>
+              <Typography variant="caption" fontWeight="bold" pl={1}>
                 {yValue}
               </Typography>
               <ChartSvg height={rowHeight} style={{ position: "static" }}>

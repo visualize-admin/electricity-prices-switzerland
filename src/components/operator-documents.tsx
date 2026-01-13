@@ -233,11 +233,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
       >
         <Typography
           variant="body2"
-          sx={{
-            display: {
-              xxs: "none",
-              md: "block",
-            },
+          display={{
+            xxs: "none",
+            md: "block",
           }}
         >
           <Trans id="download.cta">Download reports & tariffs</Trans>

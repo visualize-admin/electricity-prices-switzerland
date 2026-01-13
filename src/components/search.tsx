@@ -292,9 +292,7 @@ const SearchField = ({
                     <Typography
                       variant="h5"
                       color="text.secondary"
-                      sx={{
-                        fontSize: [16],
-                      }}
+                      fontSize={[16]}
                     >
                       <Trans id="search.global.hint.go.to">Go to...</Trans>
                     </Typography>

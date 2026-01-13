@@ -20,7 +20,7 @@ export const SelectedEntityCard: React.FC<{
       <Typography variant="caption" color={"text.500"}>
         {caption}
       </Typography>
-      <Typography variant="h5" sx={{ fontWeight: 700 }}>
+      <Typography variant="h5" fontWeight={700}>
         {title}
       </Typography>
     </Box>
@@ -43,7 +43,7 @@ export const SelectedEntityCard: React.FC<{
         })}
       </Box>
     ) : (
-      <Typography variant="caption" sx={{ color: "secondary.main" }}>
+      <Typography variant="caption" color="secondary.main">
         <Trans id="map.tooltipnodata">No data</Trans>
       </Typography>
     )}

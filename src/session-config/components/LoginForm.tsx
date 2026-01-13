@@ -47,7 +47,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ csrfToken, errorMessage }) => (
             <Typography variant="h4" component="h1" gutterBottom>
               Session Config Login
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body1" color="text.secondary" mb={3}>
               Please enter the session config password to access the session
               config flags management.
             </Typography>

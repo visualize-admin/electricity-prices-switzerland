@@ -180,10 +180,8 @@ export const SunshineTopics = () => {
         <Typography
           variant="body2"
           component={"span"}
-          sx={{
-            maxWidth: "880px",
-            alignSelf: "stretch",
-          }}
+          maxWidth="880px"
+          alignSelf="stretch"
         >
           <Trans id="home.sunshine-regulation.description">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

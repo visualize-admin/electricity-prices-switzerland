@@ -23,9 +23,7 @@ export const ServerError = () => {
           variant="h3"
           component={"h3"}
           lineHeight={1.6}
-          sx={{
-            maxWidth: "600px",
-          }}
+          maxWidth="600px"
         >
           <Trans id="error.page.500.description">
             The desired page or function is unfortunately not available at the

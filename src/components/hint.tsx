@@ -157,10 +157,10 @@ export const NoDataHint = () => (
     flexGrow={1}
   >
     <Icon name="warningcircle" size={64} />
-    <Typography variant="h2" sx={{ my: 3 }}>
+    <Typography variant="h2" my={3}>
       <Trans id="hint.nodata.title">No data</Trans>
     </Typography>
-    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" maxWidth="40rem">
       <Trans id="hint.nodata.message">
         No data could be loaded for the current selection.
       </Trans>
@@ -182,7 +182,7 @@ export const NoContentHint = () => (
     flexGrow={1}
   >
     <Icon name="warningcircle" size={48} />
-    <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
+    <Typography variant="body2" maxWidth="40rem">
       <Trans id="hint.nocontent.message">
         This content could not be loaded
       </Trans>
@@ -226,7 +226,7 @@ export const HintBlue = ({
       >
         <Icon name={iconName} size={24} color={palette.blue[700]} />
       </Box>
-      <Typography variant="body3" sx={{ textAlign: "left" }}>
+      <Typography variant="body3" textAlign="left">
         {children}
       </Typography>
       {onRemove && (

@@ -147,11 +147,7 @@ export const DetailPageBanner = ({
                   size={32}
                 />
               </Stack>
-              <Typography
-                component="h1"
-                variant="h1"
-                sx={{ color: "secondary.800" }}
-              >
+              <Typography component="h1" variant="h1" color="secondary.800">
                 {name}
               </Typography>
             </Box>

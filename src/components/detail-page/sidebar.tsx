@@ -92,13 +92,7 @@ const SidebarSectionTitle = (props: SidebarBaseProps) => {
         borderBottomColor: "monochrome.200",
       }}
     >
-      <Typography
-        variant="caption"
-        color={"text.500"}
-        sx={{
-          lineHeight: "150%",
-        }}
-      >
+      <Typography variant="caption" color={"text.500"} lineHeight="150%">
         {children}
       </Typography>
     </Box>

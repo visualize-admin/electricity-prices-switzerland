@@ -89,18 +89,14 @@ const FlagInput: React.FC<FlagInputProps> = ({
         borderColor: "grey.200",
       }}
     >
-      <Typography
-        variant="h6"
-        component="label"
-        htmlFor={flagKey}
-        sx={{ mb: 1 }}
-      >
+      <Typography variant="h6" component="label" htmlFor={flagKey} gutterBottom>
         {flagKey}
       </Typography>
       <Typography
         variant="body2"
         color="text.secondary"
-        sx={{ mb: 2, display: "block" }}
+        display="block"
+        gutterBottom
       >
         {description}
       </Typography>

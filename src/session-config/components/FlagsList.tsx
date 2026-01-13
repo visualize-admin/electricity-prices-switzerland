@@ -19,7 +19,7 @@ const FlagsList: React.FC<FlagsListProps> = ({ flags, csrfToken }) => (
       <Typography variant="h5" component="h2" gutterBottom>
         Configuration Flags
       </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+      <Typography variant="body1" color="text.secondary" mb={3}>
         Modify the session config flags below to change application behavior
         (only for you). Changes take effect immediately.
       </Typography>

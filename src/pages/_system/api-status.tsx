@@ -49,10 +49,10 @@ const StatusHeading = ({ children, ...props }: TypographyProps) => {
     <Typography
       variant="h3"
       {...props}
+      display="flex"
+      alignItems="center"
+      justifyContent="flex-start"
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
         ...props.sx,
       }}
     >
@@ -211,7 +211,14 @@ const CubeHealth = ({ query }: { query: PageProps["cubeHealth"] }) => {
 
 const SectionHeading = (props: TypographyProps) => {
   return (
-    <Typography variant="h2" {...props} sx={{ mb: 3, ...props.sx }}>
+    <Typography
+      variant="h2"
+      {...props}
+      mb={3}
+      sx={{
+        ...props.sx,
+      }}
+    >
       {props.children}
     </Typography>
   );
@@ -238,15 +245,15 @@ const Page = ({
         <Typography variant="h1" mb={3}>
           Configuration
         </Typography>
-        <Typography variant="body1" mb={1}>
+        <Typography variant="body1" gutterBottom>
           Default SPARQL Endpoint: {defaultEndpoint}
         </Typography>
 
-        <Typography variant="body1" mb={1}>
+        <Typography variant="body1" gutterBottom>
           Session SPARQL Endpoint: {sessionEndpoint?.value}
         </Typography>
         {sessionEndpoint?.value && sessionEndpoint.value !== defaultEndpoint ? (
-          <Typography variant="body2" mb={1} color="warning.main">
+          <Typography variant="body2" color="warning.main" gutterBottom>
             ⚠️ Warning: Your session SPARQL endpoint differs from the default
             endpoint. This means you may see different data from users if the
             two endpoints data are not in sync. Go to{" "}

@@ -173,7 +173,9 @@ const PlaceholderListItem = () => {
     >
       <Typography
         variant="body2"
-        sx={{ flexGrow: 1, bgcolor: "secondary.200", mr: 5 }}
+        flexGrow={1}
+        bgcolor="secondary.200"
+        mr={5}
       ></Typography>
       <Box
         borderRadius={9999}
@@ -319,10 +321,8 @@ export const List = ({
           component="label"
           htmlFor="listSort"
           color="secondary"
-          sx={{
-            fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-            lineHeight: "24px",
-          }}
+          fontSize={["0.625rem", "0.75rem", "0.75rem"]}
+          lineHeight="24px"
         >
           {<Trans id="dataset.results">{listItems.length} Resultate</Trans>}
         </Typography>
@@ -332,11 +332,9 @@ export const List = ({
             component="label"
             htmlFor="listSort"
             color="text.primary"
-            sx={{
-              fontSize: ["0.625rem", "0.75rem", "0.75rem"],
-              lineHeight: "24px",
-              fontWeight: 700,
-            }}
+            fontSize={["0.625rem", "0.75rem", "0.75rem"]}
+            lineHeight="24px"
+            fontWeight={700}
           >
             <Trans id="dataset.sortby">Sortieren</Trans>
           </Typography>

@@ -256,7 +256,8 @@ const MobileControls = ({
                   <Box flexGrow={1}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
+                      fontWeight="bold"
+                      gutterBottom
                     >
                       <Trans id="selector.legend.select.parameters">
                         Parameter auswählen
