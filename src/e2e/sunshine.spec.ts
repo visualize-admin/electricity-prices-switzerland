@@ -196,7 +196,7 @@ test.describe("Sunshine map details panel", () => {
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
-    await page.getByText("Indicators").click();
+    await page.getByRole("button", { name: "Indicators" }).click();
     await sleep(1000);
     await page.getByRole("combobox", { name: "Year" }).click();
     await page.getByRole("option", { name: "2025" }).click();
@@ -279,7 +279,7 @@ test.describe("Sunshine map details panel", () => {
     await page.goto("/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
-    await page.getByText("Indicators").click();
+    await page.getByRole("button", { name: "Indicators" }).click();
     await sleep(1000);
     await page.getByLabel("Year").click();
 
