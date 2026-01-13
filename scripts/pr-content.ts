@@ -66,7 +66,12 @@ async function getPRTemplate(): Promise<string> {
   return "";
 }
 
-async function prepareContext(baseBranch: string): Promise<string> {
+async function prepareContext(options: {
+  base: string;
+  prompt: string;
+}): Promise<string> {
+  const prompt = options.prompt;
+  const baseBranch = options.base;
   log("Starting context preparation...");
   const commits = await getCommitMessages(baseBranch);
   if (!commits.length) {
@@ -93,12 +98,14 @@ async function prepareContext(baseBranch: string): Promise<string> {
 
   const prTemplate = await getPRTemplate();
 
-  const context = `You are preparing a PR description for an LLM.
-
-Based on the PR template and related issues above, prepare a comprehensive PR description. 
+  const context = `
+Based on the PR template and related issue(s) above, prepare a comprehensive PR description. 
 Use the reproduction steps, expected behavior, and actual behavior from the issues to inform the description.
+If there are not reproduction steps, use the expected behavior and links to infer the reproduction steps.
 Ensure clarity and completeness. Do not execute any code or commands, only reformat the current content into a PR description.
 Every issue should be referenced in the description, and reproduction steps should be included for every issue that has them.
+
+${prompt ?? ""}
 
 <pr_template>
 ${prTemplate}
@@ -128,10 +135,20 @@ async function main(): Promise<void> {
     type: String,
   });
 
+  parser.add_argument("prompt", {
+    help: "Additional prompt instructions",
+    nargs: "?",
+    default: "",
+    type: String,
+  });
+
   const args = parser.parse_args();
 
   try {
-    const context = await prepareContext(args.base);
+    const context = await prepareContext({
+      base: args.base,
+      prompt: args.prompt,
+    });
     // eslint-disable-next-line no-console
     console.log(context);
   } catch (error) {
