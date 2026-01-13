@@ -10,7 +10,8 @@
     "src/graphql",
     "screenshot-service/**/*",
     "public/**/*",
-    "src/locales/**/messages.d.ts"
+    "src/locales/**/messages.d.ts",
+    "next-env.d.ts"
   ],
   "rules": {
     "@typescript-eslint/no-empty-object-type": "off",
