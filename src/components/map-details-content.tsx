@@ -115,7 +115,7 @@ const sunshineIndicatorTableRows: Record<
   energyTariffs: ["period", "category"],
   saidi: ["period", "saidiSaifiType"],
   saifi: ["period", "saidiSaifiType"],
-  compliance: ["period", "complianceType"],
+  compliance: ["period"],
   outageInfo: ["period"],
   daysInAdvanceOutageNotification: ["period"],
 };
