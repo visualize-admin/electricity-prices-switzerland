@@ -27,17 +27,10 @@ export const DesignStory = (props: DesignStoryProps) => {
       padding={8}
       width={"100%"}
       height={"100%"}
-      sx={{
-        gap: 10,
-      }}
       {...restProps}
+      gap={10}
     >
-      <Box
-        display={"flex"}
-        sx={{
-          flexDirection: "column",
-        }}
-      >
+      <Box display={"flex"} flexDirection="column">
         {reference && (
           <Typography variant="body2" color={"#999"}>
             {reference}
@@ -78,25 +71,13 @@ export const DesignSection = (
   const { title, children, note, ...restProps } = props;
 
   return (
-    <Box
-      display={"flex"}
-      sx={{
-        flexDirection: "column",
-        gap: 12,
-      }}
-    >
+    <Box display={"flex"} flexDirection="column" gap={12}>
       <Box>
         <Typography variant="h3" fontWeight={700} color={"black"}>
           {title}
         </Typography>
         {note && (
-          <Box
-            display={"flex"}
-            sx={{
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
+          <Box display={"flex"} alignItems="center" gap={1}>
             <Icon name="warningcircle" size={16} />
             <Typography variant="caption" color={"#666"}>
               {note}
@@ -152,19 +133,8 @@ export const ColorPaletteStack = (props: ColorPaletteProps) => {
   const { title, accessibilityNotes, children, ...restProps } = props;
 
   return (
-    <Box
-      display={"flex"}
-      sx={{
-        flexDirection: "column",
-        gap: 8,
-      }}
-    >
-      <Box
-        display={"flex"}
-        sx={{
-          flexDirection: "column",
-        }}
-      >
+    <Box display={"flex"} flexDirection="column" gap={8}>
+      <Box display={"flex"} flexDirection="column">
         <Typography variant="body2" fontWeight={700} color={"black"}>
           {title}
         </Typography>
@@ -183,13 +153,7 @@ export const ColorPaletteStack = (props: ColorPaletteProps) => {
           );
         })}
       </Box>
-      <Box
-        sx={{
-          gap: 4.5,
-        }}
-        display={"flex"}
-        {...restProps}
-      >
+      <Box display={"flex"} {...restProps} gap={4.5}>
         {children}
       </Box>
     </Box>
@@ -209,9 +173,9 @@ export const ColorSwatch = ({ swatch, color, primary }: ColorSwatchProps) => {
   return (
     <Box display="flex" flexDirection="column" gap={1}>
       <Box
+        width="80px"
+        height="80px"
         sx={{
-          width: "80px",
-          height: "80px",
           backgroundColor: value,
           borderRadius: primary ? "9999px" : 1,
         }}
@@ -243,13 +207,7 @@ type ElevationStackProps = {
 export const ElevationStack = (props: ElevationStackProps) => {
   const { elevation } = props;
   return (
-    <Box
-      display={"flex"}
-      sx={{
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
+    <Box display={"flex"} flexDirection="column" gap={2}>
       <Typography variant="h3" fontWeight={500} color={"black"}>
         Elevation {elevation}
       </Typography>

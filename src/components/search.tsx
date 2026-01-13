@@ -77,19 +77,12 @@ export const Search = () => {
 
   return (
     <Box
-      sx={{
-        position: "relative",
-        py: {
-          md: 4,
-        },
+      position="relative"
+      py={{
+        md: 4,
       }}
     >
-      <Box
-        sx={{
-          display: { xxs: "none", md: "block" },
-          width: "22rem",
-        }}
-      >
+      <Box display={{ xxs: "none", md: "block" }} width="22rem">
         <SearchField
           items={items.map(({ id, __typename }) => ({
             id,
@@ -107,12 +100,7 @@ export const Search = () => {
           isMobile={false}
         />
       </Box>
-      <Box
-        sx={{
-          display: { xxs: "block", md: "none" },
-          position: "relative",
-        }}
-      >
+      <Box display={{ xxs: "block", md: "none" }} position="relative">
         <IconButton
           onClick={() => setExpanded(true)}
           aria-label={t({ id: "search.open", message: "Open search" })}
@@ -123,15 +111,16 @@ export const Search = () => {
         {expanded && (
           <ClickAwayListener onClickAway={handleClickAway}>
             <Box
+              position="absolute"
+              top={0}
+              right={0}
+              width="22rem"
+              zIndex={100}
+              boxShadow={2}
               sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                width: "22rem",
                 backgroundColor: "background.paper",
-                zIndex: 100,
-                boxShadow: 2,
                 animation: "width-expand 0.3s ease-in-out",
+
                 "@keyframes width-expand": {
                   "0%": {
                     width: "44px",
@@ -238,7 +227,7 @@ const SearchField = ({
 
   const groupBy = (option: Item) => option.__typename;
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box width="100%">
       <VisuallyHidden>
         <label>{label}</label>
       </VisuallyHidden>

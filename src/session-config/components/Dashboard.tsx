@@ -35,13 +35,7 @@ const Dashboard: React.FC<DashboardProps> = ({
     <body>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box
-          sx={{
-            minHeight: "100vh",
-            bgcolor: "background.default",
-            padding: 2,
-          }}
-        >
+        <Box minHeight="100vh" bgcolor="background.default" padding={2}>
           <Paper
             elevation={3}
             sx={{

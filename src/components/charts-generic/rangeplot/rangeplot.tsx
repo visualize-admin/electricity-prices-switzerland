@@ -103,80 +103,80 @@ export const RangePoints = () => {
 
   return (
     <g
-        transform={`translate(${margins.left}, ${
-          margins.top + (margins.annotations ?? 0)
-        })`}
-      >
-        {rangeGroups.map((row) => {
-          const xMin = min(row[1], (d) => getX(d));
-          const m = median(row[1], (d) => getX(d));
-          const xMax = max(row[1], (d) => getX(d));
+      transform={`translate(${margins.left}, ${
+        margins.top + (margins.annotations ?? 0)
+      })`}
+    >
+      {rangeGroups.map((row) => {
+        const xMin = min(row[1], (d) => getX(d));
+        const m = median(row[1], (d) => getX(d));
+        const xMax = max(row[1], (d) => getX(d));
 
-          return (
-            <React.Fragment key={row[0]}>
-              {cantonName === row[0] && (
+        return (
+          <React.Fragment key={row[0]}>
+            {cantonName === row[0] && (
+              <g
+                transform={`translate(${-margins.left}, ${
+                  yScale(row[0]) as number
+                })`}
+              >
+                <rect
+                  x={0}
+                  y={0}
+                  width={margins.left + chartWidth + margins.right}
+                  height={DOT_RADIUS * 2}
+                  fillOpacity={0.3}
+                  fill={theme.palette.primary.light}
+                />
+              </g>
+            )}
+            {xMin !== undefined &&
+              m !== undefined &&
+              xMax !== undefined &&
+              isNumber(yScale(row[0])) && (
                 <g
-                  transform={`translate(${-margins.left}, ${
-                    yScale(row[0]) as number
-                  })`}
+                  key={row[0]}
+                  transform={`translate(0, ${yScale(row[0]) as number})`}
                 >
-                  <rect
-                    x={0}
-                    y={0}
-                    width={margins.left + chartWidth + margins.right}
-                    height={DOT_RADIUS * 2}
-                    fillOpacity={0.3}
-                    fill={theme.palette.primary.light}
+                  <circle
+                    cx={xScale(xMin)}
+                    cy={DOT_RADIUS}
+                    r={DOT_RADIUS}
+                    fill={colors(xMin)}
                   />
+                  <circle
+                    cx={xScale(xMax)}
+                    cy={DOT_RADIUS}
+                    r={DOT_RADIUS}
+                    fill={colors(xMax)}
+                  />
+                  <line
+                    x1={xScale(m)}
+                    y1={0}
+                    x2={xScale(m)}
+                    y2={DOT_RADIUS * 2}
+                    strokeWidth={1}
+                    stroke={domainColor}
+                    strokeDasharray="4 2"
+                  />
+                  <text
+                    x={-15}
+                    y={DOT_RADIUS}
+                    style={{
+                      fontFamily,
+                      fill: cantonName === row[0] ? "#000" : labelColor,
+                      fontSize: labelFontSize,
+                      textAnchor: "end",
+                      dominantBaseline: "central",
+                    }}
+                  >
+                    {row[0]}
+                  </text>
                 </g>
               )}
-              {xMin !== undefined &&
-                m !== undefined &&
-                xMax !== undefined &&
-                isNumber(yScale(row[0])) && (
-                  <g
-                    key={row[0]}
-                    transform={`translate(0, ${yScale(row[0]) as number})`}
-                  >
-                    <circle
-                      cx={xScale(xMin)}
-                      cy={DOT_RADIUS}
-                      r={DOT_RADIUS}
-                      fill={colors(xMin)}
-                    />
-                    <circle
-                      cx={xScale(xMax)}
-                      cy={DOT_RADIUS}
-                      r={DOT_RADIUS}
-                      fill={colors(xMax)}
-                    />
-                    <line
-                      x1={xScale(m)}
-                      y1={0}
-                      x2={xScale(m)}
-                      y2={DOT_RADIUS * 2}
-                      strokeWidth={1}
-                      stroke={domainColor}
-                      strokeDasharray="4 2"
-                    />
-                    <text
-                      x={-15}
-                      y={DOT_RADIUS}
-                      style={{
-                        fontFamily,
-                        fill: cantonName === row[0] ? "#000" : labelColor,
-                        fontSize: labelFontSize,
-                        textAnchor: "end",
-                        dominantBaseline: "central",
-                      }}
-                    >
-                      {row[0]}
-                    </text>
-                  </g>
-                )}
-            </React.Fragment>
-          );
-        })}
-      </g>
+          </React.Fragment>
+        );
+      })}
+    </g>
   );
 };

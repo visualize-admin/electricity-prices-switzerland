@@ -148,7 +148,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
         />
       )}
     </Grid>
-    <Grid item xs={12} sm={4} sx={{ display: "flex" }}>
+    <Grid item xs={12} sm={4} display="flex">
       <ItemMultiCombobox
         label={t({
           id: "sunshine.costs-and-tariffs.compare-with",

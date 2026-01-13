@@ -47,53 +47,49 @@ const DetailPageContentLayout = ({ children, selector, download }: Props) => {
   return (
     <Box
       display="grid"
-      sx={{
-        gap: 0,
-        gridTemplateColumns: { xxs: `1fr`, md: `20rem 1fr` },
-        gridTemplateRows: { xxs: `auto`, md: `auto 1fr` },
-        gridTemplateAreas: {
-          xxs: `
-  "selector"
-  "main"
-  `,
-          md: `
+      gap={0}
+      gridTemplateColumns={{ xxs: `1fr`, md: `20rem 1fr` }}
+      gridTemplateRows={{ xxs: `auto`, md: `auto 1fr` }}
+      gridTemplateAreas={{
+        xxs: `
+"selector"
+"main"
+`,
+        md: `
 "selector main"
-  "selector main"
-  `,
-        },
+"selector main"
+`,
       }}
     >
       <Box
-        sx={{
-          gridArea: "main",
-          pl: { xxs: 0, md: 16 },
-          bgcolor: "secondary.50",
-          minWidth: 0,
-        }}
+        gridArea="main"
+        pl={{ xxs: 0, md: 16 }}
+        bgcolor="secondary.50"
+        minWidth={0}
       >
         <Box
-          sx={{
-            py: 10,
-            flexDirection: "column",
-            gap: 10,
-          }}
           data-testid="details-page-content"
           display={"flex"}
+          py={10}
+          flexDirection="column"
+          gap={10}
         >
           {renderedChildren}
         </Box>
       </Box>
       <Box
+        gridArea="selector"
+        alignSelf="start"
+        borderRight="1px solid"
+        position="relative"
+        height="100%"
         sx={{
-          gridArea: "selector",
-          alignSelf: "start",
-          borderRight: "1px solid",
           borderRightColor: "divider",
-          position: "relative",
-          height: "100%",
         }}
       >
-        <Box sx={{ position: "sticky", top: 0 }}>{!download && selector}</Box>
+        <Box position="sticky" top={0}>
+          {!download && selector}
+        </Box>
       </Box>
     </Box>
   );
@@ -180,12 +176,7 @@ export const DetailsPageLayout = ({
               backgroundColor: "secondary.50",
             }}
           >
-            <Box
-              sx={{
-                flexGrow: 1,
-                bgcolor: "background.paper",
-              }}
-            >
+            <Box flexGrow={1} bgcolor="background.paper">
               <DetailPageContentLayout
                 download={download}
                 selector={!isMobile && SidebarContent ? SidebarContent : null}

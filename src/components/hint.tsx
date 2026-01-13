@@ -27,27 +27,27 @@ export const spin = keyframes`
 
 export const Loading = ({ delayMs = 1000 }: { delayMs?: number }) => (
   <Box
+    display="flex"
+    data-testid="loading"
+    width="100%"
+    height="100%"
+    color="hint.main"
+    margin="auto"
+    textAlign="center"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+    flexGrow={1}
+    padding={2}
     sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-      padding: 2,
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
-    display="flex"
-    data-testid="loading"
   >
     <Box
+      width={48}
+      height={48}
       sx={{
-        width: 48,
-        height: 48,
         animation: `1s linear infinite ${spin}`,
       }}
     >
@@ -85,28 +85,28 @@ export const LoadingIcon = ({
   sx?: BoxProps["sx"];
 }) => (
   <Box
+    display="flex"
+    width="100%"
+    height="100%"
+    color="hint.main"
+    margin="auto"
+    textAlign="center"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+    flexGrow={1}
+    padding={2}
     sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-      padding: 2,
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
       ...sx,
     }}
-    display="flex"
   >
     <Box
+      height={32}
+      width={32}
       sx={{
         animation: `1s linear infinite ${spin}`,
-        height: 32,
-        width: 32,
       }}
     >
       <Icon name="loading" size={32} />
@@ -122,19 +122,19 @@ export const LoadingIconInline = ({
   delayMs?: number;
 }) => (
   <Box
+    display="inline-block"
+    color="hint.main"
+    margin="auto"
+    textAlign="center"
     sx={{
-      display: "inline-block",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
       opacity: 0,
       animation: `0s linear ${delayMs}ms forwards ${delayedShow}`,
     }}
   >
     <Box
+      width={size}
+      height={size}
       sx={{
-        width: size,
-        height: size,
         animation: `1s linear infinite ${spin}`,
       }}
     >
@@ -145,18 +145,16 @@ export const LoadingIconInline = ({
 
 export const NoDataHint = () => (
   <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
     display="flex"
+    width="100%"
+    height="100%"
+    color="hint.main"
+    margin="auto"
+    textAlign="center"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+    flexGrow={1}
   >
     <Icon name="warningcircle" size={64} />
     <Typography variant="h2" sx={{ my: 3 }}>
@@ -172,18 +170,16 @@ export const NoDataHint = () => (
 
 export const NoContentHint = () => (
   <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-      color: "hint.main",
-      margin: "auto",
-      textAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      flexGrow: 1,
-    }}
     display="flex"
+    width="100%"
+    height="100%"
+    color="hint.main"
+    margin="auto"
+    textAlign="center"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+    flexGrow={1}
   >
     <Icon name="warningcircle" size={48} />
     <Typography variant="body2" sx={{ maxWidth: "40rem" }}>
@@ -204,16 +200,14 @@ export const HintBlue = ({
   onRemove?: () => void;
 }) => (
   <Box
-    sx={{
-      width: "auto",
-      height: "auto",
-      py: 4,
-      px: 9,
-      bgcolor: "blue.50",
-      color: "blue.700",
-      boxShadow: 1,
-    }}
     display="flex"
+    width="auto"
+    height="auto"
+    py={4}
+    px={9}
+    bgcolor="blue.50"
+    color="blue.700"
+    boxShadow={1}
   >
     <ContentWrapper
       sx={{
@@ -225,8 +219,10 @@ export const HintBlue = ({
       }}
     >
       <Box
-        sx={{ width: 24, alignItems: "center", justifyContent: "center" }}
         display={"flex"}
+        width={24}
+        alignItems="center"
+        justifyContent="center"
       >
         <Icon name={iconName} size={24} color={palette.blue[700]} />
       </Box>

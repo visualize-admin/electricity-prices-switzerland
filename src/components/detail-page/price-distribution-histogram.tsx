@@ -126,7 +126,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       </CardHeader>
       {!download && (
         <>
-          <Box sx={{ display: ["none", "none", "block"] }}>
+          <Box display={["none", "none", "block"]}>
             <ButtonGroup<DetailPriceComponent>
               id="priceComponents"
               options={[
@@ -171,7 +171,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
               fitLabelToContent
             />
           </Box>
-          <Box sx={{ display: ["block", "block", "none"] }}>
+          <Box display={["block", "block", "none"]}>
             <Combobox
               id="priceComponents-histogram"
               label={t({
@@ -307,7 +307,7 @@ const PriceDistributionHistogram = ({
     })
   );
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box position="relative">
       {observationsQuery.fetching ? (
         <LoadingSkeleton height={500} />
       ) : observations.length === 0 ? (
@@ -318,14 +318,12 @@ const PriceDistributionHistogram = ({
           isFetching={observationsQuery.fetching}
         >
           <Box
-            sx={{
-              position: "absolute",
-              right: { md: "2.5rem" },
-              left: { xxs: 0, md: "auto" },
-              top: {
-                xxs: 0,
-                md: -20,
-              },
+            position="absolute"
+            right={{ md: "2.5rem" }}
+            left={{ xxs: 0, md: "auto" }}
+            top={{
+              xxs: 0,
+              md: -20,
             }}
           >
             <ColorLegend />

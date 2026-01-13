@@ -17,9 +17,9 @@ const CardSource = ({
   });
   return (
     <Box
+      mt={4}
+      color="text.secondary"
       sx={{
-        mt: 4,
-        color: "text.secondary",
         typography: "caption",
       }}
     >

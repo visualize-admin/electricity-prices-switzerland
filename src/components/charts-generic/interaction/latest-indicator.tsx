@@ -27,14 +27,14 @@ export const LatestIndicator = () => {
     <>
       {/* Dashed vertical line */}
       <Box
+        position="absolute"
+        width={0}
+        borderLeft="1px dashed"
+        borderColor="secondary.300"
         sx={{
-          position: "absolute",
           top: bounds.margins.top + yAnchor,
           left: xAnchor + bounds.margins.left,
           height: bounds.chartHeight - yAnchor,
-          width: 0,
-          borderLeft: "1px dashed",
-          borderColor: "secondary.300",
           transform: "translateX(-50%)",
           pointerEvents: "none",
         }}
@@ -42,15 +42,15 @@ export const LatestIndicator = () => {
 
       {/* Black dot at latest X/Y */}
       <Box
+        position="absolute"
+        width={10}
+        height={10}
+        borderRadius="50%"
+        bgcolor="black"
+        border="2px solid white"
         sx={{
-          position: "absolute",
           top: bounds.margins.top + yAnchor,
           left: xAnchor + bounds.margins.left,
-          width: 10,
-          height: 10,
-          borderRadius: "50%",
-          bgcolor: "black",
-          border: "2px solid white",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
         }}

@@ -12,11 +12,11 @@ const TooltipContent: React.FC<TooltipContentProps> = ({
 }) => (
   <Box
     {...props}
+    padding="12px 16px"
+    display="flex"
+    gap={2}
+    flexDirection="column"
     sx={{
-      padding: "12px 16px",
-      display: "flex",
-      gap: 2,
-      flexDirection: "column",
       ...props.sx,
     }}
   >

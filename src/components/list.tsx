@@ -136,12 +136,7 @@ const ListItems = ({
       })}
 
       {items.length > truncated && (
-        <Box
-          sx={{
-            textAlign: "center",
-            p: 3,
-          }}
-        >
+        <Box textAlign="center" p={3}>
           <Button
             variant="text"
             onClick={() => setTruncated((n) => n + TRUNCATION_INCREMENT)}
@@ -162,36 +157,34 @@ const placeholderListItems = Array.from(
 const PlaceholderListItem = () => {
   return (
     <Box
+      display="flex"
+      pl={2}
+      py={1}
+      mx={[2, 4, 4]}
+      alignItems="center"
+      height="3.5rem"
+      lineHeight="1rem"
+      color="text"
       sx={{
-        pl: 2,
-        py: 1,
-        mx: [2, 4, 4],
         borderBottomWidth: "1px",
         borderBottomStyle: "solid",
         borderBottomColor: "secondary.300",
-        alignItems: "center",
-        height: "3.5rem",
-        lineHeight: "1rem",
-        color: "text",
       }}
-      display="flex"
     >
       <Typography
         variant="body2"
         sx={{ flexGrow: 1, bgcolor: "secondary.200", mr: 5 }}
       ></Typography>
       <Box
-        sx={{
-          borderRadius: 9999,
-          px: 2,
-          flexShrink: 0,
-          bgcolor: "secondary.200",
-          width: "5ch",
-        }}
+        borderRadius={9999}
+        px={2}
+        flexShrink={0}
+        bgcolor="secondary.200"
+        width="5ch"
       >
         <Typography variant="body2">&nbsp;</Typography>
       </Box>
-      <Box sx={{ width: "24px", flexShrink: 0, color: "secondary.200" }}>
+      <Box width="24px" flexShrink={0} color="secondary.200">
         <Icon name="chevronright" />
       </Box>
     </Box>
@@ -205,12 +198,7 @@ const PlaceholderListItems = () => {
         return <PlaceholderListItem key={id} />;
       })}
 
-      <Box
-        sx={{
-          textAlign: "center",
-          p: 3,
-        }}
-      >
+      <Box textAlign="center" p={3}>
         &nbsp;
       </Box>
     </Box>
@@ -321,8 +309,10 @@ export const List = ({
         />
       </Stack>
       <Box
-        sx={{ justifyContent: "space-between", mb: 2, alignItems: "center" }}
         display="flex"
+        justifyContent="space-between"
+        mb={2}
+        alignItems="center"
       >
         <Typography
           display="span"
@@ -336,13 +326,7 @@ export const List = ({
         >
           {<Trans id="dataset.results">{listItems.length} Resultate</Trans>}
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1,
-            alignItems: "center",
-          }}
-        >
+        <Box display="flex" gap={1} alignItems="center">
           <Typography
             display="span"
             component="label"

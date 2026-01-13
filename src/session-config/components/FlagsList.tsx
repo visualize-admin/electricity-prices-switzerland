@@ -15,7 +15,7 @@ const FlagsList: React.FC<FlagsListProps> = ({ flags, csrfToken }) => (
   <Box component="form" method="POST">
     <input type="hidden" name="csrfToken" value={csrfToken} />
 
-    <Box sx={{ mb: 4 }}>
+    <Box mb={4}>
       <Typography variant="h5" component="h2" gutterBottom>
         Configuration Flags
       </Typography>
@@ -38,15 +38,7 @@ const FlagsList: React.FC<FlagsListProps> = ({ flags, csrfToken }) => (
       })}
     </Box>
 
-    <Box
-      sx={{
-        display: "flex",
-        gap: 2,
-        pt: 3,
-        borderTop: 1,
-        borderColor: "divider",
-      }}
-    >
+    <Box display="flex" gap={2} pt={3} borderTop={1} borderColor="divider">
       <Button type="submit" variant="contained" color="primary">
         Update Flags
       </Button>

@@ -22,27 +22,27 @@ const HoverDots = ({ d }: { d: GenericObservation }) => {
   return (
     <>
       {values?.map((value, i) => (
-          <React.Fragment key={i}>
-            <Box
-              style={{
-                backgroundColor: value.color,
-                left: xAnchor + bounds.margins.left,
-                top: value.yPos! + bounds.margins.top,
-              }}
-              sx={{
-                position: "absolute",
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                borderStyle: "solid",
-                borderWidth: 1,
-                borderColor: "secondary.100",
-                transform: "translate3d(-50%, -50%, 0)",
-                pointerEvents: "none",
-              }}
-            />
-          </React.Fragment>
-        ))}
+        <React.Fragment key={i}>
+          <Box
+            style={{
+              backgroundColor: value.color,
+              left: xAnchor + bounds.margins.left,
+              top: value.yPos! + bounds.margins.top,
+            }}
+            position="absolute"
+            width={6}
+            height={6}
+            borderRadius="50%"
+            borderColor="secondary.100"
+            sx={{
+              borderStyle: "solid",
+              borderWidth: 1,
+              transform: "translate3d(-50%, -50%, 0)",
+              pointerEvents: "none",
+            }}
+          />
+        </React.Fragment>
+      ))}
     </>
   );
 };

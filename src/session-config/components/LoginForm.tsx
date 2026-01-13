@@ -29,14 +29,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ csrfToken, errorMessage }) => (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box
-          sx={{
-            minHeight: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            bgcolor: "background.default",
-            padding: 2,
-          }}
+          minHeight="100vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor="background.default"
+          padding={2}
         >
           <Paper
             elevation={3}
@@ -60,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ csrfToken, errorMessage }) => (
               </Alert>
             )}
 
-            <Box component="form" method="POST" sx={{ mt: 2 }}>
+            <Box component="form" method="POST" mt={2}>
               <InputLabel htmlFor="password" sx={{ mb: 1, display: "block" }}>
                 Password
               </InputLabel>

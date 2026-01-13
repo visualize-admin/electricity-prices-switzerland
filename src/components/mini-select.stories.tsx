@@ -42,7 +42,7 @@ export const Default: Story = {
     const [value, setValue] = useState("option2");
 
     return (
-      <Box sx={{ maxWidth: 150 }}>
+      <Box maxWidth={150}>
         <MiniSelect
           {...args}
           value={value}
@@ -68,7 +68,7 @@ export const WithoutLabel: Story = {
     const [value, setValue] = useState("medium");
 
     return (
-      <Box sx={{ minWidth: 120 }}>
+      <Box minWidth={120}>
         <MiniSelect
           id="size-select"
           value={value}

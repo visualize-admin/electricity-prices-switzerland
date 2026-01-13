@@ -61,12 +61,12 @@ const RulerContent = ({
           left: xAnchor + margins.left,
           top: margins.top,
         }}
+        width={0}
+        position="absolute"
+        borderColor="secondary[200]"
         sx={{
-          width: 0,
-          position: "absolute",
           borderWidth: 0.5,
           borderStyle: "solid",
-          borderColor: "secondary[200]",
           pointerEvents: "none",
           transform: "translateX(-50%)",
         }}
@@ -76,14 +76,14 @@ const RulerContent = ({
           left: xAnchor + margins.left,
           top: chartHeight + margins.top + 6,
         }}
+        position="absolute"
+        fontWeight={700}
+        bgcolor="background.paper"
+        px={1}
+        fontSize="0.875rem"
+        color="secondary.800"
         sx={{
-          position: "absolute",
-          fontWeight: 700,
-          bgcolor: "background.paper",
           transform: "translateX(-50%)",
-          px: 1,
-          fontSize: "0.875rem",
-          color: "secondary.800",
         }}
       >
         {xValue}

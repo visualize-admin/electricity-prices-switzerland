@@ -102,13 +102,11 @@ const TableComparisonCard: React.FC<
         </TableBody>
       </ComparisonTable>
       <Stack
-        sx={{
-          mt: 2,
-          flexGrow: 1,
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-        }}
+        mt={2}
+        flexGrow={1}
+        flexDirection="column"
+        justifyContent="flex-end"
+        alignItems="flex-end"
       >
         {linkContent}
       </Stack>

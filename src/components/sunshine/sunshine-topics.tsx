@@ -170,22 +170,8 @@ export const SunshineTopics = () => {
   const { classes } = useStyles();
 
   return (
-    <Box
-      sx={{
-        flexDirection: "column",
-        gap: 20,
-        width: "100%",
-      }}
-      display={"flex"}
-    >
-      <Box
-        sx={{
-          flexDirection: "column",
-          gap: 4,
-          width: "100%",
-        }}
-        display={"flex"}
-      >
+    <Box display={"flex"} flexDirection="column" gap={20} width="100%">
+      <Box display={"flex"} flexDirection="column" gap={4} width="100%">
         <Typography variant="h1" component={"h2"}>
           <Trans id="home.sunshine-regulation.title">
             The Sunshine Regulation
@@ -208,13 +194,7 @@ export const SunshineTopics = () => {
           </Trans>
         </Typography>
       </Box>
-      <Box
-        sx={{
-          flexDirection: "column",
-          gap: 10,
-        }}
-        display={"flex"}
-      >
+      <Box display={"flex"} flexDirection="column" gap={10}>
         <Typography variant="h2" fontWeight={700} component={"h3"}>
           <Trans id="home.sunshine-topics.title">Sunshine Topics</Trans>
         </Typography>

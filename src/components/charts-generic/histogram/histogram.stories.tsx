@@ -35,7 +35,7 @@ export const Histogram = () => {
   const annotations = [mockData[0], mockData[1], mockData[2]];
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "800px", m: 5 }}>
+    <Box width="100%" maxWidth="800px" m={5}>
       <HistogramComponent
         data={mockData}
         medianValue={medianValue}
@@ -85,7 +85,7 @@ export const GroupedHistogram = () => {
   const operatorLabel = `Operator ${operatorId}`;
   const median = d3Median(serviceQualityMock, (d: { days: number }) => d.days);
   return (
-    <Box sx={{ width: "100%", maxWidth: "800px", m: 5, position: "relative" }}>
+    <Box width="100%" maxWidth="800px" m={5} position="relative">
       <HistogramComponent
         data={serviceQualityMock}
         medianValue={median}

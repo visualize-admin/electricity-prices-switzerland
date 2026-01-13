@@ -64,7 +64,7 @@ const DialogContent = ({
 }) => {
   if (contentQuery.fetching) {
     return (
-      <Box sx={{ mt: 5 }}>
+      <Box mt={5}>
         <LoadingIcon />
       </Box>
     );
@@ -72,7 +72,7 @@ const DialogContent = ({
 
   if (!contentQuery.data?.wikiContent) {
     return (
-      <Box sx={{ mt: 5 }}>
+      <Box mt={5}>
         <NoContentHint />
       </Box>
     );
@@ -81,10 +81,11 @@ const DialogContent = ({
   return (
     <Box
       component="section"
+      p={{ my: 3 }}
       sx={{
         details: { mb: 3 },
         summary: { fontWeight: 700 },
-        p: { my: 3 },
+
         table: {
           borderCollapse: "collapse",
           my: 2,
@@ -138,7 +139,7 @@ export const HelpDialog: React.FC<{
             <Icon name="close" />
           </IconButton>
           <div className={classes.scrollArea}>
-            <Box sx={{ p: 2 }}>
+            <Box p={2}>
               <Typography
                 variant="body2"
                 sx={{ color: "secondary.main", mb: 2 }}
@@ -241,12 +242,12 @@ export const InfoDialogButton = ({
     <>
       {debugInfoDialog && (
         <Box
+          fontSize={10}
+          height={16}
+          display="flex"
+          alignItems="center"
           sx={{
             background: "hotpink",
-            fontSize: 10,
-            height: 16,
-            display: "flex",
-            alignItems: "center",
           }}
         >
           slug: {slug}
@@ -263,7 +264,12 @@ export const InfoDialogButton = ({
         }}
         onClick={openDialog}
       >
-        <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
+        <Box
+          flexShrink={0}
+          sx={{
+            mr: iconOnly ? 0 : 2,
+          }}
+        >
           <Icon
             name={type === "fill" ? "infocirclefilled" : "infocircle"}
             size={iconSize}

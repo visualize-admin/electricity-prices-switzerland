@@ -8,12 +8,7 @@ import { SelectedEntityCard as SelectedEntityCardComponent } from "./map-tooltip
 import type { Decorator, Meta, StoryObj } from "@storybook/react";
 
 const TooltipDecorator: Decorator = (Story) => (
-  <Box
-    sx={{
-      // Prevent margin collapse
-      padding: 1,
-    }}
-  >
+  <Box padding={1}>
     <Paper
       sx={{
         m: 2,

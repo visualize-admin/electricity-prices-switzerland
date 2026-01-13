@@ -46,13 +46,11 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
         {description && <Typography variant="body2">{description}</Typography>}
         {chart}
         <Stack
-          sx={{
-            mt: 2,
-            flexGrow: 1,
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
+          mt={2}
+          flexGrow={1}
+          flexDirection="column"
+          justifyContent="flex-end"
+          alignItems="flex-end"
         >
           {linkContent}
         </Stack>

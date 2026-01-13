@@ -7,15 +7,13 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ csrfToken }) => (
   <Box
-    sx={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      mb: 4,
-      pb: 3,
-      borderBottom: 2,
-      borderColor: "divider",
-    }}
+    display="flex"
+    justifyContent="space-between"
+    alignItems="center"
+    mb={4}
+    pb={3}
+    borderBottom={2}
+    borderColor="divider"
   >
     <Typography variant="h4" component="h1">
       Session Config Flags Management

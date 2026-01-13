@@ -23,16 +23,14 @@ export const Card = (props: CardProps) => {
     <Box
       // This id is used by the screenshot function
       id={downloadId}
-      sx={{
-        bgcolor: "background.paper",
-        borderRadius: 1,
-        py: 8,
-        px: { xxs: 5, md: 10 },
-        boxShadow: 2,
-        flexDirection: "column",
-        gap: 8,
-      }}
       display={"flex"}
+      bgcolor="background.paper"
+      borderRadius={1}
+      py={8}
+      px={{ xxs: 5, md: 10 }}
+      boxShadow={2}
+      flexDirection="column"
+      gap={8}
     >
       {children}
     </Box>

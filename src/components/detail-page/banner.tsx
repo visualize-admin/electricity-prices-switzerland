@@ -108,7 +108,7 @@ export const DetailPageBanner = ({
 
   return (
     <Box py={6} bgcolor="background.paper" width="100%" id="main-content">
-      <Box sx={{ mx: "auto" }}>
+      <Box mx="auto">
         <Typography
           variant="caption"
           color="secondary.main"
@@ -126,14 +126,12 @@ export const DetailPageBanner = ({
           <Stack>
             <Box
               display={"flex"}
-              sx={{
-                gap: 2,
-                flexDirection: {
-                  xxs: "column",
-                  md: "row",
-                },
-                alignItems: { md: "center" },
+              gap={2}
+              flexDirection={{
+                xxs: "column",
+                md: "row",
               }}
+              alignItems={{ md: "center" }}
             >
               <Stack
                 direction={"row"}
@@ -158,13 +156,9 @@ export const DetailPageBanner = ({
               </Typography>
             </Box>
 
-            <Box
-              sx={{ flexWrap: "wrap" }}
-              display="flex"
-              flexDirection="column"
-            >
+            <Box display="flex" flexDirection="column" flexWrap="wrap">
               {canton && (
-                <Box sx={{ pr: 3, my: 1 }}>
+                <Box pr={3} my={1}>
                   <Trans id="detail.canton">Canton</Trans>:{" "}
                   <NextLink
                     href={{
@@ -178,14 +172,7 @@ export const DetailPageBanner = ({
                 </Box>
               )}
               {municipalities && (
-                <Box
-                  sx={{
-                    pr: 3,
-                    my: 1,
-                    fontSize: "0.875rem",
-                    lineHeight: "1.125rem",
-                  }}
-                >
+                <Box pr={3} my={1} fontSize="0.875rem" lineHeight="1.125rem">
                   <Trans id="detail.municipalities">Municipalities</Trans>:{" "}
                   <RelationsList
                     key={`${entity}-${id}`}
@@ -195,14 +182,7 @@ export const DetailPageBanner = ({
                 </Box>
               )}
               {operators && (
-                <Box
-                  sx={{
-                    pr: 3,
-                    my: 1,
-                    fontSize: "0.875rem",
-                    lineHeight: "1.125rem",
-                  }}
-                >
+                <Box pr={3} my={1} fontSize="0.875rem" lineHeight="1.125rem">
                   <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
                   <RelationsList
                     key={`${entity}-${id}`}

@@ -19,7 +19,7 @@ type Story = StoryObj<typeof NoDataAvailable>;
 
 export const Default: Story = {
   render: () => (
-    <Box sx={{ width: 400 }}>
+    <Box width={400}>
       <NoDataAvailable />
     </Box>
   ),

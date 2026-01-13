@@ -393,15 +393,13 @@ const OverviewPage = (props: Props) => {
           <Trans id="sunshine.grid.network-costs-title">Network Costs</Trans>
         </CardGridSectionTitle>
         <Box
-          sx={{
-            gap: 4,
-            mb: 2,
-            gridArea: "filters",
-            alignItems: "end",
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr 1fr" },
-            columnGap: 4,
-          }}
+          gap={4}
+          mb={2}
+          gridArea="filters"
+          alignItems="end"
+          display="grid"
+          gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr 1fr" }}
+          columnGap={4}
         >
           <Combobox
             id="network-level"

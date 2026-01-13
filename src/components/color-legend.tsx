@@ -106,11 +106,7 @@ export const MapColorLegend = ({
           <Icon name="clear" size={16} color="#666" />
         </Box>
       </Box>
-      <Box
-        sx={{
-          width: LEGEND_WIDTH,
-        }}
-      >
+      <Box width={LEGEND_WIDTH}>
         {mode === "minMedianMax" ? (
           <MinMedianMaxLegend
             ticks={ticks}
@@ -141,15 +137,15 @@ const MinMedianMaxLegend = ({
   return (
     <>
       <Box
+        display="flex"
+        justifyContent="space-between"
+        color="text"
+        fontSize="0.625rem"
+        lineHeight={1.5}
+        height={TOP_LABEL_HEIGHT}
         sx={{
-          justifyContent: "space-between",
-          color: "text",
-          fontSize: "0.625rem",
-          lineHeight: 1.5,
-          height: TOP_LABEL_HEIGHT,
           pointerEvents: "none",
         }}
-        display="flex"
       >
         {ticks.map((stat, index) => (
           <Typography
@@ -171,13 +167,11 @@ const MinMedianMaxLegend = ({
         ))}
       </Box>
       <Box
-        sx={{
-          justifyContent: "space-between",
-          color: "secondary.600",
-          fontSize: "0.625rem",
-          mb: 3,
-        }}
         display="flex"
+        justifyContent="space-between"
+        color="secondary.600"
+        fontSize="0.625rem"
+        mb={3}
       >
         <Typography
           variant="inherit"
@@ -219,17 +213,17 @@ const YesNoLegend = ({
   return (
     <>
       <Box
-        sx={{
-          justifyContent: "space-between",
-          color: "text",
-          fontSize: "0.625rem",
-          lineHeight: 1.5,
-          height: TOP_LABEL_HEIGHT,
-          pointerEvents: "none",
-          width: "100%",
-          mb: 1,
-        }}
         display="flex"
+        justifyContent="space-between"
+        color="text"
+        fontSize="0.625rem"
+        lineHeight={1.5}
+        height={TOP_LABEL_HEIGHT}
+        width="100%"
+        mb={1}
+        sx={{
+          pointerEvents: "none",
+        }}
       >
         {ticks.map((stat, index) => (
           <Typography
@@ -254,23 +248,19 @@ const YesNoLegend = ({
 export const ColorLegend = () => {
   return (
     <Box
-      sx={{
-        width: LEGEND_WIDTH,
-        zIndex: 13,
-        borderRadius: 1,
-        height: "fit-content",
-        pl: 4,
-        py: 2,
-      }}
+      width={LEGEND_WIDTH}
+      zIndex={13}
+      borderRadius={1}
+      height="fit-content"
+      pl={4}
+      py={2}
     >
       <Box
-        sx={{
-          justifyContent: "space-between",
-          color: "secondary.600",
-          fontSize: "0.625rem",
-          mb: 2,
-        }}
         display="flex"
+        justifyContent="space-between"
+        color="secondary.600"
+        fontSize="0.625rem"
+        mb={2}
       >
         <Typography variant="inherit" sx={{ flex: "1 1 0px" }}>
           <Trans id="price.legend.min">min</Trans>
@@ -302,39 +292,40 @@ const ColorsLine = ({
 }) => {
   return (
     <Box
-      sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
       data-name="color-line"
       display="flex"
+      position="relative"
+      sx={{
+        height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
+      }}
     >
       <Box
+        position="absolute"
+        left="50%"
+        width={0}
+        borderLeft="1px dashed"
+        zIndex={14}
         sx={{
-          position: "absolute",
-          left: "50%",
-          width: 0,
-          borderLeft: "1px dashed",
           borderLeftColor: "text",
           height: COLOR_HEIGHT * 1.5,
           overflowY: "visible",
-          zIndex: 14,
           transform: "translateY(-15%)",
         }}
       ></Box>
       <Box
-        sx={{
-          width: 0,
-          height: 0,
-          borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderRight: `${COLOR_HEIGHT / 2}px solid  ${palette[0]}`,
-        }}
+        width={0}
+        height={0}
+        borderTop={`${COLOR_HEIGHT / 2}px solid transparent`}
+        borderBottom={`${COLOR_HEIGHT / 2}px solid transparent`}
+        borderRight={`${COLOR_HEIGHT / 2}px solid  ${palette[0]}`}
       />
       <Box
         display="grid"
+        gridTemplateColumns=".8fr 1fr 1fr 1fr .8fr"
+        columnGap={0}
+        width="100%"
         sx={{
-          gridTemplateColumns: ".8fr 1fr 1fr 1fr .8fr",
-          columnGap: 0,
           height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
-          width: "100%",
         }}
       >
         {palette.map((bg, i) => {
@@ -360,20 +351,18 @@ const ColorsLine = ({
           return (
             <Box
               key={bg}
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-end"
               sx={{
-                flexDirection: "column",
-                alignItems: "flex-end",
                 "&:last-of-type > div": { borderRight: 0 },
               }}
-              display="flex"
             >
               <Box
-                sx={{
-                  bgcolor: bg,
-                  width: "100%",
-                  height: COLOR_HEIGHT,
-                  borderRight: "1px solid #FFF",
-                }}
+                bgcolor={bg}
+                width="100%"
+                height={COLOR_HEIGHT}
+                borderRight="1px solid #FFF"
               />
               {threshold && threshold.value !== undefined ? (
                 <Tooltip title={threshold.value.toFixed(2)} arrow>
@@ -387,15 +376,13 @@ const ColorsLine = ({
         })}
       </Box>
       <Box
-        sx={{
-          width: 0,
-          height: 0,
-          borderTop: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderBottom: `${COLOR_HEIGHT / 2}px solid transparent`,
-          borderLeft: `${COLOR_HEIGHT / 2}px solid ${
-            palette[palette.length - 1]
-          }`,
-        }}
+        width={0}
+        height={0}
+        borderTop={`${COLOR_HEIGHT / 2}px solid transparent`}
+        borderBottom={`${COLOR_HEIGHT / 2}px solid transparent`}
+        borderLeft={`${COLOR_HEIGHT / 2}px solid ${
+          palette[palette.length - 1]
+        }`}
       />
     </Box>
   );
@@ -410,34 +397,37 @@ const YesNoColorsLine = ({
   const yesNoColors = [palette[0], palette[palette.length - 1]];
   return (
     <Box
-      sx={{ height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT, position: "relative" }}
       data-name="color-line"
       display="flex"
+      position="relative"
+      sx={{
+        height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
+      }}
     >
       <Box
         display="grid"
+        gridTemplateColumns="1fr 1fr"
+        columnGap={0}
+        width="100%"
         sx={{
-          gridTemplateColumns: "1fr 1fr",
-          columnGap: 0,
           height: COLOR_HEIGHT + BOTTOM_LABEL_HEIGHT,
-          width: "100%",
         }}
       >
         {yesNoColors.map((bg, i) => (
           <Box
             key={bg}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
             sx={{
-              flexDirection: "column",
-              alignItems: "center",
               "&:last-of-type > div": { borderRight: 0 },
             }}
-            display="flex"
           >
             <Box
+              bgcolor={bg}
+              width="100%"
+              height={COLOR_HEIGHT}
               sx={{
-                bgcolor: bg,
-                width: "100%",
-                height: COLOR_HEIGHT,
                 borderRight: i === 0 ? "1px solid #FFF" : 0,
               }}
             />

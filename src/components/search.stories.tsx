@@ -85,7 +85,7 @@ const meta: Meta<typeof Search> = {
       const mockClient = createMockClient(parameters.mockData);
       return (
         <Provider value={mockClient}>
-          <Box sx={{ minHeight: "400px", width: "100%" }}>
+          <Box minHeight="400px" width="100%">
             <Story />
           </Box>
         </Provider>

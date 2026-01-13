@@ -16,7 +16,7 @@ const UnitValueWithTrend: React.FC<{
   round?: number;
 }> = ({ value, unit, trend, round }) => {
   return (
-    <Box sx={{ display: "inline-flex", alignItems: "baseline", gap: 1 }}>
+    <Box display="inline-flex" alignItems="baseline" gap={1}>
       <span>
         <TrendIcon trend={trend} />
       </span>

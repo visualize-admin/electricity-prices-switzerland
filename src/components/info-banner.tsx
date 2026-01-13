@@ -33,7 +33,7 @@ export const InfoBanner = ({
 
   return open ? (
     <HintBlue iconName="infocircle" onRemove={() => setOpen(false)}>
-      <Box sx={{ px: 3 }}>
+      <Box px={3}>
         {
           <Box
             component="section"

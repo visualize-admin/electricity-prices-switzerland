@@ -16,16 +16,14 @@ import createGetServerSideProps from "src/utils/create-server-side-props";
 
 const IndicatorFail = () => (
   <Box
-    sx={{
-      display: "inline-block",
-      py: 1,
-      px: 2,
-      borderRadius: 9999,
-      bgcolor: "error.main",
-      color: "#fff",
-      fontSize: "0.75rem",
-      lineHeight: "1rem",
-    }}
+    display="inline-block"
+    py={1}
+    px={2}
+    borderRadius={9999}
+    bgcolor="error.main"
+    color="#fff"
+    fontSize="0.75rem"
+    lineHeight="1rem"
   >
     FAIL
   </Box>
@@ -33,16 +31,14 @@ const IndicatorFail = () => (
 
 const IndicatorSuccess = () => (
   <Box
-    sx={{
-      display: "inline-block",
-      py: 1,
-      px: 2,
-      borderRadius: 9999,
-      bgcolor: "success.main",
-      color: "#fff",
-      fontSize: "0.75rem",
-      lineHeight: "1rem",
-    }}
+    display="inline-block"
+    py={1}
+    px={2}
+    borderRadius={9999}
+    bgcolor="success.main"
+    color="#fff"
+    fontSize="0.75rem"
+    lineHeight="1rem"
   >
     OK
   </Box>
@@ -69,18 +65,18 @@ const StatusBox = (props: BoxProps) => {
   return (
     <Box
       {...props}
+      role="listitem"
+      py={2}
+      px={3}
+      bgcolor="secondary.100"
+      mb={3}
+      borderRadius={2}
+      borderColor="secondary.300"
       sx={{
-        py: 2,
-        px: 3,
-        bgcolor: "secondary.100",
-        mb: 3,
-        borderRadius: 2,
-        borderColor: "secondary.300",
         borderWidth: 1,
         borderStyle: "solid",
         ...props.sx,
       }}
-      role="listitem"
     >
       {props.children}
     </Box>
@@ -116,12 +112,12 @@ const Status = ({
         ) : (
           <IndicatorSuccess />
         )}
-        <Box component="span" sx={{ ml: 2, flexGrow: 1 }}>
+        <Box component="span" ml={2} flexGrow={1}>
           {title}
         </Box>
       </StatusHeading>
       {!query.fetching && (
-        <Box sx={{ fontSize: "0.75rem", mt: 2 }}>
+        <Box fontSize="0.75rem" mt={2}>
           <details>
             <summary>Details</summary>
 
@@ -237,8 +233,8 @@ const Page = ({
   sessionEndpoint,
 }: PageProps) => {
   return (
-    <Box sx={{ p: 5, display: "flex", flexDirection: "column", gap: 4 }}>
-      <Box sx={{ maxWidth: 600 }}>
+    <Box p={5} display="flex" flexDirection="column" gap={4}>
+      <Box maxWidth={600}>
         <Typography variant="h1" mb={3}>
           Configuration
         </Typography>
@@ -408,13 +404,16 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
   return (
     <StatusBox>
       <StatusHeading sx={{ mb: 2 }}>Municipality status</StatusHeading>
-      <Box sx={{ fontSize: "0.75rem" }}>
+      <Box fontSize="0.75rem">
         <details>
           <summary>Details</summary>
           <Box
             component="form"
-            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
             onSubmit={handleSubmit}
+            mt={2}
+            sx={{
+              "& > * + *": { mt: 0.5, display: "block" },
+            }}
           >
             <select name="endpoint">
               <option value="https://int.lindas.admin.ch/query">
@@ -440,7 +439,7 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
           {query.status === "fetched" ? (
-            <Box sx={{ my: 2 }}>
+            <Box my={2}>
               {data && municipalityId
                 ? `✅ Found municipality id ${municipalityId}`
                 : "❌ Could not find municipality"}
@@ -505,13 +504,16 @@ const SunshineMedianStatus = () => {
   return (
     <StatusBox>
       <StatusHeading sx={{ mb: 2 }}>Sunshine Median Status</StatusHeading>
-      <Box sx={{ fontSize: "0.75rem" }}>
+      <Box fontSize="0.75rem">
         <details>
           <summary>Details</summary>
           <Box
             component="form"
-            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
             onSubmit={handleSubmit}
+            mt={2}
+            sx={{
+              "& > * + *": { mt: 0.5, display: "block" },
+            }}
           >
             <select name="endpoint">
               <option value="https://test.lindas.admin.ch/query">
@@ -531,7 +533,7 @@ const SunshineMedianStatus = () => {
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
           {query.status === "fetched" ? (
-            <Box sx={{ my: 2 }}>
+            <Box my={2}>
               {query.data
                 ? "✅ Query executed successfully"
                 : "❌ No data returned"}
@@ -619,13 +621,16 @@ const DocumentDownloadStatus = () => {
   return (
     <StatusBox>
       <StatusHeading sx={{ mb: 2 }}>Document download</StatusHeading>
-      <Box sx={{ fontSize: "0.75rem" }}>
+      <Box fontSize="0.75rem">
         <details>
           <summary>Details</summary>
           <Box
             component="form"
-            sx={{ mt: 2, "& > * + *": { mt: 0.5, display: "block" } }}
             onSubmit={handleSubmit}
+            mt={2}
+            sx={{
+              "& > * + *": { mt: 0.5, display: "block" },
+            }}
           >
             <label>
               Password: <input type="password" name="secret" />
@@ -647,7 +652,7 @@ const DocumentDownloadStatus = () => {
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
           {data?.searchResp ? (
-            <Box sx={{ mt: 2 }}>
+            <Box mt={2}>
               <div>
                 Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
                 Lindas query
