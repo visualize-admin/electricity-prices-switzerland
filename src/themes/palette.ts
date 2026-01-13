@@ -43,6 +43,12 @@ export const palette = {
     dark: colors.red[600],
     light: colors.background.paper, //FIXME: rename this to contrastText once swiss-federal-ci is updated
   },
+  accent1: {
+    main: colors.monochrome[100],
+  },
+  accent2: {
+    main: colors.cobalt[50],
+  },
   blue,
 } satisfies ThemeOptions["palette"];
 

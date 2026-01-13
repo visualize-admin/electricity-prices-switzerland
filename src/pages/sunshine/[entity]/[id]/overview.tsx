@@ -17,10 +17,13 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
+import { NoDataAvailable } from "src/components/no-data-available";
 import { SafeHydration } from "src/components/hydration";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
-import { PowerStabilityCardMinified } from "src/components/power-stability-card";
+import { OverviewCard } from "src/components/overview-card";
+import { getPowerStabilityCardState } from "src/components/power-stability-card";
+import { PowerStabilityChart } from "src/components/power-stability-chart";
 import { SessionConfigDebug } from "src/components/session-config-debug";
 import { YearlyNavigation } from "src/components/sunshine-tabs";
 import TableComparisonCard from "src/components/table-comparison-card";
@@ -34,6 +37,7 @@ import {
 import { categories, ElectricityCategory } from "src/domain/data";
 import {
   sunshineDetailsLink,
+  useQueryStatePowerStabilityCardFilters,
   useQueryStateSunshineOverviewFilters,
 } from "src/domain/query-states";
 import {
@@ -149,6 +153,14 @@ const OverviewPage = (props: Props) => {
   const { query } = useRouter();
   const latestYear = 2024; //FIXME: only year with data for power stability
 
+  // Power stability card filters - must be called before conditional returns
+  const [powerStabilityFilters] = useQueryStatePowerStabilityCardFilters({
+    defaultValue: {
+      viewBy: "progress",
+      compareWith: [],
+    },
+  });
+
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
   }
@@ -175,6 +187,31 @@ const OverviewPage = (props: Props) => {
   const saifiYearlyObservations = useMemo(() => {
     return props.powerStability.saifi.yearlyData;
   }, [props.powerStability.saifi.yearlyData]);
+
+  // Compute chart data for SAIDI and SAIFI
+  const saidiChartData = getPowerStabilityCardState(
+    {
+      peerGroup: props.powerStability.operator.peerGroup,
+      updateDate: props.powerStability.updateDate,
+      observations: saidiYearlyObservations,
+      operatorId: id,
+      operatorLabel: name,
+      latestYear,
+    },
+    powerStabilityFilters
+  );
+
+  const saifiChartData = getPowerStabilityCardState(
+    {
+      peerGroup: props.powerStability.operator.peerGroup,
+      updateDate: props.powerStability.updateDate,
+      observations: saifiYearlyObservations,
+      operatorId: id,
+      operatorLabel: name,
+      latestYear,
+    },
+    powerStabilityFilters
+  );
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
   const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
@@ -505,29 +542,35 @@ const OverviewPage = (props: Props) => {
             Power Stability
           </Trans>
         </CardGridSectionTitle>
-        <PowerStabilityCardMinified
-          filters={{
-            viewBy: "progress",
-            compareWith: [],
-          }}
-          peerGroup={props.powerStability.operator.peerGroup}
-          updateDate={props.powerStability.updateDate}
-          observations={saidiYearlyObservations}
-          operatorId={id}
-          operatorLabel={name}
-          latestYear={latestYear}
-          indicator="saidi"
-          cardTitle={
+        <OverviewCard
+          title={
             <Trans id="sunshine.power-stability.saidi-trend.overview">
               Power Outage (SAIDI)
             </Trans>
           }
-          cardDescription={
+          description={
             <Trans id="sunshine.power-stability.saidi-trend.description">
               Power Outage Duration
             </Trans>
           }
+          infoDialogProps={getInfoDialogProps("help-saidi")}
           sx={{ gridArea: "saidi" }}
+          chart={
+            props.powerStability.saidi.operatorTotal != null ? (
+              <PowerStabilityChart
+                observations={saidiChartData.observations}
+                id={saidiChartData.operatorId}
+                operatorLabel={saidiChartData.operatorLabel}
+                viewBy={powerStabilityFilters.viewBy ?? "progress"}
+                overallOrRatio={powerStabilityFilters.overallOrRatio ?? "overall"}
+                saidiSaifiType={powerStabilityFilters.saidiSaifiType ?? "total"}
+                compareWith={[]}
+                rootProps={{ sx: { mt: 2 } }}
+              />
+            ) : (
+              <NoDataAvailable sx={{ mt: 2 }} />
+            )
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(
@@ -541,29 +584,35 @@ const OverviewPage = (props: Props) => {
             </Link>
           }
         />
-        <PowerStabilityCardMinified
-          filters={{
-            viewBy: "progress",
-            compareWith: [],
-          }}
-          peerGroup={props.powerStability.operator.peerGroup}
-          updateDate={props.powerStability.updateDate}
-          observations={saifiYearlyObservations}
-          operatorId={id}
-          operatorLabel={name}
-          latestYear={latestYear}
-          indicator="saifi"
-          cardTitle={
+        <OverviewCard
+          title={
             <Trans id="sunshine.power-stability.saifi-trend.overview">
               Power Outage (SAIFI)
             </Trans>
           }
-          cardDescription={
+          description={
             <Trans id="sunshine.power-stability.saifi-trend.description">
               Power Outage Frequency
             </Trans>
           }
+          infoDialogProps={getInfoDialogProps("help-saifi")}
           sx={{ gridArea: "saifi" }}
+          chart={
+            props.powerStability.saifi.operatorTotal != null ? (
+              <PowerStabilityChart
+                observations={saifiChartData.observations}
+                id={saifiChartData.operatorId}
+                operatorLabel={saifiChartData.operatorLabel}
+                viewBy={powerStabilityFilters.viewBy ?? "progress"}
+                overallOrRatio={powerStabilityFilters.overallOrRatio ?? "overall"}
+                saidiSaifiType={powerStabilityFilters.saidiSaifiType ?? "total"}
+                compareWith={[]}
+                rootProps={{ sx: { mt: 2 } }}
+              />
+            ) : (
+              <NoDataAvailable sx={{ mt: 2 }} />
+            )
+          }
           linkContent={
             <Link
               href={sunshineDetailsLink(

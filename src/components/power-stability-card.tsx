@@ -1,11 +1,9 @@
 import { t, Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
-import React, { ReactNode, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import CardSource from "src/components/card-source";
-import { getInfoDialogProps } from "src/components/info-dialog-props";
-import { OverviewCard } from "src/components/overview-card";
 import { createColorMapping } from "src/domain/color-mapping";
 import { filterBySeparator } from "src/domain/helpers";
 import {
@@ -52,7 +50,7 @@ type PowerStabilityCardProps = {
   setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
 } & CardProps;
 
-const getPowerStabilityCardState = (
+export const getPowerStabilityCardState = (
   props: Omit<
     PowerStabilityCardProps,
     "cardTitle" | "infoDialogProps" | "state" | "setQueryState"
@@ -353,60 +351,5 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
     </Card>
-  );
-};
-
-export const PowerStabilityCardMinified: React.FC<
-  Omit<
-    PowerStabilityCardProps,
-    "infoDialogProps" | "state" | "setQueryState"
-  > & {
-    linkContent?: ReactNode;
-    filters?: PowerStabilityCardFilters;
-    cardDescription?: ReactNode;
-    indicator: "saidi" | "saifi";
-  }
-> = (props) => {
-  const {
-    filters: defaultFilters,
-    cardTitle,
-    cardDescription,
-    indicator,
-    ...rest
-  } = props;
-  const [state] = useQueryStatePowerStabilityCardFilters({
-    defaultValue: defaultFilters,
-  });
-  const { viewBy, saidiSaifiType: duration, overallOrRatio } = state;
-  const chartData = getPowerStabilityCardState(rest, state);
-  const {
-    updateDate: _updateDate,
-    operatorId: _operatorId,
-    ...overviewCardProps
-  } = rest;
-  return (
-    <OverviewCard
-      title={cardTitle}
-      description={cardDescription}
-      linkContent={props.linkContent}
-      chart={
-        <PowerStabilityChart
-          observations={chartData.observations}
-          id={chartData.operatorId}
-          operatorLabel={chartData.operatorLabel}
-          viewBy={viewBy ?? "progress"}
-          overallOrRatio={overallOrRatio ?? "overall"}
-          saidiSaifiType={duration ?? "total"}
-          compareWith={[]}
-          rootProps={{ sx: { mt: 2 } }}
-        />
-      }
-      {...overviewCardProps}
-      infoDialogProps={
-        indicator === "saidi"
-          ? getInfoDialogProps("help-saidi")
-          : getInfoDialogProps("help-saifi")
-      }
-    />
   );
 };
