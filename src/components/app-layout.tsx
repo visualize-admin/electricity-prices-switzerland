@@ -19,11 +19,13 @@ import { Search } from "src/components/search";
 type ApplicationLayoutProps = {
   children: ReactNode;
   errorState?: boolean;
+  showHeaderCaption?: boolean;
 };
 
 export const ApplicationLayout = ({
   children,
   errorState,
+  showHeaderCaption = true,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
 
@@ -40,7 +42,7 @@ export const ApplicationLayout = ({
           flexDirection: "column",
         }}
       >
-        <Header />
+        <Header showCaption={showHeaderCaption} />
         <Box
           sx={{
             flexDirection: "column",
