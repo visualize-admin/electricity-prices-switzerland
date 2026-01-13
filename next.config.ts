@@ -1,5 +1,4 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
-import withMDX from "@next/mdx";
 import { withSentryConfig } from "@sentry/nextjs";
 import { nodeFileTrace } from "@vercel/nft";
 import { NextConfig } from "next";
@@ -36,8 +35,6 @@ try {
   }
 }
 
-const withMDXConfig = withMDX();
-
 const nextConfig = async (): Promise<NextConfig> => {
   const { fileList: additionalTracedFiles } = await nodeFileTrace(
     [
@@ -63,7 +60,7 @@ const nextConfig = async (): Promise<NextConfig> => {
 
     env: buildEnv,
 
-    pageExtensions: ["js", "ts", "tsx", "mdx"],
+    pageExtensions: ["js", "ts", "tsx"],
 
     i18n: {
       locales,
@@ -109,7 +106,8 @@ const nextConfig = async (): Promise<NextConfig> => {
     },
   };
 
-  return withBundleAnalyzerConfig(withMDXConfig(config));
+  const res = withBundleAnalyzerConfig(config);
+  return res;
 };
 
 export default withSentryConfig(nextConfig, {
