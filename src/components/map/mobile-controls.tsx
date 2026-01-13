@@ -1,6 +1,5 @@
 import { t, Trans } from "@lingui/macro";
 import {
-  alpha,
   Box,
   Card,
   CardContent,
@@ -87,7 +86,6 @@ const MobileDrawer = ({
                     sx={{
                       display: "flex",
                       justifyContent: "space-between",
-                      p: 2,
                     }}
                   >
                     <Tabs
@@ -207,13 +205,7 @@ const MobileControls = ({
             margin: "auto",
             transition: "background-color 0.3s ease",
             cursor: "pointer",
-            backdropFilter: (theme) => `blur(${theme.spacing(1)})`,
-            backgroundColor: (theme) =>
-              alpha(theme.palette.background.paper, 0.8),
-            "&:hover": {
-              backgroundColor: (theme) =>
-                alpha(theme.palette.background.paper, 0.95),
-            },
+            backgroundColor: (theme) => theme.palette.background.paper,
           }}
           onClick={(ev) => {
             if (ev.defaultPrevented) {
@@ -222,17 +214,6 @@ const MobileControls = ({
             return setDrawerOpen(true);
           }}
         >
-          {selectedEntityData?.entityIds ? (
-            <IconButton
-              sx={{ position: "absolute", top: "0.25rem", right: "0.25rem" }}
-              onClick={(ev) => {
-                ev.preventDefault();
-                return setActiveId(null);
-              }}
-            >
-              <Icon name="close" />
-            </IconButton>
-          ) : null}
           <CardContent sx={{ pb: "16px !important" }}>
             <Box
               sx={{
@@ -242,27 +223,43 @@ const MobileControls = ({
               }}
             >
               {selectedEntityData?.formattedData ? (
-                <Box
-                  style={{ flex: 1, maxHeight: "120px", overflow: "scroll" }}
-                >
-                  <SelectedEntityCard {...selectedEntityData.formattedData} />
+                <Box display="flex" flex={1} maxHeight="120px" gap={2}>
+                  {selectedEntityData?.entityIds ? (
+                    <IconButton
+                      edge="start"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        return setActiveId(null);
+                      }}
+                    >
+                      <Icon name="close" />
+                    </IconButton>
+                  ) : null}
+                  <Box flex={1} flexDirection="column">
+                    <SelectedEntityCard {...selectedEntityData.formattedData} />
+                  </Box>
+                  <IconButton edge="end" aria-label="edit parameters">
+                    <Icon name="arrowright" />
+                  </IconButton>
                 </Box>
               ) : (
-                <Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{ fontWeight: "bold", mb: 1 }}
-                  >
-                    <Trans id="selector.legend.select.parameters">
-                      Parameter auswählen
-                    </Trans>
-                  </Typography>
-                  <Typography variant="body2">{status}</Typography>
+                <Box display="flex" alignItems="center" flexGrow={1} gap={1}>
+                  <Box width={32} flexShrink={0}>
+                    <Icon name="filter" />
+                  </Box>
+                  <Box flexGrow={1}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: "bold", mb: 1 }}
+                    >
+                      <Trans id="selector.legend.select.parameters">
+                        Parameter auswählen
+                      </Trans>
+                    </Typography>
+                    <Typography variant="body2">{status}</Typography>
+                  </Box>
                 </Box>
               )}
-              <IconButton edge="end" aria-label="edit parameters">
-                <Icon name="menu" />
-              </IconButton>
             </Box>
           </CardContent>
         </Card>

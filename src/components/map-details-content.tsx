@@ -34,7 +34,7 @@ const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
     <Stack
       direction={"column"}
       spacing={4}
-      padding={6}
+      p={[2, 2, 6]}
       data-testid="map-details-content"
     >
       <div>
