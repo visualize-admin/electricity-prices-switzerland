@@ -11,10 +11,14 @@ You can also check the
 
 # Unreleased
 
+- Overview page
+  - Only show relevant sunshine categories in dropdown [#526](https://github.com/visualize-admin/electricity-prices-switzerland/issues/526)
 - Overview page + Detail page
   - Correct handling of "0" & "null" data for SAIDI/SAIFI. Null shows "no data" while 0 is shown. [#499](https://github.com/visualize-admin/electricity-prices-switzerland/issues/499)
+- Map
+  - Ensures typology is not displayed on the sunshine map details panel, as for now Franc rule has no subcategories [#500](https://github.com/visualize-admin/electricity-prices-switzerland/issues/500)
 - Map details panel
-  - SAIDI/SAIFI correctly show peer group median in details panel chart
+  - SAIDI/SAIFI correctly show peer group median in details panel chart [#505](https://github.com/visualize-admin/electricity-prices-switzerland/issues/505)
 
 # 2.33.1 - 2026-01-12
 

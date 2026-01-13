@@ -257,7 +257,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           label={getLocalizedLabel({ id: "network-level" })}
           items={["NE5", "NE6", "NE7"]}
           getItemLabel={(item) =>
-            getLocalizedLabel({ id: `network-level.${item}.short` })
+            getLocalizedLabel({ id: `network-level.${item}.long` })
           }
           selectedItem={networkLevel}
           setSelectedItem={(item) => setQueryState({ networkLevel: item })}
@@ -432,7 +432,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           id="category"
           label={t({ id: "selector.category", message: "Category" })}
           items={groupedCategories}
-          getItemLabel={getItemLabel}
+          getItemLabel={(x) => getItemLabel(`${x}-long`)}
           selectedItem={category}
           setSelectedItem={(item) =>
             setQueryState({ category: item as ElectricityCategory })
@@ -616,7 +616,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           id="category"
           label={t({ id: "selector.category", message: "Category" })}
           items={groupedCategories}
-          getItemLabel={getItemLabel}
+          getItemLabel={(x) => getItemLabel(`${x}-long`)}
           selectedItem={category}
           setSelectedItem={(item) =>
             setQueryState({ category: item as ElectricityCategory })

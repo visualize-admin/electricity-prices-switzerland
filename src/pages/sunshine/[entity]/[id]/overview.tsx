@@ -34,7 +34,7 @@ import {
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { categories, ElectricityCategory } from "src/domain/data";
+import { ElectricityCategory } from "src/domain/data";
 import {
   sunshineDetailsLink,
   useQueryStatePowerStabilityCardFilters,
@@ -42,6 +42,7 @@ import {
 } from "src/domain/query-states";
 import {
   NetworkLevel,
+  sunshineCategories,
   SunshineCostsAndTariffsData,
   SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
@@ -217,7 +218,7 @@ const OverviewPage = (props: Props) => {
   const groupedCategories = useMemo((): ComboboxItem<ElectricityCategory>[] => {
     const cGroup = getItemLabel("C-group");
     const hGroup = getItemLabel("H-group");
-    return categories.map((value) => ({
+    return sunshineCategories.map((value) => ({
       value,
       group: value.startsWith("C") ? cGroup : hGroup,
     }));
@@ -417,7 +418,7 @@ const OverviewPage = (props: Props) => {
             id="category"
             label={t({ id: "selector.category", message: "Category" })}
             items={groupedCategories}
-            getItemLabel={getItemLabel}
+            getItemLabel={(x) => getItemLabel(`${x}-long`)}
             selectedItem={category}
             setSelectedItem={(item) =>
               updateCategory(item as ElectricityCategory)

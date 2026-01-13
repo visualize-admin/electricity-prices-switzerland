@@ -12,7 +12,7 @@ interface Issue {
 }
 
 function log(message: string): void {
-  console.error(message);
+  console.info(message);
 }
 
 async function getCommitMessages(baseBranch: string): Promise<string[]> {
