@@ -85,14 +85,7 @@ export const DesignSection = (
           </Box>
         )}
       </Box>
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        sx={{
-          gap: 11,
-        }}
-        {...restProps}
-      >
+      <Box display={"flex"} flexDirection={"column"} gap={11} {...restProps}>
         {children}
       </Box>
     </Box>
