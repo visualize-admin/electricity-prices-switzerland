@@ -224,6 +224,8 @@ const MapPageContent = ({
     sunshineEnrichedDataResult.data?.observations,
   ]);
 
+  const { setActiveId } = useMap();
+
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
     "parameters"
@@ -238,22 +240,23 @@ const MapPageContent = ({
     setMobileDrawerTab("parameters");
   });
 
+  const handleClickListWidget = useEventCallback(() => {
+    setMobileDrawerOpen(true);
+    setMobileDrawerTab("list");
+    setActiveId(null);
+  });
+
   const isMobile = useIsMobile();
 
   const mapWidgets = useMemo(() => {
     return {
       right: isMobile ? (
-        <WidgetIcon
-          onClick={() => {
-            setMobileDrawerOpen(true);
-            setMobileDrawerTab("list");
-          }}
-        >
+        <WidgetIcon onClick={handleClickListWidget}>
           <Icon name="listbullet" />
         </WidgetIcon>
       ) : null,
     };
-  }, [isMobile]);
+  }, [isMobile, handleClickListWidget]);
 
   const map = isElectricityTab ? (
     <EnergyPricesMap
@@ -354,7 +357,6 @@ const MapPageContent = ({
       return selected?.[1] ?? null;
     }
   }, [activeId, listGroups]);
-  const { setActiveId } = useMap();
 
   const mobileDetailsContent = selectedItem ? (
     <MapDetailsContent
