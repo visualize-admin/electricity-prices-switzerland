@@ -6,7 +6,10 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
-import { CombinedSelectors } from "src/components/combined-selectors";
+import {
+  CombinedSelectors,
+  ElectricityOrSunshineButtonGroup,
+} from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
@@ -389,8 +392,13 @@ const MapPageContent = ({
           <ContentWrapper
             sx={{
               padding: "0px !important",
+              flexDirection: "column",
+              justifyContent: "stretch",
             }}
           >
+            <Box bgcolor="background.paper" p={2} flexGrow={1} width="100%">
+              <ElectricityOrSunshineButtonGroup />
+            </Box>
             <Box
               id={DOWNLOAD_ID}
               sx={{
