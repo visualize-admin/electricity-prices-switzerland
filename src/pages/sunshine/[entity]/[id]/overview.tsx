@@ -381,7 +381,7 @@ const OverviewPage = (props: Props) => {
             id="category"
             label={t({ id: "selector.category", message: "Category" })}
             items={groupedCategories}
-            getItemLabel={getItemLabel}
+            getItemLabel={(x) => getItemLabel(`${x}-long`)}
             selectedItem={category}
             setSelectedItem={(item) =>
               updateCategory(item as ElectricityCategory)
