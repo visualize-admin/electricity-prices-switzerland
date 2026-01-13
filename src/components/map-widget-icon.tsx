@@ -12,8 +12,8 @@ export const useStyles = makeStyles()((theme) => ({
       boxShadow: theme.shadows[2],
     },
     "& svg": {
-      width: 16,
-      height: 16,
+      width: 24,
+      height: 24,
       color: theme.palette.text.primary,
     },
   },

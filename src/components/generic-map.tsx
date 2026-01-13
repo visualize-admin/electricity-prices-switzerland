@@ -86,10 +86,10 @@ const ZoomWidget = ({
   return (
     <Box className={classes.container}>
       <WidgetIcon onClick={onZoomIn}>
-        <IconPlus fontSize="inherit" />
+        <IconPlus />
       </WidgetIcon>
       <WidgetIcon onClick={onZoomOut} size="sm">
-        <IconMinus fontSize="inherit" />
+        <IconMinus />
       </WidgetIcon>
       {isMobile ? null : (
         <Box

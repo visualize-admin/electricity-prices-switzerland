@@ -249,7 +249,7 @@ const MapPageContent = ({
             setMobileDrawerTab("list");
           }}
         >
-          <Icon name="menu" fontSize="inherit" />
+          <Icon name="listbullet" />
         </WidgetIcon>
       ) : null,
     };
