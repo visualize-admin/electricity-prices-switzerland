@@ -4,10 +4,42 @@ import InflightRequests from "src/e2e/inflight";
 
 import { sleep, test, expect, TestFixtures } from "./common";
 
-/**
- *
- * waitForLoadState often causes issues it doesn't work as expected causing screenshots while the page is still loading
- */
+test.describe("Sunshine overview page", () => {
+  test("it should load the sunshine overview page (partial data)", async ({
+    page,
+    snapshot,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await page.goto("/en/sunshine/operator/72/overview");
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    await snapshot({
+      note: "Sunshine Overview Page - Partial data",
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+    inflight.dispose();
+  });
+
+  test("it should load the sunshine overview page (full data)", async ({
+    page,
+    snapshot,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await page.goto("/en/sunshine/operator/426/overview");
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    await snapshot({
+      note: "Sunshine Overview Page - Full data",
+      locator: await page.getByTestId("details-page-content"),
+      fullPage: true,
+    });
+    inflight.dispose();
+  });
+});
+
 test.describe("Sunshine details page", () => {
   test.beforeEach(async ({ setFlags, page }) => {
     await setFlags(page, ["webglDeactivated"]);
