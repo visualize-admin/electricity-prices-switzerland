@@ -206,10 +206,10 @@ const KeyValueTableRow = <
         color={component === "span" ? "text.500" : "primary"}
         sx={{
           textDecoration: "none",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
         }}
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
         variant="body3"
       >
         {state
@@ -220,12 +220,10 @@ const KeyValueTableRow = <
         tag
       ) : (
         <Typography
-          sx={{
-            textTransform: "capitalize",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+          textTransform="capitalize"
+          whiteSpace="nowrap"
+          overflow="hidden"
+          textOverflow="ellipsis"
           variant="body3"
           fontWeight={700}
         >
