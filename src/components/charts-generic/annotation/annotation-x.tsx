@@ -42,7 +42,7 @@ const AnnotationLine = ({
   annotationLabelUnderlineColor: string;
   annotationColor: string;
 }) => (
-  <g transform={`translate(0, 0)`}>
+  <g transform={`translate(0, 0)`} className="annotation-x-line">
     <line x1={x} y1={y1} x2={x} y2={y2} stroke={annotationLineColor} />
     <line
       x1={0}

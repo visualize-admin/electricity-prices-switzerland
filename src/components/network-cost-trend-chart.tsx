@@ -12,7 +12,7 @@ import {
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 
-import { LatestYearChartView } from "./charts-generic/latest-year-chart-view";
+import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
 import { SectionProps } from "./detail-page/card";
 import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
@@ -24,11 +24,16 @@ type NetworkCostTrendChartProps = {
   operatorLabel: string;
   mini?: boolean;
   colorMapping?: ColorMapping;
+  /**
+   * Renders the chart in compact mode with stacked rows.
+   * If not provided, defaults to true on mobile viewports.
+   */
+  compact?: boolean;
 } & Omit<SectionProps, "entity"> &
   NetworkCostsTrendCardFilters;
 
 export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
-  const { observations, viewBy, rootProps, colorMapping, ...restProps } = props;
+  const { observations, viewBy, rootProps, colorMapping, compact, ...restProps } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -39,6 +44,7 @@ export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
           observations={observations}
           operatorsNames={operatorsNames}
           colorMapping={colorMapping}
+          compact={compact}
           {...restProps}
         />
       ) : (
@@ -65,6 +71,7 @@ const NetworkCostLatestYearChartView = (
     operatorLabel,
     compareWith,
     colorMapping,
+    compact,
   } = props;
 
   const entityField = "operator_id";
@@ -82,7 +89,7 @@ const NetworkCostLatestYearChartView = (
   }, [observations]);
 
   return (
-    <LatestYearChartView
+    <LatestYearDotsChartView
       observations={mappedObservations}
       medianValue={networkCosts.peerGroupMedianRate ?? undefined}
       id={id}
@@ -90,6 +97,7 @@ const NetworkCostLatestYearChartView = (
       compareWith={compareWith}
       colorMapping={colorMapping}
       entityField={entityField}
+      compact={compact}
       xField={{
         componentIri: "rate",
         axisLabel: getNetworkLevelMetrics(

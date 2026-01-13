@@ -222,6 +222,10 @@ export type StackedBarsState = {
   getSegmentValue: (category: string, segment: string) => number;
   getTotalValue: (category: string) => number;
   getCategory: (d: GenericObservation) => string;
+  getCategoryFromYValue: (
+    yValue: number,
+    data: GenericObservation[]
+  ) => string | undefined;
   annotations?: Annotation[];
   xAxisLabel?: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;

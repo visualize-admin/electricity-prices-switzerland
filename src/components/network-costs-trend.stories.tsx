@@ -29,6 +29,28 @@ export const NetworkCostLatestYear = () => {
   );
 };
 
+export const NetworkCostLatestYearCompact = () => {
+  const networkCosts =
+    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+  const { yearlyData, ...restNetworkCosts } = networkCosts;
+  return (
+    <DesignStory
+      title="Network Costs Trend Chart (Compact)"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <NetworkCostTrendChart
+        id="11"
+        operatorLabel="Fluxwave Energy"
+        observations={yearlyData.filter((d) => d.year === 2025)}
+        networkCosts={restNetworkCosts}
+        viewBy="latest"
+        compareWith={["sunshine.select-all"]}
+        compact={true}
+      />
+    </DesignStory>
+  );
+};
+
 export const NetworkCostLatestYearCard = () => {
   const networkCosts =
     data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];

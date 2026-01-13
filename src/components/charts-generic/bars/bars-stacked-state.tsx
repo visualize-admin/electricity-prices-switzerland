@@ -30,12 +30,16 @@ import {
 } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
+const MOBILE_ROW_HEIGHT = 20;
+
 const useStackedBarsState = ({
   data,
   fields,
   measures,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: BarFields;
+  isMobile?: boolean;
 }): StackedBarsState => {
   const width = useWidth();
   const { labelFontSize } = useChartTheme();
@@ -100,6 +104,7 @@ const useStackedBarsState = ({
     annotations,
     bounds,
     getAnnotationInfo,
+    getCategoryFromYValue,
   } = useMemo(() => {
     const categories = [...new Set(data.map(getCategory))].filter(Boolean);
 
@@ -142,14 +147,16 @@ const useStackedBarsState = ({
     );
 
     const margins = {
-      top: 50,
+      top: isMobile ? 0 : 50,
       right: 40,
-      bottom: 40,
-      left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
+      bottom: isMobile ? 0 : 40,
+      left: isMobile ? 0 : maxYLabelWidth + LEFT_MARGIN_OFFSET,
     };
 
     const chartWidth = width - margins.left - margins.right;
-    const chartHeight = categories.length * (BAR_HEIGHT_SMALL + BAR_PADDING);
+    const chartHeight = isMobile
+      ? MOBILE_ROW_HEIGHT
+      : categories.length * (BAR_HEIGHT_SMALL + BAR_PADDING);
 
     const bounds = {
       width,
@@ -164,10 +171,27 @@ const useStackedBarsState = ({
 
     xScale.range([0, chartWidth]);
 
-    const yScale = scaleBand<string>()
-      .domain(categories)
-      .range([0, chartHeight])
-      .paddingOuter(0.1);
+    // For mobile, use placeholder domain - components will pass row-specific data
+    const yScale = isMobile
+      ? scaleBand<string>().domain(["_"]).range([0, MOBILE_ROW_HEIGHT])
+      : scaleBand<string>()
+          .domain(categories)
+          .range([0, chartHeight])
+          .paddingOuter(0.1);
+
+    const getCategoryFromYValue = (
+      yValue: number,
+      data: GenericObservation[]
+    ): string | undefined => {
+      if (isMobile) {
+        // On mobile, we render only 1 row at a time, so return that category
+        return getCategory(data[0]);
+      } else {
+        const step = yScale.step();
+        const index = Math.floor(yValue / step);
+        return yScale.domain()[index];
+      }
+    };
 
     const annotations = annotation?.map((a) => {
       return {
@@ -189,6 +213,10 @@ const useStackedBarsState = ({
             segments.length
         );
       }, 0);
+
+      const xAnchor = xScale(avg);
+      const yAnchor = yScale(getCategory(d)) || 0;
+
       return {
         datum: {
           label: getCategory(d),
@@ -202,10 +230,15 @@ const useStackedBarsState = ({
           value: (+d[seg]).toFixed(2),
           color: colors(seg),
         })),
-        xAnchor: xScale(avg),
-        yAnchor: yScale(getCategory(d)) || 0,
+        xAnchor: xAnchor,
+        yAnchor: yAnchor,
         placement: {
-          x: "center",
+          x:
+            xAnchor < bounds.chartWidth * 0.2
+              ? ("right" as const)
+              : xAnchor > bounds.chartWidth * 0.8
+              ? ("left" as const)
+              : ("center" as const),
           y: "top",
         },
         xValue: getCategory(d),
@@ -222,6 +255,7 @@ const useStackedBarsState = ({
       yScale,
       bounds,
       getAnnotationInfo,
+      getCategoryFromYValue,
     };
   }, [
     data,
@@ -234,6 +268,7 @@ const useStackedBarsState = ({
     labelFontSize,
     getLabel,
     measuresByIri,
+    isMobile,
   ]);
 
   const getSegmentValue = useCallback(
@@ -284,6 +319,7 @@ const useStackedBarsState = ({
     getSegment,
     getTotalValue,
     getCategory,
+    getCategoryFromYValue,
     annotations,
     xAxisLabel,
     getAnnotationInfo,
@@ -296,15 +332,18 @@ const StackedBarsChartProvider = ({
   dimensions,
   measures,
   children,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
+  isMobile?: boolean;
 }) => {
   const state = useStackedBarsState({
     data,
     fields,
     dimensions,
     measures,
+    isMobile,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -317,9 +356,11 @@ export const StackedBarsChart = ({
   dimensions,
   measures,
   children,
+  isMobile,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: BarFields;
+  isMobile?: boolean;
 }) => {
   return (
     <Observer>
@@ -329,6 +370,7 @@ export const StackedBarsChart = ({
           fields={fields}
           dimensions={dimensions}
           measures={measures}
+          isMobile={isMobile}
         >
           {children}
         </StackedBarsChartProvider>

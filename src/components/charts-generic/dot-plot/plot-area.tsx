@@ -6,7 +6,10 @@ import {
 const PlotArea = ({ children }: { children: React.ReactNode }) => {
   const { bounds } = useChartState() as DotPlotState;
   return (
-    <g transform={`translate(${bounds.margins.left}, ${bounds.margins.top})`}>
+    <g
+      className="plot-area"
+      transform={`translate(${bounds.margins.left}, ${bounds.margins.top})`}
+    >
       {children}
     </g>
   );

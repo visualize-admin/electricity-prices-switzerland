@@ -50,6 +50,11 @@ type LatestYearChartViewProps<T extends GenericObservation> = {
   aspectRatio?: number;
   medianLegend: string;
   otherOperatorsLegend: string;
+  /**
+   * Renders the chart in compact mode with stacked rows.
+   * If not provided, defaults to true on mobile viewports.
+   */
+  compact?: boolean;
 };
 
 const ChartLegend: React.FC<{
@@ -118,7 +123,7 @@ const ChartLegend: React.FC<{
   </Box>
 );
 
-export const LatestYearChartView = <T extends GenericObservation>(
+export const LatestYearDotsChartView = <T extends GenericObservation>(
   props: LatestYearChartViewProps<T>
 ) => {
   const {
@@ -138,9 +143,11 @@ export const LatestYearChartView = <T extends GenericObservation>(
     aspectRatio = 0.15,
     medianLegend,
     otherOperatorsLegend,
+    compact: compactProp,
   } = props;
 
   const isMobile = useIsMobile();
+  const compact = compactProp ?? isMobile;
 
   // Create chart color mappings - either use provided colorMapping or build default
   const chartColorMappings = useMemo(() => {
@@ -152,16 +159,16 @@ export const LatestYearChartView = <T extends GenericObservation>(
     });
   }, [colorMapping, operatorLabel, observations, entityField]);
 
-  // Group data by y-value for mobile view
+  // Group data by y-value for compact view
   const { dataByYValue, yValuesSorted } = useMemo(() => {
-    if (!isMobile) return { dataByYValue: {}, yValuesSorted: [] };
+    if (!compact) return { dataByYValue: {}, yValuesSorted: [] };
     const yFieldKey = yField.componentIri;
     const grouped = groupBy(observations, (d) => d[yFieldKey] as string);
     const sorted = [
       ...new Set(observations.map((d) => d[yFieldKey] as string)),
     ];
     return { dataByYValue: grouped, yValuesSorted: sorted };
-  }, [isMobile, observations, yField.componentIri]);
+  }, [compact, observations, yField.componentIri]);
 
   const dotAreaHeight = 60;
   const axisHeight = 20;
@@ -186,7 +193,7 @@ export const LatestYearChartView = <T extends GenericObservation>(
       measures={measures}
       dimensions={dimensions}
       aspectRatio={aspectRatio}
-      isMobile={isMobile}
+      isMobile={compact}
     >
       <ChartLegend
         chartColorMappings={chartColorMappings}
@@ -195,11 +202,11 @@ export const LatestYearChartView = <T extends GenericObservation>(
         operatorLabel={operatorLabel}
         otherOperatorsLegend={otherOperatorsLegend}
       />
-      {isMobile ? (
+      {compact ? (
         <Box position="relative" mt={2}>
           {yValuesSorted.map((yValue) => (
             <Box position="relative" key={yValue}>
-              <Box position="relative" top={-40}>
+              <Box position="relative" top={16}>
                 <Tooltip type="multiple" forceYAnchor id={yValue} />
               </Box>
 
@@ -210,10 +217,7 @@ export const LatestYearChartView = <T extends GenericObservation>(
                 <AxisWidthLinear format="number" />
                 <PlotArea>
                   <DotRowLine />
-                  <Dots
-                    data={dataByYValue[yValue]}
-                    compareWith={compareWith}
-                  />
+                  <Dots data={dataByYValue[yValue]} compareWith={compareWith} />
                   <InteractionDotted id={yValue} data={dataByYValue[yValue]} />
                 </PlotArea>
               </ChartSvg>

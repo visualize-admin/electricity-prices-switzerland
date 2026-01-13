@@ -1,36 +1,68 @@
-import { Fragment } from "react";
+import { stack, stackOffsetNone, stackOrderNone } from "d3";
+import { Fragment, useMemo } from "react";
 
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
 import {
   StackedBarsState,
+  StackRow,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { GenericObservation } from "src/domain/data";
 
 import { BAR_HEIGHT_SMALL } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
-export const BarsStacked = () => {
+type BarsStackedProps = {
+  data?: GenericObservation[];
+};
+
+export const BarsStacked = (props: BarsStackedProps) => {
   const {
-    bounds,
     xScale,
     yScale,
     colors,
     opacityScale,
-    stackedData,
-    categories,
+    stackedData: contextStackedData,
+    categories: contextCategories,
     getOpacity,
-    data,
+    data: contextData,
     getSegment,
     getCategory,
+    segments,
   } = useChartState() as StackedBarsState;
 
-  const { margins } = bounds;
+  const { data: propsData } = props;
+  const data = propsData ?? contextData;
+
+  // Re-compute stacked data when custom data is provided
+  const { stackedData, categories } = useMemo(() => {
+    if (!propsData) {
+      return { stackedData: contextStackedData, categories: contextCategories };
+    }
+
+    const cats = [...new Set(propsData.map(getCategory))].filter(Boolean);
+    const stackData: StackRow[] = propsData.map((d) => {
+      const row: StackRow = { category: getCategory(d) };
+      segments.forEach((seg) => {
+        row[seg] = typeof d[seg] === "number" ? (d[seg] as number) : 0;
+      });
+      return row;
+    });
+
+    const stackGenerator = stack<StackRow>()
+      .keys(segments)
+      .order(stackOrderNone)
+      .offset(stackOffsetNone);
+
+    return { stackedData: stackGenerator(stackData), categories: cats };
+  }, [propsData, contextStackedData, contextCategories, getCategory, segments]);
+
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
 
   return (
-    <g transform={`translate(${margins.left}, ${margins.top})`}>
+    <g>
       {stackedData.map((series) => {
         const segment = series.key;
 

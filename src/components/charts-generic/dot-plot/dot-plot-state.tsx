@@ -100,10 +100,7 @@ const useScatterPlotState = ({
       // which naturally centers when the lookup returns undefined
       const yScale = isMobile
         ? scaleBand<string>().domain(["_"]).range([0, MOBILE_ROW_HEIGHT])
-        : scaleBand()
-            .domain(yDomain)
-            .paddingInner(0.3)
-            .paddingOuter(0.2);
+        : scaleBand().domain(yDomain).paddingInner(0.3).paddingOuter(0.2);
 
       const segments = [
         ...new Set(
@@ -208,28 +205,41 @@ const useScatterPlotState = ({
         });
       }
 
+      const xAnchor = xScale(getX(d));
+      const yAnchor = (yScale(getY(d)) ?? 0) + yScale.bandwidth() / 2;
+
       return {
         values: tooltipValues,
-        xAnchor: xScale(getX(d)),
-        yAnchor: (yScale(getY(d)) ?? 0) + yScale.bandwidth() / 2,
-        placement: { x: "center", y: "top" },
+        xAnchor,
+        yAnchor,
+        placement: {
+          x:
+            xAnchor < bounds.chartWidth * 0.2
+              ? ("right" as const)
+              : xAnchor > bounds.chartWidth * 0.8
+              ? ("left" as const)
+              : ("center" as const),
+          y: "top",
+        },
         xValue: getTooltipLabel(d),
       };
     },
     [
+      fields.style?.highlightValue,
+      fields.style?.entity,
       data,
-      getX,
-      getY,
-      getSegment,
       getHighlightEntity,
-      getTooltipLabel,
       xScale,
+      getX,
       yScale,
+      getY,
+      bounds.chartWidth,
+      getTooltipLabel,
+      getSegment,
       formatCurrency,
+      xAxisLabel,
       colors,
       getColor,
-      fields.style,
-      xAxisLabel,
     ]
   );
 
