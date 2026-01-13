@@ -23,6 +23,7 @@ import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
 import { InfoDialogButton, InfoDialogButtonProps } from "./info-dialog";
+import { NoDataAvailable } from "./no-data-available";
 import { PowerStabilityChart } from "./power-stability-chart";
 import { ItemMultiCombobox } from "./query-combobox";
 
@@ -209,6 +210,8 @@ type PowerStabilityCardProps = {
   infoDialogProps?: Pick<InfoDialogButtonProps, "slug" | "label">;
   state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
   setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
+  /** When true, shows NoDataAvailable instead of the chart */
+  noData?: boolean;
 } & CardProps;
 
 export const getPowerStabilityCardState = (
@@ -286,6 +289,7 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
     state,
     setQueryState,
     infoDialogProps,
+    noData,
 
     peerGroup: _peerGroup,
     updateDate: _updateDate,
@@ -365,21 +369,25 @@ export const PowerStabilityCard: React.FC<PowerStabilityCardProps> = (
           state={state}
           setQueryState={setQueryState}
         />
-        <PowerStabilityChart
-          observations={observations}
-          id={operatorId}
-          operatorLabel={operatorLabel}
-          viewBy={viewBy}
-          overallOrRatio={overallOrRatio}
-          saidiSaifiType={saidiSaifiType}
-          compareWith={compareWith}
-          colorMapping={colorMapping}
-          rootProps={{
-            sx: {
-              mt: 8,
-            },
-          }}
-        />
+        {noData ? (
+          <NoDataAvailable sx={{ mt: 8 }} />
+        ) : (
+          <PowerStabilityChart
+            observations={observations}
+            id={operatorId}
+            operatorLabel={operatorLabel}
+            viewBy={viewBy}
+            overallOrRatio={overallOrRatio}
+            saidiSaifiType={saidiSaifiType}
+            compareWith={compareWith}
+            colorMapping={colorMapping}
+            rootProps={{
+              sx: {
+                mt: 8,
+              },
+            }}
+          />
+        )}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>
     </Card>
