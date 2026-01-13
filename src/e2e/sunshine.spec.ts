@@ -5,7 +5,6 @@ import InflightRequests from "src/e2e/inflight";
 import { sleep, test, expect, TestFixtures } from "./common";
 
 /**
- * FIXME - This test suite is currently flaky and needs to be fixed.
  *
  * waitForLoadState often causes issues it doesn't work as expected causing screenshots while the page is still loading
  */
@@ -26,9 +25,10 @@ test.describe("Sunshine details page", () => {
     buttonLabel: string;
     url: string;
   }) => {
+    const inflight = new InflightRequests(page);
     const resp = await page.goto(withFlag(url, { sunshine: true }));
     await expect(resp?.status()).toEqual(200);
-    await page.waitForLoadState("networkidle");
+    await inflight.waitForRequests();
     await page.waitForSelector('[data-testid="loading"]', {
       state: "detached",
     });
@@ -41,10 +41,11 @@ test.describe("Sunshine details page", () => {
 
     const tabButton = await page.getByTestId(buttonLabel);
     await tabButton.click();
-    await page.waitForLoadState("networkidle");
+    await inflight.waitForRequests();
     await page.waitForSelector('[data-testid="loading"]', {
       state: "detached",
     });
+    inflight.dispose();
 
     await snapshot({
       note: `${screenshotLabel} - After Click`,
@@ -103,6 +104,21 @@ test.describe("Sunshine details page", () => {
       screenshotLabel: "SAIFI",
       buttonLabel: "saifi-tab",
       url: "/sunshine/operator/426/power-stability",
+    });
+  });
+
+  test(`it should load the sunshine details page for SAIFI (no data)`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "SAIFI-no-data",
+      buttonLabel: "saifi-tab",
+      url: "/sunshine/operator/72/power-stability",
     });
   });
 
