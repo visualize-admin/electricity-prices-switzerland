@@ -368,6 +368,7 @@ type StabilityData {
 input StabilityFilter {
   operatorId: Int!
   year: Int!
+  operatorOnly: Boolean
 }
 
 type OperationalStandardsServiceQuality {
