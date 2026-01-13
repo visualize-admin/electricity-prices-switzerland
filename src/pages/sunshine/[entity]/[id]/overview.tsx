@@ -17,10 +17,10 @@ import {
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import { LoadingSkeleton } from "src/components/hint";
-import { NoDataAvailable } from "src/components/no-data-available";
 import { SafeHydration } from "src/components/hydration";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { NetworkCostsTrendCardMinified } from "src/components/network-costs-trend-card";
+import { NoDataAvailable } from "src/components/no-data-available";
 import { OverviewCard } from "src/components/overview-card";
 import { getPowerStabilityCardState } from "src/components/power-stability-card";
 import { PowerStabilityChart } from "src/components/power-stability-chart";
@@ -562,7 +562,9 @@ const OverviewPage = (props: Props) => {
                 id={saidiChartData.operatorId}
                 operatorLabel={saidiChartData.operatorLabel}
                 viewBy={powerStabilityFilters.viewBy ?? "progress"}
-                overallOrRatio={powerStabilityFilters.overallOrRatio ?? "overall"}
+                overallOrRatio={
+                  powerStabilityFilters.overallOrRatio ?? "overall"
+                }
                 saidiSaifiType={powerStabilityFilters.saidiSaifiType ?? "total"}
                 compareWith={[]}
                 rootProps={{ sx: { mt: 2 } }}
@@ -604,7 +606,9 @@ const OverviewPage = (props: Props) => {
                 id={saifiChartData.operatorId}
                 operatorLabel={saifiChartData.operatorLabel}
                 viewBy={powerStabilityFilters.viewBy ?? "progress"}
-                overallOrRatio={powerStabilityFilters.overallOrRatio ?? "overall"}
+                overallOrRatio={
+                  powerStabilityFilters.overallOrRatio ?? "overall"
+                }
                 saidiSaifiType={powerStabilityFilters.saidiSaifiType ?? "total"}
                 compareWith={[]}
                 rootProps={{ sx: { mt: 2 } }}
