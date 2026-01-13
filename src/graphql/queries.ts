@@ -465,6 +465,7 @@ export type StabilityDataRow = {
 
 export type StabilityFilter = {
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   year: Scalars["Int"]["input"];
 };
 
