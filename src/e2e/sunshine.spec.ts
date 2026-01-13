@@ -252,6 +252,25 @@ test.describe("Sunshine map details panel", () => {
     });
   });
 
+  test("it should show median for saidi/saifi", async ({
+    page,
+    setFlags,
+    snapshot,
+  }) => {
+    await setFlags(page, ["webglDeactivated"]);
+    const tracker = new InflightRequests(page);
+    await page.goto(
+      "/en/map?tab=sunshine&indicator=saidi&peerGroup=4&activeId=31"
+    );
+    await tracker.waitForRequests();
+    // loading should be detached
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+    await snapshot({
+      note: "Sunshine Map - SAIDI - Details panel",
+      locator: page.getByTestId("map-details-content"),
+    });
+  });
+
   test("it should be possible to use the search while on detail panel", async ({
     page,
     snapshot,
