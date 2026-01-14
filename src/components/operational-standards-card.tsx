@@ -45,11 +45,13 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
     operatorId,
     operatorLabel,
     attribute,
+    noData,
+    ...rest
   } = props;
 
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
-    <Card {...props} id={DOWNLOAD_ID}>
+    <Card {...rest} id={DOWNLOAD_ID}>
       <CardContent>
         <CardHeader
           trailingContent={
