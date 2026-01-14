@@ -35,7 +35,10 @@ import {
 } from "src/domain/query-states";
 import { PowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { fetchPowerStability } from "src/lib/sunshine-data";
+import {
+  PowerStabilityDocument,
+  PowerStabilityQuery,
+} from "src/graphql/queries";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
@@ -48,7 +51,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -74,14 +77,22 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const powerStability = await fetchPowerStability(sunshineDataService, {
-      operatorId: id,
-    });
+    const { data, error } = await urqlClient
+      .query<PowerStabilityQuery>(PowerStabilityDocument, {
+        filter: {
+          operatorId: parseInt(id, 10),
+        },
+      })
+      .toPromise();
+
+    if (error || !data?.powerStability) {
+      throw new Error("Failed to fetch power stability data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        powerStability,
+        powerStability: data.powerStability,
         sessionConfig,
       },
     };

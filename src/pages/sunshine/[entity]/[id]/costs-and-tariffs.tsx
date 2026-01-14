@@ -53,13 +53,14 @@ import {
   TranslationKey,
 } from "src/domain/translation";
 import {
+  CostsAndTariffsDocument,
+  CostsAndTariffsQuery,
   NetworkCostsQuery,
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
 } from "src/graphql/queries";
 import { ElectricityCategory } from "src/graphql/resolver-mapped-types";
-import { fetchOperatorCostsAndTariffsData } from "src/lib/sunshine-data";
 import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
@@ -75,7 +76,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
     const { params, res, locale, query } = context;
 
     const { id, entity } = params!;
@@ -106,19 +107,24 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const costsAndTariffs = await fetchOperatorCostsAndTariffsData(
-      sunshineDataService,
-      {
-        operatorId: id,
-        networkLevel,
-        category,
-      }
-    );
+    const { data, error } = await urqlClient
+      .query<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+        filter: {
+          operatorId: parseInt(id, 10),
+          networkLevel,
+          category,
+        },
+      })
+      .toPromise();
+
+    if (error || !data?.costsAndTariffs) {
+      throw new Error("Failed to fetch costs and tariffs data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        costsAndTariffs,
+        costsAndTariffs: data.costsAndTariffs,
         initialNetworkLevel: networkLevel,
         initialCategory: category,
         sessionConfig,
