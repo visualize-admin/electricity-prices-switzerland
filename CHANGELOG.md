@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.34.0 - 2026-01-14
+
 - Overview page
   - Only show relevant sunshine categories in dropdown [#526](https://github.com/visualize-admin/electricity-prices-switzerland/issues/526)
 - Overview page + Detail page
