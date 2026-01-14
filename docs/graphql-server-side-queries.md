@@ -11,10 +11,7 @@ This document describes the pattern for fetching GraphQL data in `getServerSideP
 Use `urqlClient.query()` in `getServerSideProps` to fetch data:
 
 ```typescript
-import {
-  MyQueryDocument,
-  MyQueryQuery,
-} from "src/graphql/queries";
+import { MyQueryDocument, MyQueryQuery } from "src/graphql/queries";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
@@ -83,7 +80,7 @@ return {
 ```graphql
 input MyNewFilter {
   operatorId: Int!
-  period: Int        # Optional parameters use nullable types
+  period: Int # Optional parameters use nullable types
   someRequired: String!
 }
 ```
@@ -163,13 +160,77 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     return {
       props: {
         data: data.myQuery,
-        initialNetworkLevel: networkLevel,  // Pass to client for comparison
+        initialNetworkLevel: networkLevel, // Pass to client for comparison
         initialCategory: category,
       },
     };
   }
 );
 ```
+
+### Dynamic Client-Side Queries with Server-Side Initial Data
+
+For pages with user-controlled filters (dropdowns, tabs), use server-side props as initial data and conditionally fetch on the client when parameters change.
+
+**Props structure** - include both data and initial parameter values:
+
+```typescript
+type Props = {
+  serverData: MyDataType;
+  initialCategory: string;
+  initialNetworkLevel: string;
+};
+```
+
+**Component pattern** - compare current state with initial values:
+
+```typescript
+const MyPage = (props: Props) => {
+  const { serverData, initialCategory, initialNetworkLevel } = props;
+
+  // User-controlled state
+  const [category, setCategory] = useState(initialCategory);
+  const [networkLevel, setNetworkLevel] = useState(initialNetworkLevel);
+
+  // Only fetch client-side when parameters differ from server-rendered values
+  const needsClientFetch =
+    category !== initialCategory || networkLevel !== initialNetworkLevel;
+
+  const [{ data: clientData, fetching }] = useMyQuery({
+    variables: {
+      filter: { category, networkLevel },
+    },
+    pause: !needsClientFetch, // Skip query if using server data
+  });
+
+  // Use client data if fetched, otherwise fall back to server data
+  const data = needsClientFetch ? clientData?.myQuery : serverData;
+
+  // Show loading state only during client-side fetches
+  if (needsClientFetch && fetching) {
+    return <LoadingSkeleton />;
+  }
+
+  return (
+    <>
+      <FilterControls
+        category={category}
+        onCategoryChange={setCategory}
+        networkLevel={networkLevel}
+        onNetworkLevelChange={setNetworkLevel}
+      />
+      <DataDisplay data={data} />
+    </>
+  );
+};
+```
+
+**Key points**:
+
+- Server renders with default/URL parameters for fast initial load
+- `pause: true` prevents unnecessary client queries on initial render
+- Client fetches only when user changes filters
+- Seamless transition between server and client data
 
 ---
 
@@ -178,11 +239,13 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 ### Why urql Client in getServerSideProps?
 
 **Consistency**: Server-side and client-side queries use identical GraphQL documents. This eliminates:
+
 - Duplicate type definitions between fetcher functions and GraphQL types
 - Risk of server/client data shape mismatches
 - Maintenance burden of keeping two data-fetching approaches in sync
 
 **Type Safety**: Generated types from `yarn graphql:codegen` provide end-to-end type safety:
+
 - `MyQueryDocument` contains the exact query structure
 - `MyQueryQuery` types the response data
 - Filter types are validated at compile time
@@ -190,12 +253,14 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 ### Why Not Call Fetcher Functions Directly?
 
 Previous approach:
+
 ```typescript
 // Direct fetcher call - works but creates inconsistency
 const data = await fetchMyData(sunshineDataService, { operatorId });
 ```
 
 Problems with direct fetcher calls:
+
 1. **Type Drift**: Fetcher return types can diverge from GraphQL schema types
 2. **No Query Reuse**: Client-side queries define their own documents, duplicating field selections
 3. **Hidden Dependencies**: Fetchers may have different parameter handling than GraphQL filters
@@ -238,11 +303,12 @@ The urql client in `createGetServerSideProps` is configured with `executeExchang
 // From src/utils/create-server-side-props.tsx
 const urqlClient = new Client({
   exchanges: makeExchanges(graphqlContext),
-  url: "does-not-matter",  // executeExchange bypasses network
+  url: "does-not-matter", // executeExchange bypasses network
 });
 ```
 
 This means server-side queries:
+
 - Execute in the same process as the resolvers
 - Have zero network latency
 - Share the same database connections and caches
@@ -250,15 +316,17 @@ This means server-side queries:
 ### When to Use Optional Filter Parameters
 
 GraphQL filter parameters should be optional (`Int` not `Int!`) when:
+
 - The fetcher function has default behavior (e.g., "use latest period")
 - The parameter is only needed for specific use cases
 
 Example: `period` is optional because fetchers default to the latest available year:
+
 ```graphql
 input MyFilter {
-  operatorId: Int!   # Always required
-  period: Int        # Optional - defaults to latest year
-  operatorOnly: Boolean  # Optional - defaults to false (include peer group)
+  operatorId: Int! # Always required
+  period: Int # Optional - defaults to latest year
+  operatorOnly: Boolean # Optional - defaults to false (include peer group)
 }
 ```
 
@@ -273,6 +341,7 @@ if (error || !data?.myQuery) {
 ```
 
 This approach:
+
 - Catches both network/resolver errors (`error`) and empty responses (`!data`)
 - Provides clear error messages for debugging
 - Lets Next.js handle the error page rendering
