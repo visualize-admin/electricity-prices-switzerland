@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useQueryStateNetworkCostsTrendCardFilters } from "src/domain/query-states";
-import { SunshineCostsAndTariffsData } from "src/domain/sunshine";
+import { CostsAndTariffsData } from "src/domain/sunshine";
 import data from "src/mocks/sunshine-costsAndTariffs-426.json";
 
 import { NetworkCostTrendChart } from "./network-cost-trend-chart";
@@ -10,7 +10,7 @@ import { DesignStory } from "./storybook/base-style";
 
 export const NetworkCostLatestYear = () => {
   const networkCosts =
-    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+    data.networkCosts as CostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
@@ -31,7 +31,7 @@ export const NetworkCostLatestYear = () => {
 
 export const NetworkCostLatestYearCompact = () => {
   const networkCosts =
-    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+    data.networkCosts as CostsAndTariffsData["networkCosts"];
   const { yearlyData, ...restNetworkCosts } = networkCosts;
   return (
     <DesignStory
@@ -53,7 +53,7 @@ export const NetworkCostLatestYearCompact = () => {
 
 export const NetworkCostLatestYearCard = () => {
   const networkCosts =
-    data.networkCosts as SunshineCostsAndTariffsData["networkCosts"];
+    data.networkCosts as CostsAndTariffsData["networkCosts"];
   const [state, setQueryState] = useState<
     ReturnType<typeof useQueryStateNetworkCostsTrendCardFilters>[0]
   >({

@@ -43,8 +43,8 @@ import {
 import {
   NetworkLevel,
   sunshineCategories,
-  SunshineCostsAndTariffsData,
-  SunshinePowerStabilityData,
+  CostsAndTariffsData,
+  PowerStabilityData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
@@ -75,8 +75,8 @@ import {
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      costsAndTariffs: SunshineCostsAndTariffsData;
-      powerStability: SunshinePowerStabilityData;
+      costsAndTariffs: CostsAndTariffsData;
+      powerStability: PowerStabilityData;
       operationalStandards: OperationalStandardsData;
       sessionConfig: SessionConfigDebugProps;
     })

@@ -7,7 +7,7 @@ import { ElectricityCategory } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
 import {
   isPeerGroupRow,
-  type SunshineCostsAndTariffsData,
+  type CostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
@@ -19,8 +19,8 @@ import { TariffsTrendCardFilters } from "./tariffs-trend-card";
 
 type TariffsTrendChartProps = {
   rootProps?: BoxProps;
-  observations: SunshineCostsAndTariffsData["netTariffs"]["yearlyData"];
-  netTariffs: Omit<SunshineCostsAndTariffsData["netTariffs"], "yearlyData">;
+  observations: CostsAndTariffsData["netTariffs"]["yearlyData"];
+  netTariffs: Omit<CostsAndTariffsData["netTariffs"], "yearlyData">;
   operatorLabel: string;
   mini?: boolean;
   colorMapping?: ColorMapping;

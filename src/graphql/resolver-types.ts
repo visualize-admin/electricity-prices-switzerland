@@ -80,6 +80,21 @@ export type CantonResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type CostsAndTariffsData = {
+  __typename?: "CostsAndTariffsData";
+  energyTariffs: TariffsData;
+  latestYear: Scalars["String"]["output"];
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
+  operator: CostsAndTariffsOperator;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type CostsAndTariffsOperator = {
+  __typename?: "CostsAndTariffsOperator";
+  peerGroup: PeerGroup;
+};
+
 export type CubeHealth = {
   __typename?: "CubeHealth";
   dimensions: Array<Scalars["String"]["output"]>;
@@ -267,6 +282,20 @@ export type PeerGroupItem = {
   __typename?: "PeerGroupItem";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PowerStabilityData = {
+  __typename?: "PowerStabilityData";
+  latestYear: Scalars["String"]["output"];
+  operator: PowerStabilityOperator;
+  saidi: StabilityData;
+  saifi: StabilityData;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type PowerStabilityOperator = {
+  __typename?: "PowerStabilityOperator";
+  peerGroup: PeerGroup;
 };
 
 export enum PriceComponent {
@@ -724,6 +753,8 @@ export type ResolversTypes = ResolversObject<{
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
+  CostsAndTariffsData: ResolverTypeWrapper<CostsAndTariffsData>;
+  CostsAndTariffsOperator: ResolverTypeWrapper<CostsAndTariffsOperator>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   ElectricityCategory: ResolverTypeWrapper<
     Scalars["ElectricityCategory"]["output"]
@@ -754,6 +785,8 @@ export type ResolversTypes = ResolversObject<{
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   PeerGroup: ResolverTypeWrapper<PeerGroup>;
   PeerGroupItem: ResolverTypeWrapper<PeerGroupItem>;
+  PowerStabilityData: ResolverTypeWrapper<PowerStabilityData>;
+  PowerStabilityOperator: ResolverTypeWrapper<PowerStabilityOperator>;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
   SearchResult: ResolverTypeWrapper<
@@ -783,6 +816,8 @@ export type ResolversParentTypes = ResolversObject<{
   Canton: ResolvedCanton;
   CantonMedianObservation: ResolvedCantonMedianObservation;
   CantonResult: ResolvedSearchResult;
+  CostsAndTariffsData: CostsAndTariffsData;
+  CostsAndTariffsOperator: CostsAndTariffsOperator;
   CubeHealth: CubeHealth;
   ElectricityCategory: Scalars["ElectricityCategory"]["output"];
   Float: Scalars["Float"]["output"];
@@ -809,6 +844,8 @@ export type ResolversParentTypes = ResolversObject<{
   OperatorResult: ResolvedSearchResult;
   PeerGroup: PeerGroup;
   PeerGroupItem: PeerGroupItem;
+  PowerStabilityData: PowerStabilityData;
+  PowerStabilityOperator: PowerStabilityOperator;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   StabilityData: StabilityData;
@@ -887,6 +924,39 @@ export type CantonResultResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CostsAndTariffsDataResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["CostsAndTariffsData"] = ResolversParentTypes["CostsAndTariffsData"]
+> = ResolversObject<{
+  energyTariffs?: Resolver<
+    ResolversTypes["TariffsData"],
+    ParentType,
+    ContextType
+  >;
+  latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  netTariffs?: Resolver<ResolversTypes["TariffsData"], ParentType, ContextType>;
+  networkCosts?: Resolver<
+    ResolversTypes["NetworkCostsData"],
+    ParentType,
+    ContextType
+  >;
+  operator?: Resolver<
+    ResolversTypes["CostsAndTariffsOperator"],
+    ParentType,
+    ContextType
+  >;
+  updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CostsAndTariffsOperatorResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["CostsAndTariffsOperator"] = ResolversParentTypes["CostsAndTariffsOperator"]
+> = ResolversObject<{
+  peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1227,6 +1297,30 @@ export type PeerGroupItemResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PowerStabilityDataResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["PowerStabilityData"] = ResolversParentTypes["PowerStabilityData"]
+> = ResolversObject<{
+  latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator?: Resolver<
+    ResolversTypes["PowerStabilityOperator"],
+    ParentType,
+    ContextType
+  >;
+  saidi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
+  saifi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
+  updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PowerStabilityOperatorResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["PowerStabilityOperator"] = ResolversParentTypes["PowerStabilityOperator"]
+> = ResolversObject<{
+  peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1693,6 +1787,8 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
+  CostsAndTariffsData?: CostsAndTariffsDataResolvers<ContextType>;
+  CostsAndTariffsOperator?: CostsAndTariffsOperatorResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
   ElectricityCategory?: GraphQLScalarType;
   Municipality?: MunicipalityResolvers<ContextType>;
@@ -1714,6 +1810,8 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperatorResult?: OperatorResultResolvers<ContextType>;
   PeerGroup?: PeerGroupResolvers<ContextType>;
   PeerGroupItem?: PeerGroupItemResolvers<ContextType>;
+  PowerStabilityData?: PowerStabilityDataResolvers<ContextType>;
+  PowerStabilityOperator?: PowerStabilityOperatorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
   StabilityData?: StabilityDataResolvers<ContextType>;

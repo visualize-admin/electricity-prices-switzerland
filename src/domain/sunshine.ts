@@ -114,27 +114,11 @@ export const sunshineIndicatorSchema = z.enum([
 ] as const);
 
 export type SunshineIndicator = z.infer<typeof sunshineIndicatorSchema>;
-export type SunshineCostsAndTariffsData = {
-  latestYear: string;
-  netTariffs: TariffsData;
-  energyTariffs: TariffsData;
-  networkCosts: NetworkCostsData;
-  operator: {
-    peerGroup: PeerGroup;
-  };
-  updateDate: string;
-};
 
-export type SunshinePowerStabilityData = {
-  latestYear: string;
-  saidi: StabilityData;
-  saifi: StabilityData;
-
-  operator: {
-    peerGroup: PeerGroup;
-  };
-  updateDate: string;
-};
+export type {
+  CostsAndTariffsData,
+  PowerStabilityData,
+} from "src/graphql/resolver-types";
 
 export type NetworkLevel = {
   id: "NE5" | "NE6" | "NE7";

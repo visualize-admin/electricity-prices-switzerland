@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { gql } from "urql";
+import * as z from "zod";
 
 import CardGrid from "src/components/card-grid";
 import { Combobox, ComboboxItem } from "src/components/combobox";
@@ -41,7 +42,8 @@ import {
 } from "src/domain/query-states";
 import {
   sunshineCategories,
-  SunshineCostsAndTariffsData,
+  CostsAndTariffsData,
+  NetworkLevel,
 } from "src/domain/sunshine";
 import {
   getCategoryLabels,
@@ -62,19 +64,24 @@ import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
+// Schemas for validating query parameters
+const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]).catch("NE7");
+const categorySchema = z
+  .enum(["C2", "C3", "C4", "C6", "H2", "H4", "H7"])
+  .catch("H4");
+
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      costsAndTariffs: Omit<
-        SunshineCostsAndTariffsData,
-        "energyTariffs" | "networkCosts" | "netTariffs"
-      >;
+      costsAndTariffs: CostsAndTariffsData;
+      initialNetworkLevel: NetworkLevel["id"];
+      initialCategory: ElectricityCategory;
       sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
   async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
-    const { params, res, locale } = context;
+    const { params, res, locale, query } = context;
 
     const { id, entity } = params!;
 
@@ -85,6 +92,10 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
         },
       };
     }
+
+    // Parse query parameters with validation and defaults
+    const networkLevel = networkLevelSchema.parse(query.networkLevel);
+    const category = categorySchema.parse(query.category);
 
     const operatorProps = await getOperatorsPageProps(sparqlClient, {
       id,
@@ -104,8 +115,8 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       sunshineDataService,
       {
         operatorId: id,
-        networkLevel: "NE7",
-        category: "H4",
+        networkLevel,
+        category,
       }
     );
 
@@ -113,6 +124,8 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       props: {
         ...operatorProps,
         costsAndTariffs,
+        initialNetworkLevel: networkLevel,
+        initialCategory: category,
         sessionConfig,
       },
     };
@@ -145,10 +158,15 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     operator: { peerGroup },
     latestYear,
     updateDate,
+    networkCosts: serverNetworkCosts,
   } = props.costsAndTariffs;
 
   const [{ networkLevel }, setQueryState] =
     useQueryStateSunshineCostsAndTariffs();
+
+  // Only fetch client-side if networkLevel differs from initial server-side value
+  const needsClientFetch = networkLevel !== props.initialNetworkLevel;
+
   const [{ data, fetching }] = useNetworkCostsQuery({
     variables: {
       filter: {
@@ -157,10 +175,15 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         period: parseInt(latestYear, 10),
       },
     },
+    pause: !needsClientFetch,
   });
-  const networkCosts = data?.networkCosts as NetworkCostsQuery["networkCosts"];
 
-  if (fetching) {
+  // Use server data or client data
+  const networkCosts = (
+    needsClientFetch ? data?.networkCosts : serverNetworkCosts
+  ) as NetworkCostsQuery["networkCosts"];
+
+  if (needsClientFetch && fetching) {
     return <LoadingSkeleton height={700} />;
   }
 
@@ -312,6 +335,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     operator: { peerGroup },
     latestYear,
     updateDate,
+    energyTariffs: serverEnergyTariffs,
   } = props.costsAndTariffs;
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
@@ -325,6 +349,10 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   }, []);
 
   const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();
+
+  // Only fetch client-side if category differs from initial server-side value
+  const needsClientFetch = category !== props.initialCategory;
+
   const [{ data, fetching }] = useEnergyTariffsQuery({
     variables: {
       filter: {
@@ -333,10 +361,13 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
         category: category,
       },
     },
+    pause: !needsClientFetch,
   });
-  const energyTariffs = data?.energyTariffs;
 
-  if (fetching) {
+  // Use server data or client data
+  const energyTariffs = needsClientFetch ? data?.energyTariffs : serverEnergyTariffs;
+
+  if (needsClientFetch && fetching) {
     return <LoadingSkeleton height={700} />;
   }
 
@@ -497,6 +528,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     operator: { peerGroup },
     latestYear,
     updateDate,
+    netTariffs: serverNetTariffs,
   } = props.costsAndTariffs;
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
@@ -510,6 +542,10 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   }, []);
 
   const [{ category }, setQueryState] = useQueryStateSunshineCostsAndTariffs();
+
+  // Only fetch client-side if category differs from initial server-side value
+  const needsClientFetch = category !== props.initialCategory;
+
   const [{ data, fetching }] = useNetTariffsQuery({
     variables: {
       filter: {
@@ -518,10 +554,13 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
         category: category,
       },
     },
+    pause: !needsClientFetch,
   });
-  const netTariffs = data?.netTariffs;
 
-  if (fetching) {
+  // Use server data or client data
+  const netTariffs = needsClientFetch ? data?.netTariffs : serverNetTariffs;
+
+  if (needsClientFetch && fetching) {
     return <LoadingSkeleton height={700} />;
   }
 
