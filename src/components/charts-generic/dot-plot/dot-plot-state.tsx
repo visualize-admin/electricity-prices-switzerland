@@ -38,7 +38,10 @@ const useScatterPlotState = ({
   const { labelFontSize } = useChartTheme();
 
   const getX = useCallback(
-    (d: GenericObservation): number => +d[fields.x.componentIri] as number,
+    (d: GenericObservation): number => {
+      if (d[fields.x.componentIri] == null) return 0;
+      return Number(d[fields.x.componentIri]);
+    },
     [fields.x.componentIri]
   );
 

@@ -20,8 +20,8 @@ import {
 
 import { BinMeta } from "./histogram/histogram-state";
 
-export type ChartProps = {
-  data: GenericObservation[];
+export type ChartProps<T = GenericObservation> = {
+  data: T[];
   fields: ChartFields;
   dimensions: ComponentFieldsFragment[];
   measures: ComponentFieldsFragment[];

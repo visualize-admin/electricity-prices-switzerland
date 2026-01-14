@@ -94,7 +94,7 @@ export const prepareObservations = ({
             .map((d) =>
               createExpandedObservation(d, group, priceComponent, entity)
             )
-            .sort((a, b) => ascending(a.label, b.label));
+            .sort((a, b) => ascending(a.label ?? "", b.label ?? ""));
 
           return [
             createGroupedObservation(group, priceComponent, entity),

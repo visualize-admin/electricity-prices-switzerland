@@ -22,6 +22,7 @@ import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import { getOpacityRanges, getPalette, getTextWidth } from "src/domain/helpers";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import {
   BAR_HEIGHT_SMALL,
@@ -225,11 +226,16 @@ const useStackedBarsState = ({
           yPos: 1,
           symbol: "arrow",
         },
-        values: segments.map((seg) => ({
-          label: measuresByIri[seg]?.label ?? seg,
-          value: (+d[seg]).toFixed(2),
-          color: colors(seg),
-        })),
+        values: segments
+          .map((seg) => ({
+            label: measuresByIri[seg]?.label ?? seg,
+            value: d[seg] !== null ? (+d[seg]).toFixed(2) : undefined,
+            color: colors(seg),
+          }))
+          .filter(
+            (v): v is NonNullableProp<typeof v, "value"> =>
+              v.value !== undefined
+          ),
         xAnchor: xAnchor,
         yAnchor: yAnchor,
         placement: {
