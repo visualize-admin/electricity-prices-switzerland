@@ -237,7 +237,10 @@ export const PowerStabilityHorizontalStackedBars = (
 
                 <Typography
                   variant="caption"
-                  sx={{ fontWeight: isHighlighted ? "bold" : "normal", pl: 1 }}
+                  pl={1}
+                  sx={{
+                    fontWeight: isHighlighted ? "bold" : "normal",
+                  }}
                 >
                   {operatorName}
                 </Typography>

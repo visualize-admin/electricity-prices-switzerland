@@ -16,12 +16,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
   const sunshineFlag = useFlag("sunshine");
 
   return (
-    <Box
-      sx={{
-        flexDirection: "column",
-      }}
-      display={"flex"}
-    >
+    <Box display={"flex"} flexDirection="column">
       <SidebarSectionTitle>
         <Trans id="details.page.navigation.electricity-insights-title">
           Insights into electricity
@@ -35,45 +30,43 @@ export const DetailsPageSidebar = (props: SectionProps) => {
       {/* FIXME: Make this only a preview and add a coming soon label */}
       {sunshineFlag && entity === "operator" ? (
         <SafeHydration>
-          
-            <SidebarSectionTitle>
-              <Trans id="details.page.navigation.sunshine-indicators-title">
-                Sunshine Indicators
-              </Trans>
-            </SidebarSectionTitle>
-            <SidebarItem
-              matchMethod="exact"
-              href={`/sunshine/${entity}/${id}/overview#main-content`}
-            >
-              <Trans id="details.page.navigation.sunshine-overview-item">
-                Overview
-              </Trans>
-            </SidebarItem>
-            <SidebarItem
-              matchMethod="exact"
-              href={`/sunshine/${entity}/${id}/costs-and-tariffs#main-content`}
-            >
-              <Trans id="details.page.navigation.costs-and-tariffs-item">
-                Costs and Tariffs
-              </Trans>
-            </SidebarItem>
-            <SidebarItem
-              matchMethod="exact"
-              href={`/sunshine/${entity}/${id}/power-stability#main-content`}
-            >
-              <Trans id="details.page.navigation.power-stability-item">
-                Power Stability
-              </Trans>
-            </SidebarItem>
-            <SidebarItem
-              matchMethod="exact"
-              href={`/sunshine/${entity}/${id}/operational-standards#main-content`}
-            >
-              <Trans id="details.page.navigation.operational-standards-item">
-                Operational Standards
-              </Trans>
-            </SidebarItem>
-          
+          <SidebarSectionTitle>
+            <Trans id="details.page.navigation.sunshine-indicators-title">
+              Sunshine Indicators
+            </Trans>
+          </SidebarSectionTitle>
+          <SidebarItem
+            matchMethod="exact"
+            href={`/sunshine/${entity}/${id}/overview#main-content`}
+          >
+            <Trans id="details.page.navigation.sunshine-overview-item">
+              Overview
+            </Trans>
+          </SidebarItem>
+          <SidebarItem
+            matchMethod="exact"
+            href={`/sunshine/${entity}/${id}/costs-and-tariffs#main-content`}
+          >
+            <Trans id="details.page.navigation.costs-and-tariffs-item">
+              Costs and Tariffs
+            </Trans>
+          </SidebarItem>
+          <SidebarItem
+            matchMethod="exact"
+            href={`/sunshine/${entity}/${id}/power-stability#main-content`}
+          >
+            <Trans id="details.page.navigation.power-stability-item">
+              Power Stability
+            </Trans>
+          </SidebarItem>
+          <SidebarItem
+            matchMethod="exact"
+            href={`/sunshine/${entity}/${id}/operational-standards#main-content`}
+          >
+            <Trans id="details.page.navigation.operational-standards-item">
+              Operational Standards
+            </Trans>
+          </SidebarItem>
         </SafeHydration>
       ) : null}
     </Box>
@@ -89,23 +82,17 @@ const SidebarSectionTitle = (props: SidebarBaseProps) => {
 
   return (
     <Box
+      pl={12}
+      pr={8}
+      pb={3}
+      pt={11.5}
+      borderBottom={1}
       sx={{
-        pl: 12,
-        pr: 8,
-        pb: 3,
-        pt: 11.5,
-        borderBottom: 1,
         borderBottomStyle: "solid",
         borderBottomColor: "monochrome.200",
       }}
     >
-      <Typography
-        variant="caption"
-        color={"text.500"}
-        sx={{
-          lineHeight: "150%",
-        }}
-      >
+      <Typography variant="caption" color={"text.500"} lineHeight="150%">
         {children}
       </Typography>
     </Box>
@@ -143,24 +130,25 @@ const SidebarItem = (props: SidebarItemProps) => {
       }}
     >
       <Box
+        display={"flex"}
+        pl={12}
+        pr={8}
+        py={5}
+        justifyContent="space-between"
+        alignItems="center"
+        borderBottom={1}
         sx={{
-          pl: 12,
-          pr: 8,
-          py: 5,
-          justifyContent: "space-between",
           borderLeft: isActive() ? 3 : 0,
           borderLeftStyle: "solid",
           borderLeftColor: "primary.main",
-          alignItems: "center",
-          borderBottom: 1,
           borderBottomStyle: "solid",
           borderBottomColor: "monochrome.200",
           cursor: "pointer",
+
           "&:hover": {
             backgroundColor: "action.hover",
           },
         }}
-        display={"flex"}
       >
         <Typography variant="body2" color={"text.primary"}>
           {children}

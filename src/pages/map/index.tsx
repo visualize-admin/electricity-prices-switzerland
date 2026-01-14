@@ -417,14 +417,12 @@ const MapPageContent = ({
     <ApplicationLayout>
       <InfoBanner bypassBannerEnabled={shouldShowInfoBanner} />
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xxs: "column", md: "row" },
-          width: "100%",
-          bgcolor: "secondary.50",
-        }}
+        display="flex"
+        flexDirection={{ xxs: "column", md: "row" }}
+        width="100%"
+        bgcolor="secondary.50"
       >
-        <Box sx={{ display: { xxs: "block", md: "none" }, width: "100%" }}>
+        <Box display={{ xxs: "block", md: "none" }} width="100%">
           <ContentWrapper
             sx={{
               padding: "0px !important",
@@ -437,12 +435,10 @@ const MapPageContent = ({
             </Box>
             <Box
               id={DOWNLOAD_ID}
-              sx={{
-                height: "100vw",
-                maxHeight: "70vh",
-                width: "100%",
-                position: "relative",
-              }}
+              height="100vw"
+              maxHeight="70vh"
+              width="100%"
+              position="relative"
             >
               {map}
             </Box>
@@ -451,27 +447,25 @@ const MapPageContent = ({
 
         {isMobile ? null : (
           <Box
-            sx={{
-              position: "relative",
-              display: "grid",
-              gridTemplateColumns: "22.5rem 1fr",
-              gap: 0,
-              width: "100%",
-            }}
+            position="relative"
+            display="grid"
+            gridTemplateColumns="22.5rem 1fr"
+            gap={0}
+            width="100%"
           >
             <Box
+              data-testid="map-sidebar"
+              height="100%"
+              position="relative"
+              bgcolor="background.paper"
+              borderRight="1px solid"
+              borderColor="divider"
+              maxHeight={`calc(100vh - ${HEADER_HEIGHT_UP})`}
+              paddingTop="1rem"
               sx={{
-                height: "100%",
                 overflowY: "auto",
-                position: "relative",
-                bgcolor: "background.paper",
-                borderRight: "1px solid",
-                borderColor: "divider",
-                maxHeight: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                paddingTop: "1rem",
                 "--selector-panel-padding-x": (theme) => theme.spacing(6),
               }}
-              data-testid="map-sidebar"
             >
               {desktopDetailsDrawer}
               {selectedItem ? null : (
@@ -482,12 +476,10 @@ const MapPageContent = ({
                     }}
                   />
                   <Box
-                    sx={{
-                      px: `var(--selector-panel-padding-x)`,
-                      flexDirection: "column",
-                      gap: 4,
-                    }}
                     display="flex"
+                    px={`var(--selector-panel-padding-x)`}
+                    flexDirection="column"
+                    gap={4}
                   >
                     {listButtonGroup}
                     {list}
@@ -498,28 +490,26 @@ const MapPageContent = ({
 
             <Box
               id={DOWNLOAD_ID}
-              sx={{
-                width: "100%",
-                height: `calc(100vh - ${HEADER_HEIGHT_UP})`,
-                position: "relative",
-                bgcolor: "secondary.50",
-              }}
+              width="100%"
+              height={`calc(100vh - ${HEADER_HEIGHT_UP})`}
+              position="relative"
+              bgcolor="secondary.50"
             >
               {map}
               {!download && (
                 <Box
+                  zIndex={13}
+                  position="absolute"
+                  bottom={0}
+                  right={0}
+                  mb={0}
+                  mr={3}
+                  p={1}
+                  display="flex"
+                  gap={1}
+                  borderRadius="3px 3px 0 0"
                   sx={{
-                    zIndex: 13,
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    mb: 0,
-                    mr: 3,
-                    p: 1,
                     backgroundColor: "background.paper",
-                    display: "flex",
-                    gap: 1,
-                    borderRadius: "3px 3px 0 0",
                   }}
                 >
                   <ShareButton />

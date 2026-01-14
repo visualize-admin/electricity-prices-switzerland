@@ -18,17 +18,17 @@ export const SessionConfigDebug: React.FC<SessionConfigDebugProps> = ({
 
   return (
     <Box
+      position="fixed"
+      top="40px"
+      right={0}
+      color="white"
+      padding={2}
+      zIndex={9999}
+      fontSize="12px"
+      fontWeight="bold"
+      minWidth={300}
       sx={{
-        position: "fixed",
-        top: "40px",
-        right: 0,
         background: (theme) => theme.palette.warning.main,
-        color: "white",
-        padding: 2,
-        zIndex: 9999,
-        fontSize: "12px",
-        fontWeight: "bold",
-        minWidth: 300,
       }}
     >
       {nonDefaultFlags.map(([flagKey, flagInfo]) => (

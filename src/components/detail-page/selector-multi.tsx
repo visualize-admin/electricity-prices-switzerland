@@ -32,21 +32,21 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
 
   return (
     <Box
+      border={0}
+      display="grid"
+      gap={4}
+      bgcolor="muted.colored"
+      alignItems="start"
+      zIndex={13}
+      mt={1}
+      gridTemplateColumns={{
+        xxs: "1fr",
+        sm: "repeat(2, 1fr)",
+        md: "1fr",
+        lg: "repeat(2, 1fr)",
+        xl: "repeat(4, 1fr)",
+      }}
       sx={{
-        border: 0,
-        display: "grid",
-        gap: 4,
-        bgcolor: "muted.colored",
-        alignItems: "start",
-        zIndex: 13,
-        mt: 1,
-        gridTemplateColumns: {
-          xxs: "1fr",
-          sm: "repeat(2, 1fr)",
-          md: "1fr",
-          lg: "repeat(2, 1fr)",
-          xl: "repeat(4, 1fr)",
-        },
         "& > *": {
           minWidth: 0,
         },

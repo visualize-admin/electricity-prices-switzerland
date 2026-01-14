@@ -125,15 +125,13 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     >
       {mini ? null : (
         <Box
-          sx={{
-            position: "relative",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            minHeight: "20px",
-            gap: 2,
-          }}
           display="flex"
+          position="relative"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          flexWrap="wrap"
+          minHeight="20px"
+          gap={2}
         >
           {chartColorMappings.map((item) => (
             <LegendItem

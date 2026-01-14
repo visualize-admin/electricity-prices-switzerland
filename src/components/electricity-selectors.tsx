@@ -28,16 +28,14 @@ export const ElectricitySelectors = () => {
   return (
     <Box
       component="fieldset"
-      sx={{
-        border: 0,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        p: 0,
-        m: 0,
-        gap: 3,
-        zIndex: 13,
-      }}
       display="flex"
+      border={0}
+      flexDirection="column"
+      justifyContent="flex-start"
+      p={0}
+      m={0}
+      gap={3}
+      zIndex={13}
     >
       <Combobox
         id="year"

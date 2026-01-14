@@ -718,30 +718,36 @@ export const NavigationStory = () => {
             maxWidth: 400,
           }}
         >
-          {anchorNavStates.map((state) => (
-            <AnchorNav
-              href={"#"}
-              key={`anchor-nav-${state}`}
-              label={"Label"}
-              active={state === "active"}
-              disabled={state === "disabled"}
-              tag={state === "tag" ? <Chip label="Tag" size="xs" /> : undefined}
-              size="lg"
-              icon={<Icon name="arrowright" />}
-            />
-          ))}
-          {anchorNavStates.map((state) => (
-            <AnchorNav
-              href={"#"}
-              key={`anchor-nav-${state}`}
-              label={"Label"}
-              active={state === "active"}
-              disabled={state === "disabled"}
-              tag={state === "tag" ? <Chip label="Tag" size="xs" /> : undefined}
-              size="sm"
-              icon={<Icon name="arrowright" />}
-            />
-          ))}
+          <div>
+            {anchorNavStates.map((state) => (
+              <AnchorNav
+                href={"#"}
+                key={`anchor-nav-${state}`}
+                label={"Label"}
+                active={state === "active"}
+                disabled={state === "disabled"}
+                tag={
+                  state === "tag" ? <Chip label="Tag" size="xs" /> : undefined
+                }
+                size="lg"
+                icon={<Icon name="arrowright" />}
+              />
+            ))}
+            {anchorNavStates.map((state) => (
+              <AnchorNav
+                href={"#"}
+                key={`anchor-nav-${state}`}
+                label={"Label"}
+                active={state === "active"}
+                disabled={state === "disabled"}
+                tag={
+                  state === "tag" ? <Chip label="Tag" size="xs" /> : undefined
+                }
+                size="sm"
+                icon={<Icon name="arrowright" />}
+              />
+            ))}
+          </div>
         </DesignSection>
       </DesignGrid>
     </DesignStory>

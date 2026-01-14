@@ -159,7 +159,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
       </CardHeader>
       {!download && (
         <>
-          <Box sx={{ display: ["none", "none", "block"] }}>
+          <Box display={["none", "none", "block"]}>
             <ButtonGroup<DetailPriceComponent>
               id="priceComponents"
               options={[
@@ -204,7 +204,7 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
               fitLabelToContent
             />
           </Box>
-          <Box sx={{ display: ["block", "block", "none"] }}>
+          <Box display={["block", "block", "none"]}>
             <Combobox
               id="priceComponents-cantons-comparison"
               label={t({
@@ -219,19 +219,12 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
             />
           </Box>
           <Box
-            sx={{
-              flexDirection: ["column", "row", "row"],
-              justifyContent: "space-between",
-              mt: 4,
-            }}
             display="flex"
+            flexDirection={["column", "row", "row"]}
+            justifyContent="space-between"
+            mt={4}
           >
-            <Box
-              sx={{
-                maxWidth: "20rem",
-                width: "100%",
-              }}
-            >
+            <Box maxWidth="20rem" width="100%">
               <Combobox
                 label={t({
                   id: "rangeplot.select.order.hint",

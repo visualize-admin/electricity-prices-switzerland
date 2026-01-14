@@ -98,9 +98,9 @@ export const ButtonGroup = <T extends string>({
     <Box
       display="flex"
       {...props}
+      position="relative"
+      flexDirection="column"
       sx={{
-        position: "relative",
-        flexDirection: "column",
         gap: infoDialogSlug ? 0 : 2,
         ...props.sx,
       }}
@@ -108,11 +108,9 @@ export const ButtonGroup = <T extends string>({
       {showLabel && label ? (
         <Box
           typography="meta"
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
         >
           {showLabel && (
             <Typography
@@ -132,12 +130,10 @@ export const ButtonGroup = <T extends string>({
 
       <Box
         display="flex"
-        sx={{
-          width: "100%",
-          flexWrap: "nowrap",
-          overflow: "hidden",
-          alignItems: "stretch",
-        }}
+        width="100%"
+        flexWrap="nowrap"
+        overflow="hidden"
+        alignItems="stretch"
       >
         {options.map((option) => {
           const isActive = option.value === value;
@@ -162,10 +158,11 @@ export const ButtonGroup = <T extends string>({
                 component="label"
                 role="button"
                 title=""
+                flexBasis="100%"
                 sx={{
-                  flexBasis: "100%",
                   ...STYLES.tabs.common,
                   ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
+
                   ...(fitLabelToContent
                     ? {
                         "& label": {

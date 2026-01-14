@@ -30,10 +30,12 @@ export const AnchorNav = (props: AnchorNavProps) => {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        gap={2}
         sx={{
           "&:hover": {
             backgroundColor: disabled ? "transparent" : "secondary.50",
           },
+
           cursor: disabled ? "not-allowed" : "pointer",
           borderLeftWidth: active ? 4 : 0,
           borderLeftStyle: active ? "solid" : "none",
@@ -44,7 +46,6 @@ export const AnchorNav = (props: AnchorNavProps) => {
           color: disabled ? "secondary.200" : "text.primary",
           px: size === "lg" ? 5 : 3,
           py: size === "lg" ? 5 : 4,
-          gap: 2,
         }}
       >
         <Typography

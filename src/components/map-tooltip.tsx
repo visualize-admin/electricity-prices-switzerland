@@ -16,17 +16,11 @@ export const SelectedEntityCard: React.FC<{
   }[];
 }> = ({ title, caption, values }) => (
   <>
-    <Box
-      sx={{
-        flexDirection: "column",
-        gap: -1,
-      }}
-      display={"flex"}
-    >
+    <Box display={"flex"} flexDirection="column" gap={-1}>
       <Typography variant="caption" color={"text.500"}>
         {caption}
       </Typography>
-      <Typography variant="h5" sx={{ fontWeight: 700 }}>
+      <Typography variant="h5" fontWeight={700}>
         {title}
       </Typography>
     </Box>
@@ -34,12 +28,10 @@ export const SelectedEntityCard: React.FC<{
     {values && values.length > 0 ? (
       <Box
         display="grid"
-        sx={{
-          width: "100%",
-          gridTemplateColumns: "1fr max-content",
-          gap: 1,
-          alignItems: "center",
-        }}
+        width="100%"
+        gridTemplateColumns="1fr max-content"
+        gap={1}
+        alignItems="center"
       >
         {values.map((d, i) => {
           return (
@@ -51,7 +43,7 @@ export const SelectedEntityCard: React.FC<{
         })}
       </Box>
     ) : (
-      <Typography variant="caption" sx={{ color: "secondary.main" }}>
+      <Typography variant="caption" color="secondary.main">
         <Trans id="map.tooltipnodata">No data</Trans>
       </Typography>
     )}
@@ -78,10 +70,7 @@ export const MapTooltip = ({
       placement={placement ?? defaultMapTooltipPlacement}
       margins={{ bottom: 0, left: 0, right: 0, top: 0 }}
     >
-      <Box
-        sx={{ width: 200, flexDirection: "column", gap: 1 }}
-        display={"flex"}
-      >
+      <Box display={"flex"} width={200} flexDirection="column" gap={1}>
         {children}
       </Box>
     </TooltipBoxWithoutChartState>

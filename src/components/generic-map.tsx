@@ -93,10 +93,10 @@ const ZoomWidget = ({
       </WidgetIcon>
       {isMobile ? null : (
         <Box
+          p={2}
+          display="flex"
+          alignItems="center"
           sx={{
-            p: 2,
-            display: "flex",
-            alignItems: "center",
             backgroundColor: "white",
             opacity: !scrollZoom && displayScrollZoom ? 1 : 0,
             transition: "opacity 0.25s ease-in",
@@ -457,12 +457,10 @@ export const GenericMap = ({
                 </Trans>
               </Box>
               <Box
-                sx={{
-                  fontFamily: "monospace",
-                  whiteSpace: "pre-wrap",
-                  px: 4,
-                  fontSize: "0.75rem",
-                }}
+                fontFamily="monospace"
+                whiteSpace="pre-wrap"
+                px={4}
+                fontSize="0.75rem"
               >
                 {error.message}
               </Box>
@@ -508,14 +506,12 @@ export const GenericMap = ({
       >
         {legend && (
           <Box
-            sx={{
-              zIndex: 13,
-              position: "absolute",
-              top: "var(--map-widget-margin-y)",
-              right: "var(--map-widget-margin-x)",
-              display: "flex",
-              gap: 2,
-            }}
+            zIndex={13}
+            position="absolute"
+            top="var(--map-widget-margin-y)"
+            right="var(--map-widget-margin-x)"
+            display="flex"
+            gap={2}
           >
             {widgets?.right}
             <Box id={legendId}>{legend}</Box>
@@ -523,14 +519,12 @@ export const GenericMap = ({
         )}
 
         <Box
-          sx={{
-            position: "absolute",
-            top: "var(--map-widget-margin-y)",
-            left: "var(--map-widget-margin-x)",
-            zIndex: 10,
-            display: "flex",
-            gap: 2,
-          }}
+          position="absolute"
+          top="var(--map-widget-margin-y)"
+          left="var(--map-widget-margin-x)"
+          zIndex={10}
+          display="flex"
+          gap={2}
         >
           {widgets?.left}
           <ZoomWidget
@@ -564,12 +558,12 @@ export const GenericMap = ({
 
       {screenshotting ? (
         <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width={1120}
+          height={730}
           sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 1120,
-            height: 730,
             opacity: 0,
           }}
         >

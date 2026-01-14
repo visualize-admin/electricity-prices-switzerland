@@ -81,10 +81,10 @@ const DocumentList = ({
   return (
     <Box
       component="ul"
+      m={0}
+      p={0}
       sx={{
         listStyle: "none",
-        m: 0,
-        p: 0,
         "& > * + * ": { mt: 2 },
       }}
     >
@@ -92,8 +92,9 @@ const DocumentList = ({
         <Box
           component="li"
           key={doc.id + doc.url}
-          sx={{ ml: 0, p: 0 }}
           typography="body2"
+          ml={0}
+          p={0}
         >
           <Link href={doc.url} variant="body2" underline="hover">
             <Box display="flex" alignItems="center" gap={1}>
@@ -139,10 +140,10 @@ export const OperatorDocumentsPopoverContent = ({
           {loading ? (
             <Box display="flex" alignItems={"center"} gap={1}>
               <Box
+                height={24}
+                width={24}
                 sx={{
                   animation: `1s linear infinite ${spin}`,
-                  height: 24,
-                  width: 24,
                 }}
               >
                 <Icon name="loading" size={24} />
@@ -232,11 +233,9 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
       >
         <Typography
           variant="body2"
-          sx={{
-            display: {
-              xxs: "none",
-              md: "block",
-            },
+          display={{
+            xxs: "none",
+            md: "block",
           }}
         >
           <Trans id="download.cta">Download reports & tariffs</Trans>

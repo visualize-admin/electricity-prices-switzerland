@@ -187,13 +187,7 @@ export const PriceEvolutionLineCharts = memo(
     mini?: boolean;
   }) => {
     return (
-      <Box
-        display={"flex"}
-        sx={{
-          flexDirection: "column",
-          gap: 6.5,
-        }}
-      >
+      <Box display={"flex"} flexDirection="column" gap={6.5}>
         {priceComponents.map((pc, i) => {
           return (
             <PriceEvolutionLineChart
@@ -237,7 +231,7 @@ const PriceEvolutionLineChart = (props: {
 
   return (
     <Box>
-      <Box sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+      <Box fontSize="1rem" fontWeight="bold">
         {getLocalizedLabel({ id: pc })}
       </Box>
       <LineChart
@@ -279,7 +273,7 @@ const PriceEvolutionLineChart = (props: {
         aspectRatio={0.2}
       >
         {i === 0 && hasMultipleLines && (
-          <Box sx={{ mb: 6 }}>
+          <Box mb={6}>
             <LegendColor symbol="line" />
           </Box>
         )}

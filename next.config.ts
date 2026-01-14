@@ -77,16 +77,6 @@ const nextConfig = async (): Promise<NextConfig> => {
       ignoreBuildErrors: true,
     },
 
-    serverExternalPackages: [
-      "@duckdb/node-api",
-      "@duckdb/node-bindings",
-      "@duckdb/node-bindings-linux-x64",
-      "@duckdb/node-bindings-linux-arm64",
-      "@duckdb/node-bindings-darwin-arm64",
-      "@duckdb/node-bindings-darwin-x64",
-      "@duckdb/node-bindings-win32-x64",
-    ],
-
     webpack(config, { isServer }) {
       if (!isServer) {
         config.resolve.fallback = { fs: false };

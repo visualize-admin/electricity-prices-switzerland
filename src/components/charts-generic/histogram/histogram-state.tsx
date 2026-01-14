@@ -303,7 +303,7 @@ const useHistogramState = ({
                 binIndex,
               })}
             />
-            <Typography variant="caption" sx={{ fontWeight: 700 }}>
+            <Typography variant="caption" fontWeight={700}>
               {d.label || `${d.x0}-${d.x1}`}{" "}
               {d.type !== "no-data" ? xAxisUnit : ""}
             </Typography>

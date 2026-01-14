@@ -162,25 +162,25 @@ export const AnnotationXLabel = () => {
       {annotations?.map((a, i) => (
         <Box
           key={`${a.label}-${i}`}
+          width={width}
+          zIndex={2}
+          position="absolute"
+          left={0}
+          top={a.yLabel}
+          textAlign="left"
+          fontFamily={fontFamily}
+          fontSize={annotationFontSize}
+          color={annotationColor}
+          bgcolor="transparent"
+          lineHeight={1.5}
           sx={{
-            width: width,
-            zIndex: 2,
-            position: "absolute",
-            left: 0,
-            top: a.yLabel,
             pointerEvents: "none",
-            textAlign: "left",
             transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
-            fontFamily,
-            fontSize: annotationFontSize,
-            color: annotationColor,
-            bgcolor: "transparent",
             hyphens: "auto",
             wordBreak: "break-word",
-            lineHeight: 1.5,
           }}
         >
-          <Box component="span" sx={{ fontWeight: 700 }}>
+          <Box component="span" fontWeight={700}>
             {a.value} {xAxisLabel}{" "}
           </Box>
           {a.label}

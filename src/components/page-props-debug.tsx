@@ -46,14 +46,12 @@ const PagePropsDebug: React.FC<PagePropsDebugProps> = () => {
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box p={3}>
           <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
           >
             <Typography variant="h6">Page Props</Typography>
             <IconButton onClick={() => setIsDrawerOpen(false)}>
@@ -61,12 +59,12 @@ const PagePropsDebug: React.FC<PagePropsDebugProps> = () => {
             </IconButton>
           </Box>
           <Box
+            p={2}
+            borderRadius={1}
+            overflow="auto"
+            maxHeight="50vh"
             sx={{
               backgroundColor: "grey.100",
-              p: 2,
-              borderRadius: 1,
-              overflow: "auto",
-              maxHeight: "50vh",
             }}
           >
             <ObjectInspector data={pageProps} expandLevel={2} />

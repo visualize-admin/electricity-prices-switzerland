@@ -81,16 +81,16 @@ const MobileDrawer = ({
 
             <div className={classes.handle} />
             <Box
+              px={4}
+              pt={0}
+              pb={2}
+              display="flex"
+              width="100%"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={4}
               sx={{
-                px: 4,
-                pt: 0,
-                pb: 2,
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
-                alignItems: "center",
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-                mb: 4,
               }}
             >
               <Typography variant="h5" component="div" fontWeight="bold">
@@ -200,14 +200,7 @@ const MobileControls = ({
 
   return (
     <>
-      <Box
-        position="relative"
-        sx={{
-          height: 0,
-          // Necessary to be above No Data UI
-          zIndex: 1,
-        }}
-      >
+      <Box position="relative" height={0} zIndex={1}>
         <Card
           elevation={1}
           sx={{
@@ -231,11 +224,9 @@ const MobileControls = ({
         >
           <CardContent sx={{ pb: "16px !important" }}>
             <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
             >
               {selectedEntityData?.formattedData ? (
                 <Box display="flex" flex={1} maxHeight="120px" gap={2}>
@@ -265,7 +256,8 @@ const MobileControls = ({
                   <Box flexGrow={1}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
+                      fontWeight="bold"
+                      gutterBottom
                     >
                       <Trans id="selector.legend.select.parameters">
                         Parameter auswählen

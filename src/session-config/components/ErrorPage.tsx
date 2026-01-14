@@ -26,14 +26,12 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ message }) => (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box
-          sx={{
-            minHeight: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            bgcolor: "background.default",
-            padding: 2,
-          }}
+          minHeight="100vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor="background.default"
+          padding={2}
         >
           <Paper
             elevation={3}

@@ -9,14 +9,7 @@ export const NotFound = () => {
         py: 20,
       }}
     >
-      <Box
-        sx={{
-          flexDirection: "column",
-          gap: 8,
-          marginX: "auto",
-        }}
-        display="flex"
-      >
+      <Box display="flex" flexDirection="column" gap={8} marginX="auto">
         <Typography
           variant="h1"
           component={"h1"}
@@ -32,9 +25,7 @@ export const NotFound = () => {
           variant="h3"
           component={"h3"}
           lineHeight={1.6}
-          sx={{
-            maxWidth: "600px",
-          }}
+          maxWidth="600px"
         >
           <Trans id="error.page.404.description">
             You may have entered an incorrect address (URL), or the page or

@@ -1,6 +1,6 @@
 # ElCom Electricity Price Website
 
-An electricity price comparison website for Switzerland that provides interactive maps, charts, and time-series visualizations of electricity prices from Swiss providers. Built with Next.js 15, TypeScript, and Material-UI, the application combines data from SPARQL/RDF (LINDAS), DuckDB, and SQL sources into a unified GraphQL API.
+An electricity price comparison website for Switzerland that provides interactive maps, charts, and time-series visualizations of electricity prices from Swiss providers. Built with Next.js 15, TypeScript, and Material-UI, the application exposes a GraphQL API, which uses the Swiss Federal Administration Open Data (LINDAS) to get data on operator, prices, municipalities.
 
 **For development patterns and coding guidelines, see [Claude.md](./Claude.md).**
 

@@ -31,9 +31,7 @@ const DocsStory: FC<DocBlock.DocsStoryProps & { className?: string }> = ({
 
   return (
     <>
-      {expanded && (
-        <div className="py-3">{story.name}</div>
-      )}
+      {expanded && <div className="py-3">{story.name}</div>}
       <DocBlock.Canvas
         of={of}
         withToolbar={withToolbar}
@@ -56,14 +54,12 @@ const StoryGridLayout = ({
 }) => {
   return (
     <Box
-      sx={{
-        display: "grid",
-        gridTemplateRows: "repeat(auto-fit, minmax(0px, max-content))",
-        gap: "1rem",
-      }}
       style={{
         gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr)`,
       }}
+      display="grid"
+      gridTemplateRows="repeat(auto-fit, minmax(0px, max-content))"
+      gap="1rem"
     >
       {children}
     </Box>
@@ -163,13 +159,11 @@ export const StoryGrid: FC<StoryGridProps> = ({
                 story && (
                   <Box
                     key={story.id}
-                    sx={{
-                      display: "grid",
-                      gridTemplateRows: "subgrid",
-                      gridRow: "span/3",
-                      marginBottom: "2.5rem",
-                    }}
                     className={cellClassName}
+                    display="grid"
+                    gridTemplateRows="subgrid"
+                    gridRow="span/3"
+                    marginBottom="2.5rem"
                   >
                     <DocsStory
                       of={story.moduleExport}

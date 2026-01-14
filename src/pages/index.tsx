@@ -38,18 +38,8 @@ const IndexPage = () => {
         <title>{makePageTitle()}</title>
       </Head>
       <ApplicationLayout showHeaderCaption={false}>
-        <Box
-          sx={{
-            flexDirection: "column",
-          }}
-          display="flex"
-        >
-          <Box
-            sx={{
-              borderBottom: "1px solid",
-              borderColor: "monochrome.300",
-            }}
-          >
+        <Box display="flex" flexDirection="column">
+          <Box borderBottom="1px solid" borderColor="monochrome.300">
             <ContentWrapper>
               <Box py={8} flexDirection="column" gap={4} display="flex">
                 <Typography component="h1" variant="display2">
@@ -73,23 +63,14 @@ const IndexPage = () => {
           >
             <Box
               display={"flex"}
-              sx={{
-                gap: 12,
-                alignItems: "stretch",
-                flexDirection: {
-                  xxs: "column",
-                  md: "row",
-                },
+              gap={12}
+              alignItems="stretch"
+              flexDirection={{
+                xxs: "column",
+                md: "row",
               }}
             >
-              <Box
-                sx={{
-                  width: "100%",
-                  flexDirection: "column",
-                  gap: 8,
-                }}
-                display={"flex"}
-              >
+              <Box display={"flex"} width="100%" flexDirection="column" gap={8}>
                 <Typography variant="h1" component={"h2"}>
                   <Trans id="home.hero-section.title">
                     Discover the electricity tariffs in the map view
@@ -122,19 +103,15 @@ const IndexPage = () => {
                 </Button>
               </Box>
               <Box
+                width="100%"
+                position="relative"
+                display="flex"
+                p={8}
                 sx={{
-                  width: "100%",
-                  position: "relative",
-                  display: "flex",
                   aspectRatio: "1.5",
-                  p: 8,
                 }}
               >
-                <Box
-                  sx={{
-                    flex: 1,
-                  }}
-                >
+                <Box flex={1}>
                   <Image
                     src="/assets/map-prices.webp"
                     alt="map preview"

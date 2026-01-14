@@ -24,14 +24,12 @@ export const LegendColor = memo(({ symbol }: { symbol: LegendSymbol }) => {
 
   return (
     <Box
-      sx={{
-        position: "relative",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        flexWrap: "wrap",
-        minHeight: "20px",
-      }}
       display="flex"
+      position="relative"
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      flexWrap="wrap"
+      minHeight="20px"
     >
       {colors.domain().map((item, i) => (
         <LegendItem key={i} item={item} color={colors(item)} symbol={symbol} />

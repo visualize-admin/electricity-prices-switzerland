@@ -100,15 +100,13 @@ export const SunshineSelectorsBase = ({
   return (
     <Box
       component="fieldset"
-      sx={{
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        gap: 3,
-        zIndex: 13,
-        p: 0,
-        m: 0,
-      }}
       display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      gap={3}
+      zIndex={13}
+      p={0}
+      m={0}
     >
       <Combobox
         id="year"

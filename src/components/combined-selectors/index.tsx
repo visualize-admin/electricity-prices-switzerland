@@ -53,16 +53,16 @@ export const CombinedSelectors = ({
   return (
     <Box
       {...props}
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      mb={6}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
         ...props.sx,
-        mb: 6,
       }}
     >
       {sunshineFlag && showTabs ? (
-        <Box sx={{ width: "100%", mb: 2 }}>
+        <Box width="100%" mb={2}>
           <ElectricityOrSunshineButtonGroup />
         </Box>
       ) : null}

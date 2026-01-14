@@ -36,19 +36,9 @@ export const ApplicationLayout = ({
         setValue: setHighlightContext,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <Box display="flex" flexDirection="column">
         <Header showCaption={showHeaderCaption} />
-        <Box
-          sx={{
-            flexDirection: "column",
-          }}
-          display="flex"
-        >
+        <Box display="flex" flexDirection="column">
           {!errorState && (
             <SafeHydration>
               <AppNavigation />
@@ -67,11 +57,7 @@ const AppNavigation = () => {
   const asPath = asPathWithQueryString.split("?")[0];
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-      }}
-    >
+    <Box position="relative">
       {/* FIXME: creates ugly x-scroll  due to nested ContentWrapper */}
       <MenuContainer
         sx={{
@@ -108,7 +94,7 @@ const AppNavigation = () => {
             },
           }}
         />
-        <Box sx={{ flex: 1 }} />
+        <Box flex={1} />
         <Search />
       </MenuContainer>
     </Box>

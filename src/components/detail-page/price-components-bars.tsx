@@ -227,12 +227,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       </CardHeader>
       {!download && entity !== "canton" && mirrorEntities.length > 1 && (
         <>
-          <Box
-            sx={{
-              display: ["none", "none", "block"],
-              maxWidth: "fit-content",
-            }}
-          >
+          <Box display={["none", "none", "block"]} maxWidth="fit-content">
             <ButtonGroup
               id="price-components-bars-view-switch"
               sx={{
@@ -264,7 +259,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               setValue={(view) => setQueryState({ view: [view] })}
             />
           </Box>
-          <Box sx={{ display: ["block", "block", "none"] }}>
+          <Box display={["block", "block", "none"]}>
             <Combobox<CollapsedState>
               id="price-components-bars-view-dropdown"
               label={""}

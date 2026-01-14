@@ -76,13 +76,7 @@ const ComboboxLabel = ({
       ) : (
         <div />
       )}
-      <Box
-        sx={{
-          maxHeight: "1rem",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <Box maxHeight="1rem" display="flex" alignItems="center">
         {icon}
       </Box>
     </Box>
