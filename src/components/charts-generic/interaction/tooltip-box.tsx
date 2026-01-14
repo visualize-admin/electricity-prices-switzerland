@@ -133,6 +133,11 @@ const useTooltipStyles = tss
         position,
         pointerEvents: "none",
         boxShadow: theme.shadows[4],
+
+        // Hide tooltip when scroll is locked (e.g. on mobile when a modal is open)
+        "[data-scroll-locked] &": {
+          display: "none",
+        },
       },
       tooltipBox: {
         padding: theme.spacing(3, 4),

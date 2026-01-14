@@ -7,7 +7,11 @@ import { first } from "lodash";
 import { useCallback, useId, useMemo, useState } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
-import { GenericMap, GenericMapControls } from "src/components/generic-map";
+import {
+  GenericMap,
+  GenericMapControls,
+  GenericMapProps,
+} from "src/components/generic-map";
 import { HighlightValue } from "src/components/highlight-context";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { useMap } from "src/components/map-context";
@@ -104,6 +108,7 @@ type SunshineMapProps = {
   indicator: SunshineIndicator;
   // Necessary when indicator is networkCosts
   networkLevel?: "NE5" | "NE6" | "NE7";
+  widgets?: GenericMapProps["widgets"];
 };
 
 const aggregateFnPerIndicator: Record<
@@ -131,6 +136,7 @@ const SunshineMap = ({
   period,
   indicator,
   networkLevel,
+  widgets,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
 
@@ -482,6 +488,7 @@ const SunshineMap = ({
       setHovered={setHovered}
       getEntityFromHighlight={getEntityFromHighlight}
       featureMatchesId={featureMatchesId}
+      widgets={widgets}
     />
   );
 };

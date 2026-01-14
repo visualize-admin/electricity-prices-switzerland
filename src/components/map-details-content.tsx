@@ -26,39 +26,46 @@ import { ListItemType } from "./list";
 type MapDetailsContentProps = {
   onBack: () => void;
   children: ReactNode;
+  showBackButton?: boolean;
 };
 
-const MapDetailsContentWrapper = (props: MapDetailsContentProps) => {
-  const { onBack, children } = props;
+const MapDetailsContentWrapper = (
+  props: MapDetailsContentProps & { showBackButton?: boolean }
+) => {
+  const { onBack, children, showBackButton = true } = props;
   return (
     <Stack
       direction={"column"}
       spacing={4}
-      padding={6}
+      p={[2, 2, 6]}
       data-testid="map-details-content"
     >
-      <div>
-        <Button
-          variant="text"
-          startIcon={<Icon name="arrowleft" />}
-          sx={{
-            justifySelf: "flex-start",
-            px: 1,
-          }}
-          color="tertiary"
-          size={"md"}
-          onClick={onBack}
-        >
-          <Trans id="map.details-sidebar-panel.back-button">
-            Back to filters
-          </Trans>
-        </Button>
-      </div>
-      <Divider
-        sx={{
-          bgcolor: "secondary.50",
-        }}
-      />
+      {showBackButton ? (
+        <>
+          <div>
+            <Button
+              variant="text"
+              startIcon={<Icon name="arrowleft" />}
+              sx={{
+                justifySelf: "flex-start",
+                px: 1,
+              }}
+              color="tertiary"
+              size={"md"}
+              onClick={onBack}
+            >
+              <Trans id="map.details-sidebar-panel.back-button">
+                Back to filters
+              </Trans>
+            </Button>
+          </div>
+          <Divider
+            sx={{
+              bgcolor: "secondary.50",
+            }}
+          />
+        </>
+      ) : null}
       {children}
     </Stack>
   );
@@ -242,7 +249,15 @@ export const MapDetailsContent: React.FC<{
   selectedItem: ListItemType;
   onBack: () => void;
   formatValue: (value: number) => string;
-}> = ({ colorScale, entity, selectedItem, onBack, formatValue }) => {
+  showBackButton?: boolean;
+}> = ({
+  colorScale,
+  entity,
+  selectedItem,
+  onBack,
+  formatValue,
+  showBackButton = true,
+}) => {
   const [{ tab }] = useQueryStateMapCommon();
   const [
     {
@@ -254,7 +269,7 @@ export const MapDetailsContent: React.FC<{
   ] = useQueryStateEnergyPricesMap();
   const [{ indicator, period }] = useQueryStateSunshineMap();
   return (
-    <MapDetailsContentWrapper onBack={onBack}>
+    <MapDetailsContentWrapper onBack={onBack} showBackButton={showBackButton}>
       <MapDetailsEntityHeader entity={entity} {...selectedItem} />
       <MapDetailsEntityTable
         colorScale={colorScale}

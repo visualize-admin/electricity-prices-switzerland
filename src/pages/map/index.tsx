@@ -1,12 +1,15 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
+import { Box, useEventCallback } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { CombinedSelectors } from "src/components/combined-selectors";
+import {
+  CombinedSelectors,
+  ElectricityOrSunshineButtonGroup,
+} from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
 import { DownloadImage } from "src/components/detail-page/download-image";
 import { InlineDrawer } from "src/components/drawer";
@@ -24,6 +27,7 @@ import {
   ListItemType,
 } from "src/components/list";
 import { MapProvider, useMap } from "src/components/map-context";
+import { WidgetIcon } from "src/components/map-widget-icon";
 import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
@@ -44,6 +48,7 @@ import {
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import { useEnrichedSunshineData } from "src/hooks/use-enriched-sunshine-data";
 import { useSelectedEntityData } from "src/hooks/use-selected-entity-data";
+import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
@@ -219,6 +224,40 @@ const MapPageContent = ({
     sunshineEnrichedDataResult.data?.observations,
   ]);
 
+  const { setActiveId } = useMap();
+
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
+    "parameters"
+  );
+
+  const handleCloseMobileControlsDrawer = useEventCallback(() => {
+    setMobileDrawerOpen(false);
+  });
+
+  const handleClickMobileControlsCard = useEventCallback(() => {
+    setMobileDrawerOpen(true);
+    setMobileDrawerTab("parameters");
+  });
+
+  const handleClickListWidget = useEventCallback(() => {
+    setMobileDrawerOpen(true);
+    setMobileDrawerTab("list");
+    setActiveId(null);
+  });
+
+  const isMobile = useIsMobile();
+
+  const mapWidgets = useMemo(() => {
+    return {
+      right: isMobile ? (
+        <WidgetIcon onClick={handleClickListWidget}>
+          <Icon name="listbullet" />
+        </WidgetIcon>
+      ) : null,
+    };
+  }, [isMobile, handleClickListWidget]);
+
   const map = isElectricityTab ? (
     <EnergyPricesMap
       enrichedDataQuery={energyPricesEnrichedData}
@@ -226,6 +265,7 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       priceComponent={priceComponent as PriceComponent}
+      widgets={mapWidgets}
     />
   ) : (
     <SunshineMap
@@ -237,6 +277,7 @@ const MapPageContent = ({
       period={period}
       indicator={indicator}
       networkLevel={networkLevel}
+      widgets={mapWidgets}
     />
   );
 
@@ -316,11 +357,11 @@ const MapPageContent = ({
       return selected?.[1] ?? null;
     }
   }, [activeId, listGroups]);
-  const { setActiveId } = useMap();
 
   const mobileDetailsContent = selectedItem ? (
     <MapDetailsContent
       colorScale={colorScale}
+      showBackButton={false}
       entity={entity}
       selectedItem={selectedItem}
       onBack={() => setActiveId(null)}
@@ -336,8 +377,6 @@ const MapPageContent = ({
       formatValue={valueFormatter}
     />
   );
-
-  const isMobile = useIsMobile();
 
   const shouldShowInfoBanner = !!(
     energyPricesEnrichedData.fetching === false &&
@@ -389,8 +428,13 @@ const MapPageContent = ({
           <ContentWrapper
             sx={{
               padding: "0px !important",
+              flexDirection: "column",
+              justifyContent: "stretch",
             }}
           >
+            <Box bgcolor="background.paper" p={2} flexGrow={1} width="100%">
+              <ElectricityOrSunshineButtonGroup />
+            </Box>
             <Box
               id={DOWNLOAD_ID}
               sx={{
@@ -493,14 +537,34 @@ const MapPageContent = ({
         )}
 
         {!isMobile ? null : (
-          <MobileControls
-            list={list}
-            listButtonGroup={listButtonGroup}
-            details={mobileDetailsContent}
-            selectors={<CombinedSelectors />}
-            entity={entity}
-            selectedEntityData={selectedEntityData}
-          />
+          <>
+            <MobileControls
+              list={list}
+              listButtonGroup={listButtonGroup}
+              details={mobileDetailsContent}
+              selectors={<CombinedSelectors showTabs={false} />}
+              entity={entity}
+              selectedEntityData={selectedEntityData}
+              drawerTab={mobileDrawerTab}
+              drawerOpen={mobileDrawerOpen}
+              onClickCard={handleClickMobileControlsCard}
+              onCloseMobileDrawer={handleCloseMobileControlsDrawer}
+            />
+            <Box
+              display="flex"
+              bgcolor="background.paper"
+              borderTop="1px solid"
+              borderColor="divider"
+              py={1}
+            >
+              <DownloadImage
+                fileName={"map.png"}
+                downloadType={DOWNLOAD_ID}
+                getImageData={async () => controlsRef.current?.getImageData()}
+              />
+              <ShareButton />
+            </Box>
+          </>
         )}
       </Box>
     </ApplicationLayout>

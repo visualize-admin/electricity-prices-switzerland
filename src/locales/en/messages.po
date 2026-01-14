@@ -146,6 +146,7 @@ msgid "dialog.close"
 msgstr "Close dialog"
 
 #: src/components/info-dialog.tsx
+#: src/components/info-dialog.tsx
 msgid "dialog.infoprefix"
 msgstr "Info:"
 
@@ -627,12 +628,20 @@ msgid "map.tooltipnodata"
 msgstr "No data"
 
 #: src/components/map/mobile-controls.tsx
-msgid "mobile-controls.tabs.list"
-msgstr "List"
+msgid "mobile-drawer.close"
+msgstr "Close"
 
 #: src/components/map/mobile-controls.tsx
-msgid "mobile-controls.tabs.parameters"
-msgstr "Parameters"
+msgid "mobile-drawer.details-title"
+msgstr "Details"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-drawer.list-title"
+msgstr "Map View"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-drawer.parameters-title"
+msgstr "Parameter"
 
 #: src/utils/entity-formatting.tsx
 msgid "municipality"

@@ -146,6 +146,7 @@ msgid "dialog.close"
 msgstr "dialog.close"
 
 #: src/components/info-dialog.tsx
+#: src/components/info-dialog.tsx
 msgid "dialog.infoprefix"
 msgstr "dialog.infoprefix"
 
@@ -627,12 +628,20 @@ msgid "map.tooltipnodata"
 msgstr "map.tooltipnodata"
 
 #: src/components/map/mobile-controls.tsx
-msgid "mobile-controls.tabs.list"
-msgstr "mobile-controls.tabs.list"
+msgid "mobile-drawer.close"
+msgstr "mobile-drawer.close"
 
 #: src/components/map/mobile-controls.tsx
-msgid "mobile-controls.tabs.parameters"
-msgstr "mobile-controls.tabs.parameters"
+msgid "mobile-drawer.details-title"
+msgstr "mobile-drawer.details-title"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-drawer.list-title"
+msgstr "mobile-drawer.list-title"
+
+#: src/components/map/mobile-controls.tsx
+msgid "mobile-drawer.parameters-title"
+msgstr "mobile-drawer.parameters-title"
 
 #: src/utils/entity-formatting.tsx
 msgid "municipality"

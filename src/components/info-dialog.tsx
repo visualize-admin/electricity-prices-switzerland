@@ -20,16 +20,42 @@ import parse, {
 } from "html-react-parser";
 import { ComponentProps } from "react";
 import { createPortal } from "react-dom";
+import * as Vaul from "vaul";
 
 import { LoadingIcon, NoContentHint } from "src/components/hint";
 import { useDisclosure } from "src/components/use-disclosure";
+import useVaulStyles from "src/components/use-vaul-styles";
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { WikiPageSlug } from "src/domain/types";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { Icon } from "src/icons";
 import { useLocale } from "src/lib/use-locale";
+import { useIsMobile } from "src/lib/use-mobile";
 import { theme } from "src/themes/elcom";
 import { useFlag } from "src/utils/flags";
+
+const transform: HTMLReactParserOptions["replace"] = (node, index) => {
+  if (node.type === "tag" && node.name === "details") {
+    const element = node as Element;
+    const summaryNode = element.children.find(
+      (c): c is Element => c.type === "tag" && c.name === "summary"
+    );
+
+    const contentNodes = element.children.filter(
+      (c): c is import("html-react-parser").DOMNode => c !== summaryNode
+    );
+    return (
+      <Accordion key={index}>
+        <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
+          <Typography fontWeight={700}>
+            {summaryNode ? domToReact(summaryNode.children as DOMNode[]) : null}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>{domToReact(contentNodes)}</AccordionDetails>
+      </Accordion>
+    );
+  }
+};
 
 const DialogContent = ({
   contentQuery,
@@ -51,31 +77,6 @@ const DialogContent = ({
       </Box>
     );
   }
-
-  const transform: HTMLReactParserOptions["replace"] = (node, index) => {
-    if (node.type === "tag" && node.name === "details") {
-      const element = node as Element;
-      const summaryNode = element.children.find(
-        (c): c is Element => c.type === "tag" && c.name === "summary"
-      );
-
-      const contentNodes = element.children.filter(
-        (c): c is import("html-react-parser").DOMNode => c !== summaryNode
-      );
-      return (
-        <Accordion key={index}>
-          <AccordionSummary expandIcon={<Icon name="chevrondown" />}>
-            <Typography fontWeight={700}>
-              {summaryNode
-                ? domToReact(summaryNode.children as DOMNode[])
-                : null}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>{domToReact(contentNodes)}</AccordionDetails>
-        </Accordion>
-      );
-    }
-  };
 
   return (
     <Box
@@ -124,7 +125,33 @@ export const HelpDialog: React.FC<{
     pause: !open,
   });
 
-  return (
+  const { classes } = useVaulStyles();
+  const isMobile = useIsMobile();
+
+  return isMobile ? (
+    <Vaul.Root open={open} onOpenChange={(isOpen) => !isOpen && close()}>
+      <Vaul.Portal>
+        <Vaul.Overlay className={classes.overlay} />
+        <Vaul.Content className={classes.content}>
+          <div className={classes.handle}></div>
+          <IconButton onClick={close} className={classes.closeButton}>
+            <Icon name="close" />
+          </IconButton>
+          <div className={classes.scrollArea}>
+            <Box sx={{ p: 2 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "secondary.main", mb: 2 }}
+              >
+                <Trans id="dialog.infoprefix">Info:</Trans> {label}
+              </Typography>
+              <DialogContent contentQuery={contentQuery} />
+            </Box>
+          </div>
+        </Vaul.Content>
+      </Vaul.Portal>
+    </Vaul.Root>
+  ) : (
     <>
       {contentQuery.fetching ? (
         createPortal(
@@ -209,6 +236,7 @@ export const InfoDialogButton = ({
     open: openDialog,
   } = useDisclosure();
   const debugInfoDialog = useFlag("debugInfoDialog");
+
   return (
     <>
       {debugInfoDialog && (
@@ -235,15 +263,13 @@ export const InfoDialogButton = ({
         }}
         onClick={openDialog}
       >
-        <Box sx={{ alignItems: "center" }} display="flex">
-          <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
-            <Icon
-              name={type === "fill" ? "infocirclefilled" : "infocircle"}
-              size={iconSize}
-            />
-          </Box>{" "}
-          {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
+        <Box sx={{ flexShrink: 0, mr: iconOnly ? 0 : 2 }}>
+          <Icon
+            name={type === "fill" ? "infocirclefilled" : "infocircle"}
+            size={iconSize}
+          />
         </Box>
+        {iconOnly ? <VisuallyHidden>{label}</VisuallyHidden> : label}
       </IconButton>
       <HelpDialog
         close={closeDialog}

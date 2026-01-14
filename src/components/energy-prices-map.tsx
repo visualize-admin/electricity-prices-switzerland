@@ -36,7 +36,7 @@ import {
 import { truthy } from "src/lib/truthy";
 import { combineErrors } from "src/utils/combine-errors";
 
-import { GenericMap, GenericMapControls } from "./generic-map";
+import { GenericMap, GenericMapControls, GenericMapProps } from "./generic-map";
 import { useMap } from "./map-context";
 
 const DOWNLOAD_ID = "map";
@@ -47,12 +47,14 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
+  widgets,
 }: {
   enrichedDataQuery: ReturnType<typeof useEnrichedEnergyPricesData>;
   colorScale: ScaleThreshold<number, string> | undefined;
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
+  widgets?: GenericMapProps["widgets"];
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
   const { activeId, onEntitySelect, setEntity } = useMap();
@@ -307,6 +309,7 @@ export const EnergyPricesMap = ({
       controls={controls}
       getEntityFromHighlight={getEntityFromHighlight}
       setHovered={setHovered}
+      widgets={widgets}
     />
   );
 };

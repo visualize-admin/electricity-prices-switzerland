@@ -8,7 +8,7 @@ import {
 import { ViewStateChangeParameters } from "@deck.gl/core/typed/controllers/controller";
 import DeckGL, { DeckGLRef } from "@deck.gl/react/typed";
 import { Trans } from "@lingui/macro";
-import { Alert, AlertTitle, Box, IconButton, Typography } from "@mui/material";
+import { Alert, AlertTitle, Box, Typography } from "@mui/material";
 import bbox from "@turf/bbox";
 // eslint-disable-next-line
 // @ts-ignore - Package import is reported as a problem in tsgo - TODO Recheck later if we can remove this
@@ -47,6 +47,7 @@ import {
   defaultMapTooltipPlacement,
   MapTooltip,
 } from "src/components/map-tooltip";
+import { WidgetIcon } from "src/components/map-widget-icon";
 import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
@@ -59,15 +60,6 @@ const useStyles = makeStyles()((theme) => ({
     zIndex: 1,
     display: "flex",
     gap: theme.spacing(2),
-  },
-  iconButton: {
-    backgroundColor: theme.palette.background.paper,
-    height: 40,
-    "& svg": {
-      width: 16,
-      height: 16,
-      color: theme.palette.text.primary,
-    },
   },
 }));
 
@@ -93,12 +85,12 @@ const ZoomWidget = ({
   );
   return (
     <Box className={classes.container}>
-      <IconButton onClick={onZoomIn} size="sm" className={classes.iconButton}>
+      <WidgetIcon onClick={onZoomIn}>
         <IconPlus />
-      </IconButton>
-      <IconButton onClick={onZoomOut} className={classes.iconButton}>
+      </WidgetIcon>
+      <WidgetIcon onClick={onZoomOut} size="sm">
         <IconMinus />
-      </IconButton>
+      </WidgetIcon>
       {isMobile ? null : (
         <Box
           sx={{
@@ -176,6 +168,7 @@ export const GenericMap = ({
   getEntityFromHighlight,
   setHovered,
   featureMatchesId = defaultFeatureMatchesId,
+  widgets,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -194,6 +187,10 @@ export const GenericMap = ({
   getEntityFromHighlight?: (highlight: HighlightValue) => Feature | undefined;
   setHovered: Dispatch<HoverState | undefined>;
   featureMatchesId?: (feature: Feature, id: string) => boolean;
+  widgets?: {
+    left?: React.ReactNode;
+    right?: React.ReactNode;
+  };
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -516,12 +513,12 @@ export const GenericMap = ({
               position: "absolute",
               top: "var(--map-widget-margin-y)",
               right: "var(--map-widget-margin-x)",
-              backgroundColor: "background.paper",
-              p: 4,
+              display: "flex",
+              gap: 2,
             }}
-            id={legendId}
           >
-            {legend}
+            {widgets?.right}
+            <Box id={legendId}>{legend}</Box>
           </Box>
         )}
 
@@ -531,8 +528,11 @@ export const GenericMap = ({
             top: "var(--map-widget-margin-y)",
             left: "var(--map-widget-margin-x)",
             zIndex: 10,
+            display: "flex",
+            gap: 2,
           }}
         >
+          {widgets?.left}
           <ZoomWidget
             scrollZoom={scrollZoom}
             displayScrollZoom={displayScrollZoom}
@@ -628,3 +628,5 @@ function findFeatureInLayers(
 function defaultFeatureMatchesId(feature: Feature, id: string): boolean {
   return feature.id?.toString() === id;
 }
+
+export type GenericMapProps = React.ComponentProps<typeof GenericMap>;
