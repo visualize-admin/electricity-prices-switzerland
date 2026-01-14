@@ -183,6 +183,21 @@ test.describe("Sunshine details page", () => {
       url: "/sunshine/operator/426/operational-standards",
     });
   });
+
+  test(`it should load the sunshine details page for Service Quality (no data)`, async ({
+    withFlag,
+    page,
+    snapshot,
+  }) => {
+    await performTest({
+      withFlag,
+      page,
+      snapshot,
+      screenshotLabel: "Service-Quality-no-data",
+      buttonLabel: "compliance-tab",
+      url: "/sunshine/operator/85/operational-standards",
+    });
+  });
 });
 
 test.describe("Sunshine map details panel", () => {
