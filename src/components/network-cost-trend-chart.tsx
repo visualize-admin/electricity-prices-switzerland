@@ -11,6 +11,7 @@ import {
   type SunshineCostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
@@ -33,7 +34,14 @@ type NetworkCostTrendChartProps = {
   NetworkCostsTrendCardFilters;
 
 export const NetworkCostTrendChart = (props: NetworkCostTrendChartProps) => {
-  const { observations, viewBy, rootProps, colorMapping, compact, ...restProps } = props;
+  const {
+    observations,
+    viewBy,
+    rootProps,
+    colorMapping,
+    compact,
+    ...restProps
+  } = props;
   const operatorsNames = useMemo(() => {
     return new Set(observations.map((d) => d.operator_name));
   }, [observations]);
@@ -85,7 +93,10 @@ const NetworkCostLatestYearChartView = (
         }),
         year: o.year,
       }))
-      .filter((x) => !isPeerGroupRow(x));
+      .filter(
+        (x): x is NonNullableProp<typeof x, "rate"> =>
+          !isPeerGroupRow(x) && x.rate !== null
+      );
   }, [observations]);
 
   return (
@@ -149,13 +160,19 @@ const ProgressOvertimeChartView = (
     mini,
   } = props;
 
+  const validObservations = useMemo(() => {
+    return observations.filter(
+      (d): d is NonNullableProp<typeof d, "rate"> => d.rate !== null
+    );
+  }, [observations]);
+
   if (observations.length === 0) {
     return <NoDataHint />;
   }
 
   return (
     <ProgressOvertimeChart
-      observations={observations}
+      observations={validObservations}
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}

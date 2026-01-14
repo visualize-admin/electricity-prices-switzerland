@@ -2,11 +2,9 @@ import { Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Typography } from "@mui/material";
 
 import CardSource from "src/components/card-source";
-import {
-  PeerGroup,
-  SunshineOperationalStandardsData,
-} from "src/domain/sunshine";
+import { PeerGroup } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { lowercase } from "src/utils/str";
 
 import { CardHeader } from "./detail-page/card";
@@ -20,11 +18,11 @@ import {
 type AttributeProps =
   | {
       attribute: "serviceQuality";
-      operationalStandards: SunshineOperationalStandardsData["serviceQuality"];
+      operationalStandards: OperationalStandardsData["serviceQuality"];
     }
   | {
       attribute: "compliance";
-      operationalStandards: SunshineOperationalStandardsData["compliance"];
+      operationalStandards: OperationalStandardsData["compliance"];
     };
 
 type OperationalStandardsCardProps = AttributeProps & {

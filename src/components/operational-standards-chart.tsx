@@ -12,7 +12,7 @@ import {
 import { HistogramColumns } from "src/components/charts-generic/histogram/histogram";
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
-import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
 import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 import { useFlag } from "src/utils/flags";
@@ -31,7 +31,7 @@ export const ServiceQualityChart = ({
   id,
   operatorLabel,
 }: {
-  data: SunshineOperationalStandardsData["serviceQuality"];
+  data: OperationalStandardsData["serviceQuality"];
   id: string;
   operatorLabel: string;
 }) => {
@@ -104,7 +104,7 @@ export const ComplianceChart = ({
   id,
   operatorLabel,
 }: {
-  data: SunshineOperationalStandardsData["compliance"];
+  data: OperationalStandardsData["compliance"];
   id: string;
   operatorLabel: string;
 }) => {

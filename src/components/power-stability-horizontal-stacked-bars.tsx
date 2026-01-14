@@ -35,6 +35,7 @@ import {
 import { PERCENT, MIN_PER_YEAR } from "src/domain/metrics";
 import { peerGroupOperatorName } from "src/domain/sunshine";
 import { useIsMobile } from "src/lib/use-mobile";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 export const PowerStabilityHorizontalStackedBars = (
   props: Omit<PowerStabilityChartProps, "viewBy" | "observations"> & {
@@ -43,12 +44,13 @@ export const PowerStabilityHorizontalStackedBars = (
   }
 ) => {
   const {
-    observations,
+    observations: observationsWithNullValues,
     id,
     operatorLabel,
     overallOrRatio,
     compact: compactProp,
   } = props;
+
   const isMobile = useIsMobile();
   const compact = compactProp ?? isMobile;
   const [sortByItem, setSortByItem] =
@@ -66,13 +68,18 @@ export const PowerStabilityHorizontalStackedBars = (
   };
 
   const { dataWithRatioApplied, xDomain } = useMemo(() => {
+    const observations = observationsWithNullValues.filter(
+      (d): d is NonNullableProp<typeof d, "planned" | "unplanned"> =>
+        d.planned != null && d.unplanned != null
+    );
     const data = observations.map((d) => {
-      const total = d.planned + d.unplanned;
+      const unplanned = d.unplanned ?? 0;
+      const total = d.planned + unplanned;
       if (overallOrRatio === "ratio" && total > 0) {
         return {
           ...d,
           planned: (d.planned / total) * 100,
-          unplanned: (d.unplanned / total) * 100,
+          unplanned: (unplanned / total) * 100,
           total,
         };
       }
@@ -82,7 +89,7 @@ export const PowerStabilityHorizontalStackedBars = (
       };
     });
 
-    const maxVal = max(data, (d) => d.planned + d.unplanned) ?? 0;
+    const maxVal = max(data, (d) => d.planned + (d.unplanned ?? 0)) ?? 0;
     const domain: [number, number] =
       overallOrRatio === "ratio" ? [0, 100] : [0, maxVal];
 
@@ -91,7 +98,7 @@ export const PowerStabilityHorizontalStackedBars = (
       xDomain: domain,
       maxValue: maxVal,
     };
-  }, [observations, overallOrRatio]);
+  }, [observationsWithNullValues, overallOrRatio]);
 
   const { sortedDataWithoutMedian, medianPeerGroupObservation } =
     useMemo(() => {
@@ -99,15 +106,18 @@ export const PowerStabilityHorizontalStackedBars = (
         if (a.operator_id.toString() === id) return -1;
         if (b.operator_id.toString() === id) return 1;
 
+        const aUnplanned = a.unplanned ?? 0;
+        const bUnplanned = b.unplanned ?? 0;
+
         switch (sortByItem) {
           case "operator":
             return a.operator_name.localeCompare(b.operator_name);
           case "planned":
             return b.planned - a.planned;
           case "unplanned":
-            return b.unplanned - a.unplanned;
+            return bUnplanned - aUnplanned;
           case "total":
-            return b.planned + b.unplanned - (a.planned + a.unplanned);
+            return b.planned + bUnplanned - (a.planned + aUnplanned);
           default:
             return 0;
         }

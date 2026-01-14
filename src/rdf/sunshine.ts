@@ -182,15 +182,12 @@ const convertOperatorIdToUri = (operatorId: number): string => {
 const extractOperatorIdFromUri = (uri: string): number => {
   return parseInt(stripNamespaceFromIri({ iri: uri }), 10);
 };
-const parseFloatOrUndefined = <T extends string | undefined>(
-  value: T
-): T extends string ? number : undefined => {
-  return (
-    value === undefined ? undefined : parseFloat(value)
-  ) as T extends string ? number : undefined;
+const parseFloatOrNull = (value: string | undefined): number | null => {
+  return (value === undefined ? null : parseFloat(value)) as number | null;
 };
 
-const isValidNumber = (n: number) => !Number.isNaN(n) && Number.isFinite(n);
+const isValidNumber = (n: number | null) =>
+  n !== null && !Number.isNaN(n) && Number.isFinite(n);
 
 const getNetworkCosts = async (
   client: ParsingClient,
@@ -288,13 +285,13 @@ const getNetworkCosts = async (
     ].filter(({ level }) => !networkLevel || level === networkLevel);
 
     for (const { level, rate } of levels) {
-      if (rate && isValidNumber(parseFloatOrUndefined(rate))) {
+      if (rate && isValidNumber(parseFloatOrNull(rate))) {
         networkCosts.push({
           operator_id: operatorId,
           operator_name: operatorName,
           year,
           network_level: level,
-          rate: parseFloatOrUndefined(rate),
+          rate: parseFloatOrNull(rate),
         });
       }
     }
@@ -304,6 +301,11 @@ const getNetworkCosts = async (
 };
 
 const yesIri = "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
+const noIri = "https://energy.ld.admin.ch/elcom/electricityprice/No";
+
+const parseBooleanOrNull = (value: string | undefined): boolean | null => {
+  return value === yesIri ? true : value === noIri ? false : null;
+};
 
 const getOperationalStandards = async (
   client: ParsingClient,
@@ -379,10 +381,10 @@ const getOperationalStandards = async (
     operator_id: extractOperatorIdFromUri(row.operator),
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
-    franc_rule: parseFloatOrUndefined(row.franken_regel),
-    info_yes_no: row.info === yesIri ? true : false,
-    info_days_in_advance: parseInt(row.days_in_advance, 10),
-    timely: row.in_time === yesIri ? true : false,
+    franc_rule: parseFloatOrNull(row.franken_regel),
+    info_days_in_advance: parseFloatOrNull(row.days_in_advance),
+    info_yes_no: parseBooleanOrNull(row.info),
+    timely: parseBooleanOrNull(row.in_time),
     settlement_density: "", // TODO: Need to get this from operator data
     energy_density: "", // TODO: Need to get this from operator data
   }));
@@ -455,10 +457,10 @@ const getStabilityMetrics = async (
     operator_id: extractOperatorIdFromUri(row.operator),
     operator_name: row.operator_name,
     period: parseInt(row.period, 10),
-    saidi_total: parseFloatOrUndefined(row.saidi_total),
-    saidi_unplanned: parseFloatOrUndefined(row.saidi_unplanned),
-    saifi_total: parseFloatOrUndefined(row.saifi_total),
-    saifi_unplanned: parseFloatOrUndefined(row.saifi_unplanned),
+    saidi_total: parseFloatOrNull(row.saidi_total),
+    saidi_unplanned: parseFloatOrNull(row.saidi_unplanned),
+    saifi_total: parseFloatOrNull(row.saifi_total),
+    saifi_unplanned: parseFloatOrNull(row.saifi_unplanned),
   }));
 };
 
@@ -555,7 +557,7 @@ const getTariffs = async (
         period: periodValue,
         category: categoryValue as ElectricityCategory,
         tariff_type: "energy",
-        rate: parseFloatOrUndefined(row.energy),
+        rate: parseFloatOrNull(row.energy),
       });
     }
 
@@ -567,7 +569,7 @@ const getTariffs = async (
         period: periodValue,
         category: categoryValue as ElectricityCategory,
         tariff_type: "network",
-        rate: parseFloatOrUndefined(row.gridusage),
+        rate: parseFloatOrNull(row.gridusage),
       });
     }
   }
@@ -791,25 +793,25 @@ const getYearlyIndicatorMedians = async <
         const valueKey = `gridcost_${networkLevel?.toLowerCase()}`;
         return {
           network_level: networkLevel,
-          median_value: parseFloatOrUndefined(result[valueKey] || "0"),
+          median_value: parseFloatOrNull(result[valueKey] || "0"),
         } as PeerGroupRecord<Metric>;
       }
 
       case "stability":
         return {
-          median_saidi_total: parseFloatOrUndefined(result.saidi_total || "0"),
-          median_saidi_unplanned: parseFloatOrUndefined(
+          median_saidi_total: parseFloatOrNull(result.saidi_total || "0"),
+          median_saidi_unplanned: parseFloatOrNull(
             result.saidi_unplanned || "0"
           ),
-          median_saifi_total: parseFloatOrUndefined(result.saifi_total || "0"),
-          median_saifi_unplanned: parseFloatOrUndefined(
+          median_saifi_total: parseFloatOrNull(result.saifi_total || "0"),
+          median_saifi_unplanned: parseFloatOrNull(
             result.saifi_unplanned || "0"
           ),
         } as PeerGroupRecord<Metric>;
 
       case "operational":
         return {
-          median_franc_rule: parseFloatOrUndefined(result.franken_regel || "0"),
+          median_franc_rule: parseFloatOrNull(result.franken_regel || "0"),
           median_info_days: parseInt(result.days_in_advance || "0", 10),
           median_timely: result.in_time === "true" ? 1 : 0,
         } as PeerGroupRecord<Metric>;
@@ -819,7 +821,7 @@ const getYearlyIndicatorMedians = async <
         return {
           category,
           tariff_type: "energy",
-          median_rate: parseFloatOrUndefined(result.energy || "0"),
+          median_rate: parseFloatOrNull(result.energy || "0"),
         } as unknown as PeerGroupRecord<Metric>;
       }
 
@@ -828,7 +830,7 @@ const getYearlyIndicatorMedians = async <
         return {
           category,
           tariff_type: "network",
-          median_rate: parseFloatOrUndefined(result.gridusage || "0"),
+          median_rate: parseFloatOrNull(result.gridusage || "0"),
         } as unknown as PeerGroupRecord<Metric>;
       }
 
@@ -1089,7 +1091,7 @@ const getSunshineData = async (
   // Group tariff data by operator and period
   const tariffsByOperatorPeriod = new Map<
     string,
-    Map<string, { energy: number; gridusage: number }>
+    Map<string, { energy: number | null; gridusage: number | null }>
   >();
 
   for (const row of tariffResults) {
@@ -1103,8 +1105,8 @@ const getSunshineData = async (
     }
 
     tariffsByOperatorPeriod.get(key)?.set(category, {
-      energy: parseFloatOrUndefined(row.energy),
-      gridusage: parseFloatOrUndefined(row.gridusage),
+      energy: parseFloatOrNull(row.energy),
+      gridusage: parseFloatOrNull(row.gridusage),
     });
   }
 
@@ -1120,17 +1122,17 @@ const getSunshineData = async (
       operatorUID: operatorId.toString(), // TODO: Get actual UID
       name: row.operator_name,
       period,
-      francRule: parseFloatOrUndefined(row.franken_regel),
+      francRule: parseFloatOrNull(row.franken_regel),
       infoYesNo: row.info === yesPredicateValue,
       infoDaysInAdvance: parseInt(row.days_in_advance, 10),
-      networkCostsNE5: parseFloatOrUndefined(row.gridcost_ne5),
-      networkCostsNE6: parseFloatOrUndefined(row.gridcost_ne6),
-      networkCostsNE7: parseFloatOrUndefined(row.gridcost_ne7),
+      networkCostsNE5: parseFloatOrNull(row.gridcost_ne5),
+      networkCostsNE6: parseFloatOrNull(row.gridcost_ne6),
+      networkCostsNE7: parseFloatOrNull(row.gridcost_ne7),
       timely: row.in_time === "true",
-      saidiTotal: parseFloatOrUndefined(row.saidi_total),
-      saidiUnplanned: parseFloatOrUndefined(row.saidi_unplanned),
-      saifiTotal: parseFloatOrUndefined(row.saifi_total),
-      saifiUnplanned: parseFloatOrUndefined(row.saifi_unplanned),
+      saidiTotal: parseFloatOrNull(row.saidi_total),
+      saidiUnplanned: parseFloatOrNull(row.saidi_unplanned),
+      saifiTotal: parseFloatOrNull(row.saifi_total),
+      saifiUnplanned: parseFloatOrNull(row.saifi_unplanned),
       tariffEC2: tariffs.get("C2")?.energy || 0,
       tariffEC3: tariffs.get("C3")?.energy || 0,
       tariffEC4: tariffs.get("C4")?.energy || 0,

@@ -13,7 +13,7 @@ export type NetworkCostRecord = {
   operator_name: string;
   year: number;
   network_level: NetworkLevel["id"];
-  rate: number;
+  rate: number | null;
 };
 
 export type OperationalStandardRecord = {
@@ -32,10 +32,10 @@ export type StabilityMetricRecord = {
   operator_id: number;
   operator_name: string;
   period: number;
-  saidi_total: number;
-  saidi_unplanned: number;
-  saifi_total: number;
-  saifi_unplanned: number;
+  saidi_total: number | null;
+  saidi_unplanned: number | null;
+  saifi_total: number | null;
+  saifi_unplanned: number | null;
 };
 
 export type TariffRecord = {
@@ -44,7 +44,7 @@ export type TariffRecord = {
   period: number;
   category: ElectricityCategory;
   tariff_type: string;
-  rate: number;
+  rate: number | null;
 };
 
 export type OperatorDataRecord = {

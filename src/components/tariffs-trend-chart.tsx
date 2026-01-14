@@ -10,6 +10,7 @@ import {
   type SunshineCostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
@@ -70,6 +71,7 @@ const TariffsLatestYearChartView = (
 
   const mappedObservations = useMemo(() => {
     return observations
+      .filter((d): d is NonNullableProp<typeof d, "rate"> => d.rate != null)
       .map((o) => ({
         ...o,
         category: getLocalizedLabel({
@@ -132,9 +134,15 @@ const ProgressOvertimeChartView = (
     mini,
   } = props;
 
+  const validObservations = useMemo(() => {
+    return observations.filter(
+      (d): d is NonNullableProp<typeof d, "rate"> => d.rate !== null
+    );
+  }, [observations]);
+
   return (
     <ProgressOvertimeChart
-      observations={observations}
+      observations={validObservations}
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}

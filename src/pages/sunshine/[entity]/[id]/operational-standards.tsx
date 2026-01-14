@@ -30,8 +30,8 @@ import {
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { useQueryStateSunshineDetails } from "src/domain/query-states";
-import { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { fetchOperationalStandards } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
@@ -39,7 +39,7 @@ import { makePageTitle } from "src/utils/page-title";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      operationalStandards: SunshineOperationalStandardsData;
+      operationalStandards: OperationalStandardsData;
       sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };

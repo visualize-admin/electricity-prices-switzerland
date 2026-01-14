@@ -6,11 +6,11 @@ import {
   peerGroupOperatorId,
   peerGroupOperatorName,
   SunshineCostsAndTariffsData,
-  SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
 } from "src/domain/sunshine";
 import {
   NetworkCostsData,
+  OperationalStandardsData,
   StabilityData,
   TariffsData,
   Trend,
@@ -636,7 +636,7 @@ export const fetchOperationalStandards = async (
     operatorData?: OperatorDataRecord;
     period?: number;
   }
-): Promise<SunshineOperationalStandardsData> => {
+): Promise<OperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
 
   // Use provided period or get the latest year

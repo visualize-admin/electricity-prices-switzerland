@@ -308,7 +308,7 @@ type NetworkLevel {
 
 type NetworkCostRow {
   year: Int!
-  rate: Float!
+  rate: Float
   operator_id: Int!
   operator_name: String!
   network_level: String!
@@ -325,7 +325,7 @@ type TariffsData {
 
 type TariffRow {
   period: Int!
-  rate: Float!
+  rate: Float
   operator_id: Int!
   operator_name: String!
   category: ElectricityCategory!
@@ -347,8 +347,8 @@ input TariffsFilter {
 
 type StabilityDataRow {
   year: Int!
-  total: Float!
-  unplanned: Float!
+  total: Float
+  unplanned: Float
   operator_id: Int!
   operator_name: String!
 }
@@ -379,7 +379,7 @@ type OperationalStandardsServiceQuality {
 
 type OperationalStandardsOperatorNotification {
   operatorId: String!
-  days: Int!
+  days: Int
   year: String!
 }
 
