@@ -326,3 +326,149 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
     updateDate
   }
 }
+
+query Saidi($filter: StabilityFilter!) {
+  saidi(filter: $filter) {
+    operatorTotal
+    operatorUnplanned
+    trendTotal
+    trendUnplanned
+    peerGroupMedianTotal
+    peerGroupMedianUnplanned
+    peerGroupMedianTrendTotal
+    peerGroupMedianTrendUnplanned
+    yearlyData {
+      year
+      total
+      unplanned
+      operator_id
+      operator_name
+    }
+  }
+}
+
+query Saifi($filter: StabilityFilter!) {
+  saifi(filter: $filter) {
+    operatorTotal
+    operatorUnplanned
+    trendTotal
+    trendUnplanned
+    peerGroupMedianTotal
+    peerGroupMedianUnplanned
+    peerGroupMedianTrendTotal
+    peerGroupMedianTrendUnplanned
+    yearlyData {
+      year
+      total
+      unplanned
+      operator_id
+      operator_name
+    }
+  }
+}
+
+query CostsAndTariffs($filter: CostsAndTariffsFilter!) {
+  costsAndTariffs(filter: $filter) {
+    latestYear
+    operator {
+      peerGroup {
+        id
+        settlementDensity
+        energyDensity
+      }
+    }
+    networkCosts {
+      networkLevel {
+        id
+      }
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        year
+        rate
+        operator_id
+        operator_name
+        network_level
+      }
+    }
+    netTariffs {
+      category
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+    energyTariffs {
+      category
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+    updateDate
+  }
+}
+
+query PowerStability($filter: PowerStabilityFilter!) {
+  powerStability(filter: $filter) {
+    latestYear
+    operator {
+      peerGroup {
+        id
+        settlementDensity
+        energyDensity
+      }
+    }
+    saidi {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
+      }
+    }
+    saifi {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
+      }
+    }
+    updateDate
+  }
+}
