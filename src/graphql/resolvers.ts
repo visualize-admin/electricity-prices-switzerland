@@ -30,6 +30,8 @@ import {
   fetchNetTariffsData,
   fetchNetworkCostsData,
   fetchOperationalStandards,
+  fetchOperatorCostsAndTariffsData,
+  fetchPowerStability,
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/sunshine-data";
@@ -577,6 +579,20 @@ const Query: QueryResolvers = {
     return await fetchOperationalStandards(context.sunshineDataService, {
       operatorId: filter.operatorId.toString(),
       period: filter.period,
+    });
+  },
+  costsAndTariffs: async (_, { filter }, context) => {
+    return await fetchOperatorCostsAndTariffsData(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      networkLevel: asNetworkLevel(filter.networkLevel),
+      category: asElectricityCategory(filter.category),
+      period: filter.period ?? undefined,
+    });
+  },
+  powerStability: async (_, { filter }, context) => {
+    return await fetchPowerStability(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      period: filter.period ?? undefined,
     });
   },
   operatorMunicipalities: async (
