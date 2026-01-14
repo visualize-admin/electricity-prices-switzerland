@@ -7,17 +7,8 @@ import {
 } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/types";
 import { runtimeEnv } from "src/env/runtime";
-import {
-  NetworkCostsData,
-  StabilityData,
-  TariffsData,
-  StabilityDataRow,
-} from "src/graphql/resolver-types";
-import {
-  PeerGroup,
-  TariffRow,
-  NetworkCostRow,
-} from "src/graphql/resolver-types";
+import { StabilityDataRow } from "src/graphql/resolver-types";
+import { TariffRow, NetworkCostRow } from "src/graphql/resolver-types";
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
@@ -78,18 +69,12 @@ export const getGroup = (indicator: SunshineIndicator): IndicatorGroup => {
   }
 };
 
-/**
- * Network level options for filtering
- */
-export const networkLevelOptions: NetworkLevelId[] = ["NE5", "NE6", "NE7"];
-
-/**
- * Schemas for validating query parameters
- */
+export const networkLevelOptions: NetworkLevelId[] = [
+  "NE5",
+  "NE6",
+  "NE7",
+] as const;
 export const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]).catch("NE7");
-export const categorySchema = z
-  .enum(["C2", "C3", "C4", "C6", "H2", "H4", "H7"])
-  .catch("H4");
 
 export const sunshineCategories: ElectricityCategory[] = [
   "C2",
@@ -100,6 +85,12 @@ export const sunshineCategories: ElectricityCategory[] = [
   "H4",
   "H7",
 ];
+export const categorySchema = z
+  .enum(["C2", "C3", "C4", "C6", "H2", "H4", "H7"] satisfies [
+    ElectricityCategory,
+    ...ElectricityCategory[]
+  ])
+  .catch("H4");
 
 export const peerGroupOperatorId = 10000;
 export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
