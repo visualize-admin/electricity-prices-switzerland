@@ -325,7 +325,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         operatorLabel={operatorLabel}
         operationalStandards={data.compliance}
         attribute="compliance"
-        noData={data.compliance.timelyPaperSubmission == null}
+        noData={data.compliance.francsRule == null}
       />
     </CardGrid>
   );
