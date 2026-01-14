@@ -412,6 +412,18 @@ input OperationalStandardsFilter {
   period: Int!
 }
 
+input CostsAndTariffsFilter {
+  operatorId: Int!
+  period: Int
+  networkLevel: String!
+  category: String!
+}
+
+input PowerStabilityFilter {
+  operatorId: Int!
+  period: Int
+}
+
 type CostsAndTariffsOperator {
   peerGroup: PeerGroup!
 }
@@ -458,4 +470,6 @@ type Query {
   operationalStandards(
     filter: OperationalStandardsFilter!
   ): OperationalStandardsData!
+  costsAndTariffs(filter: CostsAndTariffsFilter!): CostsAndTariffsData!
+  powerStability(filter: PowerStabilityFilter!): PowerStabilityData!
 }
