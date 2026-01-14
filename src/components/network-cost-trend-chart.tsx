@@ -8,7 +8,7 @@ import { getNetworkLevelMetrics } from "src/domain/metrics";
 import {
   isPeerGroupRow,
   type NetworkLevel,
-  type SunshineCostsAndTariffsData,
+  type CostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
@@ -20,8 +20,8 @@ import { NetworkCostsTrendCardFilters } from "./network-costs-trend-card";
 
 type NetworkCostTrendChartProps = {
   rootProps?: Omit<BoxProps, "children">;
-  observations: SunshineCostsAndTariffsData["networkCosts"]["yearlyData"];
-  networkCosts: Omit<SunshineCostsAndTariffsData["networkCosts"], "yearlyData">;
+  observations: CostsAndTariffsData["networkCosts"]["yearlyData"];
+  networkCosts: Omit<CostsAndTariffsData["networkCosts"], "yearlyData">;
   operatorLabel: string;
   mini?: boolean;
   colorMapping?: ColorMapping;

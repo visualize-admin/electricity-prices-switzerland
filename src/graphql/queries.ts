@@ -64,6 +64,21 @@ export type CantonResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type CostsAndTariffsData = {
+  __typename: "CostsAndTariffsData";
+  energyTariffs: TariffsData;
+  latestYear: Scalars["String"]["output"];
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
+  operator: CostsAndTariffsOperator;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type CostsAndTariffsOperator = {
+  __typename: "CostsAndTariffsOperator";
+  peerGroup: PeerGroup;
+};
+
 export type CubeHealth = {
   __typename: "CubeHealth";
   dimensions: Array<Scalars["String"]["output"]>;
@@ -251,6 +266,20 @@ export type PeerGroupItem = {
   __typename: "PeerGroupItem";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PowerStabilityData = {
+  __typename: "PowerStabilityData";
+  latestYear: Scalars["String"]["output"];
+  operator: PowerStabilityOperator;
+  saidi: StabilityData;
+  saifi: StabilityData;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type PowerStabilityOperator = {
+  __typename: "PowerStabilityOperator";
+  peerGroup: PeerGroup;
 };
 
 export enum PriceComponent {

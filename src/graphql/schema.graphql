@@ -412,6 +412,31 @@ input OperationalStandardsFilter {
   period: Int!
 }
 
+type CostsAndTariffsOperator {
+  peerGroup: PeerGroup!
+}
+
+type CostsAndTariffsData {
+  latestYear: String!
+  operator: CostsAndTariffsOperator!
+  networkCosts: NetworkCostsData!
+  netTariffs: TariffsData!
+  energyTariffs: TariffsData!
+  updateDate: String!
+}
+
+type PowerStabilityOperator {
+  peerGroup: PeerGroup!
+}
+
+type PowerStabilityData {
+  latestYear: String!
+  operator: PowerStabilityOperator!
+  saidi: StabilityData!
+  saifi: StabilityData!
+  updateDate: String!
+}
+
 type Query {
   sunshineData(filter: SunshineDataFilter!): [SunshineDataRow!]!
   sunshineTariffs(filter: SunshineDataFilter!): [SunshineDataRow!]!

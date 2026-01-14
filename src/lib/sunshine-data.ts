@@ -5,12 +5,12 @@ import {
   NetworkLevel,
   peerGroupOperatorId,
   peerGroupOperatorName,
-  SunshineCostsAndTariffsData,
-  SunshinePowerStabilityData,
 } from "src/domain/sunshine";
 import {
+  CostsAndTariffsData,
   NetworkCostsData,
   OperationalStandardsData,
+  PowerStabilityData,
   StabilityData,
   TariffsData,
   Trend,
@@ -347,7 +347,7 @@ export const fetchOperatorCostsAndTariffsData = async (
     period?: number;
     operatorOnly?: boolean;
   }
-): Promise<SunshineCostsAndTariffsData> => {
+): Promise<CostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
 
   // Get the latest year if period not provided
@@ -576,7 +576,7 @@ export const fetchPowerStability = async (
     operatorOnly?: boolean;
     period?: number;
   }
-): Promise<SunshinePowerStabilityData> => {
+): Promise<PowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
 
   // Get the latest year if period not provided

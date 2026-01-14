@@ -11,7 +11,7 @@ import {
 import { useInteraction } from "src/components/charts-generic/use-interaction";
 import { PowerStabilityHorizontalStackedBars } from "src/components/power-stability-horizontal-stacked-bars";
 import { ColorMapping } from "src/domain/color-mapping";
-import { type SunshinePowerStabilityData } from "src/domain/sunshine";
+import { type PowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
 
@@ -22,8 +22,8 @@ import { PowerStabilityCardFilters } from "./power-stability-card";
 
 export type PowerStabilityChartProps = {
   observations:
-    | SunshinePowerStabilityData["saifi"]["yearlyData"]
-    | SunshinePowerStabilityData["saidi"]["yearlyData"];
+    | PowerStabilityData["saifi"]["yearlyData"]
+    | PowerStabilityData["saidi"]["yearlyData"];
   operatorLabel: string;
   mini?: boolean;
   colorMapping?: ColorMapping;
@@ -37,7 +37,7 @@ export type PowerStabilityChartProps = {
   PowerStabilityCardFilters;
 
 export type PowerStabilityRow =
-  SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
+  PowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   const {
