@@ -665,29 +665,22 @@ export const fetchOperationalStandards = async (
       db.fetchUpdateDate(),
     ]);
 
-  const data = operationalData[0] || {
-    frankenRegel: 0,
-    infoJaNein: "Nein",
-    infoTageImVoraus: 0,
-    rechtzeitig: 0,
-    produkteAnzahl: 0,
-    produkteAuswahl: "Nein",
-  };
+  const data = operationalData[0];
 
-  const informingCustomersOfOutage = data.info_yes_no;
-  const timelyPaperSubmission = data.timely;
+  const informingCustomersOfOutage = data.info_yes_no ?? null;
+  const timelyPaperSubmission = data.timely ?? null;
 
   const operatorsNotificationPeriodDays = peerGroupOperationalData.map(
     (op) => ({
       operatorId: `${op.operator_id}`,
-      days: op.info_days_in_advance || 0,
+      days: op.info_days_in_advance ?? null,
       year: `${op.period}`,
     })
   );
 
   const operatorsFrancsPerInvoice = peerGroupOperationalData.map((op) => ({
     operatorId: `${op.operator_id}`,
-    francsPerInvoice: op.franc_rule || 0,
+    francsPerInvoice: op.franc_rule ?? null,
     year: `${op.period}`,
   }));
 
@@ -701,14 +694,15 @@ export const fetchOperationalStandards = async (
       },
     },
     serviceQuality: {
-      notificationPeriodDays: data.info_days_in_advance || 0,
+      notificationPeriodDays: data.info_days_in_advance ?? null,
       informingCustomersOfOutage,
       operatorsNotificationPeriodDays,
     },
     compliance: {
-      francsRule: Number.isFinite(data.franc_rule)
-        ? `CHF ${data.franc_rule.toFixed(2)}`
-        : "N/A",
+      francsRule:
+        data.franc_rule !== null && Number.isFinite(data.franc_rule)
+          ? `CHF ${data.franc_rule.toFixed(2)}`
+          : null,
       timelyPaperSubmission,
       operatorsFrancsPerInvoice,
     },

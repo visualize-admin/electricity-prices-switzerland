@@ -153,9 +153,9 @@ export enum ObservationKind {
 
 export type OperationalStandardsCompliance = {
   __typename?: "OperationalStandardsCompliance";
-  francsRule: Scalars["String"]["output"];
+  francsRule?: Maybe<Scalars["String"]["output"]>;
   operatorsFrancsPerInvoice: Array<OperationalStandardsOperatorFrancs>;
-  timelyPaperSubmission: Scalars["Boolean"]["output"];
+  timelyPaperSubmission?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type OperationalStandardsData = {
@@ -179,7 +179,7 @@ export type OperationalStandardsOperator = {
 
 export type OperationalStandardsOperatorFrancs = {
   __typename?: "OperationalStandardsOperatorFrancs";
-  francsPerInvoice: Scalars["Float"]["output"];
+  francsPerInvoice?: Maybe<Scalars["Float"]["output"]>;
   operatorId: Scalars["String"]["output"];
   year: Scalars["String"]["output"];
 };
@@ -193,8 +193,8 @@ export type OperationalStandardsOperatorNotification = {
 
 export type OperationalStandardsServiceQuality = {
   __typename?: "OperationalStandardsServiceQuality";
-  informingCustomersOfOutage: Scalars["Boolean"]["output"];
-  notificationPeriodDays: Scalars["Int"]["output"];
+  informingCustomersOfOutage?: Maybe<Scalars["Boolean"]["output"]>;
+  notificationPeriodDays?: Maybe<Scalars["Int"]["output"]>;
   operatorsNotificationPeriodDays: Array<OperationalStandardsOperatorNotification>;
 };
 
@@ -1011,14 +1011,18 @@ export type OperationalStandardsComplianceResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsCompliance"] = ResolversParentTypes["OperationalStandardsCompliance"]
 > = ResolversObject<{
-  francsRule?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  francsRule?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   operatorsFrancsPerInvoice?: Resolver<
     Array<ResolversTypes["OperationalStandardsOperatorFrancs"]>,
     ParentType,
     ContextType
   >;
   timelyPaperSubmission?: Resolver<
-    ResolversTypes["Boolean"],
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
@@ -1061,7 +1065,11 @@ export type OperationalStandardsOperatorFrancsResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorFrancs"] = ResolversParentTypes["OperationalStandardsOperatorFrancs"]
 > = ResolversObject<{
-  francsPerInvoice?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  francsPerInvoice?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1082,12 +1090,12 @@ export type OperationalStandardsServiceQualityResolvers<
   ParentType extends ResolversParentTypes["OperationalStandardsServiceQuality"] = ResolversParentTypes["OperationalStandardsServiceQuality"]
 > = ResolversObject<{
   informingCustomersOfOutage?: Resolver<
-    ResolversTypes["Boolean"],
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
   notificationPeriodDays?: Resolver<
-    ResolversTypes["Int"],
+    Maybe<ResolversTypes["Int"]>,
     ParentType,
     ContextType
   >;

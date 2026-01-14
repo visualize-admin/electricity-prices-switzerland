@@ -372,8 +372,8 @@ input StabilityFilter {
 }
 
 type OperationalStandardsServiceQuality {
-  notificationPeriodDays: Int!
-  informingCustomersOfOutage: Boolean!
+  notificationPeriodDays: Int
+  informingCustomersOfOutage: Boolean
   operatorsNotificationPeriodDays: [OperationalStandardsOperatorNotification!]!
 }
 
@@ -384,14 +384,14 @@ type OperationalStandardsOperatorNotification {
 }
 
 type OperationalStandardsCompliance {
-  francsRule: String!
-  timelyPaperSubmission: Boolean!
+  francsRule: String
+  timelyPaperSubmission: Boolean
   operatorsFrancsPerInvoice: [OperationalStandardsOperatorFrancs!]!
 }
 
 type OperationalStandardsOperatorFrancs {
   operatorId: String!
-  francsPerInvoice: Float!
+  francsPerInvoice: Float
   year: String!
 }
 

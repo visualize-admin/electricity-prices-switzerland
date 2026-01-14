@@ -78,6 +78,8 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       }
     );
 
+    console.log(operationalStandards);
+
     return {
       props: {
         ...operatorProps,
@@ -115,7 +117,9 @@ export const prepServiceQualityCardProps = (
         value: {
           value: (
             <Typography variant="inherit" fontWeight="bold">
-              {serviceQuality.informingCustomersOfOutage ? (
+              {serviceQuality.informingCustomersOfOutage == null ? (
+                "–"
+              ) : serviceQuality.informingCustomersOfOutage ? (
                 <Trans id="sunshine.service-quality.informing-customers-outage.yes">
                   Yes
                 </Trans>
@@ -137,7 +141,7 @@ export const prepServiceQualityCardProps = (
         value: {
           value: (
             <Typography variant="inherit" fontWeight="bold">
-              {serviceQuality.notificationPeriodDays}
+              {serviceQuality.notificationPeriodDays ?? "–"}
             </Typography>
           ),
         },
@@ -200,6 +204,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         operatorLabel={operatorLabel}
         operationalStandards={data.serviceQuality}
         attribute="serviceQuality"
+        noData={data.serviceQuality.informingCustomersOfOutage == null}
       />
     </CardGrid>
   );
@@ -230,10 +235,9 @@ export const prepComplianceCardProps = (
           </Trans>
         ),
         value: {
-          // TODO Translate
           value: (
             <Typography variant="inherit" fontWeight="bold">
-              {compliance.francsRule}
+              {compliance.francsRule ?? "–"}
             </Typography>
           ),
         },
@@ -246,10 +250,11 @@ export const prepComplianceCardProps = (
         ),
 
         value: {
-          // TODO Translate
           value: (
             <Typography variant="inherit" fontWeight="bold">
-              {compliance.timelyPaperSubmission ? (
+              {compliance.timelyPaperSubmission == null ? (
+                "–"
+              ) : compliance.timelyPaperSubmission ? (
                 <Trans id="sunshine.compliance.timely-paper-submission.yes">
                   Yes
                 </Trans>
@@ -320,6 +325,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         operatorLabel={operatorLabel}
         operationalStandards={data.compliance}
         attribute="compliance"
+        noData={data.compliance.timelyPaperSubmission == null}
       />
     </CardGrid>
   );

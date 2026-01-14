@@ -11,6 +11,7 @@ import { lowercase } from "src/utils/str";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
+import { NoDataAvailable } from "./no-data-available";
 import {
   ComplianceChart,
   ServiceQualityChart,
@@ -31,6 +32,8 @@ type OperationalStandardsCardProps = AttributeProps & {
   updateDate: string;
   operatorId: string;
   operatorLabel: string;
+  /** When true, shows NoDataAvailable instead of the chart */
+  noData?: boolean;
 } & CardProps;
 
 const DOWNLOAD_ID: Download = "operational-standards";
@@ -79,30 +82,34 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
         </CardHeader>
 
         {/* Stacked Horizontal Bar Chart */}
-        {(() => {
-          switch (attribute) {
-            case "serviceQuality":
-              return (
-                <ServiceQualityChart
-                  data={operationalStandards}
-                  id={operatorId}
-                  operatorLabel={operatorLabel}
-                />
-              );
-            case "compliance":
-              return (
-                <ComplianceChart
-                  data={operationalStandards}
-                  id={operatorId}
-                  operatorLabel={operatorLabel}
-                />
-              );
-            default: {
-              const _exhaustiveCheck: never = attribute;
-              return _exhaustiveCheck;
+        {noData ? (
+          <NoDataAvailable sx={{ mt: 8 }} />
+        ) : (
+          (() => {
+            switch (attribute) {
+              case "serviceQuality":
+                return (
+                  <ServiceQualityChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              case "compliance":
+                return (
+                  <ComplianceChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              default: {
+                const _exhaustiveCheck: never = attribute;
+                return _exhaustiveCheck;
+              }
             }
-          }
-        })()}
+          })()
+        )}
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>

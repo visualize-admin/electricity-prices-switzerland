@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
+import { useMemo } from "react";
 
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
@@ -15,6 +16,7 @@ import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
 import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
 import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 import { useFlag } from "src/utils/flags";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import {
   AnnotationX,
@@ -34,9 +36,15 @@ export const ServiceQualityChart = ({
   operatorLabel: string;
 }) => {
   const mock = useFlag("mockOperationalStandardsChart");
-  const chartData = mock
-    ? serviceQualityMock
-    : data.operatorsNotificationPeriodDays;
+
+  const chartData = useMemo(() => {
+    const chartData = mock
+      ? serviceQualityMock
+      : data.operatorsNotificationPeriodDays;
+    return chartData.filter(
+      (d): d is NonNullableProp<typeof d, "days"> => d.days != null
+    );
+  }, [data.operatorsNotificationPeriodDays, mock]);
   const median = d3Median(chartData, (d) => d.days);
 
   return (
@@ -101,7 +109,14 @@ export const ComplianceChart = ({
   operatorLabel: string;
 }) => {
   const mock = useFlag("mockOperationalStandardsChart");
-  const chartData = mock ? complianceMock : data.operatorsFrancsPerInvoice;
+  const chartData = useMemo(() => {
+    const chartData = mock ? complianceMock : data.operatorsFrancsPerInvoice;
+    return chartData.filter(
+      (d): d is NonNullableProp<typeof d, "francsPerInvoice"> =>
+        d.francsPerInvoice != null
+    );
+  }, [data.operatorsFrancsPerInvoice, mock]);
+
   const median = d3Median(chartData, (d) => d.francsPerInvoice);
   return (
     <Box position="relative">
