@@ -90,6 +90,13 @@ export type CostsAndTariffsData = {
   updateDate: Scalars["String"]["output"];
 };
 
+export type CostsAndTariffsFilter = {
+  category: Scalars["String"]["input"];
+  networkLevel: Scalars["String"]["input"];
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type CostsAndTariffsOperator = {
   __typename?: "CostsAndTariffsOperator";
   peerGroup: PeerGroup;
@@ -293,6 +300,11 @@ export type PowerStabilityData = {
   updateDate: Scalars["String"]["output"];
 };
 
+export type PowerStabilityFilter = {
+  operatorId: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type PowerStabilityOperator = {
   __typename?: "PowerStabilityOperator";
   peerGroup: PeerGroup;
@@ -316,6 +328,7 @@ export type Query = {
   canton?: Maybe<Canton>;
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   cantons: Array<Canton>;
+  costsAndTariffs: CostsAndTariffsData;
   cubeHealth?: Maybe<CubeHealth>;
   energyTariffs: TariffsData;
   municipalities: Array<Municipality>;
@@ -328,6 +341,7 @@ export type Query = {
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
+  powerStability: PowerStabilityData;
   saidi: StabilityData;
   saifi: StabilityData;
   search: Array<SearchResult>;
@@ -363,6 +377,10 @@ export type QueryCantonsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryCostsAndTariffsArgs = {
+  filter: CostsAndTariffsFilter;
 };
 
 export type QueryEnergyTariffsArgs = {
@@ -417,6 +435,10 @@ export type QueryOperatorsArgs = {
 
 export type QueryPeerGroupsArgs = {
   locale: Scalars["String"]["input"];
+};
+
+export type QueryPowerStabilityArgs = {
+  filter: PowerStabilityFilter;
 };
 
 export type QuerySaidiArgs = {
@@ -754,6 +776,7 @@ export type ResolversTypes = ResolversObject<{
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
   CostsAndTariffsData: ResolverTypeWrapper<CostsAndTariffsData>;
+  CostsAndTariffsFilter: CostsAndTariffsFilter;
   CostsAndTariffsOperator: ResolverTypeWrapper<CostsAndTariffsOperator>;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   ElectricityCategory: ResolverTypeWrapper<
@@ -786,6 +809,7 @@ export type ResolversTypes = ResolversObject<{
   PeerGroup: ResolverTypeWrapper<PeerGroup>;
   PeerGroupItem: ResolverTypeWrapper<PeerGroupItem>;
   PowerStabilityData: ResolverTypeWrapper<PowerStabilityData>;
+  PowerStabilityFilter: PowerStabilityFilter;
   PowerStabilityOperator: ResolverTypeWrapper<PowerStabilityOperator>;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
@@ -817,6 +841,7 @@ export type ResolversParentTypes = ResolversObject<{
   CantonMedianObservation: ResolvedCantonMedianObservation;
   CantonResult: ResolvedSearchResult;
   CostsAndTariffsData: CostsAndTariffsData;
+  CostsAndTariffsFilter: CostsAndTariffsFilter;
   CostsAndTariffsOperator: CostsAndTariffsOperator;
   CubeHealth: CubeHealth;
   ElectricityCategory: Scalars["ElectricityCategory"]["output"];
@@ -845,6 +870,7 @@ export type ResolversParentTypes = ResolversObject<{
   PeerGroup: PeerGroup;
   PeerGroupItem: PeerGroupItem;
   PowerStabilityData: PowerStabilityData;
+  PowerStabilityFilter: PowerStabilityFilter;
   PowerStabilityOperator: PowerStabilityOperator;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
@@ -1352,6 +1378,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryCantonsArgs, "locale">
   >;
+  costsAndTariffs?: Resolver<
+    ResolversTypes["CostsAndTariffsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryCostsAndTariffsArgs, "filter">
+  >;
   cubeHealth?: Resolver<
     Maybe<ResolversTypes["CubeHealth"]>,
     ParentType,
@@ -1422,6 +1454,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryPeerGroupsArgs, "locale">
+  >;
+  powerStability?: Resolver<
+    ResolversTypes["PowerStabilityData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPowerStabilityArgs, "filter">
   >;
   saidi?: Resolver<
     ResolversTypes["StabilityData"],
