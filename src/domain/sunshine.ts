@@ -83,6 +83,14 @@ export const getGroup = (indicator: SunshineIndicator): IndicatorGroup => {
  */
 export const networkLevelOptions: NetworkLevelId[] = ["NE5", "NE6", "NE7"];
 
+/**
+ * Schemas for validating query parameters
+ */
+export const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]).catch("NE7");
+export const categorySchema = z
+  .enum(["C2", "C3", "C4", "C6", "H2", "H4", "H7"])
+  .catch("H4");
+
 export const sunshineCategories: ElectricityCategory[] = [
   "C2",
   "C3",

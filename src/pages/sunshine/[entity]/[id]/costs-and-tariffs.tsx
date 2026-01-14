@@ -5,7 +5,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { gql } from "urql";
-import * as z from "zod";
 
 import CardGrid from "src/components/card-grid";
 import { Combobox, ComboboxItem } from "src/components/combobox";
@@ -41,9 +40,11 @@ import {
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
 import {
-  sunshineCategories,
+  categorySchema,
   CostsAndTariffsData,
+  networkLevelSchema,
   NetworkLevel,
+  sunshineCategories,
 } from "src/domain/sunshine";
 import {
   getCategoryLabels,
@@ -63,12 +64,6 @@ import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
-
-// Schemas for validating query parameters
-const networkLevelSchema = z.enum(["NE5", "NE6", "NE7"]).catch("NE7");
-const categorySchema = z
-  .enum(["C2", "C3", "C4", "C6", "H2", "H4", "H7"])
-  .catch("H4");
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
