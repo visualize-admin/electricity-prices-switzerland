@@ -36,8 +36,9 @@ export type PowerStabilityChartProps = {
 } & Omit<SectionProps, "entity"> &
   PowerStabilityCardFilters;
 
-export type PowerStabilityRow =
-  PowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
+export type PowerStabilityRow = PowerStabilityData["saidi"]["yearlyData"][0] & {
+  planned: number;
+};
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
   const {
