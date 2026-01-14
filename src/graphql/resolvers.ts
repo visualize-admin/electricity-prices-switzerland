@@ -587,12 +587,14 @@ const Query: QueryResolvers = {
       networkLevel: asNetworkLevel(filter.networkLevel),
       category: asElectricityCategory(filter.category),
       period: filter.period ?? undefined,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   powerStability: async (_, { filter }, context) => {
     return await fetchPowerStability(context.sunshineDataService, {
       operatorId: filter.operatorId.toString(),
       period: filter.period ?? undefined,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   operatorMunicipalities: async (

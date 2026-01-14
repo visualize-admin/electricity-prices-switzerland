@@ -78,6 +78,7 @@ export type CostsAndTariffsFilter = {
   category: Scalars["String"]["input"];
   networkLevel: Scalars["String"]["input"];
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
@@ -286,6 +287,7 @@ export type PowerStabilityData = {
 
 export type PowerStabilityFilter = {
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 

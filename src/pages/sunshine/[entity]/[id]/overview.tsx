@@ -49,9 +49,15 @@ import {
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import {
+  CostsAndTariffsDocument,
+  CostsAndTariffsQuery,
   EnergyTariffsQuery,
   NetTariffsQuery,
   NetworkCostsQuery,
+  OperationalStandardsDocument,
+  OperationalStandardsQuery,
+  PowerStabilityDocument,
+  PowerStabilityQuery,
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
@@ -59,11 +65,6 @@ import {
 } from "src/graphql/queries";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { Icon } from "src/icons";
-import {
-  fetchOperationalStandards,
-  fetchOperatorCostsAndTariffsData,
-  fetchPowerStability,
-} from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
@@ -83,7 +84,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -110,40 +111,56 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     }
 
     const operatorId = parseInt(id, 10);
-    const period = await sunshineDataService.getLatestYearSunshine(operatorId);
-    const operatorData = await sunshineDataService.getOperatorData(
-      operatorId,
-      period
-    );
-    const [operationalStandards, powerStability, costsAndTariffs] =
+
+    const [operationalStandardsResult, powerStabilityResult, costsAndTariffsResult] =
       await Promise.all([
-        fetchOperationalStandards(sunshineDataService, {
-          period,
-          operatorId: id,
-          operatorData,
-        }),
-        fetchPowerStability(sunshineDataService, {
-          operatorId: id,
-          operatorOnly: true,
-          operatorData,
-          period,
-        }),
-        fetchOperatorCostsAndTariffsData(sunshineDataService, {
-          period,
-          operatorId: id,
-          operatorData,
-          networkLevel: "NE7",
-          category: "H4",
-          operatorOnly: true,
-        }),
+        urqlClient
+          .query<OperationalStandardsQuery>(OperationalStandardsDocument, {
+            filter: { operatorId },
+          })
+          .toPromise(),
+        urqlClient
+          .query<PowerStabilityQuery>(PowerStabilityDocument, {
+            filter: { operatorId, operatorOnly: true },
+          })
+          .toPromise(),
+        urqlClient
+          .query<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+            filter: {
+              operatorId,
+              networkLevel: "NE7",
+              category: "H4",
+              operatorOnly: true,
+            },
+          })
+          .toPromise(),
       ]);
+
+    if (
+      operationalStandardsResult.error ||
+      !operationalStandardsResult.data?.operationalStandards
+    ) {
+      throw new Error("Failed to fetch operational standards data");
+    }
+    if (
+      powerStabilityResult.error ||
+      !powerStabilityResult.data?.powerStability
+    ) {
+      throw new Error("Failed to fetch power stability data");
+    }
+    if (
+      costsAndTariffsResult.error ||
+      !costsAndTariffsResult.data?.costsAndTariffs
+    ) {
+      throw new Error("Failed to fetch costs and tariffs data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        operationalStandards,
-        powerStability,
-        costsAndTariffs,
+        operationalStandards: operationalStandardsResult.data.operationalStandards,
+        powerStability: powerStabilityResult.data.powerStability,
+        costsAndTariffs: costsAndTariffsResult.data.costsAndTariffs,
         sessionConfig,
       },
     };

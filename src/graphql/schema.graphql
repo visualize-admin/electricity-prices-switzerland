@@ -417,11 +417,13 @@ input CostsAndTariffsFilter {
   period: Int
   networkLevel: String!
   category: String!
+  operatorOnly: Boolean
 }
 
 input PowerStabilityFilter {
   operatorId: Int!
   period: Int
+  operatorOnly: Boolean
 }
 
 type CostsAndTariffsOperator {
