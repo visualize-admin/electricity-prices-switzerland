@@ -324,6 +324,10 @@ msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 msgid "header.long-title"
 msgstr "Commissione federale dell'energia elettrica ElCom"
 
+#: src/components/header.tsx
+msgid "header.short-title"
+msgstr "ElCom"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "aiuto"
@@ -839,7 +843,7 @@ msgstr "Pianificato"
 msgid "saidi-saify-type.unplanned"
 msgstr "Non pianificato"
 
-#: src/components/app-layout.tsx
+#: src/pages/index.tsx
 msgid "search.global"
 msgstr "Analisi dettagliata dei prezzi per cantone, comune e gestore di rete."
 
@@ -1174,9 +1178,10 @@ msgstr "Anni tariffari"
 msgid "share.url-copied"
 msgstr "URL copiato ✅"
 
-#: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
+#: src/pages/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
 msgid "site.title"

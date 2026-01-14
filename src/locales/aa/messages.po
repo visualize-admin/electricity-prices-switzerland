@@ -322,6 +322,10 @@ msgstr "footer.tariff-components"
 msgid "header.long-title"
 msgstr "header.long-title"
 
+#: src/components/header.tsx
+msgid "header.short-title"
+msgstr "header.short-title"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "help."
@@ -837,7 +841,7 @@ msgstr "saidi-saify-type.planned"
 msgid "saidi-saify-type.unplanned"
 msgstr "saidi-saify-type.unplanned"
 
-#: src/components/app-layout.tsx
+#: src/pages/index.tsx
 msgid "search.global"
 msgstr "search.global"
 
@@ -1172,9 +1176,10 @@ msgstr "selector.years"
 msgid "share.url-copied"
 msgstr "share.url-copied"
 
-#: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
+#: src/pages/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
 msgid "site.title"

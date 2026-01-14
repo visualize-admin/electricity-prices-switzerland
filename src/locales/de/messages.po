@@ -322,6 +322,10 @@ msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
 msgid "header.long-title"
 msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
+#: src/components/header.tsx
+msgid "header.short-title"
+msgstr "ElCom"
+
 #: src/components/sunshine-map.tsx
 msgid "help."
 msgstr "Hilfe"
@@ -837,7 +841,7 @@ msgstr "Geplant"
 msgid "saidi-saify-type.unplanned"
 msgstr "Ungeplant"
 
-#: src/components/app-layout.tsx
+#: src/pages/index.tsx
 msgid "search.global"
 msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 
@@ -1172,9 +1176,10 @@ msgstr "Tarifjahre"
 msgid "share.url-copied"
 msgstr "URL kopiert ✅"
 
-#: src/components/app-layout.tsx
+#: src/components/header.tsx
 #: src/components/header.tsx
 #: src/pages/[entity]/[id]/index.tsx
+#: src/pages/index.tsx
 #: src/pages/map/index.tsx
 #: src/utils/page-title.tsx
 msgid "site.title"
