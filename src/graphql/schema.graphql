@@ -409,7 +409,7 @@ type OperationalStandardsData {
 
 input OperationalStandardsFilter {
   operatorId: Int!
-  period: Int!
+  period: Int
 }
 
 input CostsAndTariffsFilter {

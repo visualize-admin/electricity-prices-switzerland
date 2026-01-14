@@ -578,7 +578,7 @@ const Query: QueryResolvers = {
   operationalStandards: async (_, { filter }, context) => {
     return await fetchOperationalStandards(context.sunshineDataService, {
       operatorId: filter.operatorId.toString(),
-      period: filter.period,
+      period: filter.period ?? undefined,
     });
   },
   costsAndTariffs: async (_, { filter }, context) => {

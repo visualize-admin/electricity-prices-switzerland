@@ -175,7 +175,7 @@ export type OperationalStandardsData = {
 
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
-  period: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type OperationalStandardsOperator = {
@@ -1066,6 +1066,7 @@ export type OperationalStandardsQuery = {
       __typename: "OperationalStandardsOperator";
       peerGroup: {
         __typename: "PeerGroup";
+        id: string;
         settlementDensity: string;
         energyDensity: string;
       };
@@ -1843,6 +1844,7 @@ export const OperationalStandardsDocument = gql`
       latestYear
       operator {
         peerGroup {
+          id
           settlementDensity
           energyDensity
         }

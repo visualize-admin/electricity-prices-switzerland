@@ -301,6 +301,7 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
     latestYear
     operator {
       peerGroup {
+        id
         settlementDensity
         energyDensity
       }

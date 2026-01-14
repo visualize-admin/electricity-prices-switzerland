@@ -191,7 +191,7 @@ export type OperationalStandardsData = {
 
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
-  period: Scalars["Int"]["input"];
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type OperationalStandardsOperator = {

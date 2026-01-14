@@ -31,8 +31,11 @@ import {
 } from "src/data/shared-page-props";
 import { useQueryStateSunshineDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
+import {
+  OperationalStandardsDocument,
+  OperationalStandardsQuery,
+} from "src/graphql/queries";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
-import { fetchOperationalStandards } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
@@ -45,7 +48,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -71,17 +74,22 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operationalStandards = await fetchOperationalStandards(
-      sunshineDataService,
-      {
-        operatorId: id,
-      }
-    );
+    const { data, error } = await urqlClient
+      .query<OperationalStandardsQuery>(OperationalStandardsDocument, {
+        filter: {
+          operatorId: parseInt(id, 10),
+        },
+      })
+      .toPromise();
+
+    if (error || !data?.operationalStandards) {
+      throw new Error("Failed to fetch operational standards data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        operationalStandards,
+        operationalStandards: data.operationalStandards,
         sessionConfig,
       },
     };
