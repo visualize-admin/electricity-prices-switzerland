@@ -629,7 +629,7 @@ msgstr "Keine Daten"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.close"
-msgstr "Schließen Sie"
+msgstr "Schließen"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.details-title"
