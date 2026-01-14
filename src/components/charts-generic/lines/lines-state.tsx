@@ -57,23 +57,35 @@ const useLinesState = ({
   const getGroups = (d: GenericObservation): string =>
     d[fields.x.componentIri] as string;
   const getX = useCallback(
-    (d: GenericObservation): Date =>
-      parseDate(d[fields.x.componentIri].toString()),
+    (d: GenericObservation): Date => {
+      const value = d[fields.x.componentIri];
+      if (value) {
+        return parseDate(value.toString());
+      } else {
+        return new Date();
+      }
+    },
     [fields.x.componentIri]
   );
-  const getY = (d: GenericObservation): number =>
-    +d[fields.y.componentIri] as number;
+  const getY = (d: GenericObservation): number => {
+    const value = d[fields.y.componentIri];
+    if (value == null) {
+      return 0;
+    } else {
+      return +value as number;
+    }
+  };
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
-      fields.segment?.componentIri
+      fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
   );
   const getColor = useCallback(
     (d: GenericObservation): string => {
-      return fields.style?.colorAcc
+      return fields.style && fields.style.colorAcc
         ? (d[fields.style.colorAcc] as string)
         : "municipalityLabel";
     },
