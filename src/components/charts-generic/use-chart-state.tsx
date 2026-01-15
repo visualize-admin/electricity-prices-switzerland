@@ -20,8 +20,8 @@ import {
 
 import { BinMeta } from "./histogram/histogram-state";
 
-export type ChartProps = {
-  data: GenericObservation[];
+export type ChartProps<T = GenericObservation> = {
+  data: T[];
   fields: ChartFields;
   dimensions: ComponentFieldsFragment[];
   measures: ComponentFieldsFragment[];
@@ -109,10 +109,10 @@ export type LinesState = {
   data: GenericObservation[];
   bounds: Bounds;
   segments: string[];
-  getX: (d: GenericObservation) => Date;
+  getX: (d: GenericObservation) => Date | undefined;
   xScale: ScaleTime<number, number>;
   xUniqueValues: Date[];
-  getY: (d: GenericObservation) => number;
+  getY: (d: GenericObservation) => number | undefined;
   yScale: ScaleLinear<number, number>;
   getSegment: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;

@@ -176,38 +176,38 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result.length).toMatchInlineSnapshot(`588`);
-      expect(result.filter((x) => x.saidi_total !== undefined).slice(0, 3))
+      expect(result.filter((x) => x.saidi_total !== null).slice(0, 3))
         .toMatchInlineSnapshot(`
-        [
-          {
-            "operator_id": 11,
-            "operator_name": "Aare Versorgungs AG (AVAG)",
-            "period": 2025,
-            "saidi_total": 11.652,
-            "saidi_unplanned": 2.298,
-            "saifi_total": 0.169,
-            "saifi_unplanned": 0.036,
-          },
-          {
-            "operator_id": 113,
-            "operator_name": "EBL (Genossenschaft Elektra Baselland)",
-            "period": 2025,
-            "saidi_total": 14.674,
-            "saidi_unplanned": 8.174,
-            "saifi_total": 0.327,
-            "saifi_unplanned": 0.18,
-          },
-          {
-            "operator_id": 132,
-            "operator_name": "Genossenschaft Elektra, Jegenstorf",
-            "period": 2025,
-            "saidi_total": 6.214,
-            "saidi_unplanned": 0.254,
-            "saifi_total": 0.138,
-            "saifi_unplanned": 0.002,
-          },
-        ]
-      `); // First 3 results
+          [
+            {
+              "operator_id": 11,
+              "operator_name": "Aare Versorgungs AG (AVAG)",
+              "period": 2025,
+              "saidi_total": 11.652,
+              "saidi_unplanned": 2.298,
+              "saifi_total": 0.169,
+              "saifi_unplanned": 0.036,
+            },
+            {
+              "operator_id": 113,
+              "operator_name": "EBL (Genossenschaft Elektra Baselland)",
+              "period": 2025,
+              "saidi_total": 14.674,
+              "saidi_unplanned": 8.174,
+              "saifi_total": 0.327,
+              "saifi_unplanned": 0.18,
+            },
+            {
+              "operator_id": 132,
+              "operator_name": "Genossenschaft Elektra, Jegenstorf",
+              "period": 2025,
+              "saidi_total": 6.214,
+              "saidi_unplanned": 0.254,
+              "saifi_total": 0.138,
+              "saifi_unplanned": 0.002,
+            },
+          ]
+        `); // First 3 results
     });
   });
 
@@ -501,10 +501,10 @@ describe("SPARQL Sunshine Data Service", () => {
             "operatorId": 10,
             "operatorUID": "10",
             "period": "2025",
-            "saidiTotal": undefined,
-            "saidiUnplanned": undefined,
-            "saifiTotal": undefined,
-            "saifiUnplanned": undefined,
+            "saidiTotal": null,
+            "saidiUnplanned": null,
+            "saifiTotal": null,
+            "saifiUnplanned": null,
             "tariffEC2": 8.093,
             "tariffEC3": 7.637,
             "tariffEC4": 6.998,
@@ -532,10 +532,10 @@ describe("SPARQL Sunshine Data Service", () => {
             "operatorId": 105,
             "operatorUID": "105",
             "period": "2025",
-            "saidiTotal": undefined,
-            "saidiUnplanned": undefined,
-            "saifiTotal": undefined,
-            "saifiUnplanned": undefined,
+            "saidiTotal": null,
+            "saidiUnplanned": null,
+            "saifiTotal": null,
+            "saifiUnplanned": null,
             "tariffEC2": 16.5,
             "tariffEC3": 0,
             "tariffEC4": 0,

@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
+import { useMemo } from "react";
 
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisWidthHistogram } from "src/components/charts-generic/axis/axis-width-histogram";
@@ -11,10 +12,7 @@ import {
 import { HistogramColumns } from "src/components/charts-generic/histogram/histogram";
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
-import type { SunshineOperationalStandardsData } from "src/domain/sunshine";
-import complianceMock from "src/mocks/sunshine-operationalStandards-compliance-mock.json";
-import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
-import { useFlag } from "src/utils/flags";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 
 import {
   AnnotationX,
@@ -29,14 +27,14 @@ export const ServiceQualityChart = ({
   id,
   operatorLabel,
 }: {
-  data: SunshineOperationalStandardsData["serviceQuality"];
+  data: OperationalStandardsData["serviceQuality"];
   id: string;
   operatorLabel: string;
 }) => {
-  const mock = useFlag("mockOperationalStandardsChart");
-  const chartData = mock
-    ? serviceQualityMock
-    : data.operatorsNotificationPeriodDays;
+  const chartData = useMemo(() => {
+    const chartData = data.operatorsNotificationPeriodDays;
+    return chartData;
+  }, [data.operatorsNotificationPeriodDays]);
   const median = d3Median(chartData, (d) => d.days);
 
   return (
@@ -96,12 +94,15 @@ export const ComplianceChart = ({
   id,
   operatorLabel,
 }: {
-  data: SunshineOperationalStandardsData["compliance"];
+  data: OperationalStandardsData["compliance"];
   id: string;
   operatorLabel: string;
 }) => {
-  const mock = useFlag("mockOperationalStandardsChart");
-  const chartData = mock ? complianceMock : data.operatorsFrancsPerInvoice;
+  const chartData = useMemo(() => {
+    const chartData = data.operatorsFrancsPerInvoice;
+    return chartData;
+  }, [data.operatorsFrancsPerInvoice]);
+
   const median = d3Median(chartData, (d) => d.francsPerInvoice);
   return (
     <Box position="relative">

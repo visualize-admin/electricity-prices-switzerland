@@ -16,12 +16,12 @@ export const LatestIndicator = () => {
 
   // Find latest Y based on data matching latest X
   const dataAtLatestX = data.find(
-    (d) => getX(d).getTime() === latestXValue.getTime()
+    (d) => getX(d)?.getTime() === latestXValue.getTime()
   );
   if (!dataAtLatestX) return null;
 
   const yValue = getY(dataAtLatestX);
-  const yAnchor = yScale(yValue);
+  const yAnchor = yValue ? yScale(yValue) : 0;
 
   return (
     <>

@@ -31,6 +31,7 @@ import {
   useFormatFullDateAuto,
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
+import { truthy } from "src/lib/truthy";
 
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
@@ -57,23 +58,27 @@ const useLinesState = ({
   const getGroups = (d: GenericObservation): string =>
     d[fields.x.componentIri] as string;
   const getX = useCallback(
-    (d: GenericObservation): Date =>
-      parseDate(d[fields.x.componentIri].toString()),
+    (d: GenericObservation): Date | undefined => {
+      const value = d[fields.x.componentIri];
+      return value ? parseDate(value.toString()) : undefined;
+    },
     [fields.x.componentIri]
   );
-  const getY = (d: GenericObservation): number =>
-    +d[fields.y.componentIri] as number;
+  const getY = (d: GenericObservation): number | undefined => {
+    const value = d[fields.y.componentIri];
+    return value === null ? undefined : (+value as number);
+  };
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
-      fields.segment?.componentIri
+      fields.segment && fields.segment.componentIri
         ? (d[fields.segment.componentIri] as string)
         : "segment",
     [fields.segment]
   );
   const getColor = useCallback(
     (d: GenericObservation): string => {
-      return fields.style?.colorAcc
+      return fields.style && fields.style.colorAcc
         ? (d[fields.style.colorAcc] as string)
         : "municipalityLabel";
     },
@@ -89,8 +94,9 @@ const useLinesState = ({
     .map((d) => getX(d))
     .filter(
       (date, i, self) =>
-        self.findIndex((d) => d.getTime() === date.getTime()) === i
-    );
+        self.findIndex((d) => d?.getTime() === date?.getTime()) === i
+    )
+    .filter(truthy);
 
   const xDomain = extent(sortedData, (d) => getX(d)) as [Date, Date];
   const xScale = scaleTime().domain(xDomain);
@@ -134,10 +140,10 @@ const useLinesState = ({
   grouped.map((lineData) => {
     xUniqueValues.map((xValue) => {
       const thisYear = lineData[1].find(
-        (d) => getX(d).getFullYear() === xValue.getFullYear()
+        (d) => xValue && getX(d)?.getFullYear() === xValue?.getFullYear()
       );
 
-      if (!thisYear) {
+      if (!thisYear && xValue) {
         lineData[1].push({
           [fields.x.componentIri]: `${xValue.getFullYear()}`,
           [fields.y.componentIri]: undefined as unknown as ObservationValue,
@@ -188,13 +194,15 @@ const useLinesState = ({
   const wide = [];
 
   for (const [key, values] of groupedMap) {
-    const keyObject = values.reduce((obj, cur) => {
-      const currentKey = getSegment(cur);
-      return {
-        ...obj,
-        [currentKey]: getY(cur),
-      };
-    }, {});
+    const keyObject = Object.fromEntries(
+      values
+        .map((cur) => {
+          const yValue = getY(cur);
+          if (yValue === undefined) return null;
+          return [getSegment(cur), yValue] as const;
+        })
+        .filter(truthy)
+    );
     wide.push({
       ...keyObject,
       [xKey]: key,
@@ -204,11 +212,23 @@ const useLinesState = ({
   const entity = fields.style?.entity || "";
 
   const getAnnotationInfo = (datum: GenericObservation): Tooltip => {
-    const xAnchor = xScale(getX(datum));
-    const yAnchor = yScale(getY(datum));
+    const xValue = getX(datum);
+    const yValue = getY(datum);
+    if (!xValue || !yValue) {
+      return {
+        xAnchor: 0,
+        yAnchor: 0,
+        placement: { x: "right", y: "middle" },
+        xValue: "",
+        datum: { label: "", value: "" },
+        values: [],
+      };
+    }
+    const xAnchor = xScale(xValue);
+    const yAnchor = yScale(yValue);
 
     const tooltipValues = data.filter(
-      (j) => getX(j).getTime() === getX(datum).getTime()
+      (j) => getX(j)?.getTime() === xValue.getTime()
     );
     const groupedTooltipValues = groups(
       tooltipValues,
@@ -251,20 +271,25 @@ const useLinesState = ({
       xAnchor,
       yAnchor,
       placement: { x: xPlacement, y: yPlacement },
-      xValue: formatDateAuto(getX(datum)),
+      xValue: formatDateAuto(xValue),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: `${formatCurrency(getY(datum))} ${yAxisLabel ? yAxisLabel : ""}`,
+        value: `${formatCurrency(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
       },
       values: summarizedTooltipValues
+        .filter((td) => getY(td) !== undefined)
         .sort((a, b) => descending(getY(a), getY(b)))
-        .map((td) => ({
-          symbol: "line",
-          label: getSegment(td),
-          value: `${formatCurrency(getY(td))} ${yAxisLabel ? yAxisLabel : ""}`,
-          color: colors(getColor(td)) as string,
-          yPos: yScale(getY(td)),
-        })),
+        .map((td) => {
+          // Check non-null assertion: getY(td) is filtered above
+          const yValue = getY(td)!;
+          return {
+            symbol: "line",
+            label: getSegment(td),
+            value: `${formatCurrency(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
+            color: colors(getColor(td)) as string,
+            yPos: yScale(yValue),
+          };
+        }),
     };
   };
 

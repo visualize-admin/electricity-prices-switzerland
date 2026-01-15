@@ -13,6 +13,7 @@ import { PowerStabilityHorizontalStackedBars } from "src/components/power-stabil
 import { ColorMapping } from "src/domain/color-mapping";
 import { type SunshinePowerStabilityData } from "src/domain/sunshine";
 import { chartPalette, palette } from "src/themes/palette";
+import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import { SortableLegendItem } from "./charts-generic/legends/color";
 import { ProgressOvertimeChart } from "./charts-generic/progress-overtime-chart";
@@ -39,10 +40,21 @@ export type PowerStabilityRow =
   SunshinePowerStabilityData["saidi"]["yearlyData"][0] & { planned: number };
 
 export const PowerStabilityChart = (props: PowerStabilityChartProps) => {
-  const { viewBy, observations, rootProps, colorMapping, compact, ...restProps } = props;
+  const {
+    viewBy,
+    observations,
+    rootProps,
+    colorMapping,
+    compact,
+    ...restProps
+  } = props;
 
   const dataWithStackFields = useMemo(() => {
-    return observations.map((d) => ({
+    const validObservations = observations.filter(
+      (d): d is NonNullableProp<typeof d, "total" | "unplanned"> =>
+        d.total != null && d.unplanned != null
+    );
+    return validObservations.map((d) => ({
       ...d,
       total: d.total,
       planned: d.total - d.unplanned,
@@ -231,13 +243,20 @@ const ProgressOvertimeChartView = (
     compareWith = [],
     colorMapping,
   } = props;
-  const operatorsNames = useMemo(() => {
-    return new Set(observations.map((d) => d.operator_name));
+
+  const validObservations = useMemo(() => {
+    return observations.filter(
+      (d): d is NonNullableProp<typeof d, "total" | "unplanned"> =>
+        d.total !== null && d.unplanned !== null
+    );
   }, [observations]);
+  const operatorsNames = useMemo(() => {
+    return new Set(validObservations.map((d) => d.operator_name));
+  }, [validObservations]);
 
   return (
     <ProgressOvertimeChart
-      observations={observations}
+      observations={validObservations}
       operatorLabel={operatorLabel}
       operatorsNames={operatorsNames}
       compareWith={compareWith}

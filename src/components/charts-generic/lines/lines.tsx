@@ -4,7 +4,6 @@ import {
   LinesState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
-import { GenericObservation } from "src/domain/data";
 
 export const Lines = ({
   medianGroup,
@@ -16,41 +15,54 @@ export const Lines = ({
   const { getX, xScale, getY, yScale, grouped, colors, getColor, bounds } =
     useChartState() as LinesState;
 
-  const lineGenerator = line<GenericObservation>()
-    .x((d) => xScale(getX(d)))
-    .y((d) => yScale(getY(d)))
-    .defined((d) => !Number.isNaN(getY(d)) || getY(d) === undefined);
+  type XY = { x: Date; y: number; color: string };
+  const xys = grouped.map((group) => {
+    return [
+      group[0],
+      group[1]
+        .map((d) => {
+          const x = getX(d);
+          const y = getY(d);
+          return {
+            x,
+            y,
+            color: getColor(d),
+          };
+        })
+        .filter(
+          (point): point is XY =>
+            point.y !== undefined && point.x !== undefined && !isNaN(point.y)
+        )
+        .sort((a, b) => ascending(a.x, b.x)),
+    ] as const;
+  });
+
+  const lineGenerator = line<{ x: Date; y: number }>()
+    .x((d) => xScale(d.x))
+    .y((d) => yScale(d.y));
 
   return (
     <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
-      {grouped.map((lineData, index) => {
-        const definedLineData = lineData[1].filter(
-          (d) => !Number.isNaN(getY(d)) || getY(d) === undefined
-        );
-        if (definedLineData.length === 1) {
-          // We need to render a point for single data points
-          const point = lineData[1][0];
+      {xys.map(([id, data], index) => {
+        if (data.length === 1) {
+          const point = data[0];
           return (
             <circle
               key={index}
-              cx={xScale(getX(point))}
-              cy={yScale(getY(point))}
+              cx={xScale(point.x)}
+              cy={yScale(point.y)}
               r={2}
-              fill={colors(getColor(point))}
+              fill={colors(point.color)}
             />
           );
         }
-        const isMedianGroup = medianGroup === lineData[0];
-        const isMedianTotal = medianTotal === lineData[0];
+        const isMedianGroup = medianGroup === id;
+        const isMedianTotal = medianTotal === id;
         return (
           <path
             key={index}
-            d={
-              lineGenerator(
-                lineData[1].sort((a, b) => ascending(getX(a), getX(b)))
-              ) as string
-            }
-            stroke={colors(getColor(lineData[1][0]))}
+            d={lineGenerator(data) as string}
+            stroke={colors(data[0]?.color)}
             fill="none"
             strokeWidth={2}
             strokeLinecap="round"

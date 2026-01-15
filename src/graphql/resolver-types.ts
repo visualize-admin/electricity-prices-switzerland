@@ -106,7 +106,7 @@ export type NetworkCostRow = {
   network_level: Scalars["String"]["output"];
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
-  rate: Scalars["Float"]["output"];
+  rate?: Maybe<Scalars["Float"]["output"]>;
   year: Scalars["Int"]["output"];
 };
 
@@ -153,9 +153,9 @@ export enum ObservationKind {
 
 export type OperationalStandardsCompliance = {
   __typename?: "OperationalStandardsCompliance";
-  francsRule: Scalars["String"]["output"];
+  francsRule?: Maybe<Scalars["String"]["output"]>;
   operatorsFrancsPerInvoice: Array<OperationalStandardsOperatorFrancs>;
-  timelyPaperSubmission: Scalars["Boolean"]["output"];
+  timelyPaperSubmission?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type OperationalStandardsData = {
@@ -179,22 +179,22 @@ export type OperationalStandardsOperator = {
 
 export type OperationalStandardsOperatorFrancs = {
   __typename?: "OperationalStandardsOperatorFrancs";
-  francsPerInvoice: Scalars["Float"]["output"];
+  francsPerInvoice?: Maybe<Scalars["Float"]["output"]>;
   operatorId: Scalars["String"]["output"];
   year: Scalars["String"]["output"];
 };
 
 export type OperationalStandardsOperatorNotification = {
   __typename?: "OperationalStandardsOperatorNotification";
-  days: Scalars["Int"]["output"];
+  days?: Maybe<Scalars["Int"]["output"]>;
   operatorId: Scalars["String"]["output"];
   year: Scalars["String"]["output"];
 };
 
 export type OperationalStandardsServiceQuality = {
   __typename?: "OperationalStandardsServiceQuality";
-  informingCustomersOfOutage: Scalars["Boolean"]["output"];
-  notificationPeriodDays: Scalars["Int"]["output"];
+  informingCustomersOfOutage?: Maybe<Scalars["Boolean"]["output"]>;
+  notificationPeriodDays?: Maybe<Scalars["Int"]["output"]>;
   operatorsNotificationPeriodDays: Array<OperationalStandardsOperatorNotification>;
 };
 
@@ -474,8 +474,8 @@ export type StabilityDataRow = {
   __typename?: "StabilityDataRow";
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
-  total: Scalars["Float"]["output"];
-  unplanned: Scalars["Float"]["output"];
+  total?: Maybe<Scalars["Float"]["output"]>;
+  unplanned?: Maybe<Scalars["Float"]["output"]>;
   year: Scalars["Int"]["output"];
 };
 
@@ -568,7 +568,7 @@ export type TariffRow = {
   operator_id: Scalars["Int"]["output"];
   operator_name: Scalars["String"]["output"];
   period: Scalars["Int"]["output"];
-  rate: Scalars["Float"]["output"];
+  rate?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TariffsData = {
@@ -944,7 +944,7 @@ export type NetworkCostRowResolvers<
   network_level?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  rate?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  rate?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1011,14 +1011,18 @@ export type OperationalStandardsComplianceResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsCompliance"] = ResolversParentTypes["OperationalStandardsCompliance"]
 > = ResolversObject<{
-  francsRule?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  francsRule?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   operatorsFrancsPerInvoice?: Resolver<
     Array<ResolversTypes["OperationalStandardsOperatorFrancs"]>,
     ParentType,
     ContextType
   >;
   timelyPaperSubmission?: Resolver<
-    ResolversTypes["Boolean"],
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
@@ -1061,7 +1065,11 @@ export type OperationalStandardsOperatorFrancsResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorFrancs"] = ResolversParentTypes["OperationalStandardsOperatorFrancs"]
 > = ResolversObject<{
-  francsPerInvoice?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  francsPerInvoice?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1071,7 +1079,7 @@ export type OperationalStandardsOperatorNotificationResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperationalStandardsOperatorNotification"] = ResolversParentTypes["OperationalStandardsOperatorNotification"]
 > = ResolversObject<{
-  days?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  days?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1082,12 +1090,12 @@ export type OperationalStandardsServiceQualityResolvers<
   ParentType extends ResolversParentTypes["OperationalStandardsServiceQuality"] = ResolversParentTypes["OperationalStandardsServiceQuality"]
 > = ResolversObject<{
   informingCustomersOfOutage?: Resolver<
-    ResolversTypes["Boolean"],
+    Maybe<ResolversTypes["Boolean"]>,
     ParentType,
     ContextType
   >;
   notificationPeriodDays?: Resolver<
-    ResolversTypes["Int"],
+    Maybe<ResolversTypes["Int"]>,
     ParentType,
     ContextType
   >;
@@ -1473,8 +1481,8 @@ export type StabilityDataRowResolvers<
 > = ResolversObject<{
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  total?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
-  unplanned?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  total?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
+  unplanned?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1622,7 +1630,7 @@ export type TariffRowResolvers<
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  rate?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  rate?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

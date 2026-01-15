@@ -2,15 +2,14 @@ import { Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Typography } from "@mui/material";
 
 import CardSource from "src/components/card-source";
-import {
-  PeerGroup,
-  SunshineOperationalStandardsData,
-} from "src/domain/sunshine";
+import { PeerGroup } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { lowercase } from "src/utils/str";
 
 import { CardHeader } from "./detail-page/card";
 import { Download, DownloadImage } from "./detail-page/download-image";
+import { NoDataAvailable } from "./no-data-available";
 import {
   ComplianceChart,
   ServiceQualityChart,
@@ -19,11 +18,11 @@ import {
 type AttributeProps =
   | {
       attribute: "serviceQuality";
-      operationalStandards: SunshineOperationalStandardsData["serviceQuality"];
+      operationalStandards: OperationalStandardsData["serviceQuality"];
     }
   | {
       attribute: "compliance";
-      operationalStandards: SunshineOperationalStandardsData["compliance"];
+      operationalStandards: OperationalStandardsData["compliance"];
     };
 
 type OperationalStandardsCardProps = AttributeProps & {
@@ -31,6 +30,8 @@ type OperationalStandardsCardProps = AttributeProps & {
   updateDate: string;
   operatorId: string;
   operatorLabel: string;
+  /** When true, shows NoDataAvailable instead of the chart */
+  noData?: boolean;
 } & CardProps;
 
 const DOWNLOAD_ID: Download = "operational-standards";
@@ -45,11 +46,13 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
     operatorId,
     operatorLabel,
     attribute,
+    noData,
+    ...rest
   } = props;
 
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
   return (
-    <Card {...props} id={DOWNLOAD_ID}>
+    <Card {...rest} id={DOWNLOAD_ID}>
       <CardContent>
         <CardHeader
           trailingContent={
@@ -77,30 +80,34 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
         </CardHeader>
 
         {/* Stacked Horizontal Bar Chart */}
-        {(() => {
-          switch (attribute) {
-            case "serviceQuality":
-              return (
-                <ServiceQualityChart
-                  data={operationalStandards}
-                  id={operatorId}
-                  operatorLabel={operatorLabel}
-                />
-              );
-            case "compliance":
-              return (
-                <ComplianceChart
-                  data={operationalStandards}
-                  id={operatorId}
-                  operatorLabel={operatorLabel}
-                />
-              );
-            default: {
-              const _exhaustiveCheck: never = attribute;
-              return _exhaustiveCheck;
+        {noData ? (
+          <NoDataAvailable sx={{ mt: 8 }} />
+        ) : (
+          (() => {
+            switch (attribute) {
+              case "serviceQuality":
+                return (
+                  <ServiceQualityChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              case "compliance":
+                return (
+                  <ComplianceChart
+                    data={operationalStandards}
+                    id={operatorId}
+                    operatorLabel={operatorLabel}
+                  />
+                );
+              default: {
+                const _exhaustiveCheck: never = attribute;
+                return _exhaustiveCheck;
+              }
             }
-          }
-        })()}
+          })()
+        )}
         {/* Footer Info */}
         <CardSource date={`${updateDate}`} source={"Lindas"} />
       </CardContent>

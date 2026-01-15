@@ -136,32 +136,6 @@ export type SunshinePowerStabilityData = {
   updateDate: string;
 };
 
-export type SunshineOperationalStandardsData = {
-  latestYear: string;
-  serviceQuality: {
-    notificationPeriodDays: number;
-    informingCustomersOfOutage: boolean;
-    operatorsNotificationPeriodDays: {
-      operatorId: string;
-      days: number;
-      year: string;
-    }[];
-  };
-
-  compliance: {
-    francsRule: string;
-    timelyPaperSubmission: boolean;
-    operatorsFrancsPerInvoice: {
-      operatorId: string;
-      francsPerInvoice: number;
-      year: string;
-    }[];
-  };
-  operator: {
-    peerGroup: PeerGroup;
-  };
-  updateDate: string;
-};
 export type NetworkLevel = {
   id: "NE5" | "NE6" | "NE7";
 };

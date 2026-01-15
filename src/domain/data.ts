@@ -5,7 +5,7 @@ import { runtimeEnv } from "src/env/runtime";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { weightedMean } from "src/utils/weighted-mean";
 
-export type ObservationValue = string | number | boolean | Date;
+export type ObservationValue = string | number | boolean | Date | null;
 export type GenericObservation = Record<string, ObservationValue>;
 
 type ComponentFields_NominalDimension_Fragment = {

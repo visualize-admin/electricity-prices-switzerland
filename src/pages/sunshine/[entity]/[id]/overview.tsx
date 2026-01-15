@@ -44,7 +44,6 @@ import {
   NetworkLevel,
   sunshineCategories,
   SunshineCostsAndTariffsData,
-  SunshineOperationalStandardsData,
   SunshinePowerStabilityData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
@@ -58,6 +57,7 @@ import {
   useNetworkCostsQuery,
   useOperationalStandardsQuery,
 } from "src/graphql/queries";
+import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { Icon } from "src/icons";
 import {
   fetchOperationalStandards,
@@ -77,7 +77,7 @@ type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       costsAndTariffs: SunshineCostsAndTariffsData;
       powerStability: SunshinePowerStabilityData;
-      operationalStandards: SunshineOperationalStandardsData;
+      operationalStandards: OperationalStandardsData;
       sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };

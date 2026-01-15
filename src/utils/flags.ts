@@ -31,9 +31,6 @@ const specs = {
   /** Show dynamic electricity tariffs */
   dynamicElectricityTariffs: {},
 
-  /** Show mock operational standards chart */
-  mockOperationalStandardsChart: {},
-
   /** Shows coverage ratio in map tooltips */
   coverageRatio: {},
 

@@ -24,6 +24,8 @@ Nothing yet.
   - Mobile: Improve the mobile drawer and map interaction [#380](https://github.com/visualize-admin/electricity-prices-switzerland/issues/380)
 - Map details panel
   - SAIDI/SAIFI correctly show peer group median in details panel chart [#505](https://github.com/visualize-admin/electricity-prices-switzerland/issues/505)
+- Operational standards detail page
+  - Operator without data now display "-" and no chart, see `/sunshine/operator/85/operational-standards#main-content`, [#499](https://github.com/visualize-admin/electricity-prices-switzerland/issues/499)
 
 # 2.33.1 - 2026-01-12
 
