@@ -62,7 +62,7 @@ export const Lines = ({
           <path
             key={index}
             d={lineGenerator(data) as string}
-            stroke={colors(data[0].color)}
+            stroke={colors(data[0]?.color)}
             fill="none"
             strokeWidth={2}
             strokeLinecap="round"
