@@ -78,8 +78,6 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       }
     );
 
-    console.log(operationalStandards);
-
     return {
       props: {
         ...operatorProps,
