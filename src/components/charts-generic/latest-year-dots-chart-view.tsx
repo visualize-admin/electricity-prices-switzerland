@@ -204,8 +204,8 @@ export const LatestYearDotsChartView = <T extends GenericObservation>(
       />
       {compact ? (
         <Box position="relative" mt={2}>
-          {yValuesSorted.map((yValue) => (
-            <Box position="relative" key={yValue}>
+          {yValuesSorted.map((yValue, i) => (
+            <Box position="relative" key={i}>
               <Box position="relative" top={16}>
                 <Tooltip type="multiple" forceYAnchor id={yValue} />
               </Box>

@@ -1,4 +1,4 @@
-import { axisTop, NumberValue, select, Selection } from "d3";
+import { axisBottom, axisTop, NumberValue, select, Selection } from "d3";
 import { useEffect, useRef } from "react";
 
 import {
@@ -16,9 +16,12 @@ export const AxisWidthLinear = ({
   format?: "number" | "currency";
 }) => {
   const formatCurrency = useFormatCurrency();
-  const { xScale, bounds, xAxisLabel } = useChartState() as
-    | DotPlotState
-    | RangePlotState;
+  const {
+    xScale,
+    bounds,
+    xAxisLabel,
+    axisPlacement = "top",
+  } = useChartState() as DotPlotState | RangePlotState;
   const { chartWidth, chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
@@ -31,16 +34,25 @@ export const AxisWidthLinear = ({
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 40), 10);
     const tickValues = xScale.ticks(ticks);
 
+    const axisGenerator = axisPlacement === "top" ? axisTop : axisBottom;
+
     g.call(
-      axisTop(xScale)
+      axisGenerator(xScale)
         .tickValues(tickValues)
-        .tickSizeInner(-chartHeight)
-        .tickSizeOuter(-chartHeight)
+        .tickPadding(100)
+        .tickSizeInner(
+          axisPlacement === "top" ? -chartHeight : chartHeight * 0.5
+        )
+        .tickSizeOuter(
+          axisPlacement === "top" ? -chartHeight : chartHeight * 0.5
+        )
         .tickFormat(formatValue)
-        .tickPadding(6)
+        .tickPadding(axisPlacement === "bottom" ? 24 : 6)
     );
 
-    g.selectAll(".tick line").attr("stroke", gridColor).attr("stroke-width", 1);
+    g.selectAll(".tick line")
+      .attr("stroke", gridColor)
+      .attr("stroke-width", axisPlacement === "bottom" ? 0 : 1);
     g.selectAll(".tick text")
       .attr("font-size", labelFontSize)
       .attr("font-family", fontFamily)

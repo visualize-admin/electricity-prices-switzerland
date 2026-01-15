@@ -58,6 +58,7 @@ export type RangePlotState = {
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   xAxisLabel?: string;
+  axisPlacement: "top" | "bottom";
 };
 
 export type AreasState = {
@@ -201,6 +202,7 @@ export interface DotPlotState {
   medianValue?: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
+  axisPlacement: "top" | "bottom";
 }
 export type StackRow = Record<string, number | string>;
 

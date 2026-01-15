@@ -138,7 +138,9 @@ const useScatterPlotState = ({
       };
 
       const chartWidth = width - margins.left - margins.right;
-      const chartHeight = chartWidth * aspectRatio;
+      const chartHeight = isMobile
+        ? MOBILE_ROW_HEIGHT
+        : chartWidth * aspectRatio;
       const bounds = {
         width,
         height: chartHeight + margins.top + margins.bottom,
@@ -264,6 +266,7 @@ const useScatterPlotState = ({
     yAxisLabel,
     medianValue,
     highlightedValue: fields.style?.highlightValue ?? null,
+    axisPlacement: isMobile ? "bottom" : "top",
   };
 };
 
