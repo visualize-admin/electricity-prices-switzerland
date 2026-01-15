@@ -138,7 +138,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
             gap: 2,
             mb: 3,
           }}
