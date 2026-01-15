@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -113,30 +113,37 @@ msgstr "Gestionnaires de réseau"
 msgid "detail.operators"
 msgstr "Gestionnaires de réseau"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
 msgstr "Coûts du réseau et tarifs"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Aperçus sur l’électricité"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Tarifs d'électricité"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
 msgstr "Indicateurs de performance"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
 msgstr "Qualité de l’approvisionnement"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "Indicateurs Sunshine"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "Vue d'ensemble"
@@ -324,7 +331,7 @@ msgstr "Commission fédérale de l'électricité ElCom"
 
 #: src/components/header.tsx
 msgid "header.short-title"
-msgstr "ElCom"
+msgstr "Prix de l'électricité en Suisse"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -511,7 +518,7 @@ msgstr "Médiane du groupe de référence"
 
 #: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "legend-item.total-peer-group-median"
-msgstr "Total (médiane du groupe de référence)"
+msgstr "Médiane du groupe de comparaison (total)"
 
 #: src/components/sunshine-map.tsx
 msgid "legend.no"
@@ -697,7 +704,7 @@ msgstr "NR7"
 
 #: src/components/no-data-available.tsx
 msgid "no-data-available.description"
-msgstr "Il n'y a pas de données disponibles pour cet opérateur"
+msgstr "Aucune donnée n’est disponible pour ce gestionnaire de réseau, soit parce qu’il n’est pas tenu de fournir des données pour cet indicateur, soit parce qu’il n’exerce pas d’activité dans ce domaine, soit parce qu’aucune donnée n’a été transmise."
 
 #: src/components/no-data-available.tsx
 msgid "no-data-available.title"
