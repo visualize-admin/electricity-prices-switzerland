@@ -3,6 +3,8 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Children, isValidElement, ReactNode } from "react";
 
+import { DetailsPageMobileNavigation } from "src/components/detail-page/mobile-navigation";
+import { Entity } from "src/domain/data";
 import { useIsMobile } from "src/lib/use-mobile";
 
 import { SectionProps } from "./card";
@@ -133,6 +135,8 @@ interface DetailsPageProps {
   SidebarContent?: React.ReactNode;
   MainContent: React.ReactNode;
   download?: string | string[];
+  id: string;
+  entity: Entity;
 }
 
 export const DetailsPageLayout = ({
@@ -141,6 +145,8 @@ export const DetailsPageLayout = ({
   SidebarContent,
   MainContent,
   download,
+  id,
+  entity,
 }: DetailsPageProps) => {
   const isMobile = useIsMobile();
 
@@ -161,9 +167,12 @@ export const DetailsPageLayout = ({
             sx={{
               flexGrow: 1,
               backgroundColor: "background.paper",
+              flexDirection: "column",
+              pb: 6,
             }}
           >
             {BannerContent}
+            <DetailsPageMobileNavigation entity={entity} id={id} />
           </ContentWrapper>
         </Box>
         <Box
