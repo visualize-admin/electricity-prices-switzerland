@@ -109,10 +109,10 @@ export type LinesState = {
   data: GenericObservation[];
   bounds: Bounds;
   segments: string[];
-  getX: (d: GenericObservation) => Date;
+  getX: (d: GenericObservation) => Date | undefined;
   xScale: ScaleTime<number, number>;
   xUniqueValues: Date[];
-  getY: (d: GenericObservation) => number;
+  getY: (d: GenericObservation) => number | undefined;
   yScale: ScaleLinear<number, number>;
   getSegment: (d: GenericObservation) => string;
   getColor: (d: GenericObservation) => string;
