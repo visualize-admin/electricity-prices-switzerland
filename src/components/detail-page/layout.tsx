@@ -168,11 +168,13 @@ export const DetailsPageLayout = ({
               flexGrow: 1,
               backgroundColor: "background.paper",
               flexDirection: "column",
-              pb: 6,
+              pb: isMobile ? 6 : 0,
             }}
           >
             {BannerContent}
-            <DetailsPageMobileNavigation entity={entity} id={id} />
+            {isMobile ? (
+              <DetailsPageMobileNavigation entity={entity} id={id} />
+            ) : null}
           </ContentWrapper>
         </Box>
         <Box

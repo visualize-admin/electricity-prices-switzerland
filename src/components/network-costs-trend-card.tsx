@@ -161,7 +161,10 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
           sx={{
             mb: 3,
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            gridTemplateColumns: {
+              xs: "1fr",
+              lg: "1fr 1fr",
+            },
             gap: 2,
             overflow: "hidden",
           }}

@@ -176,22 +176,21 @@ const useRangePlotState = ({
     };
   };
 
-  const annotations =
-    annotation
-      ?.sort((a, b) => ascending(getX(a), getX(b)))
-      .map((datum, i) => {
-        return {
-          datum,
-          x: xScale(getX(datum)),
-          y: yScale(getY(datum)) || 0,
-          xLabel: xScale(getX(datum)),
-          yLabel: annotationSpaces[i].height,
-          nbOfLines: annotationSpaces[i + 1].nbOfLines,
-          value: formatCurrency(getX(datum)),
-          label: getLabel(datum),
-          onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2 ),
-        };
-      });
+  const annotations = annotation
+    ?.sort((a, b) => ascending(getX(a), getX(b)))
+    .map((datum, i) => {
+      return {
+        datum,
+        x: xScale(getX(datum)),
+        y: yScale(getY(datum)) || 0,
+        xLabel: xScale(getX(datum)),
+        yLabel: annotationSpaces[i].height,
+        nbOfLines: annotationSpaces[i + 1].nbOfLines,
+        value: formatCurrency(getX(datum)),
+        label: getLabel(datum),
+        onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2),
+      };
+    });
 
   return {
     bounds,
@@ -206,6 +205,7 @@ const useRangePlotState = ({
     annotations,
     xAxisLabel,
     getAnnotationInfo,
+    axisPlacement: "top",
   };
 };
 

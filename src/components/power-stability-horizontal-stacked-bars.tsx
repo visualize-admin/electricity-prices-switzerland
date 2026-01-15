@@ -160,7 +160,7 @@ export const PowerStabilityHorizontalStackedBars = (
 
     return { dataByOperator: grouped, operatorsSorted: uniqueSorted };
   }, [compact, sortedDataWithoutMedian]);
-  const rowHeight = 20;
+  const rowHeight = 46;
 
   return (
     <StackedBarsChart

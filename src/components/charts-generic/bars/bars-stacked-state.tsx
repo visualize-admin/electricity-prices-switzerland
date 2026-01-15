@@ -329,6 +329,7 @@ const useStackedBarsState = ({
     annotations,
     xAxisLabel,
     getAnnotationInfo,
+    axisPlacement: isMobile ? "bottom" : "top",
   };
 };
 
