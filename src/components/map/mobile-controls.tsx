@@ -11,6 +11,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
+import { keyBy } from "lodash";
 import React, { useRef } from "react";
 import * as Vaul from "vaul";
 
@@ -24,11 +25,13 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
+import { usePeerGroupsQuery } from "src/graphql/queries";
 import {
   SelectedEntityData,
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { Icon } from "src/icons";
+import { useLocale } from "src/lib/use-locale";
 
 const MobileDrawer = ({
   list,
@@ -166,6 +169,16 @@ const MobileControls = ({
   const [sunshineQueryState] = useQueryStateSunshineMap();
 
   const tab = queryState.tab;
+  const locale = useLocale();
+
+  const [peerGroupsResult] = usePeerGroupsQuery({
+    variables: { locale },
+    requestPolicy: "cache-first",
+  });
+  const peerGroupsById = keyBy(
+    peerGroupsResult.data?.peerGroups ?? [],
+    (x) => x.id
+  );
 
   // Extract current values with defaults
   const period = energyQueryState.period;
@@ -181,12 +194,20 @@ const MobileControls = ({
 
   // Get localized labels for display
   const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
+  const sunshineIndicatorLabel = getLocalizedLabel({ id: sunshineIndicator });
+  const indicatorLabel =
+    tab === "electricity" ? priceComponentLabel : sunshineIndicatorLabel;
+  const sunshinePeerGroupLabel =
+    peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
+  const sunshineNetworkLevelLabel = getLocalizedLabel({
+    id: `network-level.${sunshineNetworkLevel}.short`,
+  });
   const categoryLabel = getLocalizedLabel({ id: category });
   const productLabel = getLocalizedLabel({ id: product });
 
   // Format the current status string
-  const pricesCurrentStatus = `${period}, ${priceComponentLabel}, ${categoryLabel}, ${productLabel}`;
-  const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshineIndicator}, ${sunshinePeerGroup}, ${sunshineNetworkLevel}`;
+  const pricesCurrentStatus = `${period}, ${categoryLabel}, ${productLabel}`;
+  const sunshineCurrentStatus = `${sunshinePeriod}, ${sunshinePeerGroupLabel}, ${sunshineNetworkLevelLabel}`;
   const selectedItemStatus = selectedEntityData?.entityIds
     ? `${selectedEntityData.formattedData?.title}, ${selectedEntityData.formattedData?.title}`
     : "No selection";
@@ -259,9 +280,7 @@ const MobileControls = ({
                       fontWeight="bold"
                       gutterBottom
                     >
-                      <Trans id="selector.legend.select.parameters">
-                        Parameter auswählen
-                      </Trans>
+                      {indicatorLabel}
                     </Typography>
                     <Typography variant="body2">{status}</Typography>
                   </Box>
