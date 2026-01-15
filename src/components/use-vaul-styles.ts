@@ -19,6 +19,9 @@ const useVaulStyles = tss.create(({ theme }) => ({
     left: 0,
     right: 0,
     zIndex: theme.zIndex.modal,
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
   },
   contentFullHeight: {
     marginTop: 0,
@@ -26,12 +29,24 @@ const useVaulStyles = tss.create(({ theme }) => ({
     maxHeight: "none",
   },
   scrollArea: {
-    margin: `${theme.spacing(0)} ${theme.spacing(2)}`,
+    padding: `${theme.spacing(2)} ${theme.spacing(
+      0
+    )} calc(env(safe-area-inset-bottom) + ${theme.spacing(2)})`,
     overflowY: "scroll",
     overflowX: "hidden",
-    height: "100%",
     maxHeight: "var(--max-height)",
     position: "relative",
+    flexGrow: 1,
+  },
+  header: {
+    padding: `${theme.spacing(0)} ${theme.spacing(4)}`,
+    paddingTop: 0,
+    paddingBottom: theme.spacing(2),
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   closeButton: {
     position: "absolute",
@@ -44,7 +59,7 @@ const useVaulStyles = tss.create(({ theme }) => ({
   handle: {
     marginLeft: "auto",
     marginRight: "auto",
-    width: 48, // 12rem
+    width: 48,
     height: 6, // 1.5px
     flexShrink: 0,
     borderRadius: 9999,

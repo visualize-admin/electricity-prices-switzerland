@@ -83,19 +83,7 @@ const MobileDrawer = ({
             {/* Tabs that can select between list & selectors */}
 
             <div className={classes.handle} />
-            <Box
-              px={4}
-              pt={0}
-              pb={2}
-              display="flex"
-              width="100%"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={4}
-              sx={{
-                borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-              }}
-            >
+            <div className={classes.header}>
               <Typography variant="h5" component="div" fontWeight="bold">
                 {tab === "list" ? (
                   <Trans id="mobile-drawer.list-title">Map View</Trans>
@@ -113,7 +101,8 @@ const MobileDrawer = ({
               >
                 <Trans id="mobile-drawer.close">Close</Trans>
               </Button>
-            </Box>
+            </div>
+
             <div className={classes.scrollArea}>
               {details ? (
                 details
