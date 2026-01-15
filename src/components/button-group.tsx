@@ -1,8 +1,10 @@
 import { Box, BoxProps, Tooltip, Typography } from "@mui/material";
 import { ChangeEventHandler, useCallback } from "react";
+import { makeStyles } from "tss-react/mui";
 
 import { VisuallyHidden } from "src/components/visually-hidden";
 import { WikiPageSlug } from "src/domain/types";
+import { palette } from "src/themes/palette";
 
 import { InfoDialogButton } from "./info-dialog";
 import TooltipContent from "./tooltip-content";
@@ -22,11 +24,25 @@ type ButtonGroupProps<T> = {
   showLabel?: boolean;
   infoDialogSlug?: WikiPageSlug;
   fitLabelToContent?: boolean;
+  tabProps?: BoxProps;
+  wrapOnMobile?: boolean;
 };
 
-const STYLES = {
-  tabs: {
-    common: {
+const useStyles = makeStyles<{ wrapOnMobile: boolean }>()(
+  (theme, { wrapOnMobile }) => ({
+    tabsContainer: {
+      display: "flex",
+      width: "100%",
+      flexWrap: "nowrap",
+      overflow: "hidden",
+      alignItems: "stretch",
+      ...(wrapOnMobile && {
+        [theme.breakpoints.down("sm")]: {
+          flexDirection: "column",
+        },
+      }),
+    },
+    tab: {
       display: "flex",
       flexShrink: 1,
       flexGrow: 0,
@@ -34,17 +50,17 @@ const STYLES = {
       alignItems: "center",
       justifyContent: "center",
       textAlign: "center",
-      px: 4,
-      py: 2.5,
+      padding: theme.spacing(2.5, 4),
       height: "40px",
       fontSize: "0.875rem",
       borderStyle: "solid",
       borderWidth: 1,
-      borderColor: "monochrome.200",
+      borderColor: theme.palette.monochrome[200],
       borderRightWidth: 0,
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
+      flexBasis: "100%",
       "&:first-of-type": {
         borderTopLeftRadius: "2px",
         borderBottomLeftRadius: "2px",
@@ -54,25 +70,47 @@ const STYLES = {
         borderTopRightRadius: "2px",
         borderBottomRightRadius: "2px",
       },
+      ...(wrapOnMobile && {
+        [theme.breakpoints.down("sm")]: {
+          borderRightWidth: 1,
+          borderBottomWidth: 0,
+          "&:first-of-type": {
+            borderTopLeftRadius: "2px",
+            borderTopRightRadius: "2px",
+            borderBottomLeftRadius: 0,
+          },
+          "&:last-of-type": {
+            borderBottomWidth: 1,
+            borderTopRightRadius: 0,
+            borderBottomLeftRadius: "2px",
+            borderBottomRightRadius: "2px",
+          },
+        },
+      }),
     },
-    active: {
-      color: "background.paper",
-      bgcolor: "secondary.main",
+    tabActive: {
+      color: theme.palette.background.paper,
+      backgroundColor: theme.palette.secondary.main,
       overflow: "visible",
       whiteSpace: "normal",
       textOverflow: "unset",
       minWidth: "fit-content",
     },
-    inactive: {
-      color: "text.primary",
-      bgcolor: "background.paper",
+    tabInactive: {
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.background.paper,
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: "secondary.50",
+        backgroundColor: palette.secondary[50],
       },
     },
-  },
-};
+    fitLabelToContent: {
+      "& label": {
+        flexBasis: "content",
+      },
+    },
+  })
+);
 
 export const ButtonGroup = <T extends string>({
   id,
@@ -83,8 +121,11 @@ export const ButtonGroup = <T extends string>({
   showLabel = true,
   infoDialogSlug,
   fitLabelToContent = false,
+  tabProps,
+  wrapOnMobile = false,
   ...props
 }: ButtonGroupProps<T> & BoxProps) => {
+  const { classes, cx } = useStyles({ wrapOnMobile });
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       if (e.currentTarget.checked) {
@@ -100,6 +141,8 @@ export const ButtonGroup = <T extends string>({
       {...props}
       position="relative"
       flexDirection="column"
+      maxWidth="100%"
+      overflow="hidden"
       sx={{
         gap: infoDialogSlug ? 0 : 2,
         ...props.sx,
@@ -128,13 +171,7 @@ export const ButtonGroup = <T extends string>({
         </Box>
       ) : null}
 
-      <Box
-        display="flex"
-        width="100%"
-        flexWrap="nowrap"
-        overflow="hidden"
-        alignItems="stretch"
-      >
+      <Box className={classes.tabsContainer} {...tabProps}>
         {options.map((option) => {
           const isActive = option.value === value;
           const { label, content } = option;
@@ -158,19 +195,11 @@ export const ButtonGroup = <T extends string>({
                 component="label"
                 role="button"
                 title=""
-                flexBasis="100%"
-                sx={{
-                  ...STYLES.tabs.common,
-                  ...(isActive ? STYLES.tabs.active : STYLES.tabs.inactive),
-
-                  ...(fitLabelToContent
-                    ? {
-                        "& label": {
-                          flexBasis: "content",
-                        },
-                      }
-                    : {}),
-                }}
+                className={cx(
+                  classes.tab,
+                  isActive ? classes.tabActive : classes.tabInactive,
+                  fitLabelToContent && classes.fitLabelToContent
+                )}
               >
                 <VisuallyHidden>
                   <input

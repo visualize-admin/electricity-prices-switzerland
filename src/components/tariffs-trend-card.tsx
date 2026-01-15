@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardProps, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -135,8 +135,15 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
           </Typography>
         </CardHeader>
         {/* Dropdown Controls */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <div>
             <ButtonGroup
               id="view-by-button-group"
               label={getLocalizedLabel({
@@ -160,24 +167,30 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
               }
+              wrapOnMobile
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </div>
+          <div>
             <ItemMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
                 message: "Compare With",
               })}
-              InputProps={
-                compareWith.length === 0
+              InputProps={{
+                sx: {
+                  xs: {
+                    width: "100%",
+                  },
+                },
+                ...(compareWith.length === 0
                   ? {
                       placeholder: t({
                         id: "sunshine.costs-and-tariffs.compare-with-placeholder",
                         message: "Select operators to compare",
                       }),
                     }
-                  : {}
-              }
+                  : {}),
+              }}
               colorMapping={colorMapping}
               items={[
                 { id: "sunshine.select-all" },
@@ -193,8 +206,8 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                 setQueryState({ ...state, compareWith: items })
               }
             />
-          </Grid>
-        </Grid>
+          </div>
+        </Box>
         <TariffsTrendChart
           id={operatorId}
           operatorLabel={operatorLabel}
