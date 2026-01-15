@@ -168,16 +168,16 @@ const MobileControls = ({
   const tab = queryState.tab;
 
   // Extract current values with defaults
-  const period = energyQueryState.period || "2020";
-  const priceComponent = energyQueryState.priceComponent || "total";
-  const category = energyQueryState.category || "H4";
-  const product = energyQueryState.product || "standard";
+  const period = energyQueryState.period;
+  const priceComponent = energyQueryState.priceComponent;
+  const category = energyQueryState.category;
+  const product = energyQueryState.product;
 
   // sunshine
-  const sunshinePeriod = sunshineQueryState.period || "2020";
-  const sunshinePeerGroup = sunshineQueryState.peerGroup || "total";
-  const sunshineIndicator = sunshineQueryState.indicator || "H4";
-  const sunshineNetworkLevel = sunshineQueryState.networkLevel || "standard";
+  const sunshinePeriod = sunshineQueryState.period;
+  const sunshinePeerGroup = sunshineQueryState.peerGroup;
+  const sunshineIndicator = sunshineQueryState.indicator;
+  const sunshineNetworkLevel = sunshineQueryState.networkLevel;
 
   // Get localized labels for display
   const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
