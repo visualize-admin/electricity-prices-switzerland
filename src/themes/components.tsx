@@ -1,4 +1,9 @@
-import { autocompleteClasses, Components, Theme } from "@mui/material";
+import {
+  autocompleteClasses,
+  Components,
+  nativeSelectClasses,
+  Theme,
+} from "@mui/material";
 
 import { Icon } from "src/icons";
 import { IconChevronDown } from "src/icons/ic-chevron-down";
@@ -130,18 +135,30 @@ export const components = (theme: Theme): Components => ({
           display: "none",
         },
       },
+
+      select: {
+        "&&": {
+          paddingRight: `calc(var(--icon-width) + ${theme.spacing(
+            2
+          )}) !important`,
+          paddingLeft: theme.spacing(2),
+          height: `var(--select-height)`,
+          boxSizing: "border-box",
+          fontSize: theme.typography.body1.fontSize,
+        },
+      },
       icon: {
-        width: 40,
+        width: "var(--icon-width)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: 42,
+        height: `var(--select-height)`,
         top: 0,
         padding: 8,
         pointerEvents: "none",
         color: palette.text.primary,
         borderLeft: "1px solid",
-        borderLeftColor: palette.text.primary,
+        borderLeftColor: palette.monochrome[500],
       },
     },
   },
@@ -367,12 +384,28 @@ export const components = (theme: Theme): Components => ({
       },
     },
   },
+  MuiInput: {
+    styleOverrides: {
+      root: {
+        // I do not know why it's not possible to put those styles directly in MuiNativeSelect root
+        [`&.${nativeSelectClasses.root}`]: {
+          "--select-height": "42px",
+          "--icon-width": "40px",
+          paddingLeft: "0px",
+          boxSizing: "border-box",
+          // Without the 1px, the right border is a bit hidden, I do not know why
+          width: "calc(100% - 1px)",
+        },
+      },
+    },
+  },
   MuiInputBase: {
     styleOverrides: {
       sizeSmall: {
         minHeight: "40px",
         fontSize: "14px",
       },
+
       root: {
         minHeight: "44px",
         display: "flex",
@@ -611,7 +644,6 @@ export const components = (theme: Theme): Components => ({
     },
   },
 
-  MuiInput: {},
   MuiLink: {
     defaultProps: {
       size: "md",
