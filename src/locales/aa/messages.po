@@ -1050,10 +1050,6 @@ msgstr "selector.energy-tariffs-category"
 msgid "selector.indicator"
 msgstr "selector.indicator"
 
-#: src/components/map/mobile-controls.tsx
-msgid "selector.legend.select.parameters"
-msgstr "selector.legend.select.parameters"
-
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "selector.net-tariffs-category"

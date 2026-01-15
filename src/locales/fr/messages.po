@@ -331,7 +331,7 @@ msgstr "Commission fédérale de l'électricité ElCom"
 
 #: src/components/header.tsx
 msgid "header.short-title"
-msgstr "Prix de l'électricité en Suisse"
+msgstr "ElCom"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -1052,10 +1052,6 @@ msgstr "Catégorie"
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indicateur"
-
-#: src/components/map/mobile-controls.tsx
-msgid "selector.legend.select.parameters"
-msgstr "Paramètres"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
