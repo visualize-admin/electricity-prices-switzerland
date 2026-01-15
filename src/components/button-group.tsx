@@ -1,4 +1,10 @@
-import { Box, BoxProps, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  NativeSelect,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { ChangeEventHandler, useCallback } from "react";
 import { makeStyles } from "tss-react/mui";
 
@@ -25,20 +31,36 @@ type ButtonGroupProps<T> = {
   infoDialogSlug?: WikiPageSlug;
   fitLabelToContent?: boolean;
   tabProps?: BoxProps;
-  wrapOnMobile?: boolean;
+  asSelect?: "off" | "on-mobile" | "on";
 };
 
-const useStyles = makeStyles<{ wrapOnMobile: boolean }>()(
-  (theme, { wrapOnMobile }) => ({
+const useStyles = makeStyles<{ asSelect: "off" | "on-mobile" | "on" }>()(
+  (theme, { asSelect }) => ({
     tabsContainer: {
       display: "flex",
       width: "100%",
       flexWrap: "nowrap",
       overflow: "hidden",
       alignItems: "stretch",
-      ...(wrapOnMobile && {
+      ...(asSelect === "on" && {
+        display: "none",
+      }),
+      ...(asSelect === "on-mobile" && {
         [theme.breakpoints.down("sm")]: {
-          flexDirection: "column",
+          display: "none",
+        },
+      }),
+    },
+    nativeSelect: {
+      display: "none",
+      ...(asSelect === "on" && {
+        display: "block",
+        width: "100%",
+      }),
+      ...(asSelect === "on-mobile" && {
+        [theme.breakpoints.down("sm")]: {
+          display: "block",
+          width: "100%",
         },
       }),
     },
@@ -70,23 +92,6 @@ const useStyles = makeStyles<{ wrapOnMobile: boolean }>()(
         borderTopRightRadius: "2px",
         borderBottomRightRadius: "2px",
       },
-      ...(wrapOnMobile && {
-        [theme.breakpoints.down("sm")]: {
-          borderRightWidth: 1,
-          borderBottomWidth: 0,
-          "&:first-of-type": {
-            borderTopLeftRadius: "2px",
-            borderTopRightRadius: "2px",
-            borderBottomLeftRadius: 0,
-          },
-          "&:last-of-type": {
-            borderBottomWidth: 1,
-            borderTopRightRadius: 0,
-            borderBottomLeftRadius: "2px",
-            borderBottomRightRadius: "2px",
-          },
-        },
-      }),
     },
     tabActive: {
       color: theme.palette.background.paper,
@@ -122,10 +127,10 @@ export const ButtonGroup = <T extends string>({
   infoDialogSlug,
   fitLabelToContent = false,
   tabProps,
-  wrapOnMobile = false,
+  asSelect = "off",
   ...props
 }: ButtonGroupProps<T> & BoxProps) => {
-  const { classes, cx } = useStyles({ wrapOnMobile });
+  const { classes, cx } = useStyles({ asSelect });
   const onTabChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       if (e.currentTarget.checked) {
@@ -226,6 +231,25 @@ export const ButtonGroup = <T extends string>({
           );
         })}
       </Box>
+
+      {asSelect !== "off" && (
+        <NativeSelect
+          className={classes.nativeSelect}
+          value={value}
+          size="sm"
+          onChange={(e) => setValue(e.target.value as T)}
+          inputProps={{
+            id: `${id}-select`,
+          }}
+          fullWidth
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </NativeSelect>
+      )}
     </Box>
   );
 };

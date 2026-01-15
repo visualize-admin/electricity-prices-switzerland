@@ -188,7 +188,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 },
               ]}
               value={viewBy}
-              wrapOnMobile
+              asSelect="on-mobile"
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
               }

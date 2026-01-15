@@ -167,7 +167,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
               }
-              wrapOnMobile
+              asSelect="on-mobile"
             />
           </div>
           <div>

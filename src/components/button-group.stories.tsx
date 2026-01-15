@@ -163,3 +163,83 @@ export const ControlledDemo: Story = {
     );
   },
 };
+
+// Button group with native select (asSelect="on-mobile" makes it a select on mobile devices)
+export const AsSelect: Story = {
+  render: () => {
+    const [selected, setSelected] = useState("monthly");
+
+    return (
+      <div style={{ width: "100%" }}>
+        <ButtonGroup
+          id="select-on-mobile-button-group"
+          label="Billing cycle"
+          asSelect="on"
+          options={[
+            { value: "monthly", label: "Monthly" },
+            { value: "quarterly", label: "Quarterly" },
+            { value: "annually", label: "Annually" },
+          ]}
+          value={selected}
+          setValue={setSelected}
+        />
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            backgroundColor: "#f0f0f0",
+            borderRadius: "4px",
+          }}
+        >
+          Selected: {selected}
+        </div>
+      </div>
+    );
+  },
+};
+
+// Button group always as native select (asSelect="on")
+export const AsSelectAlways: Story = {
+  render: () => {
+    const [selected, setSelected] = useState("option1");
+
+    return (
+      <div style={{ width: "100%" }}>
+        <ButtonGroup
+          id="select-always-button-group"
+          label="Select an option"
+          asSelect="on"
+          options={[
+            { value: "option1", label: "Option 1" },
+            { value: "option2", label: "Option 2" },
+            { value: "option3", label: "Option 3" },
+          ]}
+          value={selected}
+          setValue={setSelected}
+        />
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            backgroundColor: "#f0f0f0",
+            borderRadius: "4px",
+          }}
+        >
+          Selected: {selected}
+        </div>
+        <div
+          style={{
+            marginTop: "10px",
+            padding: "10px",
+            backgroundColor: "#e3f2fd",
+            borderRadius: "4px",
+            fontSize: "0.875rem",
+          }}
+        >
+          asSelect="on": Always renders as a native select dropdown on all
+          screen sizes.
+        </div>
+      </div>
+    );
+  },
+};

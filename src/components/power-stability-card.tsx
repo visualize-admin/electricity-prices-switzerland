@@ -65,7 +65,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
         label={getLocalizedLabel({
           id: "power-stability.view-by",
         })}
-        wrapOnMobile
+        asSelect="on-mobile"
         options={[
           {
             value: "latest",
@@ -113,7 +113,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
               }),
             },
           ]}
-          wrapOnMobile
+          asSelect="on-mobile"
           value={overallOrRatio}
           setValue={(value) =>
             setQueryState({
@@ -148,7 +148,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
               }),
             },
           ]}
-          wrapOnMobile
+          asSelect="on-mobile"
           value={saidiSaifiType}
           setValue={(value) =>
             setQueryState({
