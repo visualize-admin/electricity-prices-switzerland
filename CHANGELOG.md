@@ -11,7 +11,11 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Sunshine Detail pages
+  - Mobile: Can navigate across pages
+  - Mobile: Controls improvements
+- Map
+  - Mobile: Can scroll detail sheet
 
 # 2.34.0 - 2026-01-14
 

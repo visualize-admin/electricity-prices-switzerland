@@ -113,30 +113,37 @@ msgstr "Operator"
 msgid "detail.operators"
 msgstr "Netzbetreiber"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
 msgstr "Costs and Tariffs"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Insights into electricity"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Electricity tariffs"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
 msgstr "Operational Standards"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
 msgstr "Power Stability"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "Sunshine Indicators"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "Overview"
@@ -324,7 +331,7 @@ msgstr "Federal Electricity Commission ElCom"
 
 #: src/components/header.tsx
 msgid "header.short-title"
-msgstr "ElCom"
+msgstr "Electricity Prices Switzerland"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -637,7 +644,7 @@ msgstr "Close"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.details-title"
-msgstr "Details"
+msgstr "Filter"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.list-title"
@@ -645,7 +652,7 @@ msgstr "Map View"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.parameters-title"
-msgstr "Parameter"
+msgstr "Filters"
 
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
@@ -1343,7 +1350,7 @@ msgstr "Power Stability"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.compliance"
-msgstr "Franc rule"
+msgstr "Costs and benefits in CHF/year"
 
 #: src/components/sunshine-map.tsx
 msgid "sunshine.indicator.daysInAdvanceOutageNotification"

@@ -113,30 +113,37 @@ msgstr "detail.operator"
 msgid "detail.operators"
 msgstr "detail.operators"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
 msgstr "details.page.navigation.costs-and-tariffs-item"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "details.page.navigation.electricity-insights-title"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "details.page.navigation.electricity-tariffs-item"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
 msgstr "details.page.navigation.operational-standards-item"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
 msgstr "details.page.navigation.power-stability-item"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "details.page.navigation.sunshine-indicators-title"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "details.page.navigation.sunshine-overview-item"

@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardProps, Typography } from "@mui/material";
 import React, { useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -50,13 +50,22 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
   state,
   setQueryState,
 }) => (
-  <Grid container spacing={3} sx={{ mb: 3 }}>
-    <Grid item xs={12} sm={4}>
+  <Box
+    sx={{
+      mb: 3,
+      display: "grid",
+      gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 2fr" },
+      gap: 2,
+      overflow: "hidden",
+    }}
+  >
+    <div>
       <ButtonGroup
         id="view-by-button-group-1"
         label={getLocalizedLabel({
           id: "power-stability.view-by",
         })}
+        asSelect="on-mobile"
         options={[
           {
             value: "latest",
@@ -76,8 +85,8 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
           setQueryState({ ...state, viewBy: value as ViewByFilter })
         }
       />
-    </Grid>
-    <Grid item xs={12} sm={4}>
+    </div>
+    <div>
       {viewBy === "latest" ? (
         <ButtonGroup
           id="view-by-button-group-2"
@@ -104,6 +113,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
               }),
             },
           ]}
+          asSelect="on-mobile"
           value={overallOrRatio}
           setValue={(value) =>
             setQueryState({
@@ -138,6 +148,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
               }),
             },
           ]}
+          asSelect="on-mobile"
           value={saidiSaifiType}
           setValue={(value) =>
             setQueryState({
@@ -147,8 +158,8 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
           }
         />
       )}
-    </Grid>
-    <Grid item xs={12} sm={4} display="flex">
+    </div>
+    <div>
       <ItemMultiCombobox
         label={t({
           id: "sunshine.costs-and-tariffs.compare-with",
@@ -186,8 +197,8 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
           })
         }
       />
-    </Grid>
-  </Grid>
+    </div>
+  </Box>
 );
 
 export type PowerStabilityCardFilters = {

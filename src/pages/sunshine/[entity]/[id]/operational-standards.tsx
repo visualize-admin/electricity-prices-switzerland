@@ -419,6 +419,8 @@ const OperationalStandards = (props: Props) => {
         SidebarContent={sidebarContent}
         MainContent={mainContent}
         download={query.download}
+        entity={entity}
+        id={id}
       />
     </>
   );

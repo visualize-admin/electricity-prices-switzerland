@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Card, CardContent, CardProps, Grid, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardProps, Typography } from "@mui/material";
 import React, { ReactNode } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
@@ -157,13 +157,22 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
           </Typography>
         </CardHeader>
         {/* Dropdown Controls */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+        <Box
+          sx={{
+            mb: 3,
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+            gap: 2,
+            overflow: "hidden",
+          }}
+        >
+          <Box width="100%">
             <ButtonGroup
               id="view-by-button-group"
               label={getLocalizedLabel({
                 id: "costs-and-tariffs.view-by",
               })}
+              fitLabelToContent
               options={[
                 {
                   value: "latest",
@@ -179,12 +188,13 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 },
               ]}
               value={viewBy}
+              asSelect="on-mobile"
               setValue={(value) =>
                 setQueryState({ ...state, viewBy: value as ViewByFilter })
               }
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Box>
+          <div>
             <ItemMultiCombobox
               colorMapping={createColorMapping(compareWith, "elcom2")}
               label={t({
@@ -219,8 +229,8 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 })
               }
             />
-          </Grid>
-        </Grid>
+          </div>
+        </Box>
         <NetworkCostTrendChart
           rootProps={{
             sx: {

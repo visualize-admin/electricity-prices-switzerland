@@ -37,7 +37,7 @@ const IndexPage = () => {
       <Head>
         <title>{makePageTitle()}</title>
       </Head>
-      <ApplicationLayout showHeaderCaption={false}>
+      <ApplicationLayout>
         <Box display="flex" flexDirection="column">
           <Box borderBottom="1px solid" borderColor="monochrome.300">
             <ContentWrapper>

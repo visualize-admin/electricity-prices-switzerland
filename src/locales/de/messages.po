@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -113,30 +113,37 @@ msgstr "Netzbetreiber"
 msgid "detail.operators"
 msgstr "Netzbetreiber"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.costs-and-tariffs-item"
 msgstr "Netzkosten und Tarife"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-insights-title"
 msgstr "Einblicke in die Elektrizität"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.electricity-tariffs-item"
 msgstr "Stromtarife"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.operational-standards-item"
 msgstr "Leistungsindikatoren"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.power-stability-item"
 msgstr "Versorgungsqualität"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-indicators-title"
 msgstr "Sunshine-Indikatoren"
 
+#: src/components/detail-page/mobile-navigation.tsx
 #: src/components/detail-page/sidebar.tsx
 msgid "details.page.navigation.sunshine-overview-item"
 msgstr "Übersicht"
@@ -324,7 +331,7 @@ msgstr "Eidgenössische Elektrizitätskommission ElCom"
 
 #: src/components/header.tsx
 msgid "header.short-title"
-msgstr "ElCom"
+msgstr "Strompreise Schweiz"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -633,11 +640,11 @@ msgstr "Keine Daten"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.close"
-msgstr "Schließen"
+msgstr "Schliessen"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.details-title"
-msgstr "Einzelheiten"
+msgstr "Filter"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.list-title"
@@ -645,7 +652,7 @@ msgstr "Kartenansicht"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.parameters-title"
-msgstr "Parameter"
+msgstr "Filter"
 
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
@@ -694,11 +701,11 @@ msgstr "Netzebene 7"
 
 #: src/components/no-data-available.tsx
 msgid "no-data-available.description"
-msgstr "Es sind keine Daten für diesen Betreiber verfügbar"
+msgstr "Für diesen Netzbetreiber sind keine Daten verfügbar, da er entweder keine Daten zu diesem Indikator einreichen muss, er in diesem Bereich nicht tätig ist oder keine Daten eingereicht hat."
 
 #: src/components/no-data-available.tsx
 msgid "no-data-available.title"
-msgstr "Keine Daten verfügbar"
+msgstr "Keine Daten"
 
 #: src/utils/entity-formatting.tsx
 msgid "operator"
