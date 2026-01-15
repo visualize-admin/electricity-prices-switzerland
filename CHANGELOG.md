@@ -14,6 +14,7 @@ You can also check the
 - Sunshine Detail pages
   - Mobile: Can navigate across pages
   - Mobile: Controls improvements
+  - Mobile: Tick labels appear on power stability horizontal stacked bar chart and costs/tariffs latest year dot chart
 - Map
   - Mobile: Can scroll detail sheet
 
