@@ -1,5 +1,6 @@
 import {
   Box,
+  inputClasses,
   NativeSelect,
   nativeSelectClasses,
   NativeSelectProps,
@@ -40,9 +41,16 @@ const useSelectStyles = makeStyles()((theme) => ({
   },
   select: {
     "&&": {
-      fontSize: "0.75rem",
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "0.625rem",
+      "--select-height": "24px",
+      "--icon-width": "16px",
+      [`& .${inputClasses.input}`]: {
+        lineHeight: 1.5,
+        paddingTop: 0,
+        paddingBottom: 0,
+        fontSize: "0.75rem",
+        [theme.breakpoints.down("sm")]: {
+          fontSize: "0.625rem",
+        },
       },
     },
     border: 0,
