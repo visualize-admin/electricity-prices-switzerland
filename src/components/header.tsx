@@ -190,7 +190,11 @@ export const Header = ({
             </Box>
           }
           rootHref="/"
-          sx={{ backgroundColor: "white" }}
+          sx={{
+            backgroundColor: "white",
+            // Should be possible to target via HeaderProps but it's not yet available in swiss-federal-ci
+            "& p": { maxWidth: "unset" },
+          }}
         />
       )}
     </div>
