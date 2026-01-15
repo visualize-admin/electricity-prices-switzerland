@@ -13,7 +13,6 @@ import { HistogramColumns } from "src/components/charts-generic/histogram/histog
 import { Histogram } from "src/components/charts-generic/histogram/histogram-state";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
-import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import {
   AnnotationX,
@@ -34,9 +33,7 @@ export const ServiceQualityChart = ({
 }) => {
   const chartData = useMemo(() => {
     const chartData = data.operatorsNotificationPeriodDays;
-    return chartData.filter(
-      (d): d is NonNullableProp<typeof d, "days"> => d.days != null
-    );
+    return chartData;
   }, [data.operatorsNotificationPeriodDays]);
   const median = d3Median(chartData, (d) => d.days);
 
@@ -103,10 +100,7 @@ export const ComplianceChart = ({
 }) => {
   const chartData = useMemo(() => {
     const chartData = data.operatorsFrancsPerInvoice;
-    return chartData.filter(
-      (d): d is NonNullableProp<typeof d, "francsPerInvoice"> =>
-        d.francsPerInvoice != null
-    );
+    return chartData;
   }, [data.operatorsFrancsPerInvoice]);
 
   const median = d3Median(chartData, (d) => d.francsPerInvoice);
