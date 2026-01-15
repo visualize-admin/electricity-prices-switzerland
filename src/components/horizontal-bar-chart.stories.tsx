@@ -9,7 +9,7 @@ import data from "src/mocks/sunshine-powerStability-426.json";
 
 import { PowerStabilityCard } from "./power-stability-card";
 import { PowerStabilityChart } from "./power-stability-chart";
-import { DesignGrid, DesignStory } from "./storybook/base-style";
+import { DesignStory } from "./storybook/base-style";
 
 const yearData = data.saidi.yearlyData.filter((x) => x.year === 2024);
 const totals = yearData.map((d) => d.total);
@@ -44,17 +44,15 @@ export const HorizontalBarChart = () => {
       title="Horizontal Bar Chart"
       reference="ElCom Library (Sunshine Indicators)"
     >
-      <DesignGrid>
-        <PowerStabilityChart
-          observations={observationsWithMedian}
-          id="11"
-          operatorLabel="Fluxwave Energy"
-          viewBy="latest"
-          overallOrRatio="overall"
-          saidiSaifiType={"total"}
-          compareWith={[]}
-        />
-      </DesignGrid>
+      <PowerStabilityChart
+        observations={observationsWithMedian}
+        id="11"
+        operatorLabel="Fluxwave Energy"
+        viewBy="latest"
+        overallOrRatio="overall"
+        saidiSaifiType={"total"}
+        compareWith={[]}
+      />
     </DesignStory>
   );
 };
@@ -65,18 +63,16 @@ export const HorizontalBarChartCompact = () => {
       title="Horizontal Bar Chart (Compact)"
       reference="ElCom Library (Sunshine Indicators)"
     >
-      <DesignGrid>
-        <PowerStabilityChart
-          observations={observationsWithMedian}
-          id="11"
-          operatorLabel="Fluxwave Energy"
-          viewBy="latest"
-          overallOrRatio="overall"
-          saidiSaifiType={"total"}
-          compareWith={[]}
-          compact={true}
-        />
-      </DesignGrid>
+      <PowerStabilityChart
+        observations={observationsWithMedian}
+        id="11"
+        operatorLabel="Fluxwave Energy"
+        viewBy="latest"
+        overallOrRatio="overall"
+        saidiSaifiType={"total"}
+        compareWith={[]}
+        compact={true}
+      />
     </DesignStory>
   );
 };

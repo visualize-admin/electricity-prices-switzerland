@@ -231,6 +231,7 @@ export type StackedBarsState = {
   annotations?: Annotation[];
   xAxisLabel?: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
+  axisPlacement: "top" | "bottom";
 };
 
 type ChartState =

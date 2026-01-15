@@ -39,7 +39,6 @@ export const AxisWidthLinear = ({
     g.call(
       axisGenerator(xScale)
         .tickValues(tickValues)
-        .tickPadding(100)
         .tickSizeInner(
           axisPlacement === "top" ? -chartHeight : chartHeight * 0.5
         )
