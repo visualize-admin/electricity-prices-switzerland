@@ -1554,11 +1554,11 @@ msgstr "Durchschnittliche Dauer von Stromunterbrechungen (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Dauer von Stromunterbrechungen (SAIDI)"
+msgstr "System Average Interruption Duration Index (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
-msgstr "Dauer von Stromunterbrechungen (SAIDI)"
+msgstr "Dauer von Stromunterbrechungen"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1595,11 +1595,11 @@ msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
+msgstr "System Average Interruption Frequency Index (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
-msgstr "Durchschnittliche Häufigkeit von Stromunterbrechungen (SAIFI)"
+msgstr "Häufigkeit von Stromunterbrechungen"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
