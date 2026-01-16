@@ -187,7 +187,9 @@ const MobileControls = ({
   const indicatorLabel =
     tab === "electricity" ? priceComponentLabel : sunshineIndicatorLabel;
   const sunshinePeerGroupLabel =
-    peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
+    sunshinePeerGroup === "all_grid_operators"
+      ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
+      : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
   const sunshineNetworkLevelLabel = getLocalizedLabel({
     id: `network-level.${sunshineNetworkLevel}.short`,
   });
