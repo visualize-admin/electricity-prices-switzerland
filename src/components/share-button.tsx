@@ -86,7 +86,7 @@ const ShareButton = () => {
                 <Button
                   color="secondary"
                   onClick={handleClickCopyButton}
-                  sx={{ minWidth: "auto" }}
+                  sx={{ minWidth: "auto", pointerEvents: "auto" }}
                 >
                   <Icon name="duplicate" />
                 </Button>
