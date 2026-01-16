@@ -45,7 +45,7 @@ export const formatEnergyPricesEntity = (
   let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = null;
+    title = firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
   } else if (entityType === "canton") {
     title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
