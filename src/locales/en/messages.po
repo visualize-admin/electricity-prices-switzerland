@@ -1554,7 +1554,7 @@ msgstr "Average Power Outage Duration (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Power Outage Duration"
+msgstr "System Average Interruption Duration Index (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
@@ -1595,7 +1595,7 @@ msgstr "Average Power Outage Frequency (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Power Outage Frequency"
+msgstr "System Average Interruption Frequency Index (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
