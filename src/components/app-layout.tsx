@@ -82,7 +82,8 @@ const AppNavigation = () => {
           active={
             asPath === "/map" ||
             asPath.includes("municipality") ||
-            asPath.includes("canton")
+            asPath.includes("canton") ||
+            asPath.includes("operator")
           }
           href={"/map"}
           //FIXME: alter MenuButton for searchbar spacing
