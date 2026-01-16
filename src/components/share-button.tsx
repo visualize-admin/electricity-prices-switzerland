@@ -57,6 +57,7 @@ const ShareButton = () => {
             left: -1000,
             right: -1000,
             margin: "auto",
+            zIndex: (theme) => theme.zIndex.tooltip,
           }}
         >
           <Box
