@@ -57,6 +57,7 @@ const ShareButton = () => {
             left: -1000,
             right: -1000,
             margin: "auto",
+            zIndex: (theme) => theme.zIndex.tooltip,
           }}
         >
           <Box
@@ -85,7 +86,7 @@ const ShareButton = () => {
                 <Button
                   color="secondary"
                   onClick={handleClickCopyButton}
-                  sx={{ minWidth: "auto" }}
+                  sx={{ minWidth: "auto", pointerEvents: "auto" }}
                 >
                   <Icon name="duplicate" />
                 </Button>
