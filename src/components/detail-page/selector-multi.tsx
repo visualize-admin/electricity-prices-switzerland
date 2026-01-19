@@ -39,6 +39,7 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
       alignItems="start"
       zIndex={13}
       mt={1}
+      data-testid="detail-page-selector-multi"
       gridTemplateColumns={{
         xxs: "1fr",
         sm: "repeat(2, 1fr)",

@@ -23,6 +23,7 @@ export const Card = (props: CardProps) => {
     <Box
       // This id is used by the screenshot function
       id={downloadId}
+      data-testid={`card-${downloadId}`}
       display={"flex"}
       bgcolor="background.paper"
       borderRadius={1}

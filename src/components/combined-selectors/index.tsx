@@ -62,7 +62,7 @@ export const CombinedSelectors = ({
       }}
     >
       {sunshineFlag && showTabs ? (
-        <Box width="100%" mb={2}>
+        <Box width="100%" mb={4}>
           <ElectricityOrSunshineButtonGroup />
         </Box>
       ) : null}

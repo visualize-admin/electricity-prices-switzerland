@@ -66,7 +66,6 @@ const ComboboxLabel = ({
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      minHeight={34}
       {...props}
     >
       {label ? (
@@ -143,7 +142,13 @@ export const MultiCombobox = ({
       }}
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
-        <Box position="relative" flexDirection="column" width="100%" display="flex">
+        <Box
+          position="relative"
+          flexDirection="column"
+          width="100%"
+          display="flex"
+          gap="8px"
+        >
           <ComboboxLabel label={label} htmlFor={htmlFor} />
           <TextField
             {...params}
@@ -333,6 +338,7 @@ export const Combobox = <T extends string>({
       flexDirection="column"
       width="100%"
       display="flex"
+      gap={"8px"}
       sx={sx}
     >
       <ComboboxLabel

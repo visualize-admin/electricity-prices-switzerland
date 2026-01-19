@@ -58,7 +58,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
         xs: "1fr",
         lg: "1fr 1fr 1fr",
       },
-      gap: 2,
+      gap: 4,
       overflow: "hidden",
     }}
   >
