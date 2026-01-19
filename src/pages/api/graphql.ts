@@ -51,6 +51,8 @@ const server = new ApolloServer({
   ],
 });
 
+export const apolloServer = server;
+
 const handler = startServerAndCreateNextHandler(server, {
   context: contextFromAPIRequest,
 });

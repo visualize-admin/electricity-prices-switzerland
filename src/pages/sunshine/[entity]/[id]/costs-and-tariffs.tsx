@@ -77,7 +77,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale, query } = context;
 
     const { id, entity } = params!;
@@ -94,14 +94,15 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     const networkLevel = networkLevelSchema.parse(query.networkLevel);
     const category = categorySchema.parse(query.category);
 
-    const { data: operatorData, error: operatorError } = await urqlClient
-      .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+    const operatorData = await executeGraphqlQuery<OperatorPagePropsQuery>(
+      OperatorPagePropsDocument,
+      {
         locale: locale ?? defaultLocale,
         id,
-      })
-      .toPromise();
+      }
+    );
 
-    if (operatorError || !operatorData?.operator) {
+    if (!operatorData.operator) {
       res.statusCode = 404;
       return {
         props: {
@@ -110,25 +111,28 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
+    const operator = operatorData.operator;
+
     const operatorProps = {
       entity: "operator" as const,
       status: "found" as const,
-      id: operatorData.operator.id ?? id,
-      name: operatorData.operator.name,
-      municipalities: operatorData.operator.municipalities,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
     };
 
-    const { data, error } = await urqlClient
-      .query<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+    const data = await executeGraphqlQuery<CostsAndTariffsQuery>(
+      CostsAndTariffsDocument,
+      {
         filter: {
           operatorId: parseInt(id, 10),
           networkLevel,
           category,
         },
-      })
-      .toPromise();
+      }
+    );
 
-    if (error || !data?.costsAndTariffs) {
+    if (!data.costsAndTariffs) {
       throw new Error("Failed to fetch costs and tariffs data");
     }
 

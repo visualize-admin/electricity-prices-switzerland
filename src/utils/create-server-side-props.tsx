@@ -1,12 +1,15 @@
 import { GetServerSideProps } from "next";
 import ParsingClient from "sparql-http-client/ParsingClient";
-import { Client } from "urql";
 
 import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
-import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
+import { apolloServer } from "src/pages/api/graphql";
+import {
+  createExecuteGraphqlQuery,
+  ExecuteGraphqlQuery,
+} from "src/utils/execute-graphql-query";
 
 type Props = Record<string, $IntentionalAny>;
 
@@ -16,17 +19,17 @@ type EnhancedGSSP<
 > = (
   context: Parameters<GetServerSideProps<P, PageParams>>[0],
   options: {
-    urqlClient: Client;
     sparqlClient: ParsingClient;
     sunshineDataService: SunshineDataService;
     sessionConfig: Awaited<ReturnType<typeof getSessionConfigFlagsInfo>>;
+    executeGraphqlQuery: ExecuteGraphqlQuery;
   }
 ) => ReturnType<GetServerSideProps<P, { locale: string }>>;
 
 /**
  * Should be used to automatically add locale to the props of the page.
- * Also provides urqlClient, sparqlClient, sunshineDataService, and sessionConfig
- * as second argument to the gssp function.
+ * Also provides sparqlClient, sunshineDataService, sessionConfig,
+ * and executeGraphqlQuery as second argument to the gssp function.
  */
 const createGetServerSideProps = <
   P extends Props,
@@ -37,18 +40,16 @@ const createGetServerSideProps = <
   return async (context) => {
     const locale = context.params?.locale ?? defaultLocale;
     const graphqlContext = await contextFromGetServerSidePropsContext(context);
-    const urqlClient = new Client({
-      exchanges: makeExchanges(graphqlContext),
-
-      // Does not matter as we are using the executeExchange
-      url: "does-not-matter",
-    });
     const sessionConfig = await getSessionConfigFlagsInfo(context);
+
+    const executeGraphqlQuery =
+      createExecuteGraphqlQuery(apolloServer)(graphqlContext);
+
     const child = await gssp(context, {
-      urqlClient,
       sparqlClient: graphqlContext.sparqlClient,
       sunshineDataService: graphqlContext.sunshineDataService,
       sessionConfig,
+      executeGraphqlQuery,
     });
     if ("redirect" in child) {
       return child;

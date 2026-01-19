@@ -2,32 +2,30 @@
 
 ## Purpose
 
-This document describes the pattern for fetching GraphQL data in `getServerSideProps` using the urql client. This ensures consistency between server-side rendering (SSR) and client-side queries by using the same GraphQL documents and types.
+This document describes the pattern for fetching GraphQL data in `getServerSideProps` using the `executeGraphqlQuery` helper. This executes queries directly against the Apollo Server instance, ensuring consistency between server-side rendering (SSR) and client-side queries by using the same GraphQL documents and types.
 
 ## How-To Guide
 
 ### Basic Pattern
 
-Use `urqlClient.query()` in `getServerSideProps` to fetch data:
+Use `executeGraphqlQuery` in `getServerSideProps` to fetch data:
 
 ```typescript
 import { MyQueryDocument, MyQueryQuery } from "src/graphql/queries";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params } = context;
     const { id } = params!;
 
-    const { data, error } = await urqlClient
-      .query<MyQueryQuery>(MyQueryDocument, {
-        filter: {
-          operatorId: parseInt(id, 10),
-        },
-      })
-      .toPromise();
+    const data = await executeGraphqlQuery<MyQueryQuery>(MyQueryDocument, {
+      filter: {
+        operatorId: parseInt(id, 10),
+      },
+    });
 
-    if (error || !data?.myQuery) {
+    if (!data.myQuery) {
       throw new Error("Failed to fetch data");
     }
 
@@ -46,29 +44,23 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 For pages that need multiple datasets, use `Promise.all`:
 
 ```typescript
-const [resultA, resultB, resultC] = await Promise.all([
-  urqlClient
-    .query<QueryAQuery>(QueryADocument, { filter: { ... } })
-    .toPromise(),
-  urqlClient
-    .query<QueryBQuery>(QueryBDocument, { filter: { ... } })
-    .toPromise(),
-  urqlClient
-    .query<QueryCQuery>(QueryCDocument, { filter: { ... } })
-    .toPromise(),
+const [dataA, dataB, dataC] = await Promise.all([
+  executeGraphqlQuery<QueryAQuery>(QueryADocument, { filter: { ... } }),
+  executeGraphqlQuery<QueryBQuery>(QueryBDocument, { filter: { ... } }),
+  executeGraphqlQuery<QueryCQuery>(QueryCDocument, { filter: { ... } }),
 ]);
 
-// Check all results for errors
-if (resultA.error || !resultA.data?.queryA) {
+// Check all results for required data
+if (!dataA.queryA) {
   throw new Error("Failed to fetch A");
 }
 // ... validate other results
 
 return {
   props: {
-    dataA: resultA.data.queryA,
-    dataB: resultB.data.queryB,
-    dataC: resultC.data.queryC,
+    dataA: dataA.queryA,
+    dataB: dataB.queryB,
+    dataC: dataC.queryC,
   },
 };
 ```
@@ -129,11 +121,9 @@ yarn graphql:codegen
 ```typescript
 import { MyNewQueryDocument, MyNewQueryQuery } from "src/graphql/queries";
 
-const { data, error } = await urqlClient
-  .query<MyNewQueryQuery>(MyNewQueryDocument, {
-    filter: { operatorId, someRequired: "value" },
-  })
-  .toPromise();
+const data = await executeGraphqlQuery<MyNewQueryQuery>(MyNewQueryDocument, {
+  filter: { operatorId, someRequired: "value" },
+});
 ```
 
 ### Query Parameter Validation
@@ -144,18 +134,16 @@ For pages with URL query parameters, use Zod schemas from `src/domain/sunshine.t
 import { networkLevelSchema, categorySchema } from "src/domain/sunshine";
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { urqlClient, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { query } = context;
 
     // Parse and validate with defaults
     const networkLevel = networkLevelSchema.parse(query.networkLevel);
     const category = categorySchema.parse(query.category);
 
-    const { data } = await urqlClient
-      .query<MyQuery>(MyDocument, {
-        filter: { networkLevel, category },
-      })
-      .toPromise();
+    const data = await executeGraphqlQuery<MyQuery>(MyDocument, {
+      filter: { networkLevel, category },
+    });
 
     return {
       props: {
@@ -236,7 +224,13 @@ const MyPage = (props: Props) => {
 
 ## Rationale
 
-### Why urql Client in getServerSideProps?
+### Why executeGraphqlQuery in getServerSideProps?
+
+**Direct Execution**: Queries execute directly against the Apollo Server instance without HTTP overhead. This provides:
+
+- No network round-trip (in-process execution)
+- Simpler code without HTTP client configuration
+- Direct access to Apollo Server's response format
 
 **Consistency**: Server-side and client-side queries use identical GraphQL documents. This eliminates:
 
@@ -273,12 +267,18 @@ Problems with direct fetcher calls:
 ├─────────────────────────────────────────────────────────────┤
 │  getServerSideProps        │  Client-side hooks            │
 │  ─────────────────         │  ─────────────────            │
-│  urqlClient.query()        │  useMyQuery()                 │
+│  executeGraphqlQuery()     │  useMyQuery()                 │
 │       │                    │       │                       │
 │       ▼                    │       ▼                       │
 │  ┌─────────────────────────┴───────────────────────────┐   │
 │  │              GraphQL Query Document                 │   │
 │  │              (src/graphql/queries.graphql)          │   │
+│  └─────────────────────────┬───────────────────────────┘   │
+│                            │                               │
+│                            ▼                               │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │                   Apollo Server                     │   │
+│  │         (src/pages/api/graphql.ts - direct)         │   │
 │  └─────────────────────────┬───────────────────────────┘   │
 │                            │                               │
 │                            ▼                               │
@@ -295,23 +295,31 @@ Problems with direct fetcher calls:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Server-Side urql Execution
+### Server-Side Direct Execution
 
-The urql client in `createGetServerSideProps` is configured with `executeExchange` which executes queries directly against the resolvers without HTTP overhead:
+The `executeGraphqlQuery` helper executes queries directly against the Apollo Server instance:
 
 ```typescript
-// From src/utils/create-server-side-props.tsx
-const urqlClient = new Client({
-  exchanges: makeExchanges(graphqlContext),
-  url: "does-not-matter", // executeExchange bypasses network
-});
+// From src/utils/execute-graphql-query.ts
+export const createExecuteGraphqlQuery =
+  (apolloServer: ApolloServer<GraphqlRequestContext>) =>
+  (graphqlContext: GraphqlRequestContext): ExecuteGraphqlQuery => {
+    return async (query, variables) => {
+      const response = await apolloServer.executeOperation(
+        { query, variables },
+        { contextValue: graphqlContext }
+      );
+      // ... error handling and data extraction
+    };
+  };
 ```
 
 This means server-side queries:
 
-- Execute in the same process as the resolvers
-- Have zero network latency
-- Share the same database connections and caches
+- Execute directly in-process without HTTP overhead
+- Run through the full Apollo Server pipeline, including all plugins and caching
+- Benefit from Apollo Server's response caching and metrics plugins
+- Use the proper GraphQL context created from the request
 
 ### When to Use Optional Filter Parameters
 
@@ -332,16 +340,19 @@ input MyFilter {
 
 ### Error Handling Strategy
 
-The pattern uses explicit error checking rather than try/catch:
+The `executeGraphqlQuery` helper throws errors automatically for GraphQL errors or missing data. You only need to check for null/undefined data fields:
 
 ```typescript
-if (error || !data?.myQuery) {
+const data = await executeGraphqlQuery<MyQuery>(MyDocument, { ... });
+
+if (!data.myQuery) {
   throw new Error("Failed to fetch data");
 }
 ```
 
 This approach:
 
-- Catches both network/resolver errors (`error`) and empty responses (`!data`)
+- The helper throws for GraphQL errors and network issues automatically
+- You only validate business logic (e.g., checking if expected data exists)
 - Provides clear error messages for debugging
 - Lets Next.js handle the error page rendering

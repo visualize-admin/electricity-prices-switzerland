@@ -34,7 +34,7 @@ import createGetServerSideProps from "src/utils/create-server-side-props";
 export const getServerSideProps = createGetServerSideProps<
   Props,
   Omit<PageParams, "req">
->(async (context, { sparqlClient, urqlClient }) => {
+>(async (context, { sparqlClient, executeGraphqlQuery }) => {
   const { params, res, locale, req } = context;
   const { id, entity } = params!;
   const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
@@ -66,14 +66,15 @@ export const getServerSideProps = createGetServerSideProps<
 
       break;
     case "operator": {
-      const { data, error } = await urqlClient
-        .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+      const data = await executeGraphqlQuery<OperatorPagePropsQuery>(
+        OperatorPagePropsDocument,
+        {
           locale: locale ?? defaultLocale,
           id,
-        })
-        .toPromise();
+        }
+      );
 
-      if (error || !data?.operator) {
+      if (!data.operator) {
         res.statusCode = 404;
         props = { status: "notfound" };
       } else {

@@ -501,7 +501,7 @@ SELECT DISTINCT ?name {
   return result ? { id, name: result.name.value } : null;
 };
 
-export const getOperator = async ({
+const getOperator = async ({
   id,
   client,
 }: {
@@ -734,7 +734,7 @@ export type OperatorMunicipalityRecord = Awaited<
   ReturnType<typeof getOperatorsMunicipalities>
 >[number];
 
-export const getOperatorMunicipalities = async (
+const getOperatorMunicipalities = async (
   id: string,
   locale: string,
   client: ParsingClient

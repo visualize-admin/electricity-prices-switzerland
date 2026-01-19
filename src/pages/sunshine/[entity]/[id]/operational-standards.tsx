@@ -49,7 +49,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { urqlClient, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -61,14 +61,15 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const { data: operatorData, error: operatorError } = await urqlClient
-      .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+    const operatorData = await executeGraphqlQuery<OperatorPagePropsQuery>(
+      OperatorPagePropsDocument,
+      {
         locale: locale ?? defaultLocale,
         id,
-      })
-      .toPromise();
+      }
+    );
 
-    if (operatorError || !operatorData?.operator) {
+    if (!operatorData.operator) {
       res.statusCode = 404;
       return {
         props: {
@@ -77,23 +78,26 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
+    const operator = operatorData.operator;
+
     const operatorProps = {
       entity: "operator" as const,
       status: "found" as const,
-      id: operatorData.operator.id ?? id,
-      name: operatorData.operator.name,
-      municipalities: operatorData.operator.municipalities,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
     };
 
-    const { data, error } = await urqlClient
-      .query<OperationalStandardsQuery>(OperationalStandardsDocument, {
+    const data = await executeGraphqlQuery<OperationalStandardsQuery>(
+      OperationalStandardsDocument,
+      {
         filter: {
           operatorId: parseInt(id, 10),
         },
-      })
-      .toPromise();
+      }
+    );
 
-    if (error || !data?.operationalStandards) {
+    if (!data.operationalStandards) {
       throw new Error("Failed to fetch operational standards data");
     }
 

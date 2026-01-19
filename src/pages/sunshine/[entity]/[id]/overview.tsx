@@ -85,7 +85,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -99,37 +99,35 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 
     const operatorId = parseInt(id, 10);
 
-    const [operatorResult, operationalStandardsResult, powerStabilityResult, costsAndTariffsResult] =
+    const [operatorData, operationalStandards, powerStability, costsAndTariffs] =
       await Promise.all([
-        urqlClient
-          .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+        executeGraphqlQuery<OperatorPagePropsQuery>(
+          OperatorPagePropsDocument,
+          {
             locale: locale ?? defaultLocale,
             id,
-          })
-          .toPromise(),
-        urqlClient
-          .query<OperationalStandardsQuery>(OperationalStandardsDocument, {
+          }
+        ),
+        executeGraphqlQuery<OperationalStandardsQuery>(
+          OperationalStandardsDocument,
+          {
             filter: { operatorId },
-          })
-          .toPromise(),
-        urqlClient
-          .query<PowerStabilityQuery>(PowerStabilityDocument, {
-            filter: { operatorId, operatorOnly: true },
-          })
-          .toPromise(),
-        urqlClient
-          .query<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
-            filter: {
-              operatorId,
-              networkLevel: "NE7",
-              category: "H4",
-              operatorOnly: true,
-            },
-          })
-          .toPromise(),
+          }
+        ),
+        executeGraphqlQuery<PowerStabilityQuery>(PowerStabilityDocument, {
+          filter: { operatorId, operatorOnly: true },
+        }),
+        executeGraphqlQuery<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+          filter: {
+            operatorId,
+            networkLevel: "NE7",
+            category: "H4",
+            operatorOnly: true,
+          },
+        }),
       ]);
 
-    if (operatorResult.error || !operatorResult.data?.operator) {
+    if (!operatorData.operator) {
       res.statusCode = 404;
       return {
         props: {
@@ -138,39 +136,32 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
+    const operator = operatorData.operator;
+
     const operatorProps = {
       entity: "operator" as const,
       status: "found" as const,
-      id: operatorResult.data.operator.id ?? id,
-      name: operatorResult.data.operator.name,
-      municipalities: operatorResult.data.operator.municipalities,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
     };
 
-    if (
-      operationalStandardsResult.error ||
-      !operationalStandardsResult.data?.operationalStandards
-    ) {
+    if (!operationalStandards.operationalStandards) {
       throw new Error("Failed to fetch operational standards data");
     }
-    if (
-      powerStabilityResult.error ||
-      !powerStabilityResult.data?.powerStability
-    ) {
+    if (!powerStability.powerStability) {
       throw new Error("Failed to fetch power stability data");
     }
-    if (
-      costsAndTariffsResult.error ||
-      !costsAndTariffsResult.data?.costsAndTariffs
-    ) {
+    if (!costsAndTariffs.costsAndTariffs) {
       throw new Error("Failed to fetch costs and tariffs data");
     }
 
     return {
       props: {
         ...operatorProps,
-        operationalStandards: operationalStandardsResult.data.operationalStandards,
-        powerStability: powerStabilityResult.data.powerStability,
-        costsAndTariffs: costsAndTariffsResult.data.costsAndTariffs,
+        operationalStandards: operationalStandards.operationalStandards,
+        powerStability: powerStability.powerStability,
+        costsAndTariffs: costsAndTariffs.costsAndTariffs,
         sessionConfig,
       },
     };
