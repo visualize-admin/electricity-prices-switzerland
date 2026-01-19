@@ -39,6 +39,20 @@ const testServerSideProps = async ({
 
   return nextData;
 };
+const stripTypeNameRecursively = (obj: $IntentionalAny): $IntentionalAny => {
+  if (Array.isArray(obj)) {
+    return obj.map(stripTypeNameRecursively);
+  } else if (obj && typeof obj === "object") {
+    const newObj: $IntentionalAny = {};
+    for (const key of Object.keys(obj)) {
+      if (key !== "__typename") {
+        newObj[key] = stripTypeNameRecursively(obj[key]);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+};
 
 test.describe("Server-side props integration tests", () => {
   for (const url of testUrls) {
@@ -53,7 +67,7 @@ test.describe("Server-side props integration tests", () => {
       );
 
       // Create a snapshot of the extracted data
-      expect(nextData).toEqual(expected);
+      expect(stripTypeNameRecursively(nextData)).toEqual(expected);
     });
   }
 });

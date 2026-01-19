@@ -366,7 +366,9 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   });
 
   // Use server data or client data
-  const energyTariffs = needsClientFetch ? data?.energyTariffs : serverEnergyTariffs;
+  const energyTariffs = needsClientFetch
+    ? data?.energyTariffs
+    : serverEnergyTariffs;
 
   if (needsClientFetch && fetching) {
     return <LoadingSkeleton height={700} />;
