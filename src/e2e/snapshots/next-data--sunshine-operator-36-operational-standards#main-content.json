@@ -1,0 +1,3158 @@
+{
+  "props": {
+    "pageProps": {
+      "entity": "operator",
+      "status": "found",
+      "id": "36",
+      "name": "BKW Energie AG",
+      "municipalities": [
+        {
+          "id": "301",
+          "name": "Aarberg"
+        },
+        {
+          "id": "561",
+          "name": "Adelboden"
+        },
+        {
+          "id": "2511",
+          "name": "Aeschi (SO)"
+        },
+        {
+          "id": "562",
+          "name": "Aeschi bei Spiez"
+        },
+        {
+          "id": "951",
+          "name": "Affoltern im Emmental"
+        },
+        {
+          "id": "851",
+          "name": "Albligen"
+        },
+        {
+          "id": "402",
+          "name": "Alchenstorf"
+        },
+        {
+          "id": "6771",
+          "name": "Alle"
+        },
+        {
+          "id": "630",
+          "name": "Allmendingen"
+        },
+        {
+          "id": "921",
+          "name": "Amsoldingen"
+        },
+        {
+          "id": "971",
+          "name": "Attiswil"
+        },
+        {
+          "id": "322",
+          "name": "Auswil"
+        },
+        {
+          "id": "2541",
+          "name": "Balm bei Günsberg"
+        },
+        {
+          "id": "323",
+          "name": "Bannwil"
+        },
+        {
+          "id": "6807",
+          "name": "Basse-Allaine"
+        },
+        {
+          "id": "6812",
+          "name": "Basse-Vendline"
+        },
+        {
+          "id": "6701",
+          "name": "Bassecourt"
+        },
+        {
+          "id": "533",
+          "name": "Bätterkinden"
+        },
+        {
+          "id": "571",
+          "name": "Beatenberg"
+        },
+        {
+          "id": "2542",
+          "name": "Bellach"
+        },
+        {
+          "id": "861",
+          "name": "Belp"
+        },
+        {
+          "id": "862",
+          "name": "Belpberg"
+        },
+        {
+          "id": "681",
+          "name": "Belprahon"
+        },
+        {
+          "id": "972",
+          "name": "Berken"
+        },
+        {
+          "id": "973",
+          "name": "Bettenhausen"
+        },
+        {
+          "id": "2543",
+          "name": "Bettlach"
+        },
+        {
+          "id": "6773",
+          "name": "Beurnevésin"
+        },
+        {
+          "id": "682",
+          "name": "Bévilard"
+        },
+        {
+          "id": "2513",
+          "name": "Biberist"
+        },
+        {
+          "id": "2781",
+          "name": "Blauen"
+        },
+        {
+          "id": "324",
+          "name": "Bleienbach"
+        },
+        {
+          "id": "604",
+          "name": "Bleiken b. Oberdiessbach"
+        },
+        {
+          "id": "6702",
+          "name": "Boécourt"
+        },
+        {
+          "id": "2514",
+          "name": "Bolken"
+        },
+        {
+          "id": "352",
+          "name": "Bolligen"
+        },
+        {
+          "id": "791",
+          "name": "Boltigen"
+        },
+        {
+          "id": "6774",
+          "name": "Boncourt"
+        },
+        {
+          "id": "6775",
+          "name": "Bonfol"
+        },
+        {
+          "id": "572",
+          "name": "Bönigen"
+        },
+        {
+          "id": "6703",
+          "name": "Bourrignon"
+        },
+        {
+          "id": "605",
+          "name": "Bowil"
+        },
+        {
+          "id": "353",
+          "name": "Bremgarten bei Bern"
+        },
+        {
+          "id": "606",
+          "name": "Brenzikofen"
+        },
+        {
+          "id": "6776",
+          "name": "Bressaucourt"
+        },
+        {
+          "id": "491",
+          "name": "Brüttelen"
+        },
+        {
+          "id": "923",
+          "name": "Buchholterberg"
+        },
+        {
+          "id": "734",
+          "name": "Bühl"
+        },
+        {
+          "id": "6778",
+          "name": "Bure"
+        },
+        {
+          "id": "863",
+          "name": "Burgistein"
+        },
+        {
+          "id": "325",
+          "name": "Busswil bei Melchnau"
+        },
+        {
+          "id": "683",
+          "name": "Champoz"
+        },
+        {
+          "id": "684",
+          "name": "Châtelat"
+        },
+        {
+          "id": "6704",
+          "name": "Châtillon (JU)"
+        },
+        {
+          "id": "6808",
+          "name": "Clos du Doubs"
+        },
+        {
+          "id": "6781",
+          "name": "Coeuve"
+        },
+        {
+          "id": "6705",
+          "name": "Corban"
+        },
+        {
+          "id": "687",
+          "name": "Corcelles (BE)"
+        },
+        {
+          "id": "431",
+          "name": "Corgémont"
+        },
+        {
+          "id": "6782",
+          "name": "Cornol"
+        },
+        {
+          "id": "6783",
+          "name": "Courchavon"
+        },
+        {
+          "id": "6707",
+          "name": "Courfaivre"
+        },
+        {
+          "id": "6784",
+          "name": "Courgenay"
+        },
+        {
+          "id": "6708",
+          "name": "Courrendlin"
+        },
+        {
+          "id": "6709",
+          "name": "Courroux"
+        },
+        {
+          "id": "690",
+          "name": "Court"
+        },
+        {
+          "id": "6785",
+          "name": "Courtedoux"
+        },
+        {
+          "id": "6710",
+          "name": "Courtételle"
+        },
+        {
+          "id": "691",
+          "name": "Crémines"
+        },
+        {
+          "id": "6787",
+          "name": "Damphreux"
+        },
+        {
+          "id": "6811",
+          "name": "Damphreux-Lugnez"
+        },
+        {
+          "id": "575",
+          "name": "Därligen"
+        },
+        {
+          "id": "761",
+          "name": "Därstetten"
+        },
+        {
+          "id": "2516",
+          "name": "Deitingen"
+        },
+        {
+          "id": "6711",
+          "name": "Delémont"
+        },
+        {
+          "id": "536",
+          "name": "Diemerswil"
+        },
+        {
+          "id": "762",
+          "name": "Diemtigen"
+        },
+        {
+          "id": "721",
+          "name": "Diesse"
+        },
+        {
+          "id": "2784",
+          "name": "Dittingen"
+        },
+        {
+          "id": "386",
+          "name": "Dotzigen"
+        },
+        {
+          "id": "2535",
+          "name": "Drei Höfe"
+        },
+        {
+          "id": "952",
+          "name": "Dürrenroth"
+        },
+        {
+          "id": "6713",
+          "name": "Ederswiler"
+        },
+        {
+          "id": "901",
+          "name": "Eggiwil"
+        },
+        {
+          "id": "735",
+          "name": "Epsach"
+        },
+        {
+          "id": "924",
+          "name": "Eriz"
+        },
+        {
+          "id": "492",
+          "name": "Erlach"
+        },
+        {
+          "id": "763",
+          "name": "Erlenbach im Simmental"
+        },
+        {
+          "id": "405",
+          "name": "Ersigen"
+        },
+        {
+          "id": "692",
+          "name": "Eschert"
+        },
+        {
+          "id": "372",
+          "name": "Evilard"
+        },
+        {
+          "id": "925",
+          "name": "Fahrni"
+        },
+        {
+          "id": "6789",
+          "name": "Fahy"
+        },
+        {
+          "id": "975",
+          "name": "Farnern"
+        },
+        {
+          "id": "2544",
+          "name": "Feldbrunnen-St. Niklaus"
+        },
+        {
+          "id": "662",
+          "name": "Ferenbalm"
+        },
+        {
+          "id": "493",
+          "name": "Finsterhennen"
+        },
+        {
+          "id": "2545",
+          "name": "Flumenthal"
+        },
+        {
+          "id": "6790",
+          "name": "Fontenais"
+        },
+        {
+          "id": "948",
+          "name": "Forst-Längenbühl"
+        },
+        {
+          "id": "663",
+          "name": "Frauenkappelen"
+        },
+        {
+          "id": "607",
+          "name": "Freimettigen"
+        },
+        {
+          "id": "563",
+          "name": "Frutigen"
+        },
+        {
+          "id": "781",
+          "name": "Gadmen"
+        },
+        {
+          "id": "494",
+          "name": "Gals"
+        },
+        {
+          "id": "495",
+          "name": "Gampelen"
+        },
+        {
+          "id": "865",
+          "name": "Gelterfingen"
+        },
+        {
+          "id": "2519",
+          "name": "Gerlafingen"
+        },
+        {
+          "id": "866",
+          "name": "Gerzensee"
+        },
+        {
+          "id": "6714",
+          "name": "Glovelier"
+        },
+        {
+          "id": "664",
+          "name": "Golaten"
+        },
+        {
+          "id": "326",
+          "name": "Gondiswil"
+        },
+        {
+          "id": "976",
+          "name": "Graben"
+        },
+        {
+          "id": "6792",
+          "name": "Grandfontaine"
+        },
+        {
+          "id": "694",
+          "name": "Grandval"
+        },
+        {
+          "id": "576",
+          "name": "Grindelwald"
+        },
+        {
+          "id": "577",
+          "name": "Gsteigwiler"
+        },
+        {
+          "id": "852",
+          "name": "Guggisberg"
+        },
+        {
+          "id": "2547",
+          "name": "Günsberg"
+        },
+        {
+          "id": "665",
+          "name": "Gurbrü"
+        },
+        {
+          "id": "867",
+          "name": "Gurzelen"
+        },
+        {
+          "id": "782",
+          "name": "Guttannen"
+        },
+        {
+          "id": "579",
+          "name": "Habkern"
+        },
+        {
+          "id": "736",
+          "name": "Hagneck"
+        },
+        {
+          "id": "406",
+          "name": "Hasle bei Burgdorf"
+        },
+        {
+          "id": "783",
+          "name": "Hasliberg"
+        },
+        {
+          "id": "6809",
+          "name": "Haute-Ajoie"
+        },
+        {
+          "id": "6729",
+          "name": "Haute-Sorne"
+        },
+        {
+          "id": "609",
+          "name": "Häutligen"
+        },
+        {
+          "id": "927",
+          "name": "Heiligenschwendi"
+        },
+        {
+          "id": "928",
+          "name": "Heimberg"
+        },
+        {
+          "id": "977",
+          "name": "Heimenhausen"
+        },
+        {
+          "id": "407",
+          "name": "Heimiswil"
+        },
+        {
+          "id": "408",
+          "name": "Hellsau"
+        },
+        {
+          "id": "610",
+          "name": "Herbligen"
+        },
+        {
+          "id": "737",
+          "name": "Hermrigen"
+        },
+        {
+          "id": "979",
+          "name": "Herzogenbuchsee"
+        },
+        {
+          "id": "929",
+          "name": "Hilterfingen"
+        },
+        {
+          "id": "410",
+          "name": "Höchstetten"
+        },
+        {
+          "id": "930",
+          "name": "Höfen"
+        },
+        {
+          "id": "580",
+          "name": "Hofstetten bei Brienz"
+        },
+        {
+          "id": "931",
+          "name": "Homberg"
+        },
+        {
+          "id": "932",
+          "name": "Horrenbach-Buchen"
+        },
+        {
+          "id": "2548",
+          "name": "Hubersdorf"
+        },
+        {
+          "id": "980",
+          "name": "Inkwil"
+        },
+        {
+          "id": "784",
+          "name": "Innertkirchen"
+        },
+        {
+          "id": "739",
+          "name": "Ipsach"
+        },
+        {
+          "id": "582",
+          "name": "Iseltwald"
+        },
+        {
+          "id": "362",
+          "name": "Ittigen"
+        },
+        {
+          "id": "868",
+          "name": "Jaberg"
+        },
+        {
+          "id": "738",
+          "name": "Jens"
+        },
+        {
+          "id": "304",
+          "name": "Kallnach"
+        },
+        {
+          "id": "2549",
+          "name": "Kammersrohr"
+        },
+        {
+          "id": "564",
+          "name": "Kandergrund"
+        },
+        {
+          "id": "305",
+          "name": "Kappelen"
+        },
+        {
+          "id": "869",
+          "name": "Kaufdorf"
+        },
+        {
+          "id": "870",
+          "name": "Kehrsatz"
+        },
+        {
+          "id": "871",
+          "name": "Kienersrüti"
+        },
+        {
+          "id": "611",
+          "name": "Kiesen"
+        },
+        {
+          "id": "872",
+          "name": "Kirchdorf (BE)"
+        },
+        {
+          "id": "873",
+          "name": "Kirchenthurnen"
+        },
+        {
+          "id": "354",
+          "name": "Kirchlindach"
+        },
+        {
+          "id": "355",
+          "name": "Köniz"
+        },
+        {
+          "id": "612",
+          "name": "Konolfingen"
+        },
+        {
+          "id": "566",
+          "name": "Krattigen"
+        },
+        {
+          "id": "666",
+          "name": "Kriechenwil"
+        },
+        {
+          "id": "2525",
+          "name": "Kriegstetten"
+        },
+        {
+          "id": "6810",
+          "name": "La Baroche"
+        },
+        {
+          "id": "436",
+          "name": "La Heutte"
+        },
+        {
+          "id": "6750",
+          "name": "Lajoux (JU)"
+        },
+        {
+          "id": "722",
+          "name": "Lamboing"
+        },
+        {
+          "id": "613",
+          "name": "Landiswil"
+        },
+        {
+          "id": "902",
+          "name": "Langnau im Emmental"
+        },
+        {
+          "id": "842",
+          "name": "Lauenen"
+        },
+        {
+          "id": "2787",
+          "name": "Laufen"
+        },
+        {
+          "id": "667",
+          "name": "Laupen"
+        },
+        {
+          "id": "903",
+          "name": "Lauperswil"
+        },
+        {
+          "id": "585",
+          "name": "Leissigen"
+        },
+        {
+          "id": "792",
+          "name": "Lenk"
+        },
+        {
+          "id": "6745",
+          "name": "Les Enfers"
+        },
+        {
+          "id": "6748",
+          "name": "Les Genevez (JU)"
+        },
+        {
+          "id": "740",
+          "name": "Ligerz"
+        },
+        {
+          "id": "874",
+          "name": "Lohnstorf"
+        },
+        {
+          "id": "2551",
+          "name": "Lommiswil"
+        },
+        {
+          "id": "696",
+          "name": "Loveresse"
+        },
+        {
+          "id": "6793",
+          "name": "Lugnez"
+        },
+        {
+          "id": "497",
+          "name": "Lüscherz"
+        },
+        {
+          "id": "2527",
+          "name": "Luterbach"
+        },
+        {
+          "id": "955",
+          "name": "Lützelflüh"
+        },
+        {
+          "id": "332",
+          "name": "Madiswil"
+        },
+        {
+          "id": "697",
+          "name": "Malleray"
+        },
+        {
+          "id": "389",
+          "name": "Meienried"
+        },
+        {
+          "id": "307",
+          "name": "Meikirch"
+        },
+        {
+          "id": "390",
+          "name": "Meinisberg"
+        },
+        {
+          "id": "785",
+          "name": "Meiringen"
+        },
+        {
+          "id": "6715",
+          "name": "Mervelier"
+        },
+        {
+          "id": "741",
+          "name": "Merzligen"
+        },
+        {
+          "id": "6716",
+          "name": "Mettembert"
+        },
+        {
+          "id": "615",
+          "name": "Mirchel"
+        },
+        {
+          "id": "699",
+          "name": "Monible"
+        },
+        {
+          "id": "6751",
+          "name": "Montfaucon"
+        },
+        {
+          "id": "6717",
+          "name": "Montsevelier"
+        },
+        {
+          "id": "742",
+          "name": "Mörigen"
+        },
+        {
+          "id": "6718",
+          "name": "Movelier"
+        },
+        {
+          "id": "668",
+          "name": "Mühleberg"
+        },
+        {
+          "id": "875",
+          "name": "Mühledorf (BE)"
+        },
+        {
+          "id": "876",
+          "name": "Mühlethurnen"
+        },
+        {
+          "id": "546",
+          "name": "Münchenbuchsee"
+        },
+        {
+          "id": "498",
+          "name": "Müntschemier"
+        },
+        {
+          "id": "356",
+          "name": "Muri bei Bern"
+        },
+        {
+          "id": "2789",
+          "name": "Nenzlingen"
+        },
+        {
+          "id": "670",
+          "name": "Neuenegg"
+        },
+        {
+          "id": "981",
+          "name": "Niederbipp"
+        },
+        {
+          "id": "617",
+          "name": "Niederhünigen"
+        },
+        {
+          "id": "877",
+          "name": "Niedermuhlern"
+        },
+        {
+          "id": "982",
+          "name": "Niederönz"
+        },
+        {
+          "id": "588",
+          "name": "Niederried b. Interlaken"
+        },
+        {
+          "id": "308",
+          "name": "Niederried bei Kallnach"
+        },
+        {
+          "id": "764",
+          "name": "Niederstocken"
+        },
+        {
+          "id": "724",
+          "name": "Nods"
+        },
+        {
+          "id": "878",
+          "name": "Noflen"
+        },
+        {
+          "id": "357",
+          "name": "Oberbalm"
+        },
+        {
+          "id": "983",
+          "name": "Oberbipp"
+        },
+        {
+          "id": "2553",
+          "name": "Oberdorf (SO)"
+        },
+        {
+          "id": "2528",
+          "name": "Obergerlafingen"
+        },
+        {
+          "id": "629",
+          "name": "Oberhünigen"
+        },
+        {
+          "id": "935",
+          "name": "Oberlangenegg"
+        },
+        {
+          "id": "589",
+          "name": "Oberried am Brienzersee"
+        },
+        {
+          "id": "765",
+          "name": "Oberstocken"
+        },
+        {
+          "id": "620",
+          "name": "Oberthal"
+        },
+        {
+          "id": "985",
+          "name": "Ochlenberg"
+        },
+        {
+          "id": "2407",
+          "name": "Oensingen"
+        },
+        {
+          "id": "335",
+          "name": "Oeschenbach"
+        },
+        {
+          "id": "622",
+          "name": "Oppligen"
+        },
+        {
+          "id": "744",
+          "name": "Orpund"
+        },
+        {
+          "id": "438",
+          "name": "Orvin"
+        },
+        {
+          "id": "363",
+          "name": "Ostermundigen"
+        },
+        {
+          "id": "701",
+          "name": "Perrefitte"
+        },
+        {
+          "id": "439",
+          "name": "Péry"
+        },
+        {
+          "id": "450",
+          "name": "Péry-La Heutte"
+        },
+        {
+          "id": "716",
+          "name": "Petit-Val"
+        },
+        {
+          "id": "440",
+          "name": "Plagne"
+        },
+        {
+          "id": "726",
+          "name": "Plateau de Diesse"
+        },
+        {
+          "id": "6719",
+          "name": "Pleigne"
+        },
+        {
+          "id": "936",
+          "name": "Pohlern"
+        },
+        {
+          "id": "702",
+          "name": "Pontenet"
+        },
+        {
+          "id": "6800",
+          "name": "Porrentruy"
+        },
+        {
+          "id": "725",
+          "name": "Prêles"
+        },
+        {
+          "id": "309",
+          "name": "Radelfingen"
+        },
+        {
+          "id": "310",
+          "name": "Rapperswil (BE)"
+        },
+        {
+          "id": "6720",
+          "name": "Rebeuvelier"
+        },
+        {
+          "id": "715",
+          "name": "Rebévelier"
+        },
+        {
+          "id": "2530",
+          "name": "Recherswil"
+        },
+        {
+          "id": "703",
+          "name": "Reconvilier"
+        },
+        {
+          "id": "567",
+          "name": "Reichenbach im Kandertal"
+        },
+        {
+          "id": "336",
+          "name": "Reisiswil"
+        },
+        {
+          "id": "767",
+          "name": "Reutigen"
+        },
+        {
+          "id": "2554",
+          "name": "Riedholz"
+        },
+        {
+          "id": "879",
+          "name": "Riggisberg"
+        },
+        {
+          "id": "590",
+          "name": "Ringgenberg (BE)"
+        },
+        {
+          "id": "704",
+          "name": "Roches (BE)"
+        },
+        {
+          "id": "6803",
+          "name": "Rocourt"
+        },
+        {
+          "id": "2790",
+          "name": "Roggenburg"
+        },
+        {
+          "id": "338",
+          "name": "Rohrbach"
+        },
+        {
+          "id": "339",
+          "name": "Rohrbachgraben"
+        },
+        {
+          "id": "442",
+          "name": "Romont (BE)"
+        },
+        {
+          "id": "2791",
+          "name": "Röschenz"
+        },
+        {
+          "id": "6721",
+          "name": "Rossemaison"
+        },
+        {
+          "id": "904",
+          "name": "Röthenbach im Emmental"
+        },
+        {
+          "id": "623",
+          "name": "Rubigen"
+        },
+        {
+          "id": "905",
+          "name": "Rüderswil"
+        },
+        {
+          "id": "880",
+          "name": "Rüeggisberg"
+        },
+        {
+          "id": "956",
+          "name": "Rüegsau"
+        },
+        {
+          "id": "421",
+          "name": "Rumendingen"
+        },
+        {
+          "id": "987",
+          "name": "Rumisberg"
+        },
+        {
+          "id": "881",
+          "name": "Rümligen"
+        },
+        {
+          "id": "853",
+          "name": "Rüschegg"
+        },
+        {
+          "id": "422",
+          "name": "Rüti bei Lyssach"
+        },
+        {
+          "id": "340",
+          "name": "Rütschelen"
+        },
+        {
+          "id": "2555",
+          "name": "Rüttenen"
+        },
+        {
+          "id": "843",
+          "name": "Saanen"
+        },
+        {
+          "id": "706",
+          "name": "Saicourt"
+        },
+        {
+          "id": "6757",
+          "name": "Saignelégier"
+        },
+        {
+          "id": "6758",
+          "name": "Saint-Brais"
+        },
+        {
+          "id": "449",
+          "name": "Sauge"
+        },
+        {
+          "id": "6722",
+          "name": "Saulcy"
+        },
+        {
+          "id": "707",
+          "name": "Saules (BE)"
+        },
+        {
+          "id": "591",
+          "name": "Saxeten"
+        },
+        {
+          "id": "906",
+          "name": "Schangnau"
+        },
+        {
+          "id": "786",
+          "name": "Schattenhalb"
+        },
+        {
+          "id": "708",
+          "name": "Schelten"
+        },
+        {
+          "id": "747",
+          "name": "Scheuren"
+        },
+        {
+          "id": "624",
+          "name": "Schlosswil"
+        },
+        {
+          "id": "311",
+          "name": "Schüpfen"
+        },
+        {
+          "id": "748",
+          "name": "Schwadernau"
+        },
+        {
+          "id": "592",
+          "name": "Schwanden bei Brienz"
+        },
+        {
+          "id": "855",
+          "name": "Schwarzenburg"
+        },
+        {
+          "id": "341",
+          "name": "Schwarzhäusern"
+        },
+        {
+          "id": "937",
+          "name": "Schwendibach"
+        },
+        {
+          "id": "988",
+          "name": "Seeberg"
+        },
+        {
+          "id": "312",
+          "name": "Seedorf (BE)"
+        },
+        {
+          "id": "709",
+          "name": "Seehof"
+        },
+        {
+          "id": "883",
+          "name": "Seftigen"
+        },
+        {
+          "id": "2556",
+          "name": "Selzach"
+        },
+        {
+          "id": "907",
+          "name": "Signau"
+        },
+        {
+          "id": "938",
+          "name": "Sigriswil"
+        },
+        {
+          "id": "444",
+          "name": "Sonceboz-Sombeval"
+        },
+        {
+          "id": "710",
+          "name": "Sornetan"
+        },
+        {
+          "id": "711",
+          "name": "Sorvilier"
+        },
+        {
+          "id": "6759",
+          "name": "Soubey"
+        },
+        {
+          "id": "712",
+          "name": "Souboz"
+        },
+        {
+          "id": "6724",
+          "name": "Soyhières"
+        },
+        {
+          "id": "768",
+          "name": "Spiez"
+        },
+        {
+          "id": "793",
+          "name": "St. Stephan"
+        },
+        {
+          "id": "939",
+          "name": "Steffisburg"
+        },
+        {
+          "id": "358",
+          "name": "Stettlen"
+        },
+        {
+          "id": "770",
+          "name": "Stocken-Höfen"
+        },
+        {
+          "id": "749",
+          "name": "Studen (BE)"
+        },
+        {
+          "id": "957",
+          "name": "Sumiswald"
+        },
+        {
+          "id": "750",
+          "name": "Sutz-Lattrigen"
+        },
+        {
+          "id": "625",
+          "name": "Tägertschi"
+        },
+        {
+          "id": "751",
+          "name": "Täuffelen"
+        },
+        {
+          "id": "713",
+          "name": "Tavannes"
+        },
+        {
+          "id": "940",
+          "name": "Teuffenthal (BE)"
+        },
+        {
+          "id": "941",
+          "name": "Thierachern"
+        },
+        {
+          "id": "989",
+          "name": "Thörigen"
+        },
+        {
+          "id": "942",
+          "name": "Thun"
+        },
+        {
+          "id": "342",
+          "name": "Thunstetten"
+        },
+        {
+          "id": "889",
+          "name": "Thurnen"
+        },
+        {
+          "id": "884",
+          "name": "Toffen"
+        },
+        {
+          "id": "958",
+          "name": "Trachselwald"
+        },
+        {
+          "id": "500",
+          "name": "Treiten"
+        },
+        {
+          "id": "631",
+          "name": "Trimstein"
+        },
+        {
+          "id": "908",
+          "name": "Trub"
+        },
+        {
+          "id": "909",
+          "name": "Trubschachen"
+        },
+        {
+          "id": "501",
+          "name": "Tschugg"
+        },
+        {
+          "id": "752",
+          "name": "Tüscherz-Alfermée"
+        },
+        {
+          "id": "753",
+          "name": "Twann"
+        },
+        {
+          "id": "756",
+          "name": "Twann-Tüscherz"
+        },
+        {
+          "id": "943",
+          "name": "Uebeschi"
+        },
+        {
+          "id": "944",
+          "name": "Uetendorf"
+        },
+        {
+          "id": "6725",
+          "name": "Undervelier"
+        },
+        {
+          "id": "945",
+          "name": "Unterlangenegg"
+        },
+        {
+          "id": "551",
+          "name": "Urtenen-Schönbühl"
+        },
+        {
+          "id": "885",
+          "name": "Uttigen"
+        },
+        {
+          "id": "552",
+          "name": "Utzenstorf"
+        },
+        {
+          "id": "6730",
+          "name": "Val Terbi"
+        },
+        {
+          "id": "717",
+          "name": "Valbirse"
+        },
+        {
+          "id": "447",
+          "name": "Vauffelin"
+        },
+        {
+          "id": "359",
+          "name": "Vechigen"
+        },
+        {
+          "id": "6728",
+          "name": "Vellerat"
+        },
+        {
+          "id": "6806",
+          "name": "Vendlincourt"
+        },
+        {
+          "id": "6726",
+          "name": "Vermes"
+        },
+        {
+          "id": "6727",
+          "name": "Vicques"
+        },
+        {
+          "id": "448",
+          "name": "Villeret"
+        },
+        {
+          "id": "502",
+          "name": "Vinelz"
+        },
+        {
+          "id": "946",
+          "name": "Wachseldorn"
+        },
+        {
+          "id": "2792",
+          "name": "Wahlen"
+        },
+        {
+          "id": "854",
+          "name": "Wahlern"
+        },
+        {
+          "id": "888",
+          "name": "Wald (BE)"
+        },
+        {
+          "id": "626",
+          "name": "Walkringen"
+        },
+        {
+          "id": "990",
+          "name": "Walliswil bei Niederbipp"
+        },
+        {
+          "id": "991",
+          "name": "Walliswil bei Wangen"
+        },
+        {
+          "id": "754",
+          "name": "Walperswil"
+        },
+        {
+          "id": "959",
+          "name": "Walterswil (BE)"
+        },
+        {
+          "id": "992",
+          "name": "Wangen an der Aare"
+        },
+        {
+          "id": "993",
+          "name": "Wangenried"
+        },
+        {
+          "id": "886",
+          "name": "Wattenwil"
+        },
+        {
+          "id": "2430",
+          "name": "Welschenrohr-Gänsbrunnen"
+        },
+        {
+          "id": "632",
+          "name": "Wichtrach"
+        },
+        {
+          "id": "995",
+          "name": "Wiedlisbach"
+        },
+        {
+          "id": "554",
+          "name": "Wiler bei Utzenstorf"
+        },
+        {
+          "id": "671",
+          "name": "Wileroltigen"
+        },
+        {
+          "id": "769",
+          "name": "Wimmis"
+        },
+        {
+          "id": "360",
+          "name": "Wohlen bei Bern"
+        },
+        {
+          "id": "627",
+          "name": "Worb"
+        },
+        {
+          "id": "755",
+          "name": "Worben"
+        },
+        {
+          "id": "424",
+          "name": "Wynigen"
+        },
+        {
+          "id": "960",
+          "name": "Wyssachen"
+        },
+        {
+          "id": "628",
+          "name": "Zäziwil"
+        },
+        {
+          "id": "556",
+          "name": "Zielebach"
+        },
+        {
+          "id": "361",
+          "name": "Zollikofen"
+        },
+        {
+          "id": "2534",
+          "name": "Zuchwil"
+        },
+        {
+          "id": "794",
+          "name": "Zweisimmen"
+        },
+        {
+          "id": "947",
+          "name": "Zwieselberg"
+        },
+        {
+          "id": "2793",
+          "name": "Zwingen"
+        }
+      ],
+      "operationalStandards": {
+        "latestYear": "2026",
+        "operator": {
+          "peerGroup": {
+            "id": "6",
+            "settlementDensity": "Rural",
+            "energyDensity": "Low"
+          }
+        },
+        "serviceQuality": {
+          "notificationPeriodDays": 7,
+          "informingCustomersOfOutage": true,
+          "operatorsNotificationPeriodDays": [
+            {
+              "operatorId": "10773",
+              "days": 30,
+              "year": "2026"
+            },
+            {
+              "operatorId": "110",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "112",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "114",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "115",
+              "days": 21,
+              "year": "2026"
+            },
+            {
+              "operatorId": "116",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "128",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "132",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "135",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "137",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "144",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "150",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "152",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "158",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "160",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "165",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "166",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "172",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "173",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "176",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "179",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "180",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "181",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "184",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "185",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "189",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "191",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "192",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "195",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "199",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "200",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "205",
+              "days": 1,
+              "year": "2026"
+            },
+            {
+              "operatorId": "212",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "222",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "227",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "228",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "234",
+              "days": 15,
+              "year": "2026"
+            },
+            {
+              "operatorId": "241",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "245",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "251",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "254",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "265",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "268",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "276",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "279",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "285",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "289",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "290",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "305",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "308",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "310",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "314",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "316",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "324",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "325",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "326",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "328",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "329",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "330",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "332",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "343",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "347",
+              "days": 21,
+              "year": "2026"
+            },
+            {
+              "operatorId": "355",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "357",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "36",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "361",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "362",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "363",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "365",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "375",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "376",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "378",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "383",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "385",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "386",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "387",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "388",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "389",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "393",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "399",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "403",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "420",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "422",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "426",
+              "days": 1,
+              "year": "2026"
+            },
+            {
+              "operatorId": "430",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "449",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "456",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "457",
+              "days": null,
+              "year": "2026"
+            },
+            {
+              "operatorId": "467",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "470",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "474",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "481",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "482",
+              "days": 15,
+              "year": "2026"
+            },
+            {
+              "operatorId": "506",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "515",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "517",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "526",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "528",
+              "days": 30,
+              "year": "2026"
+            },
+            {
+              "operatorId": "529",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "534",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "537",
+              "days": 8,
+              "year": "2026"
+            },
+            {
+              "operatorId": "570",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "575",
+              "days": 6,
+              "year": "2026"
+            },
+            {
+              "operatorId": "576",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "577",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "580",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "598",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "601",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "603",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "604",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "609",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "619",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "634",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "642",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "645",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "646",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "648",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "649",
+              "days": 4,
+              "year": "2026"
+            },
+            {
+              "operatorId": "650",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "651",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "652",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "653",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "656",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "669",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "719",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "721",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "728",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "730",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "733",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "738",
+              "days": 10,
+              "year": "2026"
+            },
+            {
+              "operatorId": "746",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "75",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "756",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "760",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "762",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "763",
+              "days": 3,
+              "year": "2026"
+            },
+            {
+              "operatorId": "764",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "765",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "767",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "769",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "772",
+              "days": 2,
+              "year": "2026"
+            },
+            {
+              "operatorId": "78",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "782",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "789",
+              "days": 45,
+              "year": "2026"
+            },
+            {
+              "operatorId": "791",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "797",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "805",
+              "days": 5,
+              "year": "2026"
+            },
+            {
+              "operatorId": "806",
+              "days": 7,
+              "year": "2026"
+            },
+            {
+              "operatorId": "813",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "815",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "834",
+              "days": null,
+              "year": "2026"
+            },
+            {
+              "operatorId": "839",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "856",
+              "days": 14,
+              "year": "2026"
+            },
+            {
+              "operatorId": "91",
+              "days": 3,
+              "year": "2026"
+            }
+          ]
+        },
+        "compliance": {
+          "francsRule": "CHF 60.00",
+          "timelyPaperSubmission": true,
+          "operatorsFrancsPerInvoice": [
+            {
+              "operatorId": "10773",
+              "francsPerInvoice": 59.905,
+              "year": "2026"
+            },
+            {
+              "operatorId": "110",
+              "francsPerInvoice": 38.446,
+              "year": "2026"
+            },
+            {
+              "operatorId": "112",
+              "francsPerInvoice": 59.77,
+              "year": "2026"
+            },
+            {
+              "operatorId": "114",
+              "francsPerInvoice": 84.262,
+              "year": "2026"
+            },
+            {
+              "operatorId": "115",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "116",
+              "francsPerInvoice": 0,
+              "year": "2026"
+            },
+            {
+              "operatorId": "128",
+              "francsPerInvoice": 60.12,
+              "year": "2026"
+            },
+            {
+              "operatorId": "132",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "135",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "137",
+              "francsPerInvoice": 59.636,
+              "year": "2026"
+            },
+            {
+              "operatorId": "144",
+              "francsPerInvoice": 46.753,
+              "year": "2026"
+            },
+            {
+              "operatorId": "150",
+              "francsPerInvoice": -71.986,
+              "year": "2026"
+            },
+            {
+              "operatorId": "152",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "158",
+              "francsPerInvoice": 58.468,
+              "year": "2026"
+            },
+            {
+              "operatorId": "160",
+              "francsPerInvoice": 61.623,
+              "year": "2026"
+            },
+            {
+              "operatorId": "165",
+              "francsPerInvoice": 30.052,
+              "year": "2026"
+            },
+            {
+              "operatorId": "166",
+              "francsPerInvoice": 59.916,
+              "year": "2026"
+            },
+            {
+              "operatorId": "172",
+              "francsPerInvoice": 59.87,
+              "year": "2026"
+            },
+            {
+              "operatorId": "173",
+              "francsPerInvoice": 59.44,
+              "year": "2026"
+            },
+            {
+              "operatorId": "176",
+              "francsPerInvoice": 59.304,
+              "year": "2026"
+            },
+            {
+              "operatorId": "179",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "180",
+              "francsPerInvoice": -553.143,
+              "year": "2026"
+            },
+            {
+              "operatorId": "181",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "184",
+              "francsPerInvoice": 59.77,
+              "year": "2026"
+            },
+            {
+              "operatorId": "185",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "189",
+              "francsPerInvoice": 14.218,
+              "year": "2026"
+            },
+            {
+              "operatorId": "191",
+              "francsPerInvoice": 10.121,
+              "year": "2026"
+            },
+            {
+              "operatorId": "192",
+              "francsPerInvoice": 59.786,
+              "year": "2026"
+            },
+            {
+              "operatorId": "195",
+              "francsPerInvoice": 59.999,
+              "year": "2026"
+            },
+            {
+              "operatorId": "199",
+              "francsPerInvoice": 60.603,
+              "year": "2026"
+            },
+            {
+              "operatorId": "200",
+              "francsPerInvoice": 59.861,
+              "year": "2026"
+            },
+            {
+              "operatorId": "205",
+              "francsPerInvoice": 17.241,
+              "year": "2026"
+            },
+            {
+              "operatorId": "212",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "222",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "227",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "228",
+              "francsPerInvoice": 59.835,
+              "year": "2026"
+            },
+            {
+              "operatorId": "234",
+              "francsPerInvoice": 48.306,
+              "year": "2026"
+            },
+            {
+              "operatorId": "241",
+              "francsPerInvoice": 59.502,
+              "year": "2026"
+            },
+            {
+              "operatorId": "245",
+              "francsPerInvoice": 30.422,
+              "year": "2026"
+            },
+            {
+              "operatorId": "251",
+              "francsPerInvoice": 59.549,
+              "year": "2026"
+            },
+            {
+              "operatorId": "254",
+              "francsPerInvoice": 36.223,
+              "year": "2026"
+            },
+            {
+              "operatorId": "265",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "268",
+              "francsPerInvoice": 60.568,
+              "year": "2026"
+            },
+            {
+              "operatorId": "276",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "279",
+              "francsPerInvoice": 21.497,
+              "year": "2026"
+            },
+            {
+              "operatorId": "285",
+              "francsPerInvoice": 59.785,
+              "year": "2026"
+            },
+            {
+              "operatorId": "289",
+              "francsPerInvoice": 59.786,
+              "year": "2026"
+            },
+            {
+              "operatorId": "290",
+              "francsPerInvoice": 59.886,
+              "year": "2026"
+            },
+            {
+              "operatorId": "305",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "308",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "310",
+              "francsPerInvoice": -97.938,
+              "year": "2026"
+            },
+            {
+              "operatorId": "314",
+              "francsPerInvoice": 21.868,
+              "year": "2026"
+            },
+            {
+              "operatorId": "316",
+              "francsPerInvoice": 59.693,
+              "year": "2026"
+            },
+            {
+              "operatorId": "324",
+              "francsPerInvoice": 59.722,
+              "year": "2026"
+            },
+            {
+              "operatorId": "325",
+              "francsPerInvoice": 52.99,
+              "year": "2026"
+            },
+            {
+              "operatorId": "326",
+              "francsPerInvoice": 33.948,
+              "year": "2026"
+            },
+            {
+              "operatorId": "328",
+              "francsPerInvoice": 59.815,
+              "year": "2026"
+            },
+            {
+              "operatorId": "329",
+              "francsPerInvoice": 35.354,
+              "year": "2026"
+            },
+            {
+              "operatorId": "330",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "332",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "343",
+              "francsPerInvoice": 59.659,
+              "year": "2026"
+            },
+            {
+              "operatorId": "347",
+              "francsPerInvoice": 59.823,
+              "year": "2026"
+            },
+            {
+              "operatorId": "355",
+              "francsPerInvoice": 58.444,
+              "year": "2026"
+            },
+            {
+              "operatorId": "357",
+              "francsPerInvoice": 60.373,
+              "year": "2026"
+            },
+            {
+              "operatorId": "36",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "361",
+              "francsPerInvoice": 59.469,
+              "year": "2026"
+            },
+            {
+              "operatorId": "362",
+              "francsPerInvoice": 59.892,
+              "year": "2026"
+            },
+            {
+              "operatorId": "363",
+              "francsPerInvoice": 59.694,
+              "year": "2026"
+            },
+            {
+              "operatorId": "365",
+              "francsPerInvoice": 59.863,
+              "year": "2026"
+            },
+            {
+              "operatorId": "375",
+              "francsPerInvoice": 59.937,
+              "year": "2026"
+            },
+            {
+              "operatorId": "376",
+              "francsPerInvoice": 59.877,
+              "year": "2026"
+            },
+            {
+              "operatorId": "378",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "383",
+              "francsPerInvoice": 21.548,
+              "year": "2026"
+            },
+            {
+              "operatorId": "385",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "386",
+              "francsPerInvoice": 59.935,
+              "year": "2026"
+            },
+            {
+              "operatorId": "387",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "388",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "389",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "393",
+              "francsPerInvoice": 59.999,
+              "year": "2026"
+            },
+            {
+              "operatorId": "399",
+              "francsPerInvoice": 51.148,
+              "year": "2026"
+            },
+            {
+              "operatorId": "403",
+              "francsPerInvoice": 59.947,
+              "year": "2026"
+            },
+            {
+              "operatorId": "420",
+              "francsPerInvoice": 12.917,
+              "year": "2026"
+            },
+            {
+              "operatorId": "422",
+              "francsPerInvoice": 59.883,
+              "year": "2026"
+            },
+            {
+              "operatorId": "426",
+              "francsPerInvoice": 59.775,
+              "year": "2026"
+            },
+            {
+              "operatorId": "430",
+              "francsPerInvoice": 59.927,
+              "year": "2026"
+            },
+            {
+              "operatorId": "449",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "456",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "457",
+              "francsPerInvoice": 57.911,
+              "year": "2026"
+            },
+            {
+              "operatorId": "467",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "470",
+              "francsPerInvoice": 59.664,
+              "year": "2026"
+            },
+            {
+              "operatorId": "474",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "481",
+              "francsPerInvoice": 59.837,
+              "year": "2026"
+            },
+            {
+              "operatorId": "482",
+              "francsPerInvoice": 58.287,
+              "year": "2026"
+            },
+            {
+              "operatorId": "506",
+              "francsPerInvoice": 59.303,
+              "year": "2026"
+            },
+            {
+              "operatorId": "515",
+              "francsPerInvoice": 59.541,
+              "year": "2026"
+            },
+            {
+              "operatorId": "517",
+              "francsPerInvoice": 59.298,
+              "year": "2026"
+            },
+            {
+              "operatorId": "526",
+              "francsPerInvoice": 59.556,
+              "year": "2026"
+            },
+            {
+              "operatorId": "528",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "529",
+              "francsPerInvoice": 59.727,
+              "year": "2026"
+            },
+            {
+              "operatorId": "534",
+              "francsPerInvoice": 60.396,
+              "year": "2026"
+            },
+            {
+              "operatorId": "537",
+              "francsPerInvoice": 27.279,
+              "year": "2026"
+            },
+            {
+              "operatorId": "570",
+              "francsPerInvoice": 59.807,
+              "year": "2026"
+            },
+            {
+              "operatorId": "575",
+              "francsPerInvoice": 59.909,
+              "year": "2026"
+            },
+            {
+              "operatorId": "576",
+              "francsPerInvoice": 63.966,
+              "year": "2026"
+            },
+            {
+              "operatorId": "577",
+              "francsPerInvoice": 59.492,
+              "year": "2026"
+            },
+            {
+              "operatorId": "580",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "598",
+              "francsPerInvoice": 59.353,
+              "year": "2026"
+            },
+            {
+              "operatorId": "601",
+              "francsPerInvoice": 59.59,
+              "year": "2026"
+            },
+            {
+              "operatorId": "603",
+              "francsPerInvoice": 59.92,
+              "year": "2026"
+            },
+            {
+              "operatorId": "604",
+              "francsPerInvoice": 59.999,
+              "year": "2026"
+            },
+            {
+              "operatorId": "609",
+              "francsPerInvoice": 59.702,
+              "year": "2026"
+            },
+            {
+              "operatorId": "619",
+              "francsPerInvoice": 59.732,
+              "year": "2026"
+            },
+            {
+              "operatorId": "634",
+              "francsPerInvoice": 60.095,
+              "year": "2026"
+            },
+            {
+              "operatorId": "642",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "645",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "646",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "648",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "649",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "650",
+              "francsPerInvoice": 59.889,
+              "year": "2026"
+            },
+            {
+              "operatorId": "651",
+              "francsPerInvoice": 59.999,
+              "year": "2026"
+            },
+            {
+              "operatorId": "652",
+              "francsPerInvoice": 59.311,
+              "year": "2026"
+            },
+            {
+              "operatorId": "653",
+              "francsPerInvoice": 59.786,
+              "year": "2026"
+            },
+            {
+              "operatorId": "656",
+              "francsPerInvoice": 51.168,
+              "year": "2026"
+            },
+            {
+              "operatorId": "669",
+              "francsPerInvoice": 59.998,
+              "year": "2026"
+            },
+            {
+              "operatorId": "719",
+              "francsPerInvoice": 59.764,
+              "year": "2026"
+            },
+            {
+              "operatorId": "721",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "728",
+              "francsPerInvoice": 59.709,
+              "year": "2026"
+            },
+            {
+              "operatorId": "730",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "733",
+              "francsPerInvoice": 72.678,
+              "year": "2026"
+            },
+            {
+              "operatorId": "738",
+              "francsPerInvoice": 59.597,
+              "year": "2026"
+            },
+            {
+              "operatorId": "746",
+              "francsPerInvoice": 58.964,
+              "year": "2026"
+            },
+            {
+              "operatorId": "75",
+              "francsPerInvoice": 59.73,
+              "year": "2026"
+            },
+            {
+              "operatorId": "756",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "760",
+              "francsPerInvoice": 59.965,
+              "year": "2026"
+            },
+            {
+              "operatorId": "762",
+              "francsPerInvoice": 59.943,
+              "year": "2026"
+            },
+            {
+              "operatorId": "763",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "764",
+              "francsPerInvoice": 72.526,
+              "year": "2026"
+            },
+            {
+              "operatorId": "765",
+              "francsPerInvoice": 59.908,
+              "year": "2026"
+            },
+            {
+              "operatorId": "767",
+              "francsPerInvoice": 59.999,
+              "year": "2026"
+            },
+            {
+              "operatorId": "769",
+              "francsPerInvoice": 63.142,
+              "year": "2026"
+            },
+            {
+              "operatorId": "772",
+              "francsPerInvoice": 59.549,
+              "year": "2026"
+            },
+            {
+              "operatorId": "78",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "782",
+              "francsPerInvoice": 59.707,
+              "year": "2026"
+            },
+            {
+              "operatorId": "789",
+              "francsPerInvoice": 59.717,
+              "year": "2026"
+            },
+            {
+              "operatorId": "791",
+              "francsPerInvoice": 59.52,
+              "year": "2026"
+            },
+            {
+              "operatorId": "797",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "805",
+              "francsPerInvoice": 59.939,
+              "year": "2026"
+            },
+            {
+              "operatorId": "806",
+              "francsPerInvoice": 59.491,
+              "year": "2026"
+            },
+            {
+              "operatorId": "813",
+              "francsPerInvoice": 59.827,
+              "year": "2026"
+            },
+            {
+              "operatorId": "815",
+              "francsPerInvoice": 59.927,
+              "year": "2026"
+            },
+            {
+              "operatorId": "834",
+              "francsPerInvoice": null,
+              "year": "2026"
+            },
+            {
+              "operatorId": "839",
+              "francsPerInvoice": 60,
+              "year": "2026"
+            },
+            {
+              "operatorId": "856",
+              "francsPerInvoice": 59.693,
+              "year": "2026"
+            },
+            {
+              "operatorId": "91",
+              "francsPerInvoice": 58.591,
+              "year": "2026"
+            }
+          ]
+        },
+        "updateDate": "2026-01-19"
+      },
+      "sessionConfig": {
+        "flags": {
+          "sparqlEndpoint": {
+            "value": "https://lindas-cached.int.cluster.ldbar.ch/query",
+            "default": "https://lindas-cached.int.cluster.ldbar.ch/query",
+            "label": "SPARQL Endpoint"
+          }
+        }
+      },
+      "locale": "en"
+    },
+    "__N_SSP": true
+  },
+  "page": "/sunshine/[entity]/[id]/operational-standards",
+  "query": {
+    "entity": "operator",
+    "id": "36"
+  },
+  "buildId": "development",
+  "isFallback": false,
+  "gssp": true,
+  "locale": "en",
+  "locales": [
+    "en",
+    "de",
+    "fr",
+    "it",
+    "aa"
+  ],
+  "defaultLocale": "en",
+  "domainLocales": [
+    {
+      "domain": "www.elcom.local",
+      "defaultLocale": "de"
+    },
+    {
+      "domain": "fr.elcom.local",
+      "defaultLocale": "fr"
+    },
+    {
+      "domain": "it.elcom.local",
+      "defaultLocale": "it"
+    }
+  ],
+  "scriptLoader": []
+}
