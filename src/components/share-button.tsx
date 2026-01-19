@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import * as Vaul from "vaul";
 
@@ -113,10 +113,15 @@ const ShareButton = () => {
                 <Typography variant="h5" component="div" fontWeight="bold">
                   <Trans id="map.share">Share</Trans>
                 </Typography>
+                <Button
+                  variant="text"
+                  onClick={close}
+                  color="primary"
+                  sx={{ pr: 0 }}
+                >
+                  <Trans id="mobile-drawer.close">Close</Trans>
+                </Button>
               </div>
-              <IconButton onClick={close} className={classes.closeButton}>
-                <Icon name="close" />
-              </IconButton>
               <div className={classes.scrollArea}>
                 <Box p={2}>
                   <ShareContent

@@ -37,7 +37,7 @@ const MapDetailsContentWrapper = (
     <Stack
       direction={"column"}
       spacing={4}
-      p={[2, 2, 6]}
+      p={[0, 0, 6]}
       data-testid="map-details-content"
     >
       {showBackButton ? (
