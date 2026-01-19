@@ -14,11 +14,23 @@ test.describe("Electricity Prices", () => {
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
 
+    const sectionIds = [
+      "components",
+      "evolution",
+      "distribution",
+      "comparison",
+    ];
     await snapshot({
-      note: "Electricity Prices - Operator",
-      locator: await page.getByTestId("details-page-content"),
-      fullPage: true,
+      locator: page.getByTestId("detail-page-selector-multi"),
+      note: `Electricity Prices - Operator - Selectors`,
     });
+    for (const sectionId of sectionIds) {
+      await snapshot({
+        note: `Electricity Prices - Operator - ${sectionId}`,
+        locator: await page.getByTestId(`card-${sectionId}`),
+        fullPage: true,
+      });
+    }
     inflight.dispose();
   });
 });
