@@ -6,7 +6,6 @@ import * as React from "react";
 import RuntimeClientVarsScript from "src/components/runtime-client-vars";
 import createEmotionCache from "src/emotion-cache";
 import buildEnv from "src/env/build";
-import UrqlSSRScript from "src/graphql/urql-ssr-script";
 
 class MyDocument extends Document {
   render() {
@@ -15,7 +14,6 @@ class MyDocument extends Document {
         <Head />
         <body>
           <RuntimeClientVarsScript />
-          <UrqlSSRScript />
           <Main />
           <script noModule src="/static/ie-check.js"></script>
           <NextScript />
