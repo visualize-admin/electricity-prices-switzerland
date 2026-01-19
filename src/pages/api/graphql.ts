@@ -44,7 +44,10 @@ const server = new ApolloServer({
         const sunshineDataService = ctx.contextValue.sunshineDataService.name;
         const sparqlEndpoint =
           ctx.contextValue.sparqlClient.query.endpoint.endpointUrl;
-        const cacheKey = `sunshine-data-service:${sunshineDataService}/sparql-endpoint:${sparqlEndpoint}`;
+        const locale = (ctx.request.variables as $IntentionalAny)?.locale;
+        const cacheKey = `sunshine-data-service:${sunshineDataService}/sparql-endpoint:${sparqlEndpoint}${
+          locale ? `/locale:${locale}` : ""
+        }`;
         return cacheKey;
       },
     }),
