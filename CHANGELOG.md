@@ -11,8 +11,17 @@ You can also check the
 
 # Unreleased
 
--
-- Correct unit for SAIFI/SAIDI chart on sunshine detail page
+- Map
+  - Display municipality name on map ([#556](https://github.com/visualize-admin/electricity-prices-switzerland/pull/556))
+  - Share tooltip z-index to prevent overlap issues ([#554](https://github.com/visualize-admin/electricity-prices-switzerland/pull/554))
+  - Pointer events allow copy functionality to work correctly
+- Sunshine detail pages
+  - Correct unit for SAIFI/SAIDI chart on sunshine detail page ([#557](https://github.com/visualize-admin/electricity-prices-switzerland/issues/557))
+- Tariffs
+  - Align tariff combobox ([#550](https://github.com/visualize-admin/electricity-prices-switzerland/pull/550))
+- General
+  - Translate default label for "all_grid_operators" ([#549](https://github.com/visualize-admin/electricity-prices-switzerland/pull/549))
+  - Improve "no data available" styling ([#548](https://github.com/visualize-admin/electricity-prices-switzerland/pull/548))
 
 # 2.35.0 - 2026-01-14
 
