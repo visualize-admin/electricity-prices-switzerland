@@ -11,13 +11,9 @@ export const createMemoize = <
     const key = JSON.stringify(args);
 
     if (cache.has(key)) {
-      // eslint-disable-next-line no-console
-      console.log(`[${label}] Cache HIT`);
       return cache.get(key)!;
     }
 
-    // eslint-disable-next-line no-console
-    console.log(`[${label}] Cache MISS`);
     const result = fn(...args);
     cache.set(key, result);
     return result;
