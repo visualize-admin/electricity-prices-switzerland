@@ -13,7 +13,7 @@ You can also check the
 
 - Map
   - Display municipality name on map ([#556](https://github.com/visualize-admin/electricity-prices-switzerland/pull/556))
-  - Share tooltip z-index to prevent overlap issues ([#554](https://github.com/visualize-admin/electricity-prices-switzerland/pull/554))
+  - Improve tooltip on mobile
   - Pointer events allow copy functionality to work correctly
 - Sunshine detail pages
   - Correct unit for SAIFI/SAIDI chart on sunshine detail page ([#557](https://github.com/visualize-admin/electricity-prices-switzerland/issues/557))
