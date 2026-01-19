@@ -34,7 +34,7 @@ export const ElectricitySelectors = () => {
       justifyContent="flex-start"
       p={0}
       m={0}
-      gap={3}
+      gap={4}
       zIndex={13}
     >
       <Combobox
