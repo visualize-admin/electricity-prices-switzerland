@@ -70,7 +70,7 @@ export type CostsAndTariffsData = {
   latestYear: Scalars["String"]["output"];
   netTariffs: TariffsData;
   networkCosts: NetworkCostsData;
-  operator: CostsAndTariffsOperator;
+  operator: OperatorWithPeerGroup;
   updateDate: Scalars["String"]["output"];
 };
 
@@ -80,11 +80,6 @@ export type CostsAndTariffsFilter = {
   operatorId: Scalars["Int"]["input"];
   operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-export type CostsAndTariffsOperator = {
-  __typename: "CostsAndTariffsOperator";
-  peerGroup: PeerGroup;
 };
 
 export type CubeHealth = {
@@ -169,7 +164,7 @@ export type OperationalStandardsData = {
   __typename: "OperationalStandardsData";
   compliance: OperationalStandardsCompliance;
   latestYear: Scalars["String"]["output"];
-  operator: OperationalStandardsOperator;
+  operator: OperatorWithPeerGroup;
   serviceQuality: OperationalStandardsServiceQuality;
   updateDate: Scalars["String"]["output"];
 };
@@ -177,11 +172,6 @@ export type OperationalStandardsData = {
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
   period?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-export type OperationalStandardsOperator = {
-  __typename: "OperationalStandardsOperator";
-  peerGroup: PeerGroup;
 };
 
 export type OperationalStandardsOperatorFrancs = {
@@ -263,6 +253,11 @@ export type OperatorResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type OperatorWithPeerGroup = {
+  __typename: "OperatorWithPeerGroup";
+  peerGroup: PeerGroup;
+};
+
 export type PeerGroup = {
   __typename: "PeerGroup";
   energyDensity: Scalars["String"]["output"];
@@ -279,7 +274,7 @@ export type PeerGroupItem = {
 export type PowerStabilityData = {
   __typename: "PowerStabilityData";
   latestYear: Scalars["String"]["output"];
-  operator: PowerStabilityOperator;
+  operator: OperatorWithPeerGroup;
   saidi: StabilityData;
   saifi: StabilityData;
   updateDate: Scalars["String"]["output"];
@@ -289,11 +284,6 @@ export type PowerStabilityFilter = {
   operatorId: Scalars["Int"]["input"];
   operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-export type PowerStabilityOperator = {
-  __typename: "PowerStabilityOperator";
-  peerGroup: PeerGroup;
 };
 
 export enum PriceComponent {
@@ -1095,7 +1085,7 @@ export type OperationalStandardsQuery = {
     latestYear: string;
     updateDate: string;
     operator: {
-      __typename: "OperationalStandardsOperator";
+      __typename: "OperatorWithPeerGroup";
       peerGroup: {
         __typename: "PeerGroup";
         id: string;
@@ -1193,7 +1183,7 @@ export type CostsAndTariffsQuery = {
     latestYear: string;
     updateDate: string;
     operator: {
-      __typename: "CostsAndTariffsOperator";
+      __typename: "OperatorWithPeerGroup";
       peerGroup: {
         __typename: "PeerGroup";
         id: string;
@@ -1263,7 +1253,7 @@ export type PowerStabilityQuery = {
     latestYear: string;
     updateDate: string;
     operator: {
-      __typename: "PowerStabilityOperator";
+      __typename: "OperatorWithPeerGroup";
       peerGroup: {
         __typename: "PeerGroup";
         id: string;

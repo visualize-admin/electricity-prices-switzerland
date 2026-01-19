@@ -395,13 +395,13 @@ type OperationalStandardsOperatorFrancs @cacheControl(maxAge: 300) {
   year: String!
 }
 
-type OperationalStandardsOperator @cacheControl(maxAge: 300) {
+type OperatorWithPeerGroup @cacheControl(maxAge: 300) {
   peerGroup: PeerGroup!
 }
 
 type OperationalStandardsData @cacheControl(maxAge: 300) {
   latestYear: String!
-  operator: OperationalStandardsOperator!
+  operator: OperatorWithPeerGroup!
   serviceQuality: OperationalStandardsServiceQuality!
   compliance: OperationalStandardsCompliance!
   updateDate: String!
@@ -426,26 +426,18 @@ input PowerStabilityFilter {
   operatorOnly: Boolean
 }
 
-type CostsAndTariffsOperator @cacheControl(maxAge: 300) {
-  peerGroup: PeerGroup!
-}
-
 type CostsAndTariffsData @cacheControl(maxAge: 300) {
   latestYear: String!
-  operator: CostsAndTariffsOperator!
+  operator: OperatorWithPeerGroup!
   networkCosts: NetworkCostsData!
   netTariffs: TariffsData!
   energyTariffs: TariffsData!
   updateDate: String!
 }
 
-type PowerStabilityOperator @cacheControl(maxAge: 300) {
-  peerGroup: PeerGroup!
-}
-
 type PowerStabilityData @cacheControl(maxAge: 300) {
   latestYear: String!
-  operator: PowerStabilityOperator!
+  operator: OperatorWithPeerGroup!
   saidi: StabilityData!
   saifi: StabilityData!
   updateDate: String!
