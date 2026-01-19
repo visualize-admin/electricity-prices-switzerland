@@ -22,7 +22,7 @@ export const MIN_PER_YEAR = t({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
 });
-export const ANZAHL_PER_YEAR = t({
+export const COUNT_PER_YEAR = t({
   id: "sunshine.metric-unit.anzahl-year",
   message: "Count/year",
 });

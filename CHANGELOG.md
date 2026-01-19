@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+-
+- Correct unit for SAIFI/SAIDI chart on sunshine detail page
 
 # 2.35.0 - 2026-01-14
 

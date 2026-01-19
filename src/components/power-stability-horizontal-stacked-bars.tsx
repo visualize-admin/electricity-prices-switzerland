@@ -32,7 +32,7 @@ import {
   SortOptions,
   InteractionStackedBars,
 } from "src/components/power-stability-chart";
-import { PERCENT, MIN_PER_YEAR } from "src/domain/metrics";
+import { PERCENT, COUNT_PER_YEAR } from "src/domain/metrics";
 import { peerGroupOperatorName } from "src/domain/sunshine";
 import { useIsMobile } from "src/lib/use-mobile";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
@@ -168,7 +168,7 @@ export const PowerStabilityHorizontalStackedBars = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
-          axisLabel: overallOrRatio === "ratio" ? PERCENT : MIN_PER_YEAR,
+          axisLabel: overallOrRatio === "ratio" ? PERCENT : COUNT_PER_YEAR,
         },
         domain: xDomain,
         annotation: medianPeerGroupObservation

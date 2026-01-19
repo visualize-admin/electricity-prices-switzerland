@@ -30,7 +30,7 @@ import {
   getOperatorsPageProps,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
-import { ANZAHL_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
+import { COUNT_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
 import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineDetails,
@@ -324,7 +324,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         label: <Trans id="sunshine.power-stability.saifi.total">Total</Trans>,
         value: {
           value: data.saifi.operatorTotal,
-          unit: ANZAHL_PER_YEAR,
+          unit: COUNT_PER_YEAR,
           round: 2,
           trend: data.saifi.trendTotal,
         },
@@ -335,7 +335,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.operatorUnplanned,
-          unit: ANZAHL_PER_YEAR,
+          unit: COUNT_PER_YEAR,
           round: 2,
           trend: data.saifi.trendUnplanned,
         },
@@ -348,7 +348,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.peerGroupMedianTotal,
-          unit: ANZAHL_PER_YEAR,
+          unit: COUNT_PER_YEAR,
           round: 2,
           trend: data.saifi.peerGroupMedianTrendTotal,
         },
@@ -361,7 +361,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: data.saifi.peerGroupMedianUnplanned,
-          unit: ANZAHL_PER_YEAR,
+          unit: COUNT_PER_YEAR,
           round: 2,
           trend: data.saifi.peerGroupMedianTrendUnplanned,
         },
