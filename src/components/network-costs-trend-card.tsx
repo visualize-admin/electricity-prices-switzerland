@@ -160,7 +160,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
               xs: "1fr",
               lg: "1fr 1fr",
             },
-            gap: 2,
+            gap: 4,
             overflow: "hidden",
           }}
         >

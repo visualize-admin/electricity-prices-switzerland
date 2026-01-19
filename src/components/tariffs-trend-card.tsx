@@ -134,12 +134,11 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
             </Trans>
           </Typography>
         </CardHeader>
-        {/* Dropdown Controls */}
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
-            gap: 2,
+            gap: 4,
             mb: 3,
           }}
         >
