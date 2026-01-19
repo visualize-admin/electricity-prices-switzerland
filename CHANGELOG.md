@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.36.0 - 2026-01-19
+
 - Map
   - Display municipality name on map ([#556](https://github.com/visualize-admin/electricity-prices-switzerland/pull/556))
   - Improve tooltip on mobile
