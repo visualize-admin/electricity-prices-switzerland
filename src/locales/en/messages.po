@@ -1510,14 +1510,6 @@ msgstr "Duration"
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Latest year"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.no-saidi-data"
-msgstr "No SAIDI data available for this operator in the selected year."
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.no-saifi-data"
-msgstr "No SAIFI data available for this operator in the selected year."
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Overall"

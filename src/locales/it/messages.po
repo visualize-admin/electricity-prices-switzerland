@@ -1512,14 +1512,6 @@ msgstr "Durata dell'interruzione"
 msgid "sunshine.power-stability.latest-year-option"
 msgstr "Anno tariffario attuale"
 
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.no-saidi-data"
-msgstr "Non sono disponibili dati SAIDI per questo gestore di rete nell'anno tariffario selezionato."
-
-#: src/pages/sunshine/[entity]/[id]/power-stability.tsx
-msgid "sunshine.power-stability.no-saifi-data"
-msgstr "Non sono disponibili dati SAIFI per questo gestore di rete nell'anno tariffario selezionato."
-
 #: src/domain/translation.tsx
 msgid "sunshine.power-stability.overall-option"
 msgstr "Complessivo"
