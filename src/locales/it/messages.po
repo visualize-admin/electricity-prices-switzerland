@@ -1556,11 +1556,11 @@ msgstr "Durata media delle interruzioni di corrente (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Durata delle interruzioni di corrente (SAIDI)"
+msgstr "System Average Interruption Duration Index (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
-msgstr "Durata delle interruzioni di corrente (SAIDI)"
+msgstr "Durata delle interruzioni di corrente"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1597,11 +1597,11 @@ msgstr "Frequenza media delle interruzioni di corrente (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Frequenza media delle interruzioni di corrente (SAIFI)"
+msgstr "System Average Interruption Frequency Index (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
-msgstr "Frequenza media delle interruzioni di corrente (SAIFI)"
+msgstr "Frequenza delle interruzioni di corrente"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"

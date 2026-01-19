@@ -1560,11 +1560,11 @@ msgstr "Durée moyenne des coupures de courant (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.description"
-msgstr "Durée des interruptions de courant (SAIDI) "
+msgstr "System Average Interruption Duration Index (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saidi-trend.overview"
-msgstr "Durée des interruptions de courant (SAIDI)"
+msgstr "Durée des interruptions de courant"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
@@ -1601,11 +1601,11 @@ msgstr "Fréquence moyenne des interruptions de courant (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.description"
-msgstr "Fréquence moyenne des interruptions de courant (SAIFI)"
+msgstr "System Average Interruption Frequency Index (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.power-stability.saifi-trend.overview"
-msgstr " Fréquence moyenne des interruptions de courant (SAIFI)"
+msgstr " Fréquence des interruptions de courant"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"

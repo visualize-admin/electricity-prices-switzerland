@@ -15,6 +15,7 @@ const useStyles = makeStyles()((theme) => ({
     textAlign: "center",
     backgroundColor: theme.palette.accent2.main,
     borderRadius: theme.spacing(1),
+    padding: "1rem",
   },
 }));
 
@@ -26,7 +27,11 @@ export const NoDataAvailable: React.FC<NoDataAvailableProps> = ({ sx }) => {
       <Typography variant="body2" fontWeight={700} gutterBottom>
         <Trans id="no-data-available.title">No data available</Trans>
       </Typography>
-      <Typography variant="body3" color="text.secondary">
+      <Typography
+        variant="body3"
+        color="text.secondary"
+        sx={{ maxWidth: "40rem", mx: "auto" }}
+      >
         <Trans id="no-data-available.description">
           There is no data available for this operator
         </Trans>
