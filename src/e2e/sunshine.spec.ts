@@ -219,6 +219,9 @@ test.describe("Sunshine map details panel", () => {
       note: "Sunshine Map - Initial",
       locator: page.getByTestId("map-sidebar"),
     });
+    await page.getByRole("textbox", { name: "Filter list" }).click();
+    await page.getByRole("textbox", { name: "Filter list" }).fill("holderba");
+
     await page
       .locator("a")
       .filter({ hasText: "Elektra Genossenschaft Holderbank" })
@@ -253,6 +256,8 @@ test.describe("Sunshine map details panel", () => {
       })
       .click();
     await page.getByRole("option", { name: "Network costs" }).click();
+
+    await page.getByRole("textbox", { name: "Filter list" }).fill("elektra");
     await page
       .locator("a")
       .filter({ hasText: "Elektra Genossenschaft" })
@@ -305,6 +310,8 @@ test.describe("Sunshine map details panel", () => {
       note: "Sunshine Map - Initial",
       locator: page.getByTestId("map-sidebar"),
     });
+    await page.getByRole("textbox", { name: "Filter list" }).click();
+    await page.getByRole("textbox", { name: "Filter list" }).fill("holderba");
     await page
       .locator("a")
       .filter({ hasText: "Elektra Genossenschaft Holderbank" })
