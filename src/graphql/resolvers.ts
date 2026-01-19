@@ -636,14 +636,21 @@ const Municipality: MunicipalityResolvers = {
 };
 
 const Operator: OperatorResolvers = {
-  municipalities: async ({ id }, _, ctx) => {
+  municipalities: async ({ id }, _, ctx, info) => {
     const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
-    return getDimensionValuesAndLabels({
+    // Get locale from operation variables, default to 'de'
+    const locale = (info.variableValues as any)?.locale ?? 'de';
+
+    const municipalities = await getDimensionValuesAndLabels({
       cube,
       dimensionKey: "municipality",
       filters: { operator: [id] },
     });
+
+    return municipalities
+      .sort((a, b) => a.name.localeCompare(b.name, locale))
+      .map(({ id, name }) => ({ id, name }));
   },
 
   documents: async ({ id }, _, ctx) => {

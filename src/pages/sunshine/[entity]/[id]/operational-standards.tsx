@@ -25,7 +25,6 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -34,6 +33,8 @@ import { getLocalizedLabel } from "src/domain/translation";
 import {
   OperationalStandardsDocument,
   OperationalStandardsQuery,
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
 } from "src/graphql/queries";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { defaultLocale } from "src/locales/config";
@@ -48,7 +49,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, urqlClient, sessionConfig }) => {
+  async (context, { urqlClient, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -60,19 +61,29 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const { data: operatorData, error: operatorError } = await urqlClient
+      .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+        locale: locale ?? defaultLocale,
+        id,
+      })
+      .toPromise();
 
-    if (operatorProps.status === "notfound") {
+    if (operatorError || !operatorData?.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
         },
       };
     }
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operatorData.operator.id ?? id,
+      name: operatorData.operator.name,
+      municipalities: operatorData.operator.municipalities,
+    };
 
     const { data, error } = await urqlClient
       .query<OperationalStandardsQuery>(OperationalStandardsDocument, {

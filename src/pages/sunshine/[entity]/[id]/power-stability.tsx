@@ -25,7 +25,6 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { COUNT_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
@@ -36,6 +35,8 @@ import {
 import { PowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
   PowerStabilityDocument,
   PowerStabilityQuery,
 } from "src/graphql/queries";
@@ -63,19 +64,29 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const { data: operatorData, error: operatorError } = await urqlClient
+      .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+        locale: locale ?? defaultLocale,
+        id,
+      })
+      .toPromise();
 
-    if (operatorProps.status === "notfound") {
+    if (operatorError || !operatorData?.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
         },
       };
     }
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operatorData.operator.id ?? id,
+      name: operatorData.operator.name,
+      municipalities: operatorData.operator.municipalities,
+    };
 
     const { data, error } = await urqlClient
       .query<PowerStabilityQuery>(PowerStabilityDocument, {

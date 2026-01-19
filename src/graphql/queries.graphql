@@ -44,6 +44,15 @@ query Search($locale: String!, $query: String) {
   }
 }
 
+fragment OperatorPageDetails on Operator {
+  id
+  name
+  municipalities {
+    id
+    name
+  }
+}
+
 fragment operatorObservationFields on OperatorObservation {
   period
   municipality
@@ -166,6 +175,12 @@ query OperatorDocuments($id: String!, $locale: String!) {
       year
       category
     }
+  }
+}
+
+query OperatorPageProps($locale: String!, $id: String!) {
+  operator(locale: $locale, id: $id) {
+    ...OperatorPageDetails
   }
 }
 

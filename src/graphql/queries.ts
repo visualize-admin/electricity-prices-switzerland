@@ -716,6 +716,17 @@ export type SearchQuery = {
   >;
 };
 
+export type OperatorPageDetailsFragment = {
+  __typename: "Operator";
+  id?: string | null;
+  name: string;
+  municipalities: Array<{
+    __typename: "Municipality";
+    id: string;
+    name: string;
+  }>;
+};
+
 export type OperatorObservationFieldsFragment = {
   __typename: "OperatorObservation";
   period: string;
@@ -881,6 +892,25 @@ export type OperatorDocumentsQuery = {
       url: string;
       year: string;
       category?: OperatorDocumentCategory | null;
+    }>;
+  } | null;
+};
+
+export type OperatorPagePropsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+  id: Scalars["String"]["input"];
+}>;
+
+export type OperatorPagePropsQuery = {
+  __typename: "Query";
+  operator?: {
+    __typename: "Operator";
+    id?: string | null;
+    name: string;
+    municipalities: Array<{
+      __typename: "Municipality";
+      id: string;
+      name: string;
     }>;
   } | null;
 };
@@ -1354,6 +1384,16 @@ export type NetTariffsQuery = {
   };
 };
 
+export const OperatorPageDetailsFragmentDoc = gql`
+  fragment OperatorPageDetails on Operator {
+    id
+    name
+    municipalities {
+      id
+      name
+    }
+  }
+`;
 export const OperatorObservationFieldsFragmentDoc = gql`
   fragment operatorObservationFields on OperatorObservation {
     period
@@ -1622,6 +1662,22 @@ export function useOperatorDocumentsQuery(
 ) {
   return Urql.useQuery<OperatorDocumentsQuery, OperatorDocumentsQueryVariables>(
     { query: OperatorDocumentsDocument, ...options }
+  );
+}
+export const OperatorPagePropsDocument = gql`
+  query OperatorPageProps($locale: String!, $id: String!) {
+    operator(locale: $locale, id: $id) {
+      ...OperatorPageDetails
+    }
+  }
+  ${OperatorPageDetailsFragmentDoc}
+`;
+
+export function useOperatorPagePropsQuery(
+  options: Omit<Urql.UseQueryArgs<OperatorPagePropsQueryVariables>, "query">
+) {
+  return Urql.useQuery<OperatorPagePropsQuery, OperatorPagePropsQueryVariables>(
+    { query: OperatorPagePropsDocument, ...options }
   );
 }
 export const WikiContentDocument = gql`

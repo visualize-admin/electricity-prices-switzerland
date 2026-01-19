@@ -8,8 +8,6 @@ import {
   getCanton,
   getMunicipality,
   getMunicipalityOperators,
-  getOperator,
-  getOperatorMunicipalities,
 } from "src/rdf/queries";
 
 export type PageParams = {
@@ -76,29 +74,6 @@ export const getMunicipalityPageProps = async (
       .sort((a, b) => a.name.localeCompare(b.name, locale))
       .map(({ id, name }) => ({ id, name })),
     locale: locale ?? defaultLocale,
-  };
-};
-export const getOperatorsPageProps = async (
-  client: ParsingClient,
-  params: Omit<PageParams, "entity"> & Pick<GetServerSidePropsContext, "res">
-): Promise<Extract<Props, { entity: "operator" } | { status: "notfound" }>> => {
-  const { id, locale, res } = params!;
-
-  const operator = await getOperator({ id, client });
-
-  if (!operator) {
-    res.statusCode = 404;
-    return { status: "notfound" };
-  }
-
-  const municipalities = await getOperatorMunicipalities(id, locale, client);
-
-  return {
-    entity: "operator",
-    status: "found",
-    id,
-    name: operator.name,
-    municipalities: municipalities,
   };
 };
 

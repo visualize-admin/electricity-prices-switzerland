@@ -30,7 +30,6 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -56,6 +55,8 @@ import {
   NetworkCostsQuery,
   OperationalStandardsDocument,
   OperationalStandardsQuery,
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
   PowerStabilityDocument,
   PowerStabilityQuery,
   useEnergyTariffsQuery,
@@ -96,24 +97,16 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
-
-    if (operatorProps.status === "notfound") {
-      return {
-        props: {
-          status: "notfound",
-        },
-      };
-    }
-
     const operatorId = parseInt(id, 10);
 
-    const [operationalStandardsResult, powerStabilityResult, costsAndTariffsResult] =
+    const [operatorResult, operationalStandardsResult, powerStabilityResult, costsAndTariffsResult] =
       await Promise.all([
+        urqlClient
+          .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+            locale: locale ?? defaultLocale,
+            id,
+          })
+          .toPromise(),
         urqlClient
           .query<OperationalStandardsQuery>(OperationalStandardsDocument, {
             filter: { operatorId },
@@ -135,6 +128,23 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
           })
           .toPromise(),
       ]);
+
+    if (operatorResult.error || !operatorResult.data?.operator) {
+      res.statusCode = 404;
+      return {
+        props: {
+          status: "notfound",
+        },
+      };
+    }
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operatorResult.data.operator.id ?? id,
+      name: operatorResult.data.operator.name,
+      municipalities: operatorResult.data.operator.municipalities,
+    };
 
     if (
       operationalStandardsResult.error ||

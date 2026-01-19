@@ -29,7 +29,6 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCard } from "src/components/tariffs-trend-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -56,6 +55,8 @@ import {
   CostsAndTariffsDocument,
   CostsAndTariffsQuery,
   NetworkCostsQuery,
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
@@ -93,19 +94,29 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     const networkLevel = networkLevelSchema.parse(query.networkLevel);
     const category = categorySchema.parse(query.category);
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const { data: operatorData, error: operatorError } = await urqlClient
+      .query<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+        locale: locale ?? defaultLocale,
+        id,
+      })
+      .toPromise();
 
-    if (operatorProps.status === "notfound") {
+    if (operatorError || !operatorData?.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
         },
       };
     }
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operatorData.operator.id ?? id,
+      name: operatorData.operator.name,
+      municipalities: operatorData.operator.municipalities,
+    };
 
     const { data, error } = await urqlClient
       .query<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
