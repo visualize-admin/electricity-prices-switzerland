@@ -66,7 +66,6 @@ const ComboboxLabel = ({
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      minHeight={34}
       {...props}
     >
       {label ? (
@@ -150,11 +149,7 @@ export const MultiCombobox = ({
           display="flex"
           gap="8px"
         >
-          <ComboboxLabel
-            label={label}
-            htmlFor={htmlFor}
-            sx={{ minHeight: "auto" }}
-          />
+          <ComboboxLabel label={label} htmlFor={htmlFor} />
           <TextField
             {...params}
             variant="outlined"
@@ -343,6 +338,7 @@ export const Combobox = <T extends string>({
       flexDirection="column"
       width="100%"
       display="flex"
+      gap={"8px"}
       sx={sx}
     >
       <ComboboxLabel
