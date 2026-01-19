@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.36.1 - 2026-01-19
+
+- Electricity page
+  - Alignment of selects ([#560](https://github.com/visualize-admin/electricity-prices-switzerland/pull/560))
+
 # 2.36.0 - 2026-01-19
 
 - Map
