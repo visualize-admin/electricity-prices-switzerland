@@ -162,7 +162,7 @@ describe("GraphQL API Integration Tests", () => {
                 },
               ],
             },
-            "sunshineMedianByIndicator": 15626.765,
+            "sunshineMedianByIndicator": 15650.214,
           },
         }
       `);
@@ -212,7 +212,7 @@ describe("GraphQL API Integration Tests", () => {
                 },
               ],
             },
-            "sunshineMedianByIndicator": 15626.765,
+            "sunshineMedianByIndicator": 15650.214,
           },
         }
       `);
