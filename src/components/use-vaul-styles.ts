@@ -30,7 +30,7 @@ const useVaulStyles = tss.create(({ theme }) => ({
   },
   scrollArea: {
     padding: `${theme.spacing(2)} ${theme.spacing(
-      0
+      4
     )} calc(env(safe-area-inset-bottom) + ${theme.spacing(2)})`,
     overflowY: "scroll",
     overflowX: "hidden",

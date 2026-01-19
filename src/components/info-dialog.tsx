@@ -11,6 +11,7 @@ import {
   IconButton,
   Typography,
   IconButtonProps,
+  Button,
 } from "@mui/material";
 import parse, {
   DOMNode,
@@ -86,6 +87,10 @@ const DialogContent = ({
         details: { mb: 3 },
         summary: { fontWeight: 700 },
 
+        "& p": {
+          margin: 0,
+        },
+
         table: {
           borderCollapse: "collapse",
           my: 2,
@@ -135,19 +140,21 @@ export const HelpDialog: React.FC<{
         <Vaul.Overlay className={classes.overlay} />
         <Vaul.Content className={classes.content}>
           <div className={classes.handle}></div>
-          <IconButton onClick={close} className={classes.closeButton}>
-            <Icon name="close" />
-          </IconButton>
+          <div className={classes.header}>
+            <Typography variant="h5" fontWeight="bold">
+              <Trans id="dialog.infoprefix">Info:</Trans> {label}
+            </Typography>
+            <Button
+              variant="text"
+              onClick={close}
+              color="primary"
+              sx={{ pr: 0 }}
+            >
+              <Trans id="mobile-drawer.close">Close</Trans>
+            </Button>
+          </div>
           <div className={classes.scrollArea}>
-            <Box p={2}>
-              <Typography
-                variant="body2"
-                sx={{ color: "secondary.main", mb: 2 }}
-              >
-                <Trans id="dialog.infoprefix">Info:</Trans> {label}
-              </Typography>
-              <DialogContent contentQuery={contentQuery} />
-            </Box>
+            <DialogContent contentQuery={contentQuery} />
           </div>
         </Vaul.Content>
       </Vaul.Portal>
