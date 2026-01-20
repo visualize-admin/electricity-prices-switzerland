@@ -50,6 +50,29 @@ const nextConfig = async (): Promise<NextConfig> => {
   const config: NextConfig = {
     output: "standalone",
 
+    /**
+     * Uses GIT_COMMIT_SHA for Docker builds or VERCEL_GIT_COMMIT_SHA for Vercel
+     */
+    generateBuildId: async () => {
+      let sha = process.env.GIT_COMMIT_SHA;
+      if (sha) {
+        // eslint-disable-next-line no-console
+        console.log(`BUILD_ID: ${sha} (GIT_COMMIT_SHA)`);
+        return sha;
+      }
+
+      sha = process.env.VERCEL_GIT_COMMIT_SHA;
+      if (sha) {
+        // eslint-disable-next-line no-console
+        console.log(`BUILD_ID: ${sha} (VERCEL_GIT_COMMIT_SHA)`);
+        return sha;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log("BUILD_ID: Will use nextjs default behavior");
+      return null;
+    },
+
     outputFileTracingIncludes: {
       "**": [...additionalTracedFiles],
     },

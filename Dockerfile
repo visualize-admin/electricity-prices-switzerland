@@ -46,6 +46,8 @@ RUN apt update && apt install -y --no-install-recommends build-essential make &&
     rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV I18N_DOMAINS='{"de":"www.strompreis.elcom.admin.ch","fr":"www.prix-electricite.elcom.admin.ch","it":"www.prezzi-elettricita.elcom.admin.ch"}'
 RUN yarn build
