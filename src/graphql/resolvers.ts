@@ -103,8 +103,50 @@ const Query: QueryResolvers = {
         saidiSaifiType: filter.saidiSaifiType ?? undefined,
       });
 
+    // Calculate median value
+    const typedIndicator = filter.indicator as SunshineIndicator | undefined;
+    let medianValue: number | undefined = undefined;
+
+    if (typedIndicator) {
+      try {
+        const medianParams = createIndicatorMedianParams({
+          ...filter,
+          // For median calculation, remove the peer group constraint.
+          // This means that we will always have the median for all switzerland.
+          // This is a decision made by Elcom.
+          peerGroup: undefined,
+        });
+
+        if (medianParams) {
+          const medianRows = sortBy(
+            await context.sunshineDataService.getYearlyIndicatorMedians(
+              medianParams
+            ),
+            (x) => x.period
+          );
+          const medianResult = filter.period
+            ? medianRows.find((x) => `${x.period}` === filter.period!)
+            : last(medianRows);
+          medianValue =
+            getMedianValueFromResult(
+              medianResult,
+              typedIndicator,
+              filter.saidiSaifiType ?? undefined
+            ) ?? undefined;
+        }
+      } catch (_error) {
+        // Log error but don't fail the entire query
+        console.error(
+          `Failed to calculate median for indicator ${filter.indicator}: ${
+            _error instanceof Error ? _error.message : _error
+          }`
+        );
+      }
+    }
+
     return {
       data: sunshineData,
+      median: medianValue,
     };
   },
   sunshineMedianByIndicator: async (_parent, args, context) => {

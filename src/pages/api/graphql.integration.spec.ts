@@ -111,7 +111,6 @@ const formatForSnapshot = (data: SunshineDataByIndicatorQuery | undefined) => {
         ...data.sunshineDataByIndicator,
         data: data.sunshineDataByIndicator.data.slice(0, 3),
       },
-      sunshineMedianByIndicator: data.sunshineMedianByIndicator,
     },
   };
 };
@@ -161,8 +160,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 55635.128,
                 },
               ],
+              "median": 15650.214,
             },
-            "sunshineMedianByIndicator": 15650.214,
           },
         }
       `);
@@ -211,8 +210,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 55635.128,
                 },
               ],
+              "median": 15650.214,
             },
-            "sunshineMedianByIndicator": 15650.214,
           },
         }
       `);
@@ -261,8 +260,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 6.725,
                 },
               ],
+              "median": 8.935,
             },
-            "sunshineMedianByIndicator": 8.935,
           },
         }
       `);
@@ -311,8 +310,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 14736.286,
                 },
               ],
+              "median": 12556.643,
             },
-            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -361,8 +360,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 14736.286,
                 },
               ],
+              "median": 12556.643,
             },
-            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -410,8 +409,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 13815.621,
                 },
               ],
+              "median": 12556.643,
             },
-            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -459,8 +458,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 0,
                 },
               ],
+              "median": 11.26,
             },
-            "sunshineMedianByIndicator": 11.26,
           },
         }
       `);
@@ -508,8 +507,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10.455,
                 },
               ],
+              "median": 10.517,
             },
-            "sunshineMedianByIndicator": 10.517,
           },
         }
       `);
@@ -557,8 +556,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10.017,
                 },
               ],
+              "median": 9.767,
             },
-            "sunshineMedianByIndicator": 9.767,
           },
         }
       `);
@@ -606,8 +605,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 0,
                 },
               ],
+              "median": 6.175,
             },
-            "sunshineMedianByIndicator": 6.175,
           },
         }
       `);
@@ -655,8 +654,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 15.773,
                 },
               ],
+              "median": 13.96,
             },
-            "sunshineMedianByIndicator": 13.96,
           },
         }
       `);
@@ -704,8 +703,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 13815.621,
                 },
               ],
+              "median": 12556.643,
             },
-            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);
@@ -754,8 +753,8 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 9145.362,
                 },
               ],
+              "median": 12556.643,
             },
-            "sunshineMedianByIndicator": 12556.643,
           },
         }
       `);

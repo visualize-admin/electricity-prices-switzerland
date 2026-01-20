@@ -90,7 +90,7 @@ export const useEnrichedSunshineData = ({
     const rawObservations =
       sunshineDataQuery.data.sunshineDataByIndicator?.data || [];
     const median =
-      sunshineDataQuery.data.sunshineMedianByIndicator ?? undefined;
+      sunshineDataQuery.data.sunshineDataByIndicator?.median ?? undefined;
 
     // Create operator index from the observations data
     const uniqueOperators = Array.from(

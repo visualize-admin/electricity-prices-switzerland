@@ -1004,9 +1004,9 @@ export type SunshineDataByIndicatorQueryVariables = Exact<{
 
 export type SunshineDataByIndicatorQuery = {
   __typename: "Query";
-  sunshineMedianByIndicator?: number | null;
   sunshineDataByIndicator: {
     __typename: "SunshineDataByIndicatorResult";
+    median?: number | null;
     data: Array<{
       __typename: "SunshineDataIndicatorRow";
       operatorId?: number | null;
@@ -1801,8 +1801,8 @@ export const SunshineDataByIndicatorDocument = gql`
         period
         value
       }
+      median
     }
-    sunshineMedianByIndicator(filter: $filter)
   }
 `;
 
