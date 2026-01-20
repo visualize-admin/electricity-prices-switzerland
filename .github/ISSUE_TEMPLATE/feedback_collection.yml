@@ -1,0 +1,50 @@
+name: Feedback Collection
+description: A ticket to collect and prioritize multiple related feedback items
+title: 'New Feedback Collection'
+labels: ['feedback']
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is this feedback collection about?
+      placeholder: Collecting feedback related to ... that affects ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: Document each finding individually and order them by importance
+      value: |
+        - [ ] Issue description
+          <details>
+          <summary>Details</summary>
+
+          <!-- Add context, screenshots, or links here -->
+
+          </details>
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any relevant context, or additional information here
+      placeholder: Link to Figma, discussion in Notion, related issues, screenshots...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: test-environment
+    attributes:
+      label: Test Environment
+      description: Which environment was tested?
+      options:
+        - label: '[DEV](https://elcom-strompreis-dev.interactivethings.io/)'
+        - label: '[Ref](https://www.strompreis.ref.elcom.admin.ch/)'
+        - label: '[Abn](https://www.strompreis.abn.elcom.admin.ch/)'
+        - label: '[Prod](https://www.strompreis.elcom.admin.ch/)'
