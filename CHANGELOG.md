@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Bug
+  - Map not a function due to older browser not putting a map on iterators
 
 # 2.36.1 - 2026-01-19
 
