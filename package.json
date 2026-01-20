@@ -45,7 +45,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
-    "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed"
+    "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed",
+    "metrics:compare": "tsx scripts/compare-metrics.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
