@@ -142,6 +142,60 @@ export async function clearMetrics(): Promise<boolean> {
   }
 }
 
+/**
+ * Lists all unique deployment IDs that have metrics stored in Redis
+ */
+export async function listDeploymentIds(): Promise<string[]> {
+  const client = getRedisClient();
+  const pattern = "metrics:*:operations:*";
+
+  try {
+    const keys = await client.keys(pattern);
+    const deploymentIds = new Set<string>();
+
+    for (const key of keys) {
+      // Key format: metrics:{deploymentId}:operations:{operationName}
+      const parts = key.split(":");
+      if (parts.length >= 2) {
+        deploymentIds.add(parts[1]);
+      }
+    }
+
+    return Array.from(deploymentIds);
+  } catch (error) {
+    console.error("[Metrics] Failed to list deployment IDs:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetches all operation metrics for a specific deployment ID
+ */
+export async function getOperationMetricsByDeploymentId(
+  deploymentId: string
+): Promise<Record<string, OperationMetrics>> {
+  const client = getRedisClient();
+  const pattern = `metrics:${deploymentId}:operations:*`;
+
+  try {
+    const keys = await client.keys(pattern);
+    const result: Record<string, OperationMetrics> = {};
+
+    for (const key of keys) {
+      const data = await client.hgetall(key);
+      if (data && Object.keys(data).length > 0) {
+        const operationName = key.split(":").pop()!;
+        result[operationName] = data as unknown as OperationMetrics;
+      }
+    }
+
+    return result;
+  } catch (error) {
+    console.error(`[Metrics] Failed to fetch operation metrics for deployment ${deploymentId}:`, error);
+    return {};
+  }
+}
+
 // Helper functions
 
 function getOperationKey(operationName: string): string {
