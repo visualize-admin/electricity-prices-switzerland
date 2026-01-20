@@ -11,8 +11,14 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.36.3 - 2026-01-20
+
 - Bug
   - Map not a function due to older browser not putting a map on iterators
+- Build
+  - Detects and lower chances of inconsistencies in build id (#564)
 
 # 2.36.1 - 2026-01-19
 
