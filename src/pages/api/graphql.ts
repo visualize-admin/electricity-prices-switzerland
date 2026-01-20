@@ -16,7 +16,6 @@ import {
   GraphqlRequestContext,
 } from "src/graphql/server-context";
 import assert from "src/lib/assert";
-import { metricsPlugin } from "src/pages/api/metricsPlugin";
 import { createMetricsPlugin } from "src/apollo/plugins/metrics-plugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
 import { createLogMiddleware } from "src/pages/api/log-middleware";
@@ -29,13 +28,11 @@ const server = new ApolloServer({
   apollo: {},
   introspection: serverEnv.NODE_ENV === "development",
   plugins: [
-    metricsPlugin({
-      enabled:
-        serverEnv.NODE_ENV === "development" ||
-        serverEnv.METRICS_PLUGIN_ENABLED === "true",
-    }),
-    // Redis-backed metrics plugin for PR-level server metrics
-    createMetricsPlugin(),
+    // Unified metrics plugin with in-memory collection, periodic console logging, and Redis persistence
+    createMetricsPlugin(
+      serverEnv.NODE_ENV === "development" ||
+        serverEnv.METRICS_PLUGIN_ENABLED === "true"
+    ),
     serverEnv.NODE_ENV === "development"
       ? ApolloServerPluginLandingPageLocalDefault({ embed: false })
       : ApolloServerPluginLandingPageDisabled(),
