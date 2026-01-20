@@ -50,6 +50,19 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV I18N_DOMAINS='{"de":"www.strompreis.elcom.admin.ch","fr":"www.prix-electricite.elcom.admin.ch","it":"www.prezzi-elettricita.elcom.admin.ch"}'
 RUN yarn build
 
+# Verify BUILD_ID matches the static folder to catch build inconsistencies
+RUN BUILD_ID=$(cat .next/BUILD_ID) && \
+    echo "Verifying BUILD_ID: $BUILD_ID" && \
+    if [ ! -d ".next/static/$BUILD_ID" ]; then \
+        echo "ERROR: Build ID mismatch detected!" && \
+        echo "BUILD_ID file contains: $BUILD_ID" && \
+        echo "But folder .next/static/$BUILD_ID does not exist" && \
+        echo "Available folders in .next/static:" && \
+        ls -la .next/static && \
+        exit 1; \
+    fi && \
+    echo "Build ID verification passed: $BUILD_ID"
+
 # Runner image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
