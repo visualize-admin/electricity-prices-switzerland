@@ -191,10 +191,15 @@ query WikiContent($locale: String!, $slug: String!) {
   }
 }
 
-query OperatorMunicipalities($period: String!, $electricityCategory: String) {
+query OperatorMunicipalities(
+  $period: String!
+  $electricityCategory: String
+  $networkLevel: String
+) {
   operatorMunicipalities(
     period: $period
     electricityCategory: $electricityCategory
+    networkLevel: $networkLevel
   ) {
     municipality
     canton

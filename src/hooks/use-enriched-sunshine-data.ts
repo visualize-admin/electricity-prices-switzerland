@@ -70,6 +70,7 @@ export const useEnrichedSunshineData = ({
     variables: {
       period,
       electricityCategory,
+      networkLevel,
     },
     pause: !enabled,
   });

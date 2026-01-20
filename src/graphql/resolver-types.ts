@@ -416,6 +416,7 @@ export type QueryOperatorArgs = {
 
 export type QueryOperatorMunicipalitiesArgs = {
   electricityCategory?: InputMaybe<Scalars["String"]["input"]>;
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
   period: Scalars["String"]["input"];
 };
 
