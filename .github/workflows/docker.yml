@@ -79,6 +79,8 @@ jobs:
           tags: ${{ env.IMAGE_NAME_APP }}:test
           labels: ${{ steps.meta-app.outputs.labels }}
           cache-from: type=gha
+          build-args: |
+            GIT_COMMIT_SHA=${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -99,3 +101,5 @@ jobs:
           tags: ${{ steps.meta-app.outputs.tags }}
           labels: ${{ steps.meta-app.outputs.labels }}
           cache-to: type=gha,mode=max
+          build-args: |
+            GIT_COMMIT_SHA=${{ github.sha }}
