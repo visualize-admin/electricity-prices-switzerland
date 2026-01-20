@@ -152,14 +152,16 @@ const SunshineMap = ({
   const observationsByOperator = useMemo(() => {
     const aggregateFn = aggregateFnPerIndicator[indicator];
     const record: Record<string, SunshineDataIndicatorRow> = Object.fromEntries(
-      (enrichedData?.observationsByOperator.entries() ?? []).map((x) => [
-        x[0],
+      Array.from(enrichedData?.observationsByOperator.entries() ?? []).map(
+        (x) => [
+          x[0],
 
-        {
-          ...x[1][0],
-          value: aggregateFn(x[1].map((obs) => obs.value)),
-        },
-      ])
+          {
+            ...x[1][0],
+            value: aggregateFn(x[1].map((obs) => obs.value)),
+          },
+        ]
+      )
     );
     return record;
   }, [enrichedData?.observationsByOperator, indicator]);
