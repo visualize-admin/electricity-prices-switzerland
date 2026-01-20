@@ -46,6 +46,14 @@ export default defineConfig({
         },
       }),
     ],
+    [
+      "./tests/reporters/metrics-reporter.ts",
+      {
+        metricsApiToken: process.env.ADMIN_API_TOKEN,
+        githubToken: process.env.GITHUB_TOKEN,
+        deploymentUrl: process.env.VERCEL_URL || process.env.PLAYWRIGHT_BASE_URL,
+      },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
