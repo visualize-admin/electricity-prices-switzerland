@@ -67,6 +67,7 @@
     "@mui/material": "^5.16.6",
     "@mui/system": "^7.1.0",
     "@mui/utils": "5.16.6",
+    "@next/env": "^16.1.4",
     "@rdfjs/namespace": "^1.1.0",
     "@sentry/nextjs": "^9.22.0",
     "@storybook/nextjs": "^8.6.12",
