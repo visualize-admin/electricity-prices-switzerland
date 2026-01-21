@@ -84,8 +84,13 @@ export default function AdminSessionConfigPage({
             <Typography variant="h4" component="h1">
               Session Config Flags Management
             </Typography>
-            <Box component="form" action="/api/admin/logout" method="POST">
+            <Box
+              component="form"
+              action="/api/admin/session-config"
+              method="POST"
+            >
               <input type="hidden" name="csrfToken" value={csrfToken} />
+              <input type="hidden" name="logout" value="true" />
               <Button type="submit" variant="outlined" color="secondary">
                 Logout
               </Button>
