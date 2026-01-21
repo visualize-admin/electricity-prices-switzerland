@@ -1,8 +1,8 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { getDefaultedFlags } from "src/session-config/flags";
-import { SessionConfigFlags } from "src/session-config/flags";
+import { getDefaultedFlags } from "src/admin-auth/flags";
+import { SessionConfigFlags } from "src/admin-auth/flags";
 
 import { Dashboard, LoginForm, ErrorPage } from "./index";
 

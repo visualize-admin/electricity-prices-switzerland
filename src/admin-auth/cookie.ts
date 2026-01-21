@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 
-import { getSessionDuration } from "src/session-config/session";
+import { getSessionDuration } from "src/admin-auth/session";
 
 /**
  * Cookie configuration for secure session management.

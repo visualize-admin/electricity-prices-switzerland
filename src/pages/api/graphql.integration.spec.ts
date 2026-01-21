@@ -6,7 +6,7 @@ import {
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
-import { createCookieFromFlags } from "src/session-config";
+import { createCookieFromFlags } from "src/admin-auth";
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";

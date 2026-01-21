@@ -6,7 +6,7 @@ import { contextFromGetServerSidePropsContext } from "src/graphql/server-context
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
-import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 
 type Props = Record<string, $IntentionalAny>;
 

@@ -2,7 +2,7 @@ import { CssBaseline, Box, Paper, Alert, Link } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 
-import { SessionConfigFlags } from "src/session-config/flags";
+import { SessionConfigFlags } from "src/admin-auth/flags";
 import { theme } from "src/themes/elcom";
 
 import FlagsList from "./FlagsList";

@@ -52,7 +52,7 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
-import { getSessionConfigFlagsInfo } from "src/session-config/info";
+import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 import { useFlag } from "src/utils/flags";
 
 const MobileControls = dynamic(

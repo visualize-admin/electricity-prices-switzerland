@@ -4,17 +4,17 @@ import {
   renderDashboard,
   renderLoginForm,
   renderErrorPage,
-} from "src/session-config/components/render";
+} from "src/admin-auth/components/render";
 import {
   setSessionCookie,
   clearSessionCookie,
-} from "src/session-config/cookie";
-import { generateCSRFToken, validateCSRFToken } from "src/session-config/crsf";
+} from "src/admin-auth/cookie";
+import { generateCSRFToken, validateCSRFToken } from "src/admin-auth/crsf";
 import {
   SessionConfigFlags,
   defaultSessionConfigFlags,
-} from "src/session-config/flags";
-import { checkRateLimit, clearRateLimit } from "src/session-config/rate-limit";
+} from "src/admin-auth/flags";
+import { checkRateLimit, clearRateLimit } from "src/admin-auth/rate-limit";
 import {
   validatePassword,
   createSessionToken,
@@ -22,7 +22,7 @@ import {
   updateSessionFlags,
   SessionError,
   SessionPayload,
-} from "src/session-config/session";
+} from "src/admin-auth/session";
 
 interface LoginRequest {
   password: string;

@@ -3,8 +3,8 @@ import { NextRequest } from "next/server";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import server from "src/env/server";
-import { parseSessionFromRequest } from "src/session-config";
-import { SessionPayload } from "src/session-config/session";
+import { parseSessionFromRequest } from "src/admin-auth";
+import { SessionPayload } from "src/admin-auth/session";
 
 export const defaultSparqlEndpointUrl = server.SPARQL_ENDPOINT;
 

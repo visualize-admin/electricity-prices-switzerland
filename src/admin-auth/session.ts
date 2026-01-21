@@ -9,7 +9,7 @@ import serverEnv from "src/env/server";
 import {
   getCookieValue,
   getSessionTokenFromCookies,
-} from "src/session-config/cookie";
+} from "src/admin-auth/cookie";
 
 import {
   defaultSessionConfigFlags,

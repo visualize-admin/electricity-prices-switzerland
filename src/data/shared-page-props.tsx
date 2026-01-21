@@ -10,7 +10,7 @@ import {
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
-import { SessionConfigFlagInfo } from "src/session-config/info";
+import { SessionConfigFlagInfo } from "src/admin-auth/info";
 
 export type PageParams = {
   locale: string;

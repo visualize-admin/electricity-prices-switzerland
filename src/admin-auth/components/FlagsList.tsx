@@ -1,8 +1,8 @@
 import { Box, Typography, Button } from "@mui/material";
 import React from "react";
 
-import { getFlagInfo } from "src/session-config/flags";
-import { SessionConfigFlags } from "src/session-config/flags";
+import { getFlagInfo } from "src/admin-auth/flags";
+import { SessionConfigFlags } from "src/admin-auth/flags";
 
 import FlagInput from "./FlagInput";
 
