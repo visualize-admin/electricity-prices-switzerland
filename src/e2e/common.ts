@@ -17,6 +17,7 @@ import {
   LocatorFixtures as TestingLibraryFixtures,
 } from "@playwright-testing-library/test/fixture";
 
+import testEnv from "src/env/test";
 import { FlagName } from "src/flags/types";
 
 import slugify from "./slugify";
@@ -40,7 +41,25 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   currentView: () => Promise<Locator | Page>;
   withFlag: (route: string, flags: Record<string, boolean>) => string;
   setFlags: (page: Page, flags: FlagName[]) => Promise<void>;
+  adminPassword: string;
+  adminLogin: (page: Page) => Promise<void>;
 }>({
+  adminPassword: async ({}, use) => {
+    const password = testEnv.ADMIN_PASSWORD;
+    await use(password);
+  },
+  adminLogin: async ({ adminPassword }, use) => {
+    const login = async (page: Page) => {
+      await page.goto("/admin/login");
+      await page.getByRole("textbox", { name: "Password" }).click();
+      await page.getByRole("textbox", { name: "Password" }).fill(adminPassword);
+      await page.getByRole("button", { name: "Login" }).click();
+      await page
+        .getByRole("heading", { name: "Session Config Flags" })
+        .waitFor();
+    };
+    await use(login);
+  },
   setFlags: async ({}, use) => {
     const activate = async (page: Page, flags: FlagName[]) => {
       await page.addInitScript((flags) => {

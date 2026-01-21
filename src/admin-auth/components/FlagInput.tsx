@@ -40,7 +40,7 @@ const FlagInput: React.FC<FlagInputProps> = ({
                   defaultChecked={!!value}
                 />
               }
-              label="Enabled"
+              label={flagKey}
             />
             <input type="hidden" name={`flags.${flagKey}`} value="false" />
           </Box>
@@ -89,7 +89,12 @@ const FlagInput: React.FC<FlagInputProps> = ({
         borderColor: "grey.200",
       }}
     >
-      <Typography variant="h6" component="label" htmlFor={flagKey} gutterBottom>
+      <Typography
+        variant="h6"
+        component="label"
+        htmlFor={`flags.${flagKey}`}
+        gutterBottom
+      >
         {flagKey}
       </Typography>
       <Typography

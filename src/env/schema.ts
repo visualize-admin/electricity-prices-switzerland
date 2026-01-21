@@ -96,4 +96,8 @@ export const runtimeSchema = z.object({
     }),
 });
 
+export const testSchema = z.object({
+  ADMIN_PASSWORD: z.string(),
+});
+
 export type RuntimeEnv = z.infer<typeof runtimeSchema>;
