@@ -331,7 +331,7 @@ msgstr "Federal Electricity Commission ElCom"
 
 #: src/components/header.tsx
 msgid "header.short-title"
-msgstr "Electricity Prices Switzerland"
+msgstr "ElCom"
 
 #: src/components/sunshine-map.tsx
 msgid "help."
@@ -631,6 +631,7 @@ msgid "map.scrollzoom.hint"
 msgstr "Hold {key} and scroll to zoom"
 
 #: src/components/share-button.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Share"
 
@@ -638,7 +639,9 @@ msgstr "Share"
 msgid "map.tooltipnodata"
 msgstr "No data"
 
+#: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "Close"
 
@@ -1177,7 +1180,7 @@ msgstr "years"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
-msgstr "URL copied ✅"
+msgstr "URL copied"
 
 #: src/components/header.tsx
 #: src/components/header.tsx
@@ -1562,7 +1565,7 @@ msgstr "Power Outage (SAIDI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
-msgstr "Total Outage Duration"
+msgstr "Outage Duration"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
@@ -1603,7 +1606,7 @@ msgstr "Power Outage (SAIFI)"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
-msgstr "Total Outage Frequency"
+msgstr "Outage Frequency"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"

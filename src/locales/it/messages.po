@@ -633,6 +633,7 @@ msgid "map.scrollzoom.hint"
 msgstr "Tenere premuto {key} durante lo scorrimento per ingrandire la carta"
 
 #: src/components/share-button.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Condividi"
 
@@ -640,7 +641,9 @@ msgstr "Condividi"
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
 
+#: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "Chiudere"
 
@@ -1179,7 +1182,7 @@ msgstr "Anni tariffari"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
-msgstr "URL copiato ✅"
+msgstr "URL copiato"
 
 #: src/components/header.tsx
 #: src/components/header.tsx
@@ -1564,7 +1567,7 @@ msgstr "Durata delle interruzioni di corrente"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
-msgstr "Durata totale delle interruzioni"
+msgstr "Durata delle interruzioni"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
@@ -1605,7 +1608,7 @@ msgstr "Frequenza delle interruzioni di corrente"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
-msgstr "Frequenza totale delle interruzioni di corrente (SAIFI)"
+msgstr "Frequenza delle interruzioni"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"

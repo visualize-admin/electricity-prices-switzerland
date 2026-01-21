@@ -631,6 +631,7 @@ msgid "map.scrollzoom.hint"
 msgstr "Halten Sie die Taste {key} beim Scrollen gedrückt, um die Karte zu vergrössern"
 
 #: src/components/share-button.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "Teilen"
 
@@ -638,7 +639,9 @@ msgstr "Teilen"
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
 
+#: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "Schliessen"
 
@@ -964,7 +967,7 @@ msgstr "H1"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H1-long"
-msgstr "2-Zimmerwohnung (H1)"
+msgstr "H1 - 2-Zimmerwohnung"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2"
@@ -972,7 +975,7 @@ msgstr "H2"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H2-long"
-msgstr "4-Zimmerwohung (H2)"
+msgstr "H2 - 4-Zimmerwohung"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3"
@@ -980,7 +983,7 @@ msgstr "H3"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H3-long"
-msgstr "4-Zimmerwohnung mit Elektroboiler (H3)"
+msgstr "H3 - 4-Zimmerwohnung mit Elektroboiler"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4"
@@ -988,7 +991,7 @@ msgstr "H4"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H4-long"
-msgstr "5-Zimmerwohnung (H4)"
+msgstr "H4 - 5-Zimmerwohnung"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5"
@@ -996,7 +999,7 @@ msgstr "H5"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H5-long"
-msgstr "Einfamilienhaus (H5)"
+msgstr "H5 - Einfamilienhaus"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6"
@@ -1004,7 +1007,7 @@ msgstr "H6"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H6-long"
-msgstr "Einfamilienhaus mit elektrischer Widerstandsheizung (H6)"
+msgstr "H6 - Einfamilienhaus mit elektrischer Widerstandsheizung"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7"
@@ -1012,7 +1015,7 @@ msgstr "H7"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H7-long"
-msgstr "Einfamilienhaus mit Wärmepumpe (H7)"
+msgstr "H7 - Einfamilienhaus mit Wärmepumpe"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8"
@@ -1020,7 +1023,7 @@ msgstr "H8"
 
 #: src/domain/translation.tsx
 msgid "selector.category.H8-long"
-msgstr "Grosse, hoch elektrifizierte Eigentumswohnung (H8)"
+msgstr "H8 - Grosse, hoch elektrifizierte Eigentumswohnung"
 
 #: src/components/detail-page/selector-multi.tsx
 msgid "selector.comparecantons"
@@ -1177,7 +1180,7 @@ msgstr "Tarifjahre"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
-msgstr "URL kopiert ✅"
+msgstr "URL kopiert"
 
 #: src/components/header.tsx
 #: src/components/header.tsx
@@ -1562,7 +1565,7 @@ msgstr "Dauer von Stromunterbrechungen"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saidi.comparison-card-title"
-msgstr "Totale Unterbrechungsdauer"
+msgstr "Unterbrechungsdauer"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saidi.info-dialog-label"
@@ -1603,7 +1606,7 @@ msgstr "Häufigkeit von Stromunterbrechungen"
 
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.power-stability.saifi.comparison-card-title"
-msgstr "Total Häufigkeit von Stromunterbrechungen (SAIFI)"
+msgstr "Unterbrechungshäufigkeit"
 
 #: src/components/info-dialog-props.ts
 msgid "sunshine.power-stability.saifi.info-dialog-label"

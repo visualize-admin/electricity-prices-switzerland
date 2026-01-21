@@ -631,6 +631,7 @@ msgid "map.scrollzoom.hint"
 msgstr "map.scrollzoom.hint"
 
 #: src/components/share-button.tsx
+#: src/components/share-button.tsx
 msgid "map.share"
 msgstr "map.share"
 
@@ -638,7 +639,9 @@ msgstr "map.share"
 msgid "map.tooltipnodata"
 msgstr "map.tooltipnodata"
 
+#: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "mobile-drawer.close"
 
