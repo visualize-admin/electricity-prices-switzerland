@@ -257,7 +257,7 @@ const Page = ({
             ⚠️ Warning: Your session SPARQL endpoint differs from the default
             endpoint. This means you may see different data from users if the
             two endpoints data are not in sync. Go to{" "}
-            <Link href="/api/session-config">Session Config</Link> if you want
+            <Link href="/admin/session-config">Session Config</Link> if you want
             to change it.
           </Typography>
         ) : null}
