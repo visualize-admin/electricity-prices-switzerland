@@ -86,7 +86,7 @@ export default function AdminLoginPage({ csrfToken, returnTo }: Props) {
 
       // Redirect on success
       router.push(data.redirectTo || returnTo);
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.");
       setLoading(false);
     }

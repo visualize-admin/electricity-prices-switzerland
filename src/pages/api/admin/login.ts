@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { setSessionCookie } from "src/admin-auth/cookie";
-import { generateCSRFToken, validateCSRFToken } from "src/admin-auth/crsf";
+import { validateCSRFToken } from "src/admin-auth/crsf";
 import { defaultSessionConfigFlags } from "src/admin-auth/flags";
 import { checkRateLimit, clearRateLimit } from "src/admin-auth/rate-limit";
 import { validatePassword, createSessionToken } from "src/admin-auth/session";
@@ -27,7 +27,7 @@ export default async function handler(
   // Check rate limiting
   if (!checkRateLimit(req)) {
     return res.status(429).json({
-      error: "Too many login attempts. Please try again in 15 minutes."
+      error: "Too many login attempts. Please try again in 15 minutes.",
     });
   }
 
@@ -36,14 +36,14 @@ export default async function handler(
   // Validate CSRF token
   if (!csrfToken || !validateCSRFToken(csrfToken)) {
     return res.status(400).json({
-      error: "Invalid or expired form. Please try again."
+      error: "Invalid or expired form. Please try again.",
     });
   }
 
   // Validate password
   if (!password || !validatePassword(password)) {
     return res.status(401).json({
-      error: "Invalid password. Please try again."
+      error: "Invalid password. Please try again.",
     });
   }
 
@@ -62,6 +62,6 @@ export default async function handler(
 
   return res.status(200).json({
     success: true,
-    redirectTo: returnTo
+    redirectTo: returnTo,
   });
 }

@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 import {
   CombinedSelectors,
   ElectricityOrSunshineButtonGroup,
@@ -52,7 +53,6 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
-import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 import { useFlag } from "src/utils/flags";
 
 const MobileControls = dynamic(

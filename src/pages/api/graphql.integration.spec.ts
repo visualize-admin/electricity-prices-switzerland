@@ -1,12 +1,12 @@
 import { Client, fetchExchange } from "urql";
 import { beforeAll, describe, expect, it } from "vitest";
 
+import { createCookieFromFlags } from "src/admin-auth";
 import {
   SunshineDataByIndicatorDocument,
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
-import { createCookieFromFlags } from "src/admin-auth";
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";

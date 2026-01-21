@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
+import { SessionConfigFlagInfo } from "src/admin-auth/info";
 import { Entity } from "src/domain/data";
 import { defaultLocale } from "src/locales/config";
 import {
@@ -10,7 +11,6 @@ import {
   getOperator,
   getOperatorMunicipalities,
 } from "src/rdf/queries";
-import { SessionConfigFlagInfo } from "src/admin-auth/info";
 
 export type PageParams = {
   locale: string;
