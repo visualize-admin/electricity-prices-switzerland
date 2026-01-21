@@ -58,6 +58,7 @@ jobs:
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: yarn run test:playwright:app
 
       - uses: actions/upload-artifact@v4
