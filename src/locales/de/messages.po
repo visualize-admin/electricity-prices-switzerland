@@ -263,7 +263,7 @@ msgstr "Über uns"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "Die ElCom ist die unabhängige staatliche Regulierungsbehörde im Elektrizitätsbereich."
+msgstr "Die ElCom ist die unabhängige Regulierungsbehörde im Elektrizitätsbereich. Sie überwacht die Stromtarife, die Versorgungssicherheit und den internationalen Stromhandel."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"

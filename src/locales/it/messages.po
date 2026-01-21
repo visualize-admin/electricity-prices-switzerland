@@ -265,7 +265,7 @@ msgstr "Chi siamo"
 
 #: src/components/footer.tsx
 msgid "footer.about_us.text"
-msgstr "La ElCom, l'autorità indipendente di regolamentazione dell'energia elettrica in Svizzera."
+msgstr "L'ElCom è l'autorità di regolamentazione indipendente nel settore dell'energia elettrica. Essa vigila sulle tariffe elettriche, sulla sicurezza dell'approvvigionamento e sul commercio internazionale di energia elettrica."
 
 #: src/components/footer.tsx
 msgid "footer.additional-information"
