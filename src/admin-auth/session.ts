@@ -1,15 +1,15 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 
 import { SignJWT, jwtVerify } from "jose";
 import { GetServerSidePropsContext, NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
-import serverEnv from "src/env/server";
 import {
   getCookieValue,
   getSessionTokenFromCookies,
 } from "src/admin-auth/cookie";
+import serverEnv from "src/env/server";
 
 import {
   defaultSessionConfigFlags,
@@ -39,7 +39,7 @@ export type SessionPayload = z.infer<typeof sessionPayloadSchema>;
 /**
  * Session management errors
  */
-export class SessionError extends Error {
+class SessionError extends Error {
   constructor(message: string, public readonly code: string) {
     super(message);
     this.name = "SessionError";
@@ -50,24 +50,24 @@ export class SessionError extends Error {
  * Gets the JWT secret as a Uint8Array for signing operations.
  */
 function getJWTSecret(): Uint8Array {
-  return new TextEncoder().encode(serverEnv.SESSION_CONFIG_JWT_SECRET);
+  return new TextEncoder().encode(serverEnv.ADMIN_JWT_SECRET);
 }
 
 /**
  * Gets the session duration in seconds.
  */
 export function getSessionDuration(): number {
-  return serverEnv.SESSION_CONFIG_SESSION_DURATION;
+  return serverEnv.ADMIN_SESSION_DURATION;
 }
 
 /**
  * Validates the password.
  */
 export function validatePassword(password: string): boolean {
-  if (!serverEnv.SESSION_CONFIG_PASSWORD) {
+  if (!serverEnv.ADMIN_PASSWORD) {
     return false;
   }
-  return password === serverEnv.SESSION_CONFIG_PASSWORD;
+  return password === serverEnv.ADMIN_PASSWORD;
 }
 
 /**

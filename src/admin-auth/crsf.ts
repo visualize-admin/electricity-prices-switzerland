@@ -26,7 +26,7 @@ const MAX_CLOCK_SKEW_MS = 5000; // 5 seconds
 
 /**
  * Generates a cryptographically secure CSRF token.
- * The token is signed using HMAC-SHA256 with SESSION_CONFIG_JWT_SECRET.
+ * The token is signed using HMAC-SHA256 with ADMIN_JWT_SECRET.
  *
  * @param sessionId Optional session ID to bind the token to a specific session
  * @returns Base64url-encoded signed CSRF token
@@ -45,10 +45,10 @@ export function generateCSRFToken(sessionId?: string): string {
   const payloadString = JSON.stringify(payload);
   const payloadB64 = Buffer.from(payloadString).toString("base64url");
 
-  const secret = serverEnv.SESSION_CONFIG_JWT_SECRET;
+  const secret = serverEnv.ADMIN_JWT_SECRET;
   if (!secret) {
     throw new Error(
-      "SESSION_CONFIG_JWT_SECRET is not set, cannot produce login page"
+      "ADMIN_JWT_SECRET is not set, cannot produce login page"
     );
   }
 
@@ -84,7 +84,7 @@ export function validateCSRFToken(
 
     const [payloadB64, providedSignature] = parts;
 
-    const secret = serverEnv.SESSION_CONFIG_JWT_SECRET;
+    const secret = serverEnv.ADMIN_JWT_SECRET;
     if (!secret) {
       return false;
     }

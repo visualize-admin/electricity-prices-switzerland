@@ -32,7 +32,7 @@ The session config system provides:
 
 - **Session Duration**: Configurable via `SESSION_CONFIG_SESSION_DURATION` environment variable (default: 24 hours)
 - **Cookie Security**: HTTP-only, secure (in production), SameSite=Lax
-- **Token Validation**: JWT tokens signed with `SESSION_CONFIG_JWT_SECRET`
+- **Token Validation**: JWT tokens signed with `ADMIN_JWT_SECRET`
 - **Automatic Expiry**: Sessions expire after configured duration
 
 ## Session Config Flags Schema
@@ -68,7 +68,7 @@ export async function getServerSideProps(context) {
 
 ```bash
 SESSION_CONFIG_PASSWORD=<secure-password>        # SESSION_CONFIG authentication password (Required)
-SESSION_CONFIG_JWT_SECRET=<signing-secret>       # JWT token signing key (Required)
+ADMIN_JWT_SECRET=<signing-secret>       # JWT token signing key (Required)
 SESSION_CONFIG_SESSION_DURATION=86400           # Session duration in seconds (Required)
 ```
 
