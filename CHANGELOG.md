@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.36.4 - 2026-01-21
+
+- Update locales
+
 # 2.36.3 - 2026-01-20
 
 - Bug
