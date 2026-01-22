@@ -7,10 +7,10 @@ import { IoredisAdapter } from "./ioredis-adapter";
 import { RedisAdapter, NoopAdapter } from "./redis-adapter";
 import { UpstashAdapter } from "./upstash-adapter";
 
-type RedisClientOptions = 
-  | { type: 'noop' }
-  | { type: 'upstash'; url: string; token: string }
-  | { type: 'ioredis'; url: string };
+type RedisClientOptions =
+  | { type: "noop" }
+  | { type: "upstash"; url: string; token: string }
+  | { type: "ioredis"; url: string };
 
 export type { RedisClientOptions };
 
@@ -24,22 +24,22 @@ export type { RedisClientOptions };
  */
 export function parseRedisOptionsFromEnv(): RedisClientOptions {
   if (!serverEnv.METRICS_ENABLED) {
-    return { type: 'noop' };
+    return { type: "noop" };
   }
 
   if (serverEnv.UPSTASH_REDIS_REST_URL && serverEnv.UPSTASH_REDIS_REST_TOKEN) {
-    return { 
-      type: 'upstash', 
-      url: serverEnv.UPSTASH_REDIS_REST_URL, 
-      token: serverEnv.UPSTASH_REDIS_REST_TOKEN 
+    return {
+      type: "upstash",
+      url: serverEnv.UPSTASH_REDIS_REST_URL,
+      token: serverEnv.UPSTASH_REDIS_REST_TOKEN,
     };
   }
 
   if (serverEnv.REDIS_URL) {
-    return { type: 'ioredis', url: serverEnv.REDIS_URL };
+    return { type: "ioredis", url: serverEnv.REDIS_URL };
   }
 
-  return { type: 'noop' };
+  return { type: "noop" };
 }
 
 /**
@@ -47,11 +47,11 @@ export function parseRedisOptionsFromEnv(): RedisClientOptions {
  */
 function createRedisClient(options: RedisClientOptions): RedisAdapter {
   switch (options.type) {
-    case 'noop':
+    case "noop":
       console.info("[Metrics] Using no-op adapter - metrics disabled");
       return new NoopAdapter();
 
-    case 'upstash':
+    case "upstash":
       try {
         const upstashClient = new UpstashRedis({
           url: options.url,
@@ -65,13 +65,15 @@ function createRedisClient(options: RedisClientOptions): RedisAdapter {
         return new NoopAdapter();
       }
 
-    case 'ioredis':
+    case "ioredis":
       try {
         const ioredisClient = new IoRedis(options.url, {
           maxRetriesPerRequest: 3,
           retryStrategy(times) {
             if (times > 3) {
-              console.error("[Metrics] Redis connection failed after 3 retries");
+              console.error(
+                "[Metrics] Redis connection failed after 3 retries"
+              );
               return null;
             }
             return Math.min(times * 50, 2000);

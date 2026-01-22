@@ -140,6 +140,64 @@ function prepareComparisonData(
   return filtered;
 }
 
+const RedisConfigurationCard: React.FC<{
+  redisConfig: RedisClientOptions;
+}> = ({ redisConfig }) => (
+  <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
+    <Typography variant="h6" gutterBottom>
+      Redis Configuration
+    </Typography>
+    <Box sx={{ display: "flex", gap: 4, mb: 1 }}>
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Connection Type:
+        </Typography>
+        <Typography variant="body2" fontFamily="monospace">
+          {redisConfig.type}
+        </Typography>
+      </Box>
+      {redisConfig.type === "upstash" && (
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            Upstash URL:
+          </Typography>
+          <Typography
+            variant="body2"
+            fontFamily="monospace"
+            sx={{ wordBreak: "break-all" }}
+          >
+            {redisConfig.url}
+          </Typography>
+        </Box>
+      )}
+      {redisConfig.type === "ioredis" && (
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            Redis URL:
+          </Typography>
+          <Typography
+            variant="body2"
+            fontFamily="monospace"
+            sx={{ wordBreak: "break-all" }}
+          >
+            {redisConfig.url}
+          </Typography>
+        </Box>
+      )}
+      {redisConfig.type === "noop" && (
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            Status:
+          </Typography>
+          <Typography variant="body2" color="warning.main">
+            Metrics disabled or no Redis connection configured
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  </Paper>
+);
+
 export default function AdminMetricsPage({
   deployments,
   comparisonData,
@@ -340,6 +398,7 @@ export default function AdminMetricsPage({
           { label: "Metrics" },
         ]}
       >
+        <RedisConfigurationCard redisConfig={redisConfig} />
         <Typography color="text.secondary">
           No metrics found in Redis
         </Typography>
@@ -397,59 +456,7 @@ export default function AdminMetricsPage({
       </Paper>
 
       {/* Redis Configuration */}
-      <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
-        <Typography variant="h6" gutterBottom>
-          Redis Configuration
-        </Typography>
-        <Box sx={{ display: "flex", gap: 4, mb: 1 }}>
-          <Box>
-            <Typography variant="caption" color="text.secondary">
-              Connection Type:
-            </Typography>
-            <Typography variant="body2" fontFamily="monospace">
-              {redisConfig.type}
-            </Typography>
-          </Box>
-          {redisConfig.type === 'upstash' && (
-            <Box>
-              <Typography variant="caption" color="text.secondary">
-                Upstash URL:
-              </Typography>
-              <Typography
-                variant="body2"
-                fontFamily="monospace"
-                sx={{ wordBreak: "break-all" }}
-              >
-                {redisConfig.url}
-              </Typography>
-            </Box>
-          )}
-          {redisConfig.type === 'ioredis' && (
-            <Box>
-              <Typography variant="caption" color="text.secondary">
-                Redis URL:
-              </Typography>
-              <Typography
-                variant="body2"
-                fontFamily="monospace"
-                sx={{ wordBreak: "break-all" }}
-              >
-                {redisConfig.url}
-              </Typography>
-            </Box>
-          )}
-          {redisConfig.type === 'noop' && (
-            <Box>
-              <Typography variant="caption" color="text.secondary">
-                Status:
-              </Typography>
-              <Typography variant="body2" color="warning.main">
-                Metrics disabled or no Redis connection configured
-              </Typography>
-            </Box>
-          )}
-        </Box>
-      </Paper>
+      <RedisConfigurationCard redisConfig={redisConfig} />
 
       {/* Legend */}
       <Box sx={{ display: "flex", gap: 3, mb: 3, flexWrap: "wrap" }}>
