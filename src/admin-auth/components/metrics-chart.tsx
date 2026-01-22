@@ -1,5 +1,13 @@
 import { Box } from "@mui/material";
-import React, { useEffect } from "react";
+import { Axis } from "@visx/axis";
+import { localPoint } from "@visx/event";
+import { Group } from "@visx/group";
+import { ParentSize } from "@visx/responsive";
+import { scaleLinear, scaleBand, scaleOrdinal } from "@visx/scale";
+import { Bar } from "@visx/shape";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
+import * as d3 from "d3";
+import React from "react";
 
 import { ComparisonData, ReleaseMetrics } from "src/admin-auth/metrics-types";
 
@@ -8,193 +16,246 @@ export type ChartProps = {
   releases: ReleaseMetrics[];
 };
 
+type BarData = {
+  operation: string;
+  release: {
+    release: string;
+    cacheHit: number;
+    cacheMiss: number;
+    total: number;
+    hitRate: number;
+  };
+  depIndex: number;
+  yOffset: number;
+};
+
+type InnerChartProps = ChartProps & {
+  width: number;
+};
+
+const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
+  comparisonData,
+  releases,
+  width,
+}) => {
+  const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } =
+    useTooltip<BarData>();
+
+  if (comparisonData.length === 0 || releases.length === 0) {
+    return null;
+  }
+
+  // Chart configuration
+  const margin = { top: 20, right: 150, bottom: 20, left: 200 };
+  const chartWidth = width - margin.left - margin.right;
+  const numDeployments = releases.length;
+  const itemHeight = 60;
+  const chartHeight =
+    comparisonData.length * (itemHeight * numDeployments) -
+    margin.top -
+    margin.bottom;
+
+  // Scales
+  const maxTotal = Math.max(
+    ...comparisonData.flatMap((d) => d.releases.map((dep) => dep.total))
+  );
+
+  const xScale = scaleLinear({
+    domain: [0, maxTotal],
+    range: [0, chartWidth],
+  });
+
+  const yScale = scaleBand({
+    domain: comparisonData.map((d) => d.operation),
+    range: [0, chartHeight],
+    padding: 0.3,
+  });
+
+  const deploymentColor = scaleOrdinal({
+    domain: releases.map((d) => d.release),
+    range: [...d3.schemeCategory10],
+  });
+
+  const groupHeight = yScale.bandwidth();
+  const barHeight = groupHeight / (numDeployments + 0.5);
+
+  // Flatten data for rendering
+  const barData: BarData[] = comparisonData.flatMap((opData) =>
+    opData.releases.map((depData, depIndex) => ({
+      operation: opData.operation,
+      release: depData,
+      depIndex,
+      yOffset: (yScale(opData.operation) || 0) + depIndex * barHeight,
+    }))
+  );
+
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGRectElement>,
+    data: BarData
+  ) => {
+    const coords = localPoint(event) || { x: 0, y: 0 };
+    showTooltip({
+      tooltipData: data,
+      tooltipLeft: coords.x,
+      tooltipTop: coords.y,
+    });
+  };
+
+  return (
+    <div style={{ position: "relative" }}>
+      <svg width={width} height={chartHeight + margin.top + margin.bottom}>
+        <Group top={margin.top} left={margin.left}>
+          {/* Bars */}
+          {barData.map((bar, i) => (
+            <Group key={`bar-group-${i}`} top={bar.yOffset}>
+              {/* Cache hit bar (green) */}
+              <Bar
+                x={0}
+                y={0}
+                width={xScale(bar.release.cacheHit)}
+                height={barHeight - 2}
+                fill="#22c55e"
+                opacity={0.8}
+                onMouseMove={(e) => handleMouseOver(e, bar)}
+                onMouseLeave={hideTooltip}
+              />
+              {/* Cache miss bar (red) */}
+              <Bar
+                x={xScale(bar.release.cacheHit)}
+                y={0}
+                width={xScale(bar.release.cacheMiss)}
+                height={barHeight - 2}
+                fill="#ef4444"
+                opacity={0.8}
+                onMouseMove={(e) => handleMouseOver(e, bar)}
+                onMouseLeave={hideTooltip}
+              />
+              {/* Deployment label */}
+              <text
+                x={chartWidth + 10}
+                y={barHeight / 2}
+                dy="0.35em"
+                fontSize="10px"
+                fill={deploymentColor(bar.release.release) as string}
+              >
+                {bar.release.release}
+              </text>
+            </Group>
+          ))}
+
+          {/* X-axis */}
+          <Axis
+            orientation="bottom"
+            scale={xScale}
+            top={chartHeight}
+            numTicks={10}
+            stroke="gray"
+            tickStroke="gray"
+            tickFormat={(value) => `${value}`}
+            label="Number of Requests"
+            labelProps={{
+              fontSize: 12,
+              fill: "#333",
+              textAnchor: "middle",
+              dy: 30,
+            }}
+          />
+
+          {/* Y-axis */}
+          <Axis
+            orientation="left"
+            scale={yScale}
+            stroke="gray"
+            tickStroke="gray"
+            tickLabelProps={() => ({
+              fontSize: 10,
+              textAnchor: "end",
+              dy: "0.33em",
+            })}
+          />
+        </Group>
+      </svg>
+
+      {/* Tooltip */}
+      {tooltipData && (
+        // @ts-expect-error - visx tooltip type compatibility
+        <TooltipWithBounds
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={{
+            ...defaultStyles,
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            color: "white",
+            borderRadius: "4px",
+            padding: "12px",
+          }}
+        >
+          <div style={{ marginBottom: "4px", fontWeight: "bold" }}>
+            {tooltipData.release.release}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Operation:</span>
+            <strong>{tooltipData.operation}</strong>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Cache Hit:</span>
+            <strong>{tooltipData.release.cacheHit}</strong>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Cache Miss:</span>
+            <strong>{tooltipData.release.cacheMiss}</strong>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Hit Rate:</span>
+            <strong>{(tooltipData.release.hitRate * 100).toFixed(1)}%</strong>
+          </div>
+        </TooltipWithBounds>
+      )}
+    </div>
+  );
+};
+
 const GraphQLMetricsChart: React.FC<ChartProps> = ({
   comparisonData,
   releases,
 }) => {
-  useEffect(() => {
-    // Only load D3 on client side
-    if (typeof window === "undefined") return;
-
-    // Dynamically import D3
-    import("d3").then((d3) => {
-      // Clear any existing chart
-      d3.select("#chart").selectAll("*").remove();
-
-      if (comparisonData.length === 0 || releases.length === 0) {
-        return;
-      }
-
-      // Chart configuration
-      const margin = { top: 20, right: 150, bottom: 60, left: 200 };
-      const width = 1000 - margin.left - margin.right;
-      const numReleases = releases.length;
-      const itemHeight = 16;
-      const height =
-        Math.max(600, comparisonData.length * (itemHeight * numReleases)) -
-        margin.top -
-        margin.bottom;
-
-      const svg = d3
-        .select("#chart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      // Scales
-      const maxTotal =
-        d3.max(comparisonData, (d) => d3.max(d.releases, (dep) => dep.total)) ||
-        0;
-
-      const x = d3.scaleLinear().domain([0, maxTotal]).range([0, width]);
-
-      const y = d3
-        .scaleBand()
-        .domain(comparisonData.map((d) => d.operation))
-        .range([0, height])
-        .padding(0.3);
-
-      // Color scale for deployments
-      const deploymentColor = d3
-        .scaleOrdinal()
-        .domain(releases.map((d) => d.release))
-        .range(d3.schemeCategory10);
-
-      const groupHeight = y.bandwidth();
-      const barHeight = groupHeight / (numReleases + 0.5);
-      // Tooltip
-      const tooltip = d3.select("#tooltip");
-
-      // Draw bars
-      const groups = svg
-        .selectAll(".operation-group")
-        .data(comparisonData)
-        .enter()
-        .append("g")
-        .attr("class", "operation-group")
-        .attr("transform", (d) => `translate(0,${y(d.operation)})`);
-
-      // For each operation, draw bars for each deployment
-      comparisonData.forEach((opData, opIndex) => {
-        const group = d3.select(groups.nodes()[opIndex]);
-
-        opData.releases.forEach((depData, depIndex) => {
-          const yOffset = depIndex * barHeight;
-          const depGroup = group
-            .append("g")
-            .attr("transform", `translate(0, ${yOffset})`);
-
-          // Cache hit (green)
-          depGroup
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", x(depData.cacheHit))
-            .attr("height", barHeight - 2)
-            .attr("fill", "#22c55e")
-            .attr("opacity", 0.8)
-            .on("mouseover", function (event) {
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `
-                  <div class="tooltip-title">${depData.release}</div>
-                  <div class="tooltip-row">
-                    <span>Operation:</span>
-                    <strong>${opData.operation}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Hit:</span>
-                    <strong>${depData.cacheHit}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Miss:</span>
-                    <strong>${depData.cacheMiss}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Hit Rate:</span>
-                    <strong>${(depData.hitRate * 100).toFixed(1)}%</strong>
-                  </div>
-                `
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 10 + "px");
-            })
-            .on("mouseout", () => tooltip.style("opacity", 0));
-
-          // Cache miss (red)
-          depGroup
-            .append("rect")
-            .attr("x", x(depData.cacheHit))
-            .attr("y", 0)
-            .attr("width", x(depData.cacheMiss))
-            .attr("height", barHeight - 2)
-            .attr("fill", "#ef4444")
-            .attr("opacity", 0.8)
-            .on("mouseover", function (event) {
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `
-                  <div class="tooltip-title">${depData.release}</div>
-                  <div class="tooltip-row">
-                    <span>Operation:</span>
-                    <strong>${opData.operation}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Hit:</span>
-                    <strong>${depData.cacheHit}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Miss:</span>
-                    <strong>${depData.cacheMiss}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Hit Rate:</span>
-                    <strong>${(depData.hitRate * 100).toFixed(1)}%</strong>
-                  </div>
-                `
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 10 + "px");
-            })
-            .on("mouseout", () => tooltip.style("opacity", 0));
-
-          // Deployment label on the right
-          depGroup
-            .append("text")
-            .attr("x", width + 10)
-            .attr("y", barHeight / 2)
-            .attr("dy", "0.35em")
-            .attr("font-size", "10px")
-            .attr("fill", deploymentColor(depData.release) as string)
-            .text(depData.release);
-        });
-      });
-
-      // Axes
-      const xAxis = d3.axisBottom(x).ticks(10).tickFormat(d3.format("d"));
-      const yAxis = d3.axisLeft(y);
-
-      svg
-        .append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis)
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", 40)
-        .attr("fill", "#333")
-        .attr("font-size", "12px")
-        .attr("text-anchor", "middle")
-        .text("Number of Requests");
-
-      svg.append("g").call(yAxis);
-    });
-  }, [comparisonData, releases]);
-
-  return <Box id="chart" sx={{ my: 3, overflowX: "auto" }} />;
+  return (
+    <Box sx={{ my: 3, overflowX: "auto" }}>
+      <ParentSize>
+        {({ width }) => (
+          <GraphQLMetricsChartInner
+            comparisonData={comparisonData}
+            releases={releases}
+            width={width}
+          />
+        )}
+      </ParentSize>
+    </Box>
+  );
 };
 
 export default GraphQLMetricsChart;

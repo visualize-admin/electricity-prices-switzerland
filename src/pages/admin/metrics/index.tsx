@@ -244,7 +244,7 @@ export default function AdminMetricsPage({
         ))}
       </Box>
 
-      {/* D3 Chart */}
+      {/* GraphQL Metrics Chart */}
       <GraphQLMetricsChart
         comparisonData={comparisonData}
         releases={releases}
@@ -329,34 +329,6 @@ export default function AdminMetricsPage({
           </TableBody>
         </Table>
       </TableContainer>
-
-      {/* Tooltip for D3 chart */}
-      <Box
-        id="tooltip"
-        sx={{
-          position: "absolute",
-          p: 1.5,
-          bgcolor: "rgba(0, 0, 0, 0.9)",
-          color: "white",
-          borderRadius: 1,
-          fontSize: "0.85rem",
-          pointerEvents: "none",
-          opacity: 0,
-          transition: "opacity 0.2s",
-          zIndex: 1000,
-          maxWidth: 300,
-          "& .tooltip-title": {
-            fontWeight: 600,
-            mb: 1,
-          },
-          "& .tooltip-row": {
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 2,
-            mb: 0.5,
-          },
-        }}
-      />
     </AdminLayout>
   );
 }
