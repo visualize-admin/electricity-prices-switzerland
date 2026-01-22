@@ -24,12 +24,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   // Check if user is already authenticated
   const session = await parseSessionFromRequest(context.req);
+  const returnTo =
+    (Array.isArray(context.query.return_to)
+      ? context.query.return_to[0]
+      : context.query.return_to) || "/admin/session-config";
+
   if (session) {
     // User already logged in, redirect to session config or return_to URL
-    const returnTo =
-      (Array.isArray(context.query.return_to)
-        ? context.query.return_to[0]
-        : context.query.return_to) || "/admin/session-config";
     return {
       redirect: {
         destination: returnTo,
@@ -40,10 +41,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   // Generate CSRF token
   const csrfToken = generateCSRFToken();
-  const returnTo =
-    (Array.isArray(context.query.return_to)
-      ? context.query.return_to[0]
-      : context.query.return_to) || "/admin/session-config";
 
   return {
     props: {
