@@ -23,6 +23,10 @@ import {
   getOperationMetricsByDeploymentId,
   OperationMetrics,
 } from "src/lib/metrics/metrics-store";
+import {
+  parseRedisOptionsFromEnv,
+  RedisClientOptions,
+} from "src/lib/metrics/redis-client";
 
 interface AggregatedOperationMetrics {
   requestCount: number;
@@ -55,6 +59,7 @@ interface MetricsPageProps {
   deployments: DeploymentMetrics[];
   comparisonData: ComparisonData[];
   csrfToken: string;
+  redisConfig: RedisClientOptions;
 }
 
 function aggregateMetrics(
@@ -139,6 +144,7 @@ export default function AdminMetricsPage({
   deployments,
   comparisonData,
   csrfToken,
+  redisConfig,
 }: MetricsPageProps) {
   useEffect(() => {
     // Only load D3 on client side
@@ -390,6 +396,61 @@ export default function AdminMetricsPage({
         ))}
       </Paper>
 
+      {/* Redis Configuration */}
+      <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
+        <Typography variant="h6" gutterBottom>
+          Redis Configuration
+        </Typography>
+        <Box sx={{ display: "flex", gap: 4, mb: 1 }}>
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              Connection Type:
+            </Typography>
+            <Typography variant="body2" fontFamily="monospace">
+              {redisConfig.type}
+            </Typography>
+          </Box>
+          {redisConfig.type === 'upstash' && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                Upstash URL:
+              </Typography>
+              <Typography
+                variant="body2"
+                fontFamily="monospace"
+                sx={{ wordBreak: "break-all" }}
+              >
+                {redisConfig.url}
+              </Typography>
+            </Box>
+          )}
+          {redisConfig.type === 'ioredis' && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                Redis URL:
+              </Typography>
+              <Typography
+                variant="body2"
+                fontFamily="monospace"
+                sx={{ wordBreak: "break-all" }}
+              >
+                {redisConfig.url}
+              </Typography>
+            </Box>
+          )}
+          {redisConfig.type === 'noop' && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                Status:
+              </Typography>
+              <Typography variant="body2" color="warning.main">
+                Metrics disabled or no Redis connection configured
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Paper>
+
       {/* Legend */}
       <Box sx={{ display: "flex", gap: 3, mb: 3, flexWrap: "wrap" }}>
         <Chip label="Cache Hit" sx={{ bgcolor: "#22c55e", color: "white" }} />
@@ -533,6 +594,9 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const session = await parseSessionFromRequest(context.req);
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
+  // Get Redis configuration
+  const redisConfig = parseRedisOptionsFromEnv();
+
   try {
     // Fetch all deployment IDs
     const deploymentIds = await listDeploymentIds();
@@ -561,6 +625,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
         deployments,
         comparisonData,
         csrfToken,
+        redisConfig,
       },
     };
   } catch (error) {
@@ -570,6 +635,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
         deployments: [],
         comparisonData: [],
         csrfToken,
+        redisConfig,
       },
     };
   }

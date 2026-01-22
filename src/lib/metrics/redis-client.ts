@@ -12,6 +12,8 @@ type RedisClientOptions =
   | { type: 'upstash'; url: string; token: string }
   | { type: 'ioredis'; url: string };
 
+export type { RedisClientOptions };
+
 /**
  * Parses Redis configuration options from environment variables.
  *
@@ -20,7 +22,7 @@ type RedisClientOptions =
  * 2. Local Redis (if REDIS_URL is provided)
  * 3. No-op adapter (if metrics disabled or no connection info)
  */
-function parseRedisOptionsFromEnv(): RedisClientOptions {
+export function parseRedisOptionsFromEnv(): RedisClientOptions {
   if (!serverEnv.METRICS_ENABLED) {
     return { type: 'noop' };
   }
