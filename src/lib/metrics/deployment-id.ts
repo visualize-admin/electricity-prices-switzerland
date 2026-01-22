@@ -1,10 +1,12 @@
 import { execSync } from "child_process";
 import os from "os";
 
+import serverEnv from "src/env/server";
+
 /**
  * Resolves the deployment ID for metrics isolation.
  *
- * - In Vercel: uses VERCEL_DEPLOYMENT_ID
+ * - In Vercel: uses VERCEL_GIT_COMMIT_REF to get the name of the branch
  * - Locally: uses format `local-{hostname}-{git-branch}`
  *
  * This keeps metrics isolated per branch during local development
@@ -13,8 +15,8 @@ import os from "os";
  */
 export function getDeploymentId(): string {
   // Use Vercel deployment ID if available
-  if (process.env.VERCEL_DEPLOYMENT_ID) {
-    return process.env.VERCEL_DEPLOYMENT_ID;
+  if (serverEnv.VERCEL_GIT_COMMIT_REF) {
+    return `vercel-${serverEnv.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
   }
 
   // Generate local deployment ID

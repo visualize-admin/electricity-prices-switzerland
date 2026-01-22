@@ -83,6 +83,9 @@ export const serverSchema = z.object({
     .default("86400")
     .transform((value) => parseInt(value, 10)),
   ADMIN_API_TOKEN: z.string().optional(), // For programmatic access to admin APIs
+
+  VERCEL_DEPLOYMENT_ID: z.string().optional(),
+  VERCEL_GIT_COMMIT_REF: z.string().optional(),
 });
 
 const FlagSchema = z.array(z.string());
