@@ -77,6 +77,8 @@ test.describe("Admin Interface", () => {
     // Login first
     await adminLogin(page);
     await page.goto("/admin/metrics");
-    await page.getByRole("heading", { name: "Admin Metrics" }).click();
+    await page
+      .getByRole("heading", { name: "GraphQL Metrics Dashboard" })
+      .click();
   });
 });
