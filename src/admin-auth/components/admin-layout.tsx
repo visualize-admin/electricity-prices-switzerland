@@ -37,10 +37,8 @@ export default function AdminLayout({
       </Head>
       <Box minHeight="100vh" bgcolor="background.default" padding={2}>
         <Paper
-          elevation={3}
+          elevation={0}
           sx={{
-            maxWidth: 800,
-            margin: "20px auto",
             padding: 5,
           }}
         >
