@@ -173,10 +173,7 @@ export default function AdminMetricsPage({
       <AdminLayout
         title="GraphQL Metrics Dashboard"
         csrfToken={csrfToken}
-        breadcrumbs={[
-          { label: "Admin", href: "/admin/session-config" },
-          { label: "Metrics" },
-        ]}
+        breadcrumbs={[{ label: "Admin" }, { label: "Metrics" }]}
       >
         <SentryConfigurationCard sentryConfig={sentryConfig} />
         <Typography color="text.secondary">No metrics found.</Typography>
