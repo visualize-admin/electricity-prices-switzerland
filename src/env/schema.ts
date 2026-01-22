@@ -74,7 +74,7 @@ export const serverSchema = z.object({
     .optional()
     .default("86400")
     .transform((value) => parseInt(value, 10)),
-  ADMIN_API_TOKEN: z.string().optional(), // For programmatic access (replaces METRICS_API_TOKEN)
+  ADMIN_API_TOKEN: z.string().optional(), // For programmatic access to admin APIs
 });
 
 const FlagSchema = z.array(z.string());
