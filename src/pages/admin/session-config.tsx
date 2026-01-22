@@ -3,8 +3,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 
-import AdminLayout from "src/admin-auth/components/AdminLayout";
-import FlagInput from "src/admin-auth/components/FlagInput";
+import AdminLayout from "src/admin-auth/components/admin-layout";
+import FlagInput from "src/admin-auth/components/flag-input";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import {
   getDefaultedFlags,

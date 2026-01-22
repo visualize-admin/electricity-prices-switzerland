@@ -13,7 +13,7 @@ const GRAPHQL_BASE_URL =
 
 const makeHeaders = async () => ({
   cookie: await createCookieFromFlags({
-    sparqlEndpoint: "https://int.lindas.admin.ch/query",
+    sparqlEndpoint: "https://lindas.int.cz-aws.net/query",
   }),
 
   ...(process.env.BASIC_AUTH_CREDENTIALS
