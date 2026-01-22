@@ -5,7 +5,7 @@ import { makeClientVerbose } from "src/rdf/client-helpers";
 import { createSunshineDataService } from "src/rdf/sunshine";
 
 const client = new ParsingClient({
-  endpointUrl: "https://int.lindas.admin.ch/query",
+  endpointUrl: "https://lindas-cached.cluster.ldbar.ch/query",
 });
 
 // Switch to true to see verbose SPARQL client logs

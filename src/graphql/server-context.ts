@@ -10,7 +10,7 @@ import {
   getDefaultedFlags,
   getSessionConfigFlagsFromCookies,
   SessionConfigFlags,
-} from "src/session-config";
+} from "src/admin-auth";
 import { createSunshineDataService } from "src/rdf/sunshine";
 
 export type GraphqlRequestContext = {

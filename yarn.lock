@@ -3260,6 +3260,11 @@
   resolved "https://registry.yarnpkg.com/@next/env/-/env-15.5.9.tgz#53c2c34dc17cd87b61f70c6cc211e303123b2ab8"
   integrity sha512-4GlTZ+EJM7WaW2HEZcyU317tIQDjkQIyENDLxYJfSWlfqguN+dHkZgyQTV/7ykvobU7yEH5gKvreNrH4B6QgIg==
 
+"@next/env@^16.1.4":
+  version "16.1.4"
+  resolved "https://registry.yarnpkg.com/@next/env/-/env-16.1.4.tgz#1f5155b16bad9825432b5e398b83df687b7b86f9"
+  integrity sha512-gkrXnZyxPUy0Gg6SrPQPccbNVLSP3vmW8LU5dwEttEEC1RwDivk8w4O+sZIjFvPrSICXyhQDCG+y3VmjlJf+9A==
+
 "@next/eslint-plugin-next@15.0.4":
   version "15.0.4"
   resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-15.0.4.tgz#8bca5d39e39d172d64d9c36af55c1b49ef60b684"
@@ -14798,11 +14803,6 @@ next@15:
     "@next/swc-win32-arm64-msvc" "15.5.7"
     "@next/swc-win32-x64-msvc" "15.5.7"
     sharp "^0.34.3"
-
-nextjs-basic-auth-middleware@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/nextjs-basic-auth-middleware/-/nextjs-basic-auth-middleware-3.1.0.tgz#934f1e3c00a1eb8901db430a21024aeacf9c2fb8"
-  integrity sha512-k1GSYiLMYj4tK6swAmArTUBheSkv7roUUF2KI8Cv8HYHmSYep5Y0AP0RB/1sez7xTRi2Fw2SxYbQA/jAmBJCug==
 
 nextkit@^3.4.3:
   version "3.4.3"

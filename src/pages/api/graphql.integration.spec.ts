@@ -1,19 +1,19 @@
 import { Client, fetchExchange } from "urql";
 import { beforeAll, describe, expect, it } from "vitest";
 
+import { createCookieFromFlags } from "src/admin-auth";
 import {
   SunshineDataByIndicatorDocument,
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
-import { createCookieFromFlags } from "src/session-config";
 
 const GRAPHQL_BASE_URL =
   process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
 
 const makeHeaders = async () => ({
   cookie: await createCookieFromFlags({
-    sparqlEndpoint: "https://int.lindas.admin.ch/query",
+    sparqlEndpoint: "https://lindas.int.cz-aws.net/query",
   }),
 
   ...(process.env.BASIC_AUTH_CREDENTIALS
@@ -36,10 +36,10 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
     },
     body: JSON.stringify({ query: "{ __typename }" }),
   })
-    .then((response) => {
+    .then(async (response) => {
       if (!response.ok) {
         throw new Error(
-          `GraphQL API is not reachable at ${graphqlEndpoint}: ${response.statusText}`
+          `GraphQL API is not reachable at ${graphqlEndpoint}: ${await response.text()}`
         );
       }
       return response.json();

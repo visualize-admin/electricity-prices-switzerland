@@ -36,10 +36,10 @@ export const SessionConfigDebug: React.FC<SessionConfigDebugProps> = ({
           {flagInfo.label}: {flagInfo.value}
         </Typography>
       ))}
-      {/* Link to /api/session-config */}
+      {/* Link to /admin/session-config */}
       <Typography variant="caption" component="div">
         <a
-          href="/api/session-config"
+          href="/admin/session-config"
           style={{ color: "white", textDecoration: "underline" }}
         >
           Configure

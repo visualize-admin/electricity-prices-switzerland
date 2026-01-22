@@ -1,5 +1,8 @@
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
+
+loadEnvConfig(process.cwd(), true);
 
 const getHttpCredentialsFromEnv = () => {
   const usernamePassword = process.env.BASIC_AUTH_CREDENTIALS;

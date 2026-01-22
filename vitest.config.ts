@@ -1,7 +1,7 @@
 import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
-const env = loadEnv("development", process.cwd(), ["SESSION_CONFIG_"]);
+const env = loadEnv("development", process.cwd(), ["ADMIN_"]);
 
 export default defineConfig({
   test: {
@@ -9,8 +9,8 @@ export default defineConfig({
       ...env,
       ...Object.fromEntries(
         Object.entries({
-          SESSION_CONFIG_PASSWORD: process.env.SESSION_CONFIG_PASSWORD,
-          SESSION_CONFIG_JWT_SECRET: process.env.SESSION_CONFIG_JWT_SECRET,
+          ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+          ADMIN_JWT_SECRET: process.env.ADMIN_JWT_SECRET,
         }).filter(([_key, value]) => value !== undefined)
       ),
     },

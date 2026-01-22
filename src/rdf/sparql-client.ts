@@ -2,9 +2,9 @@ import { GetServerSidePropsContext, NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
+import { parseSessionFromRequest } from "src/admin-auth";
+import { SessionPayload } from "src/admin-auth/session";
 import server from "src/env/server";
-import { parseSessionFromRequest } from "src/session-config";
-import { SessionPayload } from "src/session-config/session";
 
 export const defaultSparqlEndpointUrl = server.SPARQL_ENDPOINT;
 

@@ -2,11 +2,11 @@ import { GetServerSideProps } from "next";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { Client } from "urql";
 
+import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
 import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
 import { makeExchanges } from "src/graphql/urql-exchanges.server";
 import { SunshineDataService } from "src/lib/sunshine-data-service";
 import { defaultLocale } from "src/locales/config";
-import { getSessionConfigFlagsInfo } from "src/session-config/info";
 
 type Props = Record<string, $IntentionalAny>;
 

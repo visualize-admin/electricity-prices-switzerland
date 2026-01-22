@@ -66,14 +66,15 @@ export const serverSchema = z.object({
   SPARQL_EDITOR: z.string().optional(),
   SPARQL_ENDPOINT: z.string().default("https://test.lindas.admin.ch/query"),
 
-  // Admin session management
-  SESSION_CONFIG_PASSWORD: z.string().optional(),
-  SESSION_CONFIG_JWT_SECRET: z.string().optional(),
-  SESSION_CONFIG_SESSION_DURATION: z
+  // Admin authentication
+  ADMIN_PASSWORD: z.string().optional(),
+  ADMIN_JWT_SECRET: z.string().optional(),
+  ADMIN_SESSION_DURATION: z
     .string()
     .optional()
     .default("86400")
     .transform((value) => parseInt(value, 10)),
+  ADMIN_API_TOKEN: z.string().optional(), // For programmatic access to admin APIs
 });
 
 const FlagSchema = z.array(z.string());
@@ -93,6 +94,10 @@ export const runtimeSchema = z.object({
         return [];
       }
     }),
+});
+
+export const testSchema = z.object({
+  ADMIN_PASSWORD: z.string(),
 });
 
 export type RuntimeEnv = z.infer<typeof runtimeSchema>;
