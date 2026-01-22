@@ -1,9 +1,9 @@
-import { Box, Paper, Alert, Link, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { GetServerSideProps } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
+import AdminLayout from "src/admin-auth/components/AdminLayout";
 import FlagInput from "src/admin-auth/components/FlagInput";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import {
@@ -58,114 +58,59 @@ export default function AdminSessionConfigPage({
   const router = useRouter();
 
   return (
-    <>
-      <Head>
-        <title>Session Config - Flags</title>
-      </Head>
-      <Box minHeight="100vh" bgcolor="background.default" padding={2}>
-        <Paper
-          elevation={3}
-          sx={{
-            maxWidth: 800,
-            margin: "20px auto",
-            padding: 5,
-          }}
-        >
-          {/* Header */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={4}
-            pb={3}
-            borderBottom={2}
-            borderColor="divider"
+    <AdminLayout
+      title="Session Config - Flags"
+      csrfToken={csrfToken}
+      breadcrumbs={[{ label: "Admin" }, { label: "Session Config" }]}
+      header={
+        <Typography variant="h4" component="h1">
+          Session Config Flags Management
+        </Typography>
+      }
+      message={message}
+      error={error}
+    >
+      <Box component="form" action="/api/admin/session-config" method="POST">
+        <input type="hidden" name="csrfToken" value={csrfToken} />
+        <Box mb={4}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Configuration Flags
+          </Typography>
+          <Typography variant="body1" color="text.secondary" mb={3}>
+            Modify the session config flags below to change application behavior
+            (only for you). Changes take effect immediately.
+          </Typography>
+
+          {Object.entries(flags).map(([key, value]) => {
+            const { description, type } = getFlagInfo(
+              key as keyof typeof flags
+            );
+            return (
+              <FlagInput
+                key={key}
+                flagKey={key}
+                value={value}
+                type={type}
+                description={description}
+              />
+            );
+          })}
+        </Box>
+
+        <Box display="flex" gap={2} pt={3} borderTop={1} borderColor="divider">
+          <Button type="submit" variant="contained" color="primary">
+            Update Flags
+          </Button>
+          <Button
+            type="button"
+            variant="outlined"
+            color="secondary"
+            onClick={() => router.reload()}
           >
-            <Typography variant="h4" component="h1">
-              Session Config Flags Management
-            </Typography>
-            <Box
-              component="form"
-              action="/api/admin/session-config"
-              method="POST"
-            >
-              <input type="hidden" name="csrfToken" value={csrfToken} />
-              <input type="hidden" name="logout" value="true" />
-              <Button type="submit" variant="outlined" color="secondary">
-                Logout
-              </Button>
-            </Box>
-          </Box>
-
-          {/* Messages */}
-          {message && (
-            <Alert sx={{ mb: 2 }} severity="success">
-              {message}
-              <Link href="/" sx={{ ml: 1 }}>
-                Go to home page
-              </Link>
-            </Alert>
-          )}
-          {error && (
-            <Alert sx={{ mb: 2 }} severity="error">
-              {error}
-            </Alert>
-          )}
-
-          {/* Flags Form */}
-          <Box
-            component="form"
-            action="/api/admin/session-config"
-            method="POST"
-          >
-            <input type="hidden" name="csrfToken" value={csrfToken} />
-            <Box mb={4}>
-              <Typography variant="h5" component="h2" gutterBottom>
-                Configuration Flags
-              </Typography>
-              <Typography variant="body1" color="text.secondary" mb={3}>
-                Modify the session config flags below to change application
-                behavior (only for you). Changes take effect immediately.
-              </Typography>
-
-              {Object.entries(flags).map(([key, value]) => {
-                const { description, type } = getFlagInfo(
-                  key as keyof typeof flags
-                );
-                return (
-                  <FlagInput
-                    key={key}
-                    flagKey={key}
-                    value={value}
-                    type={type}
-                    description={description}
-                  />
-                );
-              })}
-            </Box>
-
-            <Box
-              display="flex"
-              gap={2}
-              pt={3}
-              borderTop={1}
-              borderColor="divider"
-            >
-              <Button type="submit" variant="contained" color="primary">
-                Update Flags
-              </Button>
-              <Button
-                type="button"
-                variant="outlined"
-                color="secondary"
-                onClick={() => router.reload()}
-              >
-                Reset Form
-              </Button>
-            </Box>
-          </Box>
-        </Paper>
+            Reset Form
+          </Button>
+        </Box>
       </Box>
-    </>
+    </AdminLayout>
   );
 }

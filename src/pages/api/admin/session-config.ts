@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { setSessionCookie, clearSessionCookie } from "src/admin-auth/cookie";
+import { setSessionCookie } from "src/admin-auth/cookie";
 import { validateCSRFToken } from "src/admin-auth/crsf";
 import { SessionConfigFlags } from "src/admin-auth/flags";
 import {
@@ -12,7 +12,6 @@ import {
 interface UpdateFlagsRequest {
   flags: Partial<SessionConfigFlags>;
   csrfToken: string;
-  logout?: string;
 }
 
 const REDIRECT_URL = "/admin/session-config";
@@ -31,20 +30,12 @@ function redirect(
   return res.redirect(303, query ? `${REDIRECT_URL}?${query}` : REDIRECT_URL);
 }
 
-interface UpdateFlagsRequest {
-  flags: Partial<SessionConfigFlags>;
-  csrfToken: string;
-}
-
-type SessionConfigPostPayload = UpdateFlagsRequest & { logout?: string };
-
-const parseBodyIntoSessionConfigPostPayload = (
+const parseBodyIntoUpdateFlagsRequest = (
   body: NextApiRequest["body"]
-): SessionConfigPostPayload => {
+): UpdateFlagsRequest => {
   const res = {
     flags: {} as Record<string, unknown>,
     csrfToken: "",
-    logout: "",
   };
   for (const key in body) {
     if (key.startsWith("flags.")) {
@@ -54,9 +45,6 @@ const parseBodyIntoSessionConfigPostPayload = (
     if (key === "csrfToken") {
       res.csrfToken = body[key];
     }
-    if (key === "logout") {
-      res.logout = body[key];
-    }
   }
   return res;
 };
@@ -64,7 +52,7 @@ const parseBodyIntoSessionConfigPostPayload = (
 /**
  * POST /api/admin/session-config
  *
- * Handles session config flag updates and logout.
+ * Handles session config flag updates.
  */
 export default async function handler(
   req: NextApiRequest,
@@ -81,14 +69,8 @@ export default async function handler(
     return res.redirect(303, "/admin/login");
   }
 
-  const { flags, csrfToken, logout }: UpdateFlagsRequest =
-    parseBodyIntoSessionConfigPostPayload(req.body);
-
-  // Handle logout
-  if (logout === "true") {
-    clearSessionCookie(res);
-    return res.redirect(303, "/admin/login");
-  }
+  const { flags, csrfToken }: UpdateFlagsRequest =
+    parseBodyIntoUpdateFlagsRequest(req.body);
 
   // Validate CSRF token with session binding
   if (!csrfToken || !validateCSRFToken(csrfToken, session.sessionId)) {
