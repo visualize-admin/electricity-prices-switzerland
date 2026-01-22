@@ -114,7 +114,7 @@ export function getRedisClient(): RedisAdapter {
 /**
  * Gracefully closes the Redis connection
  */
-export async function closeRedisConnection(): Promise<void> {
+async function closeRedisConnection(): Promise<void> {
   if (redisAdapter) {
     await redisAdapter.close();
     console.info("[Metrics] Redis connection closed");

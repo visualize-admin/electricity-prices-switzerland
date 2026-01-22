@@ -11,7 +11,7 @@ export interface OperationMetrics {
   responseCacheMiss: number;
 }
 
-export interface ResolverMetrics {
+interface ResolverMetrics {
   count: number;
   totalDurationMs: number;
   errorCount: number;
