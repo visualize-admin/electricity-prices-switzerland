@@ -11,7 +11,7 @@ import React from "react";
 
 import { ComparisonData, ReleaseMetrics } from "src/admin-auth/metrics-types";
 
-export type ChartProps = {
+type ChartProps = {
   comparisonData: ComparisonData[];
   releases: ReleaseMetrics[];
 };
