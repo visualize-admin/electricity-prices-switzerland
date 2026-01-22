@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const session = await parseSessionFromRequest(context.req);
 
   if (!session) {
-    // Not authenticated - redirect to login
+    // Not authenticated - redirect to login, should not happen due to admin middleware
     return {
       redirect: {
         destination: "/admin/login?return_to=/admin/session-config",

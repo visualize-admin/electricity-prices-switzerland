@@ -14804,11 +14804,6 @@ next@15:
     "@next/swc-win32-x64-msvc" "15.5.7"
     sharp "^0.34.3"
 
-nextjs-basic-auth-middleware@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/nextjs-basic-auth-middleware/-/nextjs-basic-auth-middleware-3.1.0.tgz#934f1e3c00a1eb8901db430a21024aeacf9c2fb8"
-  integrity sha512-k1GSYiLMYj4tK6swAmArTUBheSkv7roUUF2KI8Cv8HYHmSYep5Y0AP0RB/1sez7xTRi2Fw2SxYbQA/jAmBJCug==
-
 nextkit@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/nextkit/-/nextkit-3.4.3.tgz#40e47e5c7542e3b6defa6a437b79979a7721aed2"
