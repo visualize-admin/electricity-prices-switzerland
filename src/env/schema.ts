@@ -59,6 +59,15 @@ export const serverSchema = z.object({
 
   // Apollo plugin
   METRICS_PLUGIN_ENABLED: z.string().optional(),
+  METRICS_ENABLED: z
+    .string()
+    .optional()
+    .transform((value) => value === "true"),
+
+  // Redis configuration
+  REDIS_URL: z.string().optional(),
+  UPSTASH_REDIS_REST_URL: z.string().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
   NODE_ENV: z.string().default("development"),
 
