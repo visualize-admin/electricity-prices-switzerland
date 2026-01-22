@@ -57,6 +57,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ARGOS_THRESHOLD: 0.75
         run: yarn run test:playwright:app
 
