@@ -30,8 +30,7 @@ const server = new ApolloServer({
   plugins: [
     // Unified metrics plugin with in-memory collection, periodic console logging, and Redis persistence
     createMetricsPlugin(
-      serverEnv.NODE_ENV === "development" ||
-        serverEnv.METRICS_PLUGIN_ENABLED === "true"
+      serverEnv.NODE_ENV === "development" || serverEnv.METRICS_ENABLED
     ),
     serverEnv.NODE_ENV === "development"
       ? ApolloServerPluginLandingPageLocalDefault({ embed: false })

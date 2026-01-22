@@ -20,13 +20,9 @@ export type { RedisClientOptions };
  * Priority:
  * 1. Upstash (if both URL and token are provided)
  * 2. Local Redis (if REDIS_URL is provided)
- * 3. No-op adapter (if metrics disabled or no connection info)
+ * 3. No-op adapter (if no connection info)
  */
 export function parseRedisOptionsFromEnv(): RedisClientOptions {
-  if (!serverEnv.METRICS_ENABLED) {
-    return { type: "noop" };
-  }
-
   if (serverEnv.UPSTASH_REDIS_REST_URL && serverEnv.UPSTASH_REDIS_REST_TOKEN) {
     return {
       type: "upstash",

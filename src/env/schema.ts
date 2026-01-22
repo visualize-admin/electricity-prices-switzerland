@@ -58,7 +58,6 @@ export const serverSchema = z.object({
   GITLAB_WIKI_URL: z.string().optional(),
 
   // Apollo plugin
-  METRICS_PLUGIN_ENABLED: z.string().optional(),
   METRICS_ENABLED: z
     .string()
     .optional()
