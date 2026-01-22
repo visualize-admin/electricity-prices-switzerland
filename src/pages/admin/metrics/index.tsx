@@ -13,10 +13,16 @@ import {
 import { schemeCategory10 } from "d3";
 import { utcFormat } from "d3-time-format";
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
+import React from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
+import GraphQLMetricsChart from "src/admin-auth/components/metrics-chart";
 import { generateCSRFToken } from "src/admin-auth/crsf";
+import {
+  AggregatedOperationMetrics,
+  ComparisonData,
+  ReleaseMetrics,
+} from "src/admin-auth/metrics-types";
 import { parseSessionFromRequest } from "src/admin-auth/session";
 import serverEnv from "src/env/server";
 import {
@@ -26,39 +32,11 @@ import {
 } from "src/lib/metrics/metrics-store";
 import { getSentryClient } from "src/lib/metrics/sentry-client";
 
-interface AggregatedOperationMetrics {
-  requestCount: number;
-  avgDurationMs: number;
-  errorCount: number;
-  errorRate: number;
-  cacheHitRate: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface ReleaseMetrics {
-  release: string;
-  collectedAt: string;
-  operations: Record<string, AggregatedOperationMetrics>;
-}
-
-interface ComparisonData {
-  operation: string;
-  releases: Array<{
-    release: string;
-    cacheHit: number;
-    cacheMiss: number;
-    total: number;
-    hitRate: number;
-  }>;
-}
-
 interface SentryConfig {
   enabled: boolean;
   sampleRate: number;
   authTokenConfigured: boolean;
 }
-
 interface MetricsPageProps {
   releases: ReleaseMetrics[];
   comparisonData: ComparisonData[];
@@ -93,9 +71,7 @@ function aggregateMetrics(
   return aggregated;
 }
 
-function prepareComparisonData(
-  releases: ReleaseMetrics[]
-): ComparisonData[] {
+function prepareComparisonData(releases: ReleaseMetrics[]): ComparisonData[] {
   // Collect all unique operation names
   const allOperations = new Set<string>();
   releases.forEach((release) => {
@@ -192,190 +168,6 @@ export default function AdminMetricsPage({
   csrfToken,
   sentryConfig,
 }: MetricsPageProps) {
-  useEffect(() => {
-    // Only load D3 on client side
-    if (typeof window === "undefined") return;
-
-    // Dynamically import D3
-    import("d3").then((d3) => {
-      // Clear any existing chart
-      d3.select("#chart").selectAll("*").remove();
-
-      if (comparisonData.length === 0 || releases.length === 0) {
-        return;
-      }
-
-      // Chart configuration
-      const margin = { top: 20, right: 150, bottom: 60, left: 200 };
-      const width = 1000 - margin.left - margin.right;
-      const numReleases = releases.length;
-      const itemHeight = 16;
-      const height =
-        Math.max(600, comparisonData.length * (itemHeight * numReleases)) -
-        margin.top -
-        margin.bottom;
-
-      const svg = d3
-        .select("#chart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      // Scales
-      const maxTotal =
-        d3.max(comparisonData, (d) =>
-          d3.max(d.releases, (rel) => rel.total)
-        ) || 0;
-
-      const x = d3.scaleLinear().domain([0, maxTotal]).range([0, width]);
-
-      const y = d3
-        .scaleBand()
-        .domain(comparisonData.map((d) => d.operation))
-        .range([0, height])
-        .padding(0.3);
-
-      // Color scale for releases
-      const releaseColor = d3
-        .scaleOrdinal()
-        .domain(releases.map((d) => d.release))
-        .range(d3.schemeCategory10);
-
-      const groupHeight = y.bandwidth();
-      const barHeight = groupHeight / (numReleases + 0.5);
-
-      // Tooltip
-      const tooltip = d3.select("#tooltip");
-
-      // Draw bars
-      const groups = svg
-        .selectAll(".operation-group")
-        .data(comparisonData)
-        .enter()
-        .append("g")
-        .attr("class", "operation-group")
-        .attr("transform", (d) => `translate(0,${y(d.operation)})`);
-
-      // For each operation, draw bars for each release
-      comparisonData.forEach((opData, opIndex) => {
-        const group = d3.select(groups.nodes()[opIndex]);
-
-        opData.releases.forEach((relData, relIndex) => {
-          const yOffset = relIndex * barHeight;
-          const relGroup = group
-            .append("g")
-            .attr("transform", `translate(0, ${yOffset})`);
-
-          // Cache hit (green)
-          relGroup
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", x(relData.cacheHit))
-            .attr("height", barHeight - 2)
-            .attr("fill", "#22c55e")
-            .attr("opacity", 0.8)
-            .on("mouseover", function (event) {
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `
-                  <div class="tooltip-title">${relData.release}</div>
-                  <div class="tooltip-row">
-                    <span>Operation:</span>
-                    <strong>${opData.operation}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Hit:</span>
-                    <strong>${relData.cacheHit}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Miss:</span>
-                    <strong>${relData.cacheMiss}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Hit Rate:</span>
-                    <strong>${(relData.hitRate * 100).toFixed(1)}%</strong>
-                  </div>
-                `
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 10 + "px");
-            })
-            .on("mouseout", () => tooltip.style("opacity", 0));
-
-          // Cache miss (red)
-          relGroup
-            .append("rect")
-            .attr("x", x(relData.cacheHit))
-            .attr("y", 0)
-            .attr("width", x(relData.cacheMiss))
-            .attr("height", barHeight - 2)
-            .attr("fill", "#ef4444")
-            .attr("opacity", 0.8)
-            .on("mouseover", function (event) {
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `
-                  <div class="tooltip-title">${relData.release}</div>
-                  <div class="tooltip-row">
-                    <span>Operation:</span>
-                    <strong>${opData.operation}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Hit:</span>
-                    <strong>${relData.cacheHit}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Cache Miss:</span>
-                    <strong>${relData.cacheMiss}</strong>
-                  </div>
-                  <div class="tooltip-row">
-                    <span>Hit Rate:</span>
-                    <strong>${(relData.hitRate * 100).toFixed(1)}%</strong>
-                  </div>
-                `
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 10 + "px");
-            })
-            .on("mouseout", () => tooltip.style("opacity", 0));
-
-          // Release label on the right
-          relGroup
-            .append("text")
-            .attr("x", width + 10)
-            .attr("y", barHeight / 2)
-            .attr("dy", "0.35em")
-            .attr("font-size", "10px")
-            .attr("fill", releaseColor(relData.release) as string)
-            .text(relData.release);
-        });
-      });
-
-      // Axes
-      const xAxis = d3.axisBottom(x).ticks(10).tickFormat(d3.format("d"));
-      const yAxis = d3.axisLeft(y);
-
-      svg
-        .append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis)
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", 40)
-        .attr("fill", "#333")
-        .attr("font-size", "12px")
-        .attr("text-anchor", "middle")
-        .text("Number of Requests");
-
-      svg.append("g").call(yAxis);
-    });
-  }, [comparisonData, releases]);
-
   if (releases.length === 0) {
     return (
       <AdminLayout
@@ -387,9 +179,7 @@ export default function AdminMetricsPage({
         ]}
       >
         <SentryConfigurationCard sentryConfig={sentryConfig} />
-        <Typography color="text.secondary">
-          No metrics found.
-        </Typography>
+        <Typography color="text.secondary">No metrics found.</Typography>
       </AdminLayout>
     );
   }
@@ -413,10 +203,7 @@ export default function AdminMetricsPage({
           Releases ({releases.length})
         </Typography>
         {releases.map((release) => (
-          <Box
-            key={release.release}
-            sx={{ display: "flex", gap: 4, mb: 1 }}
-          >
+          <Box key={release.release} sx={{ display: "flex", gap: 4, mb: 1 }}>
             <Box>
               <Typography variant="caption" color="text.secondary">
                 Release:
@@ -434,9 +221,7 @@ export default function AdminMetricsPage({
                 Collected:
               </Typography>
               <Typography variant="body2" fontFamily="monospace">
-                {utcFormat("%Y-%m-%d %H:%M:%S")(
-                  new Date(release.collectedAt)
-                )}
+                {utcFormat("%Y-%m-%d %H:%M:%S")(new Date(release.collectedAt))}
               </Typography>
             </Box>
           </Box>
@@ -463,7 +248,10 @@ export default function AdminMetricsPage({
       </Box>
 
       {/* D3 Chart */}
-      <Box id="chart" sx={{ my: 3, overflowX: "auto" }} />
+      <GraphQLMetricsChart
+        comparisonData={comparisonData}
+        releases={releases}
+      />
 
       {/* Detailed Comparison Table */}
       <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
@@ -496,16 +284,10 @@ export default function AdminMetricsPage({
                   >
                     Hits
                   </TableCell>
-                  <TableCell
-                    key={`${release.release}-misses`}
-                    align="right"
-                  >
+                  <TableCell key={`${release.release}-misses`} align="right">
                     Misses
                   </TableCell>
-                  <TableCell
-                    key={`${release.release}-rate`}
-                    align="right"
-                  >
+                  <TableCell key={`${release.release}-rate`} align="right">
                     Hit Rate
                   </TableCell>
                 </>
