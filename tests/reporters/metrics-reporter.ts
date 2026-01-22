@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { FullResult, Reporter } from "@playwright/test/reporter";
 
 interface MetricsReporterOptions {
