@@ -286,35 +286,6 @@ const handleSubmit = async (e) => {
 };
 ```
 
-## Implementation Files
-
-### Core Authentication
-
-- [Session management](../src/admin-auth/session.ts) - JWT creation, validation
-- [Cookie handling](../src/admin-auth/cookie.ts) - Secure cookie operations
-- [CSRF protection](../src/admin-auth/crsf.ts) - Token generation and validation
-- [Rate limiting](../src/admin-auth/rate-limit.ts) - Login attempt throttling
-- [Flags schema](../src/admin-auth/flags.ts) - Configuration flags definition
-
-### Pages (UI)
-
-- [Login page](../src/pages/admin/login.tsx) - Public login form
-- [Session config page](../src/pages/admin/session-config.tsx) - Protected dashboard
-
-### API Routes (Form Processing)
-
-- [Login API](../src/pages/api/admin/login.ts) - Authentication endpoint
-- [Session config API](../src/pages/api/admin/session-config.ts) - Flag update endpoint
-
-### Middleware
-
-- [Route protection](../src/middleware.ts) - Automatic authentication checks
-
-### Components
-
-- [Flag input](../src/admin-auth/components/FlagInput.tsx) - Form inputs for different flag types
-- [Legacy rendering](../src/admin-auth/components/render.tsx) - Server-side HTML rendering (legacy)
-
 ## API Reference
 
 ### POST /api/admin/login
