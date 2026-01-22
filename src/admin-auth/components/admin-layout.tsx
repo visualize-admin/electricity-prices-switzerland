@@ -11,7 +11,7 @@ import React, { ReactNode } from "react";
 
 import LogoutButton from "./logout-button";
 
-export interface AdminLayoutProps {
+interface AdminLayoutProps {
   title: string;
   csrfToken: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
