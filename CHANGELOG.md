@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Admin
+  - Session config system was moved to /admin/session-config
 
 # 2.36.4 - 2026-01-21
 
