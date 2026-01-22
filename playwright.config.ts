@@ -2,6 +2,8 @@ import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
 
+import { createMetricsReporterOptions } from "./tests/reporters/metrics-reporter";
+
 loadEnvConfig(process.cwd(), true);
 
 const getHttpCredentialsFromEnv = () => {
@@ -48,11 +50,12 @@ export default defineConfig({
     ],
     [
       "./tests/reporters/metrics-reporter.ts",
-      {
+      createMetricsReporterOptions({
         metricsApiToken: process.env.ADMIN_API_TOKEN,
         githubToken: process.env.GITHUB_TOKEN,
-        deploymentUrl: process.env.VERCEL_URL || process.env.PLAYWRIGHT_BASE_URL,
-      },
+        deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
+        enabled: !!process.env.CI,
+      }),
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

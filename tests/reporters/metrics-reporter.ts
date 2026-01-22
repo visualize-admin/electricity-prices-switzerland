@@ -4,6 +4,7 @@ interface MetricsReporterOptions {
   metricsApiToken?: string;
   githubToken?: string;
   deploymentUrl?: string;
+  enabled?: boolean;
 }
 
 interface OperationMetrics {
@@ -31,6 +32,12 @@ interface MetricsResponse {
 
 const COMMENT_MARKER = "<!-- metrics-reporter -->";
 
+export const createMetricsReporterOptions = (
+  options: MetricsReporterOptions = {}
+): MetricsReporterOptions => {
+  return options;
+};
+
 /**
  * Playwright custom reporter for fetching and posting GraphQL metrics to GitHub PRs.
  *
@@ -52,6 +59,11 @@ class MetricsReporter implements Reporter {
       return;
     }
 
+    if (this.options.enabled !== true) {
+      console.log("[Metrics Reporter] Disabled, skipping metrics fetch");
+      return;
+    }
+
     console.log("\n[Metrics Reporter] Fetching server metrics...");
 
     try {
@@ -64,10 +76,14 @@ class MetricsReporter implements Reporter {
 
   private async fetchAndPostMetrics() {
     const deploymentUrl =
-      this.options.deploymentUrl || process.env.VERCEL_URL || process.env.PLAYWRIGHT_BASE_URL;
+      this.options.deploymentUrl ||
+      process.env.VERCEL_URL ||
+      process.env.PLAYWRIGHT_BASE_URL;
 
     if (!deploymentUrl) {
-      console.warn("[Metrics Reporter] No deployment URL available, skipping metrics fetch");
+      console.warn(
+        "[Metrics Reporter] No deployment URL available, skipping metrics fetch"
+      );
       return;
     }
 
@@ -81,7 +97,7 @@ class MetricsReporter implements Reporter {
     const headers: Record<string, string> = {};
 
     // Add auth header (required in all environments)
-    const metricsApiToken = this.options.metricsApiToken || process.env.ADMIN_API_TOKEN;
+    const metricsApiToken = this.options.metricsApiToken;
     if (metricsApiToken) {
       headers.Authorization = `Bearer ${metricsApiToken}`;
     }
@@ -91,7 +107,9 @@ class MetricsReporter implements Reporter {
     const response = await fetch(metricsUrl, { headers });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch metrics: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch metrics: ${response.status} ${response.statusText}`
+      );
     }
 
     const metrics: MetricsResponse = await response.json();
@@ -109,9 +127,13 @@ class MetricsReporter implements Reporter {
     if (prNumber && githubToken) {
       await this.postGitHubComment(prNumber, markdown, githubToken);
     } else if (!prNumber) {
-      console.log("[Metrics Reporter] Not a PR context, skipping GitHub comment");
+      console.log(
+        "[Metrics Reporter] Not a PR context, skipping GitHub comment"
+      );
     } else if (!githubToken) {
-      console.log("[Metrics Reporter] No GitHub token available, skipping comment");
+      console.log(
+        "[Metrics Reporter] No GitHub token available, skipping comment"
+      );
     }
   }
 
@@ -133,8 +155,12 @@ class MetricsReporter implements Reporter {
     }
 
     lines.push("### GraphQL Operations", "");
-    lines.push("| Operation | Requests | Avg Duration | Cache Hit Rate | Errors |");
-    lines.push("| --------- | -------- | ------------ | -------------- | ------ |");
+    lines.push(
+      "| Operation | Requests | Avg Duration | Cache Hit Rate | Errors |"
+    );
+    lines.push(
+      "| --------- | -------- | ------------ | -------------- | ------ |"
+    );
 
     for (const [operationName, op] of operations) {
       const avgDuration = `${Math.round(op.avgDurationMs)}ms`;
@@ -193,11 +219,17 @@ class MetricsReporter implements Reporter {
     return null;
   }
 
-  private async postGitHubComment(prNumber: string, markdown: string, token: string) {
+  private async postGitHubComment(
+    prNumber: string,
+    markdown: string,
+    token: string
+  ) {
     // Get repository info from GITHUB_REPOSITORY (format: owner/repo)
     const repo = process.env.GITHUB_REPOSITORY;
     if (!repo) {
-      console.warn("[Metrics Reporter] GITHUB_REPOSITORY not set, cannot post comment");
+      console.warn(
+        "[Metrics Reporter] GITHUB_REPOSITORY not set, cannot post comment"
+      );
       return;
     }
 
@@ -218,13 +250,15 @@ class MetricsReporter implements Reporter {
     }
 
     const comments = await listResponse.json();
-    const existingComment = comments.find(
-      (c: { id: number; body?: string }) => c.body?.includes(COMMENT_MARKER)
+    const existingComment = comments.find((c: { id: number; body?: string }) =>
+      c.body?.includes(COMMENT_MARKER)
     );
 
     if (existingComment) {
       // Update existing comment
-      console.log(`[Metrics Reporter] Updating existing comment ${existingComment.id}`);
+      console.log(
+        `[Metrics Reporter] Updating existing comment ${existingComment.id}`
+      );
       const updateUrl = `https://api.github.com/repos/${owner}/${repoName}/issues/comments/${existingComment.id}`;
 
       const updateResponse = await fetch(updateUrl, {
@@ -238,7 +272,9 @@ class MetricsReporter implements Reporter {
       });
 
       if (!updateResponse.ok) {
-        throw new Error(`Failed to update comment: ${updateResponse.statusText}`);
+        throw new Error(
+          `Failed to update comment: ${updateResponse.statusText}`
+        );
       }
     } else {
       // Create new comment
@@ -255,11 +291,15 @@ class MetricsReporter implements Reporter {
       });
 
       if (!createResponse.ok) {
-        throw new Error(`Failed to create comment: ${createResponse.statusText}`);
+        throw new Error(
+          `Failed to create comment: ${createResponse.statusText}`
+        );
       }
     }
 
-    console.log(`[Metrics Reporter] Successfully posted metrics to PR #${prNumber}`);
+    console.log(
+      `[Metrics Reporter] Successfully posted metrics to PR #${prNumber}`
+    );
   }
 }
 
