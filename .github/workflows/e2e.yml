@@ -48,8 +48,8 @@ jobs:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           GRAPHQL_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/api/graphql
           # Necessary to be able to create a session cookie in the tests
-          SESSION_CONFIG_PASSWORD: ${{ secrets.SESSION_CONFIG_PASSWORD }}
-          SESSION_CONFIG_JWT_SECRET: ${{ secrets.SESSION_CONFIG_JWT_SECRET }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
       - name: Run application tests
         env:
@@ -58,7 +58,6 @@ jobs:
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: yarn run test:playwright:app
 
       - uses: actions/upload-artifact@v4
