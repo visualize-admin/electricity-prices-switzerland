@@ -11,10 +11,8 @@ import {
  */
 const withBasicAuthMiddleware: MiddlewareFactory =
   (middleware: CustomMiddleware) => async (request, event) => {
-    console.log("Running basic auth middleware");
     const basicAuthCredentials = process.env.BASIC_AUTH_CREDENTIALS;
     if (!basicAuthCredentials) {
-      console.log("Basic auth not configured, allowing all requests");
       // No basic auth configured, allow all requests
       return middleware(request, event);
     }
