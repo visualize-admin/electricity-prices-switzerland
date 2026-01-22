@@ -67,4 +67,16 @@ test.describe("Admin Interface", () => {
     await page.getByRole("link", { name: "Configure" }).click();
     await page.getByRole("heading", { name: "Session Config Flags" }).click();
   });
+
+  test("should not see metrics page if not logged in", async ({ page }) => {
+    await page.goto("/admin/metrics");
+    await page.getByRole("heading", { name: "Admin Login" }).click();
+  });
+
+  test("should see metric page if logged in", async ({ page, adminLogin }) => {
+    // Login first
+    await adminLogin(page);
+    await page.goto("/admin/metrics");
+    await page.getByRole("heading", { name: "Admin Metrics" }).click();
+  });
 });
