@@ -1,0 +1,35 @@
+name: Task
+description: An actionable task that can be assigned to someone
+title: "New Task"
+labels: []
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear and concise description of the task
+      placeholder: As a ..., I want to... so that...
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of Done
+      description: What must be true for this issue to be closed?
+      placeholder: |
+        - [ ] Design reviewed by ...
+        - [ ] Feature tested on ... 
+        - [ ] Documentation updated ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any relevant context, or additional information here
+      placeholder: Link to Figma, discussion in Notion, related issues, screenshots...
+    validations:
+      required: false

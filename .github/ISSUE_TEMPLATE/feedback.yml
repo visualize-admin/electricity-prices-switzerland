@@ -1,0 +1,55 @@
+name: Feedback
+description: Report testing results, bugs, or feedback on implemented features
+title: 'New Feedback'
+labels: ['feedback']
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear and concise description of what was tested and the feedback
+      placeholder: When trying to ..., I noticed that ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction Steps
+      description: How can this issue be reproduced? Include browser and device information if relevant
+      value: |
+        1. Navigate to 
+        2. Click on 
+        3. Observe
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should have happened instead?
+      placeholder: I expected ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any relevant context, or additional information here
+      placeholder: Link to Figma, discussion in Notion, related issues, screenshots...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: test-environment
+    attributes:
+      label: Test Environment
+      description: Which environment was tested?
+      options:
+        - label: '[DEV](https://elcom-strompreis-dev.interactivethings.io/)'
+        - label: '[Ref](https://www.strompreis.ref.elcom.admin.ch/)'
+        - label: '[Abn](https://www.strompreis.abn.elcom.admin.ch/)'
+        - label: '[Prod](https://www.strompreis.elcom.admin.ch/)'
