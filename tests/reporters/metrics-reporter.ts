@@ -1,4 +1,4 @@
-import type { FullConfig, FullResult, Reporter } from "@playwright/test/reporter";
+import type { FullResult, Reporter } from "@playwright/test/reporter";
 
 interface MetricsReporterOptions {
   metricsApiToken?: string;
@@ -218,7 +218,9 @@ class MetricsReporter implements Reporter {
     }
 
     const comments = await listResponse.json();
-    const existingComment = comments.find((c: any) => c.body?.includes(COMMENT_MARKER));
+    const existingComment = comments.find(
+      (c: { id: number; body?: string }) => c.body?.includes(COMMENT_MARKER)
+    );
 
     if (existingComment) {
       // Update existing comment

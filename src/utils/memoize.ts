@@ -3,7 +3,7 @@ export const createMemoize = <
   T extends (...args: $IntentionalAny[]) => $IntentionalAny
 >(
   fn: T,
-  label: string
+  _label: string
 ): T => {
   const cache = new Map<string, ReturnType<T>>();
 

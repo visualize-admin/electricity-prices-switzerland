@@ -1,5 +1,5 @@
-import os from "os";
 import { execSync } from "child_process";
+import os from "os";
 
 /**
  * Resolves the deployment ID for metrics isolation.

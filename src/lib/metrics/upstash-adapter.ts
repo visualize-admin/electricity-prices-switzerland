@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+
 import { RedisAdapter } from "./redis-adapter";
 
 /**

@@ -1,5 +1,5 @@
-import { getRedisClient } from "./redis-client";
 import { getDeploymentId } from "./deployment-id";
+import { getRedisClient } from "./redis-client";
 
 const TTL_SECONDS = 24 * 60 * 60; // 24 hours
 

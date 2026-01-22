@@ -1,4 +1,5 @@
 import Redis from "ioredis";
+
 import { RedisAdapter } from "./redis-adapter";
 
 /**

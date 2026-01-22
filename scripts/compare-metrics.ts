@@ -17,7 +17,6 @@ import { execSync } from "child_process";
 
 import { ArgumentParser } from "argparse";
 
-const DEV_SERVER_URL = "http://localhost:3000";
 const DEV_SERVER_PORT = 3000;
 
 let originalBranch: string = "";
@@ -28,7 +27,7 @@ function saveCurrentBranch(): void {
       encoding: "utf8",
     }).trim();
     console.log(`💾 Saved current branch: ${originalBranch}\n`);
-  } catch (error: $IntentionalAny) {
+  } catch {
     throw new Error("Failed to get current git branch");
   }
 }
@@ -64,7 +63,7 @@ function checkDevServer(): void {
     }
 
     console.log(`✅ Dev server is running on port ${DEV_SERVER_PORT}\n`);
-  } catch (error: $IntentionalAny) {
+  } catch {
     console.error(`❌ Dev server is not running on port ${DEV_SERVER_PORT}`);
     console.error("Please start the dev server first with: yarn dev");
     throw new Error("Dev server is not running");

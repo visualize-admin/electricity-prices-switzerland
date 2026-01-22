@@ -1,8 +1,9 @@
 import { Redis as UpstashRedis } from "@upstash/redis";
 import IoRedis from "ioredis";
+
+import { IoredisAdapter } from "./ioredis-adapter";
 import { RedisAdapter, NoopAdapter } from "./redis-adapter";
 import { UpstashAdapter } from "./upstash-adapter";
-import { IoredisAdapter } from "./ioredis-adapter";
 
 let redisAdapter: RedisAdapter | null = null;
 
