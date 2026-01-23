@@ -1,5 +1,4 @@
 import { execSync } from "child_process";
-import os from "os";
 
 import serverEnv from "src/env/server";
 
@@ -19,11 +18,7 @@ export function getDeploymentId(): string {
     return `vercel-${serverEnv.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
   }
 
-  // Generate local deployment ID
-  const hostname = os.hostname().split(".")[0]; // Take first part of hostname
-  const gitBranch = getGitBranch();
-
-  return `local-${hostname}-${gitBranch}`;
+  return `local-${gitBranch}`;
 }
 
 /**
