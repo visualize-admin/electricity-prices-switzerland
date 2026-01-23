@@ -1,188 +1,136 @@
 # GraphQL Metrics
 
-Automatically collect and track GraphQL performance metrics to catch regressions before they reach production—with zero extra effort.
+Performance monitoring system that tracks GraphQL operations using Sentry distributed tracing.
 
 ## What This Is
 
-A performance monitoring system that piggybacks on existing Playwright tests to track how the GraphQL server performs. Every time scenario tests run (either locally or in a PR), the system automatically collects metrics about:
+A monitoring system that automatically collects performance metrics for all GraphQL operations:
 
-- Which GraphQL operations were called and how often
-- How long each operation took
-- Cache hit rates (whether responses are being cached effectively)
-- Error rates
-- Individual resolver performance within each operation
+- Operation request counts and duration
+- Cache hit rates (response caching effectiveness)
+- Error rates and exceptions
+- Individual resolver performance (when enabled)
 
-This provides instant feedback about performance characteristics without writing a single line of test code.
+Metrics are collected via Sentry's distributed tracing infrastructure and can be queried using the Sentry API or via the provided CLI tools.
 
 ## Why It Exists
 
 **Track impact of code changes**: See how changes to the codebase affect performance—whether optimizations actually improve speed, or whether new features introduce slowdowns.
 
-**Zero extra effort**: No dedicated performance tests to write or maintain. Metrics are collected automatically whenever scenario tests run.
+**Production visibility**: Monitor real-world performance characteristics across different releases and deployments.
 
-**Local development feedback**: Compare performance between branches locally to validate optimizations or investigate slowdowns during development.
+**Zero instrumentation overhead**: Metrics are collected automatically through Apollo Server plugins without writing additional test code.
 
 ## How It Works
 
-The system has three parts that work together:
+### Data Collection
 
-1. **Apollo Server Plugin** (see `src/server/metrics/apollo-plugin.ts`)
+The `sentry-metrics-plugin.ts` Apollo Server plugin (see `src/apollo/plugins/sentry-metrics-plugin.ts`):
 
-   - Automatically tracks every GraphQL request that comes through the server
-   - Records timing, cache hits, errors, and resolver-level breakdown
-   - Stores metrics in Redis, isolated by deployment or branch
+1. Creates a Sentry span for each GraphQL operation
+2. Sets `span.op = "graphql.operation"`
+3. Records `cache_status` attribute (`"HIT"` or `"MISS"`)
+4. Tracks operation duration automatically
+5. Optionally creates child spans for individual resolvers
 
-2. **Metrics API Endpoint** (see `src/pages/api/admin/metrics/`)
+Spans are sent to Sentry and automatically grouped by release (based on git commit SHA).
 
-   - Provides an endpoint to fetch collected metrics
-   - Protected by authentication in production environments
-   - Includes a `/clear` endpoint for development
+### Querying Metrics
 
-3. **Playwright Reporter** (see `tests/reporters/metrics-reporter.ts`)
-   - Runs after Playwright tests complete
-   - Fetches metrics from the API
-   - Posts a formatted summary as a GitHub PR comment
+The `sentry-client.ts` module (see `src/lib/metrics/sentry-client.ts`):
 
-**In pull requests**: Tests run on Vercel preview → metrics are collected → posted as PR comment
-**Locally**: Tests run against localhost → metrics stored by branch → query via API
+1. Queries Sentry Events API with `dataset=spans`
+2. Groups by `span.description` (operation name) and `cache_status`
+3. Aggregates metrics: request count, duration, cache hits/misses
+4. Returns structured data for analysis
 
-## Using Metrics in Pull Requests
+## Using the Metrics CLI
 
-When a PR is opened, GitHub Actions runs Playwright tests against the Vercel preview deployment. After tests complete, a comment appears on the PR with a table showing:
-
-- GraphQL operations called during tests
-- Request counts and average duration
-- Cache hit rates
-- Error counts and rates
-- Expandable resolver-level breakdown
-
-Example comment format:
-
-```
-📊 Server Metrics for this PR
-
-GraphQL Operations
-| Operation    | Requests | Avg Duration | Cache Hit Rate | Errors   |
-| Observations      | 42       | 120ms        | 85%            | 1 (2.4%) |
-| Municipalities | 156      | 45ms         | 92%            | 0        |
-```
-
-When additional commits are pushed, the comment updates in place.
-
-## Comparing Branches Locally
-
-The system isolates metrics by git branch, making it easy to compare performance between branches during development.
-
-### Basic workflow:
-
-```bash
-# On a feature branch
-METRICS_ENABLED=true npm run test:e2e
-curl http://localhost:3000/api/admin/metrics | jq
-
-# Switch to main to establish a baseline
-git checkout main
-curl http://localhost:3000/api/admin/metrics/clear
-METRICS_ENABLED=true npm run test:e2e
-curl http://localhost:3000/api/admin/metrics | jq
-
-# Switch back to compare
-git checkout my-feature-branch
-# (metrics are still there, isolated by branch)
-curl http://localhost:3000/api/admin/metrics | jq
-```
-
-Each branch maintains its own metrics until explicitly cleared. Tests can be run on one branch, then on another, then results compared.
-
-### Tips for local comparison:
-
-- Run tests multiple times on each branch to smooth out variance
-- Use `jq` to extract specific metrics: `jq '.operations.Observations.avgDurationMs'`
-- Clear metrics with `/api/admin/metrics/clear` before collecting fresh data
-- Metrics persist for 24 hours
-
-## Setting Up Locally
+A command-line tool provides quick access to metrics data from Sentry.
 
 ### Prerequisites
 
-Redis must be running locally. Two options:
+1. **Sentry Auth Token**: Create a token at https://sentry.io/settings/account/api/auth-tokens/
+   - Required scopes: `org:read`, `project:read`
+   - Add to `.env.local`: `SENTRY_AUTH_TOKEN=your_token_here`
 
-**Docker Compose** (recommended):
+### Commands
 
-```yaml
-# Add to docker-compose.yml
-services:
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-```
-
-**Or install directly**:
-
+List all releases with metrics:
 ```bash
-# macOS
-brew install redis
-brew services start redis
-
-# Ubuntu/Debian
-sudo apt install redis-server
+yarn metrics operations list-releases
 ```
 
-### Environment variables
-
-Add to `.env.local`:
-
+Get metrics for a specific release:
 ```bash
-METRICS_ENABLED=true
-REDIS_URL=redis://localhost:6379
+yarn metrics operations get --release 68e6f0a634283737c27138c9d2329e17cb61e185
 ```
 
-With these settings, metrics are automatically collected when `npm run test:e2e` runs.
+Example output:
+```
+Operation                      Requests       Hits     Misses    Hit Rate   Avg Duration
+---------------------------------------------------------------------------------------
+AllMunicipalities                    10          8          2       80.0%         45.2ms
+wikiContent                           8          8          0      100.0%         12.3ms
+SunshineDataByIndicator               5          2          3       40.0%         89.1ms
+```
 
-### Viewing metrics
-
+Get resolver-level metrics for an operation:
 ```bash
-# After running tests
-curl http://localhost:3000/api/admin/metrics | jq
-
-# For a fresh start
-curl http://localhost:3000/api/admin/metrics/clear
+yarn metrics operations get --release <release-id> --operation wikiContent
 ```
 
-## Configuration Reference
+See `scripts/metrics.ts` for implementation details.
 
-The system automatically detects its environment and adjusts behavior:
+## Configuration
 
-| Environment           | Redis Backend | Authentication | Metrics Isolated By         |
-| --------------------- | ------------- | -------------- | --------------------------- |
-| Vercel (preview/prod) | Upstash       | Required       | Vercel deployment ID        |
-| Local development     | Local Redis   | None           | `local-{hostname}-{branch}` |
-| Local (no Redis)      | Disabled      | N/A            | N/A                         |
+### Environment Variables
 
-### Environment variables needed:
+**For Sentry tracing (all environments):**
+- `SENTRY_TRACES_SAMPLE_RATE` - Sample rate for tracing (0.0 to 1.0)
+  - Default: 1.0 (100%) on Vercel, 0.1 (10%) in production outside Vercel
 
-**For local development:**
+**For querying metrics (CLI tool):**
+- `SENTRY_AUTH_TOKEN` - Required to query Sentry API
 
-- `METRICS_ENABLED=true` - Turn on metrics collection
-- `REDIS_URL=redis://localhost:6379` - Connect to local Redis
+### Sentry Configuration
 
-**For PR comments (GitHub Actions):**
+Sentry is configured in three files:
+- `sentry.server.config.ts` - Server-side initialization
+- `sentry.edge.config.ts` - Edge runtime initialization
+- `src/lib/sentry/constants.ts` - Shared DSN configuration
 
-- `ADMIN_API_TOKEN` - Shared secret to fetch metrics from preview deployment
-- `GITHUB_TOKEN` - Automatically available in GitHub Actions
+The release identifier is automatically set by the Sentry Next.js plugin based on `VERCEL_GIT_COMMIT_SHA` or local git state.
 
-**For Vercel deployments:**
+## Troubleshooting
 
-- `METRICS_ENABLED=true` - Set in Vercel project settings
-- `UPSTASH_REDIS_REST_URL` - From Upstash integration
-- `UPSTASH_REDIS_REST_TOKEN` - From Upstash integration
-- `ADMIN_API_TOKEN` - Set in Vercel secrets
+### No metrics found
 
-See the implementation files for full details:
+Check that:
+- The Sentry plugin is enabled in your Apollo Server configuration
+- The application has received GraphQL requests for the release
+- Tracing is enabled (`SENTRY_TRACES_SAMPLE_RATE > 0`)
+- Data is within the query time window (default: 24h for operations)
 
-- Redis adapters: `src/server/metrics/redis/`
-- Metrics plugin: `src/server/metrics/apollo-plugin.ts`
-- API endpoints: `src/pages/api/admin/metrics/`
-- Playwright reporter: `tests/reporters/metrics-reporter.ts`
-- Reporter configuration: `playwright.config.ts`
+### Verify spans in Sentry UI
+
+1. Go to https://sentry.io/organizations/interactive-things/
+2. Navigate to Performance → Traces
+3. Filter: `span.op:graphql.operation`
+4. Check for recent spans with `cache_status` attribute
+
+### CLI errors
+
+**"SENTRY_AUTH_TOKEN not configured"**: Create and configure a Sentry auth token as described in Prerequisites.
+
+**"Sentry API request failed"**: Verify your auth token has the correct scopes (`org:read`, `project:read`) and you have network access to sentry.io.
+
+## Implementation Files
+
+Key files in the implementation:
+- `src/apollo/plugins/sentry-metrics-plugin.ts` - Apollo Server plugin for collecting metrics
+- `src/lib/metrics/sentry-client.ts` - Client for querying Sentry API
+- `src/lib/sentry/constants.ts` - Shared Sentry configuration
+- `scripts/metrics.ts` - CLI tool for querying metrics
+- `sentry.server.config.ts` - Server Sentry initialization
+- `sentry.edge.config.ts` - Edge Sentry initialization

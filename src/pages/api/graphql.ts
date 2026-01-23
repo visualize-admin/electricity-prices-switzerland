@@ -16,7 +16,7 @@ import {
   GraphqlRequestContext,
 } from "src/graphql/server-context";
 import assert from "src/lib/assert";
-import { createMetricsPlugin } from "src/apollo/plugins/metrics-plugin";
+import { createSentryMetricsPlugin } from "src/apollo/plugins/sentry-metrics-plugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
 import { createLogMiddleware } from "src/pages/api/log-middleware";
 
@@ -28,8 +28,8 @@ const server = new ApolloServer({
   apollo: {},
   introspection: serverEnv.NODE_ENV === "development",
   plugins: [
-    // Unified metrics plugin with in-memory collection, periodic console logging, and Redis persistence
-    createMetricsPlugin(
+    // Sentry metrics plugin for distributed tracing and metrics collection
+    createSentryMetricsPlugin(
       serverEnv.NODE_ENV === "development" || serverEnv.METRICS_ENABLED
     ),
     serverEnv.NODE_ENV === "development"

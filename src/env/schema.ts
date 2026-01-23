@@ -63,10 +63,9 @@ export const serverSchema = z.object({
     .optional()
     .transform((value) => value === "true"),
 
-  // Redis configuration
-  REDIS_URL: z.string().optional(),
-  UPSTASH_REDIS_REST_URL: z.string().optional(),
-  UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
+  // Sentry configuration
+  SENTRY_AUTH_TOKEN: z.string().optional(),
+  SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).optional(),
 
   NODE_ENV: z.string().default("development"),
 

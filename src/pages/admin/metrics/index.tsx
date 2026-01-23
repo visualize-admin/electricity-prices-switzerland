@@ -18,15 +18,13 @@ import { useEffect } from "react";
 import AdminLayout from "src/admin-auth/components/admin-layout";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
+import serverEnv from "src/env/server";
 import {
-  listDeploymentIds,
-  getOperationMetricsByDeploymentId,
+  listReleases,
+  getOperationMetricsByRelease,
   OperationMetrics,
 } from "src/lib/metrics/metrics-store";
-import {
-  parseRedisOptionsFromEnv,
-  RedisClientOptions,
-} from "src/lib/metrics/redis-client";
+import { getSentryClient } from "src/lib/metrics/sentry-client";
 
 interface AggregatedOperationMetrics {
   requestCount: number;
@@ -38,16 +36,16 @@ interface AggregatedOperationMetrics {
   responseCacheMiss: number;
 }
 
-interface DeploymentMetrics {
-  deploymentId: string;
+interface ReleaseMetrics {
+  release: string;
   collectedAt: string;
   operations: Record<string, AggregatedOperationMetrics>;
 }
 
 interface ComparisonData {
   operation: string;
-  deployments: Array<{
-    deploymentId: string;
+  releases: Array<{
+    release: string;
     cacheHit: number;
     cacheMiss: number;
     total: number;
@@ -55,11 +53,17 @@ interface ComparisonData {
   }>;
 }
 
+interface SentryConfig {
+  enabled: boolean;
+  sampleRate: number;
+  authTokenConfigured: boolean;
+}
+
 interface MetricsPageProps {
-  deployments: DeploymentMetrics[];
+  releases: ReleaseMetrics[];
   comparisonData: ComparisonData[];
   csrfToken: string;
-  redisConfig: RedisClientOptions;
+  sentryConfig: SentryConfig;
 }
 
 function aggregateMetrics(
@@ -90,12 +94,12 @@ function aggregateMetrics(
 }
 
 function prepareComparisonData(
-  deployments: DeploymentMetrics[]
+  releases: ReleaseMetrics[]
 ): ComparisonData[] {
   // Collect all unique operation names
   const allOperations = new Set<string>();
-  deployments.forEach((deployment) => {
-    Object.keys(deployment.operations).forEach((op) => allOperations.add(op));
+  releases.forEach((release) => {
+    Object.keys(release.operations).forEach((op) => allOperations.add(op));
   });
 
   // Build comparison data
@@ -103,8 +107,8 @@ function prepareComparisonData(
     (operation) => {
       return {
         operation,
-        deployments: deployments.map((deployment) => {
-          const metrics = deployment.operations[operation] || {
+        releases: releases.map((release) => {
+          const metrics = release.operations[operation] || {
             responseCacheHit: 0,
             responseCacheMiss: 0,
             cacheHitRate: 0,
@@ -114,7 +118,7 @@ function prepareComparisonData(
           const total = cacheHit + cacheMiss;
 
           return {
-            deploymentId: deployment.deploymentId,
+            release: release.release,
             cacheHit,
             cacheMiss,
             total,
@@ -125,84 +129,68 @@ function prepareComparisonData(
     }
   );
 
-  // Filter out operations with zero total across all deployments
+  // Filter out operations with zero total across all releases
   const filtered = comparisonData.filter((item) =>
-    item.deployments.some((d) => d.total > 0)
+    item.releases.some((d) => d.total > 0)
   );
 
   // Sort by total requests (descending)
   filtered.sort((a, b) => {
-    const aTotal = a.deployments.reduce((sum, d) => sum + d.total, 0);
-    const bTotal = b.deployments.reduce((sum, d) => sum + d.total, 0);
+    const aTotal = a.releases.reduce((sum, d) => sum + d.total, 0);
+    const bTotal = b.releases.reduce((sum, d) => sum + d.total, 0);
     return bTotal - aTotal;
   });
 
   return filtered;
 }
 
-const RedisConfigurationCard: React.FC<{
-  redisConfig: RedisClientOptions;
-}> = ({ redisConfig }) => (
+const SentryConfigurationCard: React.FC<{
+  sentryConfig: SentryConfig;
+}> = ({ sentryConfig }) => (
   <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
     <Typography variant="h6" gutterBottom>
-      Redis Configuration
+      Sentry Configuration
     </Typography>
     <Box sx={{ display: "flex", gap: 4, mb: 1 }}>
       <Box>
         <Typography variant="caption" color="text.secondary">
-          Connection Type:
+          Tracing Status:
         </Typography>
         <Typography variant="body2" fontFamily="monospace">
-          {redisConfig.type}
+          {sentryConfig.enabled ? "Enabled" : "Disabled"}
         </Typography>
       </Box>
-      {redisConfig.type === "upstash" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Upstash URL:
-          </Typography>
-          <Typography
-            variant="body2"
-            fontFamily="monospace"
-            sx={{ wordBreak: "break-all" }}
-          >
-            {redisConfig.url}
-          </Typography>
-        </Box>
-      )}
-      {redisConfig.type === "ioredis" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Redis URL:
-          </Typography>
-          <Typography
-            variant="body2"
-            fontFamily="monospace"
-            sx={{ wordBreak: "break-all" }}
-          >
-            {redisConfig.url}
-          </Typography>
-        </Box>
-      )}
-      {redisConfig.type === "noop" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Status:
-          </Typography>
-          <Typography variant="body2" color="warning.main">
-            Metrics disabled or no Redis connection configured
-          </Typography>
-        </Box>
-      )}
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Sample Rate:
+        </Typography>
+        <Typography variant="body2" fontFamily="monospace">
+          {(sentryConfig.sampleRate * 100).toFixed(0)}%
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Auth Token:
+        </Typography>
+        <Typography
+          variant="body2"
+          fontFamily="monospace"
+          color={
+            sentryConfig.authTokenConfigured ? "success.main" : "warning.main"
+          }
+        >
+          {sentryConfig.authTokenConfigured ? "Configured" : "Not Configured"}
+        </Typography>
+      </Box>
     </Box>
   </Paper>
 );
 
 export default function AdminMetricsPage({
-  deployments,
+  releases,
   comparisonData,
   csrfToken,
-  redisConfig,
+  sentryConfig,
 }: MetricsPageProps) {
   useEffect(() => {
     // Only load D3 on client side
@@ -213,17 +201,17 @@ export default function AdminMetricsPage({
       // Clear any existing chart
       d3.select("#chart").selectAll("*").remove();
 
-      if (comparisonData.length === 0 || deployments.length === 0) {
+      if (comparisonData.length === 0 || releases.length === 0) {
         return;
       }
 
       // Chart configuration
       const margin = { top: 20, right: 150, bottom: 60, left: 200 };
       const width = 1000 - margin.left - margin.right;
-      const numDeployments = deployments.length;
+      const numReleases = releases.length;
       const itemHeight = 16;
       const height =
-        Math.max(600, comparisonData.length * (itemHeight * numDeployments)) -
+        Math.max(600, comparisonData.length * (itemHeight * numReleases)) -
         margin.top -
         margin.bottom;
 
@@ -238,7 +226,7 @@ export default function AdminMetricsPage({
       // Scales
       const maxTotal =
         d3.max(comparisonData, (d) =>
-          d3.max(d.deployments, (dep) => dep.total)
+          d3.max(d.releases, (rel) => rel.total)
         ) || 0;
 
       const x = d3.scaleLinear().domain([0, maxTotal]).range([0, width]);
@@ -249,14 +237,14 @@ export default function AdminMetricsPage({
         .range([0, height])
         .padding(0.3);
 
-      // Color scale for deployments
-      const deploymentColor = d3
+      // Color scale for releases
+      const releaseColor = d3
         .scaleOrdinal()
-        .domain(deployments.map((d) => d.deploymentId))
+        .domain(releases.map((d) => d.release))
         .range(d3.schemeCategory10);
 
       const groupHeight = y.bandwidth();
-      const barHeight = groupHeight / (numDeployments + 0.5);
+      const barHeight = groupHeight / (numReleases + 0.5);
 
       // Tooltip
       const tooltip = d3.select("#tooltip");
@@ -270,22 +258,22 @@ export default function AdminMetricsPage({
         .attr("class", "operation-group")
         .attr("transform", (d) => `translate(0,${y(d.operation)})`);
 
-      // For each operation, draw bars for each deployment
+      // For each operation, draw bars for each release
       comparisonData.forEach((opData, opIndex) => {
         const group = d3.select(groups.nodes()[opIndex]);
 
-        opData.deployments.forEach((depData, depIndex) => {
-          const yOffset = depIndex * barHeight;
-          const depGroup = group
+        opData.releases.forEach((relData, relIndex) => {
+          const yOffset = relIndex * barHeight;
+          const relGroup = group
             .append("g")
             .attr("transform", `translate(0, ${yOffset})`);
 
           // Cache hit (green)
-          depGroup
+          relGroup
             .append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", x(depData.cacheHit))
+            .attr("width", x(relData.cacheHit))
             .attr("height", barHeight - 2)
             .attr("fill", "#22c55e")
             .attr("opacity", 0.8)
@@ -294,22 +282,22 @@ export default function AdminMetricsPage({
                 .style("opacity", 1)
                 .html(
                   `
-                  <div class="tooltip-title">${depData.deploymentId}</div>
+                  <div class="tooltip-title">${relData.release}</div>
                   <div class="tooltip-row">
                     <span>Operation:</span>
                     <strong>${opData.operation}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Cache Hit:</span>
-                    <strong>${depData.cacheHit}</strong>
+                    <strong>${relData.cacheHit}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Cache Miss:</span>
-                    <strong>${depData.cacheMiss}</strong>
+                    <strong>${relData.cacheMiss}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Hit Rate:</span>
-                    <strong>${(depData.hitRate * 100).toFixed(1)}%</strong>
+                    <strong>${(relData.hitRate * 100).toFixed(1)}%</strong>
                   </div>
                 `
                 )
@@ -319,11 +307,11 @@ export default function AdminMetricsPage({
             .on("mouseout", () => tooltip.style("opacity", 0));
 
           // Cache miss (red)
-          depGroup
+          relGroup
             .append("rect")
-            .attr("x", x(depData.cacheHit))
+            .attr("x", x(relData.cacheHit))
             .attr("y", 0)
-            .attr("width", x(depData.cacheMiss))
+            .attr("width", x(relData.cacheMiss))
             .attr("height", barHeight - 2)
             .attr("fill", "#ef4444")
             .attr("opacity", 0.8)
@@ -332,22 +320,22 @@ export default function AdminMetricsPage({
                 .style("opacity", 1)
                 .html(
                   `
-                  <div class="tooltip-title">${depData.deploymentId}</div>
+                  <div class="tooltip-title">${relData.release}</div>
                   <div class="tooltip-row">
                     <span>Operation:</span>
                     <strong>${opData.operation}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Cache Hit:</span>
-                    <strong>${depData.cacheHit}</strong>
+                    <strong>${relData.cacheHit}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Cache Miss:</span>
-                    <strong>${depData.cacheMiss}</strong>
+                    <strong>${relData.cacheMiss}</strong>
                   </div>
                   <div class="tooltip-row">
                     <span>Hit Rate:</span>
-                    <strong>${(depData.hitRate * 100).toFixed(1)}%</strong>
+                    <strong>${(relData.hitRate * 100).toFixed(1)}%</strong>
                   </div>
                 `
                 )
@@ -356,15 +344,15 @@ export default function AdminMetricsPage({
             })
             .on("mouseout", () => tooltip.style("opacity", 0));
 
-          // Deployment label on the right
-          depGroup
+          // Release label on the right
+          relGroup
             .append("text")
             .attr("x", width + 10)
             .attr("y", barHeight / 2)
             .attr("dy", "0.35em")
             .attr("font-size", "10px")
-            .attr("fill", deploymentColor(depData.deploymentId) as string)
-            .text(depData.deploymentId);
+            .attr("fill", releaseColor(relData.release) as string)
+            .text(relData.release);
         });
       });
 
@@ -386,9 +374,9 @@ export default function AdminMetricsPage({
 
       svg.append("g").call(yAxis);
     });
-  }, [comparisonData, deployments]);
+  }, [comparisonData, releases]);
 
-  if (deployments.length === 0) {
+  if (releases.length === 0) {
     return (
       <AdminLayout
         title="GraphQL Metrics Dashboard"
@@ -398,9 +386,9 @@ export default function AdminMetricsPage({
           { label: "Metrics" },
         ]}
       >
-        <RedisConfigurationCard redisConfig={redisConfig} />
+        <SentryConfigurationCard sentryConfig={sentryConfig} />
         <Typography color="text.secondary">
-          No metrics found in Redis
+          No metrics found.
         </Typography>
       </AdminLayout>
     );
@@ -416,29 +404,29 @@ export default function AdminMetricsPage({
       ]}
     >
       <Typography variant="body1" color="text.secondary" gutterBottom>
-        Deployment Comparison - Cache Hit/Miss Analysis
+        Release Comparison - Cache Hit/Miss Analysis
       </Typography>
 
-      {/* Deployments Metadata */}
+      {/* Releases Metadata */}
       <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
         <Typography variant="h6" gutterBottom>
-          Deployments ({deployments.length})
+          Releases ({releases.length})
         </Typography>
-        {deployments.map((deployment) => (
+        {releases.map((release) => (
           <Box
-            key={deployment.deploymentId}
+            key={release.release}
             sx={{ display: "flex", gap: 4, mb: 1 }}
           >
             <Box>
               <Typography variant="caption" color="text.secondary">
-                Deployment ID:
+                Release:
               </Typography>
               <Typography
                 variant="body2"
                 fontFamily="monospace"
                 sx={{ wordBreak: "break-all" }}
               >
-                {deployment.deploymentId}
+                {release.release}
               </Typography>
             </Box>
             <Box>
@@ -447,7 +435,7 @@ export default function AdminMetricsPage({
               </Typography>
               <Typography variant="body2" fontFamily="monospace">
                 {utcFormat("%Y-%m-%d %H:%M:%S")(
-                  new Date(deployment.collectedAt)
+                  new Date(release.collectedAt)
                 )}
               </Typography>
             </Box>
@@ -455,17 +443,17 @@ export default function AdminMetricsPage({
         ))}
       </Paper>
 
-      {/* Redis Configuration */}
-      <RedisConfigurationCard redisConfig={redisConfig} />
+      {/* Sentry Configuration */}
+      <SentryConfigurationCard sentryConfig={sentryConfig} />
 
       {/* Legend */}
       <Box sx={{ display: "flex", gap: 3, mb: 3, flexWrap: "wrap" }}>
         <Chip label="Cache Hit" sx={{ bgcolor: "#22c55e", color: "white" }} />
         <Chip label="Cache Miss" sx={{ bgcolor: "#ef4444", color: "white" }} />
-        {deployments.map((deployment, index) => (
+        {releases.map((release, index) => (
           <Chip
-            key={deployment.deploymentId}
-            label={deployment.deploymentId}
+            key={release.release}
+            label={release.release}
             sx={{
               bgcolor: schemeCategory10[index % schemeCategory10.length],
               color: "white",
@@ -486,36 +474,36 @@ export default function AdminMetricsPage({
           <TableHead>
             <TableRow>
               <TableCell>Operation</TableCell>
-              {deployments.map((deployment) => (
+              {releases.map((release) => (
                 <TableCell
-                  key={deployment.deploymentId}
+                  key={release.release}
                   colSpan={3}
                   align="center"
                   sx={{ borderLeft: "2px solid", borderLeftColor: "divider" }}
                 >
-                  {deployment.deploymentId}
+                  {release.release}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
               <TableCell />
-              {deployments.map((deployment) => (
+              {releases.map((release) => (
                 <>
                   <TableCell
-                    key={`${deployment.deploymentId}-hits`}
+                    key={`${release.release}-hits`}
                     align="right"
                     sx={{ borderLeft: "2px solid", borderLeftColor: "divider" }}
                   >
                     Hits
                   </TableCell>
                   <TableCell
-                    key={`${deployment.deploymentId}-misses`}
+                    key={`${release.release}-misses`}
                     align="right"
                   >
                     Misses
                   </TableCell>
                   <TableCell
-                    key={`${deployment.deploymentId}-rate`}
+                    key={`${release.release}-rate`}
                     align="right"
                   >
                     Hit Rate
@@ -528,10 +516,10 @@ export default function AdminMetricsPage({
             {comparisonData.map((item) => (
               <TableRow key={item.operation} hover>
                 <TableCell>{item.operation}</TableCell>
-                {item.deployments.map((dep) => (
+                {item.releases.map((rel) => (
                   <>
                     <TableCell
-                      key={`${dep.deploymentId}-hits`}
+                      key={`${rel.release}-hits`}
                       align="right"
                       sx={{
                         fontFamily: "monospace",
@@ -539,21 +527,21 @@ export default function AdminMetricsPage({
                         borderLeftColor: "divider",
                       }}
                     >
-                      {dep.cacheHit}
+                      {rel.cacheHit}
                     </TableCell>
                     <TableCell
-                      key={`${dep.deploymentId}-misses`}
+                      key={`${rel.release}-misses`}
                       align="right"
                       sx={{ fontFamily: "monospace" }}
                     >
-                      {dep.cacheMiss}
+                      {rel.cacheMiss}
                     </TableCell>
                     <TableCell
-                      key={`${dep.deploymentId}-rate`}
+                      key={`${rel.release}-rate`}
                       align="right"
                       sx={{ fontFamily: "monospace" }}
                     >
-                      {(dep.hitRate * 100).toFixed(1)}%
+                      {(rel.hitRate * 100).toFixed(1)}%
                     </TableCell>
                   </>
                 ))}
@@ -601,48 +589,59 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const session = await parseSessionFromRequest(context.req);
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
-  // Get Redis configuration
-  const redisConfig = parseRedisOptionsFromEnv();
+  // Get Sentry configuration
+  const sentryClient = getSentryClient();
+  const sentryConfig: SentryConfig = {
+    enabled: serverEnv.NODE_ENV === "production",
+    sampleRate:
+      serverEnv.SENTRY_TRACES_SAMPLE_RATE ??
+      (serverEnv.NODE_ENV === "production"
+        ? process.env.VERCEL_URL
+          ? 1.0
+          : 0.1
+        : 1.0),
+    authTokenConfigured: sentryClient.isConfigured(),
+  };
 
   try {
-    // Fetch all deployment IDs
-    const deploymentIds = await listDeploymentIds();
+    // Fetch all releases
+    const releaseIds = await listReleases();
 
-    // Fetch metrics for each deployment
-    const deployments: DeploymentMetrics[] = [];
-    for (const deploymentId of deploymentIds) {
-      const rawMetrics = await getOperationMetricsByDeploymentId(deploymentId);
+    // Fetch metrics for each release
+    const releases: ReleaseMetrics[] = [];
+    for (const release of releaseIds) {
+      const rawMetrics = await getOperationMetricsByRelease(release);
       const operations = aggregateMetrics(rawMetrics);
 
-      deployments.push({
-        deploymentId,
+      releases.push({
+        release,
         collectedAt: new Date().toISOString(),
         operations,
       });
     }
 
-    // Sort deployments by ID (most recent first, assuming timestamp-based IDs)
-    deployments.sort((a, b) => b.deploymentId.localeCompare(a.deploymentId));
+    // Sort releases by ID (most recent first)
+    releases.sort((a, b) => b.release.localeCompare(a.release));
 
     // Prepare comparison data
-    const comparisonData = prepareComparisonData(deployments);
+    const comparisonData = prepareComparisonData(releases);
 
     return {
       props: {
-        deployments,
+        releases,
         comparisonData,
         csrfToken,
-        redisConfig,
+        sentryConfig,
       },
     };
   } catch (error) {
     console.error("[Admin Metrics] Error fetching metrics:", error);
     return {
       props: {
-        deployments: [],
+        releases: [],
         comparisonData: [],
         csrfToken,
-        redisConfig,
+        sentryConfig,
       },
     };
   }

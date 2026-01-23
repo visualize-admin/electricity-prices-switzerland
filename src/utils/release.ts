@@ -4,7 +4,7 @@ import os from "os";
 import serverEnv from "src/env/server";
 
 /**
- * Resolves the deployment ID for metrics isolation.
+ * Resolves the release name for metrics isolation. Used by Sentry.
  *
  * - In Vercel: uses VERCEL_GIT_COMMIT_REF to get the name of the branch
  * - Locally: uses format `local-{hostname}-{git-branch}`
@@ -13,13 +13,12 @@ import serverEnv from "src/env/server";
  * while allowing metrics to accumulate across multiple test runs
  * on the same branch.
  */
-export function getDeploymentId(): string {
+export function getReleaseName(): string {
   // Use Vercel deployment ID if available
   if (serverEnv.VERCEL_GIT_COMMIT_REF) {
     return `vercel-${serverEnv.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
   }
 
-  // Generate local deployment ID
   const hostname = os.hostname().split(".")[0]; // Take first part of hostname
   const gitBranch = getGitBranch();
 
@@ -36,10 +35,10 @@ function getGitBranch(): string {
       stdio: ["pipe", "pipe", "ignore"],
     }).trim();
 
-    // Sanitize branch name for use in Redis keys
+    // Sanitize branch name
     return branch.replace(/[^a-zA-Z0-9-_]/g, "-");
   } catch (error) {
-    console.warn("[Metrics] Failed to get git branch, using 'unknown':", error);
+    console.warn("Failed to get git branch, using 'unknown':", error);
     return "unknown";
   }
 }
