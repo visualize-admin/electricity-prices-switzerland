@@ -1,12 +1,10 @@
 import { ApolloServerPlugin } from "@apollo/server";
+import * as Sentry from "@sentry/nextjs";
 import { format, scaleLinear } from "d3";
 import { GraphQLResolveInfo } from "graphql";
 import { debounce, maxBy } from "lodash";
 
-import {
-  incrementOperationMetrics,
-  incrementResolverMetrics,
-} from "../../lib/metrics/metrics-store";
+import { getDeploymentId } from "../../lib/metrics/deployment-id";
 
 /**
  * In-memory metrics for console logging
@@ -59,21 +57,27 @@ const metricsLogger = (metricsPerOperation: ConsoleOperationMetrics) => {
 const logMetrics = debounce(metricsLogger, 1000);
 
 /**
- * Apollo Server plugin for collecting and persisting GraphQL metrics.
+ * Apollo Server plugin for collecting GraphQL metrics via Sentry distributed tracing.
  *
  * Features:
- * 1. Collects metrics in memory during request (no mid-request Redis calls)
- * 2. Flushes all metrics to Redis once at the end of the request
- * 3. Periodic debounced console logging with visual bar charts
- * 4. Tracks operation-level and resolver-level metrics
+ * 1. Creates Sentry span for each GraphQL operation (using startInactiveSpan for manual lifecycle)
+ * 2. Creates child spans for each resolver execution (nested within operation span)
+ * 3. Tracks cache hits/misses as span attributes
+ * 4. Tags spans with deployment ID for filtering
+ * 5. Periodic debounced console logging with visual bar charts (for development)
+ *
+ * Implementation notes:
+ * - Uses startInactiveSpan() to create long-lived spans that survive across callbacks
+ * - Uses withActiveSpan() to set parent context when starting child spans
+ * - Manually calls span.end() in willSendResponse to finish the operation span
  *
  * Metrics collected:
- * - Operation level: request counts, durations, errors, cache hits
- * - Resolver level: execution counts, durations, errors per field
+ * - Operation span: operation name, duration, cache hit/miss, deployment
+ * - Resolver spans: field path, duration, errors (as children of operation span)
  *
- * @param enabled - Whether to enable Redis persistence and console logging
+ * @param enabled - Whether to enable Sentry tracing and console logging
  */
-export const createMetricsPlugin = (
+export const createSentryMetricsPlugin = (
   enabled: boolean = true
 ): ApolloServerPlugin => {
   if (!enabled) {
@@ -82,46 +86,55 @@ export const createMetricsPlugin = (
 
   return {
     async requestDidStart(requestContext) {
-      const startTime = Date.now();
       let operationName: string | null = null;
-      let errorCount = 0;
-
-      // Collect resolver metrics in memory during request
-      const resolverMetricsBuffer = new Map<
-        string,
-        { count: number; totalDurationMs: number; errorCount: number }
-      >();
+      let operationSpan: ReturnType<typeof Sentry.startInactiveSpan> | null =
+        null;
+      const deploymentId = getDeploymentId();
 
       return {
         async didResolveOperation(context) {
           // Capture operation name (or use "anonymous" for unnamed queries)
           operationName = context.operationName || "anonymous";
+
+          // Start Sentry span for this GraphQL operation (manual control)
+          operationSpan = Sentry.startInactiveSpan({
+            name: operationName,
+            op: "graphql.operation",
+            attributes: {
+              deployment: deploymentId,
+              operation_type: context.operation?.operation || "unknown", // "query" or "mutation"
+            },
+          });
         },
 
         async executionDidStart() {
           return {
             willResolveField({ info }) {
-              // Track resolver start time
+              // Track resolver execution with Sentry span
               const fieldPath = getFieldPath(info);
-              const resolverStartTime = Date.now();
 
-              // Return callback to track resolver completion
-              return (error) => {
-                const duration = Date.now() - resolverStartTime;
-                const hasError = error ? 1 : 0;
+              // Start child span for this resolver within the operation span context
+              let resolverSpan: ReturnType<typeof Sentry.startInactiveSpan> | null =
+                null;
 
-                // Accumulate resolver metrics in memory
-                const existing = resolverMetricsBuffer.get(fieldPath);
-                if (existing) {
-                  existing.count += 1;
-                  existing.totalDurationMs += duration;
-                  existing.errorCount += hasError;
-                } else {
-                  resolverMetricsBuffer.set(fieldPath, {
-                    count: 1,
-                    totalDurationMs: duration,
-                    errorCount: hasError,
+              if (operationSpan) {
+                // Make the operation span active and start a child span
+                resolverSpan = Sentry.withActiveSpan(operationSpan, () => {
+                  return Sentry.startInactiveSpan({
+                    op: "graphql.resolver",
+                    name: fieldPath,
                   });
+                });
+              }
+
+              // Return callback to finish span when resolver completes
+              return (error) => {
+                if (resolverSpan) {
+                  if (error) {
+                    resolverSpan.setStatus({ code: 2, message: "internal_error" });
+                    resolverSpan.setAttribute("error", true);
+                  }
+                  resolverSpan.end();
                 }
               };
             },
@@ -129,18 +142,33 @@ export const createMetricsPlugin = (
         },
 
         async didEncounterErrors(context) {
-          // Track operation-level errors in memory
-          errorCount += context.errors.length;
+          // Record errors on operation span
+          if (operationSpan) {
+            operationSpan.setStatus({ code: 2, message: "internal_error" });
+          }
+
+          // Capture each error in Sentry
+          context.errors.forEach((error) => {
+            Sentry.captureException(error, {
+              tags: {
+                deployment: deploymentId,
+                operation: operationName || "unknown",
+              },
+            });
+          });
         },
 
         async willSendResponse() {
-          if (!operationName) {
+          if (!operationName || !operationSpan) {
             return;
           }
 
-          const duration = Date.now() - startTime;
+          // Track cache metrics
           const cacheHit = requestContext.metrics.responseCacheHit ? 1 : 0;
-          const cacheMiss = cacheHit ? 0 : 1;
+
+          // Record cache metrics as attributes on the operation span
+          operationSpan.setAttribute("cache_hit", cacheHit);
+          operationSpan.setAttribute("cache_miss", cacheHit ? 0 : 1);
 
           // Update console metrics (in-memory, for periodic logging)
           let consoleMetric = consoleMetricsPerOperation.get(operationName);
@@ -159,24 +187,8 @@ export const createMetricsPlugin = (
           // Trigger debounced console logging
           logMetrics(consoleMetricsPerOperation);
 
-          // Flush all metrics to Redis in a single batch (asynchronously)
-          Promise.all([
-            // Flush operation metrics
-            incrementOperationMetrics(operationName, {
-              requestCount: 1,
-              totalDurationMs: duration,
-              errorCount,
-              responseCacheHit: cacheHit,
-              responseCacheMiss: cacheMiss,
-            }),
-            // Flush all resolver metrics
-            ...Array.from(resolverMetricsBuffer.entries()).map(
-              ([fieldPath, metrics]) =>
-                incrementResolverMetrics(operationName!, fieldPath, metrics)
-            ),
-          ]).catch((err) => {
-            console.error("[Metrics] Failed to flush metrics:", err);
-          });
+          // Finish the operation span (sends to Sentry)
+          operationSpan.end();
         },
       };
     },

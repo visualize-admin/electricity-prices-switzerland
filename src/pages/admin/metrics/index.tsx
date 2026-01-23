@@ -18,15 +18,13 @@ import { useEffect } from "react";
 import AdminLayout from "src/admin-auth/components/admin-layout";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
+import serverEnv from "src/env/server";
 import {
   listDeploymentIds,
   getOperationMetricsByDeploymentId,
   OperationMetrics,
 } from "src/lib/metrics/metrics-store";
-import {
-  parseRedisOptionsFromEnv,
-  RedisClientOptions,
-} from "src/lib/metrics/redis-client";
+import { getSentryClient } from "src/lib/metrics/sentry-client";
 
 interface AggregatedOperationMetrics {
   requestCount: number;
@@ -55,11 +53,17 @@ interface ComparisonData {
   }>;
 }
 
+interface SentryConfig {
+  enabled: boolean;
+  sampleRate: number;
+  authTokenConfigured: boolean;
+}
+
 interface MetricsPageProps {
   deployments: DeploymentMetrics[];
   comparisonData: ComparisonData[];
   csrfToken: string;
-  redisConfig: RedisClientOptions;
+  sentryConfig: SentryConfig;
 }
 
 function aggregateMetrics(
@@ -140,60 +144,44 @@ function prepareComparisonData(
   return filtered;
 }
 
-const RedisConfigurationCard: React.FC<{
-  redisConfig: RedisClientOptions;
-}> = ({ redisConfig }) => (
+const SentryConfigurationCard: React.FC<{
+  sentryConfig: SentryConfig;
+}> = ({ sentryConfig }) => (
   <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
     <Typography variant="h6" gutterBottom>
-      Redis Configuration
+      Sentry Configuration
     </Typography>
     <Box sx={{ display: "flex", gap: 4, mb: 1 }}>
       <Box>
         <Typography variant="caption" color="text.secondary">
-          Connection Type:
+          Tracing Status:
         </Typography>
         <Typography variant="body2" fontFamily="monospace">
-          {redisConfig.type}
+          {sentryConfig.enabled ? "Enabled" : "Disabled"}
         </Typography>
       </Box>
-      {redisConfig.type === "upstash" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Upstash URL:
-          </Typography>
-          <Typography
-            variant="body2"
-            fontFamily="monospace"
-            sx={{ wordBreak: "break-all" }}
-          >
-            {redisConfig.url}
-          </Typography>
-        </Box>
-      )}
-      {redisConfig.type === "ioredis" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Redis URL:
-          </Typography>
-          <Typography
-            variant="body2"
-            fontFamily="monospace"
-            sx={{ wordBreak: "break-all" }}
-          >
-            {redisConfig.url}
-          </Typography>
-        </Box>
-      )}
-      {redisConfig.type === "noop" && (
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Status:
-          </Typography>
-          <Typography variant="body2" color="warning.main">
-            Metrics disabled or no Redis connection configured
-          </Typography>
-        </Box>
-      )}
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Sample Rate:
+        </Typography>
+        <Typography variant="body2" fontFamily="monospace">
+          {(sentryConfig.sampleRate * 100).toFixed(0)}%
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Auth Token:
+        </Typography>
+        <Typography
+          variant="body2"
+          fontFamily="monospace"
+          color={
+            sentryConfig.authTokenConfigured ? "success.main" : "warning.main"
+          }
+        >
+          {sentryConfig.authTokenConfigured ? "Configured" : "Not Configured"}
+        </Typography>
+      </Box>
     </Box>
   </Paper>
 );
@@ -202,7 +190,7 @@ export default function AdminMetricsPage({
   deployments,
   comparisonData,
   csrfToken,
-  redisConfig,
+  sentryConfig,
 }: MetricsPageProps) {
   useEffect(() => {
     // Only load D3 on client side
@@ -398,7 +386,7 @@ export default function AdminMetricsPage({
           { label: "Metrics" },
         ]}
       >
-        <RedisConfigurationCard redisConfig={redisConfig} />
+        <SentryConfigurationCard sentryConfig={sentryConfig} />
         <Typography color="text.secondary">
           No metrics found in Redis
         </Typography>
@@ -456,7 +444,7 @@ export default function AdminMetricsPage({
       </Paper>
 
       {/* Redis Configuration */}
-      <RedisConfigurationCard redisConfig={redisConfig} />
+      <SentryConfigurationCard sentryConfig={sentryConfig} />
 
       {/* Legend */}
       <Box sx={{ display: "flex", gap: 3, mb: 3, flexWrap: "wrap" }}>
@@ -601,8 +589,19 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const session = await parseSessionFromRequest(context.req);
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
-  // Get Redis configuration
-  const redisConfig = parseRedisOptionsFromEnv();
+  // Get Sentry configuration
+  const sentryClient = getSentryClient();
+  const sentryConfig: SentryConfig = {
+    enabled: serverEnv.NODE_ENV === "production",
+    sampleRate:
+      serverEnv.SENTRY_TRACES_SAMPLE_RATE ??
+      (serverEnv.NODE_ENV === "production"
+        ? serverEnv.VERCEL_DEPLOYMENT_ID
+          ? 1.0
+          : 0.1
+        : 1.0),
+    authTokenConfigured: sentryClient.isConfigured(),
+  };
 
   try {
     // Fetch all deployment IDs
@@ -632,7 +631,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
         deployments,
         comparisonData,
         csrfToken,
-        redisConfig,
+        sentryConfig,
       },
     };
   } catch (error) {
@@ -642,7 +641,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
         deployments: [],
         comparisonData: [],
         csrfToken,
-        redisConfig,
+        sentryConfig,
       },
     };
   }
