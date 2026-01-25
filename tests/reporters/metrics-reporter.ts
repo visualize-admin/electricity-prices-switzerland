@@ -25,7 +25,7 @@ interface ResolverMetrics {
 }
 
 interface MetricsResponse {
-  deploymentId: string;
+  release: string;
   collectedAt: string;
   operations: Record<string, OperationMetrics>;
   resolvers: Record<string, Record<string, ResolverMetrics>>;
@@ -143,7 +143,7 @@ class MetricsReporter implements Reporter {
       `${COMMENT_MARKER}`,
       "## 📊 Server Metrics for this PR",
       "",
-      `**Deployment:** \`${metrics.deploymentId}\``,
+      `**Release:** \`${metrics.release}\``,
       `**Collected:** ${new Date(metrics.collectedAt).toUTCString()}`,
       "",
     ];

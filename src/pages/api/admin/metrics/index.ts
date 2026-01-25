@@ -1,4 +1,5 @@
-import { getDeploymentId } from "src/lib/metrics/deployment-id";
+import * as Sentry from "@sentry/nextjs";
+
 import {
   getOperationMetrics,
   getResolverMetrics,
@@ -23,10 +24,19 @@ interface AggregatedResolverMetrics {
 }
 
 interface MetricsResponse {
-  deploymentId: string;
+  release: string;
   collectedAt: string;
   operations: Record<string, AggregatedOperationMetrics>;
   resolvers: Record<string, Record<string, AggregatedResolverMetrics>>;
+}
+
+/**
+ * Gets the current release identifier for metrics
+ */
+function getCurrentRelease(): string {
+  const client = Sentry.getClient();
+  const release = client?.getOptions().release;
+  return release || "unknown";
 }
 
 /**
@@ -89,7 +99,7 @@ export default async function handler(
     }
 
     const response: MetricsResponse = {
-      deploymentId: getDeploymentId(),
+      release: getCurrentRelease(),
       collectedAt: new Date().toISOString(),
       operations: aggregatedOperations,
       resolvers: aggregatedResolvers,

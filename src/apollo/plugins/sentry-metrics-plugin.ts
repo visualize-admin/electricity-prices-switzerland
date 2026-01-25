@@ -4,8 +4,6 @@ import { format, scaleLinear } from "d3";
 import { GraphQLResolveInfo } from "graphql";
 import { debounce, maxBy } from "lodash";
 
-import { getDeploymentId } from "../../lib/metrics/deployment-id";
-
 /**
  * In-memory metrics for console logging
  */
@@ -63,7 +61,7 @@ const logMetrics = debounce(metricsLogger, 1000);
  * 1. Creates Sentry span for each GraphQL operation (using startInactiveSpan for manual lifecycle)
  * 2. Creates child spans for each resolver execution (nested within operation span)
  * 3. Tracks cache hits/misses as span attributes
- * 4. Tags spans with deployment ID for filtering
+ * 4. Groups metrics by Sentry release for filtering
  * 5. Periodic debounced console logging with visual bar charts (for development)
  *
  * Implementation notes:
@@ -72,7 +70,7 @@ const logMetrics = debounce(metricsLogger, 1000);
  * - Manually calls span.end() in willSendResponse to finish the operation span
  *
  * Metrics collected:
- * - Operation span: operation name, duration, cache hit/miss, deployment
+ * - Operation span: operation name, duration, cache hit/miss
  * - Resolver spans: field path, duration, errors (as children of operation span)
  *
  * @param enabled - Whether to enable Sentry tracing and console logging
@@ -89,7 +87,6 @@ export const createSentryMetricsPlugin = (
       let operationName: string | null = null;
       let operationSpan: ReturnType<typeof Sentry.startInactiveSpan> | null =
         null;
-      const deploymentId = getDeploymentId();
 
       return {
         async didResolveOperation(context) {
@@ -101,7 +98,6 @@ export const createSentryMetricsPlugin = (
             name: operationName,
             op: "graphql.operation",
             attributes: {
-              deployment: deploymentId,
               operation_type: context.operation?.operation || "unknown", // "query" or "mutation"
             },
           });
@@ -151,7 +147,6 @@ export const createSentryMetricsPlugin = (
           context.errors.forEach((error) => {
             Sentry.captureException(error, {
               tags: {
-                deployment: deploymentId,
                 operation: operationName || "unknown",
               },
             });

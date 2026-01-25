@@ -1,12 +1,22 @@
-import { getDeploymentId } from "src/lib/metrics/deployment-id";
+import * as Sentry from "@sentry/nextjs";
+
 import { clearMetrics } from "src/lib/metrics/metrics-store";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
+ * Gets the current release identifier for metrics
+ */
+function getCurrentRelease(): string {
+  const client = Sentry.getClient();
+  const release = client?.getOptions().release;
+  return release || "unknown";
+}
+
+/**
  * GET /api/admin/metrics/clear
  *
- * Clears all metrics for the current deployment.
+ * Clears all metrics for the current release.
  *
  * Availability: Development environments only (NODE_ENV !== 'production')
  * Returns 404 in production.
@@ -25,12 +35,12 @@ export default async function handler(
   }
 
   try {
-    const deploymentId = getDeploymentId();
+    const release = getCurrentRelease();
     const cleared = await clearMetrics();
 
     res.status(200).json({
       cleared,
-      deploymentId,
+      release,
     });
   } catch (error) {
     console.error("[Metrics API] Error clearing metrics:", error);

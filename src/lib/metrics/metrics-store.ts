@@ -1,4 +1,5 @@
-import { getDeploymentId } from "./deployment-id";
+import * as Sentry from "@sentry/nextjs";
+
 import { getSentryClient } from "./sentry-client";
 
 export interface OperationMetrics {
@@ -16,16 +17,34 @@ interface ResolverMetrics {
 }
 
 /**
- * Fetches all operation metrics for the current deployment from Sentry
+ * Gets the current release identifier for metrics
+ * This should match the release set in Sentry configuration
+ */
+function getCurrentRelease(): string {
+  // Get the release from Sentry's current scope
+  const client = Sentry.getClient();
+  const release = client?.getOptions().release;
+
+  if (release) {
+    return release;
+  }
+
+  // Fallback if Sentry hasn't been initialized yet
+  console.warn("[Metrics] No Sentry release found, using fallback");
+  return "unknown";
+}
+
+/**
+ * Fetches all operation metrics for the current release from Sentry
  */
 export async function getOperationMetrics(): Promise<
   Record<string, OperationMetrics>
 > {
   const client = getSentryClient();
-  const deploymentId = getDeploymentId();
+  const release = getCurrentRelease();
 
   try {
-    return await client.getOperationMetrics(deploymentId);
+    return await client.getOperationMetrics(release);
   } catch (error) {
     console.error("[Metrics] Failed to fetch operation metrics:", error);
     return {};
@@ -33,25 +52,22 @@ export async function getOperationMetrics(): Promise<
 }
 
 /**
- * Fetches all resolver metrics for the current deployment from Sentry
+ * Fetches all resolver metrics for the current release from Sentry
  */
 export async function getResolverMetrics(): Promise<
   Record<string, Record<string, ResolverMetrics>>
 > {
   const client = getSentryClient();
-  const deploymentId = getDeploymentId();
+  const release = getCurrentRelease();
 
   try {
     // First, get all operations to know which ones to query for resolvers
-    const operations = await client.getOperationMetrics(deploymentId);
+    const operations = await client.getOperationMetrics(release);
     const result: Record<string, Record<string, ResolverMetrics>> = {};
 
     // Fetch resolver metrics for each operation
     for (const operationName of Object.keys(operations)) {
-      const resolvers = await client.getResolverMetrics(
-        deploymentId,
-        operationName
-      );
+      const resolvers = await client.getResolverMetrics(release, operationName);
       if (Object.keys(resolvers).length > 0) {
         result[operationName] = resolvers;
       }
@@ -65,7 +81,7 @@ export async function getResolverMetrics(): Promise<
 }
 
 /**
- * Clears all metrics for the current deployment (no-op for Sentry)
+ * Clears all metrics for the current release (no-op for Sentry)
  */
 export async function clearMetrics(): Promise<boolean> {
   // No-op: Sentry data cannot be cleared via API
@@ -75,32 +91,32 @@ export async function clearMetrics(): Promise<boolean> {
 }
 
 /**
- * Lists all unique deployment IDs that have metrics stored in Sentry
+ * Lists all unique releases that have metrics stored in Sentry
  */
-export async function listDeploymentIds(): Promise<string[]> {
+export async function listReleases(): Promise<string[]> {
   const client = getSentryClient();
 
   try {
-    return await client.listDeploymentIds();
+    return await client.listReleases();
   } catch (error) {
-    console.error("[Metrics] Failed to list deployment IDs:", error);
+    console.error("[Metrics] Failed to list releases:", error);
     return [];
   }
 }
 
 /**
- * Fetches all operation metrics for a specific deployment ID from Sentry
+ * Fetches all operation metrics for a specific release from Sentry
  */
-export async function getOperationMetricsByDeploymentId(
-  deploymentId: string
+export async function getOperationMetricsByRelease(
+  release: string
 ): Promise<Record<string, OperationMetrics>> {
   const client = getSentryClient();
 
   try {
-    return await client.getOperationMetrics(deploymentId);
+    return await client.getOperationMetrics(release);
   } catch (error) {
     console.error(
-      `[Metrics] Failed to fetch operation metrics for deployment ${deploymentId}:`,
+      `[Metrics] Failed to fetch operation metrics for release ${release}:`,
       error
     );
     return {};

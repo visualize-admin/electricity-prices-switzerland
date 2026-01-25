@@ -100,9 +100,9 @@ export class SentryMetricsClient {
   }
 
   /**
-   * Fetch operation-level metrics for a specific deployment
+   * Fetch operation-level metrics for a specific release
    */
-  async getOperationMetrics(deploymentId: string): Promise<
+  async getOperationMetrics(release: string): Promise<
     Record<
       string,
       {
@@ -123,7 +123,7 @@ export class SentryMetricsClient {
           "sum(measurements.cache_miss)",
         ],
         groupBy: ["transaction"],
-        query: `deployment:${deploymentId} transaction.op:graphql.operation`,
+        query: `release:${release} transaction.op:graphql.operation`,
         statsPeriod: "24h",
       });
 
@@ -155,7 +155,7 @@ export class SentryMetricsClient {
       return result;
     } catch (error) {
       console.error(
-        `[Sentry Client] Failed to fetch operation metrics for ${deploymentId}:`,
+        `[Sentry Client] Failed to fetch operation metrics for release ${release}:`,
         error
       );
       return {};
@@ -166,7 +166,7 @@ export class SentryMetricsClient {
    * Fetch resolver-level metrics for a specific operation
    */
   async getResolverMetrics(
-    deploymentId: string,
+    release: string,
     operationName: string
   ): Promise<
     Record<
@@ -182,7 +182,7 @@ export class SentryMetricsClient {
       const response = await this.queryStats({
         field: ["count()", "sum(span.duration)"],
         groupBy: ["span.description"],
-        query: `deployment:${deploymentId} transaction:${operationName} span.op:graphql.resolver`,
+        query: `release:${release} transaction:${operationName} span.op:graphql.resolver`,
         statsPeriod: "24h",
       });
 
@@ -210,7 +210,7 @@ export class SentryMetricsClient {
       return result;
     } catch (error) {
       console.error(
-        `[Sentry Client] Failed to fetch resolver metrics for ${deploymentId}/${operationName}:`,
+        `[Sentry Client] Failed to fetch resolver metrics for release ${release}/${operationName}:`,
         error
       );
       return {};
@@ -218,24 +218,24 @@ export class SentryMetricsClient {
   }
 
   /**
-   * List all unique deployment IDs that have metrics in Sentry
+   * List all unique releases that have metrics in Sentry
    */
-  async listDeploymentIds(): Promise<string[]> {
+  async listReleases(): Promise<string[]> {
     try {
       const response = await this.queryStats({
         field: ["count()"],
-        groupBy: ["deployment"],
+        groupBy: ["release"],
         query: "transaction.op:graphql.operation",
         statsPeriod: "24h",
       });
 
-      const deploymentIds = response.groups
-        .map((group) => group.by.deployment)
+      const releases = response.groups
+        .map((group) => group.by.release)
         .filter((id): id is string => !!id);
 
-      return deploymentIds;
+      return releases;
     } catch (error) {
-      console.error("[Sentry Client] Failed to list deployment IDs:", error);
+      console.error("[Sentry Client] Failed to list releases:", error);
       return [];
     }
   }
