@@ -9,11 +9,14 @@ import {
   TableHead,
   TableRow,
   Chip,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import { schemeCategory10 } from "d3";
 import { utcFormat } from "d3-time-format";
 import { GetServerSideProps } from "next";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
 import GraphQLMetricsChart from "src/admin-auth/components/metrics-chart";
@@ -42,6 +45,8 @@ interface MetricsPageProps {
   comparisonData: ComparisonData[];
   csrfToken: string;
   sentryConfig: SentryConfig;
+  availableReleases: string[];
+  selectedReleases: string[];
 }
 
 function aggregateMetrics(
@@ -120,6 +125,28 @@ function prepareComparisonData(releases: ReleaseMetrics[]): ComparisonData[] {
   return filtered;
 }
 
+const ReleaseSelector: React.FC<{
+  availableReleases: string[];
+  selectedReleases: string[];
+  onSelectionChange: (releases: string[]) => void;
+}> = ({ availableReleases, selectedReleases, onSelectionChange }) => (
+  <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
+    <Typography variant="h6" gutterBottom>
+      Select Releases to Compare
+    </Typography>
+    <Autocomplete
+      multiple
+      options={availableReleases}
+      value={selectedReleases}
+      onChange={(_, newValue) => onSelectionChange(newValue)}
+      renderInput={(params) => (
+        <TextField {...params} placeholder="Select releases to compare" />
+      )}
+      sx={{ minWidth: 300 }}
+    />
+  </Paper>
+);
+
 const SentryConfigurationCard: React.FC<{
   sentryConfig: SentryConfig;
 }> = ({ sentryConfig }) => (
@@ -167,7 +194,33 @@ export default function AdminMetricsPage({
   comparisonData,
   csrfToken,
   sentryConfig,
+  availableReleases,
+  selectedReleases,
 }: MetricsPageProps) {
+  const router = useRouter();
+  const [localSelectedReleases, setLocalSelectedReleases] =
+    useState<string[]>(selectedReleases);
+
+  const handleReleaseSelectionChange = (newReleases: string[]) => {
+    setLocalSelectedReleases(newReleases);
+
+    // Update URL with new selection
+    const query = { ...router.query };
+    if (newReleases.length > 0) {
+      query.releases = newReleases.join(",");
+    } else {
+      delete query.releases;
+    }
+
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: false }
+    );
+  };
   if (releases.length === 0) {
     return (
       <AdminLayout
@@ -175,8 +228,17 @@ export default function AdminMetricsPage({
         csrfToken={csrfToken}
         breadcrumbs={[{ label: "Admin" }, { label: "Metrics" }]}
       >
+        <ReleaseSelector
+          availableReleases={availableReleases}
+          selectedReleases={localSelectedReleases}
+          onSelectionChange={handleReleaseSelectionChange}
+        />
         <SentryConfigurationCard sentryConfig={sentryConfig} />
-        <Typography color="text.secondary">No metrics found.</Typography>
+        <Typography color="text.secondary">
+          {localSelectedReleases.length === 0
+            ? "Please select releases to compare."
+            : "No metrics found for selected releases."}
+        </Typography>
       </AdminLayout>
     );
   }
@@ -193,6 +255,13 @@ export default function AdminMetricsPage({
       <Typography variant="body1" color="text.secondary" gutterBottom>
         Release Comparison - Cache Hit/Miss Analysis
       </Typography>
+
+      {/* Release Selector */}
+      <ReleaseSelector
+        availableReleases={availableReleases}
+        selectedReleases={localSelectedReleases}
+        onSelectionChange={handleReleaseSelectionChange}
+      />
 
       {/* Releases Metadata */}
       <Paper variant="outlined" sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
@@ -340,8 +409,9 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const session = await parseSessionFromRequest(context.req);
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
-  // Get Sentry configuration
+  // Get Sentry configuration and current release
   const sentryClient = getSentryClient();
+  const currentRelease = sentryClient.getCurrentRelease();
   const sentryConfig: SentryConfig = {
     enabled: serverEnv.NODE_ENV === "production",
     sampleRate:
@@ -354,46 +424,65 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
     authTokenConfigured: sentryClient.isConfigured(),
   };
 
-  try {
-    // Fetch all releases
-    const releaseIds = await listReleases();
+  // Fetch all available releases
+  const availableReleases = (await listReleases()).slice(0, 20); // Get more releases for selection
 
-    // Fetch metrics for each release
-    const releases: ReleaseMetrics[] = [];
-    for (const release of releaseIds) {
+  // Parse selected releases from query parameter
+  const selectedReleasesParam = context.query.releases as string;
+  let selectedReleases = selectedReleasesParam
+    ? selectedReleasesParam
+        .split(",")
+        .filter((r) => availableReleases.includes(r))
+    : [];
+
+  // Always ensure current release is included if it exists in available releases
+  if (
+    availableReleases.includes(currentRelease) &&
+    !selectedReleases.includes(currentRelease)
+  ) {
+    selectedReleases = [currentRelease, ...selectedReleases];
+  }
+
+  console.log(currentRelease);
+
+  // If no releases selected and current release is available, default to current + first 4 others
+  if (selectedReleases.length === 0) {
+    const otherReleases = availableReleases
+      .filter((r) => r !== currentRelease)
+      .slice(0, 4);
+    selectedReleases = availableReleases.includes(currentRelease)
+      ? [currentRelease, ...otherReleases]
+      : [];
+  }
+
+  // Fetch metrics only for selected releases
+  const releases: ReleaseMetrics[] = await Promise.all(
+    selectedReleases.map(async (release) => {
       const rawMetrics = await getOperationMetricsByRelease(release);
       const operations = aggregateMetrics(rawMetrics);
 
-      releases.push({
+      return {
         release,
         collectedAt: new Date().toISOString(),
         operations,
-      });
-    }
+      };
+    })
+  );
 
-    // Sort releases by ID (most recent first)
-    releases.sort((a, b) => b.release.localeCompare(a.release));
+  // Sort releases by ID (most recent first)
+  releases.sort((a, b) => b.release.localeCompare(a.release));
 
-    // Prepare comparison data
-    const comparisonData = prepareComparisonData(releases);
+  // Prepare comparison data
+  const comparisonData = prepareComparisonData(releases);
 
-    return {
-      props: {
-        releases,
-        comparisonData,
-        csrfToken,
-        sentryConfig,
-      },
-    };
-  } catch (error) {
-    console.error("[Admin Metrics] Error fetching metrics:", error);
-    return {
-      props: {
-        releases: [],
-        comparisonData: [],
-        csrfToken,
-        sentryConfig,
-      },
-    };
-  }
+  return {
+    props: {
+      releases,
+      comparisonData,
+      csrfToken,
+      sentryConfig,
+      availableReleases,
+      selectedReleases,
+    },
+  };
 };

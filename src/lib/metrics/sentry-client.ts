@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/nextjs";
+
 import serverEnv from "src/env/server";
 import { SENTRY_DSN } from "src/lib/sentry/constants";
 
@@ -356,6 +358,15 @@ export class SentryMetricsClient {
       );
       return {};
     }
+  }
+
+  /**
+   * Get the current release name from Sentry client
+   */
+  getCurrentRelease(): string {
+    const client = Sentry.getClient();
+    const release = client?.getOptions().release;
+    return release || "unknown";
   }
 
   /**
