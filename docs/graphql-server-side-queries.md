@@ -39,32 +39,6 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 );
 ```
 
-### Parallel Queries
-
-For pages that need multiple datasets, use `Promise.all`:
-
-```typescript
-const [dataA, dataB, dataC] = await Promise.all([
-  executeGraphqlQuery<QueryAQuery>(QueryADocument, { filter: { ... } }),
-  executeGraphqlQuery<QueryBQuery>(QueryBDocument, { filter: { ... } }),
-  executeGraphqlQuery<QueryCQuery>(QueryCDocument, { filter: { ... } }),
-]);
-
-// Check all results for required data
-if (!dataA.queryA) {
-  throw new Error("Failed to fetch A");
-}
-// ... validate other results
-
-return {
-  props: {
-    dataA: dataA.queryA,
-    dataB: dataB.queryB,
-    dataC: dataC.queryC,
-  },
-};
-```
-
 ### Adding a New Query
 
 1. **Define the filter type in schema** (`src/graphql/schema.graphql`):
@@ -218,7 +192,6 @@ const MyPage = (props: Props) => {
 - Server renders with default/URL parameters for fast initial load
 - `pause: true` prevents unnecessary client queries on initial render
 - Client fetches only when user changes filters
-- Seamless transition between server and client data
 
 ---
 
@@ -226,23 +199,12 @@ const MyPage = (props: Props) => {
 
 ### Why executeGraphqlQuery in getServerSideProps?
 
-**Direct Execution**: Queries execute directly against the Apollo Server instance without HTTP overhead. This provides:
-
 - No network round-trip (in-process execution)
 - Simpler code without HTTP client configuration
-- Direct access to Apollo Server's response format
-
-**Consistency**: Server-side and client-side queries use identical GraphQL documents. This eliminates:
-
-- Duplicate type definitions between fetcher functions and GraphQL types
-- Risk of server/client data shape mismatches
-- Maintenance burden of keeping two data-fetching approaches in sync
-
-**Type Safety**: Generated types from `yarn graphql:codegen` provide end-to-end type safety:
-
-- `MyQueryDocument` contains the exact query structure
-- `MyQueryQuery` types the response data
-- Filter types are validated at compile time
+- Access to Apollo Server cache
+- Remove potential duplicate type definitions between fetcher functions and GraphQL types
+- Run through the full Apollo Server pipeline, including all plugins and caching
+- Use the proper GraphQL context created from the request
 
 ### Why Not Call Fetcher Functions Directly?
 
@@ -256,8 +218,7 @@ const data = await fetchMyData(sunshineDataService, { operatorId });
 Problems with direct fetcher calls:
 
 1. **Type Drift**: Fetcher return types can diverge from GraphQL schema types
-2. **No Query Reuse**: Client-side queries define their own documents, duplicating field selections
-3. **Hidden Dependencies**: Fetchers may have different parameter handling than GraphQL filters
+2. **Cache not used**: Apollo server cache is not used.
 
 ### Architecture Overview
 
@@ -293,49 +254,6 @@ Problems with direct fetcher calls:
 │  │               (src/lib/sunshine-data.ts)            │   │
 │  └─────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
-```
-
-### Server-Side Direct Execution
-
-The `executeGraphqlQuery` helper executes queries directly against the Apollo Server instance:
-
-```typescript
-// From src/utils/execute-graphql-query.ts
-export const createExecuteGraphqlQuery =
-  (apolloServer: ApolloServer<GraphqlRequestContext>) =>
-  (graphqlContext: GraphqlRequestContext): ExecuteGraphqlQuery => {
-    return async (query, variables) => {
-      const response = await apolloServer.executeOperation(
-        { query, variables },
-        { contextValue: graphqlContext }
-      );
-      // ... error handling and data extraction
-    };
-  };
-```
-
-This means server-side queries:
-
-- Execute directly in-process without HTTP overhead
-- Run through the full Apollo Server pipeline, including all plugins and caching
-- Benefit from Apollo Server's response caching and metrics plugins
-- Use the proper GraphQL context created from the request
-
-### When to Use Optional Filter Parameters
-
-GraphQL filter parameters should be optional (`Int` not `Int!`) when:
-
-- The fetcher function has default behavior (e.g., "use latest period")
-- The parameter is only needed for specific use cases
-
-Example: `period` is optional because fetchers default to the latest available year:
-
-```graphql
-input MyFilter {
-  operatorId: Int! # Always required
-  period: Int # Optional - defaults to latest year
-  operatorOnly: Boolean # Optional - defaults to false (include peer group)
-}
 ```
 
 ### Error Handling Strategy
