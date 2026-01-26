@@ -1,8 +1,6 @@
 import { execSync } from "child_process";
 import os from "os";
 
-import serverEnv from "src/env/server";
-
 /**
  * Resolves the release name for metrics isolation. Used by Sentry.
  *
@@ -15,8 +13,8 @@ import serverEnv from "src/env/server";
  */
 export function getReleaseName(): string {
   // Use Vercel deployment ID if available
-  if (serverEnv.VERCEL_GIT_COMMIT_REF) {
-    return `vercel-${serverEnv.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
+  if (process.env.VERCEL_GIT_COMMIT_REF) {
+    return `vercel-${process.env.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
   }
 
   const hostname = os.hostname().split(".")[0]; // Take first part of hostname
