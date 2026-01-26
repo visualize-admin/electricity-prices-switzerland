@@ -99,7 +99,7 @@ export class SentryMetricsClient {
     sort?: string;
     per_page?: number;
     environment?: string;
-  }): Promise<{ data: Array<Record<string, any>> }> {
+  }): Promise<{ data: Array<Record<string, $IntentionalAny>> }> {
     if (!this.authToken) {
       throw new Error("SENTRY_AUTH_TOKEN not configured");
     }
