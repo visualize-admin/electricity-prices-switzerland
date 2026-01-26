@@ -52,6 +52,12 @@ class MetricsReporter implements Reporter {
 
   constructor(options: MetricsReporterOptions = {}) {
     this.options = options;
+    if (!options.metricsApiToken) {
+      console.warn(
+        "[Metrics Reporter] No metricsApiToken provided, disabling reporter"
+      );
+      this.options.enabled = false;
+    }
   }
 
   async onEnd(result: FullResult) {
