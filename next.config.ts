@@ -4,6 +4,7 @@ import { nodeFileTrace } from "@vercel/nft";
 import { NextConfig } from "next";
 
 import { defaultLocale, locales } from "src/locales/config";
+import { getReleaseName } from "src/utils/release";
 
 import pkg from "./package.json";
 
@@ -135,5 +136,8 @@ export default withSentryConfig(nextConfig, {
   widenClientFileUpload: true,
   disableLogger: true,
   automaticVercelMonitors: true,
+  release: {
+    name: getReleaseName(),
+  },
   // tunnelRoute: "/monitoring",
 });

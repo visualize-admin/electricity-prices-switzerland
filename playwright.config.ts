@@ -2,6 +2,8 @@ import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
 
+import { createMetricsReporterOptions } from "./tests/reporters/metrics-reporter";
+
 loadEnvConfig(process.cwd(), true);
 
 const getHttpCredentialsFromEnv = () => {
@@ -44,6 +46,14 @@ export default defineConfig({
           get: (test) =>
             test.tags.includes("@storybook") ? "storybook" : "app",
         },
+      }),
+    ],
+    [
+      "./tests/reporters/metrics-reporter.ts",
+      createMetricsReporterOptions({
+        githubToken: process.env.GITHUB_TOKEN,
+        deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
+        enabled: !!process.env.CI,
       }),
     ],
   ],

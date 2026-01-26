@@ -58,7 +58,14 @@ export const serverSchema = z.object({
   GITLAB_WIKI_URL: z.string().optional(),
 
   // Apollo plugin
-  METRICS_PLUGIN_ENABLED: z.string().optional(),
+  METRICS_ENABLED: z
+    .string()
+    .optional()
+    .transform((value) => value === "true"),
+
+  // Sentry configuration
+  SENTRY_AUTH_TOKEN: z.string().optional(),
+  SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).optional(),
 
   NODE_ENV: z.string().default("development"),
 
@@ -75,6 +82,9 @@ export const serverSchema = z.object({
     .default("86400")
     .transform((value) => parseInt(value, 10)),
   ADMIN_API_TOKEN: z.string().optional(), // For programmatic access to admin APIs
+
+  VERCEL_DEPLOYMENT_ID: z.string().optional(),
+  VERCEL_GIT_COMMIT_REF: z.string().optional(),
 });
 
 const FlagSchema = z.array(z.string());

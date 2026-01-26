@@ -1,129 +1,86 @@
-# Specification: Admin Authentication System
+# Admin Authentication System
 
 ## Purpose
 
-This specification defines a unified admin authentication system that provides secure, password-protected access to administrative features. The system uses JWT-based sessions for browser access and enables runtime configuration of server-side feature flags.
+The admin authentication system provides secure, password-protected access to administrative features. It uses JWT-based sessions for browser access and enables runtime configuration of server-side feature flags.
 
 ## Current Admin Features
 
-- **Session Config** (`/admin/session-config`): Runtime configuration flags (e.g., SPARQL endpoint selection)
+- **Session Config** (`/admin/session-config`): Runtime user only configuration flags (e.g., SPARQL endpoint selection)
 - **Metrics Dashboard** (`/admin/metrics`): GraphQL operation and resolver metrics monitoring
 
 ## Architecture
 
-The system uses a standard Next.js pattern:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Browser                                                     │
-│                                                             │
-│  ┌─────────────┐      ┌──────────────┐                     │
-│  │ /admin/login│─────▶│ POST         │                     │
-│  │  (Page)     │      │ /api/admin/  │                     │
-│  │             │◀─────│ login        │                     │
-│  └─────────────┘      │  (API Route) │                     │
-│                       └──────────────┘                     │
-│                                                             │
-│  ┌─────────────────┐  ┌──────────────┐                     │
-│  │ /admin/session- │─▶│ POST         │                     │
-│  │  config (Page)  │  │ /api/admin/  │                     │
-│  │                 │◀─│ session-     │                     │
-│  │                 │  │  config      │                     │
-│  └─────────────────┘  │  (API Route) │                     │
-│                       └──────────────┘                     │
-└─────────────────────────────────────────────────────────────┘
-```
+The system follows a standard Next.js pattern with three layers:
 
 **Pages** (`/pages/admin/*.tsx`):
-- Next.js React pages with `getServerSideProps`
-- Handle server-side authentication checks
+
+- Next.js React pages with server-side authentication checks
 - Render UI with client-side form submission
 - Redirect to login if not authenticated
 
 **API Routes** (`/pages/api/admin/*.ts`):
+
 - Server-only endpoints for form processing
-- Handle POST requests from pages
+- Handle authentication and session updates
 - Return JSON responses
-- Process authentication and session updates
 
 **Middleware** (`/src/middleware.ts`):
-- Protects all `/admin/*` routes (except login and session-config)
-- Checks JWT session validity
+
+- Protects `/admin/*` routes (except login)
+- Validates JWT session on every request
 - Redirects to login with `return_to` parameter
 
 ## Route Structure
 
 ### Pages (Browser UI)
 
-| Route | Authentication | Description |
-|-------|---------------|-------------|
-| `/admin/login` | Public | Login page with password form |
-| `/admin/session-config` | JWT session | Session config dashboard (checks auth in getServerSideProps) |
-| `/admin/metrics` | JWT session | Metrics dashboard (protected by middleware) |
+| Route                   | Authentication | Description                   |
+| ----------------------- | -------------- | ----------------------------- |
+| `/admin/login`          | Public         | Login page with password form |
+| `/admin/session-config` | JWT session    | Session config dashboard      |
+| `/admin/metrics`        | JWT session    | Metrics dashboard             |
 
 ### API Routes (Form Processing)
 
-| Route | Method | Authentication | Description |
-|-------|--------|---------------|-------------|
-| `/api/admin/login` | POST | None | Validates password, creates session cookie |
-| `/api/admin/session-config` | POST | JWT session | Updates flags or logs out |
+| Route                       | Method | Authentication | Description                                |
+| --------------------------- | ------ | -------------- | ------------------------------------------ |
+| `/api/admin/login`          | POST   | None           | Validates password, creates session cookie |
+| `/api/admin/logout`         | POST   | None           | Validates password, creates session cookie |
+| `/api/admin/session-config` | POST   | JWT session    | Updates flags or logs out                  |
+
+See the API route implementations for request/response details.
 
 ## Authentication Flow
 
 ### Login Flow
 
-1. User navigates to `/admin/session-config` (or any protected admin page)
-2. Page's `getServerSideProps` checks for valid JWT session cookie
-3. If no valid session, redirects to `/admin/login?return_to=/admin/session-config`
+1. User navigates to a protected admin page (e.g., `/admin/session-config`)
+2. Middleware checks for valid JWT session cookie
+3. If no valid session, redirects to `/admin/login?return_to=<original-url>`
 4. User enters admin password and submits form
-5. Client-side JavaScript POSTs to `/api/admin/login`
+5. Client POSTs to `/api/admin/login`
 6. API validates password and creates signed JWT session cookie
-7. Client redirects to `return_to` URL or `/admin/session-config`
+7. Client redirects to original URL or `/admin/session-config`
 8. Subsequent requests include session cookie automatically
 
 ### Session Management
 
-- **Session Duration**: Configurable via `ADMIN_SESSION_DURATION` environment variable (default: 24 hours)
+- **Session Duration**: Configurable via `ADMIN_SESSION_DURATION` (default: 24 hours)
 - **Cookie Name**: `admin_session`
+- **Token Signing**: JWT signed with `ADMIN_JWT_SECRET` (HMAC-SHA256)
 - **Cookie Security**: HTTP-only, secure (in production), SameSite=Lax
-- **Token Signing**: JWT tokens signed with `ADMIN_JWT_SECRET` (HMAC-SHA256)
-- **Automatic Expiry**: Sessions expire after configured duration
 - **Logout**: Available via session config dashboard
 
-### Middleware Protection
-
-The Next.js middleware automatically protects admin routes:
-
-```typescript
-// Runs on edge before page rendering
-export async function middleware(request: NextRequest) {
-  // Only protect /admin/* routes
-  if (!pathname.startsWith("/admin")) return next();
-
-  // Allow login page (public)
-  if (pathname === "/admin/login") return next();
-
-  // Allow session-config (handles own auth in getServerSideProps)
-  if (pathname === "/admin/session-config") return next();
-
-  // Check for valid session
-  const session = await parseSessionFromRequest(request);
-  if (!session) {
-    // Redirect to login with return_to parameter
-    return redirect(`/admin/login?return_to=${pathname}`);
-  }
-
-  return next();
-}
-```
+Implementation details: See `src/admin-auth/session.ts`
 
 ## Session Config Flags
 
-The system manages runtime configuration flags stored in the JWT session payload.
+Session config flags are runtime configuration options stored in the JWT session payload. Each authenticated user has their own set of flags that persist for the duration of their session.
 
 ### Schema
 
-See [SessionConfigFlags](../src/admin-auth/flags.ts) for the complete schema definition.
+See `src/admin-auth/flags.ts` for the complete schema definition.
 
 ### Currently Available Flags
 
@@ -137,63 +94,36 @@ See [SessionConfigFlags](../src/admin-auth/flags.ts) for the complete schema def
 - Flags are stored in JWT session payload (not in database)
 - Changes are immediately reflected in current session
 - Flags reset to defaults when session expires
-- No persistent storage - flags are session-scoped
+- Session-scoped only (no persistent storage)
 
 ### Flag Management UI
 
-The session config dashboard (`/admin/session-config`) provides a web interface for managing flags:
-
-- Each flag has a form input based on its type (boolean, string, enum, etc.)
-- Changes are submitted via POST to `/api/admin/session-config`
-- New JWT token is created with updated flags
-- Page reloads to reflect new session state
+The session config dashboard (`/admin/session-config`) provides a web interface for managing flags. Each flag has a form input based on its type. Changes are submitted via POST to `/api/admin/session-config`, which creates a new JWT token with updated flags.
 
 ## Integration Points
 
 ### GraphQL Context
 
-The admin session system integrates with GraphQL resolvers through the [GraphQL context](../src/graphql/server-context.ts):
+Session config flags integrate with GraphQL resolvers through the request context. The system extracts flags from the session cookie and makes them available to all resolvers.
 
-```typescript
-export const contextFromAPIRequest = async (
-  req: NextApiRequest
-): Promise<GraphqlRequestContext> => {
-  const partialFlags = await getSessionConfigFlagsFromCookies(
-    req.headers.cookie
-  );
-  const flags = getDefaultedFlags(partialFlags);
-
-  // Use flags.sparqlEndpoint to create SPARQL client
-  // ...
-};
-```
+Implementation: See `src/graphql/server-context.ts`
 
 ### Server-Side Rendering
 
-Next.js pages can access flags during server-side rendering:
+Next.js pages can access flags during server-side rendering using the `getSessionConfigFlagsInfo` helper function.
 
-```typescript
-import { getSessionConfigFlagsInfo } from "src/admin-auth/info";
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const sessionConfig = await getSessionConfigFlagsInfo(context);
-
-  // Use sessionConfig.flags to determine rendering behavior
-  return {
-    props: {
-      flags: sessionConfig.flags,
-    },
-  };
-};
-```
+Implementation: See `src/admin-auth/info.ts`
 
 ## Environment Configuration
 
+### Variables
+
 ```bash
-# Admin authentication
-ADMIN_PASSWORD=<secure-password>              # Admin password for login (Required)
-ADMIN_JWT_SECRET=<signing-secret>             # JWT token signing key (Required)
-ADMIN_SESSION_DURATION=86400                  # Session duration in seconds (default: 24 hours)
+# Required
+ADMIN_PASSWORD=<secure-password>      # Admin password for login
+ADMIN_JWT_SECRET=<signing-secret>     # JWT token signing key (24+ bytes recommended)
+# Optional
+ADMIN_SESSION_DURATION=86400          # Session duration in seconds (default: 24 hours)
 ```
 
 ### Generating Secrets
@@ -208,13 +138,7 @@ openssl rand -base64 32
 
 ### Development Configuration
 
-In `.env.development`:
-
-```bash
-ADMIN_PASSWORD=elcom-admin
-ADMIN_JWT_SECRET=e4BYed5xs78lN5l56LeLH3wiXx2q0c1M
-ADMIN_SESSION_DURATION=86400
-```
+See `.env.development`.
 
 ## Security Model
 
@@ -222,20 +146,23 @@ ADMIN_SESSION_DURATION=86400
 
 - **Password Storage**: Environment variables only, never in database
 - **Password Transmission**: HTTPS in production, POST body only
-- **Rate Limiting**: 5 failed attempts = 15 minute lockout
 - **CSRF Protection**: Token validation on all form submissions
 - **Session Binding**: CSRF tokens bound to session ID
+
+Implementation: See `src/admin-auth/password.ts` and `src/admin-auth/csrf.ts`
 
 ### Session Security
 
 - **JWT Signing**: HMAC-SHA256 with secret key
 - **Token Storage**: HTTP-only cookies (not accessible to JavaScript)
-- **Cookie Security**:
+- **Cookie Flags**:
   - `HttpOnly: true` - Prevents XSS attacks
   - `Secure: true` (production) - HTTPS only
   - `SameSite: Lax` - CSRF protection
 - **Token Validation**: Signature verification on every request
-- **Expiration**: Configurable session duration with automatic expiry
+- **Expiration**: Automatic expiry after configured duration
+
+Implementation: See `src/admin-auth/session.ts`
 
 ### Authorization Model
 
@@ -247,176 +174,20 @@ ADMIN_SESSION_DURATION=86400
 
 ### Authentication Errors
 
-- **Invalid password**: JSON error response with 401 status
-- **Missing credentials**: 400 Bad Request
-- **Rate limit exceeded**: 429 Too Many Requests with retry message
-- **CSRF validation failure**: 400 Bad Request
+- Invalid password → 401 Unauthorized
+- Missing credentials → 400 Bad Request
+- CSRF validation failure → 400 Bad Request
 
 ### Session Errors
 
-- **Invalid JWT**: Redirect to `/admin/login` with return_to
-- **Expired session**: Redirect to `/admin/login` with return_to
-- **Missing session**: Redirect to `/admin/login` with return_to
+- Invalid, expired, or missing JWT → Redirect to `/admin/login` with `return_to` parameter
 
-### Client-Side Error Handling
-
-Pages use React state to display errors:
-
-```typescript
-const [error, setError] = useState("");
-
-const handleSubmit = async (e) => {
-  try {
-    const response = await fetch("/api/admin/login", {
-      method: "POST",
-      body: JSON.stringify({ password, csrfToken }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setError(data.error);
-      return;
-    }
-
-    router.push(data.redirectTo);
-  } catch (err) {
-    setError("An error occurred");
-  }
-};
-```
-
-## API Reference
-
-### POST /api/admin/login
-
-**Purpose**: Authenticate user and create session cookie
-
-**Request**:
-```json
-{
-  "password": "string",
-  "csrfToken": "string"
-}
-```
-
-**Success Response** (200):
-```json
-{
-  "success": true,
-  "redirectTo": "/admin/session-config"
-}
-```
-
-**Error Responses**:
-- `401 Unauthorized`: Invalid password
-- `400 Bad Request`: Invalid CSRF token
-- `429 Too Many Requests`: Rate limit exceeded
-
-**Side Effects**:
-- Sets `admin_session` HTTP-only cookie
-- Clears rate limit on success
-
-### POST /api/admin/session-config
-
-**Purpose**: Update session flags or logout
-
-**Authentication**: Requires valid JWT session cookie
-
-**Request (Update Flags)**:
-```json
-{
-  "flags": {
-    "sparqlEndpoint": "https://new-endpoint.com/query"
-  },
-  "csrfToken": "string"
-}
-```
-
-**Request (Logout)**:
-```json
-{
-  "logout": "true",
-  "csrfToken": "string"
-}
-```
-
-**Success Response** (200):
-```json
-{
-  "success": true,
-  "message": "Flags updated successfully"
-}
-```
-
-**Error Responses**:
-- `401 Unauthorized`: No valid session
-- `400 Bad Request`: Invalid CSRF token or flag values
-
-**Side Effects**:
-- Updates `admin_session` cookie with new flags (update)
-- Clears `admin_session` cookie (logout)
-
-## Testing
-
-### Manual Testing Checklist
-
-1. **Login Flow**:
-   - [ ] Visit `/admin/session-config` when not logged in → redirects to `/admin/login?return_to=/admin/session-config`
-   - [ ] Enter incorrect password → shows error message
-   - [ ] Enter correct password → redirects to `/admin/session-config`
-   - [ ] Visit `/admin/login` when already logged in → redirects to `/admin/session-config`
-
-2. **Session Persistence**:
-   - [ ] Login → navigate to home → return to `/admin/session-config` → still logged in
-   - [ ] Close browser → reopen → visit `/admin/session-config` → still logged in (within session duration)
-
-3. **Flag Management**:
-   - [ ] Update a flag → submit form → see success message
-   - [ ] Page reloads → flag change persists
-   - [ ] Open new tab → visit page → see updated flag
-
-4. **Logout**:
-   - [ ] Click logout → redirects to `/admin/login`
-   - [ ] Try to access `/admin/session-config` → redirects to login
-
-5. **Security**:
-   - [ ] Inspect cookies → `admin_session` is HTTP-only
-   - [ ] Submit form without CSRF token → error
-   - [ ] Try 6 failed logins → rate limited for 15 minutes
-
-### Automated Tests
-
-See [CSRF tests](../src/admin-auth/crsf.spec.ts) for token validation tests.
-
-## Migration from Old System
-
-If migrating from the old `/api/session-config` route:
-
-### Breaking Changes
-
-1. **Routes changed**:
-   - `/api/session-config` (GET/POST) → `/admin/login` (GET) + `/admin/session-config` (GET)
-   - Form submission now goes to `/api/admin/login` and `/api/admin/session-config`
-
-2. **Environment variables renamed**:
-   - `SESSION_CONFIG_PASSWORD` → `ADMIN_PASSWORD`
-   - `SESSION_CONFIG_JWT_SECRET` → `ADMIN_JWT_SECRET`
-   - `SESSION_CONFIG_SESSION_DURATION` → `ADMIN_SESSION_DURATION`
-
-### Migration Steps
-
-1. Update environment variables in deployment
-2. Update any bookmarks or documentation links
-3. No data migration needed (session-scoped only)
+Error responses follow standard HTTP status codes. See API route implementations for specific error messages and handling patterns.
 
 ## Future Enhancements
 
 Possible improvements for the system:
 
-- Multi-user support with user-specific sessions
 - Role-based access control (RBAC)
-- Audit logging for flag changes
 - Two-factor authentication (2FA)
-- Session management dashboard (view active sessions)
 - API key generation for programmatic access

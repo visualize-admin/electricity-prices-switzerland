@@ -4,3 +4,13 @@ services:
     ports:
       # The HTTP port
       - "3000:3000"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

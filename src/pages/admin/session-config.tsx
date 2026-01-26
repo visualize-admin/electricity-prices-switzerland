@@ -70,7 +70,12 @@ export default function AdminSessionConfigPage({
       message={message}
       error={error}
     >
-      <Box component="form" action="/api/admin/session-config" method="POST">
+      <Box
+        sx={{ maxWidth: "800px", margin: "0 auto" }}
+        component="form"
+        action="/api/admin/session-config"
+        method="POST"
+      >
         <input type="hidden" name="csrfToken" value={csrfToken} />
         <Box mb={4}>
           <Typography variant="h5" component="h2" gutterBottom>
