@@ -379,7 +379,7 @@ export class SentryMetricsClient {
         dataset: "spans",
         field: ["release", "count(span.duration)"],
         query: "",
-        statsPeriod: "90d",
+        statsPeriod: "24h",
         per_page: 100,
       });
 

@@ -19,7 +19,9 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
-import GraphQLMetricsChart from "src/admin-auth/components/metrics-chart";
+import GraphQLMetricsChart, {
+  MetricsChartPalette,
+} from "src/admin-auth/components/metrics-chart";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import {
   AggregatedOperationMetrics,
@@ -230,6 +232,15 @@ export default function AdminMetricsPage({
       { shallow: false }
     );
   };
+
+  const palette: MetricsChartPalette = {
+    background: "#fefefe",
+
+    // pastel green and red
+    cacheHit: "#34d399",
+    cacheMiss: "#f87171",
+  };
+
   if (releases.length === 0) {
     return (
       <AdminLayout
@@ -308,8 +319,16 @@ export default function AdminMetricsPage({
 
       {/* Legend */}
       <Box sx={{ display: "flex", gap: 3, mb: 3, flexWrap: "wrap" }}>
-        <Chip label="Cache Hit" sx={{ bgcolor: "#22c55e", color: "white" }} />
-        <Chip label="Cache Miss" sx={{ bgcolor: "#ef4444", color: "white" }} />
+        <Chip
+          clickable={false}
+          label="Cache Hit"
+          sx={{ bgcolor: palette.cacheHit, color: "white" }}
+        />
+        <Chip
+          clickable={false}
+          label="Cache Miss"
+          sx={{ bgcolor: palette.cacheMiss, color: "white" }}
+        />
         {releases.map((release, index) => (
           <Chip
             key={release.release}
@@ -326,6 +345,7 @@ export default function AdminMetricsPage({
       <GraphQLMetricsChart
         comparisonData={comparisonData}
         releases={releases}
+        palette={palette}
       />
 
       {/* Detailed Comparison Table */}
@@ -448,7 +468,8 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   // Always ensure current release is included if it exists in available releases
   if (
     availableReleases.includes(currentRelease) &&
-    !selectedReleases.includes(currentRelease)
+    !selectedReleases.includes(currentRelease) &&
+    selectedReleases.length === 0
   ) {
     selectedReleases = [currentRelease, ...selectedReleases];
   }

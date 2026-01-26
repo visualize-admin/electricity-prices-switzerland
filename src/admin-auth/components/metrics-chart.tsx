@@ -11,9 +11,16 @@ import React from "react";
 
 import { ComparisonData, ReleaseMetrics } from "src/admin-auth/metrics-types";
 
+export type MetricsChartPalette = {
+  background: string;
+  cacheHit: string;
+  cacheMiss: string;
+};
+
 type ChartProps = {
   comparisonData: ComparisonData[];
   releases: ReleaseMetrics[];
+  palette: MetricsChartPalette;
 };
 
 type BarData = {
@@ -37,6 +44,7 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
   comparisonData,
   releases,
   width,
+  palette,
 }) => {
   const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } =
     useTooltip<BarData>();
@@ -49,7 +57,7 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
   const margin = { top: 20, right: 150, bottom: 20, left: 200 };
   const chartWidth = width - margin.left - margin.right;
   const numDeployments = releases.length;
-  const itemHeight = 60;
+  const itemHeight = 16;
   const chartHeight =
     comparisonData.length * (itemHeight * numDeployments) -
     margin.top -
@@ -68,16 +76,16 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
   const yScale = scaleBand({
     domain: comparisonData.map((d) => d.operation),
     range: [0, chartHeight],
-    padding: 0.3,
+    paddingInner: 0.1,
   });
 
-  const deploymentColor = scaleOrdinal({
+  const releaseColor = scaleOrdinal({
     domain: releases.map((d) => d.release),
     range: [...d3.schemeCategory10],
   });
 
   const groupHeight = yScale.bandwidth();
-  const barHeight = groupHeight / (numDeployments + 0.5);
+  const barHeight = groupHeight / numDeployments;
 
   // Flatten data for rendering
   const barData: BarData[] = comparisonData.flatMap((opData) =>
@@ -112,12 +120,19 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
               <Bar
                 x={0}
                 y={0}
+                width={chartWidth}
+                height={barHeight - 2}
+                fill={releaseColor(bar.release.release) as string}
+                opacity={0.2}
+              />
+
+              <Bar
+                x={0}
+                y={0}
                 width={xScale(bar.release.cacheHit)}
                 height={barHeight - 2}
-                fill="#22c55e"
-                opacity={0.8}
-                onMouseMove={(e) => handleMouseOver(e, bar)}
-                onMouseLeave={hideTooltip}
+                fill={palette.cacheHit}
+                opacity={1}
               />
               {/* Cache miss bar (red) */}
               <Bar
@@ -125,18 +140,27 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
                 y={0}
                 width={xScale(bar.release.cacheMiss)}
                 height={barHeight - 2}
-                fill="#ef4444"
-                opacity={0.8}
+                fill={palette.cacheMiss}
+                opacity={1}
+              />
+              {/* hover */}
+              <Bar
+                x={0}
+                y={0}
+                width={chartWidth}
+                height={barHeight}
+                fill="transparent"
                 onMouseMove={(e) => handleMouseOver(e, bar)}
                 onMouseLeave={hideTooltip}
               />
+
               {/* Deployment label */}
               <text
                 x={chartWidth + 10}
                 y={barHeight / 2}
                 dy="0.35em"
                 fontSize="10px"
-                fill={deploymentColor(bar.release.release) as string}
+                fill={releaseColor(bar.release.release) as string}
               >
                 {bar.release.release}
               </text>
@@ -167,6 +191,7 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
             scale={yScale}
             stroke="gray"
             tickStroke="gray"
+            tickValues={yScale.domain()}
             tickLabelProps={() => ({
               fontSize: 10,
               textAnchor: "end",
@@ -210,7 +235,18 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
               gap: "12px",
             }}
           >
-            <span>Cache Hit:</span>
+            <span>
+              <span
+                style={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: palette.cacheHit,
+                  display: "inline-block",
+                  marginRight: 6,
+                }}
+              ></span>
+              Cache Hit:
+            </span>
             <strong>{tooltipData.release.cacheHit}</strong>
           </div>
           <div
@@ -220,7 +256,18 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
               gap: "12px",
             }}
           >
-            <span>Cache Miss:</span>
+            <span>
+              <span
+                style={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: palette.cacheMiss,
+                  display: "inline-block",
+                  marginRight: 6,
+                }}
+              ></span>
+              Cache Miss:
+            </span>
             <strong>{tooltipData.release.cacheMiss}</strong>
           </div>
           <div
@@ -242,6 +289,7 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
 const GraphQLMetricsChart: React.FC<ChartProps> = ({
   comparisonData,
   releases,
+  palette,
 }) => {
   return (
     <Box sx={{ my: 3, overflowX: "auto" }}>
@@ -251,6 +299,7 @@ const GraphQLMetricsChart: React.FC<ChartProps> = ({
             comparisonData={comparisonData}
             releases={releases}
             width={width}
+            palette={palette}
           />
         )}
       </ParentSize>
