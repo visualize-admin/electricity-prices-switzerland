@@ -51,7 +51,6 @@ export default defineConfig({
     [
       "./tests/reporters/metrics-reporter.ts",
       createMetricsReporterOptions({
-        metricsApiToken: process.env.ADMIN_API_TOKEN,
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
         enabled: !!process.env.CI,

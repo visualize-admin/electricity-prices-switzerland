@@ -8,6 +8,9 @@ import {
 /**
  * If BASIC_AUTH_CREDENTIALS env variable is set, it checks the incoming request to see if matches.
  * BASIC_AUTH_CREDENTIALS is expected to be in the format "username:password".
+ *
+ * If ADMIN_API_TOKEN is present and the request uses Bearer auth with that token,
+ * basic auth is bypassed completely.
  */
 const withBasicAuthMiddleware: MiddlewareFactory =
   (middleware: CustomMiddleware) => async (request, event) => {
@@ -18,6 +21,17 @@ const withBasicAuthMiddleware: MiddlewareFactory =
     }
 
     const authHeader = request.headers.get("authorization");
+
+    // Check if this is a Bearer token with ADMIN_API_TOKEN - bypass basic auth
+    const adminApiToken = process.env.ADMIN_API_TOKEN;
+    if (adminApiToken && authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.slice("Bearer ".length);
+      if (token === adminApiToken) {
+        // Valid admin API token, bypass basic auth
+        return middleware(request, event);
+      }
+    }
+
     if (!authHeader || !authHeader.startsWith("Basic ")) {
       return new NextResponse("Unauthorized", {
         status: 401,

@@ -2,7 +2,6 @@
 import type { FullResult, Reporter } from "@playwright/test/reporter";
 
 interface MetricsReporterOptions {
-  metricsApiToken?: string;
   githubToken?: string;
   deploymentUrl?: string;
   enabled?: boolean;
@@ -43,18 +42,21 @@ export const createMetricsReporterOptions = (
  * Playwright custom reporter for fetching and posting GraphQL metrics to GitHub PRs.
  *
  * Configuration:
- * - metricsApiToken: Bearer token for /api/admin/metrics
  * - githubToken: GitHub token for posting PR comments
  * - deploymentUrl: Base URL of deployment to fetch metrics from
+ *
+ * Authentication:
+ * - Uses ADMIN_API_TOKEN env variable as Bearer token
+ * - Falls back to BASIC_AUTH_CREDENTIALS (encoded as Basic auth)
  */
 class MetricsReporter implements Reporter {
   private options: MetricsReporterOptions;
 
   constructor(options: MetricsReporterOptions = {}) {
     this.options = options;
-    if (!options.metricsApiToken) {
+    if (!process.env.ADMIN_API_TOKEN) {
       console.warn(
-        "[Metrics Reporter] No metricsApiToken provided, disabling reporter"
+        "[Metrics Reporter] No ADMIN_API_TOKEN provided, disabling reporter"
       );
       this.options.enabled = false;
     }
@@ -104,9 +106,8 @@ class MetricsReporter implements Reporter {
     const headers: Record<string, string> = {};
 
     // Add auth header (required in all environments)
-    const metricsApiToken = this.options.metricsApiToken;
-    if (metricsApiToken) {
-      headers.Authorization = `Bearer ${metricsApiToken}`;
+    if (process.env.ADMIN_API_TOKEN) {
+      headers.Authorization = `Bearer ${process.env.ADMIN_API_TOKEN}`;
     }
 
     console.log(`[Metrics Reporter] Fetching from ${metricsUrl}`);
