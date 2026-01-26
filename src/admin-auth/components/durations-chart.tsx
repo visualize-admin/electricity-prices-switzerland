@@ -1,0 +1,265 @@
+import { Box } from "@mui/material";
+import { Axis } from "@visx/axis";
+import { localPoint } from "@visx/event";
+import { Group } from "@visx/group";
+import { ParentSize } from "@visx/responsive";
+import { scaleLinear, scaleBand, scaleOrdinal } from "@visx/scale";
+import { Bar } from "@visx/shape";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
+import * as d3 from "d3";
+import React from "react";
+
+import { ComparisonData, ReleaseMetrics } from "src/admin-auth/metrics-types";
+
+type ChartProps = {
+  comparisonData: ComparisonData[];
+  releases: ReleaseMetrics[];
+};
+
+type BarData = {
+  operation: string;
+  release: {
+    release: string;
+    totalDurationMs: number;
+  };
+  depIndex: number;
+  yOffset: number;
+};
+
+type InnerChartProps = ChartProps & {
+  width: number;
+};
+
+const GraphQLDurationsChartInner: React.FC<InnerChartProps> = ({
+  comparisonData,
+  releases,
+  width,
+}) => {
+  const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } =
+    useTooltip<BarData>();
+
+  if (comparisonData.length === 0 || releases.length === 0) {
+    return null;
+  }
+
+  // Chart configuration
+  const margin = { top: 20, right: 150, bottom: 20, left: 200 };
+  const chartWidth = width - margin.left - margin.right;
+  const numDeployments = releases.length;
+  const itemHeight = 16;
+  const chartHeight =
+    comparisonData.length * (itemHeight * numDeployments) -
+    margin.top -
+    margin.bottom;
+
+  // Scales
+  const maxDuration = Math.max(
+    ...comparisonData.flatMap((d) =>
+      d.releases.map((dep) => dep.totalDurationMs)
+    )
+  );
+
+  const xScale = scaleLinear({
+    domain: [0, maxDuration],
+    range: [0, chartWidth],
+  });
+
+  const yScale = scaleBand({
+    domain: comparisonData.map((d) => d.operation),
+    range: [0, chartHeight],
+    paddingInner: 0.1,
+  });
+
+  const releaseColor = scaleOrdinal({
+    domain: releases.map((d) => d.release),
+    range: [...d3.schemeCategory10],
+  });
+
+  const groupHeight = yScale.bandwidth();
+  const barHeight = groupHeight / numDeployments;
+
+  // Flatten data for rendering
+  const barData: BarData[] = comparisonData.flatMap((opData) =>
+    opData.releases.map((depData, depIndex) => ({
+      operation: opData.operation,
+      release: {
+        release: depData.release,
+        totalDurationMs: depData.totalDurationMs,
+      },
+      depIndex,
+      yOffset: (yScale(opData.operation) || 0) + depIndex * barHeight,
+    }))
+  );
+
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGRectElement>,
+    data: BarData
+  ) => {
+    const coords = localPoint(event) || { x: 0, y: 0 };
+    showTooltip({
+      tooltipData: data,
+      tooltipLeft: coords.x,
+      tooltipTop: coords.y,
+    });
+  };
+
+  return (
+    <div style={{ position: "relative" }}>
+      <svg width={width} height={chartHeight + margin.top + margin.bottom}>
+        <Group top={margin.top} left={margin.left}>
+          {/* Bars */}
+          {barData.map((bar, i) => (
+            <Group key={`bar-group-${i}`} top={bar.yOffset}>
+              {/* Background bar */}
+              <Bar
+                x={0}
+                y={0}
+                width={chartWidth}
+                height={barHeight - 2}
+                fill={releaseColor(bar.release.release) as string}
+                opacity={0.2}
+              />
+
+              {/* Duration bar */}
+              <Bar
+                x={0}
+                y={0}
+                width={xScale(bar.release.totalDurationMs)}
+                height={barHeight - 2}
+                fill={releaseColor(bar.release.release) as string}
+                opacity={1}
+              />
+
+              {/* Hover overlay */}
+              <Bar
+                x={0}
+                y={0}
+                width={chartWidth}
+                height={barHeight}
+                fill="transparent"
+                onMouseMove={(e) => handleMouseOver(e, bar)}
+                onMouseLeave={hideTooltip}
+              />
+
+              {/* Release label */}
+              <text
+                x={chartWidth + 10}
+                y={barHeight / 2}
+                dy="0.35em"
+                fontSize="10px"
+                fill={releaseColor(bar.release.release) as string}
+              >
+                {bar.release.release}
+              </text>
+            </Group>
+          ))}
+
+          {/* X-axis */}
+          <Axis
+            orientation="bottom"
+            scale={xScale}
+            top={chartHeight}
+            numTicks={10}
+            stroke="gray"
+            tickStroke="gray"
+            tickFormat={(value) => `${value}`}
+            label="Total Duration (ms)"
+            labelProps={{
+              fontSize: 12,
+              fill: "#333",
+              textAnchor: "middle",
+              dy: 30,
+            }}
+          />
+
+          {/* Y-axis */}
+          <Axis
+            orientation="left"
+            scale={yScale}
+            stroke="gray"
+            tickStroke="gray"
+            tickValues={yScale.domain()}
+            tickLabelProps={() => ({
+              fontSize: 10,
+              textAnchor: "end",
+              dy: "0.33em",
+            })}
+          />
+        </Group>
+      </svg>
+
+      {/* Tooltip */}
+      {tooltipData && (
+        // @ts-expect-error - visx tooltip type compatibility
+        <TooltipWithBounds
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={{
+            ...defaultStyles,
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
+            color: "white",
+            borderRadius: "4px",
+            padding: "12px",
+          }}
+        >
+          <div style={{ marginBottom: "4px", fontWeight: "bold" }}>
+            {tooltipData.release.release}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Operation:</span>
+            <strong>{tooltipData.operation}</strong>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Total Duration:</span>
+            <strong>{tooltipData.release.totalDurationMs.toFixed(0)} ms</strong>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "12px",
+            }}
+          >
+            <span>Total Duration:</span>
+            <strong>
+              {(tooltipData.release.totalDurationMs / 1000).toFixed(2)} s
+            </strong>
+          </div>
+        </TooltipWithBounds>
+      )}
+    </div>
+  );
+};
+
+const GraphQLDurationsChart: React.FC<ChartProps> = ({
+  comparisonData,
+  releases,
+}) => {
+  return (
+    <Box sx={{ my: 3, overflowX: "auto" }}>
+      <ParentSize>
+        {({ width }) => (
+          <GraphQLDurationsChartInner
+            comparisonData={comparisonData}
+            releases={releases}
+            width={width}
+          />
+        )}
+      </ParentSize>
+    </Box>
+  );
+};
+
+export default GraphQLDurationsChart;

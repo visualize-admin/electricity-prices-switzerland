@@ -40,7 +40,7 @@ type InnerChartProps = ChartProps & {
   width: number;
 };
 
-const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
+const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
   comparisonData,
   releases,
   width,
@@ -286,7 +286,7 @@ const GraphQLMetricsChartInner: React.FC<InnerChartProps> = ({
   );
 };
 
-const GraphQLMetricsChart: React.FC<ChartProps> = ({
+const GraphQLCacheChart: React.FC<ChartProps> = ({
   comparisonData,
   releases,
   palette,
@@ -295,7 +295,7 @@ const GraphQLMetricsChart: React.FC<ChartProps> = ({
     <Box sx={{ my: 3, overflowX: "auto" }}>
       <ParentSize>
         {({ width }) => (
-          <GraphQLMetricsChartInner
+          <GraphQLCacheChartInner
             comparisonData={comparisonData}
             releases={releases}
             width={width}
@@ -307,4 +307,4 @@ const GraphQLMetricsChart: React.FC<ChartProps> = ({
   );
 };
 
-export default GraphQLMetricsChart;
+export default GraphQLCacheChart;

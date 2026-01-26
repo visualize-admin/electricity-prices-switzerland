@@ -19,9 +19,10 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
-import GraphQLMetricsChart, {
+import GraphQLCacheChart, {
   MetricsChartPalette,
-} from "src/admin-auth/components/metrics-chart";
+} from "src/admin-auth/components/cache-chart";
+import GraphQLDurationsChart from "src/admin-auth/components/durations-chart";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import {
   AggregatedOperationMetrics,
@@ -68,6 +69,7 @@ function aggregateMetrics(
     aggregated[operationName] = {
       requestCount,
       avgDurationMs: requestCount > 0 ? totalDurationMs / requestCount : 0,
+      totalDurationMs,
       errorCount,
       errorRate: requestCount > 0 ? errorCount / requestCount : 0,
       cacheHitRate: totalCacheRequests > 0 ? cacheHit / totalCacheRequests : 0,
@@ -96,6 +98,7 @@ function prepareComparisonData(releases: ReleaseMetrics[]): ComparisonData[] {
             responseCacheHit: 0,
             responseCacheMiss: 0,
             cacheHitRate: 0,
+            totalDurationMs: 0,
           };
           const cacheHit = metrics.responseCacheHit;
           const cacheMiss = metrics.responseCacheMiss;
@@ -107,6 +110,7 @@ function prepareComparisonData(releases: ReleaseMetrics[]): ComparisonData[] {
             cacheMiss,
             total,
             hitRate: metrics.cacheHitRate,
+            totalDurationMs: metrics.totalDurationMs || 0,
           };
         }),
       };
@@ -341,11 +345,26 @@ export default function AdminMetricsPage({
         ))}
       </Box>
 
-      {/* GraphQL Metrics Chart */}
-      <GraphQLMetricsChart
+      {/* Cache Performance Chart */}
+      <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+        Cache Performance by Operation
+      </Typography>
+      <GraphQLCacheChart
         comparisonData={comparisonData}
         releases={releases}
         palette={palette}
+      />
+
+      {/* Duration Chart Section */}
+      <Typography variant="h6" gutterBottom sx={{ mt: 6 }}>
+        Total Duration by Operation
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Sum of all request durations for each operation across selected releases
+      </Typography>
+      <GraphQLDurationsChart
+        comparisonData={comparisonData}
+        releases={releases}
       />
 
       {/* Detailed Comparison Table */}

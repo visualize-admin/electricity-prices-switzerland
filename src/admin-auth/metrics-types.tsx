@@ -1,6 +1,7 @@
 export type AggregatedOperationMetrics = {
   requestCount: number;
   avgDurationMs: number;
+  totalDurationMs: number;
   errorCount: number;
   errorRate: number;
   cacheHitRate: number;
@@ -22,5 +23,6 @@ export interface ComparisonData {
     cacheMiss: number;
     total: number;
     hitRate: number;
+    totalDurationMs: number;
   }>;
 }
