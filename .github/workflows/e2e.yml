@@ -62,6 +62,7 @@ jobs:
           ADMIN_API_TOKEN: ${{ secrets.ADMIN_API_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           ARGOS_THRESHOLD: 0.75
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn run test:playwright:app
 
       - uses: actions/upload-artifact@v4
