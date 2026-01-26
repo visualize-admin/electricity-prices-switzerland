@@ -130,7 +130,6 @@ export class SentryMetricsClient {
     }
 
     url.searchParams.set("sampling", "NORMAL");
-    url.searchParams.set("environment", "development");
 
     if (query.environment) {
       url.searchParams.set("environment", query.environment);
