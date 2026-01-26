@@ -260,7 +260,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("textbox", { name: "Filter list" }).fill("elektra");
     await page
       .locator("a")
-      .filter({ hasText: "Elektra Genossenschaft" })
+      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
       .first()
       .click();
 
