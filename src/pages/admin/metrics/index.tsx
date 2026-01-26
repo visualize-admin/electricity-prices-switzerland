@@ -39,6 +39,7 @@ interface SentryConfig {
   enabled: boolean;
   sampleRate: number;
   authTokenConfigured: boolean;
+  release: string;
 }
 interface MetricsPageProps {
   releases: ReleaseMetrics[];
@@ -183,6 +184,14 @@ const SentryConfigurationCard: React.FC<{
           }
         >
           {sentryConfig.authTokenConfigured ? "Configured" : "Not Configured"}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="caption" color="text.secondary">
+          Current release:
+        </Typography>
+        <Typography variant="body2" fontFamily="monospace">
+          {sentryConfig.release}
         </Typography>
       </Box>
     </Box>
@@ -422,6 +431,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
           : 0.1
         : 1.0),
     authTokenConfigured: sentryClient.isConfigured(),
+    release: currentRelease,
   };
 
   // Fetch all available releases
@@ -442,8 +452,6 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   ) {
     selectedReleases = [currentRelease, ...selectedReleases];
   }
-
-  console.log(currentRelease);
 
   // If no releases selected and current release is available, default to current + first 4 others
   if (selectedReleases.length === 0) {

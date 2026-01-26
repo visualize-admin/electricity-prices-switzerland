@@ -4,23 +4,26 @@ import os from "os";
 /**
  * Resolves the release name for metrics isolation. Used by Sentry.
  *
- * - In Vercel: uses VERCEL_GIT_COMMIT_REF to get the name of the branch
- * - Locally: uses format `local-{hostname}-{git-branch}`
+ * - In Vercel: uses VERCEL_GIT_COMMIT_REF for branch and VERCEL_GIT_COMMIT_SHA for SHA
+ * - Locally: uses format `local-{hostname}-{git-branch}-{git-sha}`
  *
  * This keeps metrics isolated per branch during local development
  * while allowing metrics to accumulate across multiple test runs
- * on the same branch.
+ * on the same branch. The SHA helps identify the exact version.
  */
 export function getReleaseName(): string {
-  // Use Vercel deployment ID if available
+  // Use Vercel environment variables if available
   if (process.env.VERCEL_GIT_COMMIT_REF) {
-    return `vercel-${process.env.VERCEL_GIT_COMMIT_REF ?? "unknown"}`;
+    const branch = process.env.VERCEL_GIT_COMMIT_REF ?? "unknown";
+    const sha = process.env.VERCEL_GIT_COMMIT_SHA ?? getGitSha();
+    return `vercel-${branch}-${sha.substring(0, 7)}`; // Use first 7 chars of SHA
   }
 
   const hostname = os.hostname().split(".")[0]; // Take first part of hostname
   const gitBranch = getGitBranch();
+  const gitSha = getGitSha();
 
-  return `local-${hostname}-${gitBranch}`;
+  return `local-${hostname}-${gitBranch}-${gitSha.substring(0, 7)}`;
 }
 
 /**
@@ -37,6 +40,23 @@ function getGitBranch(): string {
     return branch.replace(/[^a-zA-Z0-9-_]/g, "-");
   } catch (error) {
     console.warn("Failed to get git branch, using 'unknown':", error);
+    return "unknown";
+  }
+}
+
+/**
+ * Gets the current git commit SHA
+ */
+function getGitSha(): string {
+  try {
+    const sha = execSync("git rev-parse HEAD", {
+      encoding: "utf8",
+      stdio: ["pipe", "pipe", "ignore"],
+    }).trim();
+
+    return sha;
+  } catch (error) {
+    console.warn("Failed to get git SHA, using 'unknown':", error);
     return "unknown";
   }
 }
