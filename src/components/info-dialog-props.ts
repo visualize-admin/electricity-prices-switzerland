@@ -3,7 +3,7 @@ import { t } from "@lingui/macro";
 import { InfoDialogButtonProps } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/types";
 
-export const infoDialogProps = () =>
+const infoDialogProps = () =>
   ({
     "help-network-costs": {
       slug: "help-network-costs",
