@@ -49,7 +49,7 @@ export default defineConfig({
       }),
     ],
     [
-      "./src/metrics/metrics-reporter.ts",
+      "./src/metrics/playwright-reporter.ts",
       createMetricsReporterOptions({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,

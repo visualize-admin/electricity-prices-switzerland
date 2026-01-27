@@ -7,9 +7,9 @@ import { Octokit } from "@octokit/rest";
 
 import { calculateSummaryStats, compareMetrics } from "./metrics-comparator";
 import { formatTable } from "./table-formatter";
-import type { MetricsResponse } from "./types";
 
 import type { OperationComparison } from "./metrics-comparator";
+import type { MetricsResponse } from "./types";
 import type { FullResult, Reporter } from "@playwright/test/reporter";
 
 interface MetricsReporterOptions {
