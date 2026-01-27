@@ -20,7 +20,6 @@ import type {
 } from "src/lib/sunshine-data-service";
 import { addNamespaceToID, stripNamespaceFromIri } from "src/rdf/namespace";
 import { createMemoize } from "src/utils/memoize";
-import { withPerformanceLog } from "src/utils/performance-log";
 
 const yesPredicateValue =
   "https://energy.ld.admin.ch/elcom/electricityprice/Yes";
@@ -1227,7 +1226,7 @@ const wrapServiceMethod = <
 >(
   methodName: string,
   fn: T
-): T => withPerformanceLog(methodName, memoizeWithJsonKey(fn, methodName));
+): T => memoizeWithJsonKey(fn, methodName);
 
 export const createSunshineDataService = (
   client: ParsingClient
