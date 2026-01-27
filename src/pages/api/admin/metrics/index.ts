@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import {
   getOperationMetrics,
   getResolverMetrics,
-} from "src/lib/metrics/metrics-store";
+} from "src/metrics/metrics-store";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 

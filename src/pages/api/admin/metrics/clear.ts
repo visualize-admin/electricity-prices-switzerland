@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { clearMetrics } from "src/lib/metrics/metrics-store";
+import { clearMetrics } from "src/metrics/metrics-store";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 

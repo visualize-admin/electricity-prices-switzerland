@@ -19,24 +19,24 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
-import GraphQLCacheChart, {
-  MetricsChartPalette,
-} from "src/admin-auth/components/cache-chart";
-import GraphQLDurationsChart from "src/admin-auth/components/durations-chart";
 import { generateCSRFToken } from "src/admin-auth/crsf";
-import {
-  AggregatedOperationMetrics,
-  ComparisonData,
-  ReleaseMetrics,
-} from "src/admin-auth/metrics-types";
 import { parseSessionFromRequest } from "src/admin-auth/session";
 import serverEnv from "src/env/server";
+import GraphQLCacheChart, {
+  MetricsChartPalette,
+} from "src/metrics/cache-chart";
+import GraphQLDurationsChart from "src/metrics/durations-chart";
 import {
   listReleases,
   getOperationMetricsByRelease,
   OperationMetrics,
-} from "src/lib/metrics/metrics-store";
-import { getSentryClient } from "src/lib/metrics/sentry-client";
+} from "src/metrics/metrics-store";
+import { getSentryClient } from "src/metrics/sentry-client";
+import {
+  AggregatedOperationMetrics,
+  ComparisonData,
+  ReleaseMetrics,
+} from "src/metrics/types";
 
 interface SentryConfig {
   enabled: boolean;

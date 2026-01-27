@@ -10,7 +10,7 @@
 
 import { ArgumentParser } from "argparse";
 
-import { getSentryClient } from "../src/lib/metrics/sentry-client";
+import { getSentryClient } from "../src/metrics/sentry-client";
 
 async function listReleases() {
   const client = getSentryClient();
