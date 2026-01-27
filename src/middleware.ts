@@ -4,13 +4,13 @@ import { withAdminMiddleware } from "src/utils/admin-middleware";
 import withBasicAuthMiddleware from "src/utils/basic-auth-middleware";
 import { chain } from "src/utils/middleware-chain";
 
-const publicMiddleware = chain([withBasicAuthMiddleware]);
+const publicMiddleware = chain([withBasicAuthMiddleware()]);
 const protectedMiddleware = chain([
-  withBasicAuthMiddleware,
+  withBasicAuthMiddleware(),
   withAdminMiddleware({ redirectOnFail: true }),
 ]);
 const protectedApiMiddleware = chain([
-  withBasicAuthMiddleware,
+  withBasicAuthMiddleware(),
   withAdminMiddleware({ redirectOnFail: false }),
 ]);
 
@@ -49,6 +49,4 @@ const middleware: NextMiddleware = (request: NextRequest, ev) => {
 
 export default middleware;
 
-export const config: MiddlewareConfig = {
-  matcher: ["/(.*)"],
-};
+export const config: MiddlewareConfig = {};

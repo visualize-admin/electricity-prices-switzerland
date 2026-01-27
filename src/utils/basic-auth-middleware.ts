@@ -5,25 +5,45 @@ import {
   MiddlewareFactory,
 } from "src/utils/middleware-chain";
 
+const DEFAULT_CREDENTIALS_SEPARATOR = "|";
+const DEFAULT_REALM = "Restricted Area";
+
+type Options = {
+  realm?: string;
+  credentialsSeparator?: string;
+};
+
 /**
  * If BASIC_AUTH_CREDENTIALS env variable is set, it checks the incoming request to see if matches.
  * BASIC_AUTH_CREDENTIALS is expected to be in the format "username:password".
+ * Multiple credentials can be provided, separated by '|'.
  *
  * If ADMIN_API_TOKEN is present and the request uses Bearer auth with that token,
  * basic auth is bypassed completely.
  */
-const withBasicAuthMiddleware: MiddlewareFactory =
-  (middleware: CustomMiddleware) => async (request, event) => {
-    const basicAuthCredentials = process.env.BASIC_AUTH_CREDENTIALS;
-    if (!basicAuthCredentials) {
+const withBasicAuthMiddleware: (options?: Options) => MiddlewareFactory =
+  (options?: Options) =>
+  (middleware: CustomMiddleware) =>
+  async (request, event) => {
+    const basicAuthCredentialsEnv = process.env.BASIC_AUTH_CREDENTIALS;
+    const adminApiToken = process.env.ADMIN_API_TOKEN;
+    const {
+      realm = DEFAULT_REALM,
+      credentialsSeparator = DEFAULT_CREDENTIALS_SEPARATOR,
+    } = options ?? {};
+
+    if (!basicAuthCredentialsEnv) {
       // No basic auth configured, allow all requests
       return middleware(request, event);
     }
 
+    const basicAuthCredentials = basicAuthCredentialsEnv
+      .trim()
+      .split(credentialsSeparator);
+
     const authHeader = request.headers.get("authorization");
 
-    // Check if this is a Bearer token with ADMIN_API_TOKEN - bypass basic auth
-    const adminApiToken = process.env.ADMIN_API_TOKEN;
+    // Check if this is a Bearer token with adminApiToken - bypass basic auth
     if (adminApiToken && authHeader?.startsWith("Bearer ")) {
       const token = authHeader.slice("Bearer ".length);
       if (token === adminApiToken) {
@@ -36,7 +56,7 @@ const withBasicAuthMiddleware: MiddlewareFactory =
       return new NextResponse("Unauthorized", {
         status: 401,
         headers: {
-          "WWW-Authenticate": 'Basic realm="Restricted Area"',
+          "WWW-Authenticate": `Basic realm="${realm}"`,
         },
       });
     }
@@ -47,11 +67,11 @@ const withBasicAuthMiddleware: MiddlewareFactory =
       "base64"
     ).toString("utf-8");
 
-    if (decodedCredentials !== basicAuthCredentials) {
+    if (!basicAuthCredentials.includes(decodedCredentials)) {
       return new NextResponse("Unauthorized", {
         status: 401,
         headers: {
-          "WWW-Authenticate": 'Basic realm="Restricted Area"',
+          "WWW-Authenticate": `Basic realm="${realm}"`,
         },
       });
     }
