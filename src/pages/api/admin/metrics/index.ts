@@ -1,10 +1,9 @@
-import * as Sentry from "@sentry/nextjs";
-
-import { SentryMetricsClient } from "src/metrics/sentry-client";
+import SentryMetricsClient from "src/metrics/sentry-client";
 import type {
   AggregatedOperationMetrics,
   AggregatedResolverMetrics,
   MetricsResponse,
+  RawResolverMetrics,
 } from "src/metrics/types";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -30,7 +29,10 @@ export default async function handler(
     const operationMetrics = await client.getOperationMetrics(release);
 
     // Get resolver metrics for all operations
-    const resolverMetrics: Record<string, Record<string, any>> = {};
+    const resolverMetrics: Record<
+      string,
+      Record<string, RawResolverMetrics>
+    > = {};
     for (const operationName of Object.keys(operationMetrics)) {
       const resolvers = await client.getResolverMetrics(release, operationName);
       if (Object.keys(resolvers).length > 0) {

@@ -26,7 +26,7 @@ import GraphQLCacheChart, {
   MetricsChartPalette,
 } from "src/metrics/cache-chart";
 import GraphQLDurationsChart from "src/metrics/durations-chart";
-import { SentryMetricsClient } from "src/metrics/sentry-client";
+import SentryMetricsClient from "src/metrics/sentry-client";
 import {
   AggregatedOperationMetrics,
   ComparisonData,
@@ -492,7 +492,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   // If no releases selected and current release is available, default to current + first 4 others
   if (selectedReleases.length === 0) {
     const otherReleases = availableReleases
-      .filter((r) => r !== currentRelease)
+      .filter((r: string) => r !== currentRelease)
       .slice(0, 4);
     selectedReleases = availableReleases.includes(currentRelease)
       ? [currentRelease, ...otherReleases]
