@@ -7,3 +7,5 @@ public/storybook
 # It prevents subsequent build to be cached when using "COPY . ."
 # This is why we have to ignore .cache here.
 .cache
+
+Dockerfile
