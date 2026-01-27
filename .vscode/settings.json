@@ -10,7 +10,7 @@
     "**/.next": true
   },
   "search.exclude": {
-    "**/.yarn": true,
-    "yarn.lock": true
+    "**/.pnpm-store": true,
+    "pnpm-lock.yaml": true
   }
 }

@@ -1,4 +1,4 @@
-name: "Install yarn & node"
+name: "Install Playwright"
 description: "Install dependencies and restores cache"
 runs:
   using: "composite"

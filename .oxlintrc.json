@@ -16,7 +16,7 @@
     "public/**/*",
     "src/locales/**/messages.d.ts",
     ".next/**/*",
-    ".yarn/**/*"
+    ".pnpm-store/**/*"
   ],
   "rules": {
     "@typescript-eslint/ban-ts-comment": "error",
