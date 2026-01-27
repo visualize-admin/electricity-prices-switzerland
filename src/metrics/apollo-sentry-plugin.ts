@@ -20,20 +20,14 @@ const consoleMetricsPerOperation = new Map<string, ConsoleOperationMetric>();
 /**
  * Logs metrics to console with visual bar charts
  */
-const metricsLogger = (metricsPerOperation: ConsoleOperationMetrics) => {
+const consoleMetricsLogger = (metricsPerOperation: ConsoleOperationMetrics) => {
   const keys = [...metricsPerOperation.keys()];
   if (keys.length === 0) {
     return;
   }
   const longestKey = maxBy(keys, (k) => k.length)!;
-  const highestTotalHitsKey = maxBy(
-    keys,
-    (k) => metricsPerOperation.get(k)?.totalhits
-  )!;
 
-  const operationMetrics = metricsPerOperation.get(highestTotalHitsKey);
-  const highestTotalHits = operationMetrics?.totalhits ?? 0;
-  const scale = scaleLinear().domain([0, highestTotalHits]).range([0, 20]);
+  const scale = scaleLinear().domain([0, 1]).range([0, 20]);
 
   for (const key of metricsPerOperation.keys()) {
     const metric = metricsPerOperation.get(key);
@@ -42,8 +36,9 @@ const metricsLogger = (metricsPerOperation: ConsoleOperationMetrics) => {
     }
     const { totalhits, cachehits } = metric;
     const spaces = longestKey.length - key.length + 1;
-    const filled = scale(cachehits);
-    const rest = scale(totalhits - cachehits);
+    const normalizedCacheHits = totalhits > 0 ? cachehits / totalhits : 0;
+    const filled = Math.round(scale(normalizedCacheHits));
+    const rest = Math.round(scale(1 - normalizedCacheHits));
     const bar = `${key}${" ".repeat(spaces)}${"█".repeat(filled)}${"░".repeat(
       rest
     )} ${cachehits}/${totalhits} ${format(".0%")(cachehits / totalhits)}`;
@@ -52,7 +47,7 @@ const metricsLogger = (metricsPerOperation: ConsoleOperationMetrics) => {
 };
 
 // Debounced logger - logs at most once per second
-const logMetrics = debounce(metricsLogger, 1000);
+const logMetrics = debounce(consoleMetricsLogger, 1000);
 
 /**
  * Apollo Server plugin for collecting GraphQL metrics via Sentry distributed tracing.
@@ -85,7 +80,6 @@ export const createSentryMetricsPlugin = (
 
   return {
     async requestDidStart(requestContext) {
-
       let operationName: string | null = null;
       let operationSpan: ReturnType<typeof Sentry.startInactiveSpan> | null =
         null;

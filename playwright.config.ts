@@ -54,9 +54,7 @@ export default defineConfig({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
         enabled: !!process.env.CI,
-        artifactPath: process.env.CI
-          ? "test-results/graphql-metrics.json"
-          : undefined,
+        artifactPath: "test-results/graphql-metrics.json",
       }),
     ],
   ],
