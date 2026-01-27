@@ -2,7 +2,7 @@ import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
 
-import { createMetricsReporterOptions } from "./src/metrics/metrics-reporter";
+import { createMetricsReporterOptions } from "./src/metrics/playwright-reporter";
 
 loadEnvConfig(process.cwd(), true);
 
