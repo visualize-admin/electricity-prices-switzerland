@@ -30,6 +30,8 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+# Add nodeLinker: "hoisted" to pnpm config to avoid issues with next standalone and symlinks
+RUN echo "nodeLinker: hoisted" > pnpm-workspace.yaml
 
 # Replace the cross-spawn version to avoid the vulnerability
 # Need to that as part as the same command as the install to make sure
