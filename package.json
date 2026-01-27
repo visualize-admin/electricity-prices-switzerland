@@ -18,6 +18,7 @@
     "tsgo": "tsgo",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "lingui": "lingui",
     "oxlint": "oxlint .",
     "test:unit": "vitest --project unit",
     "test:argos": "argos upload ./src/e2e/snapshots",
