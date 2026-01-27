@@ -17,6 +17,7 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
         # Install new version
         npm install -g cross-spawn@7.0.5 --force && \
+        npm install -g pnpm@10.28.2 && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
@@ -27,9 +28,6 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
 # Dependency image
 FROM base AS deps
 WORKDIR /app
-
-# Install pnpm globally
-RUN npm install -g pnpm@10.28.2
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
@@ -47,8 +45,6 @@ WORKDIR /app
 RUN apt update && apt install -y --no-install-recommends build-essential make && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-# Install pnpm globally
-RUN npm install -g pnpm@10.28.2
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ARG GIT_COMMIT_SHA
