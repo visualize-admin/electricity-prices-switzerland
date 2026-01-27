@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 
 import { parseSessionFromRequest } from "src/admin-auth";
 import server from "src/env/server";
-import {
-  CustomMiddleware,
-  MiddlewareFactory,
-} from "src/utils/middleware-chain";
+import { CustomMiddleware, MiddlewareFactory } from "src/middlewares/chain";
 
 // Check API token Bearer against ADMIN_API_TOKEN env variable
 function checkApiToken(request: Request): boolean {
@@ -23,7 +20,7 @@ function checkApiToken(request: Request): boolean {
   return token === apiToken;
 }
 
-export const withAdminMiddleware: (options: {
+const createAdminMiddleware: (options: {
   redirectOnFail: boolean;
 }) => MiddlewareFactory = (options) => (middleware: CustomMiddleware) => {
   return async (request, event) => {
@@ -47,3 +44,5 @@ export const withAdminMiddleware: (options: {
     return middleware(request, event);
   };
 };
+
+export default createAdminMiddleware;

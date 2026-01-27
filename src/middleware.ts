@@ -1,17 +1,19 @@
 import { MiddlewareConfig, NextMiddleware, NextRequest } from "next/server";
 
-import { withAdminMiddleware } from "src/utils/admin-middleware";
-import withBasicAuthMiddleware from "src/utils/basic-auth-middleware";
-import { chain } from "src/utils/middleware-chain";
+import createAdminMiddleware from "src/middlewares/admin";
+import createBasicAuthMiddleware from "src/middlewares/basic-auth";
+import { chain } from "src/middlewares/chain";
 
-const publicMiddleware = chain([withBasicAuthMiddleware()]);
+const basicAuthMiddleware = createBasicAuthMiddleware();
+
+const publicMiddleware = chain([basicAuthMiddleware]);
 const protectedMiddleware = chain([
-  withBasicAuthMiddleware(),
-  withAdminMiddleware({ redirectOnFail: true }),
+  basicAuthMiddleware,
+  createAdminMiddleware({ redirectOnFail: true }),
 ]);
 const protectedApiMiddleware = chain([
-  withBasicAuthMiddleware(),
-  withAdminMiddleware({ redirectOnFail: false }),
+  basicAuthMiddleware,
+  createAdminMiddleware({ redirectOnFail: false }),
 ]);
 
 /**

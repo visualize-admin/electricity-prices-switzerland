@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 
-import {
-  CustomMiddleware,
-  MiddlewareFactory,
-} from "src/utils/middleware-chain";
+import { CustomMiddleware, MiddlewareFactory } from "src/middlewares/chain";
 
 const DEFAULT_CREDENTIALS_SEPARATOR = "|";
 const DEFAULT_REALM = "Restricted Area";
@@ -21,7 +18,7 @@ type Options = {
  * If ADMIN_API_TOKEN is present and the request uses Bearer auth with that token,
  * basic auth is bypassed completely.
  */
-const withBasicAuthMiddleware: (options?: Options) => MiddlewareFactory =
+const createBasicAuthMiddleware: (options?: Options) => MiddlewareFactory =
   (options?: Options) =>
   (middleware: CustomMiddleware) =>
   async (request, event) => {
@@ -80,4 +77,4 @@ const withBasicAuthMiddleware: (options?: Options) => MiddlewareFactory =
     return middleware(request, event);
   };
 
-export default withBasicAuthMiddleware;
+export default createBasicAuthMiddleware;
