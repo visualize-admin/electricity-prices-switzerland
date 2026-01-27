@@ -3,7 +3,7 @@ import type {
   MetricsResponse,
 } from "./types";
 
-export interface Delta {
+interface Delta {
   current: number;
   baseline: number | null;
   percentChange: number | null;
