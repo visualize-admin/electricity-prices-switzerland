@@ -10,10 +10,10 @@
 
 import { ArgumentParser } from "argparse";
 
-import { getSentryClient } from "../src/lib/metrics/sentry-client";
+import SentryMetricsClient from "./sentry-client";
 
 async function listReleases() {
-  const client = getSentryClient();
+  const client = new SentryMetricsClient();
 
   if (!client.isConfigured()) {
     console.error("❌ SENTRY_AUTH_TOKEN not configured");
@@ -36,7 +36,7 @@ async function listReleases() {
 }
 
 async function getMetrics(args: { release: string; operation?: string }) {
-  const client = getSentryClient();
+  const client = new SentryMetricsClient();
 
   if (!client.isConfigured()) {
     console.error("❌ SENTRY_AUTH_TOKEN not configured");

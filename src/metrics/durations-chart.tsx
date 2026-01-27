@@ -9,28 +9,18 @@ import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
 import * as d3 from "d3";
 import React from "react";
 
-import { ComparisonData, ReleaseMetrics } from "src/admin-auth/metrics-types";
-
-export type MetricsChartPalette = {
-  background: string;
-  cacheHit: string;
-  cacheMiss: string;
-};
+import { ComparisonData, ReleaseMetrics } from "./types";
 
 type ChartProps = {
   comparisonData: ComparisonData[];
   releases: ReleaseMetrics[];
-  palette: MetricsChartPalette;
 };
 
 type BarData = {
   operation: string;
   release: {
     release: string;
-    cacheHit: number;
-    cacheMiss: number;
-    total: number;
-    hitRate: number;
+    totalDurationMs: number;
   };
   depIndex: number;
   yOffset: number;
@@ -40,11 +30,10 @@ type InnerChartProps = ChartProps & {
   width: number;
 };
 
-const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
+const GraphQLDurationsChartInner: React.FC<InnerChartProps> = ({
   comparisonData,
   releases,
   width,
-  palette,
 }) => {
   const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } =
     useTooltip<BarData>();
@@ -64,12 +53,14 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
     margin.bottom;
 
   // Scales
-  const maxTotal = Math.max(
-    ...comparisonData.flatMap((d) => d.releases.map((dep) => dep.total))
+  const maxDuration = Math.max(
+    ...comparisonData.flatMap((d) =>
+      d.releases.map((dep) => dep.totalDurationMs)
+    )
   );
 
   const xScale = scaleLinear({
-    domain: [0, maxTotal],
+    domain: [0, maxDuration],
     range: [0, chartWidth],
   });
 
@@ -91,7 +82,10 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
   const barData: BarData[] = comparisonData.flatMap((opData) =>
     opData.releases.map((depData, depIndex) => ({
       operation: opData.operation,
-      release: depData,
+      release: {
+        release: depData.release,
+        totalDurationMs: depData.totalDurationMs,
+      },
       depIndex,
       yOffset: (yScale(opData.operation) || 0) + depIndex * barHeight,
     }))
@@ -116,7 +110,7 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
           {/* Bars */}
           {barData.map((bar, i) => (
             <Group key={`bar-group-${i}`} top={bar.yOffset}>
-              {/* Cache hit bar (green) */}
+              {/* Background bar */}
               <Bar
                 x={0}
                 y={0}
@@ -126,24 +120,17 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
                 opacity={0.2}
               />
 
+              {/* Duration bar */}
               <Bar
                 x={0}
                 y={0}
-                width={xScale(bar.release.cacheHit)}
+                width={xScale(bar.release.totalDurationMs)}
                 height={barHeight - 2}
-                fill={palette.cacheHit}
+                fill={releaseColor(bar.release.release) as string}
                 opacity={1}
               />
-              {/* Cache miss bar (red) */}
-              <Bar
-                x={xScale(bar.release.cacheHit)}
-                y={0}
-                width={xScale(bar.release.cacheMiss)}
-                height={barHeight - 2}
-                fill={palette.cacheMiss}
-                opacity={1}
-              />
-              {/* hover */}
+
+              {/* Hover overlay */}
               <Bar
                 x={0}
                 y={0}
@@ -154,7 +141,7 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
                 onMouseLeave={hideTooltip}
               />
 
-              {/* Deployment label */}
+              {/* Release label */}
               <text
                 x={chartWidth + 10}
                 y={barHeight / 2}
@@ -176,7 +163,7 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
             stroke="gray"
             tickStroke="gray"
             tickFormat={(value) => `${value}`}
-            label="Number of Requests"
+            label="Total Duration (ms)"
             labelProps={{
               fontSize: 12,
               fill: "#333",
@@ -235,19 +222,8 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
               gap: "12px",
             }}
           >
-            <span>
-              <span
-                style={{
-                  width: 10,
-                  height: 10,
-                  backgroundColor: palette.cacheHit,
-                  display: "inline-block",
-                  marginRight: 6,
-                }}
-              ></span>
-              Cache Hit:
-            </span>
-            <strong>{tooltipData.release.cacheHit}</strong>
+            <span>Total Duration:</span>
+            <strong>{tooltipData.release.totalDurationMs.toFixed(0)} ms</strong>
           </div>
           <div
             style={{
@@ -256,29 +232,10 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
               gap: "12px",
             }}
           >
-            <span>
-              <span
-                style={{
-                  width: 10,
-                  height: 10,
-                  backgroundColor: palette.cacheMiss,
-                  display: "inline-block",
-                  marginRight: 6,
-                }}
-              ></span>
-              Cache Miss:
-            </span>
-            <strong>{tooltipData.release.cacheMiss}</strong>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "12px",
-            }}
-          >
-            <span>Hit Rate:</span>
-            <strong>{(tooltipData.release.hitRate * 100).toFixed(1)}%</strong>
+            <span>Total Duration:</span>
+            <strong>
+              {(tooltipData.release.totalDurationMs / 1000).toFixed(2)} s
+            </strong>
           </div>
         </TooltipWithBounds>
       )}
@@ -286,20 +243,18 @@ const GraphQLCacheChartInner: React.FC<InnerChartProps> = ({
   );
 };
 
-const GraphQLCacheChart: React.FC<ChartProps> = ({
+const GraphQLDurationsChart: React.FC<ChartProps> = ({
   comparisonData,
   releases,
-  palette,
 }) => {
   return (
     <Box sx={{ my: 3, overflowX: "auto" }}>
       <ParentSize>
         {({ width }) => (
-          <GraphQLCacheChartInner
+          <GraphQLDurationsChartInner
             comparisonData={comparisonData}
             releases={releases}
             width={width}
-            palette={palette}
           />
         )}
       </ParentSize>
@@ -307,4 +262,4 @@ const GraphQLCacheChart: React.FC<ChartProps> = ({
   );
 };
 
-export default GraphQLCacheChart;
+export default GraphQLDurationsChart;

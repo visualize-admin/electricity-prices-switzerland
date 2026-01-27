@@ -1,43 +1,12 @@
-import * as Sentry from "@sentry/nextjs";
-
-import {
-  getOperationMetrics,
-  getResolverMetrics,
-} from "src/lib/metrics/metrics-store";
+import SentryMetricsClient from "src/metrics/sentry-client";
+import type {
+  AggregatedOperationMetrics,
+  AggregatedResolverMetrics,
+  MetricsResponse,
+  RawResolverMetrics,
+} from "src/metrics/types";
 
 import type { NextApiRequest, NextApiResponse } from "next";
-
-interface AggregatedOperationMetrics {
-  requestCount: number;
-  avgDurationMs: number;
-  errorCount: number;
-  errorRate: number;
-  cacheHitRate: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface AggregatedResolverMetrics {
-  count: number;
-  avgDurationMs: number;
-  errorCount: number;
-}
-
-interface MetricsResponse {
-  release: string;
-  collectedAt: string;
-  operations: Record<string, AggregatedOperationMetrics>;
-  resolvers: Record<string, Record<string, AggregatedResolverMetrics>>;
-}
-
-/**
- * Gets the current release identifier for metrics
- */
-function getCurrentRelease(): string {
-  const client = Sentry.getClient();
-  const release = client?.getOptions().release;
-  return release || "unknown";
-}
 
 /**
  * GET /api/admin/metrics
@@ -53,9 +22,23 @@ export default async function handler(
   }
 
   try {
+    const client = new SentryMetricsClient();
+    const release = client.getCurrentRelease();
+
     // Fetch raw metrics
-    const operationMetrics = await getOperationMetrics();
-    const resolverMetrics = await getResolverMetrics();
+    const operationMetrics = await client.getOperationMetrics(release);
+
+    // Get resolver metrics for all operations
+    const resolverMetrics: Record<
+      string,
+      Record<string, RawResolverMetrics>
+    > = {};
+    for (const operationName of Object.keys(operationMetrics)) {
+      const resolvers = await client.getResolverMetrics(release, operationName);
+      if (Object.keys(resolvers).length > 0) {
+        resolverMetrics[operationName] = resolvers;
+      }
+    }
 
     // Aggregate and compute derived metrics
     const aggregatedOperations: Record<string, AggregatedOperationMetrics> = {};
@@ -70,6 +53,7 @@ export default async function handler(
       aggregatedOperations[operationName] = {
         requestCount,
         avgDurationMs: requestCount > 0 ? totalDurationMs / requestCount : 0,
+        totalDurationMs,
         errorCount,
         errorRate: requestCount > 0 ? errorCount / requestCount : 0,
         cacheHitRate:
@@ -99,7 +83,7 @@ export default async function handler(
     }
 
     const response: MetricsResponse = {
-      release: getCurrentRelease(),
+      release,
       collectedAt: new Date().toISOString(),
       operations: aggregatedOperations,
       resolvers: aggregatedResolvers,

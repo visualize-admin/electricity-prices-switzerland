@@ -16,7 +16,7 @@ import {
   GraphqlRequestContext,
 } from "src/graphql/server-context";
 import assert from "src/lib/assert";
-import { createSentryMetricsPlugin } from "src/apollo/plugins/sentry-metrics-plugin";
+import { createSentryMetricsPlugin } from "src/metrics/apollo-sentry-plugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
 import { createLogMiddleware } from "src/pages/api/log-middleware";
 

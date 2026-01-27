@@ -2,9 +2,10 @@ import * as Sentry from "@sentry/nextjs";
 
 import serverEnv from "src/env/server";
 import { SENTRY_DSN } from "src/lib/sentry/constants";
+import { RawOperationMetrics, RawResolverMetrics } from "src/metrics/types";
 
 /**
- * Sentry Discover API client for querying GraphQL metrics stored as distributed traces.
+ * Sentry API client for querying GraphQL metrics stored as distributed traces.
  *
  * API Documentation:
  * - https://docs.sentry.io/api/discover/query-discover-events-in-table-format/
@@ -48,35 +49,10 @@ const { projectId: SENTRY_PROJECT_ID, apiBase: SENTRY_API_BASE } =
   parseSentryDSN(SENTRY_DSN);
 const SENTRY_ORGANIZATION = "interactive-things"; // Organization slug
 
-interface SentryEventsTimeseriesQuery {
-  dataset: string;
-  yAxis: string[];
-  groupBy?: string[];
-  query?: string;
-  interval?: string;
-  statsPeriod?: string;
-  topEvents?: number;
-  environment?: string;
-}
-
-interface SentryEventsTimeseriesResult {
-  [groupKey: string]: {
-    data: Array<{ time: number; count: number }>;
-    meta?: {
-      fields?: Record<string, string>;
-      units?: Record<string, string | null>;
-    };
-  };
-}
-
-interface SentryEventsTimeseriesResponse {
-  [key: string]: SentryEventsTimeseriesResult;
-}
-
 /**
  * Client for querying Sentry Stats API
  */
-export class SentryMetricsClient {
+class SentryMetricsClient {
   private authToken: string | null;
 
   constructor() {
@@ -91,7 +67,7 @@ export class SentryMetricsClient {
   }
 
   /**
-   * Query Sentry Events/Discover API for spans
+   * Query Sentry Events API for spans
    */
   private async queryEvents(query: {
     dataset: string;
@@ -155,84 +131,12 @@ export class SentryMetricsClient {
   }
 
   /**
-   * Query Sentry Events Timeseries API for span metrics
-   */
-  private async queryEventsTimeseries(
-    query: SentryEventsTimeseriesQuery
-  ): Promise<SentryEventsTimeseriesResponse> {
-    if (!this.authToken) {
-      throw new Error("SENTRY_AUTH_TOKEN not configured");
-    }
-
-    const url = new URL(
-      `${SENTRY_API_BASE}/organizations/${SENTRY_ORGANIZATION}/events-timeseries/`
-    );
-
-    // Add query parameters
-    url.searchParams.set("project", SENTRY_PROJECT_ID);
-    url.searchParams.set("dataset", query.dataset);
-    url.searchParams.set("statsPeriod", query.statsPeriod || "24h");
-    url.searchParams.set("interval", query.interval || "1h");
-
-    query.yAxis.forEach((axis) => {
-      url.searchParams.append("yAxis", axis);
-    });
-
-    if (query.groupBy) {
-      query.groupBy.forEach((group) => {
-        url.searchParams.append("groupBy", group);
-      });
-    }
-
-    if (query.query) {
-      url.searchParams.set("query", query.query);
-    }
-
-    if (query.topEvents !== undefined) {
-      url.searchParams.set("topEvents", query.topEvents.toString());
-    }
-
-    if (query.environment) {
-      url.searchParams.set("environment", query.environment);
-    }
-
-    // Add default parameters that Sentry UI uses
-    url.searchParams.set("partial", "1");
-    url.searchParams.set("excludeOther", "0");
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${this.authToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(
-        `Sentry API request failed: ${response.status} ${response.statusText}\n${errorText}`
-      );
-    }
-
-    return response.json();
-  }
-
-  /**
    * Fetch operation-level metrics for a specific release
    * Queries spans with cache_status attribute (HIT or MISS)
    */
-  async getOperationMetrics(release: string): Promise<
-    Record<
-      string,
-      {
-        requestCount: number;
-        totalDurationMs: number;
-        errorCount: number;
-        responseCacheHit: number;
-        responseCacheMiss: number;
-      }
-    >
-  > {
+  async getOperationMetrics(
+    release: string
+  ): Promise<Record<string, RawOperationMetrics>> {
     try {
       // Query using Events/Discover API with spans dataset (like CSV export)
       const response = await this.queryEvents({
@@ -248,16 +152,7 @@ export class SentryMetricsClient {
         per_page: 50,
       });
 
-      const result: Record<
-        string,
-        {
-          requestCount: number;
-          totalDurationMs: number;
-          errorCount: number;
-          responseCacheHit: number;
-          responseCacheMiss: number;
-        }
-      > = {};
+      const result: Record<string, RawOperationMetrics> = {};
 
       // Aggregate rows by operation name
       for (const row of response.data) {
@@ -307,16 +202,7 @@ export class SentryMetricsClient {
   async getResolverMetrics(
     release: string,
     operationName: string
-  ): Promise<
-    Record<
-      string,
-      {
-        count: number;
-        totalDurationMs: number;
-        errorCount: number;
-      }
-    >
-  > {
+  ): Promise<Record<string, RawResolverMetrics>> {
     try {
       const response = await this.queryEvents({
         dataset: "spans",
@@ -330,14 +216,7 @@ export class SentryMetricsClient {
         per_page: 50,
       });
 
-      const result: Record<
-        string,
-        {
-          count: number;
-          totalDurationMs: number;
-          errorCount: number;
-        }
-      > = {};
+      const result: Record<string, RawResolverMetrics> = {};
 
       for (const row of response.data) {
         const fieldPath = row["span.description"] as string;
@@ -398,15 +277,4 @@ export class SentryMetricsClient {
   }
 }
 
-// Singleton instance
-let sentryClientInstance: SentryMetricsClient | null = null;
-
-/**
- * Get or create the Sentry metrics client singleton
- */
-export function getSentryClient(): SentryMetricsClient {
-  if (!sentryClientInstance) {
-    sentryClientInstance = new SentryMetricsClient();
-  }
-  return sentryClientInstance;
-}
+export default SentryMetricsClient;

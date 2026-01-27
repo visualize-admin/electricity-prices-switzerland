@@ -19,24 +19,20 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
+import { generateCSRFToken } from "src/admin-auth/crsf";
+import { parseSessionFromRequest } from "src/admin-auth/session";
+import serverEnv from "src/env/server";
 import GraphQLCacheChart, {
   MetricsChartPalette,
-} from "src/admin-auth/components/cache-chart";
-import GraphQLDurationsChart from "src/admin-auth/components/durations-chart";
-import { generateCSRFToken } from "src/admin-auth/crsf";
+} from "src/metrics/cache-chart";
+import GraphQLDurationsChart from "src/metrics/durations-chart";
+import SentryMetricsClient from "src/metrics/sentry-client";
 import {
   AggregatedOperationMetrics,
   ComparisonData,
+  RawOperationMetrics,
   ReleaseMetrics,
-} from "src/admin-auth/metrics-types";
-import { parseSessionFromRequest } from "src/admin-auth/session";
-import serverEnv from "src/env/server";
-import {
-  listReleases,
-  getOperationMetricsByRelease,
-  OperationMetrics,
-} from "src/lib/metrics/metrics-store";
-import { getSentryClient } from "src/lib/metrics/sentry-client";
+} from "src/metrics/types";
 
 interface SentryConfig {
   enabled: boolean;
@@ -54,7 +50,7 @@ interface MetricsPageProps {
 }
 
 function aggregateMetrics(
-  rawMetrics: Record<string, OperationMetrics>
+  rawMetrics: Record<string, RawOperationMetrics>
 ): Record<string, AggregatedOperationMetrics> {
   const aggregated: Record<string, AggregatedOperationMetrics> = {};
 
@@ -458,7 +454,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
   // Get Sentry configuration and current release
-  const sentryClient = getSentryClient();
+  const sentryClient = new SentryMetricsClient();
   const currentRelease = sentryClient.getCurrentRelease();
   const sentryConfig: SentryConfig = {
     enabled: serverEnv.NODE_ENV === "production",
@@ -474,7 +470,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   };
 
   // Fetch all available releases
-  const availableReleases = (await listReleases()).slice(0, 20); // Get more releases for selection
+  const availableReleases = (await sentryClient.listReleases()).slice(0, 20); // Get more releases for selection
 
   // Parse selected releases from query parameter
   const selectedReleasesParam = context.query.releases as string;
@@ -496,7 +492,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   // If no releases selected and current release is available, default to current + first 4 others
   if (selectedReleases.length === 0) {
     const otherReleases = availableReleases
-      .filter((r) => r !== currentRelease)
+      .filter((r: string) => r !== currentRelease)
       .slice(0, 4);
     selectedReleases = availableReleases.includes(currentRelease)
       ? [currentRelease, ...otherReleases]
@@ -506,7 +502,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   // Fetch metrics only for selected releases
   const releases: ReleaseMetrics[] = await Promise.all(
     selectedReleases.map(async (release) => {
-      const rawMetrics = await getOperationMetricsByRelease(release);
+      const rawMetrics = await sentryClient.getOperationMetrics(release);
       const operations = aggregateMetrics(rawMetrics);
 
       return {

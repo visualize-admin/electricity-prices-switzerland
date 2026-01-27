@@ -2,7 +2,7 @@ import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
 
-import { createMetricsReporterOptions } from "./tests/reporters/metrics-reporter";
+import { createMetricsReporterOptions } from "./src/metrics/playwright-reporter";
 
 loadEnvConfig(process.cwd(), true);
 
@@ -49,11 +49,14 @@ export default defineConfig({
       }),
     ],
     [
-      "./tests/reporters/metrics-reporter.ts",
+      "./src/metrics/playwright-reporter.ts",
       createMetricsReporterOptions({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
         enabled: !!process.env.CI,
+        artifactPath: process.env.CI
+          ? "test-results/graphql-metrics.json"
+          : undefined,
       }),
     ],
   ],
