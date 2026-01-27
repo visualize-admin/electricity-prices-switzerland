@@ -48,7 +48,6 @@ test.describe("The Home Page", () => {
   });
 
   test("sunshine links", async ({ page, snapshot }) => {
-    const tracker = new InflightRequests(page);
     test.setTimeout(120_000);
     await page.goto("/en?flag__sunshine=true");
     const links = [
@@ -69,6 +68,8 @@ test.describe("The Home Page", () => {
         page.context().waitForEvent("page"),
         anchor.click({ modifiers: [isMac ? "Meta" : "Control"] }),
       ]);
+
+      const tracker = new InflightRequests(newPage);
 
       // Activate tab
       await newPage.bringToFront();

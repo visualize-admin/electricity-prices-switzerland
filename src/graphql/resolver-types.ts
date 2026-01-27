@@ -80,6 +80,24 @@ export type CantonResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type CostsAndTariffsData = {
+  __typename?: "CostsAndTariffsData";
+  energyTariffs: TariffsData;
+  latestYear: Scalars["String"]["output"];
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
+  operator: OperatorWithPeerGroup;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type CostsAndTariffsFilter = {
+  category: Scalars["String"]["input"];
+  networkLevel: Scalars["String"]["input"];
+  operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type CubeHealth = {
   __typename?: "CubeHealth";
   dimensions: Array<Scalars["String"]["output"]>;
@@ -162,19 +180,14 @@ export type OperationalStandardsData = {
   __typename?: "OperationalStandardsData";
   compliance: OperationalStandardsCompliance;
   latestYear: Scalars["String"]["output"];
-  operator: OperationalStandardsOperator;
+  operator: OperatorWithPeerGroup;
   serviceQuality: OperationalStandardsServiceQuality;
   updateDate: Scalars["String"]["output"];
 };
 
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
-  period: Scalars["Int"]["input"];
-};
-
-export type OperationalStandardsOperator = {
-  __typename?: "OperationalStandardsOperator";
-  peerGroup: PeerGroup;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type OperationalStandardsOperatorFrancs = {
@@ -256,6 +269,11 @@ export type OperatorResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type OperatorWithPeerGroup = {
+  __typename?: "OperatorWithPeerGroup";
+  peerGroup: PeerGroup;
+};
+
 export type PeerGroup = {
   __typename?: "PeerGroup";
   energyDensity: Scalars["String"]["output"];
@@ -267,6 +285,21 @@ export type PeerGroupItem = {
   __typename?: "PeerGroupItem";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PowerStabilityData = {
+  __typename?: "PowerStabilityData";
+  latestYear: Scalars["String"]["output"];
+  operator: OperatorWithPeerGroup;
+  saidi: StabilityData;
+  saifi: StabilityData;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type PowerStabilityFilter = {
+  operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export enum PriceComponent {
@@ -287,6 +320,7 @@ export type Query = {
   canton?: Maybe<Canton>;
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   cantons: Array<Canton>;
+  costsAndTariffs: CostsAndTariffsData;
   cubeHealth?: Maybe<CubeHealth>;
   energyTariffs: TariffsData;
   municipalities: Array<Municipality>;
@@ -299,6 +333,7 @@ export type Query = {
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
+  powerStability: PowerStabilityData;
   saidi: StabilityData;
   saifi: StabilityData;
   search: Array<SearchResult>;
@@ -334,6 +369,10 @@ export type QueryCantonsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryCostsAndTariffsArgs = {
+  filter: CostsAndTariffsFilter;
 };
 
 export type QueryEnergyTariffsArgs = {
@@ -388,6 +427,10 @@ export type QueryOperatorsArgs = {
 
 export type QueryPeerGroupsArgs = {
   locale: Scalars["String"]["input"];
+};
+
+export type QueryPowerStabilityArgs = {
+  filter: PowerStabilityFilter;
 };
 
 export type QuerySaidiArgs = {
@@ -724,6 +767,8 @@ export type ResolversTypes = ResolversObject<{
   Canton: ResolverTypeWrapper<ResolvedCanton>;
   CantonMedianObservation: ResolverTypeWrapper<ResolvedCantonMedianObservation>;
   CantonResult: ResolverTypeWrapper<ResolvedSearchResult>;
+  CostsAndTariffsData: ResolverTypeWrapper<CostsAndTariffsData>;
+  CostsAndTariffsFilter: CostsAndTariffsFilter;
   CubeHealth: ResolverTypeWrapper<CubeHealth>;
   ElectricityCategory: ResolverTypeWrapper<
     Scalars["ElectricityCategory"]["output"]
@@ -742,7 +787,6 @@ export type ResolversTypes = ResolversObject<{
   OperationalStandardsCompliance: ResolverTypeWrapper<OperationalStandardsCompliance>;
   OperationalStandardsData: ResolverTypeWrapper<OperationalStandardsData>;
   OperationalStandardsFilter: OperationalStandardsFilter;
-  OperationalStandardsOperator: ResolverTypeWrapper<OperationalStandardsOperator>;
   OperationalStandardsOperatorFrancs: ResolverTypeWrapper<OperationalStandardsOperatorFrancs>;
   OperationalStandardsOperatorNotification: ResolverTypeWrapper<OperationalStandardsOperatorNotification>;
   OperationalStandardsServiceQuality: ResolverTypeWrapper<OperationalStandardsServiceQuality>;
@@ -752,8 +796,11 @@ export type ResolversTypes = ResolversObject<{
   OperatorMunicipality: ResolverTypeWrapper<OperatorMunicipality>;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
+  OperatorWithPeerGroup: ResolverTypeWrapper<OperatorWithPeerGroup>;
   PeerGroup: ResolverTypeWrapper<PeerGroup>;
   PeerGroupItem: ResolverTypeWrapper<PeerGroupItem>;
+  PowerStabilityData: ResolverTypeWrapper<PowerStabilityData>;
+  PowerStabilityFilter: PowerStabilityFilter;
   PriceComponent: PriceComponent;
   Query: ResolverTypeWrapper<{}>;
   SearchResult: ResolverTypeWrapper<
@@ -783,6 +830,8 @@ export type ResolversParentTypes = ResolversObject<{
   Canton: ResolvedCanton;
   CantonMedianObservation: ResolvedCantonMedianObservation;
   CantonResult: ResolvedSearchResult;
+  CostsAndTariffsData: CostsAndTariffsData;
+  CostsAndTariffsFilter: CostsAndTariffsFilter;
   CubeHealth: CubeHealth;
   ElectricityCategory: Scalars["ElectricityCategory"]["output"];
   Float: Scalars["Float"]["output"];
@@ -798,7 +847,6 @@ export type ResolversParentTypes = ResolversObject<{
   OperationalStandardsCompliance: OperationalStandardsCompliance;
   OperationalStandardsData: OperationalStandardsData;
   OperationalStandardsFilter: OperationalStandardsFilter;
-  OperationalStandardsOperator: OperationalStandardsOperator;
   OperationalStandardsOperatorFrancs: OperationalStandardsOperatorFrancs;
   OperationalStandardsOperatorNotification: OperationalStandardsOperatorNotification;
   OperationalStandardsServiceQuality: OperationalStandardsServiceQuality;
@@ -807,8 +855,11 @@ export type ResolversParentTypes = ResolversObject<{
   OperatorMunicipality: OperatorMunicipality;
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
+  OperatorWithPeerGroup: OperatorWithPeerGroup;
   PeerGroup: PeerGroup;
   PeerGroupItem: PeerGroupItem;
+  PowerStabilityData: PowerStabilityData;
+  PowerStabilityFilter: PowerStabilityFilter;
   Query: {};
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   StabilityData: StabilityData;
@@ -887,6 +938,31 @@ export type CantonResultResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CostsAndTariffsDataResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["CostsAndTariffsData"] = ResolversParentTypes["CostsAndTariffsData"]
+> = ResolversObject<{
+  energyTariffs?: Resolver<
+    ResolversTypes["TariffsData"],
+    ParentType,
+    ContextType
+  >;
+  latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  netTariffs?: Resolver<ResolversTypes["TariffsData"], ParentType, ContextType>;
+  networkCosts?: Resolver<
+    ResolversTypes["NetworkCostsData"],
+    ParentType,
+    ContextType
+  >;
+  operator?: Resolver<
+    ResolversTypes["OperatorWithPeerGroup"],
+    ParentType,
+    ContextType
+  >;
+  updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1040,7 +1116,7 @@ export type OperationalStandardsDataResolvers<
   >;
   latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   operator?: Resolver<
-    ResolversTypes["OperationalStandardsOperator"],
+    ResolversTypes["OperatorWithPeerGroup"],
     ParentType,
     ContextType
   >;
@@ -1050,14 +1126,6 @@ export type OperationalStandardsDataResolvers<
     ContextType
   >;
   updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type OperationalStandardsOperatorResolvers<
-  ContextType = GraphqlRequestContext,
-  ParentType extends ResolversParentTypes["OperationalStandardsOperator"] = ResolversParentTypes["OperationalStandardsOperator"]
-> = ResolversObject<{
-  peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1207,6 +1275,14 @@ export type OperatorResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type OperatorWithPeerGroupResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["OperatorWithPeerGroup"] = ResolversParentTypes["OperatorWithPeerGroup"]
+> = ResolversObject<{
+  peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type PeerGroupResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["PeerGroup"] = ResolversParentTypes["PeerGroup"]
@@ -1227,6 +1303,22 @@ export type PeerGroupItemResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PowerStabilityDataResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["PowerStabilityData"] = ResolversParentTypes["PowerStabilityData"]
+> = ResolversObject<{
+  latestYear?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator?: Resolver<
+    ResolversTypes["OperatorWithPeerGroup"],
+    ParentType,
+    ContextType
+  >;
+  saidi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
+  saifi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
+  updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1257,6 +1349,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryCantonsArgs, "locale">
+  >;
+  costsAndTariffs?: Resolver<
+    ResolversTypes["CostsAndTariffsData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryCostsAndTariffsArgs, "filter">
   >;
   cubeHealth?: Resolver<
     Maybe<ResolversTypes["CubeHealth"]>,
@@ -1328,6 +1426,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryPeerGroupsArgs, "locale">
+  >;
+  powerStability?: Resolver<
+    ResolversTypes["PowerStabilityData"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPowerStabilityArgs, "filter">
   >;
   saidi?: Resolver<
     ResolversTypes["StabilityData"],
@@ -1693,6 +1797,7 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   Canton?: CantonResolvers<ContextType>;
   CantonMedianObservation?: CantonMedianObservationResolvers<ContextType>;
   CantonResult?: CantonResultResolvers<ContextType>;
+  CostsAndTariffsData?: CostsAndTariffsDataResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
   ElectricityCategory?: GraphQLScalarType;
   Municipality?: MunicipalityResolvers<ContextType>;
@@ -1703,7 +1808,6 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   Observation?: ObservationResolvers<ContextType>;
   OperationalStandardsCompliance?: OperationalStandardsComplianceResolvers<ContextType>;
   OperationalStandardsData?: OperationalStandardsDataResolvers<ContextType>;
-  OperationalStandardsOperator?: OperationalStandardsOperatorResolvers<ContextType>;
   OperationalStandardsOperatorFrancs?: OperationalStandardsOperatorFrancsResolvers<ContextType>;
   OperationalStandardsOperatorNotification?: OperationalStandardsOperatorNotificationResolvers<ContextType>;
   OperationalStandardsServiceQuality?: OperationalStandardsServiceQualityResolvers<ContextType>;
@@ -1712,8 +1816,10 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperatorMunicipality?: OperatorMunicipalityResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;
+  OperatorWithPeerGroup?: OperatorWithPeerGroupResolvers<ContextType>;
   PeerGroup?: PeerGroupResolvers<ContextType>;
   PeerGroupItem?: PeerGroupItemResolvers<ContextType>;
+  PowerStabilityData?: PowerStabilityDataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SearchResult?: SearchResultResolvers<ContextType>;
   StabilityData?: StabilityDataResolvers<ContextType>;

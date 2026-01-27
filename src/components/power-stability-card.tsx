@@ -16,7 +16,7 @@ import {
 import {
   isPeerGroupRow,
   PeerGroup,
-  SunshinePowerStabilityData,
+  PowerStabilityData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
@@ -34,7 +34,7 @@ type PowerStabilityControlsProps = {
   overallOrRatio: OverallOrRatioFilter | undefined;
   saidiSaifiType: QueryStateSunshineMap["saidiSaifiType"] | undefined;
   compareWith: CompareWithFilter;
-  multiComboboxOptions: SunshinePowerStabilityData["saidi"]["yearlyData"];
+  multiComboboxOptions: PowerStabilityData["saidi"]["yearlyData"];
   colorMapping: ReturnType<typeof createColorMapping>;
   state: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0];
   setQueryState: ReturnType<typeof useQueryStatePowerStabilityCardFilters>[1];
@@ -215,8 +215,8 @@ type PowerStabilityCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
   observations:
-    | SunshinePowerStabilityData["saidi"]["yearlyData"]
-    | SunshinePowerStabilityData["saifi"]["yearlyData"];
+    | PowerStabilityData["saidi"]["yearlyData"]
+    | PowerStabilityData["saifi"]["yearlyData"];
   operatorId: string;
   operatorLabel: string;
   latestYear: number;

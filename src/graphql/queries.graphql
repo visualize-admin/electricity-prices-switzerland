@@ -44,6 +44,15 @@ query Search($locale: String!, $query: String) {
   }
 }
 
+fragment OperatorPageDetails on Operator {
+  id
+  name
+  municipalities {
+    id
+    name
+  }
+}
+
 fragment operatorObservationFields on OperatorObservation {
   period
   municipality
@@ -169,6 +178,12 @@ query OperatorDocuments($id: String!, $locale: String!) {
   }
 }
 
+query OperatorPageProps($locale: String!, $id: String!) {
+  operator(locale: $locale, id: $id) {
+    ...OperatorPageDetails
+  }
+}
+
 query WikiContent($locale: String!, $slug: String!) {
   wikiContent(locale: $locale, slug: $slug) {
     html
@@ -246,8 +261,8 @@ query SunshineDataByIndicator($filter: SunshineDataFilter!) {
       period
       value
     }
+    median
   }
-  sunshineMedianByIndicator(filter: $filter)
 }
 
 query SunshineTariff($filter: SunshineDataFilter!) {
@@ -301,6 +316,7 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
     latestYear
     operator {
       peerGroup {
+        id
         settlementDensity
         energyDensity
       }
@@ -321,6 +337,152 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
         operatorId
         francsPerInvoice
         year
+      }
+    }
+    updateDate
+  }
+}
+
+query Saidi($filter: StabilityFilter!) {
+  saidi(filter: $filter) {
+    operatorTotal
+    operatorUnplanned
+    trendTotal
+    trendUnplanned
+    peerGroupMedianTotal
+    peerGroupMedianUnplanned
+    peerGroupMedianTrendTotal
+    peerGroupMedianTrendUnplanned
+    yearlyData {
+      year
+      total
+      unplanned
+      operator_id
+      operator_name
+    }
+  }
+}
+
+query Saifi($filter: StabilityFilter!) {
+  saifi(filter: $filter) {
+    operatorTotal
+    operatorUnplanned
+    trendTotal
+    trendUnplanned
+    peerGroupMedianTotal
+    peerGroupMedianUnplanned
+    peerGroupMedianTrendTotal
+    peerGroupMedianTrendUnplanned
+    yearlyData {
+      year
+      total
+      unplanned
+      operator_id
+      operator_name
+    }
+  }
+}
+
+query CostsAndTariffs($filter: CostsAndTariffsFilter!) {
+  costsAndTariffs(filter: $filter) {
+    latestYear
+    operator {
+      peerGroup {
+        id
+        settlementDensity
+        energyDensity
+      }
+    }
+    networkCosts {
+      networkLevel {
+        id
+      }
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        year
+        rate
+        operator_id
+        operator_name
+        network_level
+      }
+    }
+    netTariffs {
+      category
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+    energyTariffs {
+      category
+      operatorRate
+      operatorTrend
+      peerGroupMedianRate
+      peerGroupMedianTrend
+      yearlyData {
+        period
+        rate
+        operator_id
+        operator_name
+        category
+      }
+    }
+    updateDate
+  }
+}
+
+query PowerStability($filter: PowerStabilityFilter!) {
+  powerStability(filter: $filter) {
+    latestYear
+    operator {
+      peerGroup {
+        id
+        settlementDensity
+        energyDensity
+      }
+    }
+    saidi {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
+      }
+    }
+    saifi {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
       }
     }
     updateDate

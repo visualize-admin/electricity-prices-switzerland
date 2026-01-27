@@ -18,20 +18,23 @@ import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
 import {
   getCantonPageProps,
   getMunicipalityPageProps,
-  getOperatorsPageProps,
   PageParams,
   Props,
 } from "src/data/shared-page-props";
 import { detailsPriceComponents } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
+import {
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
+} from "src/graphql/queries";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 
 export const getServerSideProps = createGetServerSideProps<
   Props,
   Omit<PageParams, "req">
->(async (context, { sparqlClient }) => {
+>(async (context, { sparqlClient, executeGraphqlQuery }) => {
   const { params, res, locale, req } = context;
   const { id, entity } = params!;
   const query = new URL(req.url!, `http://${req.headers.host}`).searchParams;
@@ -62,14 +65,30 @@ export const getServerSideProps = createGetServerSideProps<
       });
 
       break;
-    case "operator":
-      props = await getOperatorsPageProps(sparqlClient, {
-        id,
-        locale: locale ?? defaultLocale,
-        res,
-      });
+    case "operator": {
+      const data = await executeGraphqlQuery<OperatorPagePropsQuery>(
+        OperatorPagePropsDocument,
+        {
+          locale: locale ?? defaultLocale,
+          id,
+        }
+      );
+
+      if (!data.operator) {
+        res.statusCode = 404;
+        props = { status: "notfound" };
+      } else {
+        props = {
+          entity: "operator" as const,
+          status: "found" as const,
+          id: data.operator.id ?? id,
+          name: data.operator.name,
+          municipalities: data.operator.municipalities,
+        };
+      }
 
       break;
+    }
     default:
       props = { status: "notfound" };
       break;

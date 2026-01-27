@@ -25,14 +25,18 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { useQueryStateSunshineDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
+import {
+  OperationalStandardsDocument,
+  OperationalStandardsQuery,
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
+} from "src/graphql/queries";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
-import { fetchOperationalStandards } from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
@@ -45,7 +49,7 @@ type Props =
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -57,13 +61,16 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const operatorData = await executeGraphqlQuery<OperatorPagePropsQuery>(
+      OperatorPagePropsDocument,
+      {
+        locale: locale ?? defaultLocale,
+        id,
+      }
+    );
 
-    if (operatorProps.status === "notfound") {
+    if (!operatorData.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
@@ -71,17 +78,33 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operationalStandards = await fetchOperationalStandards(
-      sunshineDataService,
+    const operator = operatorData.operator;
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
+    };
+
+    const data = await executeGraphqlQuery<OperationalStandardsQuery>(
+      OperationalStandardsDocument,
       {
-        operatorId: id,
+        filter: {
+          operatorId: parseInt(id, 10),
+        },
       }
     );
+
+    if (!data.operationalStandards) {
+      throw new Error("Failed to fetch operational standards data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        operationalStandards,
+        operationalStandards: data.operationalStandards,
         sessionConfig,
       },
     };

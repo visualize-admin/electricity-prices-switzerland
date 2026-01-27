@@ -40,7 +40,7 @@ type PeerGroupItem {
   name: String!
 }
 
-type PeerGroup {
+type PeerGroup @cacheControl(maxAge: 300) {
   id: String!
   settlementDensity: String!
   energyDensity: String!
@@ -227,7 +227,7 @@ type Query {
   cubeHealth: CubeHealth
 }
 
-type SunshineDataRow {
+type SunshineDataRow @cacheControl(maxAge: 300) {
   operatorId: Int
   operatorUID: String!
   name: String!
@@ -261,7 +261,7 @@ type SunshineDataRow {
   networkCostsNE7: Float
 }
 
-type SunshineDataIndicatorRow {
+type SunshineDataIndicatorRow @cacheControl(maxAge: 300) {
   operatorId: Int
   operatorUID: String!
   name: String!
@@ -269,7 +269,7 @@ type SunshineDataIndicatorRow {
   value: Float
 }
 
-type SunshineDataByIndicatorResult {
+type SunshineDataByIndicatorResult @cacheControl(maxAge: 300) {
   data: [SunshineDataIndicatorRow!]!
   median: Float
 }
@@ -293,7 +293,7 @@ enum Trend {
   stable
 }
 
-type NetworkCostsData {
+type NetworkCostsData @cacheControl(maxAge: 300) {
   networkLevel: NetworkLevel!
   operatorRate: Float
   operatorTrend: Trend
@@ -302,11 +302,11 @@ type NetworkCostsData {
   yearlyData: [NetworkCostRow!]!
 }
 
-type NetworkLevel {
+type NetworkLevel @cacheControl(maxAge: 300) {
   id: String!
 }
 
-type NetworkCostRow {
+type NetworkCostRow @cacheControl(maxAge: 300) {
   year: Int!
   rate: Float
   operator_id: Int!
@@ -314,7 +314,7 @@ type NetworkCostRow {
   network_level: String!
 }
 
-type TariffsData {
+type TariffsData @cacheControl(maxAge: 300) {
   category: ElectricityCategory!
   operatorRate: Float
   operatorTrend: Trend
@@ -323,7 +323,7 @@ type TariffsData {
   yearlyData: [TariffRow!]!
 }
 
-type TariffRow {
+type TariffRow @cacheControl(maxAge: 300) {
   period: Int!
   rate: Float
   operator_id: Int!
@@ -345,7 +345,7 @@ input TariffsFilter {
   operatorOnly: Boolean
 }
 
-type StabilityDataRow {
+type StabilityDataRow @cacheControl(maxAge: 300) {
   year: Int!
   total: Float
   unplanned: Float
@@ -353,7 +353,7 @@ type StabilityDataRow {
   operator_name: String!
 }
 
-type StabilityData {
+type StabilityData @cacheControl(maxAge: 300) {
   operatorTotal: Float
   operatorUnplanned: Float
   trendTotal: Trend
@@ -371,37 +371,37 @@ input StabilityFilter {
   operatorOnly: Boolean
 }
 
-type OperationalStandardsServiceQuality {
+type OperationalStandardsServiceQuality @cacheControl(maxAge: 300) {
   notificationPeriodDays: Int
   informingCustomersOfOutage: Boolean
   operatorsNotificationPeriodDays: [OperationalStandardsOperatorNotification!]!
 }
 
-type OperationalStandardsOperatorNotification {
+type OperationalStandardsOperatorNotification @cacheControl(maxAge: 300) {
   operatorId: String!
   days: Int
   year: String!
 }
 
-type OperationalStandardsCompliance {
+type OperationalStandardsCompliance @cacheControl(maxAge: 300) {
   francsRule: String
   timelyPaperSubmission: Boolean
   operatorsFrancsPerInvoice: [OperationalStandardsOperatorFrancs!]!
 }
 
-type OperationalStandardsOperatorFrancs {
+type OperationalStandardsOperatorFrancs @cacheControl(maxAge: 300) {
   operatorId: String!
   francsPerInvoice: Float
   year: String!
 }
 
-type OperationalStandardsOperator {
+type OperatorWithPeerGroup @cacheControl(maxAge: 300) {
   peerGroup: PeerGroup!
 }
 
-type OperationalStandardsData {
+type OperationalStandardsData @cacheControl(maxAge: 300) {
   latestYear: String!
-  operator: OperationalStandardsOperator!
+  operator: OperatorWithPeerGroup!
   serviceQuality: OperationalStandardsServiceQuality!
   compliance: OperationalStandardsCompliance!
   updateDate: String!
@@ -409,7 +409,38 @@ type OperationalStandardsData {
 
 input OperationalStandardsFilter {
   operatorId: Int!
-  period: Int!
+  period: Int
+}
+
+input CostsAndTariffsFilter {
+  operatorId: Int!
+  period: Int
+  networkLevel: String!
+  category: String!
+  operatorOnly: Boolean
+}
+
+input PowerStabilityFilter {
+  operatorId: Int!
+  period: Int
+  operatorOnly: Boolean
+}
+
+type CostsAndTariffsData @cacheControl(maxAge: 300) {
+  latestYear: String!
+  operator: OperatorWithPeerGroup!
+  networkCosts: NetworkCostsData!
+  netTariffs: TariffsData!
+  energyTariffs: TariffsData!
+  updateDate: String!
+}
+
+type PowerStabilityData @cacheControl(maxAge: 300) {
+  latestYear: String!
+  operator: OperatorWithPeerGroup!
+  saidi: StabilityData!
+  saifi: StabilityData!
+  updateDate: String!
 }
 
 type Query {
@@ -433,4 +464,6 @@ type Query {
   operationalStandards(
     filter: OperationalStandardsFilter!
   ): OperationalStandardsData!
+  costsAndTariffs(filter: CostsAndTariffsFilter!): CostsAndTariffsData!
+  powerStability(filter: PowerStabilityFilter!): PowerStabilityData!
 }

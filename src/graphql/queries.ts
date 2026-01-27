@@ -64,6 +64,24 @@ export type CantonResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type CostsAndTariffsData = {
+  __typename: "CostsAndTariffsData";
+  energyTariffs: TariffsData;
+  latestYear: Scalars["String"]["output"];
+  netTariffs: TariffsData;
+  networkCosts: NetworkCostsData;
+  operator: OperatorWithPeerGroup;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type CostsAndTariffsFilter = {
+  category: Scalars["String"]["input"];
+  networkLevel: Scalars["String"]["input"];
+  operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type CubeHealth = {
   __typename: "CubeHealth";
   dimensions: Array<Scalars["String"]["output"]>;
@@ -146,19 +164,14 @@ export type OperationalStandardsData = {
   __typename: "OperationalStandardsData";
   compliance: OperationalStandardsCompliance;
   latestYear: Scalars["String"]["output"];
-  operator: OperationalStandardsOperator;
+  operator: OperatorWithPeerGroup;
   serviceQuality: OperationalStandardsServiceQuality;
   updateDate: Scalars["String"]["output"];
 };
 
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
-  period: Scalars["Int"]["input"];
-};
-
-export type OperationalStandardsOperator = {
-  __typename: "OperationalStandardsOperator";
-  peerGroup: PeerGroup;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type OperationalStandardsOperatorFrancs = {
@@ -240,6 +253,11 @@ export type OperatorResult = SearchResult & {
   name: Scalars["String"]["output"];
 };
 
+export type OperatorWithPeerGroup = {
+  __typename: "OperatorWithPeerGroup";
+  peerGroup: PeerGroup;
+};
+
 export type PeerGroup = {
   __typename: "PeerGroup";
   energyDensity: Scalars["String"]["output"];
@@ -251,6 +269,21 @@ export type PeerGroupItem = {
   __typename: "PeerGroupItem";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type PowerStabilityData = {
+  __typename: "PowerStabilityData";
+  latestYear: Scalars["String"]["output"];
+  operator: OperatorWithPeerGroup;
+  saidi: StabilityData;
+  saifi: StabilityData;
+  updateDate: Scalars["String"]["output"];
+};
+
+export type PowerStabilityFilter = {
+  operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
+  period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export enum PriceComponent {
@@ -271,6 +304,7 @@ export type Query = {
   canton?: Maybe<Canton>;
   cantonMedianObservations?: Maybe<Array<CantonMedianObservation>>;
   cantons: Array<Canton>;
+  costsAndTariffs: CostsAndTariffsData;
   cubeHealth?: Maybe<CubeHealth>;
   energyTariffs: TariffsData;
   municipalities: Array<Municipality>;
@@ -283,6 +317,7 @@ export type Query = {
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
+  powerStability: PowerStabilityData;
   saidi: StabilityData;
   saifi: StabilityData;
   search: Array<SearchResult>;
@@ -318,6 +353,10 @@ export type QueryCantonsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   locale: Scalars["String"]["input"];
   query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type QueryCostsAndTariffsArgs = {
+  filter: CostsAndTariffsFilter;
 };
 
 export type QueryEnergyTariffsArgs = {
@@ -372,6 +411,10 @@ export type QueryOperatorsArgs = {
 
 export type QueryPeerGroupsArgs = {
   locale: Scalars["String"]["input"];
+};
+
+export type QueryPowerStabilityArgs = {
+  filter: PowerStabilityFilter;
 };
 
 export type QuerySaidiArgs = {
@@ -663,6 +706,17 @@ export type SearchQuery = {
   >;
 };
 
+export type OperatorPageDetailsFragment = {
+  __typename: "Operator";
+  id?: string | null;
+  name: string;
+  municipalities: Array<{
+    __typename: "Municipality";
+    id: string;
+    name: string;
+  }>;
+};
+
 export type OperatorObservationFieldsFragment = {
   __typename: "OperatorObservation";
   period: string;
@@ -832,6 +886,25 @@ export type OperatorDocumentsQuery = {
   } | null;
 };
 
+export type OperatorPagePropsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+  id: Scalars["String"]["input"];
+}>;
+
+export type OperatorPagePropsQuery = {
+  __typename: "Query";
+  operator?: {
+    __typename: "Operator";
+    id?: string | null;
+    name: string;
+    municipalities: Array<{
+      __typename: "Municipality";
+      id: string;
+      name: string;
+    }>;
+  } | null;
+};
+
 export type WikiContentQueryVariables = Exact<{
   locale: Scalars["String"]["input"];
   slug: Scalars["String"]["input"];
@@ -931,9 +1004,9 @@ export type SunshineDataByIndicatorQueryVariables = Exact<{
 
 export type SunshineDataByIndicatorQuery = {
   __typename: "Query";
-  sunshineMedianByIndicator?: number | null;
   sunshineDataByIndicator: {
     __typename: "SunshineDataByIndicatorResult";
+    median?: number | null;
     data: Array<{
       __typename: "SunshineDataIndicatorRow";
       operatorId?: number | null;
@@ -1012,9 +1085,10 @@ export type OperationalStandardsQuery = {
     latestYear: string;
     updateDate: string;
     operator: {
-      __typename: "OperationalStandardsOperator";
+      __typename: "OperatorWithPeerGroup";
       peerGroup: {
         __typename: "PeerGroup";
+        id: string;
         settlementDensity: string;
         energyDensity: string;
       };
@@ -1039,6 +1113,190 @@ export type OperationalStandardsQuery = {
         operatorId: string;
         francsPerInvoice?: number | null;
         year: string;
+      }>;
+    };
+  };
+};
+
+export type SaidiQueryVariables = Exact<{
+  filter: StabilityFilter;
+}>;
+
+export type SaidiQuery = {
+  __typename: "Query";
+  saidi: {
+    __typename: "StabilityData";
+    operatorTotal?: number | null;
+    operatorUnplanned?: number | null;
+    trendTotal?: Trend | null;
+    trendUnplanned?: Trend | null;
+    peerGroupMedianTotal: number;
+    peerGroupMedianUnplanned: number;
+    peerGroupMedianTrendTotal: Trend;
+    peerGroupMedianTrendUnplanned: Trend;
+    yearlyData: Array<{
+      __typename: "StabilityDataRow";
+      year: number;
+      total?: number | null;
+      unplanned?: number | null;
+      operator_id: number;
+      operator_name: string;
+    }>;
+  };
+};
+
+export type SaifiQueryVariables = Exact<{
+  filter: StabilityFilter;
+}>;
+
+export type SaifiQuery = {
+  __typename: "Query";
+  saifi: {
+    __typename: "StabilityData";
+    operatorTotal?: number | null;
+    operatorUnplanned?: number | null;
+    trendTotal?: Trend | null;
+    trendUnplanned?: Trend | null;
+    peerGroupMedianTotal: number;
+    peerGroupMedianUnplanned: number;
+    peerGroupMedianTrendTotal: Trend;
+    peerGroupMedianTrendUnplanned: Trend;
+    yearlyData: Array<{
+      __typename: "StabilityDataRow";
+      year: number;
+      total?: number | null;
+      unplanned?: number | null;
+      operator_id: number;
+      operator_name: string;
+    }>;
+  };
+};
+
+export type CostsAndTariffsQueryVariables = Exact<{
+  filter: CostsAndTariffsFilter;
+}>;
+
+export type CostsAndTariffsQuery = {
+  __typename: "Query";
+  costsAndTariffs: {
+    __typename: "CostsAndTariffsData";
+    latestYear: string;
+    updateDate: string;
+    operator: {
+      __typename: "OperatorWithPeerGroup";
+      peerGroup: {
+        __typename: "PeerGroup";
+        id: string;
+        settlementDensity: string;
+        energyDensity: string;
+      };
+    };
+    networkCosts: {
+      __typename: "NetworkCostsData";
+      operatorRate?: number | null;
+      operatorTrend?: Trend | null;
+      peerGroupMedianRate?: number | null;
+      peerGroupMedianTrend?: Trend | null;
+      networkLevel: { __typename: "NetworkLevel"; id: string };
+      yearlyData: Array<{
+        __typename: "NetworkCostRow";
+        year: number;
+        rate?: number | null;
+        operator_id: number;
+        operator_name: string;
+        network_level: string;
+      }>;
+    };
+    netTariffs: {
+      __typename: "TariffsData";
+      category: any;
+      operatorRate?: number | null;
+      operatorTrend?: Trend | null;
+      peerGroupMedianRate?: number | null;
+      peerGroupMedianTrend?: Trend | null;
+      yearlyData: Array<{
+        __typename: "TariffRow";
+        period: number;
+        rate?: number | null;
+        operator_id: number;
+        operator_name: string;
+        category: any;
+      }>;
+    };
+    energyTariffs: {
+      __typename: "TariffsData";
+      category: any;
+      operatorRate?: number | null;
+      operatorTrend?: Trend | null;
+      peerGroupMedianRate?: number | null;
+      peerGroupMedianTrend?: Trend | null;
+      yearlyData: Array<{
+        __typename: "TariffRow";
+        period: number;
+        rate?: number | null;
+        operator_id: number;
+        operator_name: string;
+        category: any;
+      }>;
+    };
+  };
+};
+
+export type PowerStabilityQueryVariables = Exact<{
+  filter: PowerStabilityFilter;
+}>;
+
+export type PowerStabilityQuery = {
+  __typename: "Query";
+  powerStability: {
+    __typename: "PowerStabilityData";
+    latestYear: string;
+    updateDate: string;
+    operator: {
+      __typename: "OperatorWithPeerGroup";
+      peerGroup: {
+        __typename: "PeerGroup";
+        id: string;
+        settlementDensity: string;
+        energyDensity: string;
+      };
+    };
+    saidi: {
+      __typename: "StabilityData";
+      operatorTotal?: number | null;
+      operatorUnplanned?: number | null;
+      trendTotal?: Trend | null;
+      trendUnplanned?: Trend | null;
+      peerGroupMedianTotal: number;
+      peerGroupMedianUnplanned: number;
+      peerGroupMedianTrendTotal: Trend;
+      peerGroupMedianTrendUnplanned: Trend;
+      yearlyData: Array<{
+        __typename: "StabilityDataRow";
+        year: number;
+        total?: number | null;
+        unplanned?: number | null;
+        operator_id: number;
+        operator_name: string;
+      }>;
+    };
+    saifi: {
+      __typename: "StabilityData";
+      operatorTotal?: number | null;
+      operatorUnplanned?: number | null;
+      trendTotal?: Trend | null;
+      trendUnplanned?: Trend | null;
+      peerGroupMedianTotal: number;
+      peerGroupMedianUnplanned: number;
+      peerGroupMedianTrendTotal: Trend;
+      peerGroupMedianTrendUnplanned: Trend;
+      yearlyData: Array<{
+        __typename: "StabilityDataRow";
+        year: number;
+        total?: number | null;
+        unplanned?: number | null;
+        operator_id: number;
+        operator_name: string;
       }>;
     };
   };
@@ -1116,60 +1374,16 @@ export type NetTariffsQuery = {
   };
 };
 
-export type SaidiQueryVariables = Exact<{
-  filter: StabilityFilter;
-}>;
-
-export type SaidiQuery = {
-  __typename: "Query";
-  saidi: {
-    __typename: "StabilityData";
-    operatorTotal?: number | null;
-    peerGroupMedianTotal: number;
-    peerGroupMedianTrendTotal: Trend;
-    trendTotal?: Trend | null;
-    operatorUnplanned?: number | null;
-    peerGroupMedianUnplanned: number;
-    peerGroupMedianTrendUnplanned: Trend;
-    trendUnplanned?: Trend | null;
-    yearlyData: Array<{
-      __typename: "StabilityDataRow";
-      year: number;
-      total?: number | null;
-      unplanned?: number | null;
-      operator_id: number;
-      operator_name: string;
-    }>;
-  };
-};
-
-export type SaifiQueryVariables = Exact<{
-  filter: StabilityFilter;
-}>;
-
-export type SaifiQuery = {
-  __typename: "Query";
-  saifi: {
-    __typename: "StabilityData";
-    operatorTotal?: number | null;
-    peerGroupMedianTotal: number;
-    peerGroupMedianTrendTotal: Trend;
-    trendTotal?: Trend | null;
-    operatorUnplanned?: number | null;
-    peerGroupMedianUnplanned: number;
-    peerGroupMedianTrendUnplanned: Trend;
-    trendUnplanned?: Trend | null;
-    yearlyData: Array<{
-      __typename: "StabilityDataRow";
-      year: number;
-      total?: number | null;
-      unplanned?: number | null;
-      operator_id: number;
-      operator_name: string;
-    }>;
-  };
-};
-
+export const OperatorPageDetailsFragmentDoc = gql`
+  fragment OperatorPageDetails on Operator {
+    id
+    name
+    municipalities {
+      id
+      name
+    }
+  }
+`;
 export const OperatorObservationFieldsFragmentDoc = gql`
   fragment operatorObservationFields on OperatorObservation {
     period
@@ -1440,6 +1654,22 @@ export function useOperatorDocumentsQuery(
     { query: OperatorDocumentsDocument, ...options }
   );
 }
+export const OperatorPagePropsDocument = gql`
+  query OperatorPageProps($locale: String!, $id: String!) {
+    operator(locale: $locale, id: $id) {
+      ...OperatorPageDetails
+    }
+  }
+  ${OperatorPageDetailsFragmentDoc}
+`;
+
+export function useOperatorPagePropsQuery(
+  options: Omit<Urql.UseQueryArgs<OperatorPagePropsQueryVariables>, "query">
+) {
+  return Urql.useQuery<OperatorPagePropsQuery, OperatorPagePropsQueryVariables>(
+    { query: OperatorPagePropsDocument, ...options }
+  );
+}
 export const WikiContentDocument = gql`
   query WikiContent($locale: String!, $slug: String!) {
     wikiContent(locale: $locale, slug: $slug) {
@@ -1571,8 +1801,8 @@ export const SunshineDataByIndicatorDocument = gql`
         period
         value
       }
+      median
     }
-    sunshineMedianByIndicator(filter: $filter)
   }
 `;
 
@@ -1662,6 +1892,7 @@ export const OperationalStandardsDocument = gql`
       latestYear
       operator {
         peerGroup {
+          id
           settlementDensity
           energyDensity
         }
@@ -1696,6 +1927,192 @@ export function useOperationalStandardsQuery(
     OperationalStandardsQuery,
     OperationalStandardsQueryVariables
   >({ query: OperationalStandardsDocument, ...options });
+}
+export const SaidiDocument = gql`
+  query Saidi($filter: StabilityFilter!) {
+    saidi(filter: $filter) {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
+      }
+    }
+  }
+`;
+
+export function useSaidiQuery(
+  options: Omit<Urql.UseQueryArgs<SaidiQueryVariables>, "query">
+) {
+  return Urql.useQuery<SaidiQuery, SaidiQueryVariables>({
+    query: SaidiDocument,
+    ...options,
+  });
+}
+export const SaifiDocument = gql`
+  query Saifi($filter: StabilityFilter!) {
+    saifi(filter: $filter) {
+      operatorTotal
+      operatorUnplanned
+      trendTotal
+      trendUnplanned
+      peerGroupMedianTotal
+      peerGroupMedianUnplanned
+      peerGroupMedianTrendTotal
+      peerGroupMedianTrendUnplanned
+      yearlyData {
+        year
+        total
+        unplanned
+        operator_id
+        operator_name
+      }
+    }
+  }
+`;
+
+export function useSaifiQuery(
+  options: Omit<Urql.UseQueryArgs<SaifiQueryVariables>, "query">
+) {
+  return Urql.useQuery<SaifiQuery, SaifiQueryVariables>({
+    query: SaifiDocument,
+    ...options,
+  });
+}
+export const CostsAndTariffsDocument = gql`
+  query CostsAndTariffs($filter: CostsAndTariffsFilter!) {
+    costsAndTariffs(filter: $filter) {
+      latestYear
+      operator {
+        peerGroup {
+          id
+          settlementDensity
+          energyDensity
+        }
+      }
+      networkCosts {
+        networkLevel {
+          id
+        }
+        operatorRate
+        operatorTrend
+        peerGroupMedianRate
+        peerGroupMedianTrend
+        yearlyData {
+          year
+          rate
+          operator_id
+          operator_name
+          network_level
+        }
+      }
+      netTariffs {
+        category
+        operatorRate
+        operatorTrend
+        peerGroupMedianRate
+        peerGroupMedianTrend
+        yearlyData {
+          period
+          rate
+          operator_id
+          operator_name
+          category
+        }
+      }
+      energyTariffs {
+        category
+        operatorRate
+        operatorTrend
+        peerGroupMedianRate
+        peerGroupMedianTrend
+        yearlyData {
+          period
+          rate
+          operator_id
+          operator_name
+          category
+        }
+      }
+      updateDate
+    }
+  }
+`;
+
+export function useCostsAndTariffsQuery(
+  options: Omit<Urql.UseQueryArgs<CostsAndTariffsQueryVariables>, "query">
+) {
+  return Urql.useQuery<CostsAndTariffsQuery, CostsAndTariffsQueryVariables>({
+    query: CostsAndTariffsDocument,
+    ...options,
+  });
+}
+export const PowerStabilityDocument = gql`
+  query PowerStability($filter: PowerStabilityFilter!) {
+    powerStability(filter: $filter) {
+      latestYear
+      operator {
+        peerGroup {
+          id
+          settlementDensity
+          energyDensity
+        }
+      }
+      saidi {
+        operatorTotal
+        operatorUnplanned
+        trendTotal
+        trendUnplanned
+        peerGroupMedianTotal
+        peerGroupMedianUnplanned
+        peerGroupMedianTrendTotal
+        peerGroupMedianTrendUnplanned
+        yearlyData {
+          year
+          total
+          unplanned
+          operator_id
+          operator_name
+        }
+      }
+      saifi {
+        operatorTotal
+        operatorUnplanned
+        trendTotal
+        trendUnplanned
+        peerGroupMedianTotal
+        peerGroupMedianUnplanned
+        peerGroupMedianTrendTotal
+        peerGroupMedianTrendUnplanned
+        yearlyData {
+          year
+          total
+          unplanned
+          operator_id
+          operator_name
+        }
+      }
+      updateDate
+    }
+  }
+`;
+
+export function usePowerStabilityQuery(
+  options: Omit<Urql.UseQueryArgs<PowerStabilityQueryVariables>, "query">
+) {
+  return Urql.useQuery<PowerStabilityQuery, PowerStabilityQueryVariables>({
+    query: PowerStabilityDocument,
+    ...options,
+  });
 }
 export const NetworkCostsDocument = gql`
   query NetworkCosts($filter: NetworkCostsFilter!) {
@@ -1777,66 +2194,6 @@ export function useNetTariffsQuery(
 ) {
   return Urql.useQuery<NetTariffsQuery, NetTariffsQueryVariables>({
     query: NetTariffsDocument,
-    ...options,
-  });
-}
-export const SaidiDocument = gql`
-  query Saidi($filter: StabilityFilter!) {
-    saidi(filter: $filter) {
-      operatorTotal
-      peerGroupMedianTotal
-      peerGroupMedianTrendTotal
-      trendTotal
-      operatorUnplanned
-      peerGroupMedianUnplanned
-      peerGroupMedianTrendUnplanned
-      trendUnplanned
-      yearlyData {
-        year
-        total
-        unplanned
-        operator_id
-        operator_name
-      }
-    }
-  }
-`;
-
-export function useSaidiQuery(
-  options: Omit<Urql.UseQueryArgs<SaidiQueryVariables>, "query">
-) {
-  return Urql.useQuery<SaidiQuery, SaidiQueryVariables>({
-    query: SaidiDocument,
-    ...options,
-  });
-}
-export const SaifiDocument = gql`
-  query Saifi($filter: StabilityFilter!) {
-    saifi(filter: $filter) {
-      operatorTotal
-      peerGroupMedianTotal
-      peerGroupMedianTrendTotal
-      trendTotal
-      operatorUnplanned
-      peerGroupMedianUnplanned
-      peerGroupMedianTrendUnplanned
-      trendUnplanned
-      yearlyData {
-        year
-        total
-        unplanned
-        operator_id
-        operator_name
-      }
-    }
-  }
-`;
-
-export function useSaifiQuery(
-  options: Omit<Urql.UseQueryArgs<SaifiQueryVariables>, "query">
-) {
-  return Urql.useQuery<SaifiQuery, SaifiQueryVariables>({
-    query: SaifiDocument,
     ...options,
   });
 }

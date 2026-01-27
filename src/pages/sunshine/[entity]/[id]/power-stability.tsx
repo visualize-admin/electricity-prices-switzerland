@@ -1,10 +1,9 @@
 import { t, Trans } from "@lingui/macro";
-import { Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
-import { gql } from "urql";
 
 import CardGrid from "src/components/card-grid";
 import { DetailPageBanner } from "src/components/detail-page/banner";
@@ -15,7 +14,6 @@ import {
   DetailsPageTitle,
 } from "src/components/detail-page/layout";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
-import { LoadingSkeleton } from "src/components/hint";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import PeerGroupCard from "src/components/peer-group-card";
 import { PowerStabilityCardState } from "src/components/power-stability-card";
@@ -27,7 +25,6 @@ import {
 import TableComparisonCard from "src/components/table-comparison-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
 import { COUNT_PER_YEAR, MIN_PER_YEAR } from "src/domain/metrics";
@@ -35,23 +32,27 @@ import {
   QueryStateSingleSunshineDetails,
   useQueryStateSunshineDetails,
 } from "src/domain/query-states";
-import { SunshinePowerStabilityData } from "src/domain/sunshine";
+import { PowerStabilityData } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useSaidiQuery, useSaifiQuery } from "src/graphql/queries";
-import { fetchPowerStability } from "src/lib/sunshine-data";
+import {
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
+  PowerStabilityDocument,
+  PowerStabilityQuery,
+} from "src/graphql/queries";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      powerStability: Omit<SunshinePowerStabilityData, "saidi" | "saifi">;
+      powerStability: PowerStabilityData;
       sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -63,13 +64,16 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const operatorData = await executeGraphqlQuery<OperatorPagePropsQuery>(
+      OperatorPagePropsDocument,
+      {
+        locale: locale ?? defaultLocale,
+        id,
+      }
+    );
 
-    if (operatorProps.status === "notfound") {
+    if (!operatorData.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
@@ -77,94 +81,46 @@ export const getServerSideProps = createGetServerSideProps(
       };
     }
 
-    const powerStability = await fetchPowerStability(sunshineDataService, {
-      operatorId: id,
-    });
+    const operator = operatorData.operator;
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
+    };
+
+    const data = await executeGraphqlQuery<PowerStabilityQuery>(
+      PowerStabilityDocument,
+      {
+        filter: {
+          operatorId: parseInt(id, 10),
+        },
+      }
+    );
+
+    if (!data.powerStability) {
+      throw new Error("Failed to fetch power stability data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        powerStability,
+        powerStability: data.powerStability,
         sessionConfig,
       },
     };
   }
 );
 
-// Operator document and year filter
-export const SaidiDocument = gql`
-  query Saidi($filter: StabilityFilter!) {
-    saidi(filter: $filter) {
-      operatorTotal
-      peerGroupMedianTotal
-      peerGroupMedianTrendTotal
-      trendTotal
-      operatorUnplanned
-      peerGroupMedianUnplanned
-      peerGroupMedianTrendUnplanned
-      trendUnplanned
-      yearlyData {
-        year
-        total
-        unplanned
-        operator_id
-        operator_name
-      }
-    }
-  }
-`;
-
-export const SaifiDocument = gql`
-  query Saifi($filter: StabilityFilter!) {
-    saifi(filter: $filter) {
-      operatorTotal
-      peerGroupMedianTotal
-      peerGroupMedianTrendTotal
-      trendTotal
-      operatorUnplanned
-      peerGroupMedianUnplanned
-      peerGroupMedianTrendUnplanned
-      trendUnplanned
-      yearlyData {
-        year
-        total
-        unplanned
-        operator_id
-        operator_name
-      }
-    }
-  }
-`;
-
 const Saidi = (props: Extract<Props, { status: "found" }>) => {
   const {
     operator: { peerGroup },
     latestYear,
     updateDate,
+    saidi,
   } = props.powerStability;
-
-  const [{ data, fetching }] = useSaidiQuery({
-    variables: {
-      filter: {
-        operatorId: parseInt(props.id, 10),
-        year: parseInt(latestYear, 10),
-      },
-    },
-  });
-
-  if (fetching) {
-    return <LoadingSkeleton height={700} />;
-  }
-
-  if (!data?.saidi) {
-    return (
-      <Typography variant="body2" color="text.secondary">
-        <Trans id="sunshine.power-stability.no-saidi-data">
-          No SAIDI data available for this operator in the selected year.
-        </Trans>
-      </Typography>
-    );
-  }
 
   const operatorLabel = props.name;
 
@@ -181,9 +137,9 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
       {
         label: <Trans id="sunshine.power-stability.saidi.total">Total</Trans>,
         value: {
-          value: data.saidi.operatorTotal,
+          value: saidi.operatorTotal,
           unit: MIN_PER_YEAR,
-          trend: data.saidi.trendTotal,
+          trend: saidi.trendTotal,
           round: 2,
         },
       },
@@ -192,9 +148,9 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           <Trans id="sunshine.power-stability.saidi.unplanned">Unplanned</Trans>
         ),
         value: {
-          value: data.saidi.operatorUnplanned,
+          value: saidi.operatorUnplanned,
           unit: MIN_PER_YEAR,
-          trend: data.saidi.trendUnplanned,
+          trend: saidi.trendUnplanned,
           round: 2,
         },
       },
@@ -205,10 +161,10 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           </Trans>
         ),
         value: {
-          value: data.saidi.peerGroupMedianTotal,
+          value: saidi.peerGroupMedianTotal,
           unit: MIN_PER_YEAR,
           round: 2,
-          trend: data.saidi.peerGroupMedianTrendTotal,
+          trend: saidi.peerGroupMedianTrendTotal,
         },
       },
       {
@@ -218,10 +174,10 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           </Trans>
         ),
         value: {
-          value: data.saidi.peerGroupMedianUnplanned,
+          value: saidi.peerGroupMedianUnplanned,
           unit: MIN_PER_YEAR,
           round: 2,
-          trend: data.saidi.peerGroupMedianTrendUnplanned,
+          trend: saidi.peerGroupMedianTrendUnplanned,
         },
       },
     ],
@@ -240,11 +196,8 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         `,
         [theme.breakpoints.up("sm")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
-          gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
-          // On Desktop, peer group and comparison cards are side by side
-          // Trend chart is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: `"comparison peer-group" "trend trend"`, // Two columns on medium screens,
+          gridTemplateRows: "auto auto auto",
+          gridTemplateAreas: `"comparison peer-group" "trend trend"`,
         },
       }}
     >
@@ -267,12 +220,12 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         updateDate={updateDate}
         operatorId={props.id}
         operatorLabel={operatorLabel}
-        observations={data.saidi.yearlyData}
+        observations={saidi.yearlyData}
         cardTitle={t({
           id: "sunshine.power-stability.saidi-trend",
           message: "Average Power Outage Duration (SAIDI)",
         })}
-        noData={data.saidi.operatorTotal == null}
+        noData={saidi.operatorTotal == null}
       />
     </CardGrid>
   );
@@ -283,30 +236,8 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
     operator: { peerGroup },
     latestYear,
     updateDate,
+    saifi,
   } = props.powerStability;
-
-  const [{ data, fetching }] = useSaifiQuery({
-    variables: {
-      filter: {
-        operatorId: parseInt(props.id, 10),
-        year: parseInt(latestYear, 10),
-      },
-    },
-  });
-
-  if (fetching) {
-    return <LoadingSkeleton height={700} />;
-  }
-
-  if (!data?.saifi) {
-    return (
-      <Typography variant="body2" color="text.secondary">
-        <Trans id="sunshine.power-stability.no-saifi-data">
-          No SAIFI data available for this operator in the selected year.
-        </Trans>
-      </Typography>
-    );
-  }
 
   const operatorLabel = props.name;
 
@@ -323,10 +254,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
       {
         label: <Trans id="sunshine.power-stability.saifi.total">Total</Trans>,
         value: {
-          value: data.saifi.operatorTotal,
+          value: saifi.operatorTotal,
           unit: COUNT_PER_YEAR,
           round: 2,
-          trend: data.saifi.trendTotal,
+          trend: saifi.trendTotal,
         },
       },
       {
@@ -334,10 +265,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           <Trans id="sunshine.power-stability.saifi.unplanned">Unplanned</Trans>
         ),
         value: {
-          value: data.saifi.operatorUnplanned,
+          value: saifi.operatorUnplanned,
           unit: COUNT_PER_YEAR,
           round: 2,
-          trend: data.saifi.trendUnplanned,
+          trend: saifi.trendUnplanned,
         },
       },
       {
@@ -347,10 +278,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           </Trans>
         ),
         value: {
-          value: data.saifi.peerGroupMedianTotal,
+          value: saifi.peerGroupMedianTotal,
           unit: COUNT_PER_YEAR,
           round: 2,
-          trend: data.saifi.peerGroupMedianTrendTotal,
+          trend: saifi.peerGroupMedianTrendTotal,
         },
       },
       {
@@ -360,10 +291,10 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           </Trans>
         ),
         value: {
-          value: data.saifi.peerGroupMedianUnplanned,
+          value: saifi.peerGroupMedianUnplanned,
           unit: COUNT_PER_YEAR,
           round: 2,
-          trend: data.saifi.peerGroupMedianTrendUnplanned,
+          trend: saifi.peerGroupMedianTrendUnplanned,
         },
       },
     ],
@@ -382,11 +313,8 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         `,
         [theme.breakpoints.up("sm")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
-          gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
-          // On Desktop, peer group and comparison cards are side by side
-          // Trend chart is below them
-          // On Mobile, they are stacked
-          gridTemplateAreas: `"comparison peer-group" "trend trend"`, // Two columns on medium screens,
+          gridTemplateRows: "auto auto auto",
+          gridTemplateAreas: `"comparison peer-group" "trend trend"`,
         },
       }}
     >
@@ -409,12 +337,12 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         updateDate={updateDate}
         operatorId={props.id}
         operatorLabel={operatorLabel}
-        observations={data.saifi.yearlyData}
+        observations={saifi.yearlyData}
         cardTitle={t({
           id: "sunshine.power-stability.saifi-trend",
           message: "Average Power Outage Frequency (SAIFI)",
         })}
-        noData={data.saifi.operatorTotal == null}
+        noData={saifi.operatorTotal == null}
       />
     </CardGrid>
   );

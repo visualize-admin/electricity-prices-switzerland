@@ -30,6 +30,8 @@ import {
   fetchNetTariffsData,
   fetchNetworkCostsData,
   fetchOperationalStandards,
+  fetchOperatorCostsAndTariffsData,
+  fetchPowerStability,
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/sunshine-data";
@@ -101,8 +103,50 @@ const Query: QueryResolvers = {
         saidiSaifiType: filter.saidiSaifiType ?? undefined,
       });
 
+    // Calculate median value
+    const typedIndicator = filter.indicator as SunshineIndicator | undefined;
+    let medianValue: number | undefined = undefined;
+
+    if (typedIndicator) {
+      try {
+        const medianParams = createIndicatorMedianParams({
+          ...filter,
+          // For median calculation, remove the peer group constraint.
+          // This means that we will always have the median for all switzerland.
+          // This is a decision made by Elcom.
+          peerGroup: undefined,
+        });
+
+        if (medianParams) {
+          const medianRows = sortBy(
+            await context.sunshineDataService.getYearlyIndicatorMedians(
+              medianParams
+            ),
+            (x) => x.period
+          );
+          const medianResult = filter.period
+            ? medianRows.find((x) => `${x.period}` === filter.period!)
+            : last(medianRows);
+          medianValue =
+            getMedianValueFromResult(
+              medianResult,
+              typedIndicator,
+              filter.saidiSaifiType ?? undefined
+            ) ?? undefined;
+        }
+      } catch (_error) {
+        // Log error but don't fail the entire query
+        console.error(
+          `Failed to calculate median for indicator ${filter.indicator}: ${
+            _error instanceof Error ? _error.message : _error
+          }`
+        );
+      }
+    }
+
     return {
       data: sunshineData,
+      median: medianValue,
     };
   },
   sunshineMedianByIndicator: async (_parent, args, context) => {
@@ -576,7 +620,23 @@ const Query: QueryResolvers = {
   operationalStandards: async (_, { filter }, context) => {
     return await fetchOperationalStandards(context.sunshineDataService, {
       operatorId: filter.operatorId.toString(),
-      period: filter.period,
+      period: filter.period ?? undefined,
+    });
+  },
+  costsAndTariffs: async (_, { filter }, context) => {
+    return await fetchOperatorCostsAndTariffsData(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      networkLevel: asNetworkLevel(filter.networkLevel),
+      category: asElectricityCategory(filter.category),
+      period: filter.period ?? undefined,
+      operatorOnly: filter.operatorOnly ?? undefined,
+    });
+  },
+  powerStability: async (_, { filter }, context) => {
+    return await fetchPowerStability(context.sunshineDataService, {
+      operatorId: filter.operatorId.toString(),
+      period: filter.period ?? undefined,
+      operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
   operatorMunicipalities: async (
@@ -618,14 +678,21 @@ const Municipality: MunicipalityResolvers = {
 };
 
 const Operator: OperatorResolvers = {
-  municipalities: async ({ id }, _, ctx) => {
+  municipalities: async ({ id }, _, ctx, info) => {
     const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
-    return getDimensionValuesAndLabels({
+    // Get locale from operation variables, default to 'de'
+    const locale = (info.variableValues as any)?.locale ?? 'de';
+
+    const municipalities = await getDimensionValuesAndLabels({
       cube,
       dimensionKey: "municipality",
       filters: { operator: [id] },
     });
+
+    return municipalities
+      .sort((a, b) => a.name.localeCompare(b.name, locale))
+      .map(({ id, name }) => ({ id, name }));
   },
 
   documents: async ({ id }, _, ctx) => {

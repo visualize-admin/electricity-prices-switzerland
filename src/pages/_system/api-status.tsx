@@ -6,13 +6,14 @@ import {
   TypographyProps,
 } from "@mui/material";
 import { FormEvent, useCallback, useMemo, useState } from "react";
-import { OperationResult, UseQueryState } from "urql";
+import { UseQueryState } from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import createGetServerSideProps from "src/utils/create-server-side-props";
+import { ExecuteGraphqlQuery } from "src/utils/execute-graphql-query";
 
 const IndicatorFail = () => (
   <Box
@@ -698,17 +699,27 @@ const DocumentDownloadStatus = () => {
   );
 };
 
-const serializeOperation = (operation: OperationResult) => {
+const serializeQueryResult = <T,>(
+  result: { data: T; variables: Record<string, $IntentionalAny> } | { error: Error; variables: Record<string, $IntentionalAny> }
+) => {
+  if ("error" in result) {
+    return {
+      data: null,
+      error: {
+        message: result.error.message,
+      },
+      fetching: false,
+      operation: {
+        variables: result.variables,
+      },
+    };
+  }
   return {
-    data: operation.data ?? null,
-    error: operation.error
-      ? {
-          message: operation.error.message ?? null,
-        }
-      : null,
+    data: result.data,
+    error: null,
     fetching: false,
     operation: {
-      variables: operation.operation.variables,
+      variables: result.variables,
     },
   };
 };
@@ -733,88 +744,116 @@ const objectPromiseAllSettled = <
   }>;
 };
 
+const executeQuerySafe = async <T,>(
+  executeGraphqlQuery: ExecuteGraphqlQuery,
+  document: $IntentionalAny,
+  variables: Record<string, $IntentionalAny>
+): Promise<{ data: T; variables: typeof variables } | { error: Error; variables: typeof variables }> => {
+  try {
+    const data = await executeGraphqlQuery<T>(document, variables);
+    return { data, variables };
+  } catch (error) {
+    return { error: error as Error, variables };
+  }
+};
+
 export const getServerSideProps = createGetServerSideProps(
-  async (_serverSidePropsCtx, { urqlClient: client, sessionConfig }) => {
+  async (_serverSidePropsCtx, { executeGraphqlQuery, sessionConfig }) => {
     // The code is generic enough here to accomodate for all queries of the page
-    // TODO: Put all requests here so that they are executed server side
     const results = await objectPromiseAllSettled({
-      cubeHealth: client
-        .query<Queries.CubeHealthQuery>(Queries.CubeHealthDocument, {})
-        .toPromise(),
-      systemInfo: client
-        .query<Queries.SystemInfoQuery>(Queries.SystemInfoDocument, {})
-        .toPromise(),
-      wikiContent: client
-        .query<Queries.WikiContentQuery>(Queries.WikiContentDocument, {
+      cubeHealth: executeQuerySafe<Queries.CubeHealthQuery>(
+        executeGraphqlQuery,
+        Queries.CubeHealthDocument,
+        {}
+      ),
+      systemInfo: executeQuerySafe<Queries.SystemInfoQuery>(
+        executeGraphqlQuery,
+        Queries.SystemInfoDocument,
+        {}
+      ),
+      wikiContent: executeQuerySafe<Queries.WikiContentQuery>(
+        executeGraphqlQuery,
+        Queries.WikiContentDocument,
+        {
           locale: "de",
           slug: "help-price-comparison",
-        })
-        .toPromise(),
-      municipalities: client
-        .query<Queries.MunicipalitiesQuery>(Queries.MunicipalitiesDocument, {
+        }
+      ),
+      municipalities: executeQuerySafe<Queries.MunicipalitiesQuery>(
+        executeGraphqlQuery,
+        Queries.MunicipalitiesDocument,
+        {
           locale: "de",
           ids: ["261", "700"],
           query: "Ber",
-        })
-        .toPromise(),
-      cantons: client
-        .query<Queries.CantonsQuery>(Queries.CantonsDocument, {
+        }
+      ),
+      cantons: executeQuerySafe<Queries.CantonsQuery>(
+        executeGraphqlQuery,
+        Queries.CantonsDocument,
+        {
           locale: "de",
           ids: ["1"],
           query: "Ber",
-        })
-        .toPromise(),
-      operators: client
-        .query<Queries.OperatorsQuery>(Queries.OperatorsDocument, {
+        }
+      ),
+      operators: executeQuerySafe<Queries.OperatorsQuery>(
+        executeGraphqlQuery,
+        Queries.OperatorsDocument,
+        {
           locale: "de",
           ids: ["565"],
           query: "lausanne",
-        })
-        .toPromise(),
-      search: client
-        .query<Queries.SearchQuery>(Queries.SearchDocument, {
+        }
+      ),
+      search: executeQuerySafe<Queries.SearchQuery>(
+        executeGraphqlQuery,
+        Queries.SearchDocument,
+        {
           locale: "de",
           query: "lausanne",
-        })
-        .toPromise(),
-      searchZip: client
-        .query<Queries.SearchQuery>(Queries.SearchDocument, {
+        }
+      ),
+      searchZip: executeQuerySafe<Queries.SearchQuery>(
+        executeGraphqlQuery,
+        Queries.SearchDocument,
+        {
           locale: "de",
           query: "3000",
-        })
-        .toPromise(),
-      observations: client
-        .query<Queries.ObservationsWithAllPriceComponentsQuery>(
-          Queries.ObservationsWithAllPriceComponentsDocument,
-          {
-            locale: "de",
-            observationKind: Queries.ObservationKind.Municipality,
-            filters: {
-              municipality: ["261"],
-              period: ["2021"],
-              category: ["H4"],
-              product: ["standard"],
-            },
-          }
-        )
-        .toPromise(),
-      cantonMedian: client
-        .query<Queries.ObservationsWithAllPriceComponentsQuery>(
-          Queries.ObservationsWithAllPriceComponentsDocument,
-          {
-            locale: "de",
-            observationKind: Queries.ObservationKind.Canton,
-            filters: {
-              canton: ["1", "2"],
-              period: ["2021"],
-              category: ["H4"],
-              product: ["standard"],
-            },
-          }
-        )
-        .toPromise(),
-      swissMedian: client
-        .query<Queries.ObservationsQuery>(Queries.ObservationsDocument, {
+        }
+      ),
+      observations: executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
+        executeGraphqlQuery,
+        Queries.ObservationsWithAllPriceComponentsDocument,
+        {
+          locale: "de",
+          observationKind: Queries.ObservationKind.Municipality,
+          filters: {
+            municipality: ["261"],
+            period: ["2021"],
+            category: ["H4"],
+            product: ["standard"],
+          },
+        }
+      ),
+      cantonMedian: executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
+        executeGraphqlQuery,
+        Queries.ObservationsWithAllPriceComponentsDocument,
+        {
+          locale: "de",
+          observationKind: Queries.ObservationKind.Canton,
+          filters: {
+            canton: ["1", "2"],
+            period: ["2021"],
+            category: ["H4"],
+            product: ["standard"],
+          },
+        }
+      ),
+      swissMedian: executeQuerySafe<Queries.ObservationsQuery>(
+        executeGraphqlQuery,
+        Queries.ObservationsDocument,
+        {
           locale: "de",
           observationKind: Queries.ObservationKind.Canton,
           priceComponent: Queries.PriceComponent.Total,
@@ -824,8 +863,8 @@ export const getServerSideProps = createGetServerSideProps(
             category: ["H4"],
             product: ["standard"],
           },
-        })
-        .toPromise(),
+        }
+      ),
     });
 
     if (Object.values(results).some((result) => result.status === "rejected")) {
@@ -850,17 +889,17 @@ export const getServerSideProps = createGetServerSideProps(
       props: {
         defaultEndpoint: defaultSparqlEndpointUrl,
         sessionEndpoint: sessionConfig.flags.sparqlEndpoint,
-        cubeHealth: serializeOperation(validResults.cubeHealth.value),
-        systemInfo: serializeOperation(validResults.systemInfo.value),
-        wikiContent: serializeOperation(validResults.wikiContent.value),
-        municipalities: serializeOperation(validResults.municipalities.value),
-        cantons: serializeOperation(validResults.cantons.value),
-        operators: serializeOperation(validResults.operators.value),
-        search: serializeOperation(validResults.search.value),
-        searchZip: serializeOperation(validResults.searchZip.value),
-        observations: serializeOperation(validResults.observations.value),
-        cantonMedian: serializeOperation(validResults.cantonMedian.value),
-        swissMedian: serializeOperation(validResults.swissMedian.value),
+        cubeHealth: serializeQueryResult(validResults.cubeHealth.value),
+        systemInfo: serializeQueryResult(validResults.systemInfo.value),
+        wikiContent: serializeQueryResult(validResults.wikiContent.value),
+        municipalities: serializeQueryResult(validResults.municipalities.value),
+        cantons: serializeQueryResult(validResults.cantons.value),
+        operators: serializeQueryResult(validResults.operators.value),
+        search: serializeQueryResult(validResults.search.value),
+        searchZip: serializeQueryResult(validResults.searchZip.value),
+        observations: serializeQueryResult(validResults.observations.value),
+        cantonMedian: serializeQueryResult(validResults.cantonMedian.value),
+        swissMedian: serializeQueryResult(validResults.swissMedian.value),
       },
     };
   }

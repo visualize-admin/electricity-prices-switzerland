@@ -501,31 +501,6 @@ SELECT DISTINCT ?name {
   return result ? { id, name: result.name.value } : null;
 };
 
-export const getOperator = async ({
-  id,
-  client,
-}: {
-  id: string;
-  client: ParsingClient;
-}): Promise<{ id: string; name: string } | null> => {
-  const iri = ns.addNamespaceToID({
-    dimension: "operator",
-    id,
-  });
-
-  const sparql = `
-SELECT DISTINCT ?name {
-  <${iri}> <http://schema.org/name> ?name.
-}
-  `;
-
-  const result = (await client.query.select(sparql))[0] as {
-    name: Literal;
-  };
-
-  return result ? { id, name: result.name.value } : null;
-};
-
 export const getOperatorDocuments = async ({
   operatorId,
   client,
@@ -733,24 +708,6 @@ WHERE {
 export type OperatorMunicipalityRecord = Awaited<
   ReturnType<typeof getOperatorsMunicipalities>
 >[number];
-
-export const getOperatorMunicipalities = async (
-  id: string,
-  locale: string,
-  client: ParsingClient
-) => {
-  const cube = await getElectricityPriceCube(client);
-
-  const municipalities = await getDimensionValuesAndLabels({
-    cube,
-    dimensionKey: "municipality",
-    filters: { operator: [id] },
-  });
-
-  return municipalities
-    .sort((a, b) => a.name.localeCompare(b.name, locale))
-    .map(({ id, name }) => ({ id, name }));
-};
 
 /** @knipignore */
 export const getSparqlEditorUrl = (query: string): string | null => {

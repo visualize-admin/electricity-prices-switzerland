@@ -22,7 +22,7 @@ const specs = {
   /** Activates flag control in top bar */
   debug: {},
 
-  /** Activates flag control in top bar */
+  /** Shows the name of the currently opened info dialog */
   debugInfoDialog: {},
 
   /** Show sunshine specific UI */

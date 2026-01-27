@@ -30,7 +30,6 @@ import TableComparisonCard from "src/components/table-comparison-card";
 import { TariffsTrendCardMinified } from "src/components/tariffs-trend-card";
 import {
   SessionConfigDebugProps,
-  getOperatorsPageProps,
   PageParams,
   Props as SharedPageProps,
 } from "src/data/shared-page-props";
@@ -43,15 +42,23 @@ import {
 import {
   NetworkLevel,
   sunshineCategories,
-  SunshineCostsAndTariffsData,
-  SunshinePowerStabilityData,
+  CostsAndTariffsData,
+  PowerStabilityData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import {
+  CostsAndTariffsDocument,
+  CostsAndTariffsQuery,
   EnergyTariffsQuery,
   NetTariffsQuery,
   NetworkCostsQuery,
+  OperationalStandardsDocument,
+  OperationalStandardsQuery,
+  OperatorPagePropsDocument,
+  OperatorPagePropsQuery,
+  PowerStabilityDocument,
+  PowerStabilityQuery,
   useEnergyTariffsQuery,
   useNetTariffsQuery,
   useNetworkCostsQuery,
@@ -59,11 +66,6 @@ import {
 } from "src/graphql/queries";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
 import { Icon } from "src/icons";
-import {
-  fetchOperationalStandards,
-  fetchOperatorCostsAndTariffsData,
-  fetchPowerStability,
-} from "src/lib/sunshine-data";
 import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
@@ -75,15 +77,15 @@ import {
 
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
-      costsAndTariffs: SunshineCostsAndTariffsData;
-      powerStability: SunshinePowerStabilityData;
+      costsAndTariffs: CostsAndTariffsData;
+      powerStability: PowerStabilityData;
       operationalStandards: OperationalStandardsData;
       sessionConfig: SessionConfigDebugProps;
     })
   | { status: "notfound" };
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
-  async (context, { sparqlClient, sunshineDataService, sessionConfig }) => {
+  async (context, { executeGraphqlQuery, sessionConfig }) => {
     const { params, res, locale } = context;
     const { id, entity } = params!;
 
@@ -95,13 +97,38 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operatorProps = await getOperatorsPageProps(sparqlClient, {
-      id,
-      locale: locale ?? defaultLocale,
-      res,
-    });
+    const operatorId = parseInt(id, 10);
 
-    if (operatorProps.status === "notfound") {
+    const [operatorData, operationalStandards, powerStability, costsAndTariffs] =
+      await Promise.all([
+        executeGraphqlQuery<OperatorPagePropsQuery>(
+          OperatorPagePropsDocument,
+          {
+            locale: locale ?? defaultLocale,
+            id,
+          }
+        ),
+        executeGraphqlQuery<OperationalStandardsQuery>(
+          OperationalStandardsDocument,
+          {
+            filter: { operatorId },
+          }
+        ),
+        executeGraphqlQuery<PowerStabilityQuery>(PowerStabilityDocument, {
+          filter: { operatorId, operatorOnly: true },
+        }),
+        executeGraphqlQuery<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+          filter: {
+            operatorId,
+            networkLevel: "NE7",
+            category: "H4",
+            operatorOnly: true,
+          },
+        }),
+      ]);
+
+    if (!operatorData.operator) {
+      res.statusCode = 404;
       return {
         props: {
           status: "notfound",
@@ -109,41 +136,32 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       };
     }
 
-    const operatorId = parseInt(id, 10);
-    const period = await sunshineDataService.getLatestYearSunshine(operatorId);
-    const operatorData = await sunshineDataService.getOperatorData(
-      operatorId,
-      period
-    );
-    const [operationalStandards, powerStability, costsAndTariffs] =
-      await Promise.all([
-        fetchOperationalStandards(sunshineDataService, {
-          period,
-          operatorId: id,
-          operatorData,
-        }),
-        fetchPowerStability(sunshineDataService, {
-          operatorId: id,
-          operatorOnly: true,
-          operatorData,
-          period,
-        }),
-        fetchOperatorCostsAndTariffsData(sunshineDataService, {
-          period,
-          operatorId: id,
-          operatorData,
-          networkLevel: "NE7",
-          category: "H4",
-          operatorOnly: true,
-        }),
-      ]);
+    const operator = operatorData.operator;
+
+    const operatorProps = {
+      entity: "operator" as const,
+      status: "found" as const,
+      id: operator.id ?? id,
+      name: operator.name,
+      municipalities: operator.municipalities,
+    };
+
+    if (!operationalStandards.operationalStandards) {
+      throw new Error("Failed to fetch operational standards data");
+    }
+    if (!powerStability.powerStability) {
+      throw new Error("Failed to fetch power stability data");
+    }
+    if (!costsAndTariffs.costsAndTariffs) {
+      throw new Error("Failed to fetch costs and tariffs data");
+    }
 
     return {
       props: {
         ...operatorProps,
-        operationalStandards,
-        powerStability,
-        costsAndTariffs,
+        operationalStandards: operationalStandards.operationalStandards,
+        powerStability: powerStability.powerStability,
+        costsAndTariffs: costsAndTariffs.costsAndTariffs,
         sessionConfig,
       },
     };

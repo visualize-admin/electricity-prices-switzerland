@@ -15,7 +15,7 @@ import {
 import {
   isPeerGroupRow,
   PeerGroup,
-  SunshineCostsAndTariffsData,
+  CostsAndTariffsData,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
 
@@ -31,7 +31,7 @@ const DOWNLOAD_ID: Download = "costs-and-tariffs";
 type NetworkCostsTrendCardProps = {
   peerGroup: PeerGroup;
   updateDate: string;
-  networkCosts: SunshineCostsAndTariffsData["networkCosts"];
+  networkCosts: CostsAndTariffsData["networkCosts"];
   operatorId: string;
   operatorLabel: string;
   latestYear: number;
