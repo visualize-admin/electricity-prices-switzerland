@@ -11,8 +11,18 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.37.0 - 2026-01-27
+
 - Admin
   - Session config system was moved to /admin/session-config
+- Performance
+  - Allow for more usage of the Apollo server cache, improves page loading performance
+    and dynamic data loading
+  - Allow for metrics to be collected on Vercel preview deployments
+- Chore
+  - Use pnpm instead of yarn (improves CI performance and security)
 
 # 2.36.4 - 2026-01-21
 
