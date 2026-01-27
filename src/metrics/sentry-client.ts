@@ -76,7 +76,7 @@ interface SentryEventsTimeseriesResponse {
 /**
  * Client for querying Sentry Stats API
  */
-export class SentryMetricsClient {
+class SentryMetricsClient {
   private authToken: string | null;
 
   constructor() {
@@ -398,15 +398,4 @@ export class SentryMetricsClient {
   }
 }
 
-// Singleton instance
-let sentryClientInstance: SentryMetricsClient | null = null;
-
-/**
- * Get or create the Sentry metrics client singleton
- */
-export function getSentryClient(): SentryMetricsClient {
-  if (!sentryClientInstance) {
-    sentryClientInstance = new SentryMetricsClient();
-  }
-  return sentryClientInstance;
-}
+export default SentryMetricsClient;

@@ -25,8 +25,7 @@ Provides comprehensive monitoring and performance tracking for GraphQL APIs:
 ### Components
 
 **Core:**
-- `sentry-client.ts` - Sentry Discover API client for querying trace data
-- `metrics-store.ts` - Metrics aggregation and data access layer
+- `sentry-client.ts` - Sentry Discover API client and convenience functions
 - `types.ts` - TypeScript interfaces for metrics data structures
 
 **Apollo Integration:**
@@ -88,11 +87,23 @@ Create endpoints to expose metrics data:
 
 ```typescript
 // pages/api/admin/metrics/index.ts
-import { getOperationMetrics, getResolverMetrics } from "src/metrics/metrics-store";
+import { SentryMetricsClient } from "src/metrics/sentry-client";
 
 export default async function handler(req, res) {
-  const operations = await getOperationMetrics();
-  const resolvers = await getResolverMetrics();
+  const client = new SentryMetricsClient();
+  const release = client.getCurrentRelease();
+
+  const operations = await client.getOperationMetrics(release);
+
+  // Fetch resolver metrics for each operation
+  const resolvers: Record<string, Record<string, any>> = {};
+  for (const operationName of Object.keys(operations)) {
+    const resolverData = await client.getResolverMetrics(release, operationName);
+    if (Object.keys(resolverData).length > 0) {
+      resolvers[operationName] = resolverData;
+    }
+  }
+
   res.json({ operations, resolvers });
 }
 ```
@@ -102,7 +113,12 @@ export default async function handler(req, res) {
 ```typescript
 import GraphQLCacheChart from "src/metrics/cache-chart";
 import GraphQLDurationsChart from "src/metrics/durations-chart";
-import { listReleases, getOperationMetricsByRelease } from "src/metrics/metrics-store";
+import { SentryMetricsClient } from "src/metrics/sentry-client";
+
+// In getServerSideProps
+const client = new SentryMetricsClient();
+const releases = await client.listReleases();
+const metrics = await client.getOperationMetrics(selectedRelease);
 
 // See src/pages/admin/metrics/index.tsx for full implementation
 ```

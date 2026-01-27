@@ -26,11 +26,7 @@ import GraphQLCacheChart, {
   MetricsChartPalette,
 } from "src/metrics/cache-chart";
 import GraphQLDurationsChart from "src/metrics/durations-chart";
-import {
-  listReleases,
-  getOperationMetricsByRelease,
-} from "src/metrics/metrics-store";
-import { getSentryClient } from "src/metrics/sentry-client";
+import { SentryMetricsClient } from "src/metrics/sentry-client";
 import {
   AggregatedOperationMetrics,
   ComparisonData,
@@ -458,7 +454,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   const csrfToken = session ? generateCSRFToken(session.sessionId) : "";
 
   // Get Sentry configuration and current release
-  const sentryClient = getSentryClient();
+  const sentryClient = new SentryMetricsClient();
   const currentRelease = sentryClient.getCurrentRelease();
   const sentryConfig: SentryConfig = {
     enabled: serverEnv.NODE_ENV === "production",
@@ -474,7 +470,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   };
 
   // Fetch all available releases
-  const availableReleases = (await listReleases()).slice(0, 20); // Get more releases for selection
+  const availableReleases = (await sentryClient.listReleases()).slice(0, 20); // Get more releases for selection
 
   // Parse selected releases from query parameter
   const selectedReleasesParam = context.query.releases as string;
@@ -506,7 +502,7 @@ export const getServerSideProps: GetServerSideProps<MetricsPageProps> = async (
   // Fetch metrics only for selected releases
   const releases: ReleaseMetrics[] = await Promise.all(
     selectedReleases.map(async (release) => {
-      const rawMetrics = await getOperationMetricsByRelease(release);
+      const rawMetrics = await sentryClient.getOperationMetrics(release);
       const operations = aggregateMetrics(rawMetrics);
 
       return {

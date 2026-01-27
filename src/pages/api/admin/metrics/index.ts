@@ -1,9 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
-import {
-  getOperationMetrics,
-  getResolverMetrics,
-} from "src/metrics/metrics-store";
+import { SentryMetricsClient } from "src/metrics/sentry-client";
 import type {
   AggregatedOperationMetrics,
   AggregatedResolverMetrics,
@@ -11,16 +8,6 @@ import type {
 } from "src/metrics/types";
 
 import type { NextApiRequest, NextApiResponse } from "next";
-
-
-/**
- * Gets the current release identifier for metrics
- */
-function getCurrentRelease(): string {
-  const client = Sentry.getClient();
-  const release = client?.getOptions().release;
-  return release || "unknown";
-}
 
 /**
  * GET /api/admin/metrics
@@ -36,9 +23,20 @@ export default async function handler(
   }
 
   try {
+    const client = new SentryMetricsClient();
+    const release = client.getCurrentRelease();
+
     // Fetch raw metrics
-    const operationMetrics = await getOperationMetrics();
-    const resolverMetrics = await getResolverMetrics();
+    const operationMetrics = await client.getOperationMetrics(release);
+
+    // Get resolver metrics for all operations
+    const resolverMetrics: Record<string, Record<string, any>> = {};
+    for (const operationName of Object.keys(operationMetrics)) {
+      const resolvers = await client.getResolverMetrics(release, operationName);
+      if (Object.keys(resolvers).length > 0) {
+        resolverMetrics[operationName] = resolvers;
+      }
+    }
 
     // Aggregate and compute derived metrics
     const aggregatedOperations: Record<string, AggregatedOperationMetrics> = {};
@@ -83,7 +81,7 @@ export default async function handler(
     }
 
     const response: MetricsResponse = {
-      release: getCurrentRelease(),
+      release,
       collectedAt: new Date().toISOString(),
       operations: aggregatedOperations,
       resolvers: aggregatedResolvers,
