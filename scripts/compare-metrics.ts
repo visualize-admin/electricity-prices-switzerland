@@ -9,8 +9,8 @@
  * 3. Metrics can be viewed via /admin/metrics across different deployment IDs
  *
  * Usage:
- *   yarn tsx scripts/compare-metrics.ts --branches metrics server-side
- *   yarn tsx scripts/compare-metrics.ts -b metrics server-side
+ *   pnpm tsx scripts/compare-metrics.ts --branches metrics server-side
+ *   pnpm tsx scripts/compare-metrics.ts -b metrics server-side
  */
 
 import { execSync } from "child_process";
@@ -65,14 +65,14 @@ function checkDevServer(): void {
     console.log(`✅ Dev server is running on port ${DEV_SERVER_PORT}\n`);
   } catch {
     console.error(`❌ Dev server is not running on port ${DEV_SERVER_PORT}`);
-    console.error("Please start the dev server first with: yarn dev");
+    console.error("Please start the dev server first with: pnpm dev");
     throw new Error("Dev server is not running");
   }
 }
 
 function runTests(): void {
   try {
-    execSync("PW_TEST_HTML_REPORT_OPEN='never' yarn test:playwright:app", {
+    execSync("PW_TEST_HTML_REPORT_OPEN='never' pnpm test:playwright:app", {
       stdio: "inherit",
       env: {
         ...process.env,

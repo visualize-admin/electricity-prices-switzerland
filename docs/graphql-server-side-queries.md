@@ -87,7 +87,7 @@ query MyNewQuery($filter: MyNewFilter!) {
 5. **Run codegen**:
 
 ```bash
-yarn graphql:codegen
+pnpm graphql:codegen
 ```
 
 6. **Use in getServerSideProps**:

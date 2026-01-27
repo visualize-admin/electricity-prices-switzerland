@@ -28,13 +28,16 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
 FROM base AS deps
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+# Install pnpm globally
+RUN npm install -g pnpm@10.28.2
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Replace the cross-spawn version to avoid the vulnerability
 # Need to that as part as the same command as the install to make sure
 # the bad version does not appear in a layer, as trivy scan will look
 # at every layer.
-RUN yarn install --frozen-lockfile && \
+RUN pnpm install --frozen-lockfile && \
     sed -i 's/"cross-spawn": "7.0.3"/"cross-spawn": "7.0.6"/g' node_modules/next/package.json
 
 
@@ -44,13 +47,15 @@ WORKDIR /app
 RUN apt update && apt install -y --no-install-recommends build-essential make && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+# Install pnpm globally
+RUN npm install -g pnpm@10.28.2
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV I18N_DOMAINS='{"de":"www.strompreis.elcom.admin.ch","fr":"www.prix-electricite.elcom.admin.ch","it":"www.prezzi-elettricita.elcom.admin.ch"}'
-RUN yarn build
+RUN pnpm build
 
 # Verify BUILD_ID matches the static folder to catch build inconsistencies
 RUN BUILD_ID=$(cat .next/BUILD_ID) && \

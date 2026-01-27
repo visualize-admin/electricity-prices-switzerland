@@ -53,5 +53,5 @@ When building locally without setting `GIT_COMMIT_SHA`, the build will use Next.
 
 ```bash
 export GIT_COMMIT_SHA=$(git rev-parse HEAD)
-yarn build
+pnpm build
 ```

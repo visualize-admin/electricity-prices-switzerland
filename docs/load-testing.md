@@ -15,14 +15,14 @@ site, and then save the session requests as an HAR file.
 The HAR is generated automatically from a Playwright test.
 
 ```bash
-yarn run e2e:k6:har
+pnpm run e2e:k6:har
 ```
 
 You can also generate an HAR from a different environment than ref by
 using the ELCOM_ENV env variable.
 
 ```bash
-ELCOM_ENV=abn yarn run e2e:k6:har
+ELCOM_ENV=abn pnpm run e2e:k6:har
 ```
 
 The command will open a browser and will navigate through various pages.
@@ -31,7 +31,7 @@ After the test, an HAR will be generated in the root directory.
 2. Import the HAR file into K6
 
 ```
-yarn e2e:k6:update
+pnpm e2e:k6:update
 ```
 
 ℹ️ Check the command in `package.json` if you want to change the HAR uploaded or the

@@ -14,23 +14,23 @@ jobs:
         uses: ./.github/workflows/install-deps
 
       - name: Compile locales
-        run: yarn run lingui compile
+        run: pnpm run lingui compile
 
       - name: Download wiki content from ref
         env:
           GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
           GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
         run: |
-          yarn run wiki:update-content
+          pnpm run wiki:update-content
 
       - name: Knip
-        run: yarn run knip
+        run: pnpm run knip
 
       - name: Lint
-        run: yarn run lint
+        run: pnpm run lint
 
       - name: Typecheck
-        run: yarn run typecheck
+        run: pnpm run typecheck
 
       - name: Unit tests
-        run: yarn run test:unit
+        run: pnpm run test:unit

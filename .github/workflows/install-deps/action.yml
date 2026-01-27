@@ -1,14 +1,19 @@
-name: "Install yarn & node"
+name: "Install pnpm & node"
 description: "Install dependencies and restores cache"
 runs:
   using: "composite"
   steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.28.2
+
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 22
-        cache: "yarn"
+        cache: "pnpm"
 
     - name: Install dependencies
-      run: yarn install
+      run: pnpm install
       shell: "bash"

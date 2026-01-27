@@ -1,0 +1,7 @@
+# Security: Only allow lifecycle scripts for specific packages that need them
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@sentry/cli'
+  - 'esbuild'
+  - 'sharp'
+  - 'unrs-resolver'

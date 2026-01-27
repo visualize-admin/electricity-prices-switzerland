@@ -26,22 +26,22 @@ An electricity price comparison website for Switzerland that provides interactiv
 
 ## Development Environment
 
-To start the development environment, you need [Node.js](https://nodejs.org/en/) (v22 recommended) and [Yarn](https://classic.yarnpkg.com/lang/en/) as package manager.
+To start the development environment, you need [Node.js](https://nodejs.org/en/) (v22 recommended) and [pnpm](https://pnpm.io/) as package manager.
 
 The usage of [Nix](https://nixos.org) to install system-level packages is recommended.
 
 ### Setting up the dev environment
 
-Ensure that Node.js and Yarn are available in your environment
+Ensure that Node.js and pnpm are available in your environment
 
 #### Install system-level dependencies
 
 Either use the installers
 
 - [Node.js installer](https://nodejs.org/en/)
-- [Yarn installation](https://classic.yarnpkg.com/en/docs/install)
+- [pnpm installation](https://pnpm.io/installation)
 
-Or – if using Nix – entering a new Nix shell will install Node.js and Yarn automatically:
+Or – if using Nix – entering a new Nix shell will install Node.js and pnpm automatically:
 
 ```sh
 nix develop
@@ -52,7 +52,7 @@ nix develop
 Run the setup script:
 
 ```sh
-yarn setup
+pnpm setup
 ```
 
 This will install npm dependencies and run setup scripts.
@@ -62,7 +62,7 @@ This will install npm dependencies and run setup scripts.
 Once the application's set up, you can start the development server with
 
 ```sh
-yarn dev
+pnpm dev
 ```
 
 > 👉 In [Visual Studio Code](https://code.visualstudio.com/), you also can run the **default build task** (CMD-SHIFT-B) to start the dev server, and TypeScript checker (you'll need [Nix](https://nixos.org) for that to work).
@@ -72,7 +72,7 @@ yarn dev
 New versions of `package.json` are built on CI into a separate image that will be deployed to the test environment.
 
 ```sh
-yarn version
+pnpm version
 ```
 
 This will prompt for a new version. The `postversion` script will automatically try to push the created version tag to the origin repo.
@@ -87,16 +87,16 @@ The application supports German (de), French (fr), Italian (it), English (en), a
 
 ```sh
 # Extract translatable strings from source code
-yarn locales:extract
+pnpm locales:extract
 
 # Manage translations via Accent interface
-yarn locales:browse
+pnpm locales:browse
 
 # Pull translations from Accent service
-yarn locales:sync
+pnpm locales:sync
 
-# Compile translations (runs automatically during yarn build)
-yarn locales:compile
+# Compile translations (runs automatically during pnpm build)
+pnpm locales:compile
 ```
 
 ## Preparing geodata
@@ -155,7 +155,7 @@ Both the frontend and the screenshot service can be built as docker images
 and spin up through docker-compose.
 
 ```bash
-yarn docker:build # Build the image and tag it as interactivethings/electricity-prices-switzerland
+pnpm docker:build # Build the image and tag it as interactivethings/electricity-prices-switzerland
 docker compose up
 ```
 
@@ -164,7 +164,7 @@ accepted on the Federal Administration infrastructure. A check is done before
 publishing the docker image on GHCR. It can also be run against a local image.
 
 ```bash
-yarn docker:trivy # Runs trivy against interactivethings/electricity-prices-switzerland:latest
+pnpm docker:trivy # Runs trivy against interactivethings/electricity-prices-switzerland:latest
 ```
 
 ## SPARQL notebook
@@ -178,5 +178,5 @@ to open it.
 It is possible to regenerate the home map screenshots automatically using Playwright.
 
 ```bash
-yarn design:generate-home-maps
+pnpm design:generate-home-maps
 ```

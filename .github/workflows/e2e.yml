@@ -25,7 +25,7 @@ jobs:
           GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
           GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
         run: |
-          yarn run wiki:update-content
+          pnpm run wiki:update-content
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
@@ -44,7 +44,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Integration tests
-        run: yarn run test:integration
+        run: pnpm run test:integration
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           GRAPHQL_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/api/graphql
@@ -63,7 +63,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           ARGOS_THRESHOLD: 0.75
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn run test:playwright:app
+        run: pnpm run test:playwright:app
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -87,7 +87,7 @@ jobs:
           ARGOS_THRESHOLD: 0.75
         run: |
           curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
-          yarn run test:playwright:storybook
+          pnpm run test:playwright:storybook
 
       - uses: actions/upload-artifact@v4
         if: always()

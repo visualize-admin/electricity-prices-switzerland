@@ -1,13 +1,13 @@
 let
   pkgs = import <nixpkgs> { };
   nodejs = pkgs.nodejs_22;
-  yarn = pkgs.yarn.override { inherit nodejs; };
+  pnpm = pkgs.nodePackages.pnpm;
   trivy = pkgs.trivy;
 
 in pkgs.mkShell {
   buildInputs = [
     pkgs.darwin.apple_sdk.frameworks.CoreServices
-    yarn
+    pnpm
     nodejs
     bun
   ];

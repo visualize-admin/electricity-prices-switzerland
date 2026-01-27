@@ -58,12 +58,12 @@ A command-line tool provides quick access to metrics data from Sentry.
 
 List all releases with metrics:
 ```bash
-yarn metrics operations list-releases
+pnpm metrics operations list-releases
 ```
 
 Get metrics for a specific release:
 ```bash
-yarn metrics operations get --release 68e6f0a634283737c27138c9d2329e17cb61e185
+pnpm metrics operations get --release 68e6f0a634283737c27138c9d2329e17cb61e185
 ```
 
 Example output:
@@ -77,7 +77,7 @@ SunshineDataByIndicator               5          2          3       40.0%       
 
 Get resolver-level metrics for an operation:
 ```bash
-yarn metrics operations get --release <release-id> --operation wikiContent
+pnpm metrics operations get --release <release-id> --operation wikiContent
 ```
 
 See `src/metrics/cli.ts` for implementation details.

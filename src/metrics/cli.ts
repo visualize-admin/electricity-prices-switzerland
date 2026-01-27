@@ -4,8 +4,8 @@
  * Queries metrics out of Sentry via CLI.
  *
  * Usage:
- *   yarn metrics list-releases
- *   yarn metrics operations --release <release-id>
+ *   pnpm metrics list-releases
+ *   pnpm metrics operations --release <release-id>
  */
 
 import { ArgumentParser } from "argparse";

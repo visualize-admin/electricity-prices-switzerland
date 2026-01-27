@@ -160,10 +160,10 @@ npm run dev
 
 ```bash
 # List available releases
-yarn metrics list-releases
+pnpm metrics list-releases
 
 # Get operation metrics for a release
-yarn metrics operations --release <release-id>
+pnpm metrics operations --release <release-id>
 ```
 
 See `cli.ts` for CLI implementation.
