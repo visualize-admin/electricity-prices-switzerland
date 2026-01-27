@@ -4,31 +4,14 @@ import {
   getOperationMetrics,
   getResolverMetrics,
 } from "src/metrics/metrics-store";
+import type {
+  AggregatedOperationMetrics,
+  AggregatedResolverMetrics,
+  MetricsResponse,
+} from "src/metrics/types";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-interface AggregatedOperationMetrics {
-  requestCount: number;
-  avgDurationMs: number;
-  errorCount: number;
-  errorRate: number;
-  cacheHitRate: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface AggregatedResolverMetrics {
-  count: number;
-  avgDurationMs: number;
-  errorCount: number;
-}
-
-interface MetricsResponse {
-  release: string;
-  collectedAt: string;
-  operations: Record<string, AggregatedOperationMetrics>;
-  resolvers: Record<string, Record<string, AggregatedResolverMetrics>>;
-}
 
 /**
  * Gets the current release identifier for metrics
@@ -70,6 +53,7 @@ export default async function handler(
       aggregatedOperations[operationName] = {
         requestCount,
         avgDurationMs: requestCount > 0 ? totalDurationMs / requestCount : 0,
+        totalDurationMs,
         errorCount,
         errorRate: requestCount > 0 ? errorCount / requestCount : 0,
         cacheHitRate:

@@ -1,25 +1,7 @@
-interface OperationMetrics {
-  requestCount: number;
-  avgDurationMs: number;
-  errorCount: number;
-  errorRate: number;
-  cacheHitRate: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface ResolverMetrics {
-  count: number;
-  avgDurationMs: number;
-  errorCount: number;
-}
-
-interface MetricsResponse {
-  release: string;
-  collectedAt: string;
-  operations: Record<string, OperationMetrics>;
-  resolvers: Record<string, Record<string, ResolverMetrics>>;
-}
+import type {
+  AggregatedOperationMetrics,
+  MetricsResponse,
+} from "./types";
 
 export interface Delta {
   current: number;
@@ -31,8 +13,8 @@ export interface Delta {
 export interface OperationComparison {
   operationName: string;
   isNew: boolean;
-  current: OperationMetrics;
-  baseline: OperationMetrics | null;
+  current: AggregatedOperationMetrics;
+  baseline: AggregatedOperationMetrics | null;
   deltas: {
     requestCount: Delta;
     avgDurationMs: Delta;

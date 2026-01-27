@@ -1,20 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
 
 import { getSentryClient } from "./sentry-client";
-
-export interface OperationMetrics {
-  requestCount: number;
-  totalDurationMs: number;
-  errorCount: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface ResolverMetrics {
-  count: number;
-  totalDurationMs: number;
-  errorCount: number;
-}
+import type { RawOperationMetrics, RawResolverMetrics } from "./types";
 
 /**
  * Gets the current release identifier for metrics
@@ -38,7 +25,7 @@ function getCurrentRelease(): string {
  * Fetches all operation metrics for the current release from Sentry
  */
 export async function getOperationMetrics(): Promise<
-  Record<string, OperationMetrics>
+  Record<string, RawOperationMetrics>
 > {
   const client = getSentryClient();
   const release = getCurrentRelease();
@@ -55,7 +42,7 @@ export async function getOperationMetrics(): Promise<
  * Fetches all resolver metrics for the current release from Sentry
  */
 export async function getResolverMetrics(): Promise<
-  Record<string, Record<string, ResolverMetrics>>
+  Record<string, Record<string, RawResolverMetrics>>
 > {
   const client = getSentryClient();
   const release = getCurrentRelease();
@@ -63,7 +50,7 @@ export async function getResolverMetrics(): Promise<
   try {
     // First, get all operations to know which ones to query for resolvers
     const operations = await client.getOperationMetrics(release);
-    const result: Record<string, Record<string, ResolverMetrics>> = {};
+    const result: Record<string, Record<string, RawResolverMetrics>> = {};
 
     // Fetch resolver metrics for each operation
     for (const operationName of Object.keys(operations)) {
@@ -109,7 +96,7 @@ export async function listReleases(): Promise<string[]> {
  */
 export async function getOperationMetricsByRelease(
   release: string
-): Promise<Record<string, OperationMetrics>> {
+): Promise<Record<string, RawOperationMetrics>> {
   const client = getSentryClient();
 
   try {

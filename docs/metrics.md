@@ -25,7 +25,7 @@ Metrics are collected via Sentry's distributed tracing infrastructure and can be
 
 ### Data Collection
 
-The `sentry-metrics-plugin.ts` Apollo Server plugin (see `src/apollo/plugins/sentry-metrics-plugin.ts`):
+The `sentry-metrics-plugin.ts` Apollo Server plugin (see `src/metrics/sentry-metrics-plugin.ts`):
 
 1. Creates a Sentry span for each GraphQL operation
 2. Sets `span.op = "graphql.operation"`
@@ -37,7 +37,7 @@ Spans are sent to Sentry and automatically grouped by release (based on git comm
 
 ### Querying Metrics
 
-The `sentry-client.ts` module (see `src/lib/metrics/sentry-client.ts`):
+The `sentry-client.ts` module (see `src/metrics/sentry-client.ts`):
 
 1. Queries Sentry Events API with `dataset=spans`
 2. Groups by `span.description` (operation name) and `cache_status`
@@ -80,7 +80,7 @@ Get resolver-level metrics for an operation:
 yarn metrics operations get --release <release-id> --operation wikiContent
 ```
 
-See `scripts/metrics.ts` for implementation details.
+See `src/metrics/cli.ts` for implementation details.
 
 ## Configuration
 
@@ -128,9 +128,9 @@ Check that:
 ## Implementation Files
 
 Key files in the implementation:
-- `src/apollo/plugins/sentry-metrics-plugin.ts` - Apollo Server plugin for collecting metrics
-- `src/lib/metrics/sentry-client.ts` - Client for querying Sentry API
+- `src/metrics/sentry-metrics-plugin.ts` - Apollo Server plugin for collecting metrics
+- `src/metrics/sentry-client.ts` - Client for querying Sentry API
+- `src/metrics/cli.ts` - CLI tool for querying metrics
 - `src/lib/sentry/constants.ts` - Shared Sentry configuration
-- `scripts/metrics.ts` - CLI tool for querying metrics
 - `sentry.server.config.ts` - Server Sentry initialization
 - `sentry.edge.config.ts` - Edge Sentry initialization

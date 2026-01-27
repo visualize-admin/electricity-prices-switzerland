@@ -7,6 +7,7 @@ import { Octokit } from "@octokit/rest";
 
 import { calculateSummaryStats, compareMetrics } from "./metrics-comparator";
 import { formatTable } from "./table-formatter";
+import type { MetricsResponse } from "./types";
 
 import type { OperationComparison } from "./metrics-comparator";
 import type { FullResult, Reporter } from "@playwright/test/reporter";
@@ -17,29 +18,6 @@ interface MetricsReporterOptions {
   enabled?: boolean;
   artifactPath?: string;
   baselineBranch?: string;
-}
-
-interface OperationMetrics {
-  requestCount: number;
-  avgDurationMs: number;
-  errorCount: number;
-  errorRate: number;
-  cacheHitRate: number;
-  responseCacheHit: number;
-  responseCacheMiss: number;
-}
-
-interface ResolverMetrics {
-  count: number;
-  avgDurationMs: number;
-  errorCount: number;
-}
-
-interface MetricsResponse {
-  release: string;
-  collectedAt: string;
-  operations: Record<string, OperationMetrics>;
-  resolvers: Record<string, Record<string, ResolverMetrics>>;
 }
 
 const COMMENT_MARKER = "<!-- metrics-reporter -->";

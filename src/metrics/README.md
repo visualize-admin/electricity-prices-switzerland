@@ -150,7 +150,7 @@ yarn metrics list-releases
 yarn metrics operations --release <release-id>
 ```
 
-See `scripts/metrics.ts` for CLI implementation.
+See `cli.ts` for CLI implementation.
 
 ### Dashboard Access
 

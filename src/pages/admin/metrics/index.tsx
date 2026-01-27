@@ -29,12 +29,12 @@ import GraphQLDurationsChart from "src/metrics/durations-chart";
 import {
   listReleases,
   getOperationMetricsByRelease,
-  OperationMetrics,
 } from "src/metrics/metrics-store";
 import { getSentryClient } from "src/metrics/sentry-client";
 import {
   AggregatedOperationMetrics,
   ComparisonData,
+  RawOperationMetrics,
   ReleaseMetrics,
 } from "src/metrics/types";
 
@@ -54,7 +54,7 @@ interface MetricsPageProps {
 }
 
 function aggregateMetrics(
-  rawMetrics: Record<string, OperationMetrics>
+  rawMetrics: Record<string, RawOperationMetrics>
 ): Record<string, AggregatedOperationMetrics> {
   const aggregated: Record<string, AggregatedOperationMetrics> = {};
 
