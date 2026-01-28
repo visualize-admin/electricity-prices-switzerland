@@ -9,7 +9,7 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.38.0 - 2026-01-28
 
 - Map
   - Improve support for coverage ratio and operator filtering based on network level
