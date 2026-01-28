@@ -8,16 +8,14 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
 import { ElectricityCategory } from "src/domain/data";
+import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
 import { PriceComponent } from "src/graphql/queries";
 import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
 import { makeClientVerbose } from "src/rdf/client-helpers";
-import {
-  COVERAGE_RATIO_THRESHOLD,
-  CoverageCacheManager,
-} from "src/rdf/coverage-ratio";
+import { CoverageCacheManager } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 
 import { createSparqlClientForCube } from "./sparql-client";
@@ -624,7 +622,8 @@ export const getOperatorsMunicipalities = async (
 export const getMunicipalityOperators = async (
   client: ParsingClient,
   municipalityId: string,
-  years: string[] | null
+  years: string[] | null,
+  networkLevel?: NetworkLevel["id"]
 ) => {
   const queryViaObservations = `
 # from file queries/tariff.rq
@@ -676,18 +675,19 @@ WHERE {
   const coverageManager = new CoverageCacheManager(client);
   await coverageManager.prepare(years ?? []);
 
-  const viaObservationsFiltered = viaObservations.filter((obs) => {
-    const coverageRatio = coverageManager.getCoverage(
-      {
-        municipality: obs.municipality,
-        operator: obs.id,
-        period: obs.year,
-      },
-      "NE7"
-    );
-
-    return coverageRatio > COVERAGE_RATIO_THRESHOLD;
-  });
+  const viaObservationsFiltered = CoverageCacheManager.filterByCoverageRatio(
+    viaObservations,
+    (obs) => {
+      return coverageManager.getCoverage(
+        {
+          municipality: obs.municipality,
+          operator: obs.id,
+          period: obs.year,
+        },
+        networkLevel ?? "NE7"
+      );
+    }
+  );
 
   // transform into id, name, years: []
   const unique = Array.from(

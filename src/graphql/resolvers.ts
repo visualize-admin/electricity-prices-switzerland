@@ -51,8 +51,8 @@ import { asElectricityCategory } from "src/domain/data";
 import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import { last, sortBy } from "lodash";
 import {
-  COVERAGE_RATIO_THRESHOLD,
   CoverageCacheManager,
+  DEFAULT_COVERAGE_NETWORK_LEVEL,
 } from "src/rdf/coverage-ratio";
 import { truthy } from "src/lib/truthy";
 
@@ -303,15 +303,10 @@ const Query: QueryResolvers = {
       });
     }
 
-    return operatorObservations.filter((o) => {
-      if (
-        o.coverageRatio !== undefined &&
-        o.coverageRatio < COVERAGE_RATIO_THRESHOLD
-      ) {
-        return false;
-      }
-      return true;
-    });
+    return CoverageCacheManager.filterByCoverageRatio(
+      operatorObservations,
+      (o) => o.coverageRatio
+    );
   },
   cantonMedianObservations: async (
     _,
@@ -641,17 +636,32 @@ const Query: QueryResolvers = {
   },
   operatorMunicipalities: async (
     _,
-    { period, electricityCategory },
+    { period, electricityCategory, networkLevel },
     context
   ) => {
     const category = electricityCategory
       ? asElectricityCategory(electricityCategory)
       : undefined;
-    return await getOperatorsMunicipalities(
-      period,
-      category,
-      context.sparqlClient
-    );
+    const level = networkLevel
+      ? asNetworkLevel(networkLevel)
+      : DEFAULT_COVERAGE_NETWORK_LEVEL;
+    const coverageManager = new CoverageCacheManager(context.sparqlClient);
+    const [results] = await Promise.all([
+      getOperatorsMunicipalities(period, category, context.sparqlClient),
+      coverageManager.prepare([period]),
+    ]);
+
+    return CoverageCacheManager.filterByCoverageRatio(results, (item) => {
+      const coverage = coverageManager.getCoverage(
+        {
+          period,
+          municipality: String(item.municipality),
+          operator: item.operator,
+        },
+        level
+      );
+      return coverage;
+    });
   },
 };
 

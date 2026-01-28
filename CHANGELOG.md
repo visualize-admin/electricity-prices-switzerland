@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Map
+  - Improve support for coverage ratio and operator filtering based on network level
 
 # 2.37.0 - 2026-01-27
 
