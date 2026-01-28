@@ -128,13 +128,15 @@ class MetricsReporter implements Reporter {
         `[Metrics Reporter] Fetching baseline from ${branch} branch...`
       );
 
+      const runCounts = 10;
+
       // 1. Get latest successful workflow run on main branch
       const workflowRuns = await octokit.actions.listWorkflowRunsForRepo({
         owner,
         repo,
         branch,
         status: "success",
-        per_page: 1,
+        per_page: runCounts,
       });
 
       if (workflowRuns.data.workflow_runs.length === 0) {
@@ -144,25 +146,46 @@ class MetricsReporter implements Reporter {
         return null;
       }
 
-      const latestRun = workflowRuns.data.workflow_runs[0];
-      console.log(
-        `[Metrics Reporter] Found latest successful run: ${latestRun.id}`
-      );
+      type Artifact = Awaited<
+        ReturnType<typeof octokit.actions.listWorkflowRunArtifacts>
+      >["data"]["artifacts"][number];
 
-      // 2. List artifacts from this run
-      const artifacts = await octokit.actions.listWorkflowRunArtifacts({
-        owner,
-        repo,
-        run_id: latestRun.id,
-      });
+      let metricsArtifact: Artifact | null = null;
 
-      const metricsArtifact = artifacts.data.artifacts.find(
-        (a) => a.name === artifactName
-      );
+      // Go through each run one by one until we find the metrics artifact
+      for (const run of workflowRuns.data.workflow_runs) {
+        console.log(
+          `[Metrics Reporter] Checking run ${run.id} for artifact '${artifactName}'`
+        );
+
+        try {
+          const artifacts = await octokit.actions.listWorkflowRunArtifacts({
+            owner,
+            repo,
+            run_id: run.id,
+          });
+
+          const artifact = artifacts.data.artifacts.find(
+            (a) => a.name === artifactName
+          );
+
+          if (artifact) {
+            metricsArtifact = artifact;
+            console.log(`[Metrics Reporter] Found artifact in run ${run.id}`);
+            break;
+          }
+        } catch (error) {
+          console.warn(
+            `[Metrics Reporter] Failed to check artifacts for run ${run.id}:`,
+            error instanceof Error ? error.message : error
+          );
+          continue;
+        }
+      }
 
       if (!metricsArtifact) {
         console.warn(
-          `[Metrics Reporter] Artifact '${artifactName}' not found in run ${latestRun.id}`
+          `[Metrics Reporter] Artifact '${artifactName}' not found in last ${runCounts} runs on ${branch} branch`
         );
         return null;
       }
@@ -322,6 +345,7 @@ class MetricsReporter implements Reporter {
             artifactName
           );
 
+          console.log("[Metrics Reporter] Comparing metrics to baseline...");
           if (baseline) {
             comparisons = compareMetrics(metrics, baseline);
           }
