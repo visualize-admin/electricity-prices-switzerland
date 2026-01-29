@@ -29,7 +29,10 @@ const ELECTRICIY_PRICE_CANTON_CUBE =
 const ELECTRICITY_PRICE_SWISS_CUBE =
   "https://energy.ld.admin.ch/elcom/electricityprice-swiss";
 
-const graphDbHosts = ["https://lindas.int.cz-aws.net"];
+const graphDbHosts = [
+  "https://lindas.int.cz-aws.net",
+  "https://lindas.cz-aws.net"
+];
 
 const replacements = [
   {
