@@ -9,6 +9,16 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+Nothing yet.
+
+# 2.38.1 - 2026-01-29
+
+- Data
+  - Consider https://lindas.cz-aws.net as a graphdb host. This allows the
+    data from Lindas Graphdb to be correctly loaded
+
 # 2.38.0 - 2026-01-28
 
 - Map
