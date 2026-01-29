@@ -20,4 +20,4 @@ CVE-2025-68973 exp:2026-03-01
 CVE-2025-6020  exp:2026-03-01
 
 # This affects tar used as a dependency of vercel-nft, we are not affected by the vul
-CVE-2026-24842 exp: 2026-03-01
+CVE-2026-24842 exp:2026-03-01
