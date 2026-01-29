@@ -11,10 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#: src/components/operator-documents.tsx
-msgid "download.loadingreports"
-msgstr "download.loadingreports"
-
 #: src/domain/helpers.tsx
 msgid "No"
 msgstr "No"
@@ -188,6 +184,10 @@ msgstr "download.cta"
 #: src/components/operator-documents.tsx
 msgid "download.filetype.pdf"
 msgstr "download.filetype.pdf"
+
+#: src/components/operator-documents.tsx
+msgid "download.loadingreports"
+msgstr "download.loadingreports"
 
 #: src/components/operator-documents.tsx
 msgid "download.nooperatordocuments"

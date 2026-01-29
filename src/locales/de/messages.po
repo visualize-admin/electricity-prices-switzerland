@@ -11,10 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/operator-documents.tsx
-msgid "download.loadingreports"
-msgstr "Dokumente werden geladen…"
-
 #: src/domain/helpers.tsx
 msgid "No"
 msgstr "Nein"
@@ -188,6 +184,10 @@ msgstr "Download Berichte & Tarife"
 #: src/components/operator-documents.tsx
 msgid "download.filetype.pdf"
 msgstr "PDF-Datei"
+
+#: src/components/operator-documents.tsx
+msgid "download.loadingreports"
+msgstr "Dokumente werden geladen…"
 
 #: src/components/operator-documents.tsx
 msgid "download.nooperatordocuments"

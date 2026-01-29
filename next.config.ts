@@ -78,8 +78,13 @@ const nextConfig = async (): Promise<NextConfig> => {
       console.log("BUILD_ID: Will use nextjs default behavior");
       return null;
     },
-  
+
     experimental: {
+      /**
+       * We need to keep the .babelrc for locale extraction to work, so we have
+       * to force Next.js to use SWC.
+       */
+      forceSwcTransforms: true,
       swcPlugins: [
         [
           "@lingui/swc-plugin",
