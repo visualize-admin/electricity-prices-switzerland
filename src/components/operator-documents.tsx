@@ -149,7 +149,7 @@ export const OperatorDocumentsPopoverContent = ({
                 <Icon name="loading" size={24} />
               </Box>
               <Typography variant="body2" color="text.secondary">
-                <Trans>Loading Reports</Trans>
+                <Trans id="download.loadingreports">Loading Reports</Trans>
               </Typography>
             </Box>
           ) : null}

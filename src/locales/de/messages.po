@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/components/operator-documents.tsx
-msgid "Loading Reports"
+msgid "download.loadingreports"
 msgstr "Dokumente werden geladen…"
 
 #: src/domain/helpers.tsx

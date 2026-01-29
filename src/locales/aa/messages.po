@@ -12,8 +12,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/operator-documents.tsx
-msgid "Loading Reports"
-msgstr "Loading Reports"
+msgid "download.loadingreports"
+msgstr "download.loadingreports"
 
 #: src/domain/helpers.tsx
 msgid "No"
