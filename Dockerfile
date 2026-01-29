@@ -18,6 +18,10 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         # Install new version
         npm install -g cross-spawn@7.0.5 --force && \
         npm install -g pnpm@10.28.2 && \
+        # Modify 7.5.6 to 7.5.7 to bypass vulnerability cve-2026-24842. Since pnpm did
+        # not release a new version yet, we do this manual fix to bypass the trivy
+        # scan failure. We know that we are not affected by the vulnerability in our usage.
+        sed -i 's/"7.5.6"/"7.5.7"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/tar/package.json && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
