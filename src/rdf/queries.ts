@@ -567,7 +567,7 @@ export const getOperatorsMunicipalities = async (
   category: ElectricityCategory | undefined,
   client: ParsingClient
 ) => {
-  const query = `
+  const query = /*sparql*/`
   SELECT DISTINCT ?period ?operator ?municipality ?canton WHERE {
     <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet0 .
     ?observationSet0 <https://cube.link/observation> ?source0 .
@@ -628,7 +628,7 @@ export const getMunicipalityOperators = async (
   years: string[] | null,
   networkLevel?: NetworkLevel["id"]
 ) => {
-  const queryViaObservations = `
+  const queryViaObservations = /*sparql*/`
 # from file queries/tariff.rq
 PREFIX schema: <http://schema.org/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
