@@ -59,11 +59,7 @@ export const SearchField = ({
       endAdornment={
         <InputAdornment position="end">
           {value && value !== "" && onReset ? (
-            <IconButton
-              size="sm"
-              sx={{ mr: -2, border: "1px solid red !important" }}
-              onClick={onReset}
-            >
+            <IconButton size="sm" sx={{ mr: -2 }} onClick={onReset}>
               <VisuallyHidden>
                 <Trans id="controls.search.clear">Clear search field</Trans>
               </VisuallyHidden>
