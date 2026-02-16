@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.38.7 - 2026-02-16
+
+- Upgrade apollo to fix vulnerability
+- Use sha256 for signatures when communicating with eIAM
+
 # 2.38.1 - 2026-01-29
 
 - Data
