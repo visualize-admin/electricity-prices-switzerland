@@ -90,7 +90,7 @@ const makeIpStsRequest = async () => {
 
 export const digestTimestampNode = async (timestampNode: Element) => {
   const timestampCanonical = await canonicalizeXML(timestampNode);
-  const hash = crypto.createHash("sha1");
+  const hash = crypto.createHash("sha256");
   hash.update(timestampCanonical);
   const digestValue = hash.digest("base64");
   return digestValue;
