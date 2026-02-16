@@ -25,7 +25,7 @@ export const req1 = /* xml */ `<s:Envelope xmlns:s="http://schemas.xmlsoap.org/s
             <trust:KeySize>256</trust:KeySize>
             <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p</trust:KeyWrapAlgorithm>
             <trust:EncryptWith>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptWith>
-            <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmac-sha1</trust:SignWith>
+            <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmac-sha256</trust:SignWith>
 
             <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>
 
@@ -56,12 +56,12 @@ export const req2 = /* xml */ `<s:Envelope xmlns:s="http://www.w3.org/2003/05/so
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                 <SignedInfo>
                     <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha1" />
+                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha256" />
                     <Reference URI="#_0">
                         <Transforms>
                             <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
                         </Transforms>
-                        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
                         <DigestValue></DigestValue>
                     </Reference>
                 </SignedInfo>
