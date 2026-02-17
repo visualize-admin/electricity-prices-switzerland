@@ -56,7 +56,7 @@ export const req2 = /* xml */ `<s:Envelope xmlns:s="http://www.w3.org/2003/05/so
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                 <SignedInfo>
                     <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha1" />
+                    <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#hmac-sha256" />
                     <Reference URI="#_0">
                         <Transforms>
                             <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />

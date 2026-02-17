@@ -100,7 +100,7 @@ export const digestSignedInfoNode = async (
   signedInfoNode: Element,
   binaryToken: Buffer
 ) => {
-  const hmac = crypto.createHmac("sha1", binaryToken);
+  const hmac = crypto.createHmac("sha256", binaryToken);
   const signedInfoCanonical = await canonicalizeXML(signedInfoNode);
   hmac.update(signedInfoCanonical);
   return hmac.digest("base64");
