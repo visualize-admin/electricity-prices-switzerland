@@ -170,7 +170,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 
 const OverviewPage = (props: Props) => {
   const { query } = useRouter();
-  const latestYear = 2024; //FIXME: only year with data for power stability
+  const latestYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
 
   // Power stability card filters - must be called before conditional returns
   const [powerStabilityFilters] = useQueryStatePowerStabilityCardFilters({
