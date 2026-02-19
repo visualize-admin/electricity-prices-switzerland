@@ -339,9 +339,8 @@ const OverviewPage = (props: Props) => {
   }, [props, operationalStandardsQuery.data, overviewFilters.year]);
 
   const years = useMemo(() => {
-    const currentYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
-    return [currentYear - 2, currentYear - 1, currentYear];
-  }, []);
+    return [latestYear - 2, latestYear - 1, latestYear];
+  }, [latestYear]);
 
   const theme = useTheme();
 
