@@ -430,7 +430,7 @@ msgid "home.sunshine-topics.card.power-stability.description"
 msgstr ""
 "Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
 "Les deux indicateurs fournissent des informations importantes sur la fiabilité et la stabilité de l’approvisionnement en électricité.\n"
-"Les valeurs sont présentées séparément pour les interruptions planifiées et non planifiées."
+"Les valeurs sont présentées séparément pour les interruptions planifiées et non planifiées. Les données ne sont collectées que chez les plus grands gestionnaires de réseau. Certaines zones d’approvisionnement sont donc représentées en gris."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
@@ -650,7 +650,7 @@ msgstr "Fermer"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.details-title"
-msgstr "Détails"
+msgstr "Filtre"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.list-title"

@@ -427,7 +427,9 @@ msgstr "Costs and Tariffs"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr "SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period."
+msgstr ""
+"SAIDI measures the total duration of power outages per customer each year, while SAIFI indicates how often outages occur. Together, they provide key insights into the reliability and stability of the electricity supply over a defined period.\n"
+"The values are presented separately for planned and unplanned interruptions. Data are collected only from the largest network operators. Therefore, some supply areas are shown in grey."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"

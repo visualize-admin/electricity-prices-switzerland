@@ -427,7 +427,7 @@ msgstr "Netzkosten und Tarife"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr "SAIDI misst die durchschnittliche Dauer von Stromunterbrechungen, SAIFI deren Häufigkeit. Beide Indikatoren geben wichtige Erkenntnisse über die Zuverlässigkeit und Stabilität der Stromversorgung. Die Werte werden für geplante und ungeplante Unterbrechungen separat ausgewiesen."
+msgstr "SAIDI misst die durchschnittliche Dauer von Stromunterbrechungen, SAIFI deren Häufigkeit. Beide Indikatoren geben wichtige Erkenntnisse über die Zuverlässigkeit und Stabilität der Stromversorgung. Die Werte werden für geplante und ungeplante Unterbrechungen separat ausgewiesen. Die Daten werden nur bei den grössten Netzbetreibern erhoben. Einige Versorgungsgebiete sind daher grau dargestellt."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
@@ -899,7 +899,7 @@ msgstr "Kategorie"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C-group"
-msgstr "Gewerbe- und Industriebetrieben"
+msgstr "Gewerbe- und Industriebetriebe"
 
 #: src/domain/translation.tsx
 msgid "selector.category.C1"

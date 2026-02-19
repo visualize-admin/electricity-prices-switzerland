@@ -429,7 +429,7 @@ msgstr "Costi di rete e tariffe"
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
-msgstr "SAIDI misura la durata media delle interruzioni di corrente, mentre SAIFI ne misura la frequenza. Entrambi gli indicatori forniscono informazioni importanti sull’affidabilità e la stabilità della fornitura di energia elettrica. I valori vengono riportati separatamente per le interruzioni pianificate e non pianificate."
+msgstr "SAIDI misura la durata media delle interruzioni di corrente, mentre SAIFI ne misura la frequenza. Entrambi gli indicatori forniscono informazioni importanti sull’affidabilità e la stabilità della fornitura di energia elettrica. I valori vengono riportati separatamente per le interruzioni pianificate e non pianificate. I dati vengono raccolti solo dai maggiori gestori di rete. Alcune aree di fornitura sono quindi indicate in grigio."
 
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.title"
@@ -649,7 +649,7 @@ msgstr "Chiudere"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.details-title"
-msgstr "Dettagli"
+msgstr "Filtro"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.list-title"
