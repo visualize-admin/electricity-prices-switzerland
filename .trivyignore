@@ -18,3 +18,7 @@ CVE-2025-4802 exp:2026-02-01
 # This affects libpam and gnupg, we are not using them in-app
 CVE-2025-68973 exp:2026-03-01
 CVE-2025-6020  exp:2026-03-01
+
+# Affects minimatch, used in build tools
+CVE-2026-26996 exp:2026-03-01
+

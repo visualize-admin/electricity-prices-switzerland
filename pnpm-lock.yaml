@@ -13,7 +13,7 @@ overrides:
   '@types/react-dom': 19.0.0
   form-data: 4.0.4
   sha.js: 2.4.12
-  tar: 7.5.7
+  tar: 7.5.8
 
 importers:
 
@@ -10438,8 +10438,8 @@ packages:
     resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
     engines: {node: '>=6'}
 
-  tar@7.5.7:
-    resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
+  tar@7.5.8:
+    resolution: {integrity: sha512-SYkBtK99u0yXa+IWL0JRzzcl7RxNpvX/U08Z+8DKnysfno7M+uExnTZH8K+VGgShf2qFPKtbNr9QBl8n7WBP6Q==}
     engines: {node: '>=18'}
 
   terser-webpack-plugin@5.3.14:
@@ -13761,7 +13761,7 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 8.1.0
       semver: 7.5.2
-      tar: 7.5.7
+      tar: 7.5.8
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -23814,7 +23814,7 @@ snapshots:
 
   tapable@2.2.2: {}
 
-  tar@7.5.7:
+  tar@7.5.8:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
