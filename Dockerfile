@@ -22,6 +22,10 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         # not release a new version yet, we do this manual fix to bypass the trivy
         # scan failure. We know that we are not affected by the vulnerability in our usage.
         sed -i 's/"7.5.6"/"7.5.8"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/tar/package.json && \
+        # Modify 9.0.5 to 9.0.6 to bypass vulnerability CVE-2026-26996. Since pnpm did
+        # not release a new version yet, we do this manual fix to bypass the trivy
+        # scan failure. We know that we are not affected by the vulnerability in our usage.
+        sed -i 's/"9.0.5"/"9.0.6"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/minimatch/package.json && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
