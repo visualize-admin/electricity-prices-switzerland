@@ -515,7 +515,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "tariffNC2": 11.052,
             "tariffNC3": 8.807,
             "tariffNC4": 8.284,
-            "tariffNC6": 8.326,
+            "tariffNC6": 7.866,
             "tariffNH2": 16.123,
             "tariffNH4": 13.51,
             "tariffNH7": 11.067,

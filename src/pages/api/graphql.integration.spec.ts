@@ -588,7 +588,7 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 10,
                   "operatorUID": "10",
                   "period": "2025",
-                  "value": 8.326,
+                  "value": 7.866,
                 },
                 {
                   "name": "ELEKTRA ENERGIE Genossenschaft",
