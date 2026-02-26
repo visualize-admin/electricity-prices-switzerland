@@ -2,11 +2,11 @@
 
 ## Overview
 
-17 update groups ordered from lowest to highest risk. Verify (`pnpm typecheck` + `pnpm build:next`) between each group before proceeding.
+17 update groups. Verify (`pnpm typecheck` + `pnpm build:next`) between each group before proceeding.
 
 ---
 
-## Group 1 — Patch / minor bumps (low risk)
+## [x] Group 1 — Patch / minor bumps (low risk)
 
 ```bash
 pnpm update \
@@ -43,7 +43,7 @@ pnpm build:next
 
 ---
 
-## Group 2 — TypeScript type definitions
+## [x] Group 2 — TypeScript type definitions
 
 > ⚠️ Keep `@types/node` on `22.x` (engines requires Node 22). Do **not** update to 25.x.
 > ⚠️ `@types/react` and `@types/react-dom` are pinned in `pnpm.overrides` — update both places.
@@ -63,26 +63,9 @@ pnpm update \
   "@types/xml-c14n"
 ```
 
-Update `@types/node` to latest 22.x only:
-
-```bash
-pnpm add -D "@types/node@^22"
-```
-
-Update `@types/react` and `@types/react-dom`, then also update the pinned versions in `pnpm.overrides` in `package.json`:
-
-```bash
-pnpm add -D "@types/react@^19" "@types/react-dom@^19"
-# Then update pnpm.overrides in package.json to match the new versions
-```
-
-```bash
-pnpm typecheck
-```
-
 ---
 
-## Group 3 — TypeScript ESLint
+## [x] Group 3 — TypeScript ESLint
 
 > Must be updated together (same version).
 
@@ -96,40 +79,7 @@ pnpm lint
 
 ---
 
-## Group 4 — Prettier (v2 → v3)
-
-> Prettier 3 has formatting changes. Reformat the whole codebase and commit separately.
-
-```bash
-pnpm add -D "prettier@^3"
-pnpm prettier --write .
-git diff --stat  # Review scope of formatting changes
-# Commit formatting changes as a standalone commit
-```
-
----
-
-## Group 5 — ESLint 9 (flat config migration)
-
-> ESLint 9 requires migrating from `.eslintrc.json` to `eslint.config.js` (flat config).
-> `eslint-config-next` must be updated together with Next.js (Group 14) — skip it here.
-
-```bash
-pnpm add -D \
-  "eslint@^9" \
-  "eslint-plugin-react-hooks@^7" \
-  "eslint-plugin-unused-imports@^4"
-
-# Migrate .eslintrc.json → eslint.config.js
-npx @eslint/migrate-config .eslintrc.json
-
-# Review and fix the generated eslint.config.js, then:
-pnpm lint
-```
-
----
-
-## Group 6 — GraphQL codegen (v5 → v6)
+## [x] Group 4 — GraphQL codegen (v5 → v6)
 
 ```bash
 pnpm add -D \
@@ -145,7 +95,7 @@ pnpm typecheck
 
 ---
 
-## Group 7 — Vite + build tooling (v6 → v7)
+## [x] Group 5 — Vite + build tooling (v6 → v7)
 
 > Check `vite.config.ts` and `vitest.config.ts` for deprecated APIs after upgrading.
 
@@ -161,24 +111,7 @@ pnpm build:next
 
 ---
 
-## Group 8 — Vitest
-
-> ⚠️ The project is already on Vitest 4.x (prerelease track). Do **not** downgrade to 3.x (npm `latest` tag).
-> Only patch-update within 4.x and align `@vitest/browser` to the same version.
-
-```bash
-pnpm add -D \
-  "vitest@^4" \
-  "@vitest/browser@^4" \
-  "jsdom@^27"
-
-pnpm test:unit
-pnpm test:integration
-```
-
----
-
-## Group 9 — Playwright (1.51 → 1.58)
+## [x] Group 6 — Playwright (1.51 → 1.58)
 
 ```bash
 pnpm add -D "@playwright/test@^1.58"
@@ -191,7 +124,7 @@ pnpm test:playwright:app
 
 ---
 
-## Group 10 — Lingui i18n (v3 → v5)
+## Group 7 — Lingui i18n (v3 → v5)
 
 > Major upgrade across 2 versions. Read the [v4](https://lingui.js.org/releases/migration-4.html) and [v5](https://lingui.js.org/releases/migration-5.html) migration guides first.
 > Key changes: new catalog format, updated `Trans` macro, `useLingui` API changes.
@@ -213,7 +146,7 @@ pnpm build:next
 
 ---
 
-## Group 11 — Storybook (v8 → v10)
+## Group 8 — Storybook (v8 → v10)
 
 > Use the official Storybook upgrade CLI — it applies codemods and updates config automatically.
 
@@ -227,7 +160,7 @@ pnpm build-storybook  # verify production build
 
 ---
 
-## Group 12 — Apollo Server (v4 → v5)
+## [x] Group 9 — Apollo Server (v4 → v5)
 
 > Check the [Apollo Server v5 migration guide](https://www.apollographql.com/docs/apollo-server/migration).
 > `@as-integrations/next` jumps from 1 → 4, review its changelog carefully.
@@ -245,7 +178,7 @@ pnpm build:next
 
 ---
 
-## Group 13 — MUI (v5 → v7)
+## Group 10 — MUI (v5 → v7)
 
 > Run codemods for both v6 and v7 migrations. Many component APIs changed.
 > Read the [MUI v6](https://mui.com/material-ui/migration/upgrade-to-v6/) and [v7](https://mui.com/material-ui/migration/upgrade-to-v7/) migration guides.
@@ -266,10 +199,10 @@ pnpm build:next
 
 ---
 
-## Group 14 — Next.js (v15 → v16) + eslint-config-next
+## Group 11 — Next.js (v15 → v16) + eslint-config-next
 
 > `eslint-config-next` version must always match the Next.js version.
-> Next.js 16 likely requires React 19 — coordinate with Group 15.
+> Next.js 16 likely requires React 19 — coordinate with Group 12.
 
 ```bash
 pnpm add \
@@ -287,7 +220,7 @@ pnpm dev  # smoke test
 
 ---
 
-## Group 15 — React 19
+## Group 12 — React 19
 
 > ⚠️ Also update the `pnpm.overrides` pins for `@types/react` and `@types/react-dom` in `package.json`.
 > Check `react-query` v3 compatibility — it is very old and may not work with React 19.
@@ -309,7 +242,7 @@ pnpm build:next
 
 ---
 
-## Group 16 — Zod v4
+## Group 13 — Zod v4
 
 > Zod v4 has breaking API changes. Read the [Zod v4 migration guide](https://zod.dev/v4) first.
 > Audit all usages: `grep -r "from 'zod'" src/`
@@ -325,18 +258,18 @@ pnpm test:unit
 
 ---
 
-## Group 17 — Remaining major upgrades
+## Group 14 — Remaining major upgrades
 
 Split into sub-batches and verify after each.
 
-### 17a — urql + undici
+### 14a — urql + undici
 
 ```bash
 pnpm add "urql@^5" "undici@^7"
 pnpm typecheck && pnpm build:next
 ```
 
-### 17b — node-fetch + fs-extra (ESM-only)
+### 14b — node-fetch + fs-extra (ESM-only)
 
 > ⚠️ `node-fetch` v3 and `fs-extra` v11 are ESM-only. Any `require()` call will break.
 > Audit usages before upgrading: `grep -r "node-fetch\|fs-extra" src/ scripts/`
@@ -350,14 +283,14 @@ pnpm add -D "@types/fs-extra@^11"
 pnpm typecheck && pnpm build:next
 ```
 
-### 17c — micromark
+### 14c — micromark
 
 ```bash
 pnpm add "micromark@^4" "micromark-extension-gfm@^3"
 pnpm typecheck && pnpm build:next
 ```
 
-### 17d — deck.gl (v8 → v9)
+### 14d — deck.gl (v8 → v9)
 
 > Read the [deck.gl v9 upgrade guide](https://deck.gl/docs/upgrade-guide).
 
@@ -367,7 +300,7 @@ pnpm typecheck && pnpm build:next
 # Visual inspection of map components required
 ```
 
-### 17e — RDF / SPARQL stack
+### 14e — RDF / SPARQL stack
 
 > These packages are tightly coupled — update together.
 
@@ -387,7 +320,7 @@ pnpm add -D \
 pnpm typecheck && pnpm build:next
 ```
 
-### 17f — Miscellaneous
+### 14f — Miscellaneous
 
 ```bash
 pnpm add \
@@ -398,10 +331,67 @@ pnpm add \
 pnpm typecheck && pnpm build:next
 ```
 
+---
+
 ## Kept for later
 
-```
-pnpm update
+```bash
+pnpm update \
   @interactivethings/swiss-federal-ci \
-  "@typescript/native-preview" \
+  "@typescript/native-preview"
+```
+
+---
+
+## [ ] Group 15 — Vitest
+
+ERROR feat: Update vitest + jsdom
+
+ ⨯ [Error: require() of ES Module /Users/patrick/work/electricity-prices-switzerland.deps/node_modules/.pnpm/@csstools+css-calc@3.1.1_@csstools+css-parser-algorithms@4.0.0_@csstools+css-tokenizer@_e728870d3b76a40220e2f2b00c51483a/node_modules/@csstools/css-calc/dist/index.mjs not supported.
+Instead change the require of /Users/patrick/work/electricity-prices-switzerland.deps/node_modules/.pnpm/@csstools+css-calc@3.1.1_@csstools+css-parser-algorithms@4.0.0_@csstools+css-tokenizer@_e728870d3b76a40220e2f2b00c51483a/node_modules/@csstools/css-calc/dist/index.mjs to a dynamic import() which is available in all CommonJS modules.
+
+> ⚠️ The project is already on Vitest 4.x (prerelease track). Do **not** downgrade to 3.x (npm `latest` tag).
+> Only patch-update within 4.x and align `@vitest/browser` to the same version.
+
+```bash
+pnpm add -D \
+  "vitest@^4" \
+  "@vitest/browser@^4" \
+  "jsdom@^27"
+
+pnpm test:unit
+pnpm test:integration
+```
+
+---
+
+## Group 16 — Prettier (v2 → v3)
+
+> Prettier 3 has formatting changes. Reformat the whole codebase and commit separately.
+
+```bash
+pnpm add -D "prettier@^3"
+pnpm prettier --write .
+git diff --stat  # Review scope of formatting changes
+# Commit formatting changes as a standalone commit
+```
+
+---
+
+## Group 17 — ESLint 9 (flat config migration)
+
+> ESLint 9 requires migrating from `.eslintrc.json` to `eslint.config.js` (flat config).
+> `eslint-config-next` must be updated together with Next.js (Group 11) — skip it here.
+
+```bash
+pnpm add -D \
+  "eslint@^9" \
+  "eslint-plugin-react-hooks@^7" \
+  "eslint-plugin-unused-imports@^4"
+
+# Migrate .eslintrc.json → eslint.config.js
+npx @eslint/migrate-config .eslintrc.json
+
+# Review and fix the generated eslint.config.js, then:
+pnpm lint
 ```
