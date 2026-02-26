@@ -49,10 +49,10 @@
     "metrics": "bun --env-file .env.local src/metrics/cli.ts"
   },
   "dependencies": {
-    "@apollo/server": "^4.13.0",
-    "@apollo/server-plugin-response-cache": "^4.1.0",
+    "@apollo/server": "^5.4.0",
+    "@apollo/server-plugin-response-cache": "^5.0.0",
     "@argos-ci/cli": "^2.5.6",
-    "@as-integrations/next": "^1.2.0",
+    "@as-integrations/next": "^4.1.0",
     "@deck.gl/core": "8.8",
     "@deck.gl/layers": "8.8",
     "@deck.gl/react": "8.8",
