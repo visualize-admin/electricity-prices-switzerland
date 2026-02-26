@@ -209,7 +209,10 @@
   "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
+      "@sentry/node>minimatch": "9.0.6",
+      "@typescript-eslint/typescript-estree>minimatch": "9.0.6",
       "esbuild": "0.27.1",
+      "graphql-config>minimatch": "9.0.6",
       "js-base64": "2.5.2",
       "cross-spawn": "7.0.6",
       "semver": "7.5.2",
