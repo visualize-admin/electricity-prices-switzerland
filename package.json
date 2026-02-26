@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.38.11",
+  "version": "2.38.12",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -206,6 +206,7 @@
     "vite": "6.2.4",
     "vitest": "^4.0.15"
   },
+  "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
       "esbuild": "0.27.1",
@@ -215,9 +216,9 @@
       "@types/react": "19.0.0",
       "@types/react-dom": "19.0.0",
       "form-data": "4.0.4",
+      "rollup": "4.59.0",
       "sha.js": "2.4.12",
       "tar": "7.5.8"
     }
-  },
-  "packageManager": "pnpm@10.28.2"
+  }
 }

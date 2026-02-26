@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.38.12 - 2022-02-26
+
+- Upgrade rollup & minimatch for fixable vulns
+
 # 2.38.10 - 2022-02-19
 
 - Use new locales exported from Accent
