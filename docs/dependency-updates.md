@@ -15,7 +15,6 @@ pnpm update \
   @parcel/watcher \
   @next/env \
   "@turf/bbox" "@turf/centroid" "@turf/turf" \
-  @interactivethings/swiss-federal-ci \
   "@lingui/babel-plugin-lingui-macro" "@lingui/swc-plugin" "@lingui/vite-plugin" \
   "@mui/system" \
   "@storybook/test" \
@@ -35,7 +34,6 @@ pnpm update \
   tss-react \
   tsx \
   "@types/lodash" "@types/node-fetch" \
-  "@typescript/native-preview" \
   "@testing-library/react" \
   "@graphql-codegen/typescript-resolvers"
 
@@ -398,4 +396,12 @@ pnpm add \
   "react-inspector@^9"
 
 pnpm typecheck && pnpm build:next
+```
+
+## Kept for later
+
+```
+pnpm update
+  @interactivethings/swiss-federal-ci \
+  "@typescript/native-preview" \
 ```
