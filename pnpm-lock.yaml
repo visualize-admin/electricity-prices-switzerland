@@ -5,10 +5,10 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@sentry/node>minimatch': 9.0.6
-  '@typescript-eslint/typescript-estree>minimatch': 9.0.6
+  '@sentry/node>minimatch': 9.0.7
+  '@typescript-eslint/typescript-estree>minimatch': 9.0.7
   esbuild: 0.27.1
-  graphql-config>minimatch: 9.0.6
+  graphql-config>minimatch: 9.0.7
   js-base64: 2.5.2
   cross-spawn: 7.0.6
   semver: 7.5.2
@@ -8751,8 +8751,8 @@ packages:
     resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  minimatch@9.0.6:
-    resolution: {integrity: sha512-kQAVowdR33euIqeA0+VZTDqU+qo1IeVY+hrKYtZMio3Pg0P0vuh/kwRylLUddJhB6pf3q/botcOvRtx4IN1wqQ==}
+  minimatch@9.0.7:
+    resolution: {integrity: sha512-MOwgjc8tfrpn5QQEvjijjmDVtMw2oL88ugTevzxQnzRLm6l3fVEF2gzU0kYeYYKD8C66+IdGX6peJ4MyUlUnPg==}
     engines: {node: '>=16 || 14 >=14.17'}
 
   minimist@1.2.8:
@@ -15263,7 +15263,7 @@ snapshots:
       '@sentry/node-core': 9.47.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/resources@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.38.0)
       '@sentry/opentelemetry': 9.47.1(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.38.0)
       import-in-the-middle: 1.15.0
-      minimatch: 9.0.6
+      minimatch: 9.0.7
     transitivePeerDependencies:
       - supports-color
 
@@ -17591,7 +17591,7 @@ snapshots:
       debug: 4.4.3(supports-color@8.1.1)
       fast-glob: 3.3.3
       is-glob: 4.0.3
-      minimatch: 9.0.6
+      minimatch: 9.0.7
       semver: 7.5.2
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -20712,7 +20712,7 @@ snapshots:
       cosmiconfig: 8.3.6(typescript@5.9.3)
       graphql: 16.12.0
       jiti: 2.6.1
-      minimatch: 9.0.6
+      minimatch: 9.0.7
       string-env-interpolation: 1.0.1
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -21894,7 +21894,7 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.2
 
-  minimatch@9.0.6:
+  minimatch@9.0.7:
     dependencies:
       brace-expansion: 5.0.3
 

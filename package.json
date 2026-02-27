@@ -1,6 +1,6 @@
 {
   "name": "elcom-electricity-price-website",
-  "version": "2.38.13",
+  "version": "2.38.14",
   "repository": "git@github.com:interactivethings/elcom-electricity-price-website.git",
   "author": "Federal Electricity Commission ElCom <info@elcom.admin.ch>",
   "license": "BSD-3-Clause",
@@ -209,10 +209,10 @@
   "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
-      "@sentry/node>minimatch": "9.0.6",
-      "@typescript-eslint/typescript-estree>minimatch": "9.0.6",
+      "@sentry/node>minimatch": "9.0.7",
+      "@typescript-eslint/typescript-estree>minimatch": "9.0.7",
       "esbuild": "0.27.1",
-      "graphql-config>minimatch": "9.0.6",
+      "graphql-config>minimatch": "9.0.7",
       "js-base64": "2.5.2",
       "cross-spawn": "7.0.6",
       "semver": "7.5.2",
