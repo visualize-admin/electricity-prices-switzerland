@@ -72,6 +72,12 @@ export const serverSchema = z.object({
   // Sparql
   SPARQL_EDITOR: z.string().optional(),
   SPARQL_ENDPOINT: z.string().default("https://test.lindas.admin.ch/query"),
+  GRAPHDB_ENDPOINTS: z
+    .string()
+    .optional()
+    .transform((value) =>
+      value ? value.split(",").map((s) => s.trim()) : []
+    ),
 
   // Admin authentication
   ADMIN_PASSWORD: z.string().optional(),
