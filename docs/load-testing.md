@@ -1,50 +1,44 @@
 ## Load testing
 
-To load test, we use the k6 platform and its ability to import HAR
-session recordings. We generate automatically a HAR via a Playwright test designed to mimick a typical user journey and import it into k6.
+Load tests are recorded as HAR files from a Playwright browsing session and replayed with the open-source k6 CLI.
 
-### Update the test on k6.io
+### Run the test locally (k6 CLI)
 
-After an update to the application, it is necessary to update the
-test on k6 so that the chunks URL are correct. To make the update
-painless, Playwright is used to automatically navigate across the
-site, and then save the session requests as an HAR file.
+Requires [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) installed locally.
 
-1. Record the HAR
+### Prerequisites
 
-The HAR is generated automatically from a Playwright test.
+Some environments (ref, abn) are protected by HTTP basic auth. Credentials are stored in `.env.local` under `BASIC_CREDENTIALS_PER_HOST` as a JSON object mapping hostnames to `user:password` strings. They are injected automatically per request hostname at script generation time.
 
 ```bash
-pnpm run e2e:k6:har
+# .env.local
+BASIC_CREDENTIALS_PER_HOST='{"strompreis.ref.elcom.admin.ch":"user:password","strompreis.abn.elcom.admin.ch":"user:password"}'
 ```
 
-You can also generate an HAR from a different environment than ref by
-using the ELCOM_ENV env variable.
+Credentials can be found in 1Password: [Basic auth credentials](https://start.1password.com/open/i?a=Y5HEBVGBTJAV3ACQABB7PQ5ACU&v=y3bz6to4autj23guk4mvt3b6wa&i=hz4ypv3bx5bklgl4qf2tksxtm4&h=interactivethings.1password.com).
 
 ```bash
-ELCOM_ENV=abn pnpm run e2e:k6:har
+# Record HAR (GraphQL requests only), then run
+dotenv -e .env.local -- bun src/e2e/generate-k6-har.ts --env ref --graphql-only --headed --output browsing-test-ref.har
+dotenv -e .env.local -- bun src/e2e/run-k6.ts browsing-test-ref.har
+
+# Different environment, VU count, or quick smoke test
+dotenv -e .env.local -- bun src/e2e/generate-k6-har.ts --env abn --graphql-only --headed --output browsing-test-abn.har
+dotenv -e .env.local -- bun src/e2e/run-k6.ts browsing-test-abn.har --vus 10 --iterations 1
 ```
 
-The command will open a browser and will navigate through various pages.
-After the test, an HAR will be generated in the root directory.
+### Authenticated load testing
 
-2. Import the HAR file into K6
+Injects an admin session cookie so requests use a specific SPARQL endpoint.
+Password defaults to `ADMIN_SESSION_PASSWORD` from `.env.local`.
 
+```bash
+# Capture session cookie (sets sparqlEndpoint flag via /admin/session-config)
+dotenv -e .env.local -- bun src/e2e/dump-admin-session.ts \
+  --base-url https://strompreis.ref.elcom.admin.ch \
+  --sparql-endpoint https://lindas.cz-aws.net/query \
+  --output admin-session.json
+
+# Run with injected session
+dotenv -e .env.local -- bun src/e2e/run-k6.ts browsing-test-ref.har --headers-file admin-session.json
 ```
-pnpm e2e:k6:update
-```
-
-ℹ️ Check the command in `package.json` if you want to change the HAR uploaded or the
-test being updated
-
-Make sure the options of the Scenario correspond to what you want as k6
-resets them when you import the HAR (you might want to increase the
-number of VUs to 50 for example).
-
-### Editing the test
-
-The preferred way to edit the test is to use the [Recorder inside VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright).
-This way it is easy to quickly generate a test.
-
-- Add testIds in case the generated selectors are not understandable.
-- Add sleeps to make sure the test is not too quick and "human like"
