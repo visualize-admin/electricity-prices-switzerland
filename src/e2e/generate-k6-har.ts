@@ -7,8 +7,8 @@
  *   bun src/e2e/generate-k6-har.ts --env abn --graphql-only
  *   bun src/e2e/generate-k6-har.ts --output custom.har --headed
  */
-import { ArgumentParser } from "argparse";
 import { chromium } from "@playwright/test";
+import { ArgumentParser } from "argparse";
 
 import { getEnv, getBasicCredentials, cleanupHAR, sleep } from "./utils";
 

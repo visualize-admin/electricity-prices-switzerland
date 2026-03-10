@@ -18,8 +18,8 @@
  */
 import fs from "fs";
 
-import { ArgumentParser } from "argparse";
 import { chromium } from "@playwright/test";
+import { ArgumentParser } from "argparse";
 
 import { getBasicCredentials } from "./utils";
 
