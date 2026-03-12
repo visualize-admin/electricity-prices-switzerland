@@ -11,18 +11,21 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.39.0 - 2026-03-12
+
 - Graphdb endpoints can be configured as env variable
 
-
-# 2.38.12 - 2022-02-26
+# 2.38.12 - 2026-02-26
 
 - Upgrade rollup & minimatch for fixable vulns
 
-# 2.38.10 - 2022-02-19
+# 2.38.10 - 2026-02-19
 
 - Use new locales exported from Accent
 
-# 2.38.9 - 2022-02-17
+# 2.38.9 - 2026-02-17
 
 - Use sha256 for SignatureMethod when communicating with eIAM
 
