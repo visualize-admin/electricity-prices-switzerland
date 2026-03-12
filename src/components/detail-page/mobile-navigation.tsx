@@ -2,14 +2,12 @@ import { t } from "@lingui/macro";
 import { NativeSelect } from "@mui/material";
 import { useRouter } from "next/router";
 
-import { useFlag } from "src/utils/flags";
 
 import { SectionProps } from "./card";
 
 export const DetailsPageMobileNavigation = (props: SectionProps) => {
   const { id, entity } = props;
   const router = useRouter();
-  const sunshineFlag = useFlag("sunshine");
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
@@ -37,7 +35,7 @@ export const DetailsPageMobileNavigation = (props: SectionProps) => {
         </option>
       </optgroup>
 
-      {sunshineFlag && entity === "operator" ? (
+      {entity === "operator" ? (
         <optgroup
           label={t({
             id: "details.page.navigation.sunshine-indicators-title",

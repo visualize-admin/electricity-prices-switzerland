@@ -5,7 +5,6 @@ import { ElectricitySelectors } from "src/components/electricity-selectors";
 import { SunshineSelectors } from "src/components/sunshine-selectors";
 import { useQueryStateMapCommon } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
-import { useFlag } from "src/utils/flags";
 
 type TabValue = "electricity" | "sunshine";
 
@@ -48,8 +47,6 @@ export const CombinedSelectors = ({
   const [queryState] = useQueryStateMapCommon();
   const activeTab = queryState.tab as TabValue;
 
-  const sunshineFlag = useFlag("sunshine");
-
   return (
     <Box
       {...props}
@@ -61,7 +58,7 @@ export const CombinedSelectors = ({
         ...props.sx,
       }}
     >
-      {sunshineFlag && showTabs ? (
+      {showTabs ? (
         <Box width="100%" mb={4}>
           <ElectricityOrSunshineButtonGroup />
         </Box>

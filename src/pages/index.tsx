@@ -15,7 +15,6 @@ import { MapLink } from "src/components/links";
 import { SunshineTopics } from "src/components/sunshine/sunshine-topics";
 import { Icon } from "src/icons";
 import createGetServerSideProps from "src/utils/create-server-side-props";
-import { useFlag } from "src/utils/flags";
 import { makePageTitle } from "src/utils/page-title";
 
 const ApplicationLayout = dynamic(
@@ -30,8 +29,6 @@ export const getServerSideProps = createGetServerSideProps(async () => {
 });
 
 const IndexPage = () => {
-  const isSunshine = useFlag("sunshine");
-
   return (
     <>
       <Head>
@@ -124,7 +121,7 @@ const IndexPage = () => {
               </Box>
             </Box>
           </ContentWrapper>
-          {isSunshine && (
+          {(
             <Box
               sx={{
                 backgroundColor: "secondary.50",

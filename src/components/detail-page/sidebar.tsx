@@ -6,14 +6,11 @@ import { ReactNode } from "react";
 
 import { SafeHydration } from "src/components/hydration";
 import { Icon } from "src/icons";
-import { useFlag } from "src/utils/flags";
 
 import { SectionProps } from "./card";
 
 export const DetailsPageSidebar = (props: SectionProps) => {
   const { id, entity } = props;
-
-  const sunshineFlag = useFlag("sunshine");
 
   return (
     <Box display={"flex"} flexDirection="column">
@@ -28,7 +25,7 @@ export const DetailsPageSidebar = (props: SectionProps) => {
         </Trans>
       </SidebarItem>
       {/* FIXME: Make this only a preview and add a coming soon label */}
-      {sunshineFlag && entity === "operator" ? (
+      {entity === "operator" ? (
         <SafeHydration>
           <SidebarSectionTitle>
             <Trans id="details.page.navigation.sunshine-indicators-title">

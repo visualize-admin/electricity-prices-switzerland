@@ -53,7 +53,6 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useIsMobile } from "src/lib/use-mobile";
 import { defaultLocale } from "src/locales/config";
-import { useFlag } from "src/utils/flags";
 
 const MobileControls = dynamic(
   () => import("src/components/map/mobile-controls").then((mod) => mod),
@@ -147,24 +146,20 @@ const MapPageContent = ({
     []
   );
 
-  const hasSunshineFlag = useFlag("sunshine");
-
   const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
     useRef(null);
 
   useEffect(() => {
-    if (hasSunshineFlag) {
-      try {
-        if (activeId) {
-          controlsRef.current?.zoomOn(activeId);
-        } else {
-          controlsRef.current?.zoomOut();
-        }
-      } catch (e) {
-        console.error("Error zooming on map:", e);
+    try {
+      if (activeId) {
+        controlsRef.current?.zoomOn(activeId);
+      } else {
+        controlsRef.current?.zoomOut();
       }
+    } catch (e) {
+      console.error("Error zooming on map:", e);
     }
-  }, [activeId, hasSunshineFlag]);
+  }, [activeId]);
 
   const valueFormatter = useIndicatorValueFormatter(indicator);
 
