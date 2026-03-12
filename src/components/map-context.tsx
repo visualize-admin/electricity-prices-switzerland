@@ -12,8 +12,6 @@ import {
 import { Entity } from "src/domain/data";
 import useEvent from "src/lib/use-event";
 import { assertBaseDomainOK } from "src/utils/domain";
-import { useFlag } from "src/utils/flags";
-import { shouldOpenInNewTab } from "src/utils/platform";
 
 type MapContextType = {
   activeId: string | null;
@@ -70,7 +68,6 @@ export const MapProvider = ({
   embed,
 }: MapProviderProps) => {
   const [entity, setEntity] = useState<Entity>("municipality");
-  const isSunshine = useFlag("sunshine");
   const router = useRouter();
 
   const embedEntityClick = useEmbedEntityClick();
@@ -80,17 +77,7 @@ export const MapProvider = ({
       if (embed) {
         return embedEntityClick(entity, id);
       } else {
-        if (isSunshine) {
-          setActiveId(id);
-        } else {
-          if (shouldOpenInNewTab(ev)) {
-            // Open in new tab if meta key is pressed
-            window.open(`/${entity}/${id}`, "_blank");
-            return;
-          } else {
-            router.push(`/${entity}/${id}`);
-          }
-        }
+        setActiveId(id);
       }
     }
   );

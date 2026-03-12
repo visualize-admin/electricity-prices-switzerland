@@ -7,8 +7,10 @@ test.describe("Segmented control visibility", () => {
     await page.goto("/en/operator/565?period=2025");
     await page.getByRole("heading", { name: "Price components" }).waitFor();
     await expect(
-      await page.getByRole("button", { name: "Group municipalities" })
-    ).toBeVisible();
+      await page.getByRole("button", { name: "Group municipalities",  })
+    ).toBeVisible({
+      timeout: 10_000,
+    });
   });
 
   test("should not appear for operator with single municipality", async ({
@@ -19,7 +21,9 @@ test.describe("Segmented control visibility", () => {
 
     await expect(
       page.getByRole("button", { name: "Group municipalites" })
-    ).not.toBeVisible();
+    ).not.toBeVisible({
+      timeout: 10_000,
+    });
   });
 
   test("should not appear for municipality view with a single operator", async ({

@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Graphdb endpoints can be configured as env variable
+
 
 # 2.38.12 - 2022-02-26
 
