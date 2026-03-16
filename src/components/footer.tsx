@@ -155,7 +155,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
         </Link>
 
         <Link
-          href={`https://opendata.swiss/${locale}/group/ener?organization=elcom`}
+          href={`https://opendata.swiss/${locale}/organization/elcom`}
           target="_blank"
           underline="none"
         >
