@@ -1,31 +1,16 @@
 # GraphQL Metrics
 
-Performance monitoring system that tracks GraphQL operations using Sentry distributed tracing.
-
-## What This Is
-
-A monitoring system that automatically collects performance metrics for all GraphQL operations:
-
-- Operation request counts and duration
-- Cache hit rates (response caching effectiveness)
-- Error rates and exceptions
-- Individual resolver performance (when enabled)
-
-Metrics are collected via Sentry's distributed tracing infrastructure and can be queried using the Sentry API or via the provided CLI tools.
+Tracks GraphQL operations via Sentry distributed tracing. Collects request counts, duration, cache hit rates, error rates, and optional per-resolver performance. Query results via Sentry API or the CLI tool.
 
 ## Why It Exists
 
-**Track impact of code changes**: See how changes to the codebase affect performance—whether optimizations actually improve speed, or whether new features introduce slowdowns.
-
-**Production visibility**: Monitor real-world performance characteristics across different releases and deployments.
-
-**Zero instrumentation overhead**: Metrics are collected automatically through Apollo Server plugins without writing additional test code.
+Track impact of code changes by seeing how they affect performance across releases. Runs automatically through Apollo Server plugins with no extra instrumentation.
 
 ## How It Works
 
 ### Data Collection
 
-The `sentry-metrics-plugin.ts` Apollo Server plugin (see `src/metrics/sentry-metrics-plugin.ts`):
+The `apollo-sentry-plugin.ts` Apollo Server plugin (see `src/metrics/apollo-sentry-plugin.ts`):
 
 1. Creates a Sentry span for each GraphQL operation
 2. Sets `span.op = "graphql.operation"`
@@ -50,7 +35,7 @@ A command-line tool provides quick access to metrics data from Sentry.
 
 ### Prerequisites
 
-1. **Sentry Auth Token**: Create a token at https://sentry.io/settings/account/api/auth-tokens/
+1. Sentry Auth Token: create one at https://sentry.io/settings/account/api/auth-tokens/
    - Required scopes: `org:read`, `project:read`
    - Add to `.env.local`: `SENTRY_AUTH_TOKEN=your_token_here`
 
@@ -121,14 +106,14 @@ Check that:
 
 ### CLI errors
 
-**"SENTRY_AUTH_TOKEN not configured"**: Create and configure a Sentry auth token as described in Prerequisites.
+"SENTRY_AUTH_TOKEN not configured": create and configure a Sentry auth token as described in Prerequisites.
 
-**"Sentry API request failed"**: Verify your auth token has the correct scopes (`org:read`, `project:read`) and you have network access to sentry.io.
+"Sentry API request failed": verify the auth token has scopes `org:read`, `project:read` and there is network access to sentry.io.
 
 ## Implementation Files
 
 Key files in the implementation:
-- `src/metrics/sentry-metrics-plugin.ts` - Apollo Server plugin for collecting metrics
+- `src/metrics/apollo-sentry-plugin.ts` - Apollo Server plugin for collecting metrics
 - `src/metrics/sentry-client.ts` - Client for querying Sentry API
 - `src/metrics/cli.ts` - CLI tool for querying metrics
 - `src/lib/sentry/constants.ts` - Shared Sentry configuration

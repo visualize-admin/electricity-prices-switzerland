@@ -1,40 +1,32 @@
-## Build Process
+# Build Process
 
-### Build ID Configuration
+## Build ID
 
-The Next.js build ID is configured to use the git commit SHA to ensure consistent and reproducible build ids across different environments.
+The Next.js build ID is set to the git commit SHA for reproducible builds across environments.
 
-#### How it works
+`generateBuildId` in `next.config.ts` uses this priority:
 
-The build ID is generated using the `generateBuildId` function in `next.config.ts`, which follows this priority:
+1. Docker builds: uses `GIT_COMMIT_SHA`
+2. Vercel deployments: uses `VERCEL_GIT_COMMIT_SHA` (set automatically by Vercel)
+3. Fallback: Next.js default build ID
 
-1. **Docker builds**: Uses the `GIT_COMMIT_SHA` environment variable
-2. **Vercel deployments**: Uses the `VERCEL_GIT_COMMIT_SHA` environment variable (automatically provided by Vercel)
-3. **Fallback**: Uses Next.js default build ID generation if no SHA is provided
+### Environment Variables
 
-#### Environment Variables
+- `GIT_COMMIT_SHA`: passed as a Docker build arg
+- `VERCEL_GIT_COMMIT_SHA`: set automatically by Vercel
 
-- `GIT_COMMIT_SHA`: Passed as a build argument in the Dockerfile and set as an environment variable during the build process
-- `VERCEL_GIT_COMMIT_SHA`: Automatically available in Vercel's build environment
+### GitHub Actions
 
-#### GitHub Actions
-
-The `.github/workflows/docker.yml` workflow passes the git commit SHA to the Docker build using the `github.sha` context variable:
+`.github/workflows/docker.yml` passes the SHA via:
 
 ```yaml
 build-args: |
   GIT_COMMIT_SHA=${{ github.sha }}
 ```
 
-This ensures that:
+### Build Verification
 
-- The build ID matches the exact commit that triggered the build
-- Multiple builds of the same commit produce identical build IDs
-- The build verification step can correctly validate that the build ID matches the static assets folder
-
-#### Build Verification
-
-The Dockerfile includes a verification step that checks the build ID consistency:
+The Dockerfile verifies the build ID matches the static assets folder:
 
 ```bash
 BUILD_ID=$(cat .next/BUILD_ID)
@@ -44,12 +36,11 @@ if [ ! -d ".next/static/$BUILD_ID" ]; then
 fi
 ```
 
-This catches any inconsistencies between the build ID file and the actual static assets folder structure. We have experienced in the past inconsistencies, see
-[#564](https://github.com/visualize-admin/electricity-prices-switzerland/issues/564).
+Catches build ID inconsistencies ([#564](https://github.com/visualize-admin/electricity-prices-switzerland/issues/564)).
 
-#### Local Development
+### Local Development
 
-When building locally without setting `GIT_COMMIT_SHA`, the build will use Next.js's default build ID generation. To test with a specific commit SHA locally:
+Without `GIT_COMMIT_SHA`, Next.js uses its default build ID. To test with the current commit SHA:
 
 ```bash
 export GIT_COMMIT_SHA=$(git rev-parse HEAD)

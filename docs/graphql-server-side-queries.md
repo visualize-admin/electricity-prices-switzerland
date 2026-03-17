@@ -51,7 +51,7 @@ input MyNewFilter {
 }
 ```
 
-2. **Add the query to schema**:
+2. Add the query to schema:
 
 ```graphql
 type Query {
@@ -84,13 +84,13 @@ query MyNewQuery($filter: MyNewFilter!) {
 }
 ```
 
-5. **Run codegen**:
+5. Run codegen:
 
 ```bash
 pnpm graphql:codegen
 ```
 
-6. **Use in getServerSideProps**:
+6. Use in getServerSideProps:
 
 ```typescript
 import { MyNewQueryDocument, MyNewQueryQuery } from "src/graphql/queries";
@@ -187,7 +187,7 @@ const MyPage = (props: Props) => {
 };
 ```
 
-**Key points**:
+Key points:
 
 - Server renders with default/URL parameters for fast initial load
 - `pause: true` prevents unnecessary client queries on initial render
@@ -217,8 +217,8 @@ const data = await fetchMyData(sunshineDataService, { operatorId });
 
 Problems with direct fetcher calls:
 
-1. **Type Drift**: Fetcher return types can diverge from GraphQL schema types
-2. **Cache not used**: Apollo server cache is not used.
+1. Type drift: fetcher return types can diverge from GraphQL schema types
+2. Cache not used: Apollo server cache is bypassed.
 
 ### Architecture Overview
 

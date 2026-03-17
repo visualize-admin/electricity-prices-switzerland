@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The admin authentication system provides secure, password-protected access to administrative features. It uses JWT-based sessions for browser access and enables runtime configuration of server-side feature flags.
+Password-protected admin area using JWT session cookies. Enables runtime configuration of server-side flags without redeploying.
 
 ## Current Admin Features
 
@@ -11,7 +11,7 @@ The admin authentication system provides secure, password-protected access to ad
 
 ## Architecture
 
-The system follows a standard Next.js pattern with three layers:
+Three layers:
 
 **Pages** (`/pages/admin/*.tsx`):
 
@@ -66,17 +66,17 @@ See the API route implementations for request/response details.
 
 ### Session Management
 
-- **Session Duration**: Configurable via `ADMIN_SESSION_DURATION` (default: 24 hours)
-- **Cookie Name**: `admin_session`
-- **Token Signing**: JWT signed with `ADMIN_JWT_SECRET` (HMAC-SHA256)
-- **Cookie Security**: HTTP-only, secure (in production), SameSite=Lax
-- **Logout**: Available via session config dashboard
+- Session Duration: configurable via `ADMIN_SESSION_DURATION` (default: 24 hours)
+- Cookie Name: `admin_session`
+- Token Signing: JWT signed with `ADMIN_JWT_SECRET` (HMAC-SHA256)
+- Cookie Security: HTTP-only, secure (in production), SameSite=Lax
+- Logout: available via session config dashboard
 
 Implementation details: See `src/admin-auth/session.ts`
 
 ## Session Config Flags
 
-Session config flags are runtime configuration options stored in the JWT session payload. Each authenticated user has their own set of flags that persist for the duration of their session.
+Runtime options stored in the JWT payload. Per-user, persist until session expires.
 
 ### Schema
 
@@ -84,7 +84,7 @@ See `src/admin-auth/flags.ts` for the complete schema definition.
 
 ### Currently Available Flags
 
-- **sparqlEndpoint**: Select SPARQL endpoint at runtime
+- sparqlEndpoint: select SPARQL endpoint at runtime
   - Type: String (URL)
   - Options: Production, Integration, or custom endpoints
   - Used by GraphQL resolvers to query RDF data
@@ -98,19 +98,19 @@ See `src/admin-auth/flags.ts` for the complete schema definition.
 
 ### Flag Management UI
 
-The session config dashboard (`/admin/session-config`) provides a web interface for managing flags. Each flag has a form input based on its type. Changes are submitted via POST to `/api/admin/session-config`, which creates a new JWT token with updated flags.
+`/admin/session-config` is the form-based UI. Changes POST to `/api/admin/session-config`, which issues a new JWT with the updated flags.
 
 ## Integration Points
 
 ### GraphQL Context
 
-Session config flags integrate with GraphQL resolvers through the request context. The system extracts flags from the session cookie and makes them available to all resolvers.
+Flags are extracted from the session cookie and injected into the GraphQL resolver context.
 
 Implementation: See `src/graphql/server-context.ts`
 
 ### Server-Side Rendering
 
-Next.js pages can access flags during server-side rendering using the `getSessionConfigFlagsInfo` helper function.
+Use `getSessionConfigFlagsInfo` to read flags in `getServerSideProps`.
 
 Implementation: See `src/admin-auth/info.ts`
 
@@ -144,31 +144,28 @@ See `.env.development`.
 
 ### Authentication Security
 
-- **Password Storage**: Environment variables only, never in database
-- **Password Transmission**: HTTPS in production, POST body only
-- **CSRF Protection**: Token validation on all form submissions
-- **Session Binding**: CSRF tokens bound to session ID
+- Password Storage: environment variables only, never in database
+- Password Transmission: HTTPS in production, POST body only
+- CSRF Protection: token validation on all form submissions
+- Session Binding: CSRF tokens bound to session ID
 
 Implementation: See `src/admin-auth/password.ts` and `src/admin-auth/csrf.ts`
 
 ### Session Security
 
-- **JWT Signing**: HMAC-SHA256 with secret key
-- **Token Storage**: HTTP-only cookies (not accessible to JavaScript)
-- **Cookie Flags**:
-  - `HttpOnly: true` - Prevents XSS attacks
-  - `Secure: true` (production) - HTTPS only
-  - `SameSite: Lax` - CSRF protection
-- **Token Validation**: Signature verification on every request
-- **Expiration**: Automatic expiry after configured duration
+- JWT Signing: HMAC-SHA256 with secret key
+- Token Storage: HTTP-only cookies (not accessible to JavaScript)
+- Cookie Flags: `HttpOnly` (XSS), `Secure` in production (HTTPS), `SameSite=Lax` (CSRF)
+- Token Validation: signature verified on every request
+- Expiration: automatic after configured duration
 
 Implementation: See `src/admin-auth/session.ts`
 
 ### Authorization Model
 
-- **Binary Access**: Authenticated or not (no roles/permissions)
-- **Session-Scoped**: Each user has their own session with their own flags
-- **No Privilege Escalation**: All authenticated users have same access level
+- Binary access: authenticated or not, no roles
+- Session-scoped: each user has their own flags
+- No privilege escalation: all authenticated users have the same access level
 
 ## Error Handling
 
@@ -184,10 +181,3 @@ Implementation: See `src/admin-auth/session.ts`
 
 Error responses follow standard HTTP status codes. See API route implementations for specific error messages and handling patterns.
 
-## Future Enhancements
-
-Possible improvements for the system:
-
-- Role-based access control (RBAC)
-- Two-factor authentication (2FA)
-- API key generation for programmatic access

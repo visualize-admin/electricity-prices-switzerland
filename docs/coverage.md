@@ -1,12 +1,6 @@
 # Coverage Ratio Filtering
 
-## Overview
-
-The coverage ratio feature filters out observations and operator-municipality relationships based on how much people an operator actually serves within a municipality at a specific network level. This ensures that the application only displays electricity price data for operators that have meaningful coverage in a given area.
-
-## Purpose
-
-Not all electricity operators serve entire municipality population. Some operators may only cover a small fraction of a municipality's population. The coverage ratio (a value between 0 and 1) represents the portion of a municipality that an operator serves. By filtering out operators with low coverage ratios, we avoid showing misleading or incomplete price information to users.
+Filters out operator-municipality observations based on how much of a municipality's population an operator serves. The coverage ratio (0 to 1) comes from SPARQL "offer" entities. Operators below the 0.25 threshold are excluded to avoid showing misleading price data.
 
 ## How It Works
 
@@ -14,11 +8,11 @@ Not all electricity operators serve entire municipality population. Some operato
 
 Coverage ratios are retrieved from SPARQL "offer" entities that contain:
 
-- **Municipality**: The geographical area
-- **Period/Year**: The temporal coverage (e.g., "2024")
-- **Network Level**: The network level (e.g., "NE5", "NE6", "NE7")
-- **Operator**: The electricity provider
-- **Coverage Ratio**: A decimal value between 0 and 1
+- Municipality: the geographical area
+- Period/Year: e.g., "2024"
+- Network Level: e.g., "NE5", "NE6", "NE7"
+- Operator: the electricity provider
+- Coverage Ratio: decimal between 0 and 1
 
 The default network level used for coverage calculations is **NE7** (defined in `DEFAULT_COVERAGE_NETWORK_LEVEL`).
 
@@ -90,9 +84,9 @@ Coverage filtering is used in three main resolvers:
 
 The `CoverageCacheManager` class (`src/rdf/coverage-ratio.ts`) provides:
 
-- **`prepare(years: string[])`**: Preloads coverage data for specified years into cache
-- **`getCoverage(observation, networkLevel)`**: Retrieves coverage ratio with smart defaulting
-- **`static filterByCoverageRatio<T>(items, coverageAccessor)`**: Generic filtering method
+- `prepare(years: string[])`: preloads coverage data for the given years into cache
+- `getCoverage(observation, networkLevel)`: returns coverage ratio with fallback logic
+- `static filterByCoverageRatio<T>(items, coverageAccessor)`: generic filtering method
 
 The static `filterByCoverageRatio` method accepts a `coverageAccessor` function, making it reusable across different data types:
 
@@ -113,9 +107,9 @@ CoverageCacheManager.filterByCoverageRatio(results, (item) =>
 
 Coverage ratios are cached for performance:
 
-- **Cache duration**: 5 minutes
-- **Cache key**: `coverage-ratios-{year}`
-- **Cache type**: LRU cache with promise-based values
+- Cache duration: 5 minutes
+- Cache key: `coverage-ratios-{year}`
+- Cache type: LRU cache with promise-based values
 
 The cache stores:
 
