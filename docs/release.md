@@ -4,7 +4,7 @@
 
 ### 1. Update the changelog
 
-Add an entry to `CHANGELOG.md` at the root of the project documenting what changed in this release. Create the file if it does not yet exist.
+Add an entry to `CHANGELOG.md` at the root of the project documenting what changed in this release.
 
 ### 2. Bump the version in package.json
 

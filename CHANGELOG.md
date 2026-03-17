@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.39.1 - 2026-03-17
+
+- Security
+  - Upgrade serialize-javascript to address GHSA-5c6j-r48x-rmvq, bypass vuln detection of CVE-2026-29786 and CVE-2026-31802
+
 # 2.39.0 - 2026-03-12
 
 - Graphdb endpoints can be configured as env variable
