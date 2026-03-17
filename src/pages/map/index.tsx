@@ -186,17 +186,31 @@ const MapPageContent = ({
     enabled: isSunshineTab,
   });
 
+  // Unfiltered result (no peer group) used for the color scale and legend so
+  // that selecting a comparison group acts as a pure mask without shifting the
+  // legend min/max values.
+  const sunshineAllDataResult = useEnrichedSunshineData({
+    filter: {
+      period: period || "2024",
+      indicator,
+      saidiSaifiType,
+      networkLevel: networkLevel,
+      category: netElectricityCategory || energyElectricityCategory,
+    },
+    enabled: isSunshineTab,
+  });
+
   const colorScale = useMemo(() => {
     const medianValue = isElectricityTab
       ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
-      : sunshineEnrichedDataResult.data?.median ?? undefined;
+      : sunshineAllDataResult.data?.median ?? undefined;
     const specKey = isElectricityTab ? "energyPrices" : indicator;
     const thresholdEncoding = thresholdEncodings[specKey];
     const isValidValue = <T extends { value?: number | null | undefined }>(
       x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
-    const sunshineValues = (sunshineEnrichedDataResult.data?.observations ?? [])
+    const sunshineValues = (sunshineAllDataResult.data?.observations ?? [])
       .filter(isValidValue)
       .map((x) => x.value);
 
@@ -215,8 +229,8 @@ const MapPageContent = ({
     indicator,
     isElectricityTab,
     period,
-    sunshineEnrichedDataResult.data?.median,
-    sunshineEnrichedDataResult.data?.observations,
+    sunshineAllDataResult.data?.median,
+    sunshineAllDataResult.data?.observations,
   ]);
 
   const { setActiveId } = useMap();
@@ -265,6 +279,7 @@ const MapPageContent = ({
   ) : (
     <SunshineMap
       enrichedDataResult={sunshineEnrichedDataResult}
+      unfilteredEnrichedDataResult={sunshineAllDataResult}
       colorScale={colorScale}
       accessor={sunshineAccessor}
       valueFormatter={valueFormatter}

@@ -450,3 +450,42 @@ test.describe("Operational Standards page", () => {
     await expect(complianceRow).toBeVisible();
   });
 });
+test.describe("Issue 583: Sunshine legend stays stable when peer group changes", () => {
+  test("legend min/max do not change when a comparison group is selected", async ({
+    page,
+    setFlags,
+  }) => {
+    test.slow();
+    // Use webglDeactivated so the map renders in a testable DOM mode.
+    // flag__sunshine=true enables the sunshine tab in the UI.
+    await setFlags(page, ["webglDeactivated"]);
+    const tracker = new InflightRequests(page);
+
+    // Use the default indicator (networkCosts), peerGroup (all_grid_operators),
+    // and default period (CURRENT_PERIOD).
+    await page.goto("/en/map?tab=sunshine");
+    await tracker.waitForRequests();
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+
+    // The legend only renders once data and median are available.
+    // Use a generous timeout since data fetching + rendering takes time.
+    const legend = page.getByTestId("map-legend").nth(1);
+    await legend.waitFor({ state: "visible", timeout: 20_000 });
+    const legendTextBefore = await legend.textContent();
+
+    // Apply a peer group filter
+    await page.getByRole("combobox", { name: "Peer group" }).click();
+    await page
+      .getByRole("option", { name: "Tourist area and low energy density" })
+      .click();
+    await tracker.waitForRequests();
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+    await legend.waitFor({ state: "visible", timeout: 15_000 });
+
+    const legendTextAfter = await legend.textContent();
+
+    // The legend text (min, median, max ticks) must be identical after filtering —
+    // comparison groups are pure masks and must not shift the color scale.
+    expect(legendTextAfter).toEqual(legendTextBefore);
+  });
+});

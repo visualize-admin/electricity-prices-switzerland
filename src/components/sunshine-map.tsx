@@ -99,6 +99,12 @@ const getLegends: () => Record<
 
 type SunshineMapProps = {
   enrichedDataResult: UseEnrichedSunshineDataResult;
+  /**
+   * Unfiltered data result (no peer group constraint) used for computing
+   * the legend extent so that comparison group filtering acts as a pure mask
+   * and does not change the legend min/max values.
+   */
+  unfilteredEnrichedDataResult?: UseEnrichedSunshineDataResult;
   colorScale: ScaleThreshold<number, string, never>;
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   valueFormatter: ValueFormatter;
@@ -129,6 +135,7 @@ const aggregateFnPerIndicator: Record<
 
 const SunshineMap = ({
   enrichedDataResult,
+  unfilteredEnrichedDataResult,
   colorScale,
   accessor,
   valueFormatter,
@@ -146,6 +153,11 @@ const SunshineMap = ({
     enrichedDataResult.fetching || geoDataResult.state === "fetching";
 
   const enrichedData = enrichedDataResult.data;
+  // Use unfiltered data for the legend so the peer group mask doesn't affect
+  // the legend extent. Falls back to the (possibly filtered) enrichedData when
+  // no separate unfiltered result is provided.
+  const legendSourceData =
+    unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
 
   // Convert enriched data to format expected by map layers
@@ -395,13 +407,16 @@ const SunshineMap = ({
   );
 
   const valuesExtent = useMemo(() => {
-    if (!enrichedData?.observations || enrichedData.observations.length === 0) {
+    if (
+      !legendSourceData?.observations ||
+      legendSourceData.observations.length === 0
+    ) {
       return undefined;
     }
     return extent(
-      enrichedData.observations.map((x) => accessor(x)).filter(truthy)
+      legendSourceData.observations.map((x) => accessor(x)).filter(truthy)
     );
-  }, [accessor, enrichedData?.observations]);
+  }, [accessor, legendSourceData?.observations]);
 
   const legendId = useId();
 
@@ -428,8 +443,12 @@ const SunshineMap = ({
       );
     }
 
-    if (!valuesExtent || !enrichedData?.median || !colorScale) return null;
-    const legendData = [valuesExtent[0], enrichedData.median, valuesExtent[1]];
+    if (!valuesExtent || !legendSourceData?.median || !colorScale) return null;
+    const legendData = [
+      valuesExtent[0],
+      legendSourceData.median,
+      valuesExtent[1],
+    ];
     const legendKey =
       indicator === "networkCosts"
         ? (`${indicator}-${
@@ -439,11 +458,11 @@ const SunshineMap = ({
 
     // Get the threshold encoding function and generate thresholds and palette from a single source
     const thresholdEncoding = thresholdEncodings[indicator];
-    const values: number[] = (enrichedData.observations ?? [])
+    const values: number[] = (legendSourceData.observations ?? [])
       .map((x) => x.value)
       .filter((v): v is number => v !== null && v !== undefined);
     const { thresholds, palette } = thresholdEncoding(
-      enrichedData.median,
+      legendSourceData.median,
       values,
       +period
     );
@@ -471,6 +490,7 @@ const SunshineMap = ({
     indicator,
     valuesExtent,
     enrichedData,
+    legendSourceData,
     colorScale,
     networkLevel,
     period,
