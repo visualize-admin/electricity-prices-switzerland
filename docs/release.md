@@ -40,7 +40,7 @@ All HIGH and CRITICAL findings must be resolved or suppressed before proceeding.
 ```bash
 git add CHANGELOG.md package.json
 git commit -m "chore: vX.Y.Z"
-git tag vX.Y.Z
+git tag -m "vX.Y.Z" vX.Y.Z
 ```
 
 ### 7. Push
