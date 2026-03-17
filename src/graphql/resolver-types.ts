@@ -505,10 +505,10 @@ export type StabilityData = {
   __typename?: "StabilityData";
   operatorTotal?: Maybe<Scalars["Float"]["output"]>;
   operatorUnplanned?: Maybe<Scalars["Float"]["output"]>;
-  peerGroupMedianTotal: Scalars["Float"]["output"];
-  peerGroupMedianTrendTotal: Trend;
-  peerGroupMedianTrendUnplanned: Trend;
-  peerGroupMedianUnplanned: Scalars["Float"]["output"];
+  peerGroupMedianTotal?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrendTotal?: Maybe<Trend>;
+  peerGroupMedianTrendUnplanned?: Maybe<Trend>;
+  peerGroupMedianUnplanned?: Maybe<Scalars["Float"]["output"]>;
   trendTotal?: Maybe<Trend>;
   trendUnplanned?: Maybe<Trend>;
   yearlyData: Array<StabilityDataRow>;
@@ -1543,22 +1543,22 @@ export type StabilityDataResolvers<
     ContextType
   >;
   peerGroupMedianTotal?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType
   >;
   peerGroupMedianTrendTotal?: Resolver<
-    ResolversTypes["Trend"],
+    Maybe<ResolversTypes["Trend"]>,
     ParentType,
     ContextType
   >;
   peerGroupMedianTrendUnplanned?: Resolver<
-    ResolversTypes["Trend"],
+    Maybe<ResolversTypes["Trend"]>,
     ParentType,
     ContextType
   >;
   peerGroupMedianUnplanned?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType
   >;

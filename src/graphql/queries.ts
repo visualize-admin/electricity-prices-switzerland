@@ -489,10 +489,10 @@ export type StabilityData = {
   __typename: "StabilityData";
   operatorTotal?: Maybe<Scalars["Float"]["output"]>;
   operatorUnplanned?: Maybe<Scalars["Float"]["output"]>;
-  peerGroupMedianTotal: Scalars["Float"]["output"];
-  peerGroupMedianTrendTotal: Trend;
-  peerGroupMedianTrendUnplanned: Trend;
-  peerGroupMedianUnplanned: Scalars["Float"]["output"];
+  peerGroupMedianTotal?: Maybe<Scalars["Float"]["output"]>;
+  peerGroupMedianTrendTotal?: Maybe<Trend>;
+  peerGroupMedianTrendUnplanned?: Maybe<Trend>;
+  peerGroupMedianUnplanned?: Maybe<Scalars["Float"]["output"]>;
   trendTotal?: Maybe<Trend>;
   trendUnplanned?: Maybe<Trend>;
   yearlyData: Array<StabilityDataRow>;
@@ -1132,10 +1132,10 @@ export type SaidiQuery = {
     operatorUnplanned?: number | null;
     trendTotal?: Trend | null;
     trendUnplanned?: Trend | null;
-    peerGroupMedianTotal: number;
-    peerGroupMedianUnplanned: number;
-    peerGroupMedianTrendTotal: Trend;
-    peerGroupMedianTrendUnplanned: Trend;
+    peerGroupMedianTotal?: number | null;
+    peerGroupMedianUnplanned?: number | null;
+    peerGroupMedianTrendTotal?: Trend | null;
+    peerGroupMedianTrendUnplanned?: Trend | null;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
@@ -1159,10 +1159,10 @@ export type SaifiQuery = {
     operatorUnplanned?: number | null;
     trendTotal?: Trend | null;
     trendUnplanned?: Trend | null;
-    peerGroupMedianTotal: number;
-    peerGroupMedianUnplanned: number;
-    peerGroupMedianTrendTotal: Trend;
-    peerGroupMedianTrendUnplanned: Trend;
+    peerGroupMedianTotal?: number | null;
+    peerGroupMedianUnplanned?: number | null;
+    peerGroupMedianTrendTotal?: Trend | null;
+    peerGroupMedianTrendUnplanned?: Trend | null;
     yearlyData: Array<{
       __typename: "StabilityDataRow";
       year: number;
@@ -1269,10 +1269,10 @@ export type PowerStabilityQuery = {
       operatorUnplanned?: number | null;
       trendTotal?: Trend | null;
       trendUnplanned?: Trend | null;
-      peerGroupMedianTotal: number;
-      peerGroupMedianUnplanned: number;
-      peerGroupMedianTrendTotal: Trend;
-      peerGroupMedianTrendUnplanned: Trend;
+      peerGroupMedianTotal?: number | null;
+      peerGroupMedianUnplanned?: number | null;
+      peerGroupMedianTrendTotal?: Trend | null;
+      peerGroupMedianTrendUnplanned?: Trend | null;
       yearlyData: Array<{
         __typename: "StabilityDataRow";
         year: number;
@@ -1288,10 +1288,10 @@ export type PowerStabilityQuery = {
       operatorUnplanned?: number | null;
       trendTotal?: Trend | null;
       trendUnplanned?: Trend | null;
-      peerGroupMedianTotal: number;
-      peerGroupMedianUnplanned: number;
-      peerGroupMedianTrendTotal: Trend;
-      peerGroupMedianTrendUnplanned: Trend;
+      peerGroupMedianTotal?: number | null;
+      peerGroupMedianUnplanned?: number | null;
+      peerGroupMedianTrendTotal?: Trend | null;
+      peerGroupMedianTrendUnplanned?: Trend | null;
       yearlyData: Array<{
         __typename: "StabilityDataRow";
         year: number;

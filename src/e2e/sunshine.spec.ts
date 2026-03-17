@@ -450,6 +450,67 @@ test.describe("Operational Standards page", () => {
     await expect(complianceRow).toBeVisible();
   });
 });
+
+test.describe("Issue 566: NULL peer group medians display as «–» not «0»", () => {
+  // Operator 817 belongs to a peer group that has no SAIDI/SAIFI data,
+  // so its peer group medians are NULL and must render as «–» not «0».
+  const OPERATOR_ID = "817";
+
+  test("SAIDI peer group medians show «–» when there is no data", async ({
+    page,
+  }) => {
+    const resp = await page.goto(
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability`
+    );
+    await expect(resp?.status()).toEqual(200);
+    await page.waitForLoadState("networkidle");
+
+    // The SAIDI tab is active by default.
+    // Find rows whose label contains "Peer Group Median" and assert the value
+    // cell shows «–» (en-dash), not a numeric value like «0».
+    const rows = page
+      .getByRole("row")
+      .filter({ hasText: /Peer Group Median/i });
+
+    // Ensure the loop is non-vacuous: there must be exactly 2 peer group rows
+    // (Total and Unplanned) for this operator.
+    await expect(rows).toHaveCount(2);
+
+    for (const row of await rows.all()) {
+      const valueCell = row.getByRole("cell").last();
+      const text = await valueCell.textContent();
+      // Must not be a bare «0» or formatted zero like «0.00 min/year»
+      expect(text?.trim()).not.toMatch(/^0/);
+      // Must show the no-data dash
+      expect(text?.trim()).toBe("–");
+    }
+  });
+
+  test("SAIFI peer group medians show «–» when there is no data", async ({
+    page,
+  }) => {
+    const resp = await page.goto(
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability?tabDetails=saifi`
+    );
+    await expect(resp?.status()).toEqual(200);
+    await page.waitForLoadState("networkidle");
+
+    const rows = page
+      .getByRole("row")
+      .filter({ hasText: /Peer Group Median/i });
+
+    // Ensure the loop is non-vacuous: there must be exactly 2 peer group rows.
+    await expect(rows).toHaveCount(2);
+
+    for (const row of await rows.all()) {
+      const valueCell = row.getByRole("cell").last();
+      const text = await valueCell.textContent();
+      expect(text?.trim()).not.toMatch(/^0/);
+      expect(text?.trim()).toBe("–");
+    }
+  });
+});
+
 test.describe("Issue 583: Sunshine legend stays stable when peer group changes", () => {
   test("legend min/max do not change when a comparison group is selected", async ({
     page,
