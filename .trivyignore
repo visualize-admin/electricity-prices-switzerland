@@ -22,3 +22,8 @@ CVE-2025-6020  exp:2026-03-01
 # Affects minimatch, used in build tools
 CVE-2026-26996 exp:2026-03-01
 
+# WebSocket permessage-deflate DoS in undici 5.x. undici is pulled in by
+# @digitalbazaar/http-client which only uses it for HTTP, not WebSockets.
+CVE-2026-1526 exp:2026-06-17
+CVE-2026-2229 exp:2026-06-17
+
