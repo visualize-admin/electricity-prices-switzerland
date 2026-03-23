@@ -182,7 +182,10 @@ export const EnergyPricesMap = ({
             observationsByMunicipalityId:
               enrichedData.observationsByMunicipality,
             colorScale,
-            highlightId: highlightContext?.id,
+            highlightId:
+            highlightContext?.entity === "municipality"
+              ? highlightContext.id
+              : undefined,
             onHover: handleHover,
             onClick: handleMunicipalityLayerClick,
             layerId: "municipalities-base",
@@ -218,12 +221,13 @@ export const EnergyPricesMap = ({
     geoData.data,
     enrichedData,
     colorScale,
+    highlightContext?.entity,
     highlightContext?.id,
     hovered,
     activeId,
     featureIndexes,
     setEntity,
-    onEntitySelect,
+    onEntitySelect
   ]);
 
   const formatCurrency = useFormatCurrency();
