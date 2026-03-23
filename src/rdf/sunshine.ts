@@ -641,7 +641,7 @@ const getYearlyIndicatorMedians = async <
   Metric extends IndicatorMedianParams["metric"]
 >(
   client: ParsingClient,
-  params: IndicatorMedianParams
+  params: Extract<IndicatorMedianParams, { metric: Metric }>
 ) => {
   const { peerGroup, metric, period } = params;
   const periodPredicate = period

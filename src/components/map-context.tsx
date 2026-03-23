@@ -68,7 +68,6 @@ export const MapProvider = ({
   embed,
 }: MapProviderProps) => {
   const [entity, setEntity] = useState<Entity>("municipality");
-  const router = useRouter();
 
   const embedEntityClick = useEmbedEntityClick();
 
