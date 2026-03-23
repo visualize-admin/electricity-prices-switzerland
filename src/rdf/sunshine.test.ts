@@ -40,7 +40,7 @@ describe("createSunshineDataService", () => {
       ]);
 
       const db = createSunshineDataService(client);
-      const result = await db.getYearlyIndicatorMedians({
+      const result = await db.getYearlyIndicatorMedians<"stability">({
         peerGroup: "1",
         metric: "stability",
       });
@@ -67,7 +67,7 @@ describe("createSunshineDataService", () => {
       ]);
 
       const db = createSunshineDataService(client);
-      const result = await db.getYearlyIndicatorMedians({
+      const result = await db.getYearlyIndicatorMedians<"stability">({
         peerGroup: "1",
         metric: "stability",
       });
