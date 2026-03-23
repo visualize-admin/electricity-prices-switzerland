@@ -451,7 +451,7 @@ test.describe("Operational Standards page", () => {
   });
 });
 
-test.describe("Issue 566: NULL peer group medians display as «–» not «0»", () => {
+test.describe("NULL peer group medians display as «–» not «0»", () => {
   // Operator 817 belongs to a peer group that has no SAIDI/SAIFI data,
   // so its peer group medians are NULL and must render as «–» not «0».
   const OPERATOR_ID = "817";
@@ -511,7 +511,7 @@ test.describe("Issue 566: NULL peer group medians display as «–» not «0»",
   });
 });
 
-test.describe("Issue 583: Sunshine legend stays stable when peer group changes", () => {
+test.describe("Sunshine legend stays stable when peer group changes", () => {
   test("legend min/max do not change when a comparison group is selected", async ({
     page,
     setFlags,

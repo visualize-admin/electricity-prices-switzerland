@@ -486,18 +486,7 @@ const SunshineMap = ({
         }}
       />
     );
-  }, [
-    indicator,
-    valuesExtent,
-    enrichedData,
-    legendSourceData,
-    colorScale,
-    networkLevel,
-    period,
-    legendId,
-    legends,
-    valueFormatter,
-  ]);
+  }, [indicator, valuesExtent, legendSourceData, colorScale, networkLevel, period, legendId, legends, valueFormatter]);
 
   return (
     <GenericMap

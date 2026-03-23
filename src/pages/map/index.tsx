@@ -174,14 +174,18 @@ const MapPageContent = ({
     enabled: isElectricityTab,
   });
 
+  const commonSunshineDataFilter = {
+    period: period || "2024",
+    indicator,
+    saidiSaifiType,
+    networkLevel: networkLevel,
+    category: netElectricityCategory || energyElectricityCategory,
+  };
+
   const sunshineEnrichedDataResult = useEnrichedSunshineData({
     filter: {
-      period: period || "2024",
+      ...commonSunshineDataFilter,
       peerGroup: peerGroup === "all_grid_operators" ? undefined : peerGroup,
-      indicator,
-      saidiSaifiType,
-      networkLevel: networkLevel,
-      category: netElectricityCategory || energyElectricityCategory,
     },
     enabled: isSunshineTab,
   });
@@ -189,14 +193,9 @@ const MapPageContent = ({
   // Unfiltered result (no peer group) used for the color scale and legend so
   // that selecting a comparison group acts as a pure mask without shifting the
   // legend min/max values.
+  // The two useQuery hooks above already fetch the unfiltered data, so we can just reuse that and enrich it with the same logic as the main sunshine data.
   const sunshineAllDataResult = useEnrichedSunshineData({
-    filter: {
-      period: period || "2024",
-      indicator,
-      saidiSaifiType,
-      networkLevel: networkLevel,
-      category: netElectricityCategory || energyElectricityCategory,
-    },
+    filter: commonSunshineDataFilter,
     enabled: isSunshineTab,
   });
 
