@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
@@ -83,6 +84,7 @@ const NetworkCostLatestYearChartView = (
   } = props;
 
   const entityField = "operator_id";
+  const { i18n } = useLingui()
 
   const mappedObservations = useMemo(() => {
     return observations
@@ -111,9 +113,9 @@ const NetworkCostLatestYearChartView = (
       compact={compact}
       xField={{
         componentIri: "rate",
-        axisLabel: getNetworkLevelMetrics(
+        axisLabel: i18n._(getNetworkLevelMetrics(
           observations[0]?.network_level as NetworkLevel["id"]
-        ),
+        )),
       }}
       yField={{ componentIri: "network_level" }}
       segmentField={{
@@ -166,6 +168,8 @@ const ProgressOvertimeChartView = (
     );
   }, [observations]);
 
+  const { i18n } = useLingui()
+
   if (observations.length === 0) {
     return <NoDataHint />;
   }
@@ -180,9 +184,9 @@ const ProgressOvertimeChartView = (
       mini={mini}
       xField="year"
       yField="rate"
-      yAxisLabel={getNetworkLevelMetrics(
+      yAxisLabel={i18n._(getNetworkLevelMetrics(
         observations[0].network_level as NetworkLevel["id"]
-      )}
+      ))}
       entityField="operator_id"
     />
   );

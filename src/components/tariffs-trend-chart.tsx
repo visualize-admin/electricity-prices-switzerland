@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box, BoxProps } from "@mui/material";
 import { useMemo } from "react";
 
@@ -68,6 +69,7 @@ const TariffsLatestYearChartView = (
   } = props;
 
   const entityField = "operator_id";
+  const { i18n } = useLingui()
 
   const mappedObservations = useMemo(() => {
     return observations
@@ -91,7 +93,7 @@ const TariffsLatestYearChartView = (
       compareWith={compareWith}
       colorMapping={colorMapping}
       entityField={entityField}
-      xField={{ componentIri: "rate", axisLabel: RP_PER_KWH }}
+      xField={{ componentIri: "rate", axisLabel: i18n._(RP_PER_KWH) }}
       yField={{ componentIri: "category" }}
       segmentField={{
         componentIri: "operator_name",
@@ -133,6 +135,7 @@ const ProgressOvertimeChartView = (
     colorMapping,
     mini,
   } = props;
+  const { i18n } = useLingui()
 
   const validObservations = useMemo(() => {
     return observations.filter(
@@ -150,7 +153,7 @@ const ProgressOvertimeChartView = (
       mini={mini}
       xField="period"
       yField="rate"
-      yAxisLabel={RP_PER_KWH}
+      yAxisLabel={i18n._(RP_PER_KWH)}
       entityField="operator_id"
     />
   );

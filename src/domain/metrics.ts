@@ -1,40 +1,40 @@
-import { t } from "@lingui/macro";
+import { defineMessage } from "@lingui/macro";
 
 import { NetworkLevel } from "./sunshine";
 
-export const RP_PER_KWH = t({
+export const RP_PER_KWH = defineMessage({
   id: "sunshine.metric-unit.rp-kwh",
   message: "Rp./kWh",
 });
-export const RP_PER_KM = t({
+export const RP_PER_KM = defineMessage({
   id: "sunshine.metric-unit.rp-km",
   message: "Rp./km",
 });
-const CHF_PER_KM = t({
+const CHF_PER_KM = defineMessage({
   id: "sunshine.metric-unit.chf-km",
   message: "CHF/km",
 });
-const CHF_PER_KVA = t({
+const CHF_PER_KVA = defineMessage({
   id: "sunshine.metric-unit.chf-kva",
   message: "CHF/kVA",
 });
-export const MIN_PER_YEAR = t({
+export const MIN_PER_YEAR = defineMessage({
   id: "sunshine.metric-unit.min-year",
   message: "Min./year",
 });
-export const COUNT_PER_YEAR = t({
+export const COUNT_PER_YEAR = defineMessage({
   id: "sunshine.metric-unit.anzahl-year",
   message: "Count/year",
 });
-export const PERCENT = t({
+export const PERCENT = defineMessage({
   id: "sunshine.metric-unit.percent",
   message: "%",
 });
-export const DAYS = t({
+export const DAYS = defineMessage({
   id: "sunshine.metric-unit.days",
   message: "days",
 });
-export const SWISS_FRANCS = t({
+export const SWISS_FRANCS = defineMessage({
   id: "sunshine.metric-unit.swiss-francs",
   message: "CHF",
 });

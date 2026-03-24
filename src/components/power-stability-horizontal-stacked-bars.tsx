@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box, Typography } from "@mui/material";
 import { max } from "d3";
 import { groupBy } from "lodash";
@@ -162,13 +163,15 @@ export const PowerStabilityHorizontalStackedBars = (
   }, [compact, sortedDataWithoutMedian]);
   const rowHeight = 46;
 
+  const { i18n } = useLingui()
+
   return (
     <StackedBarsChart
       data={sortedDataWithoutMedian}
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
-          axisLabel: overallOrRatio === "ratio" ? PERCENT : COUNT_PER_YEAR,
+          axisLabel: overallOrRatio === "ratio" ? i18n._(PERCENT) : i18n._(COUNT_PER_YEAR),
         },
         domain: xDomain,
         annotation: medianPeerGroupObservation
