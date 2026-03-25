@@ -12,8 +12,8 @@ import {
   ElectricityOrSunshineButtonGroup,
 } from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
-import { MapDownloadImage } from "src/components/map-download-image";
 import { InlineDrawer } from "src/components/drawer";
+import { MapDownloadImage } from "src/components/map-download-image";
 import {
   EnergyPricesMap,
   EnergyPricesMapProps,
