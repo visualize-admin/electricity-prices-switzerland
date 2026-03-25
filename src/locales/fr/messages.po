@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -465,6 +465,7 @@ msgid "home.sunshine-topics.title"
 msgstr "Indicateurs"
 
 #: src/components/detail-page/download-image.tsx
+#: src/components/map-download-image.tsx
 msgid "image.download"
 msgstr "Télécharger comme image"
 
@@ -617,6 +618,27 @@ msgstr "Voir le détail de la qualité de service"
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Afficher tous les indicateurs Sunshine"
 
+#: src/components/map-download-image.tsx
+msgid "map.download.button"
+msgstr "Télécharger"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3"
+msgstr "A3 ({0} × {1} px)"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning"
+msgstr "Peut nécessiter des ressources importantes et prendre plus de temps à produire"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4"
+msgstr "A4 ({0} × {1} px)"
+
+#: src/components/map-download-image.tsx
+#: src/components/map-download-image.tsx
+msgid "map.download.title"
+msgstr "Télécharger l'image"
+
 #: src/components/generic-map.tsx
 msgid "map.error.description"
 msgstr "Malheureusement, les données de la carte n'ont pas pu être chargées."
@@ -644,6 +666,7 @@ msgstr "Aucune donnée"
 
 #: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/map-download-image.tsx
 #: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "Fermer"
