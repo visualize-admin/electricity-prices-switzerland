@@ -15,10 +15,10 @@ interface ScreenshotSizeConfig {
   legendPaddingPercent: number;
 }
 
-const IMAGE_RATIO = 1.2;
+const IMAGE_RATIO = 1.414; // A4 aspect ratio (sqrt(2))
 const CANVAS_RATIO = 1.53;
-const A3_IMAGE_WIDTH = 4000;
-const A3_CANVAS_WIDTH = 1200;
+const A3_IMAGE_WIDTH = 4961;
+const A3_CANVAS_WIDTH = 1490;
 
 export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
   a4: {
