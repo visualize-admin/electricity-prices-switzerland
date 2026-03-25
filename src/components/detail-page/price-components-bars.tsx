@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { extent, groups } from "d3";
 import { uniq } from "lodash";
@@ -191,6 +192,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     product: product[0],
   };
 
+    const { i18n } = useLingui()
+
   return (
     <Card downloadId={DOWNLOAD_ID}>
       <CardHeader
@@ -297,7 +300,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                   fields={{
                     x: {
                       componentIri: "value",
-                      axisLabel: RP_PER_KWH,
+                      axisLabel: i18n._(RP_PER_KWH),
                     },
                     domain: xDomain,
                     y: {

@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { groups } from "d3";
 
@@ -241,6 +242,7 @@ const PriceDistributionHistogram = ({
   product: string[];
 }) => {
   const locale = useLocale();
+  const { i18n } = useLingui()
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -332,7 +334,7 @@ const PriceDistributionHistogram = ({
             data={observations as GenericObservation[]}
             medianValue={medianValue}
             yAxisLabel={getEntityLabelId(entity)}
-            xAxisUnit={RP_PER_KWH}
+            xAxisUnit={i18n._(RP_PER_KWH)}
             fields={{
               x: {
                 componentIri: "value",

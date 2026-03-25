@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box, Typography, useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -222,6 +223,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     yearlyData: _yearlyData,
   } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
+  const { i18n } = useLingui()
 
   const operatorLabel = props.name;
 
@@ -244,7 +246,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: getNetworkLevelMetrics(networkLevel),
+              unit: i18n._(getNetworkLevelMetrics(networkLevel)),
               trend: operatorTrend,
               round: 0,
             },
@@ -259,7 +261,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: getNetworkLevelMetrics(networkLevel),
+              unit: i18n._(getNetworkLevelMetrics(networkLevel)),
               trend: peerGroupMedianTrend,
               round: 0,
             },
@@ -410,6 +412,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
+  const { i18n } = useLingui()
 
   const comparisonCardProps = {
     title: (
@@ -430,7 +433,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_PER_KWH,
+              unit: i18n._(RP_PER_KWH),
               round: 2,
               trend: operatorTrend,
             },
@@ -445,7 +448,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_PER_KWH,
+              unit: i18n._(RP_PER_KWH),
               round: 2,
               trend: peerGroupMedianTrend,
             },
@@ -602,6 +605,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
+  const { i18n } = useLingui()
 
   const comparisonCardProps = {
     title: (
@@ -622,7 +626,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: operatorRate,
-              unit: RP_PER_KWH,
+              unit: i18n._(RP_PER_KWH),
               round: 2,
               trend: operatorTrend,
             },
@@ -637,7 +641,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
             ),
             value: {
               value: peerGroupMedianRate,
-              unit: RP_PER_KWH,
+              unit: i18n._(RP_PER_KWH),
               round: 2,
               trend: peerGroupMedianTrend,
             },

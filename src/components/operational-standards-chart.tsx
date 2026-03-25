@@ -1,4 +1,5 @@
 import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
 import { useMemo } from "react";
@@ -36,6 +37,7 @@ export const ServiceQualityChart = ({
     return chartData;
   }, [data.operatorsNotificationPeriodDays]);
   const median = d3Median(chartData, (d) => d.days);
+  const { i18n } = useLingui()
 
   return (
     <Box position="relative">
@@ -44,12 +46,12 @@ export const ServiceQualityChart = ({
         medianValue={median}
         aspectRatio={0.3}
         groupedBy={5}
-        xAxisLabel={DAYS}
+        xAxisLabel={i18n._(DAYS)}
         yAxisLabel={t({
           id: "sunshine.operational-standards.service-quality.share-of-operators",
           message: "Share of operators",
         })}
-        xAxisUnit={DAYS}
+        xAxisUnit={i18n._(DAYS)}
         yAsPercentage
         fields={{
           x: { componentIri: "days" },
@@ -104,6 +106,7 @@ export const ComplianceChart = ({
   }, [data.operatorsFrancsPerInvoice]);
 
   const median = d3Median(chartData, (d) => d.francsPerInvoice);
+  const { i18n } = useLingui()
   return (
     <Box position="relative">
       <Histogram
@@ -111,12 +114,12 @@ export const ComplianceChart = ({
         medianValue={median}
         aspectRatio={0.3}
         groupedBy={25}
-        xAxisLabel={SWISS_FRANCS}
+        xAxisLabel={i18n._(SWISS_FRANCS)}
         yAxisLabel={t({
           id: "sunshine.operational-standards.compliance.share-of-operators",
           message: "Share of operators",
         })}
-        xAxisUnit={SWISS_FRANCS}
+        xAxisUnit={i18n._(SWISS_FRANCS)}
         yAsPercentage
         fields={{
           x: { componentIri: "francsPerInvoice" },

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
 
@@ -33,7 +34,7 @@ export default meta;
 export const Histogram = () => {
   const medianValue = 20;
   const annotations = [mockData[0], mockData[1], mockData[2]];
-
+  const { i18n } = useLingui()
   return (
     <Box width="100%" maxWidth="800px" m={5}>
       <HistogramComponent
@@ -42,7 +43,7 @@ export const Histogram = () => {
         aspectRatio={0.3}
         xAxisLabel="Price"
         yAxisLabel="Number of municipalities"
-        xAxisUnit={RP_PER_KWH}
+        xAxisUnit={i18n._(RP_PER_KWH)}
         fields={{
           x: {
             componentIri: "value",

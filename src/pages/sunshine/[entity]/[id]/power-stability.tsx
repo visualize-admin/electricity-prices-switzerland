@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { useTheme } from "@mui/material";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -123,6 +124,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
   } = props.powerStability;
 
   const operatorLabel = props.name;
+  const { i18n } = useLingui()
 
   const comparisonCardProps = {
     title: (
@@ -138,7 +140,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         label: <Trans id="sunshine.power-stability.saidi.total">Total</Trans>,
         value: {
           value: saidi.operatorTotal,
-          unit: MIN_PER_YEAR,
+          unit: i18n._(MIN_PER_YEAR),
           trend: saidi.trendTotal,
           round: 2,
         },
@@ -149,7 +151,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saidi.operatorUnplanned,
-          unit: MIN_PER_YEAR,
+          unit: i18n._(MIN_PER_YEAR),
           trend: saidi.trendUnplanned,
           round: 2,
         },
@@ -162,7 +164,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saidi.peerGroupMedianTotal,
-          unit: MIN_PER_YEAR,
+          unit: i18n._(MIN_PER_YEAR),
           round: 2,
           trend: saidi.peerGroupMedianTrendTotal,
         },
@@ -175,7 +177,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saidi.peerGroupMedianUnplanned,
-          unit: MIN_PER_YEAR,
+          unit: i18n._(MIN_PER_YEAR),
           round: 2,
           trend: saidi.peerGroupMedianTrendUnplanned,
         },
@@ -240,6 +242,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
   } = props.powerStability;
 
   const operatorLabel = props.name;
+  const { i18n } = useLingui()
 
   const comparisonCardProps = {
     title: (
@@ -255,7 +258,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         label: <Trans id="sunshine.power-stability.saifi.total">Total</Trans>,
         value: {
           value: saifi.operatorTotal,
-          unit: COUNT_PER_YEAR,
+          unit: i18n._(COUNT_PER_YEAR),
           round: 2,
           trend: saifi.trendTotal,
         },
@@ -266,7 +269,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saifi.operatorUnplanned,
-          unit: COUNT_PER_YEAR,
+          unit: i18n._(COUNT_PER_YEAR),
           round: 2,
           trend: saifi.trendUnplanned,
         },
@@ -279,7 +282,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saifi.peerGroupMedianTotal,
-          unit: COUNT_PER_YEAR,
+          unit: i18n._(COUNT_PER_YEAR),
           round: 2,
           trend: saifi.peerGroupMedianTrendTotal,
         },
@@ -292,7 +295,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
         ),
         value: {
           value: saifi.peerGroupMedianUnplanned,
-          unit: COUNT_PER_YEAR,
+          unit: i18n._(COUNT_PER_YEAR),
           round: 2,
           trend: saifi.peerGroupMedianTrendUnplanned,
         },

@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { memo } from "react";
 
@@ -229,6 +230,8 @@ const PriceEvolutionLineChart = (props: {
   const hasMultipleLines =
     new Set(withUniqueEntityId.map((obs) => obs.uniqueId)).size > 1;
 
+  const { i18n } = useLingui()
+
   return (
     <Box>
       <Box fontSize="1rem" fontWeight="bold">
@@ -242,7 +245,7 @@ const PriceEvolutionLineChart = (props: {
           },
           y: {
             componentIri: pc,
-            axisLabel: RP_PER_KWH,
+            axisLabel: i18n._(RP_PER_KWH),
           },
           segment: hasMultipleLines
             ? {

@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react";
 import { TableBody, TableCell, TableRow, Typography } from "@mui/material";
 
 import ComparisonTable from "src/components/comparison-table";
@@ -9,6 +10,7 @@ export const Example = () => {
   const operatorLabel = "Operator XYZ";
   const operatorRate = 1500;
   const peerGroupMedianRate = 1200;
+  const { i18n } = useLingui()
   return (
     <ComparisonTable size="small">
       <TableBody>
@@ -21,7 +23,7 @@ export const Example = () => {
           <TableCell>
             <UnitValueWithTrend
               value={operatorRate}
-              unit={RP_PER_KM}
+              unit={i18n._(RP_PER_KM)}
               trend={Trend.Down}
             />
           </TableCell>
@@ -35,7 +37,7 @@ export const Example = () => {
           <TableCell>
             <UnitValueWithTrend
               value={peerGroupMedianRate}
-              unit={RP_PER_KM}
+              unit={i18n._(RP_PER_KM)}
               trend={Trend.Stable}
             />
           </TableCell>
