@@ -624,7 +624,11 @@ msgstr "Télécharger"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3 ({0} × {1} px)"
+msgstr "A3"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.info"
+msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
@@ -636,7 +640,11 @@ msgstr "Indisponible sur mobile, veuillez utiliser un navigateur de bureau"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4 ({0} × {1} px)"
+msgstr "A4"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4.info"
+msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx

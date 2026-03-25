@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -38,50 +39,62 @@ const MapDownloadContent = ({
     <RadioGroup
       value={paperSize}
       onChange={(_, value) => onPaperSizeChange(value as PaperSize)}
+      sx={{ py: 2 }}
     >
       <FormControlLabel
         value="a4"
-        control={<Radio size="small" />}
+        control={<Radio size="small" sx={{ mt: -2 }} />}
+        sx={{ alignItems: "flex-start", mb: 1 }}
         label={
-          <Typography variant="body3">
-            {t({
-              id: "map.download.paper-size.a4",
-              message: `A4 (${SCREENSHOT_SIZES.a4.image.width} × ${SCREENSHOT_SIZES.a4.image.height} px)`,
-            })}
+          <Typography variant="body3" display="flex" alignItems="center" gap={1}>
+            {t({ id: "map.download.paper-size.a4", message: "A4" })}
+            <Tooltip
+              title={t({
+                id: "map.download.paper-size.a4.info",
+                message: `${SCREENSHOT_SIZES.a4.image.width} × ${SCREENSHOT_SIZES.a4.image.height} px, 300dpi`,
+              })}
+            >
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <Icon name="infocircle" size={16} />
+              </span>
+            </Tooltip>
           </Typography>
         }
       />
       <FormControlLabel
         value="a3"
         disabled={isMobile}
-        control={<Radio size="small" />}
+        sx={{ alignItems: "flex-start", mb: 1 }}
+        control={<Radio size="small" sx={{ mt: -2 }} />}
         label={
-          <Typography variant="body3">
-            {t({
-              id: "map.download.paper-size.a3",
-              message: `A3 (${SCREENSHOT_SIZES.a3.image.width} × ${SCREENSHOT_SIZES.a3.image.height} px)`,
-            })}
-          </Typography>
+          <div>
+            <Typography variant="body3" display="flex" alignItems="center" gap={1}>
+              {t({ id: "map.download.paper-size.a3", message: "A3" })}
+              <Tooltip
+                title={t({
+                  id: "map.download.paper-size.a3.info",
+                  message: `${SCREENSHOT_SIZES.a3.image.width} × ${SCREENSHOT_SIZES.a3.image.height} px, 300dpi`,
+                })}
+              >
+                <span style={{ display: "flex", alignItems: "center" }}>
+                  <Icon name="infocircle" size={16} />
+                </span>
+              </Tooltip>
+            </Typography>
+            <Typography variant="caption" color="text.secondary" display="block">
+              {isMobile ? (
+                <Trans id="map.download.paper-size.a3.warning.mobile">
+                  Unavailable on mobile, please use a desktop browser
+                </Trans>
+              ) : (
+                <Trans id="map.download.paper-size.a3.warning">
+                  May be resource intensive and take longer to generate
+                </Trans>
+              )}
+            </Typography>
+          </div>
         }
       />
-      <Typography
-        variant="caption"
-        color="text.secondary"
-        ml={7}
-        mt={-2}
-        mb={1}
-        display="block"
-      >
-        {isMobile ? (
-          <Trans id="map.download.paper-size.a3.warning.mobile">
-            Unavailable on mobile, please use a desktop browser
-          </Trans>
-        ) : (
-          <Trans id="map.download.paper-size.a3.warning">
-            May be resource intensive and take longer to generate
-          </Trans>
-        )}
-      </Typography>
     </RadioGroup>
     <Button
       variant="contained"

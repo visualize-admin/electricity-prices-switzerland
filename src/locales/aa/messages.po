@@ -624,6 +624,10 @@ msgid "map.download.paper-size.a3"
 msgstr "map.download.paper-size.a3"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.info"
+msgstr "map.download.paper-size.a3.info"
+
+#: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
 msgstr "map.download.paper-size.a3.warning"
 
@@ -634,6 +638,10 @@ msgstr "map.download.paper-size.a3.warning.mobile"
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
 msgstr "map.download.paper-size.a4"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4.info"
+msgstr "map.download.paper-size.a4.info"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
