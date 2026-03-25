@@ -15,7 +15,7 @@ import {
   HighlightContext,
   HighlightValue,
 } from "src/components/highlight-context";
-import { HoverState } from "src/components/map-helpers";
+import { HoverState, MapRenderMode } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
   makeEnergyPricesOverlayLayer,
@@ -135,100 +135,100 @@ export const EnergyPricesMap = ({
     [featureIndexes]
   );
 
-  const layers = useMemo(() => {
-    if (geoData.state !== "loaded") {
-      return [];
-    }
-
-    const handleMunicipalityLayerClick = (
-      info: PickingInfo,
-      ev: { srcEvent: Event }
-    ) => {
-      if (!featureIndexes || !info.layer) {
-        return;
-      }
-      const id = info.object.id as number;
-      const type =
-        info.layer.id === "municipalities" ? "municipality" : "canton";
-      if (
-        type === "municipality" &&
-        !enrichedData?.observationsByMunicipality.get(`${id}`)
-      ) {
-        return;
+  const makeLayers = useCallback(
+    (renderMode: MapRenderMode) => {
+      if (geoData.state !== "loaded") {
+        return [];
       }
 
-      setEntity("municipality");
-      onEntitySelect(ev.srcEvent as MouseEvent, "municipality", id.toString());
-    };
+      const handleMunicipalityLayerClick = (
+        info: PickingInfo,
+        ev: { srcEvent: Event }
+      ) => {
+        if (!featureIndexes || !info.layer) return;
+        const id = info.object.id as number;
+        const type =
+          info.layer.id === "municipalities" ? "municipality" : "canton";
+        if (
+          type === "municipality" &&
+          !enrichedData?.observationsByMunicipality.get(`${id}`)
+        ) {
+          return;
+        }
+        setEntity("municipality");
+        onEntitySelect(
+          ev.srcEvent as MouseEvent,
+          "municipality",
+          id.toString()
+        );
+      };
 
-    const handleHover = ({ x, y, object }: PickingInfo) => {
-      const id = object?.id?.toString();
-      setHovered(
-        object && id
-          ? {
-              x,
-              y,
-              id,
-              type: "municipality",
-            }
-          : undefined
-      );
-    };
+      const handleHover = ({ x, y, object }: PickingInfo) => {
+        const id = object?.id?.toString();
+        setHovered(
+          object && id ? { x, y, id, type: "municipality" } : undefined
+        );
+      };
 
-    return [
-      enrichedData
-        ? makeMunicipalityLayer({
-            data: geoData.data.municipalities,
-            observationsByMunicipalityId:
-              enrichedData.observationsByMunicipality,
-            colorScale,
-            highlightId:
-            highlightContext?.entity === "municipality"
-              ? highlightContext.id
-              : undefined,
-            onHover: handleHover,
-            onClick: handleMunicipalityLayerClick,
-            layerId: "municipalities-base",
-            mode: "base",
-          })
-        : null,
-      makeMunicipalityLayer({
-        data: geoData.data.municipalityMesh,
-        layerId: "municipality-mesh",
-        mode: "mesh",
-      }),
-      makeLakesLayer({
-        data: geoData.data.lakes,
-      }),
-      makeCantonsLayer({
-        data: geoData.data.cantonMesh,
-      }),
-      makeEnergyPricesOverlayLayer({
-        data: geoData.data.cantons,
-        hovered,
-        activeId: activeId ?? undefined,
-        type: "canton",
-      }),
-      makeEnergyPricesOverlayLayer({
-        data: geoData.data.municipalities,
-        hovered,
-        activeId: activeId ?? undefined,
-        type: "municipality",
-      }),
-    ];
-  }, [
-    geoData.state,
-    geoData.data,
-    enrichedData,
-    colorScale,
-    highlightContext?.entity,
-    highlightContext?.id,
-    hovered,
-    activeId,
-    featureIndexes,
-    setEntity,
-    onEntitySelect
-  ]);
+      return [
+        enrichedData
+          ? makeMunicipalityLayer({
+              data: geoData.data.municipalities,
+              observationsByMunicipalityId:
+                enrichedData.observationsByMunicipality,
+              colorScale,
+              highlightId:
+                highlightContext?.entity === "municipality"
+                  ? highlightContext.id
+                  : undefined,
+              onHover: handleHover,
+              onClick: handleMunicipalityLayerClick,
+              layerId: "municipalities-base",
+              mode: "base",
+              renderMode,
+            })
+          : null,
+        makeMunicipalityLayer({
+          data: geoData.data.municipalityMesh,
+          layerId: "municipality-mesh",
+          mode: "mesh",
+          renderMode,
+        }),
+        makeLakesLayer({ data: geoData.data.lakes, renderMode }),
+        makeCantonsLayer({ data: geoData.data.cantonMesh, renderMode }),
+        makeEnergyPricesOverlayLayer({
+          data: geoData.data.cantons,
+          hovered,
+          activeId: activeId ?? undefined,
+          type: "canton",
+          renderMode,
+        }),
+        makeEnergyPricesOverlayLayer({
+          data: geoData.data.municipalities,
+          hovered,
+          activeId: activeId ?? undefined,
+          type: "municipality",
+          renderMode,
+        }),
+      ];
+    },
+    [
+      geoData.state,
+      geoData.data,
+      enrichedData,
+      colorScale,
+      highlightContext?.entity,
+      highlightContext?.id,
+      hovered,
+      activeId,
+      featureIndexes,
+      setEntity,
+      onEntitySelect,
+    ]
+  );
+
+  const layers = useMemo(() => makeLayers("screen"), [makeLayers]);
+  const screenshotLayers = useMemo(() => makeLayers("print"), [makeLayers]);
 
   const formatCurrency = useFormatCurrency();
 
@@ -295,6 +295,7 @@ export const EnergyPricesMap = ({
   return (
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
+      screenshotLayers={(screenshotLayers as unknown as Layer[]) || []}
       isLoading={geoData.state === "fetching" || fetching}
       hasNoData={!enrichedData?.observations.length}
       error={combineErrors(

@@ -159,6 +159,7 @@ export type GenericMapControls = React.RefObject<{
  */
 export const GenericMap = ({
   layers,
+  screenshotLayers,
   isLoading = false,
   hasNoData = false,
   error = undefined,
@@ -176,6 +177,8 @@ export const GenericMap = ({
   paperSize = DEFAULT_PAPER_SIZE,
 }: {
   layers: Layer[];
+  /** Layers to use for the offscreen screenshot canvas (print-mode styles). */
+  screenshotLayers?: Layer[];
   isLoading?: boolean;
   hasNoData?: boolean;
   error?: { message: string };
@@ -402,16 +405,7 @@ export const GenericMap = ({
         },
       };
     }
-  }, [
-    controls,
-    downloadId,
-    featureMatchesId,
-    initialBBox,
-    layers,
-    legendId,
-    mapZoomPadding,
-    viewState,
-  ]);
+  }, [controls, downloadId, featureMatchesId, initialBBox, layers, legendId, mapZoomPadding, paperSize, viewState]);
 
   const [scrollZoom, setScrollZoom] = useState(false);
   const [displayScrollZoom, setDisplayScrollZoom] = useState(false);
@@ -587,7 +581,7 @@ export const GenericMap = ({
         )}
       </Box>
 
-      {true ? (
+      {screenshotting ? (
         <Box
           position="fixed"
           top={-99999}
@@ -601,14 +595,13 @@ export const GenericMap = ({
             viewState={constrainZoom(
               {
                 ...viewState,
-                zoom: 5,
                 width: SCREENSHOT_SIZES[paperSize].canvas.width * 2,
                 height: SCREENSHOT_SIZES[paperSize].canvas.height * 2,
               },
               initialBBox,
               { padding: mapZoomPadding }
             )}
-            layers={layers?.map((l) => l?.clone({}))}
+            layers={(screenshotLayers ?? layers)?.map((l) => l?.clone({}))}
             onAfterRender={handleScreenshotRender}
           />
         </Box>

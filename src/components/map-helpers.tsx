@@ -171,81 +171,96 @@ type Color = [number, number, number, number];
 
 const LINE_COLOR: Color = [255, 255, 255, 255];
 
+export type MapRenderMode = "screen" | "print";
+
+/**
+ * Scale factor applied to pixel-based line widths in print mode to compensate
+ * for the canvas-to-image upscaling performed during screenshot composition.
+ * Approximates image.width / canvas.width (≈ 4000 / 1200 ≈ 3.33).
+ */
+const PRINT_PIXEL_SCALE = 3;
+
 // Define style tokens for map layers
-export const styles = {
-  municipalities: {
-    base: {
-      fillColor: {
-        doesNotExist: [0, 0, 0, 0] as Color,
-        withoutData: [221, 225, 227, 255] as Color,
+export const getStyles = (mode: MapRenderMode = "screen") => {
+  const s = mode === "print" ? PRINT_PIXEL_SCALE : 1;
+  return {
+    municipalities: {
+      base: {
+        fillColor: {
+          doesNotExist: [0, 0, 0, 0] as Color,
+          withoutData: [221, 225, 227, 255] as Color,
+        },
       },
-    },
-  },
-  overlay: {
-    default: {
-      fillColor: [0, 0, 0, 0] as Color,
-      lineColor: [0, 0, 0, 0] as Color,
-      lineWidth: 0,
-    },
-    active: {
-      fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
-      lineColor: [31, 41, 55, 255] as Color,
-      lineWidth: 3,
-    },
-    inactive: {
-      fillColor: [255, 255, 255, 102] as Color,
-      lineColor: [0, 0, 0, 0],
-      lineWidth: 0,
-    },
-  },
-  municipalityMesh: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  lakes: {
-    fillColor: [226, 241, 255, 255] as Color,
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  cantons: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 1.2,
-    lineWidthMaxPixels: 3.6,
-    lineWidth: 200,
-  },
-  operators: {
-    base: {
-      lineColor: LINE_COLOR,
-      lineWidthMinPixels: 0.5,
-      lineWidthMaxPixels: 1,
-      transitions: {
-        duration: 300,
-        easing: "easeExpIn" as const,
-      },
-      fillColor: {
-        doesNotExist: [0, 0, 0, 0] as Color,
-        withoutData: [221, 225, 227, 255] as Color,
-      },
-    },
-    pickable: {
-      fillColor: [255, 255, 255, 0] as Color, // Transparent
-      highlightColor: [0, 0, 0, 50] as Color,
     },
     overlay: {
-      active: {
+      default: {
         fillColor: [0, 0, 0, 0] as Color,
+        lineColor: [0, 0, 0, 0] as Color,
+        lineWidth: 0,
+      },
+      active: {
+        fillColor: [0, 0, 0, 50] as Color,
         lineColor: [31, 41, 55, 255] as Color,
-        lineWidth: 3,
+        lineWidth: 3 * s, // pixel units
       },
       inactive: {
         fillColor: [255, 255, 255, 102] as Color,
         lineColor: [0, 0, 0, 0] as Color,
-        lineWidth: 2,
+        lineWidth: 0,
       },
     },
-  },
+    municipalityMesh: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5 * s,
+      lineWidthMaxPixels: 1 * s,
+      lineWidth: 100, // meters, not scaled
+    },
+    lakes: {
+      fillColor: [226, 241, 255, 255] as Color,
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5 * s,
+      lineWidthMaxPixels: 1 * s,
+      lineWidth: 100, // meters, not scaled
+    },
+    cantons: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 1.2 * s,
+      lineWidthMaxPixels: 3.6 * s,
+      lineWidth: 200, // meters, not scaled
+    },
+    operators: {
+      base: {
+        lineColor: LINE_COLOR,
+        lineWidthMinPixels: 0.5 * s,
+        lineWidthMaxPixels: 1 * s,
+        transitions: {
+          duration: 300,
+          easing: "easeExpIn" as const,
+        },
+        fillColor: {
+          doesNotExist: [0, 0, 0, 0] as Color,
+          withoutData: [221, 225, 227, 255] as Color,
+        },
+      },
+      pickable: {
+        fillColor: [255, 255, 255, 0] as Color, // Transparent
+        highlightColor: [0, 0, 0, 50] as Color,
+      },
+      overlay: {
+        active: {
+          fillColor: [0, 0, 0, 0] as Color,
+          lineColor: [31, 41, 55, 255] as Color,
+          lineWidth: 3 * s, // pixel units
+        },
+        inactive: {
+          fillColor: [255, 255, 255, 102] as Color,
+          lineColor: [0, 0, 0, 0] as Color,
+          lineWidth: 2 * s, // pixel units
+        },
+      },
+    },
+  };
 };
+
+/** Convenience alias for screen-mode styles (backward-compatible). */
+export const styles = getStyles("screen");
