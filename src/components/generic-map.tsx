@@ -57,7 +57,6 @@ import {
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
-import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
 const useStyles = makeStyles()((theme) => ({
@@ -298,6 +297,27 @@ export const GenericMap = ({
   );
 
   const deckRef = useRef<DeckGLRef>(null);
+  const screenshotDeckRef = useRef<DeckGLRef>(null);
+  const screenshotResolveRef = useRef<(() => void) | null>(null);
+
+  const handleScreenshotRender = useCallback(() => {
+    const resolve = screenshotResolveRef.current;
+    if (!resolve) return;
+
+    const deck = screenshotDeckRef.current?.deck;
+    if (!deck) return;
+
+    // Poll until all layers have finished loading their data
+    const allLoaded =
+      (deck.props.layers as Layer[] | undefined)?.every(
+        (layer) => !layer || layer.isLoaded
+      ) ?? true;
+
+    if (allLoaded) {
+      screenshotResolveRef.current = null;
+      resolve();
+    }
+  }, []);
 
   // Set up controls interface if provided
   useEffect(() => {
@@ -306,9 +326,12 @@ export const GenericMap = ({
         getImageData: async () => {
           setScreenshotting(true);
           try {
-            await frame();
-            await sleep(1000);
-            const ref = deckRef.current;
+            // Wait for the offscreen DeckGL to finish rendering
+            await new Promise<void>((resolve) => {
+              screenshotResolveRef.current = resolve;
+            });
+
+            const ref = screenshotDeckRef.current;
             if (!ref) return;
 
             const deck = ref.deck;
@@ -322,6 +345,7 @@ export const GenericMap = ({
             return getMapImageData(deck, legendElement || undefined, paperSize);
           } finally {
             setScreenshotting(false);
+            screenshotResolveRef.current = null;
           }
         },
         zoomOn: (id: string) => {
@@ -563,31 +587,29 @@ export const GenericMap = ({
         )}
       </Box>
 
-      {screenshotting ? (
+      {true ? (
         <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width={1120}
-          height={730}
-          sx={{
-            opacity: 0,
-          }}
+          position="fixed"
+          top={-99999}
+          left={-99999}
+          width={SCREENSHOT_SIZES[paperSize].canvas.width * 2}
+          height={SCREENSHOT_SIZES[paperSize].canvas.height * 2}
         >
           <DeckGL
-            ref={deckRef}
-            controller={{ type: MapController }}
+            ref={screenshotDeckRef}
+            controller={false}
             viewState={constrainZoom(
               {
                 ...viewState,
                 zoom: 5,
-                width: SCREENSHOT_SIZES[paperSize].canvas.width,
-                height: SCREENSHOT_SIZES[paperSize].canvas.height,
+                width: SCREENSHOT_SIZES[paperSize].canvas.width * 2,
+                height: SCREENSHOT_SIZES[paperSize].canvas.height * 2,
               },
               initialBBox,
               { padding: mapZoomPadding }
             )}
             layers={layers?.map((l) => l?.clone({}))}
+            onAfterRender={handleScreenshotRender}
           />
         </Box>
       ) : null}
