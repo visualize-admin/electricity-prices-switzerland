@@ -30,7 +30,7 @@ export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
       width: Math.round(A3_CANVAS_WIDTH / Math.SQRT2),
       height: Math.round(A3_CANVAS_WIDTH / Math.SQRT2 / CANVAS_RATIO),
     },
-    legendScale: 4 / Math.SQRT2,
+    legendScale: 2 / Math.SQRT2,
     legendPaddingPercent: 0.6,
   },
   a3: {
@@ -42,7 +42,7 @@ export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
       width: A3_CANVAS_WIDTH,
       height: Math.round(A3_CANVAS_WIDTH / CANVAS_RATIO),
     },
-    legendScale: 4,
+    legendScale: 2,
     legendPaddingPercent: 0.6,
   },
 };
@@ -78,8 +78,8 @@ export const getMapImageData = async (
   };
 
   const imageSize = {
-    width: sizeConfig.image.width * 2,
-    height: sizeConfig.image.height * 2,
+    width: sizeConfig.image.width,
+    height: sizeConfig.image.height,
   };
   const canvasSize = {
     width: sizeConfig.canvas.width * 2,
