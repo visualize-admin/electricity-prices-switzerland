@@ -628,6 +628,10 @@ msgid "map.download.paper-size.a3.warning"
 msgstr "map.download.paper-size.a3.warning"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "map.download.paper-size.a3.warning.mobile"
+
+#: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
 msgstr "map.download.paper-size.a4"
 

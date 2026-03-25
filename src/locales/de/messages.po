@@ -628,6 +628,10 @@ msgid "map.download.paper-size.a3.warning"
 msgstr "Kann ressourcenintensiv sein und länger dauern"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "Auf dem Handy nicht verfügbar, bitte verwenden Sie einen Desktop-Browser"
+
+#: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
 msgstr "A4 ({0} × {1} px)"
 

@@ -2,6 +2,8 @@
 
 Users can download the map as a PNG via the **Download image** button, choosing between A4 and A3 paper sizes.
 
+⚠️ The A3 choice is disabled on mobile as it is too resource intensive, the tab would reload.
+
 ## Key files
 
 | File | Role |

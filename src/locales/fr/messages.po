@@ -631,6 +631,10 @@ msgid "map.download.paper-size.a3.warning"
 msgstr "Peut nécessiter des ressources importantes et prendre plus de temps à produire"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "Indisponible sur mobile, veuillez utiliser un navigateur de bureau"
+
+#: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
 msgstr "A4 ({0} × {1} px)"
 

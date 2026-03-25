@@ -26,11 +26,13 @@ const MapDownloadContent = ({
   onPaperSizeChange,
   onDownload,
   downloading,
+  isMobile,
 }: {
   paperSize: PaperSize;
   onPaperSizeChange: (size: PaperSize) => void;
   onDownload: () => void;
   downloading: boolean;
+  isMobile: boolean;
 }) => (
   <>
     <RadioGroup
@@ -51,6 +53,7 @@ const MapDownloadContent = ({
       />
       <FormControlLabel
         value="a3"
+        disabled={isMobile}
         control={<Radio size="small" />}
         label={
           <Typography variant="body3">
@@ -69,9 +72,15 @@ const MapDownloadContent = ({
         mb={1}
         display="block"
       >
-        <Trans id="map.download.paper-size.a3.warning">
-          May be resource intensive and take longer to generate
-        </Trans>
+        {isMobile ? (
+          <Trans id="map.download.paper-size.a3.warning.mobile">
+            Unavailable on mobile, please use a desktop browser
+          </Trans>
+        ) : (
+          <Trans id="map.download.paper-size.a3.warning">
+            May be resource intensive and take longer to generate
+          </Trans>
+        )}
       </Typography>
     </RadioGroup>
     <Button
@@ -140,6 +149,7 @@ export const MapDownloadImage = ({
       onPaperSizeChange={setPaperSize}
       onDownload={handleDownload}
       downloading={downloading}
+      isMobile={isMobile}
     />
   );
 

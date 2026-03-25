@@ -630,6 +630,10 @@ msgid "map.download.paper-size.a3.warning"
 msgstr "Può essere ad alta intensità di risorse e richiedere più tempo per essere generato"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "Non disponibile su mobile, si prega di utilizzare un browser desktop"
+
+#: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
 msgstr "A4 ({0} × {1} px)"
 
