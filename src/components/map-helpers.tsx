@@ -169,7 +169,17 @@ export const CH_BBOX: BBox = [
 
 type Color = [number, number, number, number];
 
-const LINE_COLOR: Color = [255, 255, 255, 255];
+/**
+ * Convert an 8-digit hex color string (#rrggbbaa) to a deck.gl Color tuple.
+ * Uses d3-color for parsing so the source of truth stays as readable hex.
+ */
+const toArray = (hex: string): Color => {
+  const c = color(hex)?.rgb();
+  if (!c) throw new Error(`Invalid color: ${hex}`);
+  return [c.r, c.g, c.b, Math.round(c.opacity * 255)];
+};
+
+const LINE_COLOR = toArray("#ffffffff");
 
 export type MapRenderMode = "screen" | "print";
 
@@ -187,25 +197,25 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
     municipalities: {
       base: {
         fillColor: {
-          doesNotExist: [0, 0, 0, 0] as Color,
-          withoutData: [221, 225, 227, 255] as Color,
+          doesNotExist: toArray("#00000000"),
+          withoutData: toArray("#dde1e3ff"),
         },
       },
     },
     overlay: {
       default: {
-        fillColor: [0, 0, 0, 0] as Color,
-        lineColor: [0, 0, 0, 0] as Color,
+        fillColor: toArray("#00000000"),
+        lineColor: toArray("#00000000"),
         lineWidth: 0,
       },
       active: {
-        fillColor: [0, 0, 0, 50] as Color,
-        lineColor: [31, 41, 55, 255] as Color,
+        fillColor: toArray("#00000032"),
+        lineColor: toArray("#1f2937ff"),
         lineWidth: 3 * s, // pixel units
       },
       inactive: {
-        fillColor: [255, 255, 255, 102] as Color,
-        lineColor: [0, 0, 0, 0] as Color,
+        fillColor: toArray("#ffffff66"),
+        lineColor: toArray("#00000000"),
         lineWidth: 0,
       },
     },
@@ -216,7 +226,7 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
       lineWidth: 100, // meters, not scaled
     },
     lakes: {
-      fillColor: [226, 241, 255, 255] as Color,
+      fillColor: toArray("#e2f1ffff"),
       lineColor: LINE_COLOR,
       lineWidthMinPixels: 0.5 * s,
       lineWidthMaxPixels: 1 * s,
@@ -238,23 +248,23 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
           easing: "easeExpIn" as const,
         },
         fillColor: {
-          doesNotExist: [0, 0, 0, 0] as Color,
-          withoutData: [221, 225, 227, 255] as Color,
+          doesNotExist: toArray("#00000000"),
+          withoutData: toArray("#dde1e3ff"),
         },
       },
       pickable: {
-        fillColor: [255, 255, 255, 0] as Color, // Transparent
-        highlightColor: [0, 0, 0, 50] as Color,
+        fillColor: toArray("#ffffff00"), // Transparent
+        highlightColor: toArray("#00000032"),
       },
       overlay: {
         active: {
-          fillColor: [0, 0, 0, 0] as Color,
-          lineColor: [31, 41, 55, 255] as Color,
+          fillColor: toArray("#00000000"),
+          lineColor: toArray("#1f2937ff"),
           lineWidth: 3 * s, // pixel units
         },
         inactive: {
-          fillColor: [255, 255, 255, 102] as Color,
-          lineColor: [0, 0, 0, 0] as Color,
+          fillColor: toArray("#ffffff66"),
+          lineColor: toArray("#00000000"),
           lineWidth: 2 * s, // pixel units
         },
       },
