@@ -13,7 +13,6 @@ import {
 } from "src/components/combined-selectors";
 import { Combobox } from "src/components/combobox";
 import { InlineDrawer } from "src/components/drawer";
-import { MapDownloadImage } from "src/components/map-download-image";
 import {
   EnergyPricesMap,
   EnergyPricesMapProps,
@@ -28,6 +27,7 @@ import {
   ListItemType,
 } from "src/components/list";
 import { MapProvider, useMap } from "src/components/map-context";
+import { MapDownloadImage } from "src/components/map-download-image";
 import { WidgetIcon } from "src/components/map-widget-icon";
 import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
