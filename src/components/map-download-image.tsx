@@ -124,7 +124,9 @@ export const MapDownloadImage = ({
       if (!imageData) return;
       const a = document.createElement("a");
       a.href = imageData;
-      a.download = fileName;
+      const ext = fileName.includes(".") ? fileName.slice(fileName.lastIndexOf(".")) : "";
+      const base = fileName.includes(".") ? fileName.slice(0, fileName.lastIndexOf(".")) : fileName;
+      a.download = `${base}-${paperSize}${ext}`;
       a.click();
     } finally {
       setDownloading(false);
