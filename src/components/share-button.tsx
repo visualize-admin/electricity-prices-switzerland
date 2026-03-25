@@ -117,6 +117,7 @@ const ShareButton = () => {
           anchorEl={anchorEl}
           open={isOpen}
           onClose={handleClose}
+          transformOrigin={{ vertical: 132, horizontal: "center" }}
           slotProps={{ paper: { sx: { px: 3, py: 2, width: 300 } } }}
         >
           <ShareContent

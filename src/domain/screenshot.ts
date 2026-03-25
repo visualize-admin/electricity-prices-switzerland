@@ -21,18 +21,6 @@ const A3_IMAGE_WIDTH = 4000;
 const A3_CANVAS_WIDTH = 1200;
 
 export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
-  a3: {
-    image: {
-      width: A3_IMAGE_WIDTH,
-      height: Math.round(A3_IMAGE_WIDTH / IMAGE_RATIO),
-    },
-    canvas: {
-      width: A3_CANVAS_WIDTH,
-      height: Math.round(A3_CANVAS_WIDTH / CANVAS_RATIO),
-    },
-    legendScale: 4,
-    legendPaddingPercent: 0.6,
-  },
   a4: {
     image: {
       width: Math.round(A3_IMAGE_WIDTH / Math.SQRT2),
@@ -45,9 +33,21 @@ export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
     legendScale: 4 / Math.SQRT2,
     legendPaddingPercent: 0.6,
   },
+  a3: {
+    image: {
+      width: A3_IMAGE_WIDTH,
+      height: Math.round(A3_IMAGE_WIDTH / IMAGE_RATIO),
+    },
+    canvas: {
+      width: A3_CANVAS_WIDTH,
+      height: Math.round(A3_CANVAS_WIDTH / CANVAS_RATIO),
+    },
+    legendScale: 4,
+    legendPaddingPercent: 0.6,
+  },
 };
 
-export const DEFAULT_PAPER_SIZE: PaperSize = "a3";
+export const DEFAULT_PAPER_SIZE: PaperSize = "a4";
 
 export const SCREENSHOT_CANVAS_SIZE = SCREENSHOT_SIZES[DEFAULT_PAPER_SIZE].canvas;
 

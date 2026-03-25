@@ -38,6 +38,18 @@ const MapDownloadContent = ({
       onChange={(_, value) => onPaperSizeChange(value as PaperSize)}
     >
       <FormControlLabel
+        value="a4"
+        control={<Radio size="small" />}
+        label={
+          <Typography variant="body3">
+            {t({
+              id: "map.download.paper-size.a4",
+              message: `A4 (${SCREENSHOT_SIZES.a4.image.width} × ${SCREENSHOT_SIZES.a4.image.height} px)`,
+            })}
+          </Typography>
+        }
+      />
+      <FormControlLabel
         value="a3"
         control={<Radio size="small" />}
         label={
@@ -61,18 +73,6 @@ const MapDownloadContent = ({
           May be resource intensive and take longer to generate
         </Trans>
       </Typography>
-      <FormControlLabel
-        value="a4"
-        control={<Radio size="small" />}
-        label={
-          <Typography variant="body3">
-            {t({
-              id: "map.download.paper-size.a4",
-              message: `A4 (${SCREENSHOT_SIZES.a4.image.width} × ${SCREENSHOT_SIZES.a4.image.height} px)`,
-            })}
-          </Typography>
-        }
-      />
     </RadioGroup>
     <Button
       variant="contained"
@@ -182,6 +182,7 @@ export const MapDownloadImage = ({
           anchorEl={anchorEl}
           open={isOpen}
           onClose={handleClose}
+          transformOrigin={{ vertical: 240, horizontal: "center" }}
           slotProps={{ paper: { sx: { px: 4, py: 2, width: 300 } } }}
         >
           <Typography variant="h6" mb={2}>
