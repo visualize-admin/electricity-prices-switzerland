@@ -139,7 +139,7 @@ const zoomOut = (state: InitialViewState) => {
 };
 
 export type GenericMapControls = React.RefObject<{
-  getImageData: () => Promise<string | undefined>;
+  getImageData: (paperSize?: PaperSize) => Promise<string | undefined>;
   zoomOn: (id: string) => void;
   zoomOut: () => void;
 } | null>;
@@ -208,6 +208,10 @@ export const GenericMap = ({
     getInitialViewState(isMobile)
   );
   const [screenshotting, setScreenshotting] = useState(false);
+  // Tracks the paper size in use for the current screenshot, so the offscreen
+  // DeckGL can be sized correctly before the async getMapImageData call.
+  const [activePaperSize, setActivePaperSize] = useState<PaperSize>(paperSize);
+  const activePaperSizeRef = useRef<PaperSize>(paperSize);
 
   const highlightContext = useContext(HighlightContext).value;
   const legendId = useId();
@@ -326,7 +330,10 @@ export const GenericMap = ({
   useEffect(() => {
     if (controls) {
       controls.current = {
-        getImageData: async () => {
+        getImageData: async (requestedPaperSize?: PaperSize) => {
+          const effective = requestedPaperSize ?? paperSize;
+          activePaperSizeRef.current = effective;
+          setActivePaperSize(effective);
           setScreenshotting(true);
           try {
             // Wait for the offscreen DeckGL to finish rendering
@@ -345,7 +352,11 @@ export const GenericMap = ({
               ? document.getElementById(legendId)
               : null;
 
-            return getMapImageData(deck, legendElement || undefined, paperSize);
+            return getMapImageData(
+              deck,
+              legendElement || undefined,
+              activePaperSizeRef.current
+            );
           } finally {
             setScreenshotting(false);
             screenshotResolveRef.current = null;
@@ -586,8 +597,8 @@ export const GenericMap = ({
           position="fixed"
           top={-99999}
           left={-99999}
-          width={SCREENSHOT_SIZES[paperSize].canvas.width * 2}
-          height={SCREENSHOT_SIZES[paperSize].canvas.height * 2}
+          width={SCREENSHOT_SIZES[activePaperSize].canvas.width * 2}
+          height={SCREENSHOT_SIZES[activePaperSize].canvas.height * 2}
         >
           <DeckGL
             ref={screenshotDeckRef}
@@ -595,8 +606,8 @@ export const GenericMap = ({
             viewState={constrainZoom(
               {
                 ...viewState,
-                width: SCREENSHOT_SIZES[paperSize].canvas.width * 2,
-                height: SCREENSHOT_SIZES[paperSize].canvas.height * 2,
+                width: SCREENSHOT_SIZES[activePaperSize].canvas.width * 2,
+                height: SCREENSHOT_SIZES[activePaperSize].canvas.height * 2,
               },
               initialBBox,
               { padding: mapZoomPadding }

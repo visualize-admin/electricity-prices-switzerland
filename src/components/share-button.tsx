@@ -1,11 +1,10 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import * as Vaul from "vaul";
 
-import { TooltipBox } from "src/components/charts-generic/interaction/tooltip-box";
+import { TooltipMenu } from "src/components/tooltip-menu";
 import { useDisclosure } from "src/components/use-disclosure";
-import { useOutsideClick } from "src/components/use-outside-click";
 import useVaulStyles from "src/components/use-vaul-styles";
 import { Icon } from "src/icons";
 import { copyToClipboard } from "src/lib/copy-to-clipboard";
@@ -14,13 +13,9 @@ import { useIsMobile } from "src/lib/use-mobile";
 const ShareContent = ({
   hasCopied,
   onCopyClick,
-  onFocus,
-  onBlur,
 }: {
   hasCopied: boolean;
   onCopyClick: () => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
 }) => (
   <>
     <Box
@@ -37,13 +32,8 @@ const ShareContent = ({
       </Typography>
     </Box>
     <TextField
-      onFocus={onFocus}
-      onBlur={onBlur}
       value={window.location.toString()}
-      sx={{
-        minWidth: "100%",
-        mr: 5,
-      }}
+      sx={{ minWidth: "100%", mr: 5 }}
       InputProps={{
         endAdornment: (
           <Button
@@ -60,27 +50,19 @@ const ShareContent = ({
 );
 
 const ShareButton = () => {
-  const { isOpen, open, close } = useDisclosure();
-  const { open: setFocusOn, close: setFocusOff } = useDisclosure();
-  const tooltipBoxRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef<HTMLButtonElement>(null);
-  const [linkRect, setLinkRect] = useState<DOMRect | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const isMobile = useIsMobile();
   const { classes } = useVaulStyles();
 
-  const handleClick = () => {
-    open();
-    if (!isMobile) {
-      setLinkRect(linkRef.current?.getBoundingClientRect() ?? null);
-    }
+  const isOpen = Boolean(anchorEl);
+
+  const handleClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(ev.currentTarget);
   };
 
-  useOutsideClick(tooltipBoxRef, () => {
-    if (!isMobile) {
-      close();
-      setFocusOff();
-    }
-  });
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const { isOpen: hasCopied, setIsOpen: setCopied } = useDisclosure();
   const handleClickCopyButton = async () => {
@@ -93,18 +75,15 @@ const ShareButton = () => {
     <>
       <Button
         variant="text"
-        ref={linkRef}
         onClick={handleClick}
         startIcon={<Icon name="share" size={20} />}
-        sx={{
-          color: "text.primary",
-        }}
+        sx={{ color: "text.primary" }}
       >
         {t({ id: "map.share", message: "Share" })}
       </Button>
 
       {isMobile ? (
-        <Vaul.Root open={isOpen} onOpenChange={(isOpen) => !isOpen && close()}>
+        <Vaul.Root open={isOpen} onOpenChange={(open) => !open && handleClose()}>
           <Vaul.Portal>
             <Vaul.Overlay className={classes.overlay} />
             <Vaul.Content className={classes.content}>
@@ -115,7 +94,7 @@ const ShareButton = () => {
                 </Typography>
                 <Button
                   variant="text"
-                  onClick={close}
+                  onClick={handleClose}
                   color="primary"
                   sx={{ pr: 0 }}
                 >
@@ -134,31 +113,17 @@ const ShareButton = () => {
           </Vaul.Portal>
         </Vaul.Root>
       ) : (
-        <Box position="relative">
-          {isOpen && (
-            <TooltipBox
-              ref={tooltipBoxRef}
-              placement={{ x: "center", y: "top" }}
-              interactive
-              sx={{
-                position: "absolute",
-                bottom: (linkRect?.height ?? 0) + 16,
-                width: "300px",
-                left: -1000,
-                right: -1000,
-                margin: "auto",
-                zIndex: (theme) => theme.zIndex.tooltip,
-              }}
-            >
-              <ShareContent
-                hasCopied={hasCopied}
-                onCopyClick={handleClickCopyButton}
-                onFocus={setFocusOn}
-                onBlur={setFocusOff}
-              />
-            </TooltipBox>
-          )}
-        </Box>
+        <TooltipMenu
+          anchorEl={anchorEl}
+          open={isOpen}
+          onClose={handleClose}
+          slotProps={{ paper: { sx: { px: 3, py: 2, width: 300 } } }}
+        >
+          <ShareContent
+            hasCopied={hasCopied}
+            onCopyClick={handleClickCopyButton}
+          />
+        </TooltipMenu>
       )}
     </>
   );
