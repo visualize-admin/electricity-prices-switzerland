@@ -48,7 +48,12 @@ import {
   MapTooltip,
 } from "src/components/map-tooltip";
 import { WidgetIcon } from "src/components/map-widget-icon";
-import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
+import {
+  DEFAULT_PAPER_SIZE,
+  getMapImageData,
+  PaperSize,
+  SCREENSHOT_SIZES,
+} from "src/domain/screenshot";
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -169,6 +174,7 @@ export const GenericMap = ({
   setHovered,
   featureMatchesId = defaultFeatureMatchesId,
   widgets,
+  paperSize = DEFAULT_PAPER_SIZE,
 }: {
   layers: Layer[];
   isLoading?: boolean;
@@ -191,6 +197,7 @@ export const GenericMap = ({
     left?: React.ReactNode;
     right?: React.ReactNode;
   };
+  paperSize?: PaperSize;
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -312,7 +319,7 @@ export const GenericMap = ({
               ? document.getElementById(legendId)
               : null;
 
-            return getImageData(deck, legendElement || undefined);
+            return getMapImageData(deck, legendElement || undefined, paperSize);
           } finally {
             setScreenshotting(false);
           }
@@ -574,8 +581,8 @@ export const GenericMap = ({
               {
                 ...viewState,
                 zoom: 5,
-                width: SCREENSHOT_CANVAS_SIZE.width,
-                height: SCREENSHOT_CANVAS_SIZE.height,
+                width: SCREENSHOT_SIZES[paperSize].canvas.width,
+                height: SCREENSHOT_SIZES[paperSize].canvas.height,
               },
               initialBBox,
               { padding: mapZoomPadding }
