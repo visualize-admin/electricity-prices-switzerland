@@ -1,4 +1,4 @@
-import { PickingInfo } from "@deck.gl/core/typed";
+import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
 import { extent, mean, ScaleThreshold } from "d3";
@@ -375,7 +375,6 @@ const SunshineMap = ({
   );
 
   const mapLayers = useMemo(() => makeLayers("screen"), [makeLayers]);
-  const screenshotLayers = useMemo(() => makeLayers("print"), [makeLayers]);
 
   const index = useMemo(() => {
     return new Map(
@@ -491,7 +490,7 @@ const SunshineMap = ({
   return (
     <GenericMap
       layers={mapLayers}
-      screenshotLayers={screenshotLayers}
+      makeScreenshotLayers={makeLayers as (mode: MapRenderMode) => Layer[]}
       legend={legend}
       tooltipContent={tooltipContent}
       isLoading={isLoading}

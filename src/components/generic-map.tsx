@@ -41,6 +41,7 @@ import {
   InitialViewState,
   CH_BBOX,
   HoverState,
+  MapRenderMode,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
 import {
@@ -159,7 +160,7 @@ export type GenericMapControls = React.RefObject<{
  */
 export const GenericMap = ({
   layers,
-  screenshotLayers,
+  makeScreenshotLayers,
   isLoading = false,
   hasNoData = false,
   error = undefined,
@@ -177,8 +178,8 @@ export const GenericMap = ({
   paperSize = DEFAULT_PAPER_SIZE,
 }: {
   layers: Layer[];
-  /** Layers to use for the offscreen screenshot canvas (print-mode styles). */
-  screenshotLayers?: Layer[];
+  /** Called with the appropriate print render mode to produce offscreen screenshot layers. */
+  makeScreenshotLayers?: (mode: MapRenderMode) => Layer[];
   isLoading?: boolean;
   hasNoData?: boolean;
   error?: { message: string };
@@ -612,7 +613,11 @@ export const GenericMap = ({
               initialBBox,
               { padding: mapZoomPadding }
             )}
-            layers={(screenshotLayers ?? layers)?.map((l) => l?.clone({}))}
+            layers={(
+              makeScreenshotLayers?.(
+                activePaperSize === "a3" ? "print-a3" : "print-a4"
+              ) ?? layers
+            ).map((l) => l?.clone({}))}
             onAfterRender={handleScreenshotRender}
           />
         </Box>

@@ -181,18 +181,24 @@ const toArray = (hex: string): Color => {
 
 const LINE_COLOR = toArray("#ffffffff");
 
-export type MapRenderMode = "screen" | "print";
+export type MapRenderMode = "screen" | "print-a3" | "print-a4";
 
 /**
- * Scale factor applied to pixel-based line widths in print mode to compensate
+ * Scale factors applied to pixel-based line widths in print modes to compensate
  * for the canvas-to-image upscaling performed during screenshot composition.
- * Approximates image.width / canvas.width (≈ 4000 / 1200 ≈ 3.33).
+ * A3 approximates image.width / canvas.width (≈ 4000 / 1200 ≈ 3.33).
+ * A4 is A3 / √2 because the canvas is smaller by √2, making pixel strokes
+ * proportionally thicker at the same deck.gl pixel value.
  */
-const PRINT_PIXEL_SCALE = 3;
+const PRINT_PIXEL_SCALE: Record<MapRenderMode, number> = {
+  screen: 1,
+  "print-a3": 3,
+  "print-a4": 2,
+};
 
 // Define style tokens for map layers
 export const getStyles = (mode: MapRenderMode = "screen") => {
-  const s = mode === "print" ? PRINT_PIXEL_SCALE : 1;
+  const s = PRINT_PIXEL_SCALE[mode];
   return {
     municipalities: {
       base: {

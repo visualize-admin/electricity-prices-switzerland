@@ -228,7 +228,6 @@ export const EnergyPricesMap = ({
   );
 
   const layers = useMemo(() => makeLayers("screen"), [makeLayers]);
-  const screenshotLayers = useMemo(() => makeLayers("print"), [makeLayers]);
 
   const formatCurrency = useFormatCurrency();
 
@@ -295,7 +294,7 @@ export const EnergyPricesMap = ({
   return (
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
-      screenshotLayers={(screenshotLayers as unknown as Layer[]) || []}
+      makeScreenshotLayers={makeLayers as (mode: MapRenderMode) => Layer[]}
       isLoading={geoData.state === "fetching" || fetching}
       hasNoData={!enrichedData?.observations.length}
       error={combineErrors(
