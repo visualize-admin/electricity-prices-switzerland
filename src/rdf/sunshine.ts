@@ -792,26 +792,26 @@ const getYearlyIndicatorMedians = async <
         const valueKey = `gridcost_${networkLevel?.toLowerCase()}`;
         return {
           network_level: networkLevel,
-          median_value: parseFloatOrNull(result[valueKey] || "0"),
+          median_value: parseFloatOrNull(result[valueKey] || undefined),
         } as PeerGroupRecord<Metric>;
       }
 
       case "stability":
         return {
-          median_saidi_total: parseFloatOrNull(result.saidi_total || "0"),
+          median_saidi_total: parseFloatOrNull(result.saidi_total || undefined),
           median_saidi_unplanned: parseFloatOrNull(
-            result.saidi_unplanned || "0"
+            result.saidi_unplanned || undefined
           ),
-          median_saifi_total: parseFloatOrNull(result.saifi_total || "0"),
+          median_saifi_total: parseFloatOrNull(result.saifi_total || undefined),
           median_saifi_unplanned: parseFloatOrNull(
-            result.saifi_unplanned || "0"
+            result.saifi_unplanned || undefined
           ),
         } as PeerGroupRecord<Metric>;
 
       case "operational":
         return {
-          median_franc_rule: parseFloatOrNull(result.franken_regel || "0"),
-          median_info_days: parseInt(result.days_in_advance || "0", 10),
+          median_franc_rule: parseFloatOrNull(result.franken_regel || undefined),
+          median_info_days: parseFloatOrNull(result.days_in_advance || undefined),
           median_timely: result.in_time === "true" ? 1 : 0,
         } as PeerGroupRecord<Metric>;
 
@@ -820,7 +820,7 @@ const getYearlyIndicatorMedians = async <
         return {
           category,
           tariff_type: "energy",
-          median_rate: parseFloatOrNull(result.energy || "0"),
+          median_rate: parseFloatOrNull(result.energy || undefined),
         } as unknown as PeerGroupRecord<Metric>;
       }
 
@@ -829,7 +829,7 @@ const getYearlyIndicatorMedians = async <
         return {
           category,
           tariff_type: "network",
-          median_rate: parseFloatOrNull(result.gridusage || "0"),
+          median_rate: parseFloatOrNull(result.gridusage || undefined),
         } as unknown as PeerGroupRecord<Metric>;
       }
 

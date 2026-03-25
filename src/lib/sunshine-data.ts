@@ -508,10 +508,10 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
 
     const peerGroupMedianTotal = peerGroupMedianStability
       ? peerGroupMedianStability[medianTotalKey]
-      : 0;
+      : null;
     const peerGroupMedianUnplanned = peerGroupMedianStability
       ? peerGroupMedianStability[medianUnplannedKey]
-      : 0;
+      : null;
 
     const operatorStabilityRecord = operatorStability?.[0];
     const previousOperatorStabilityRecord = previousOperatorStability?.[0];

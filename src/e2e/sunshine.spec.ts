@@ -450,3 +450,103 @@ test.describe("Operational Standards page", () => {
     await expect(complianceRow).toBeVisible();
   });
 });
+
+test.describe("NULL peer group medians display as «–» not «0»", () => {
+  // Operator 817 belongs to a peer group that has no SAIDI/SAIFI data,
+  // so its peer group medians are NULL and must render as «–» not «0».
+  const OPERATOR_ID = "817";
+
+  test("SAIDI peer group medians show «–» when there is no data", async ({
+    page,
+  }) => {
+    const resp = await page.goto(
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability`
+    );
+    await expect(resp?.status()).toEqual(200);
+    await page.waitForLoadState("networkidle");
+
+    // The SAIDI tab is active by default.
+    // Find rows whose label contains "Peer Group Median" and assert the value
+    // cell shows «–» (en-dash), not a numeric value like «0».
+    const rows = page
+      .getByRole("row")
+      .filter({ hasText: /Peer Group Median/i });
+
+    // Ensure the loop is non-vacuous: there must be exactly 2 peer group rows
+    // (Total and Unplanned) for this operator.
+    await expect(rows).toHaveCount(2);
+
+    for (const row of await rows.all()) {
+      const valueCell = row.getByRole("cell").last();
+      const text = await valueCell.textContent();
+      // Must not be a bare «0» or formatted zero like «0.00 min/year»
+      expect(text?.trim()).not.toMatch(/^0/);
+      // Must show the no-data dash
+      expect(text?.trim()).toBe("–");
+    }
+  });
+
+  test("SAIFI peer group medians show «–» when there is no data", async ({
+    page,
+  }) => {
+    const resp = await page.goto(
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability?tabDetails=saifi`
+    );
+    await expect(resp?.status()).toEqual(200);
+    await page.waitForLoadState("networkidle");
+
+    const rows = page
+      .getByRole("row")
+      .filter({ hasText: /Peer Group Median/i });
+
+    // Ensure the loop is non-vacuous: there must be exactly 2 peer group rows.
+    await expect(rows).toHaveCount(2);
+
+    for (const row of await rows.all()) {
+      const valueCell = row.getByRole("cell").last();
+      const text = await valueCell.textContent();
+      expect(text?.trim()).not.toMatch(/^0/);
+      expect(text?.trim()).toBe("–");
+    }
+  });
+});
+
+test.describe("Sunshine legend stays stable when peer group changes", () => {
+  test("legend min/max do not change when a comparison group is selected", async ({
+    page,
+    setFlags,
+  }) => {
+    test.slow();
+    // Use webglDeactivated so the map renders in a testable DOM mode.
+    // flag__sunshine=true enables the sunshine tab in the UI.
+    await setFlags(page, ["webglDeactivated"]);
+    const tracker = new InflightRequests(page);
+
+    // Use the default indicator (networkCosts), peerGroup (all_grid_operators),
+    // and default period (CURRENT_PERIOD).
+    await page.goto("/en/map?tab=sunshine");
+    await tracker.waitForRequests();
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+
+    // The legend only renders once data and median are available.
+    // Use a generous timeout since data fetching + rendering takes time.
+    const legend = page.getByTestId("map-legend").nth(1);
+    await legend.waitFor({ state: "visible", timeout: 20_000 });
+    const legendTextBefore = await legend.textContent();
+
+    // Apply a peer group filter
+    await page.getByRole("combobox", { name: "Peer group" }).click();
+    await page
+      .getByRole("option", { name: "Tourist area and low energy density" })
+      .click();
+    await tracker.waitForRequests();
+    await page.getByTestId("loading").waitFor({ state: "detached" });
+    await legend.waitFor({ state: "visible", timeout: 15_000 });
+
+    const legendTextAfter = await legend.textContent();
+
+    // The legend text (min, median, max ticks) must be identical after filtering —
+    // comparison groups are pure masks and must not shift the color scale.
+    expect(legendTextAfter).toEqual(legendTextBefore);
+  });
+});
