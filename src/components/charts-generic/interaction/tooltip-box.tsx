@@ -29,7 +29,7 @@ type TooltipChromeProps = {
   sx?: BoxProps["sx"];
 };
 
-export const TooltipBox = forwardRef<HTMLDivElement, TooltipChromeProps>(
+const TooltipBox = forwardRef<HTMLDivElement, TooltipChromeProps>(
   ({ placement, children, interactive = false, sx }, ref) => {
     const { classes } = useTooltipStyles({ placement });
 

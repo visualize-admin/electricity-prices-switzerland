@@ -49,7 +49,6 @@ export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
 
 export const DEFAULT_PAPER_SIZE: PaperSize = "a4";
 
-export const SCREENSHOT_CANVAS_SIZE = SCREENSHOT_SIZES[DEFAULT_PAPER_SIZE].canvas;
 
 /**
  * Get the map as an image, using the Deck.gl canvas and html2canvas to get

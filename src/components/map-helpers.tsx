@@ -278,5 +278,3 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
   };
 };
 
-/** Convenience alias for screen-mode styles (backward-compatible). */
-export const styles = getStyles("screen");
