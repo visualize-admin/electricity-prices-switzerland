@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.40.1 - 2026-03-26
+
+- Update undici and picomatch for vulnerabilities
+
 # 2.40.0 - 2026-03-26
 
 - Map
