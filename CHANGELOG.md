@@ -13,6 +13,17 @@ You can also check the
 
 Nothing yet.
 
+# 2.40.0 - 2026-03-26
+
+- Map
+  - High-resolution map image download with A3/A4 paper size selection ([#444](https://github.com/visualize-admin/electricity-prices-switzerland/issues/444))
+  - Fix map search highlighting wrong municipality ([#581](https://github.com/visualize-admin/electricity-prices-switzerland/issues/581))
+  - Fix legend min/max values changing when switching comparison groups ([#583](https://github.com/visualize-admin/electricity-prices-switzerland/issues/583), [#589](https://github.com/visualize-admin/electricity-prices-switzerland/issues/589))
+- Sunshine
+  - Fix wrong comparison group medians displayed on the operator overview page ([#584](https://github.com/visualize-admin/electricity-prices-switzerland/issues/584))
+  - Fix unit translations (Anzahl/Jahr, X Tage) not adapting to the selected language ([#572](https://github.com/visualize-admin/electricity-prices-switzerland/issues/572))
+- Add link to status page on error
+
 # 2.39.1 - 2026-03-17
 
 - Security
