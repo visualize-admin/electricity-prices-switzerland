@@ -41,6 +41,7 @@ import {
   InitialViewState,
   CH_BBOX,
   HoverState,
+  MapRenderMode,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
 import {
@@ -48,11 +49,15 @@ import {
   MapTooltip,
 } from "src/components/map-tooltip";
 import { WidgetIcon } from "src/components/map-widget-icon";
-import { getImageData, SCREENSHOT_CANVAS_SIZE } from "src/domain/screenshot";
+import {
+  DEFAULT_PAPER_SIZE,
+  getMapImageData,
+  PaperSize,
+  SCREENSHOT_SIZES,
+} from "src/domain/screenshot";
 import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
-import { frame, sleep } from "src/utils/delay";
 import { useFlag } from "src/utils/flags";
 
 const useStyles = makeStyles()((theme) => ({
@@ -135,7 +140,7 @@ const zoomOut = (state: InitialViewState) => {
 };
 
 export type GenericMapControls = React.RefObject<{
-  getImageData: () => Promise<string | undefined>;
+  getImageData: (paperSize?: PaperSize) => Promise<string | undefined>;
   zoomOn: (id: string) => void;
   zoomOut: () => void;
 } | null>;
@@ -155,6 +160,7 @@ export type GenericMapControls = React.RefObject<{
  */
 export const GenericMap = ({
   layers,
+  makeScreenshotLayers,
   isLoading = false,
   hasNoData = false,
   error = undefined,
@@ -169,8 +175,11 @@ export const GenericMap = ({
   setHovered,
   featureMatchesId = defaultFeatureMatchesId,
   widgets,
+  paperSize = DEFAULT_PAPER_SIZE,
 }: {
   layers: Layer[];
+  /** Called with the appropriate print render mode to produce offscreen screenshot layers. */
+  makeScreenshotLayers?: (mode: MapRenderMode) => Layer[];
   isLoading?: boolean;
   hasNoData?: boolean;
   error?: { message: string };
@@ -191,6 +200,7 @@ export const GenericMap = ({
     left?: React.ReactNode;
     right?: React.ReactNode;
   };
+  paperSize?: PaperSize;
 }) => {
   const isMobile = useIsMobile();
   const mapZoomPadding = isMobile ? 20 : 150;
@@ -199,6 +209,10 @@ export const GenericMap = ({
     getInitialViewState(isMobile)
   );
   const [screenshotting, setScreenshotting] = useState(false);
+  // Tracks the paper size in use for the current screenshot, so the offscreen
+  // DeckGL can be sized correctly before the async getMapImageData call.
+  const [activePaperSize, setActivePaperSize] = useState<PaperSize>(paperSize);
+  const activePaperSizeRef = useRef<PaperSize>(paperSize);
 
   const highlightContext = useContext(HighlightContext).value;
   const legendId = useId();
@@ -291,17 +305,44 @@ export const GenericMap = ({
   );
 
   const deckRef = useRef<DeckGLRef>(null);
+  const screenshotDeckRef = useRef<DeckGLRef>(null);
+  const screenshotResolveRef = useRef<(() => void) | null>(null);
+
+  const handleScreenshotRender = useCallback(() => {
+    const resolve = screenshotResolveRef.current;
+    if (!resolve) return;
+
+    const deck = screenshotDeckRef.current?.deck;
+    if (!deck) return;
+
+    // Poll until all layers have finished loading their data
+    const allLoaded =
+      (deck.props.layers as Layer[] | undefined)?.every(
+        (layer) => !layer || layer.isLoaded
+      ) ?? true;
+
+    if (allLoaded) {
+      screenshotResolveRef.current = null;
+      resolve();
+    }
+  }, []);
 
   // Set up controls interface if provided
   useEffect(() => {
     if (controls) {
       controls.current = {
-        getImageData: async () => {
+        getImageData: async (requestedPaperSize?: PaperSize) => {
+          const effective = requestedPaperSize ?? paperSize;
+          activePaperSizeRef.current = effective;
+          setActivePaperSize(effective);
           setScreenshotting(true);
           try {
-            await frame();
-            await sleep(1000);
-            const ref = deckRef.current;
+            // Wait for the offscreen DeckGL to finish rendering
+            await new Promise<void>((resolve) => {
+              screenshotResolveRef.current = resolve;
+            });
+
+            const ref = screenshotDeckRef.current;
             if (!ref) return;
 
             const deck = ref.deck;
@@ -312,9 +353,14 @@ export const GenericMap = ({
               ? document.getElementById(legendId)
               : null;
 
-            return getImageData(deck, legendElement || undefined);
+            return getMapImageData(
+              deck,
+              legendElement || undefined,
+              activePaperSizeRef.current
+            );
           } finally {
             setScreenshotting(false);
+            screenshotResolveRef.current = null;
           }
         },
         zoomOn: (id: string) => {
@@ -371,16 +417,7 @@ export const GenericMap = ({
         },
       };
     }
-  }, [
-    controls,
-    downloadId,
-    featureMatchesId,
-    initialBBox,
-    layers,
-    legendId,
-    mapZoomPadding,
-    viewState,
-  ]);
+  }, [controls, downloadId, featureMatchesId, initialBBox, layers, legendId, mapZoomPadding, paperSize, viewState]);
 
   const [scrollZoom, setScrollZoom] = useState(false);
   const [displayScrollZoom, setDisplayScrollZoom] = useState(false);
@@ -571,29 +608,30 @@ export const GenericMap = ({
 
       {screenshotting ? (
         <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width={1120}
-          height={730}
-          sx={{
-            opacity: 0,
-          }}
+          position="fixed"
+          top={-99999}
+          left={-99999}
+          width={SCREENSHOT_SIZES[activePaperSize].canvas.width * 2}
+          height={SCREENSHOT_SIZES[activePaperSize].canvas.height * 2}
         >
           <DeckGL
-            ref={deckRef}
-            controller={{ type: MapController }}
+            ref={screenshotDeckRef}
+            controller={false}
             viewState={constrainZoom(
               {
                 ...viewState,
-                zoom: 5,
-                width: SCREENSHOT_CANVAS_SIZE.width,
-                height: SCREENSHOT_CANVAS_SIZE.height,
+                width: SCREENSHOT_SIZES[activePaperSize].canvas.width * 2,
+                height: SCREENSHOT_SIZES[activePaperSize].canvas.height * 2,
               },
               initialBBox,
               { padding: mapZoomPadding }
             )}
-            layers={layers?.map((l) => l?.clone({}))}
+            layers={(
+              makeScreenshotLayers?.(
+                activePaperSize === "a3" ? "print-a3" : "print-a4"
+              ) ?? layers
+            ).map((l) => l?.clone({}))}
+            onAfterRender={handleScreenshotRender}
           />
         </Box>
       ) : null}

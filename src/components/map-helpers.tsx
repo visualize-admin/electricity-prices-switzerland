@@ -169,83 +169,112 @@ export const CH_BBOX: BBox = [
 
 type Color = [number, number, number, number];
 
-const LINE_COLOR: Color = [255, 255, 255, 255];
+/**
+ * Convert an 8-digit hex color string (#rrggbbaa) to a deck.gl Color tuple.
+ * Uses d3-color for parsing so the source of truth stays as readable hex.
+ */
+const toArray = (hex: string): Color => {
+  const c = color(hex)?.rgb();
+  if (!c) throw new Error(`Invalid color: ${hex}`);
+  return [c.r, c.g, c.b, Math.round(c.opacity * 255)];
+};
+
+const LINE_COLOR = toArray("#ffffffff");
+
+export type MapRenderMode = "screen" | "print-a3" | "print-a4";
+
+/**
+ * Scale factors applied to pixel-based line widths in print modes to compensate
+ * for the canvas-to-image upscaling performed during screenshot composition.
+ * A3 approximates image.width / canvas.width (≈ 4000 / 1200 ≈ 3.33).
+ * A4 is A3 / √2 because the canvas is smaller by √2, making pixel strokes
+ * proportionally thicker at the same deck.gl pixel value.
+ */
+const PRINT_PIXEL_SCALE: Record<MapRenderMode, number> = {
+  screen: 1,
+  "print-a3": 3,
+  "print-a4": 2,
+};
 
 // Define style tokens for map layers
-export const styles = {
-  municipalities: {
-    base: {
-      fillColor: {
-        doesNotExist: [0, 0, 0, 0] as Color,
-        withoutData: [221, 225, 227, 255] as Color,
+export const getStyles = (mode: MapRenderMode = "screen") => {
+  const s = PRINT_PIXEL_SCALE[mode];
+  return {
+    municipalities: {
+      base: {
+        fillColor: {
+          doesNotExist: toArray("#00000000"),
+          withoutData: toArray("#dde1e3ff"),
+        },
       },
-    },
-  },
-  overlay: {
-    default: {
-      fillColor: [0, 0, 0, 0] as Color,
-      lineColor: [0, 0, 0, 0] as Color,
-      lineWidth: 0,
-    },
-    active: {
-      fillColor: [0, 0, 0, 50] as Color, // Dark overlay similar to sunshine layers
-      lineColor: [31, 41, 55, 255] as Color,
-      lineWidth: 3,
-    },
-    inactive: {
-      fillColor: [255, 255, 255, 102] as Color,
-      lineColor: [0, 0, 0, 0],
-      lineWidth: 0,
-    },
-  },
-  municipalityMesh: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  lakes: {
-    fillColor: [226, 241, 255, 255] as Color,
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 0.5,
-    lineWidthMaxPixels: 1,
-    lineWidth: 100,
-  },
-  cantons: {
-    lineColor: LINE_COLOR,
-    lineWidthMinPixels: 1.2,
-    lineWidthMaxPixels: 3.6,
-    lineWidth: 200,
-  },
-  operators: {
-    base: {
-      lineColor: LINE_COLOR,
-      lineWidthMinPixels: 0.5,
-      lineWidthMaxPixels: 1,
-      transitions: {
-        duration: 300,
-        easing: "easeExpIn" as const,
-      },
-      fillColor: {
-        doesNotExist: [0, 0, 0, 0] as Color,
-        withoutData: [221, 225, 227, 255] as Color,
-      },
-    },
-    pickable: {
-      fillColor: [255, 255, 255, 0] as Color, // Transparent
-      highlightColor: [0, 0, 0, 50] as Color,
     },
     overlay: {
+      default: {
+        fillColor: toArray("#00000000"),
+        lineColor: toArray("#00000000"),
+        lineWidth: 0,
+      },
       active: {
-        fillColor: [0, 0, 0, 0] as Color,
-        lineColor: [31, 41, 55, 255] as Color,
-        lineWidth: 3,
+        fillColor: toArray("#00000032"),
+        lineColor: toArray("#1f2937ff"),
+        lineWidth: 3 * s, // pixel units
       },
       inactive: {
-        fillColor: [255, 255, 255, 102] as Color,
-        lineColor: [0, 0, 0, 0] as Color,
-        lineWidth: 2,
+        fillColor: toArray("#ffffff66"),
+        lineColor: toArray("#00000000"),
+        lineWidth: 0,
       },
     },
-  },
+    municipalityMesh: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5 * s,
+      lineWidthMaxPixels: 1 * s,
+      lineWidth: 100, // meters, not scaled
+    },
+    lakes: {
+      fillColor: toArray("#e2f1ffff"),
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 0.5 * s,
+      lineWidthMaxPixels: 1 * s,
+      lineWidth: 100, // meters, not scaled
+    },
+    cantons: {
+      lineColor: LINE_COLOR,
+      lineWidthMinPixels: 1.2 * s,
+      lineWidthMaxPixels: 3.6 * s,
+      lineWidth: 200, // meters, not scaled
+    },
+    operators: {
+      base: {
+        lineColor: LINE_COLOR,
+        lineWidthMinPixels: 0.5 * s,
+        lineWidthMaxPixels: 1 * s,
+        transitions: {
+          duration: 300,
+          easing: "easeExpIn" as const,
+        },
+        fillColor: {
+          doesNotExist: toArray("#00000000"),
+          withoutData: toArray("#dde1e3ff"),
+        },
+      },
+      pickable: {
+        fillColor: toArray("#ffffff00"), // Transparent
+        highlightColor: toArray("#00000032"),
+      },
+      overlay: {
+        active: {
+          fillColor: toArray("#00000000"),
+          lineColor: toArray("#1f2937ff"),
+          lineWidth: 3 * s, // pixel units
+        },
+        inactive: {
+          fillColor: toArray("#ffffff66"),
+          lineColor: toArray("#00000000"),
+          lineWidth: 2 * s, // pixel units
+        },
+      },
+    },
+  };
 };
+

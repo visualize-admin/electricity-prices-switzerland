@@ -462,6 +462,7 @@ msgid "home.sunshine-topics.title"
 msgstr "home.sunshine-topics.title"
 
 #: src/components/detail-page/download-image.tsx
+#: src/components/map-download-image.tsx
 msgid "image.download"
 msgstr "image.download"
 
@@ -614,6 +615,39 @@ msgstr "map.details-sidebar-panel.next-button.service-quality"
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "map.details-sidebar-panel.next-button.sunshine-overview"
 
+#: src/components/map-download-image.tsx
+msgid "map.download.button"
+msgstr "map.download.button"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3"
+msgstr "map.download.paper-size.a3"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.info"
+msgstr "map.download.paper-size.a3.info"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning"
+msgstr "map.download.paper-size.a3.warning"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "map.download.paper-size.a3.warning.mobile"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4"
+msgstr "map.download.paper-size.a4"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4.info"
+msgstr "map.download.paper-size.a4.info"
+
+#: src/components/map-download-image.tsx
+#: src/components/map-download-image.tsx
+msgid "map.download.title"
+msgstr "map.download.title"
+
 #: src/components/generic-map.tsx
 msgid "map.error.description"
 msgstr "map.error.description"
@@ -645,6 +679,7 @@ msgstr "map.tooltipnodata"
 
 #: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/map-download-image.tsx
 #: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "mobile-drawer.close"

@@ -462,6 +462,7 @@ msgid "home.sunshine-topics.title"
 msgstr "Indikatoren"
 
 #: src/components/detail-page/download-image.tsx
+#: src/components/map-download-image.tsx
 msgid "image.download"
 msgstr "Bild herunterladen"
 
@@ -614,6 +615,39 @@ msgstr "Servicequalität im Detail"
 msgid "map.details-sidebar-panel.next-button.sunshine-overview"
 msgstr "Alle Sunshine-Indikatoren anzeigen"
 
+#: src/components/map-download-image.tsx
+msgid "map.download.button"
+msgstr "Herunterladen"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3"
+msgstr "A3"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.info"
+msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning"
+msgstr "Kann ressourcenintensiv sein und länger dauern"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a3.warning.mobile"
+msgstr "Auf dem Handy nicht verfügbar, bitte verwenden Sie einen Desktop-Browser"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4"
+msgstr "A4"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.a4.info"
+msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+#: src/components/map-download-image.tsx
+msgid "map.download.title"
+msgstr "Bild herunterladen"
+
 #: src/components/generic-map.tsx
 msgid "map.error.description"
 msgstr "Leider konnten die Daten für die Karte nicht geladen werden."
@@ -645,6 +679,7 @@ msgstr "Keine Daten"
 
 #: src/components/info-dialog.tsx
 #: src/components/map/mobile-controls.tsx
+#: src/components/map-download-image.tsx
 #: src/components/share-button.tsx
 msgid "mobile-drawer.close"
 msgstr "Schliessen"

@@ -3,7 +3,12 @@ import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { easeExpIn, mean, ScaleThreshold } from "d3";
 import { Feature, Geometry } from "geojson";
 
-import { getFillColor, HoverState, styles } from "src/components/map-helpers";
+import {
+  getFillColor,
+  getStyles,
+  HoverState,
+  MapRenderMode,
+} from "src/components/map-helpers";
 import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
 import {
@@ -24,6 +29,7 @@ interface MunicipalityLayerOptions {
   data: any; // Can be FeatureCollection for base layer or MultiLineString for mesh
   layerId: string;
   mode: "base" | "mesh";
+  renderMode?: MapRenderMode;
   // Options for base mode (data visualization)
   observationsByMunicipalityId?: Map<
     string,
@@ -40,6 +46,7 @@ interface SunshineOperatorLayerOptions {
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observationsByOperator: Record<string, SunshineDataIndicatorRow>;
   colorScale: ScaleThreshold<number, string>;
+  renderMode?: MapRenderMode;
 }
 
 interface SunshineOperatorPickableLayerOptions {
@@ -50,18 +57,21 @@ interface SunshineOperatorPickableLayerOptions {
   activeId?: string;
   onHover?: LayerHoverHandler;
   onClick?: GeoJsonLayerProps<OperatorFeature>["onClick"];
+  renderMode?: MapRenderMode;
 }
 
 interface LakesLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // This can be either FeatureCollection or Feature
   layerId?: string;
+  renderMode?: MapRenderMode;
 }
 
 interface CantonsLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // This is a MultiLineString, not a FeatureCollection
   layerId?: string;
+  renderMode?: MapRenderMode;
 }
 
 export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
@@ -69,12 +79,14 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
     data,
     layerId,
     mode,
+    renderMode,
     observationsByMunicipalityId,
     colorScale,
     highlightId,
     onHover,
     onClick,
   } = options;
+  const styles = getStyles(renderMode);
 
   if (mode === "base") {
     if (!observationsByMunicipalityId || !colorScale) {
@@ -140,7 +152,8 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
 }
 
 export function makeLakesLayer(options: LakesLayerOptions) {
-  const { data, layerId = "lakes" } = options;
+  const { data, layerId = "lakes", renderMode } = options;
+  const styles = getStyles(renderMode);
 
   return new GeoJsonLayer({
     id: layerId,
@@ -158,7 +171,8 @@ export function makeLakesLayer(options: LakesLayerOptions) {
 }
 
 export function makeCantonsLayer(options: CantonsLayerOptions) {
-  const { data, layerId = "cantons" } = options;
+  const { data, layerId = "cantons", renderMode } = options;
+  const styles = getStyles(renderMode);
 
   return new GeoJsonLayer({
     id: layerId,
@@ -183,12 +197,14 @@ interface EnergyPricesOverlayLayerOptions {
   hovered?: HoverState;
   activeId?: string | null;
   type: "municipality" | "canton";
+  renderMode?: MapRenderMode;
 }
 
 export function makeEnergyPricesOverlayLayer(
   options: EnergyPricesOverlayLayerOptions
 ) {
-  const { data, hovered, activeId, type } = options;
+  const { data, hovered, activeId, type, renderMode } = options;
+  const styles = getStyles(renderMode);
 
   return new GeoJsonLayer({
     id: `${type}-overlay`,
@@ -244,7 +260,9 @@ export function makeEnergyPricesOverlayLayer(
 export function makeSunshineOperatorLayer(
   options: SunshineOperatorLayerOptions
 ) {
-  const { data, accessor, observationsByOperator, colorScale } = options;
+  const { data, accessor, observationsByOperator, colorScale, renderMode } =
+    options;
+  const styles = getStyles(renderMode);
 
   return new GeoJsonLayer<OperatorFeature>({
     id: "operator-layer",
@@ -293,7 +311,9 @@ export function makeSunshineOperatorPickableLayer(
     activeId,
     onHover,
     onClick,
+    renderMode,
   } = options;
+  const styles = getStyles(renderMode);
 
   const deps = [
     getFillColor,

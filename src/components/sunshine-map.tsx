@@ -1,4 +1,4 @@
-import { PickingInfo } from "@deck.gl/core/typed";
+import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
 import { extent, mean, ScaleThreshold } from "d3";
@@ -15,7 +15,7 @@ import {
 import { HighlightValue } from "src/components/highlight-context";
 import { getInfoDialogProps } from "src/components/info-dialog-props";
 import { useMap } from "src/components/map-context";
-import { HoverState } from "src/components/map-helpers";
+import { HoverState, MapRenderMode } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
   makeLakesLayer,
@@ -296,86 +296,85 @@ const SunshineMap = ({
   const { onEntitySelect, activeId } = useMap();
 
   // Create map layers
-  const mapLayers = useMemo(() => {
-    const handleOperatorLayerClick: GeoJsonLayerProps<OperatorFeature>["onClick"] =
-      (info, ev) => {
-        // TODO Only the first operator is used
-        const id = (info.object?.properties as OperatorLayerProperties)
-          ?.operators?.[0];
-        if (!id) {
-          return;
-        }
+  const makeLayers = useCallback(
+    (renderMode: MapRenderMode) => {
+      if (!enhancedGeoData || !enhancedGeoData.features) {
+        return [];
+      }
 
-        if (shouldOpenInNewTab(ev.srcEvent)) {
-          const href = sunshineDetailsLink(
-            `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
-              indicator
-            )}`,
-            {
-              tabDetails:
-                indicator === "daysInAdvanceOutageNotification"
-                  ? "outageInfo"
-                  : indicator,
-            }
-          );
-          window.open(href, "_blank");
-        } else {
-          const selectedId = id.toString();
-          onEntitySelect(ev.srcEvent, "operator", selectedId);
-        }
-      };
+      const handleOperatorLayerClick: GeoJsonLayerProps<OperatorFeature>["onClick"] =
+        (info, ev) => {
+          const id = (info.object?.properties as OperatorLayerProperties)
+            ?.operators?.[0];
+          if (!id) return;
+          if (shouldOpenInNewTab(ev.srcEvent)) {
+            const href = sunshineDetailsLink(
+              `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
+                indicator
+              )}`,
+              {
+                tabDetails:
+                  indicator === "daysInAdvanceOutageNotification"
+                    ? "outageInfo"
+                    : indicator,
+              }
+            );
+            window.open(href, "_blank");
+          } else {
+            onEntitySelect(ev.srcEvent, "operator", id.toString());
+          }
+        };
 
-    if (!enhancedGeoData || !enhancedGeoData.features) {
-      return [];
-    }
+      return [
+        makeSunshineOperatorLayer({
+          data: featuresWithObservations,
+          accessor,
+          observationsByOperator,
+          colorScale,
+          renderMode,
+        }),
+        geoData?.municipalities?.features
+          ? makeMunicipalityLayer({
+              data: geoData.municipalities.features,
+              layerId: "municipality-layer",
+              mode: "mesh",
+              renderMode,
+            })
+          : null,
+        geoData?.lakes
+          ? makeLakesLayer({ data: geoData.lakes, renderMode })
+          : null,
+        geoData?.cantonMesh
+          ? makeCantonsLayer({ data: geoData.cantonMesh, renderMode })
+          : null,
+        makeSunshineOperatorPickableLayer({
+          data: featuresWithObservations,
+          accessor,
+          observationsByOperator,
+          hovered,
+          activeId: activeId ?? undefined,
+          onHover: onHoverOperatorLayer,
+          onClick: handleOperatorLayerClick,
+          renderMode,
+        }),
+      ].filter(truthy);
+    },
+    [
+      accessor,
+      activeId,
+      colorScale,
+      enhancedGeoData,
+      featuresWithObservations,
+      geoData,
+      hovered,
+      indicator,
+      observationsByOperator,
+      onEntitySelect,
+      onHoverOperatorLayer,
+    ]
+  );
 
-    return [
-      makeSunshineOperatorLayer({
-        data: featuresWithObservations,
-        accessor,
-        observationsByOperator,
-        colorScale,
-      }),
-      geoData?.municipalities?.features
-        ? makeMunicipalityLayer({
-            data: geoData.municipalities.features,
-            layerId: "municipality-layer",
-            mode: "mesh",
-          })
-        : null,
-      geoData?.lakes
-        ? makeLakesLayer({
-            data: geoData.lakes,
-          })
-        : null,
-      geoData?.cantonMesh
-        ? makeCantonsLayer({
-            data: geoData.cantonMesh,
-          })
-        : null,
-      makeSunshineOperatorPickableLayer({
-        data: featuresWithObservations,
-        accessor,
-        observationsByOperator,
-        hovered,
-        activeId: activeId ?? undefined,
-        onHover: onHoverOperatorLayer,
-        onClick: handleOperatorLayerClick,
-      }),
-    ].filter(truthy);
-  }, [
-    accessor,
-    activeId,
-    colorScale,
-    enhancedGeoData,
-    featuresWithObservations,
-    geoData,
-    hovered,
-    indicator,
-    observationsByOperator,
-    onEntitySelect,
-    onHoverOperatorLayer,
-  ]);
+  const mapLayers = useMemo(() => makeLayers("screen"), [makeLayers]);
 
   const index = useMemo(() => {
     return new Map(
@@ -491,6 +490,7 @@ const SunshineMap = ({
   return (
     <GenericMap
       layers={mapLayers}
+      makeScreenshotLayers={makeLayers as (mode: MapRenderMode) => Layer[]}
       legend={legend}
       tooltipContent={tooltipContent}
       isLoading={isLoading}

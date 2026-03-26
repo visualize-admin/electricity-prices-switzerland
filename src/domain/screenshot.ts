@@ -6,23 +6,58 @@ const toBlob = (canvas: HTMLCanvasElement, type: string) =>
     canvas.toBlob((blob) => resolve(blob), type);
   });
 
-const SCREENSHOT_IMAGE_SIZE = {
-  width: 1120,
-  height: 928,
+export type PaperSize = "a4" | "a3";
+
+interface ScreenshotSizeConfig {
+  image: { width: number; height: number };
+  canvas: { width: number; height: number };
+  legendScale: number;
+  legendPaddingPercent: number;
+}
+
+const IMAGE_RATIO = 1.414; // A4 aspect ratio (sqrt(2))
+const CANVAS_RATIO = 1.53;
+const A3_IMAGE_WIDTH = 4961;
+const A3_CANVAS_WIDTH = 1490;
+
+export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
+  a4: {
+    image: {
+      width: Math.round(A3_IMAGE_WIDTH / Math.SQRT2),
+      height: Math.round(A3_IMAGE_WIDTH / Math.SQRT2 / IMAGE_RATIO),
+    },
+    canvas: {
+      width: Math.round(A3_CANVAS_WIDTH / Math.SQRT2),
+      height: Math.round(A3_CANVAS_WIDTH / Math.SQRT2 / CANVAS_RATIO),
+    },
+    legendScale: 2 / Math.SQRT2,
+    legendPaddingPercent: 0.6,
+  },
+  a3: {
+    image: {
+      width: A3_IMAGE_WIDTH,
+      height: Math.round(A3_IMAGE_WIDTH / IMAGE_RATIO),
+    },
+    canvas: {
+      width: A3_CANVAS_WIDTH,
+      height: Math.round(A3_CANVAS_WIDTH / CANVAS_RATIO),
+    },
+    legendScale: 2,
+    legendPaddingPercent: 0.6,
+  },
 };
 
-export const SCREENSHOT_CANVAS_SIZE = {
-  width: 1120,
-  height: 730,
-};
+export const DEFAULT_PAPER_SIZE: PaperSize = "a4";
+
 
 /**
  * Get the map as an image, using the Deck.gl canvas and html2canvas to get
- * the legend as an image.
+ * the legend as an image. Supports A3/A4 paper sizes.
  */
-export const getImageData = async (
+export const getMapImageData = async (
   deck: Deck,
-  legend: HTMLElement | undefined
+  legend: HTMLElement | undefined,
+  paperSize: PaperSize = DEFAULT_PAPER_SIZE
 ) => {
   if (!deck || "canvas" in deck === false) {
     return;
@@ -34,18 +69,20 @@ export const getImageData = async (
     return;
   }
 
+  const sizeConfig = SCREENSHOT_SIZES[paperSize];
+
   const initialSize = {
     width: canvas.width,
     height: canvas.height,
   };
 
   const imageSize = {
-    width: SCREENSHOT_IMAGE_SIZE.width * 2,
-    height: SCREENSHOT_IMAGE_SIZE.height * 2,
+    width: sizeConfig.image.width,
+    height: sizeConfig.image.height,
   };
   const canvasSize = {
-    width: SCREENSHOT_CANVAS_SIZE.width * 2,
-    height: SCREENSHOT_CANVAS_SIZE.height * 2,
+    width: sizeConfig.canvas.width * 2,
+    height: sizeConfig.canvas.height * 2,
   };
 
   Object.assign(canvas, canvasSize);
@@ -66,12 +103,17 @@ export const getImageData = async (
   context.fillRect(0, 0, newCanvas.width, newCanvas.height);
 
   const ratio = window.devicePixelRatio;
+  // Scale the map canvas up to fill the image width. Since the canvas aspect
+  // ratio (CANVAS_RATIO) is wider than the image ratio (IMAGE_RATIO), the
+  // scaled canvas will be shorter than the image — center it vertically.
+  const mapScale = newCanvas.width / canvas.width;
+  const drawnMapHeight = canvas.height * mapScale;
   context.drawImage(
     canvas,
-    (newCanvas.width - canvas.width) / 2,
-    (newCanvas.height - canvas.height) / 2,
-    canvas.width,
-    canvas.height
+    0,
+    (newCanvas.height - drawnMapHeight) / 2,
+    newCanvas.width,
+    drawnMapHeight
   );
 
   if (legend) {
@@ -80,13 +122,14 @@ export const getImageData = async (
     // difference between different browsers (Safari legend would be bigger somehow)
     const { width, height } = legend.getBoundingClientRect();
 
-    const legendPadding = 24;
+    const legendPadding =
+      (sizeConfig.legendPaddingPercent / 100) * newCanvas.width;
     context.drawImage(
       legendCanvas,
       legendPadding,
       legendPadding,
-      width * ratio,
-      height * ratio
+      width * ratio * sizeConfig.legendScale,
+      height * ratio * sizeConfig.legendScale
     );
   }
 
