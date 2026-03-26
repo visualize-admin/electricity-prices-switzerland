@@ -450,6 +450,19 @@ export const GenericMap = ({
               Unfortunately, the data for the map could not be loaded. You'll
               find technical details below .
             </Trans>
+            <Box mt={1}>
+              <Trans id="map.error.status_page_link">
+                Check the{" "}
+                <a
+                  href="https://status.lindas.admin.ch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  status page
+                </a>{" "}
+                for more information.
+              </Trans>
+            </Box>
             <Box component="details" mt={2}>
               <Box component="summary" sx={{ cursor: "pointer" }}>
                 <Trans id="map.error.technicaldetails">

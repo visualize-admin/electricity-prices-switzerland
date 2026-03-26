@@ -621,6 +621,10 @@ msgid "map.error.description"
 msgstr "Unfortunately, the data for the map could not be loaded."
 
 #: src/components/generic-map.tsx
+msgid "map.error.status_page_link"
+msgstr "Check the <0>status page</0> for more information."
+
+#: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
 msgstr "Show technical details"
 

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -619,6 +619,10 @@ msgstr "Mostra tutti gli indicatori Sunshine"
 #: src/components/generic-map.tsx
 msgid "map.error.description"
 msgstr "Purtroppo non è stato possibile caricare i dati della carta."
+
+#: src/components/generic-map.tsx
+msgid "map.error.status_page_link"
+msgstr "Per ulteriori informazioni, consultare la <0>pagina dello stato</0>."
 
 #: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"

@@ -619,6 +619,10 @@ msgid "map.error.description"
 msgstr "map.error.description"
 
 #: src/components/generic-map.tsx
+msgid "map.error.status_page_link"
+msgstr "map.error.status_page_link"
+
+#: src/components/generic-map.tsx
 msgid "map.error.technicaldetails"
 msgstr "map.error.technicaldetails"
 
