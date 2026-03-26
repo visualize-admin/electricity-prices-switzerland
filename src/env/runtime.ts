@@ -8,6 +8,7 @@ export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<Run
     CURRENT_PERIOD: process.env.CURRENT_PERIOD,
     FIRST_PERIOD: process.env.FIRST_PERIOD,
     FLAGS: process.env.FLAGS,
+    MATOMO_ID: process.env.MATOMO_ID,
   });
 
 const getRuntimeClientSideVariables = () =>
