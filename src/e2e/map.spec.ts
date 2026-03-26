@@ -7,14 +7,16 @@ test.describe("The Map Page", () => {
   test("should be possible to download the map", async ({ page }) => {
     const resp = await page.goto("/en/map");
     await expect(resp?.status()).toEqual(200);
-    // click the download button, it has text "Download image"
-    const downloadButton = await page.locator(
-      "button:has-text('Download image')"
-    );
     await page.waitForLoadState("networkidle");
-    await expect(downloadButton).toBeVisible();
-    const downloadPromise = page.waitForEvent("download");
-    await downloadButton.click();
+
+    // click the download button, it has text "Download image"
+    await page.locator(
+      "button:has-text('Download image')"
+    ).click();
+    const downloadPromise = page.waitForEvent('download');
+  
+    await page.getByRole('button', { name: 'Download' }).click();
+  
     // wait for a download to be triggered
     const download = await downloadPromise;
     // read the download, and assert the mime type
