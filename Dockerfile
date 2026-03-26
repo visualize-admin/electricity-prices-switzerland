@@ -26,6 +26,10 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         # not release a new version yet, we do this manual fix to bypass the trivy
         # scan failure. We know that we are not affected by the vulnerability in our usage.
         sed -i 's/"9.0.5"/"9.0.7"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/minimatch/package.json && \
+        # Modify 4.0.3 to 4.0.4 to bypass vulnerability  CVE-2026-33671. Since pnpm did
+        # not release a new version yet, we do this manual fix to bypass the acs
+        # scan failure. We know that we are not affected by the vulnerability in our usage.
+        sed -i 's/"4.0.3"/"4.0.4"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/picomatch/package.json && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
