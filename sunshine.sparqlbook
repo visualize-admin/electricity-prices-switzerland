@@ -32,6 +32,18 @@
   {
     "kind": 1,
     "language": "markdown",
+    "value": "# Find peer group of an operator",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\nPREFIX schema: <http://schema.org/>\n\nSELECT ?group ?name\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n  #  BKW Energie AG\n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/36> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n    :group ?group .\n  ?group schema:name ?name .\n\n  filter (lang(?name) = \"en\" || lang(?name) = \"\")\n\n} group by ?group ?name limit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
     "value": "## Indicator across years\n\nTo get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
     "metadata": {}
   },
@@ -74,7 +86,7 @@
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :group ?group ;\n        :period \"2025\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :group <https://energy.ld.admin.ch/elcom/electricityprice/group/6> ;\n        :period ?year ; \n        :category <https://energy.ld.admin.ch/elcom/electricityprice/category/H4>;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
     "metadata": {}
   },
   {
