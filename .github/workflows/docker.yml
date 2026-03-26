@@ -48,7 +48,7 @@ jobs:
         # Build app
       - name: Extract metadata (tags, labels) for Docker
         id: meta-app
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
         with:
           images: ${{ env.IMAGE_NAME_APP}}
           # Added type=sha to the default
