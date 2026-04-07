@@ -30,7 +30,7 @@ type MapDetailsContentProps = {
 };
 
 const MapDetailsContentWrapper = (
-  props: MapDetailsContentProps & { showBackButton?: boolean }
+  props: MapDetailsContentProps & { showBackButton?: boolean },
 ) => {
   const { onBack, children, showBackButton = true } = props;
   return (
@@ -131,7 +131,7 @@ const MapDetailsEntityTable = (
   props: MapDetailProps & {
     colorScale: ScaleThreshold<number, string>;
     formatValue: (value: number) => string;
-  }
+  },
 ) => {
   const { entity, operators, colorScale, formatValue } = props;
   const [{ tab }] = useQueryStateMapCommon();
@@ -191,7 +191,7 @@ const MapDetailsEntityTable = (
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
 const KeyValueTableRow = <
-  T extends Partial<Record<EntityTableValue, string | undefined>>
+  T extends Partial<Record<EntityTableValue, string | undefined>>,
 >(props: {
   state?: T;
   dataKey: keyof T | string;
@@ -301,6 +301,7 @@ export const MapDetailsContent: React.FC<{
           justifyContent: "space-between",
         }}
         endIcon={<Icon name="arrowright" />}
+        LinkComponent={NextLink}
         href={
           tab === "electricity"
             ? energyPricesDetailsLink(`/${entity}/${selectedItem.id}`, {
@@ -404,6 +405,7 @@ export const MapDetailsContent: React.FC<{
           endIcon={<Icon name="arrowright" />}
           color="primary"
           href={`/sunshine/operator/${selectedItem.id}/overview`}
+          LinkComponent={NextLink}
         >
           <Trans id="map.details-sidebar-panel.next-button.sunshine-overview">
             Show all Sunshine Indicators
