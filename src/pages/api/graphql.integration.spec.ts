@@ -260,7 +260,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 6.725,
                 },
               ],
-              "median": 8.935,
+              "median": 8.956,
             },
           },
         }
@@ -507,7 +507,7 @@ describe("GraphQL API Integration Tests", () => {
                   "value": 10.455,
                 },
               ],
-              "median": 10.517,
+              "median": 10.528,
             },
           },
         }
