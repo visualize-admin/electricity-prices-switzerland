@@ -8,19 +8,13 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\n## Indicator for year and operator\n\nThe following query returns the indicators for a specific year and operator:",
-    "metadata": {}
-  },
-  {
-    "kind": 2,
-    "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
+    "value": "## Peer Groups",
     "metadata": {}
   },
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Peer Groups",
+    "value": "### Names",
     "metadata": {}
   },
   {
@@ -32,7 +26,61 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Indicator across years\n\nTo get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
+    "value": "### Operator Peer Group",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\nPREFIX schema: <http://schema.org/>\n\nSELECT ?group ?name\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n  #  BKW Energie AG\n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/508> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n    :group ?group .\n  ?group schema:name ?name .\n\n  filter (lang(?name) = \"en\" || lang(?name) = \"\")\n\n} group by ?group ?name limit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Median values\n\nA separate cube `<https://energy.ld.admin.ch/elcom/sunshine-median>` contains the median values for the same indicators in `<https://energy.ld.admin.ch/elcom/sunshine>` ",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Not depending on category",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX schema: <http://schema.org/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?period ?group ?obs ?gridcost_ne6\nWHERE {\n  values ?group { <https://energy.ld.admin.ch/elcom/electricityprice/group/1> }\n  values ?period { \"2025\"^^xsd:gYear }\n  <https://energy.ld.admin.ch/elcom/sunshine-median> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :group ?group ;\n  \t:period ?period ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :days_in_advance ?days_in_advance .   \n ?group schema:name ?group_name . FILTER(lang(?group_name) = \"de\")\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Depending on category\n\n#### Energy and grid usage costs median\n\nYet another cube `<https://energy.ld.admin.ch/elcom/sunshine-cat-median>` has median values for the indicators that depend on the category:",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {\n    values ?year { \"2025\"^^xsd:gYear }\n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :group <https://energy.ld.admin.ch/elcom/electricityprice/group/1> ;\n        :period ?year ; \n        :category <https://energy.ld.admin.ch/elcom/electricityprice/category/C6>;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\n## Indicator values\n\n### For year and operator\n\nThe following query returns the indicators for a specific year and operator:",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Across years for one operator\n\nTo get the same indicators across years, just replace the literal `\"2025\"^^xsd:gYear` with a variable `?period`:",
     "metadata": {}
   },
   {
@@ -44,37 +92,13 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Median values\n\nA separate cube `<https://energy.ld.admin.ch/elcom/sunshine-median>` contains the median values for the same indicators in `<https://energy.ld.admin.ch/elcom/sunshine>` ",
-    "metadata": {}
-  },
-  {
-    "kind": 2,
-    "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX schema: <http://schema.org/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine-median> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :group ?group ;\n  \t:period ?period ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time .\n ?group schema:name ?group_name . FILTER(lang(?group_name) = \"de\")\n}",
-    "metadata": {}
-  },
-  {
-    "kind": 1,
-    "language": "markdown",
-    "value": "## Energy and grid usage costs\n\nEnergy and grid usage costs depend on the category, hence they are in a dedicated cube `<https://energy.ld.admin.ch/elcom/sunshine-cat>`.\n\nThe following query returns the costs for a specific year and operator:\n",
+    "value": "## Depending on category\n\n### Energy and grid usage costs\n\nEnergy and grid usage costs depend on the category, hence they are in a dedicated cube `<https://energy.ld.admin.ch/elcom/sunshine-cat>`.\n\nThe following query returns the costs for a specific year and operator:\n",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
     "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n        :period \"2025\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
-    "metadata": {}
-  },
-  {
-    "kind": 1,
-    "language": "markdown",
-    "value": "## Energy and grid usage costs median\n\nYet another cube `<https://energy.ld.admin.ch/elcom/sunshine-cat-median>` has median values for the indicators that depend on the category:",
-    "metadata": {}
-  },
-  {
-    "kind": 2,
-    "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT * \nWHERE {  \n    <https://energy.ld.admin.ch/elcom/sunshine-cat-median> cube:observationSet/cube:observation ?obs . \n    ?obs \n        :group ?group ;\n        :period \"2025\"^^xsd:gYear ; \n        :category ?category ;\n        :energy ?energy ;\n        :gridusage ?gridusage\n}",
     "metadata": {}
   },
   {

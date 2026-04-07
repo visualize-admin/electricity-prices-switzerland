@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, IconButton, useTheme } from "@mui/material";
+import { isEqual } from "lodash";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
@@ -44,6 +45,8 @@ import {
   sunshineCategories,
   CostsAndTariffsData,
   PowerStabilityData,
+  categorySchema,
+  networkLevelSchema,
 } from "src/domain/sunshine";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
@@ -70,14 +73,22 @@ import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
+
 import {
   prepComplianceCardProps,
   prepServiceQualityCardProps,
 } from "./operational-standards";
 
+type CostsAndTariffsSSRFilter = {
+  networkLevel: string;
+  category: string;
+  period: number;
+};
+
 type Props =
   | (Extract<SharedPageProps, { entity: "operator"; status: "found" }> & {
       costsAndTariffs: CostsAndTariffsData;
+      costsAndTariffsFilter: CostsAndTariffsSSRFilter;
       powerStability: PowerStabilityData;
       operationalStandards: OperationalStandardsData;
       sessionConfig: SessionConfigDebugProps;
@@ -86,7 +97,7 @@ type Props =
 
 export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
   async (context, { executeGraphqlQuery, sessionConfig }) => {
-    const { params, res, locale } = context;
+    const { params, res, locale, query } = context;
     const { id, entity } = params!;
 
     if (entity !== "operator") {
@@ -98,6 +109,17 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     }
 
     const operatorId = parseInt(id, 10);
+    const latestYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
+
+    // Parse query parameters with validation and defaults
+    const networkLevel = networkLevelSchema.parse(query.networkLevel);
+    const category = categorySchema.parse(query.category);
+
+    const costsAndTariffsFilter = {
+      networkLevel: networkLevel,
+      category: category,
+      period: latestYear,
+    };
 
     const [operatorData, operationalStandards, powerStability, costsAndTariffs] =
       await Promise.all([
@@ -120,8 +142,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
         executeGraphqlQuery<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
           filter: {
             operatorId,
-            networkLevel: "NE7",
-            category: "H4",
+            ...costsAndTariffsFilter,
             operatorOnly: true,
           },
         }),
@@ -162,6 +183,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
         operationalStandards: operationalStandards.operationalStandards,
         powerStability: powerStability.powerStability,
         costsAndTariffs: costsAndTariffs.costsAndTariffs,
+        costsAndTariffsFilter,
         sessionConfig,
       },
     };
@@ -170,7 +192,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 
 const OverviewPage = (props: Props) => {
   const { query } = useRouter();
-  const latestYear = 2024; //FIXME: only year with data for power stability
+  const latestYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
 
   // Power stability card filters - must be called before conditional returns
   const [powerStabilityFilters] = useQueryStatePowerStabilityCardFilters({
@@ -262,6 +284,10 @@ const OverviewPage = (props: Props) => {
   const sidebarContent = <DetailsPageSidebar id={id} entity={entity} />;
 
   const operatorId = parseInt(id, 10);
+
+  const currentCostsFilter = { networkLevel, category, period: latestYear };
+  const costsMatchSSR = isEqual(currentCostsFilter, props.costsAndTariffsFilter);
+
   const [networkCostsResult] = useNetworkCostsQuery({
     variables: {
       filter: {
@@ -271,6 +297,7 @@ const OverviewPage = (props: Props) => {
         operatorOnly: true,
       },
     },
+    pause: costsMatchSSR,
   });
   const [netTariffsResult] = useNetTariffsQuery({
     variables: {
@@ -281,6 +308,7 @@ const OverviewPage = (props: Props) => {
         operatorOnly: true,
       },
     },
+    pause: costsMatchSSR,
   });
   const [energyTariffsResult] = useEnergyTariffsQuery({
     variables: {
@@ -291,6 +319,7 @@ const OverviewPage = (props: Props) => {
         operatorOnly: true,
       },
     },
+    pause: costsMatchSSR,
   });
 
   // Client-side operational standards query for different years
@@ -304,15 +333,21 @@ const OverviewPage = (props: Props) => {
     pause: overviewFilters.year === props.operationalStandards.latestYear,
   });
 
-  const networkCosts = networkCostsResult.data?.networkCosts as
-    | NetworkCostsQuery["networkCosts"]
-    | undefined;
-  const netTariffs = netTariffsResult.data?.netTariffs as
-    | NetTariffsQuery["netTariffs"]
-    | undefined;
-  const energyTariffs = energyTariffsResult.data?.energyTariffs as
-    | EnergyTariffsQuery["energyTariffs"]
-    | undefined;
+  const networkCosts = costsMatchSSR
+    ? props.costsAndTariffs.networkCosts
+    : (networkCostsResult.data?.networkCosts as
+        | NetworkCostsQuery["networkCosts"]
+        | undefined);
+  const netTariffs = costsMatchSSR
+    ? props.costsAndTariffs.netTariffs
+    : (netTariffsResult.data?.netTariffs as
+        | NetTariffsQuery["netTariffs"]
+        | undefined);
+  const energyTariffs = costsMatchSSR
+    ? props.costsAndTariffs.energyTariffs
+    : (energyTariffsResult.data?.energyTariffs as
+        | EnergyTariffsQuery["energyTariffs"]
+        | undefined);
 
   const { yearComplianceProps, yearServiceQualityProps } = useMemo(() => {
     // Use client-side data if available and different year is selected
@@ -339,9 +374,8 @@ const OverviewPage = (props: Props) => {
   }, [props, operationalStandardsQuery.data, overviewFilters.year]);
 
   const years = useMemo(() => {
-    const currentYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
-    return [currentYear - 2, currentYear - 1, currentYear];
-  }, []);
+    return [latestYear - 2, latestYear - 1, latestYear];
+  }, [latestYear]);
 
   const theme = useTheme();
 

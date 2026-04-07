@@ -911,7 +911,9 @@ const createIndicatorMedianParams = (
   return null;
 };
 
-// Helper function to extract median value from service result
+/**
+ * Extract median value from service result
+ */
 const getMedianValueFromResult = (
   result_: PeerGroupRecord<any> | undefined,
   indicator: SunshineIndicator,
