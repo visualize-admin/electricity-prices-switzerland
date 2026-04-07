@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3000";
+import { BASE_URL } from "src/utils/base-url";
 
 const makeHeaders = async () => ({
   ...(process.env.BASIC_AUTH_CREDENTIALS
@@ -23,7 +23,7 @@ describe("Data Export API", () => {
     path,
   }) => {
     const headers = await makeHeaders();
-    const response = await fetch(`${API_BASE_URL}${path}`, { headers });
+    const response = await fetch(`${BASE_URL}${path}`, { headers });
 
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toContain("text/csv");

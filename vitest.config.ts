@@ -11,7 +11,7 @@ export default defineConfig({
         Object.entries({
           ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
           ADMIN_JWT_SECRET: process.env.ADMIN_JWT_SECRET,
-        }).filter(([_key, value]) => value !== undefined)
+        }).filter(([_key, value]) => value !== undefined),
       ),
     },
     projects: [
