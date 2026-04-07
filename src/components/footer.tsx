@@ -157,11 +157,10 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
         <Link href={`/api/sunshine-data-export?period=${period}`}>
           <FooterSectionButton
             iconName="download"
-            label={
-              <Trans id="footer.sunshine-data-as-csv">
-                Sunshine data as csv
-              </Trans>
-            }
+            label={t({
+              id: "footer.sunshine-data-as-csv",
+              message: "Sunshine data as csv",
+            })}
           />
         </Link>
 
