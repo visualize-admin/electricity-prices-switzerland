@@ -5,7 +5,7 @@ import {
   FooterSectionText,
   FooterSectionTitle,
 } from "@interactivethings/swiss-federal-ci/dist/components";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
@@ -151,6 +151,17 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
               message:
                 "Swiss municipalities and responsible electricity grid operators",
             })}
+          />
+        </Link>
+
+        <Link href={`/api/sunshine-data-export?period=${period}`}>
+          <FooterSectionButton
+            iconName="download"
+            label={
+              <Trans id="footer.sunshine-data-as-csv">
+                Sunshine data as csv
+              </Trans>
+            }
           />
         </Link>
 

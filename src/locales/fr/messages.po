@@ -310,6 +310,10 @@ msgid "footer.more-information"
 msgstr "Informations complémentaires"
 
 #: src/components/footer.tsx
+msgid "footer.sunshine-data-as-csv"
+msgstr ""
+
+#: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
 msgstr "Régulation Sunshine"
 
