@@ -859,6 +859,22 @@ msgstr "Gestore di rete"
 msgid "page.electricity-tariffs.description"
 msgstr "Nella pagina dei dettagli del gestore di rete si trovano informazioni aggiornate sulle tariffe dell'elettricità, che consentono di confrontare i prezzi. Potete visualizzare la ripartizione dei costi dell'energia, della rete e dei costi aggiuntivi e richiamare le tendenze storiche per comprendere meglio i costi dell'elettricità."
 
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.canton-comparison"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-components"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-distribution"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.tariffs-development"
+msgstr ""
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "Tariffe dell'elettricità"
@@ -1032,6 +1048,7 @@ msgstr "Gestore di rete"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1167,14 +1184,17 @@ msgid "selector.category.H8-long"
 msgstr "H8 - Grande condominio altamente elettrificato"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Confrontare con il cantone…"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Confrontare con il comune…"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
 
@@ -1213,6 +1233,7 @@ msgstr "Componenti della tariffa"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "selector.priceComponents"
 msgstr "Componenti della tariffa"
 
@@ -1278,6 +1299,7 @@ msgstr "Totale"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
 msgstr "Prodotto"
 
@@ -1316,6 +1338,7 @@ msgid "selector.year"
 msgstr "Anno tariffario"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "Anni tariffari"
 

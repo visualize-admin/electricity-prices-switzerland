@@ -857,6 +857,22 @@ msgstr "operator"
 msgid "page.electricity-tariffs.description"
 msgstr "page.electricity-tariffs.description"
 
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.canton-comparison"
+msgstr "page.electricity-tariffs.tab.canton-comparison"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-components"
+msgstr "page.electricity-tariffs.tab.price-components"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-distribution"
+msgstr "page.electricity-tariffs.tab.price-distribution"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.tariffs-development"
+msgstr "page.electricity-tariffs.tab.tariffs-development"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "page.electricity-tariffs.title"
@@ -1030,6 +1046,7 @@ msgstr "search.result.operator"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1165,14 +1182,17 @@ msgid "selector.category.H8-long"
 msgstr "selector.category.H8-long"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "selector.comparecantons"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "selector.comparemunicipalities"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "selector.compareoperators"
 
@@ -1211,6 +1231,7 @@ msgstr "selector.priceComponent"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "selector.priceComponents"
 msgstr "selector.priceComponents"
 
@@ -1276,6 +1297,7 @@ msgstr "selector.pricecomponent.total"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
 msgstr "selector.product"
 
@@ -1314,6 +1336,7 @@ msgid "selector.year"
 msgstr "selector.year"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "selector.years"
 

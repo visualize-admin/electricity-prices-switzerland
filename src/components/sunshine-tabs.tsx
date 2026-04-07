@@ -73,6 +73,68 @@ const ResponsiveNavigation = <T extends string>({
   );
 };
 
+export type ElectricityPricesDetailTab =
+  | "priceComponents"
+  | "tariffsDevelopment"
+  | "priceDistribution"
+  | "cantonComparison";
+
+const electricityPricesItems: ResponsiveNavigationItem<ElectricityPricesDetailTab>[] =
+  [
+    {
+      value: "priceComponents",
+      testId: "price-components-tab",
+      label: (
+        <Trans id="page.electricity-tariffs.tab.price-components">
+          Price Components
+        </Trans>
+      ),
+    },
+    {
+      value: "tariffsDevelopment",
+      testId: "tariffs-development-tab",
+      label: (
+        <Trans id="page.electricity-tariffs.tab.tariffs-development">
+          Tariffs Development
+        </Trans>
+      ),
+    },
+    {
+      value: "priceDistribution",
+      testId: "price-distribution-tab",
+      label: (
+        <Trans id="page.electricity-tariffs.tab.price-distribution">
+          Price Distribution
+        </Trans>
+      ),
+    },
+    {
+      value: "cantonComparison",
+      testId: "canton-comparison-tab",
+      label: (
+        <Trans id="page.electricity-tariffs.tab.canton-comparison">
+          Canton Comparison
+        </Trans>
+      ),
+    },
+  ];
+
+export const ElectricityPricesNavigation: React.FC<{
+  activeTab: ElectricityPricesDetailTab;
+  handleTabChange: (
+    event: React.SyntheticEvent,
+    newValue: ElectricityPricesDetailTab
+  ) => void;
+}> = ({ activeTab, handleTabChange }) => {
+  return (
+    <ResponsiveNavigation
+      activeTab={activeTab}
+      items={electricityPricesItems}
+      onChange={handleTabChange}
+    />
+  );
+};
+
 export type CostAndTariffsTab = "networkCosts" | "netTariffs" | "energyTariffs";
 
 const costsAndTariffsItems: ResponsiveNavigationItem<CostAndTariffsTab>[] = [

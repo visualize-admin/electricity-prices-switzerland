@@ -16,6 +16,8 @@ import { LegendColor } from "src/components/charts-generic/legends/color";
 import { Lines } from "src/components/charts-generic/lines/lines";
 import { LineChart } from "src/components/charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "src/components/charts-generic/overlay/interaction-horizontal";
+import { ButtonGroup } from "src/components/button-group";
+import { Combobox } from "src/components/combobox";
 import {
   Card,
   CardDescription,
@@ -33,13 +35,14 @@ import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   DetailPriceComponent,
+  detailsPriceComponents,
   Entity,
   GenericObservation,
 } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import {
   ObservationKind,
   useObservationsWithAllPriceComponentsQuery,
@@ -51,12 +54,14 @@ import { LatestIndicator } from "../charts-generic/interaction/latest-indicator"
 
 const DOWNLOAD_ID: Download = "evolution";
 
-export const PriceEvolutionCard = ({
-  id,
-  entity,
-  priceComponents,
-}: SectionProps & { priceComponents: DetailPriceComponent[] }) => {
-  const [{ category, product, period }] = useQueryStateEnergyPricesDetails();
+// Meteringrate excluded — only 1 value. To revisit later.
+const evolutionPriceComponents = detailsPriceComponents.filter(
+  (x) => x !== "meteringrate"
+);
+
+export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
+  const [{ category, product, period, priceComponent }, setQueryState] =
+    useQueryStateEnergyPricesDetails();
 
   const filters = {
     period: period[0],
@@ -97,9 +102,38 @@ export const PriceEvolutionCard = ({
           <FilterSetDescription filters={filters} />
         </CardDescription>
       </CardHeader>
+      <Box display={["none", "none", "block"]}>
+        <ButtonGroup<DetailPriceComponent>
+          id="evolutionPriceComponent"
+          options={evolutionPriceComponents.map((value) => ({
+            value,
+            label: getLocalizedLabel({ id: value }),
+            content: getLocalizedLabel({
+              id: `price-components.${value}-content` as TranslationKey,
+            }),
+          }))}
+          value={priceComponent[0]}
+          setValue={(pc) => setQueryState({ priceComponent: [pc] })}
+          fitLabelToContent
+        />
+      </Box>
+      <Box display={["block", "block", "none"]}>
+        <Combobox
+          id="evolutionPriceComponent-select"
+          label={t({
+            id: "selector.priceComponents",
+            message: "Price components",
+          })}
+          items={evolutionPriceComponents}
+          getItemLabel={(id) => getLocalizedLabel({ id })}
+          selectedItem={priceComponent[0]}
+          setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
+          showLabel={false}
+        />
+      </Box>
       <PriceEvolution
         entity={entity}
-        priceComponents={priceComponents}
+        priceComponents={[priceComponent[0]]}
         id={id}
       />
       {/*FIXME: placeholder values */}

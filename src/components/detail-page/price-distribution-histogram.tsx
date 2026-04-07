@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { groups } from "d3";
@@ -43,9 +43,9 @@ import { LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   DetailPriceComponent,
+  detailsPriceComponents,
   Entity,
   GenericObservation,
-  detailsPriceComponents,
 } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
@@ -78,8 +78,8 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
     entity === "municipality"
       ? municipality
       : entity === "operator"
-      ? operator
-      : canton;
+        ? operator
+        : canton;
 
   const annotationIds = comparisonIds?.some((m) => m !== "")
     ? [...comparisonIds, id]
@@ -118,7 +118,7 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
       >
         <CardTitle>
           <Trans id="detail.card.title.prices.distribution">
-            Prize distribution in Switzerland
+            Price distribution in Switzerland
           </Trans>
         </CardTitle>
         <CardDescription>
@@ -242,7 +242,7 @@ const PriceDistributionHistogram = ({
   product: string[];
 }) => {
   const locale = useLocale();
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
@@ -262,13 +262,13 @@ const PriceDistributionHistogram = ({
 
   const operatorObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+    : (observationsQuery.data?.observations ?? EMPTY_ARRAY);
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+    : (observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY);
   const swissObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
+    : (observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY);
 
   const medianValue = swissObservations[0]?.value;
 
@@ -291,7 +291,7 @@ const PriceDistributionHistogram = ({
   const groupedAnnotations = groups(
     annotations,
     (d) => (d as GenericObservation)[entity],
-    (d) => d.value
+    (d) => d.value,
   ).flatMap((ent: $FixMe) =>
     ent[1].flatMap((d: $FixMe) => {
       return d[1].length === 1
@@ -306,7 +306,7 @@ const PriceDistributionHistogram = ({
               id: entity === "operator" ? "municipalities" : "operators",
             })}`,
           };
-    })
+    }),
   );
   return (
     <Box position="relative">

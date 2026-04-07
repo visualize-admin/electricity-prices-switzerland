@@ -857,6 +857,22 @@ msgstr "Netzbetreiber"
 msgid "page.electricity-tariffs.description"
 msgstr "Auf der Detailseite des Netzbetreibers finden Sie aktuelle Informationen zu Stromtarifen, die es Ihnen ermöglichen, Preise zu vergleichen. Sie können die Aufschlüsselung von Energie-, Netz- und Zusatzkosten einsehen und historische Trends abrufen, um ein besseres Verständnis der Stromkosten zu erlangen."
 
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.canton-comparison"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-components"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-distribution"
+msgstr ""
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.tariffs-development"
+msgstr ""
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "Stromtarife"
@@ -1030,6 +1046,7 @@ msgstr "Netzbetreiber"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1165,14 +1182,17 @@ msgid "selector.category.H8-long"
 msgstr "H8 - Grosse, hoch elektrifizierte Eigentumswohnung"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Kantone zum Vergleich"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Gemeinden zum Vergleich"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Netzbetreiber zum Vergleich"
 
@@ -1211,6 +1231,7 @@ msgstr "Preiskomponente"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "selector.priceComponents"
 msgstr "Preiskomponenten"
 
@@ -1276,6 +1297,7 @@ msgstr "Total"
 
 #: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
 msgstr "Produkt"
 
@@ -1314,6 +1336,7 @@ msgid "selector.year"
 msgstr "Tarifjahr"
 
 #: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "Tarifjahre"
 
