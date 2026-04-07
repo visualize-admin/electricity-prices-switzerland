@@ -14,21 +14,22 @@ test.describe("Electricity Prices", () => {
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
 
-    const sectionIds = [
-      "components",
-      "evolution",
-      "distribution",
-      "comparison",
+    const sections = [
+      { sectionId: "components", tabLabel: "Price Components" },
+      { sectionId: "evolution", tabLabel: "Tariffs Development" },
+      { sectionId: "distribution", tabLabel: "Price Distribution" },
+      { sectionId: "comparison", tabLabel: "Canton Comparison" },
     ];
     await snapshot({
       locator: page.getByTestId("detail-page-selector-multi"),
       note: `Electricity Prices - Operator - Selectors`,
     });
-    for (const sectionId of sectionIds) {
+    for (const { sectionId, tabLabel } of sections) {
+      await page.getByRole("tab", { name: tabLabel }).click();
       await snapshot({
-        note: `Electricity Prices - Operator - ${sectionId}`,
-        locator: await page.getByTestId(`card-${sectionId}`),
-        fullPage: true,
+      note: `Electricity Prices - Operator - ${sectionId}`,
+      locator: await page.getByTestId(`card-${sectionId}`),
+      fullPage: true,
       });
     }
     inflight.dispose();
