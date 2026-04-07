@@ -240,7 +240,7 @@ test.describe("Sunshine map details panel", () => {
     await page.getByRole("option", { name: "Energy tariffs" }).click();
     await page
       .locator("a")
-      .filter({ hasText: "Genossenschaft Elektra Augst" })
+      .filter({ hasText: "Kraftwerke Hinterrhein AG" })
       .first()
       .click();
     await tracker.waitForRequests({ fail: false });
@@ -257,10 +257,10 @@ test.describe("Sunshine map details panel", () => {
       .click();
     await page.getByRole("option", { name: "Network costs" }).click();
 
-    await page.getByRole("textbox", { name: "Filter list" }).fill("elektra");
+    await page.getByRole("textbox", { name: "Filter list" }).fill("kraftwerke");
     await page
       .locator("a")
-      .filter({ hasText: "Elektra Genossenschaft Holderbank" })
+      .filter({ hasText: "Kraftwerke Hinterrhein AG" })
       .first()
       .click();
 
