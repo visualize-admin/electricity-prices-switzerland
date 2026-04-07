@@ -5,7 +5,7 @@ import {
   FooterSectionText,
   FooterSectionTitle,
 } from "@interactivethings/swiss-federal-ci/dist/components";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
