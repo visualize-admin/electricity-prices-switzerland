@@ -154,7 +154,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
 
-        <Link href={`/api/sunshine-data-export?period=${period}`}>
+        <Link href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}>
           <FooterSectionButton
             iconName="download"
             label={t({
