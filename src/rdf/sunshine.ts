@@ -148,6 +148,7 @@ const executeSparqlQuery = async <T>(
   query: string
 ): Promise<T[]> => {
   try {
+    console.log('queyr', query)
     const stream = await client.query.select(query);
     const results: T[] = [];
 
@@ -224,6 +225,7 @@ const getNetworkCosts = async (
 `;
 
   const query = `
+    # Get network costs for a specific operator, period, and network level
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -337,6 +339,8 @@ const getOperationalStandards = async (
   `;
 
   const query = `
+    # Get operational standards for a specific operator, period, and peer group
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -414,6 +418,8 @@ const getStabilityMetrics = async (
   `;
 
   const query = `
+    # Get stability metrics for a specific operator and period
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -504,6 +510,8 @@ const getTariffs = async (
 
   // Query the sunshine-cat cube for tariff data
   const query = `
+    # Get energy and network tariffs for a specific operator, period, and category
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -590,6 +598,8 @@ const getOperatorData = async (
   const values = period ? `VALUES ?period { "${period.toString()}" } ` : "";
 
   const query = `
+    # Get operator data for a specific operator and period
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -668,6 +678,8 @@ const getYearlyIndicatorMedians = async <
       const { networkLevel } = params;
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-median>";
       query = `
+        # Get network cost medians for a specific peer group and period
+
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX cube: <https://cube.link/>
         PREFIX schema: <http://schema.org/>
@@ -692,6 +704,8 @@ const getYearlyIndicatorMedians = async <
     case "stability":
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-median>";
       query = `
+        # Get stability metric medians for a specific peer group and period
+
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX cube: <https://cube.link/>
         PREFIX schema: <http://schema.org/>
@@ -718,6 +732,8 @@ const getYearlyIndicatorMedians = async <
     case "operational":
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-median>";
       query = `
+        # Get operational standard medians for a specific peer group and period
+
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX cube: <https://cube.link/>
         PREFIX schema: <http://schema.org/>
@@ -745,6 +761,8 @@ const getYearlyIndicatorMedians = async <
       const isEnergy = metric === "energy-tariffs";
       cube = "<https://energy.ld.admin.ch/elcom/sunshine-cat-median>";
       query = `
+        # Get tariff medians for a specific peer group, period, and category
+
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX cube: <https://cube.link/>
         PREFIX schema: <http://schema.org/>
@@ -852,6 +870,8 @@ const getLatestYearSunshine = async (
   operatorId: number
 ): Promise<number> => {
   const query = `
+    # Get the latest year for which sunshine data is available for a specific operator
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
@@ -884,6 +904,7 @@ const getOperatorPeerGroup = async (
   // Get the group via a sparql query, the operator is bound
   // to a peer group via :group predicate
   const query = `
+# Get the peer group for a specific operator and period
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX cube: <https://cube.link/>
 BASE <https://energy.ld.admin.ch/elcom/>
@@ -937,6 +958,8 @@ const getPeerGroups = async (
   }[]
 > => {
   const query = `
+    # Get all peer groups with their names and attributes
+
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     PREFIX schema: <http://schema.org/>
 
@@ -998,6 +1021,8 @@ const getSunshineData = async (
 
   // First, get main sunshine data
   const mainQuery = `
+    # Get sunshine data for a specific operator, period, and peer group
+
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
@@ -1037,6 +1062,7 @@ const getSunshineData = async (
 
   // Get tariff data from the category cube
   const tariffQuery = `
+    # Get tariff data for a specific operator, period, and peer group
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX cube: <https://cube.link/>
     PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
