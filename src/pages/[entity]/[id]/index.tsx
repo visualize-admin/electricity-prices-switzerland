@@ -240,7 +240,7 @@ const ElectricityTariffsPage = (props: Props) => {
                 : getItemLabel("C-group"),
             }),
           )}
-          getItemLabel={getItemLabel}
+          getItemLabel={(x) => getItemLabel(`${x}-long`)}
           selectedItem={queryState.category[0]}
           setSelectedItem={(selectedItem) =>
             setQueryState({ category: [selectedItem] })
