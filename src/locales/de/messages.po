@@ -859,19 +859,19 @@ msgstr "Auf der Detailseite des Netzbetreibers finden Sie aktuelle Informationen
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.canton-comparison"
-msgstr ""
+msgstr "Kanton Vergleich"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-components"
-msgstr ""
+msgstr "Preiskomponenten"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-distribution"
-msgstr ""
+msgstr "Preisverteilung"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.tariffs-development"
-msgstr ""
+msgstr "Entwicklung der Tarife"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
@@ -1044,7 +1044,6 @@ msgstr "Gemeinde"
 msgid "search.result.operator"
 msgstr "Netzbetreiber"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1181,17 +1180,14 @@ msgstr "H8"
 msgid "selector.category.H8-long"
 msgstr "H8 - Grosse, hoch elektrifizierte Eigentumswohnung"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Kantone zum Vergleich"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Gemeinden zum Vergleich"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Netzbetreiber zum Vergleich"
@@ -1295,7 +1291,6 @@ msgstr "Messtarif"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
@@ -1335,7 +1330,6 @@ msgstr "Effizienz-Indikatoren einschliesslich Preistrends."
 msgid "selector.year"
 msgstr "Tarifjahr"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "Tarifjahre"

@@ -861,19 +861,19 @@ msgstr "Nella pagina dei dettagli del gestore di rete si trovano informazioni ag
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.canton-comparison"
-msgstr ""
+msgstr "Canton a confronto"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-components"
-msgstr ""
+msgstr "Componenti del prezzo"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-distribution"
-msgstr ""
+msgstr "Distribuzione dei prezzi"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.tariffs-development"
-msgstr ""
+msgstr "Sviluppo delle tariffe"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
@@ -1046,7 +1046,6 @@ msgstr "Comune"
 msgid "search.result.operator"
 msgstr "Gestore di rete"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1183,17 +1182,14 @@ msgstr "H8"
 msgid "selector.category.H8-long"
 msgstr "H8 - Grande condominio altamente elettrificato"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Confrontare con il cantone…"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Confrontare con il comune…"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Confrontare con il gestore di rete…"
@@ -1297,7 +1293,6 @@ msgstr "Tariffa di misurazione"
 msgid "selector.pricecomponent.total"
 msgstr "Totale"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
@@ -1337,7 +1332,6 @@ msgstr "Indicatori d'efficienza, comprese le tendenze di prezzo."
 msgid "selector.year"
 msgstr "Anno tariffario"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "Anni tariffari"

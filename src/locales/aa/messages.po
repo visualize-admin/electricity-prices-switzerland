@@ -1044,7 +1044,6 @@ msgstr "search.result.municipality"
 msgid "search.result.operator"
 msgstr "search.result.operator"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1181,17 +1180,14 @@ msgstr "selector.category.H8"
 msgid "selector.category.H8-long"
 msgstr "selector.category.H8-long"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "selector.comparecantons"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "selector.comparemunicipalities"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "selector.compareoperators"
@@ -1295,7 +1291,6 @@ msgstr "selector.pricecomponent.meteringrate"
 msgid "selector.pricecomponent.total"
 msgstr "selector.pricecomponent.total"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
@@ -1335,7 +1330,6 @@ msgstr "selector.tab.indicators-content"
 msgid "selector.year"
 msgstr "selector.year"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "selector.years"
