@@ -64,6 +64,9 @@ const config: KnipConfig = {
     "sharp",
     // Used in next config experimental.swcPlugins
     "@lingui/swc-plugin",
+
+    // Used as formatter/linter via CLI
+    "@biomejs/biome",
   ],
 };
 export default config;
