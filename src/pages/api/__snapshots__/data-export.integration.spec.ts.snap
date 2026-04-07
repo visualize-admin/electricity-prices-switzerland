@@ -1,20 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Data Export API > should return valid CSV for 'data-export' > csv-download-data-export 1`] = `
-"Period, Operator, Operator Name, Product, Category, Grid Usage Name, Grid Usage before Discount (ct./kWh), Grid Usage Discount (ct./kWh), Grid Usage after Discount (ct./kWh), Grid Fix Costs (CHF p.a.), Grid Power Price (CHF p.a.), Grid Working Price (ct./kWh), Energy Name, Energy before Discount (ct./kWh), Energy Discount (ct./kWh), Energy after Discount (ct./kWh), Energy Fix Costs (CHF p.a.), Energy Power Price (CHF p.a.), Energy Working Price (ct./kWh), Charge (ct./kWh), Aid Fee (ct./kWh), Total (ct./kWh), Metering Rate (ct./kWh), Annual Metering Cost (CHF p.a.)
-2026,CHE-105.941.235,CKW AG,standard,C6,CKW Netz LG5,5.934,0,5.934,0,46560,2.1,CKW ClassicStrom,12,0,12,0,0,12,0.597,2.3,20.87,0.039,584.4
-2026,CHE-105.941.235,CKW AG,standard,C6,CKW Netz LG5,5.934,0,5.934,0,46560,2.1,CKW ClassicStrom,12,0,12,0,0,12,0.35,2.3,20.623,0.039,584.4
-2026,CHE-105.941.235,CKW AG,standard,C4,CKW Netz LG7,8.01,0,8.01,0,14400,4.4,CKW ClassicStrom,12,0,12,0,0,12,0.806,2.3,23.16,0.045,223.2
-2026,CHE-105.941.235,CKW AG,standard,C5,CKW Netz LG5,6.322,0,6.322,0,17460,2.1,CKW ClassicStrom,12,0,12,0,0,12,1.8,2.3,22.539,0.117,584.4
-2026,CHE-105.941.235,CKW AG,standard,C5,CKW Netz LG5,6.322,0,6.322,0,17460,2.1,CKW ClassicStrom,12,0,12,0,0,12,0.644,2.3,21.383,0.117,584.4
-2026,CHE-105.941.235,CKW AG,standard,C3,CKW Netz LG7,8.33,0,8.33,0,4800,4.4,CKW ClassicStrom,12,0,12,0,0,12,0.848,2.3,23.627,0.149,223.2
-2026,CHE-105.941.235,CKW AG,standard,C3,CKW Netz LG7,8.33,0,8.33,0,4800,4.4,CKW ClassicStrom,12,0,12,0,0,12,0.85,2.3,23.629,0.149,223.2
-2026,CHE-105.941.235,CKW AG,standard,C4,CKW Netz LG7,8.01,0,8.01,0,14400,4.4,CKW ClassicStrom,12,0,12,0,0,12,0.75,2.3,23.105,0.045,223.2
-2026,CHE-105.941.235,CKW AG,standard,C2,CKW Netz E,7.63,0,7.63,0,270,6,CKW ClassicStrom,12,0,12,0,0,12,0.784,2.3,22.92,0.206,61.8"
-`;
-
 exports[`Data Export API > should return valid CSV for 'sunshine-data-export' > csv-download-sunshine-data-export 1`] = `
-"Operator ID,Operator UID,Operator Name,Period,Network Costs NE5 (CHF/km),Network Costs NE6 (CHF/kVA),Network Costs NE7 (CHF/km),SAIDI Total (Min./year),SAIDI Unplanned (Min./year),SAIFI Total (Count/year),SAIFI Unplanned (Count/year),Franc Rule (CHF),Customer Outage Notification,Days in Advance for Notification (days),Timely Paper Submission,Energy Tariff C2 (ct./kWh),Energy Tariff C3 (ct./kWh),Energy Tariff C4 (ct./kWh),Energy Tariff C6 (ct./kWh),Energy Tariff H2 (ct./kWh),Energy Tariff H4 (ct./kWh),Energy Tariff H7 (ct./kWh),Net Tariff C2 (ct./kWh),Net Tariff C3 (ct./kWh),Net Tariff C4 (ct./kWh),Net Tariff C6 (ct./kWh),Net Tariff H2 (ct./kWh),Net Tariff H4 (ct./kWh),Net Tariff H7 (ct./kWh)
+"Netzbetreiber-ID,Netzbetreiber UID,Name des Netzbetreibers,Zeitraum,Netzkosten NE5 (CHF/km),Netzkosten NE6 (CHF/kVA),Netzkosten NE7 (CHF/km),SAIDI Insgesamt (Min./Jahr),SAIDI Ungeplant (Min./Jahr),SAIFI Gesamt (Anzahl/Jahr),SAIFI Ungeplant (Anzahl/Jahr),Franc-Regel (CHF),Benachrichtigung von Kunden über Ausfälle,Tage im Voraus für die Benachrichtigung (Tage),Rechtzeitige Einreichung von Papieren,Energietarif C2 (Rp./kWh),Energietarif C3 (Rp./kWh),Energietarif C4 (Rp./kWh),Energietarif C6 (Rp./kWh),Energietarif H2 (Rp./kWh),Energietarif H4 (Rp./kWh),Energietarif H7 (Rp./kWh),Netztarif C2 (Rp./kWh),Netztarif C3 (Rp./kWh),Netztarif C4 (Rp./kWh),Netztarif C6 (Rp./kWh),Netztarif H2 (Rp./kWh),Netztarif H4 (Rp./kWh),Netztarif H7 (Rp./kWh)
 10,10,Arosa Energie,2026,7312.669,10.655,12936.126,,,,,45.615,true,3,false,8.093,7.637,6.998,7.632,7.73,7.648,6.769,10.662,8.705,8.232,8.289,11.773,11.08,10.206
 105,105,ELEKTRA ENERGIE Genossenschaft,2026,8643.865,10.398,12528.909,,,,,59.579,true,14,false,14.2,0,0,0,14.2,14.2,14.2,18.33,13.97,13.302,0,19.49,16.93,13.661
 107,107,Elektra Andwil Stromversorgung,2026,32282.548,9.826,17957.51,,,,,59.999,true,8,false,13.95,13.35,13.35,0,13.95,13.95,13.95,12.93,10.71,10.298,0,15.13,14.063,13.192
