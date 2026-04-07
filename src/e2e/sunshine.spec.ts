@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 
 import InflightRequests from "src/e2e/inflight";
 
-import { sleep, test, expect, TestFixtures } from "./common";
+import { expect, sleep, TestFixtures, test } from "./common";
 
 test.describe("Sunshine overview page", () => {
   test("it should load the sunshine overview page (partial data)", async ({
@@ -280,7 +280,7 @@ test.describe("Sunshine map details panel", () => {
     await setFlags(page, ["webglDeactivated"]);
     const tracker = new InflightRequests(page);
     await page.goto(
-      "/en/map?tab=sunshine&indicator=saidi&peerGroup=4&activeId=31"
+      "/en/map?tab=sunshine&indicator=saidi&peerGroup=4&activeId=31",
     );
     await tracker.waitForRequests();
     // loading should be detached
@@ -336,7 +336,7 @@ const checkCategories = async (page: Page) => {
   // Verify only sunshine categories C2, C3, C4, C6, H2, H4, H7 are displayed
   const sunshineCategories = ["C2", "C3", "C4", "C6", "H2", "H4", "H7"];
   const foundCategories = sunshineCategories.filter((category) =>
-    contentText?.includes(category)
+    contentText?.includes(category),
   ).length;
 
   // Expect at least some sunshine categories to be displayed
@@ -372,7 +372,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     await page.getByText("Grid Tariffs").click();
     // text: Net Tariffs C2 - Small business (<15 kW)
     await expect(
-      page.getByText("Net Tariffs H4 - 5-room apartment")
+      page.getByText("Net Tariffs H4 - 5-room apartment"),
     ).toBeVisible();
     await page.getByRole("combobox", { name: "Category" }).click();
     await page.getByRole("option", { name: "H4" }).click();
@@ -398,7 +398,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
 
     // Navigate to operator 426 costs-and-tariffs page with net tariffs tab
     await page.goto(
-      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs",
     );
     await tracker.waitForRequests();
     await checkCategories(page);
@@ -409,7 +409,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
 test.describe("Trend icons on Costs and Tariffs page", () => {
   test("should display trend icons for energy tariffs", async ({ page }) => {
     await page.goto(
-      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=energyTariffs"
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=energyTariffs",
     );
     await page.waitForLoadState("networkidle");
 
@@ -420,7 +420,7 @@ test.describe("Trend icons on Costs and Tariffs page", () => {
 
   test("should display trend icons for net tariffs", async ({ page }) => {
     await page.goto(
-      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
+      "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs",
     );
     await page.waitForLoadState("networkidle");
 
@@ -460,7 +460,7 @@ test.describe("NULL peer group medians display as «–» not «0»", () => {
     page,
   }) => {
     const resp = await page.goto(
-      `/en/sunshine/operator/${OPERATOR_ID}/power-stability`
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability`,
     );
     await expect(resp?.status()).toEqual(200);
     await page.waitForLoadState("networkidle");
@@ -490,7 +490,7 @@ test.describe("NULL peer group medians display as «–» not «0»", () => {
     page,
   }) => {
     const resp = await page.goto(
-      `/en/sunshine/operator/${OPERATOR_ID}/power-stability?tabDetails=saifi`
+      `/en/sunshine/operator/${OPERATOR_ID}/power-stability?tabDetails=saifi`,
     );
     await expect(resp?.status()).toEqual(200);
     await page.waitForLoadState("networkidle");
