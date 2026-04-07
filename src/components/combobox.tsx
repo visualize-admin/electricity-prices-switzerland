@@ -11,6 +11,8 @@ import Autocomplete, { autocompleteClasses } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { hsl } from "d3";
 import { useEffect, useId, useMemo, useState } from "react";
+import { makeStyles } from "tss-react/mui";
+
 import {
   AutocompleteGroupLabel,
   AutocompleteGroupUl,
@@ -19,7 +21,6 @@ import { InfoDialogButton } from "src/components/info-dialog";
 import { WikiPageSlug } from "src/domain/types";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
-import { makeStyles } from "tss-react/mui";
 
 export type ComboboxMultiProps = {
   id: string;

@@ -3,6 +3,7 @@ import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { memo } from "react";
 
+import { ButtonGroup } from "src/components/button-group";
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
 import { AxisTime } from "src/components/charts-generic/axis/axis-width-time";
 import {
@@ -16,7 +17,6 @@ import { LegendColor } from "src/components/charts-generic/legends/color";
 import { Lines } from "src/components/charts-generic/lines/lines";
 import { LineChart } from "src/components/charts-generic/lines/lines-state";
 import { InteractionHorizontal } from "src/components/charts-generic/overlay/interaction-horizontal";
-import { ButtonGroup } from "src/components/button-group";
 import { Combobox } from "src/components/combobox";
 import {
   Card,

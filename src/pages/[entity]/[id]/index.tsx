@@ -185,6 +185,7 @@ const ElectricityTariffsPage = (props: Props) => {
       />
 
       <div
+        data-testid="detail-page-selector-multi"
         style={{
           display: "grid",
           gap: "1rem",
