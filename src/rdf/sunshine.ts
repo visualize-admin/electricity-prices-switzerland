@@ -148,7 +148,6 @@ const executeSparqlQuery = async <T>(
   query: string
 ): Promise<T[]> => {
   try {
-    console.log('queyr', query)
     const stream = await client.query.select(query);
     const results: T[] = [];
 
