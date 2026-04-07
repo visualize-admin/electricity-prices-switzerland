@@ -13,7 +13,12 @@ You can also check the
 
 Nothing yet.
 
-# 2.40.3 - 2026-03-26
+
+# 2.40.4 - 2026-04-07
+
+- Fix comparison group values on overview page ([#585](https://github.com/visualize-admin/electricity-prices-switzerland/pull/585))
+
+# 2.40.3 - 2026-03-2
 
 - Matomo should work again
 
