@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 
@@ -66,18 +66,14 @@ export const SelectorMulti = ({ entity }: { entity: Entity }) => {
       ) : entity === "municipality" ? (
         <MunicipalitiesCombobox
           label={
-            <Trans id="selector.comparemunicipalities">
-              Municipalities for comparison
-            </Trans>
+            <Trans id="selector.comparemunicipalities">Compare with</Trans>
           }
           selectedItems={queryState.municipality ?? []}
           setSelectedItems={(items) => setQueryState({ municipality: items })}
         />
       ) : (
         <CantonsCombobox
-          label={
-            <Trans id="selector.comparecantons">Cantons for comparison</Trans>
-          }
+          label={<Trans id="selector.comparecantons">Compare with</Trans>}
           selectedItems={queryState.canton ?? []}
           setSelectedItems={(items) => setQueryState({ canton: items })}
         />
