@@ -38,6 +38,10 @@ export const SWISS_FRANCS = defineMessage({
   id: "sunshine.metric-unit.swiss-francs",
   message: "CHF",
 });
+export const CHF_PER_YEAR = defineMessage({
+  id: "sunshine.metric-unit.chf-year",
+  message: "CHF p.a.",
+});
 
 export const networkLevelUnits = {
   NE5: "CHF/km",
