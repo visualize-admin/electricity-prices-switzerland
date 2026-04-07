@@ -132,6 +132,7 @@
   "devDependencies": {
     "@argos-ci/playwright": "^6.4.2",
     "@axe-core/playwright": "^4.11.1",
+    "@biomejs/biome": "^2.4.10",
     "@graphql-codegen/cli": "^6.1.2",
     "@graphql-codegen/typescript": "^5.0.8",
     "@graphql-codegen/typescript-operations": "^5.0.8",

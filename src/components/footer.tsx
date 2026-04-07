@@ -154,6 +154,16 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
 
+        <Link href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}>
+          <FooterSectionButton
+            iconName="download"
+            label={t({
+              id: "footer.sunshine-data-as-csv",
+              message: "Sunshine data as csv",
+            })}
+          />
+        </Link>
+
         <Link
           href={`https://opendata.swiss/${locale}/organization/elcom`}
           target="_blank"

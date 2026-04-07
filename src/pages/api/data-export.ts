@@ -1,8 +1,10 @@
+import { t } from "@lingui/macro";
 import { csvFormatBody, format } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { CHF_PER_YEAR, RP_PER_KWH } from "src/domain/metrics";
 import { runtimeEnv } from "src/env/runtime";
-import { parseLocaleString } from "src/locales/locales";
+import { i18n, parseLocaleString } from "src/locales/locales";
 import {
   getElectricityPriceObservations,
   getElectricityPriceCube,
@@ -26,43 +28,127 @@ const formatters: Record<string, ReturnType<typeof format>> = {
   // total: format(".5f"),
 };
 
-const dimensions = [
-  { attr: "period", name: "period" },
-  { attr: "operator", name: "operator", hidden: true },
-  { attr: "operatorIdentifier", name: "operator" },
-  { attr: "operatorLabel", name: "operatorLabel" },
-  { attr: "product", name: "product" },
-  { attr: "category", name: "category" },
-  { attr: "gridusagename", name: "gridusagename" },
-  {
-    attr: "gridusagebeforediscount",
-    name: "gridusage before discount (cts./kWh)",
-  },
-  { attr: "gridusagediscount", name: "gridusagediscount discount (cts./kWh)" },
-  { attr: "gridusage", name: "gridusage after discount (cts./kWh)" },
-  { attr: "fixcosts", name: "hereof grid: fixcosts (CHF p.a.)" },
-  { attr: "gridpowerprice", name: "hereof grid: power price (CHF p.a.)" },
-  { attr: "gridworkingprice", name: "hereof grid: working price (cts./kWh)" },
-  { attr: "energyname", name: "energyname" },
-  { attr: "energybeforediscount", name: "energy before discount (cts./kWh)" },
-  { attr: "energydiscount", name: "energy discount (cts./kWh)" },
-  { attr: "energy", name: "energy after discount (cts./kWh)" },
-  { attr: "energyfixcost", name: "hereof energy: fixcosts (CHF p.a.)" },
-  { attr: "energypowerprice", name: "hereof energy: power price (CHF p.a.)" },
-  {
-    attr: "energyworkingprice",
-    name: "hereof energy: working price (cts./kWh)",
-  },
-  { attr: "charge", name: "charge (cts./kWh)" },
-  { attr: "aidfee", name: "aidfee (cts./kWh)" },
-  { attr: "total", name: "total (cts./kWh)" },
-  { attr: "meteringrate", name: "metering rate (cts./kWh)" },
-  { attr: "annualmeteringcost", name: "annual metering cost (CHF p.a.)" },
-];
+const getDimensions = () => {
+  const rpKwh = i18n._(RP_PER_KWH);
+  const chfYear = i18n._(CHF_PER_YEAR);
+
+  return [
+    {
+      attr: "period",
+      name: t({ id: "data-export.column.period", message: "Period" }),
+    },
+    { attr: "operator", name: "operator", hidden: true },
+    {
+      attr: "operatorIdentifier",
+      name: t({ id: "data-export.column.operator", message: "Operator" }),
+    },
+    {
+      attr: "operatorLabel",
+      name: t({
+        id: "data-export.column.operator-label",
+        message: "Operator Name",
+      }),
+    },
+    {
+      attr: "product",
+      name: t({ id: "data-export.column.product", message: "Product" }),
+    },
+    {
+      attr: "category",
+      name: t({ id: "data-export.column.category", message: "Category" }),
+    },
+    {
+      attr: "gridusagename",
+      name: t({
+        id: "data-export.column.grid-usage-name",
+        message: "Grid Usage Name",
+      }),
+    },
+    {
+      attr: "gridusagebeforediscount",
+      name: `${t({ id: "data-export.column.grid-usage-before-discount", message: "Grid Usage before Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "gridusagediscount",
+      name: `${t({ id: "data-export.column.grid-usage-discount", message: "Grid Usage Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "gridusage",
+      name: `${t({ id: "data-export.column.grid-usage", message: "Grid Usage after Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "fixcosts",
+      name: `${t({ id: "data-export.column.grid-fix-costs", message: "Grid Fix Costs" })} (${chfYear})`,
+    },
+    {
+      attr: "gridpowerprice",
+      name: `${t({ id: "data-export.column.grid-power-price", message: "Grid Power Price" })} (${chfYear})`,
+    },
+    {
+      attr: "gridworkingprice",
+      name: `${t({ id: "data-export.column.grid-working-price", message: "Grid Working Price" })} (${rpKwh})`,
+    },
+    {
+      attr: "energyname",
+      name: t({
+        id: "data-export.column.energy-name",
+        message: "Energy Name",
+      }),
+    },
+    {
+      attr: "energybeforediscount",
+      name: `${t({ id: "data-export.column.energy-before-discount", message: "Energy before Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "energydiscount",
+      name: `${t({ id: "data-export.column.energy-discount", message: "Energy Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "energy",
+      name: `${t({ id: "data-export.column.energy", message: "Energy after Discount" })} (${rpKwh})`,
+    },
+    {
+      attr: "energyfixcost",
+      name: `${t({ id: "data-export.column.energy-fix-costs", message: "Energy Fix Costs" })} (${chfYear})`,
+    },
+    {
+      attr: "energypowerprice",
+      name: `${t({ id: "data-export.column.energy-power-price", message: "Energy Power Price" })} (${chfYear})`,
+    },
+    {
+      attr: "energyworkingprice",
+      name: `${t({ id: "data-export.column.energy-working-price", message: "Energy Working Price" })} (${rpKwh})`,
+    },
+    {
+      attr: "charge",
+      name: `${t({ id: "data-export.column.charge", message: "Charge" })} (${rpKwh})`,
+    },
+    {
+      attr: "aidfee",
+      name: `${t({ id: "data-export.column.aid-fee", message: "Aid Fee" })} (${rpKwh})`,
+    },
+    {
+      attr: "total",
+      name: `${t({ id: "data-export.column.total", message: "Total" })} (${rpKwh})`,
+    },
+    {
+      attr: "meteringrate",
+      name: `${t({ id: "data-export.column.metering-rate", message: "Metering Rate" })} (${rpKwh})`,
+    },
+    {
+      attr: "annualmeteringcost",
+      name: `${t({ id: "data-export.column.annual-metering-cost", message: "Annual Metering Cost" })} (${chfYear})`,
+    },
+  ] as const;
+};
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const locale = parseLocaleString(req.query.locale?.toString());
   const period = req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD!;
+
+  // Activate locale before building dimensions so t() picks up the right language
+  i18n.activate(locale);
+  const dimensions = getDimensions();
 
   const client = await getSparqlClientFromRequest(req);
   const cube = await getElectricityPriceCube(client);
@@ -95,7 +181,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return observations;
   });
 
-  const usedDimensions = dimensions.filter((d) => !d?.hidden);
+  const usedDimensions = dimensions.filter((d) => !("hidden" in d && d.hidden));
   const columns = usedDimensions.map((x) => x.attr);
   const header = usedDimensions.map((x) => x.name).join(", ");
   const csv = `${header}\n${csvFormatBody(observations, columns)}`;

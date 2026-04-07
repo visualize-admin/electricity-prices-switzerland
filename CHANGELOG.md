@@ -11,8 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
-
+- Ability to download the Sunshine data as CSV
 
 # 2.40.4 - 2026-04-07
 

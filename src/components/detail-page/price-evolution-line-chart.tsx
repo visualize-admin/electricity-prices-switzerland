@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { memo } from "react";
@@ -125,8 +125,8 @@ export const PriceEvolution = ({
     entity === "municipality"
       ? municipality
       : entity === "operator"
-      ? operator
-      : canton;
+        ? operator
+        : canton;
 
   const entityIds = comparisonIds?.some((m) => m !== "")
     ? [...comparisonIds, id]
@@ -149,14 +149,14 @@ export const PriceEvolution = ({
 
   const operatorObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
+    : (observationsQuery.data?.observations ?? EMPTY_ARRAY);
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+    : (observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY);
   const observations = [...operatorObservations, ...cantonObservations];
 
-  return observationsQuery.fetching ? (
-    <LoadingSkeleton height={1900} />
+  return observationsQuery.fetching || false ? (
+    <LoadingSkeleton height={166} />
   ) : observations.length === 0 ? (
     <NoDataHint />
   ) : (
@@ -203,7 +203,7 @@ export const PriceEvolutionLineCharts = memo(
         })}
       </Box>
     );
-  }
+  },
 );
 
 const PriceEvolutionLineChart = (props: {
@@ -230,7 +230,7 @@ const PriceEvolutionLineChart = (props: {
   const hasMultipleLines =
     new Set(withUniqueEntityId.map((obs) => obs.uniqueId)).size > 1;
 
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   return (
     <Box>

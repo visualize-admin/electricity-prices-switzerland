@@ -1,4 +1,4 @@
-import { test, sleep, ensureLoadingIsComplete, expect } from "src/e2e/common";
+import { ensureLoadingIsComplete, expect, sleep, test } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Home Page", () => {
@@ -90,6 +90,26 @@ test.describe("The Home Page", () => {
       });
       // close page
       await newPage.close();
+    }
+  });
+
+  test("csv download links", async ({ page }) => {
+    await page.goto("/de");
+    const links = [
+      {
+        name: "Daten als CSV",
+        href: /\/api\/data-export\?period=\d{4}&locale=de/,
+      },
+      {
+        name: "Sunshinedaten als CSV",
+        href: /\/api\/sunshine-data-export\?period=\d{4}&locale=de/,
+      },
+    ];
+
+    for (const { name, href } of links) {
+      const anchor = page.getByRole("link", { name, exact: true });
+      await expect(anchor).toBeVisible();
+      await expect(anchor).toHaveAttribute("href", href);
     }
   });
 });

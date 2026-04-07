@@ -7,9 +7,9 @@ import {
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
+import { BASE_URL } from "src/utils/base-url";
 
-const GRAPHQL_BASE_URL =
-  process.env.GRAPHQL_BASE_URL || "http://localhost:3000/api/graphql";
+const GRAPHQL_BASE_URL = `${BASE_URL}/api/graphql`;
 
 const makeHeaders = async () => ({
   cookie: await createCookieFromFlags({
@@ -20,7 +20,7 @@ const makeHeaders = async () => ({
     ? {
         // basic auth
         authorization: `Basic ${Buffer.from(
-          `${process.env.BASIC_AUTH_CREDENTIALS}`
+          `${process.env.BASIC_AUTH_CREDENTIALS}`,
         ).toString("base64")}`,
       }
     : {}),
@@ -39,7 +39,7 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
     .then(async (response) => {
       if (!response.ok) {
         throw new Error(
-          `GraphQL API is not reachable at ${graphqlEndpoint}: ${await response.text()}`
+          `GraphQL API is not reachable at ${graphqlEndpoint}: ${await response.text()}`,
         );
       }
       return response.json();
@@ -47,7 +47,7 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
     .catch((error) => {
       console.error(
         `Error performing health check (endpoint: ${graphqlEndpoint}):`,
-        error
+        error,
       );
       throw error;
     });
@@ -59,7 +59,7 @@ beforeAll(async () => {
 });
 
 async function executeGraphQLQuery(
-  variables: SunshineDataByIndicatorQueryVariables
+  variables: SunshineDataByIndicatorQueryVariables,
 ): Promise<{ data?: SunshineDataByIndicatorQuery; error?: Error }> {
   const headers = await makeHeaders();
   const client = new Client({
@@ -455,7 +455,7 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 107,
                   "operatorUID": "107",
                   "period": "2025",
-                  "value": 0,
+                  "value": null,
                 },
               ],
               "median": 11.26,
@@ -595,14 +595,14 @@ describe("GraphQL API Integration Tests", () => {
                   "operatorId": 105,
                   "operatorUID": "105",
                   "period": "2025",
-                  "value": 0,
+                  "value": null,
                 },
                 {
                   "name": "Elektra Andwil Stromversorgung",
                   "operatorId": 107,
                   "operatorUID": "107",
                   "period": "2025",
-                  "value": 0,
+                  "value": null,
                 },
               ],
               "median": 6.175,
