@@ -61,6 +61,102 @@ msgstr "Inserire la descrizione..."
 msgid "controls.search.clear"
 msgstr "Svuotare il campo di ricerca"
 
+#: src/pages/api/data-export.ts
+msgid "data-export.column.aid-fee"
+msgstr "Tassa di aiuto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.annual-metering-cost"
+msgstr "Tariffa annuale di misurazione"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.category"
+msgstr "Categoria"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.charge"
+msgstr "Tributi"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy"
+msgstr "Energia dopo lo sconto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-before-discount"
+msgstr "Energia prima dello sconto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-discount"
+msgstr "Sconto sull'energia"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-fix-costs"
+msgstr "Costi fissi dell'energia"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-name"
+msgstr "Nome dell'energia"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-power-price"
+msgstr "Prezzo di potenza dell'energia"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.energy-working-price"
+msgstr "Prezzo di lavoro dell'energia"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-fix-costs"
+msgstr "Costi fissi della rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-power-price"
+msgstr "Prezzo dell'energia di rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-usage"
+msgstr "Utilizzo della rete dopo lo sconto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-usage-before-discount"
+msgstr "Utilizzo della rete prima dello sconto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-usage-discount"
+msgstr "Sconto sull'utilizzo della rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-usage-name"
+msgstr "Nome dell'utilizzo della rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.grid-working-price"
+msgstr "Prezzo di lavoro della rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.metering-rate"
+msgstr "Tariffa di misurazione"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.operator"
+msgstr "Gestore di rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.operator-label"
+msgstr "Nome del gestore di rete"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.period"
+msgstr "Periodo"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.product"
+msgstr "Prodotto"
+
+#: src/pages/api/data-export.ts
+msgid "data-export.column.total"
+msgstr "Totale"
+
 #: src/components/list.tsx
 msgid "dataset.results"
 msgstr "{0} Risultati"
@@ -313,7 +409,7 @@ msgstr "Informazioni complementari"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr ""
+msgstr "Dati Sunshine come CSV"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -1380,6 +1476,66 @@ msgstr "{year}"
 msgid "sunshine.date"
 msgstr "Data: {date}"
 
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.customer-outage-notification"
+msgstr "Notifica di interruzione del servizio al cliente"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.days-in-advance"
+msgstr "Giorni di anticipo per la notifica"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.energy-tariff"
+msgstr "Tariffa energetica"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.franc-rule"
+msgstr "Regola del franco"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.net-tariff"
+msgstr "Tariffa di rete"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.network-costs"
+msgstr "Costi di rete"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.operator-id"
+msgstr "ID gestore di rete"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.operator-name"
+msgstr "Nome del gestore di rete"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.operator-uid"
+msgstr "UID del gestore di rete"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.period"
+msgstr "Periodo"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.saidi-total"
+msgstr "SAIDI Totale"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.saidi-unplanned"
+msgstr "SAIDI Non pianificato"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.saifi-total"
+msgstr "SAIFI Totale"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.saifi-unplanned"
+msgstr "SAIFI Non pianificato"
+
+#: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.timely-submission"
+msgstr "Presentazione tempestiva dei documenti"
+
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "Costi di rete"
@@ -1450,6 +1606,10 @@ msgstr "CHF/km"
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-kva"
 msgstr "CHF/kVA"
+
+#: src/domain/metrics.ts
+msgid "sunshine.metric-unit.chf-year"
+msgstr "CHF p.a."
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
