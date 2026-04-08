@@ -14,15 +14,6 @@ export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
   object: T | null;
 };
 
-// Common types for layer options
-export type LayerHoverHandler<TFeature> = (
-  info: PickingInfoTyped<TFeature>,
-) => void;
-export type LayerClickHandler<TFeature> = (
-  info: PickingInfoTyped<TFeature>,
-  event: { srcEvent: Event },
-) => void;
-
 // TFeature is the GeoJSON feature type; TObs is the observation type per entity.
 interface EntityLayerOptions<
   TFeature extends Feature<Geometry, GeoJsonProperties>,
