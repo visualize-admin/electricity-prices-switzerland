@@ -1,4 +1,4 @@
-import { msg, t, Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import {
   Box,
@@ -20,10 +20,7 @@ import type { GenericObservation } from "src/domain/data";
 import { filterBySeparator } from "src/domain/helpers";
 import { useFormatCurrency } from "src/domain/helpers";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
-import type {
-  CompareWithFilter,
-  ViewByFilter,
-} from "src/domain/query-states";
+import type { CompareWithFilter, ViewByFilter } from "src/domain/query-states";
 import { useQueryStateOperationalStandardsChartFilters } from "src/domain/query-states";
 import { isPeerGroupRow, PeerGroup } from "src/domain/sunshine";
 import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
@@ -40,6 +37,11 @@ import { ItemMultiCombobox } from "./query-combobox";
 const DOWNLOAD_ID_SERVICE_QUALITY: Download =
   "operational-standards-service-quality";
 const DOWNLOAD_ID_COMPLIANCE: Download = "operational-standards-compliance";
+
+/** Latest-year view: one Y band; operators are segments (like network costs), not one row per operator. */
+const OPERATIONAL_LATEST_YEAR_Y_FIELD = "comparison_strip";
+/** Placeholder label for the single strip (arbitrary; kept minimal on the axis). */
+const OPERATIONAL_LATEST_YEAR_STRIP_LABEL = "\u2014";
 
 type StandardAttribute = "serviceQuality" | "compliance";
 
@@ -118,19 +120,14 @@ const OperationalLatestYearChartView = ({
   const { i18n } = useLingui();
 
   const mappedObservations = useMemo((): GenericObservation[] => {
-    const stripLabel = i18n._(
-      msg({
-        id: "sunshine.operational-standards.latest-year-compare-row",
-        message: "Comparison",
-      })
-    );
     if (standardAttribute === "serviceQuality") {
       const rows = observations as OperationalStandardsServiceQualityTrendRow[];
       return rows
         .map((o) => ({
           ...o,
           year: o.year,
-          [OPERATIONAL_LATEST_YEAR_Y_FIELD]: stripLabel,
+          [OPERATIONAL_LATEST_YEAR_Y_FIELD]:
+            OPERATIONAL_LATEST_YEAR_STRIP_LABEL,
         }))
         .filter(
           (x): x is NonNullableProp<typeof x, "days"> =>
@@ -142,13 +139,13 @@ const OperationalLatestYearChartView = ({
       .map((o) => ({
         ...o,
         year: o.year,
-        [OPERATIONAL_LATEST_YEAR_Y_FIELD]: stripLabel,
+        [OPERATIONAL_LATEST_YEAR_Y_FIELD]: OPERATIONAL_LATEST_YEAR_STRIP_LABEL,
       }))
       .filter(
         (x): x is NonNullableProp<typeof x, "francsPerInvoice"> =>
           !isPeerGroupRow(x) && x.francsPerInvoice !== null
       ) as GenericObservation[];
-  }, [observations, standardAttribute, i18n]);
+  }, [observations, standardAttribute]);
 
   if (mappedObservations.length === 0) {
     return <NoDataHint />;
@@ -267,15 +264,21 @@ const OperationalProgressChartView = ({
 
   const validObservations = useMemo((): GenericObservation[] => {
     if (standardAttribute === "serviceQuality") {
-      return (observations as OperationalStandardsServiceQualityTrendRow[]).filter(
-        (d): d is NonNullableProp<
+      return (
+        observations as OperationalStandardsServiceQualityTrendRow[]
+      ).filter(
+        (
+          d
+        ): d is NonNullableProp<
           OperationalStandardsServiceQualityTrendRow,
           "days"
         > => d.days !== null
       ) as GenericObservation[];
     }
     return (observations as OperationalStandardsComplianceTrendRow[]).filter(
-      (d): d is NonNullableProp<
+      (
+        d
+      ): d is NonNullableProp<
         OperationalStandardsComplianceTrendRow,
         "francsPerInvoice"
       > => d.francsPerInvoice !== null
@@ -340,7 +343,8 @@ type OperationalStandardsChartCardProps = {
 export const OperationalStandardsChartCardState = (
   props: Omit<OperationalStandardsChartCardProps, "state" | "setQueryState">
 ) => {
-  const [state, setQueryState] = useQueryStateOperationalStandardsChartFilters();
+  const [state, setQueryState] =
+    useQueryStateOperationalStandardsChartFilters();
   return (
     <OperationalStandardsChartCard
       {...props}
@@ -368,60 +372,65 @@ const OperationalStandardsChartCard: React.FC<
   const { opStdCompareWith, opStdViewBy } = state;
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
 
-  const { observations, multiComboboxOptions, peerMedianLatest } = useMemo(() => {
-    const multiComboboxOptions: Array<
-      | OperationalStandardsServiceQualityTrendRow
-      | OperationalStandardsComplianceTrendRow
-    > = [];
-    const observations: Array<
-      | OperationalStandardsServiceQualityTrendRow
-      | OperationalStandardsComplianceTrendRow
-    > = [];
-    let peerMedianLatest: number | null = null;
+  const { observations, multiComboboxOptions, peerMedianLatest } =
+    useMemo(() => {
+      const multiComboboxOptions: Array<
+        | OperationalStandardsServiceQualityTrendRow
+        | OperationalStandardsComplianceTrendRow
+      > = [];
+      const observations: Array<
+        | OperationalStandardsServiceQualityTrendRow
+        | OperationalStandardsComplianceTrendRow
+      > = [];
+      let peerMedianLatest: number | null = null;
 
-    yearlyData.forEach((d) => {
-      const isLatestYear = d.year === latestYear;
-      const operatorIdStr = d.operator_id.toString();
-      const isSelected =
-        state.opStdCompareWith?.includes("sunshine.select-all") ||
-        state.opStdCompareWith?.includes(operatorIdStr) ||
-        operatorIdStr === operatorId ||
-        isPeerGroupRow(d);
-      if (
-        (state.opStdViewBy === "latest" ? isLatestYear : true) &&
-        isSelected
-      ) {
-        observations.push(d);
-      }
-      if (isLatestYear && isPeerGroupRow(d)) {
-        if (standardAttribute === "serviceQuality") {
-          const row = d as OperationalStandardsServiceQualityTrendRow;
-          if (row.days !== null && row.days !== undefined) {
-            peerMedianLatest = row.days;
-          }
-        } else {
-          const row = d as OperationalStandardsComplianceTrendRow;
-          if (
-            row.francsPerInvoice !== null &&
-            row.francsPerInvoice !== undefined
-          ) {
-            peerMedianLatest = row.francsPerInvoice;
+      yearlyData.forEach((d) => {
+        const isLatestYear = d.year === latestYear;
+        const operatorIdStr = d.operator_id.toString();
+        const isSelected =
+          state.opStdCompareWith?.includes("sunshine.select-all") ||
+          state.opStdCompareWith?.includes(operatorIdStr) ||
+          operatorIdStr === operatorId ||
+          isPeerGroupRow(d);
+        if (
+          (state.opStdViewBy === "latest" ? isLatestYear : true) &&
+          isSelected
+        ) {
+          observations.push(d);
+        }
+        if (isLatestYear && isPeerGroupRow(d)) {
+          if (standardAttribute === "serviceQuality") {
+            const row = d as OperationalStandardsServiceQualityTrendRow;
+            if (row.days !== null && row.days !== undefined) {
+              peerMedianLatest = row.days;
+            }
+          } else {
+            const row = d as OperationalStandardsComplianceTrendRow;
+            if (
+              row.francsPerInvoice !== null &&
+              row.francsPerInvoice !== undefined
+            ) {
+              peerMedianLatest = row.francsPerInvoice;
+            }
           }
         }
-      }
-      if (isLatestYear && operatorIdStr !== operatorId && !isPeerGroupRow(d)) {
-        multiComboboxOptions.push(d);
-      }
-    });
-    return { observations, multiComboboxOptions, peerMedianLatest };
-  }, [
-    yearlyData,
-    standardAttribute,
-    state.opStdCompareWith,
-    state.opStdViewBy,
-    latestYear,
-    operatorId,
-  ]);
+        if (
+          isLatestYear &&
+          operatorIdStr !== operatorId &&
+          !isPeerGroupRow(d)
+        ) {
+          multiComboboxOptions.push(d);
+        }
+      });
+      return { observations, multiComboboxOptions, peerMedianLatest };
+    }, [
+      yearlyData,
+      standardAttribute,
+      state.opStdCompareWith,
+      state.opStdViewBy,
+      latestYear,
+      operatorId,
+    ]);
 
   const downloadId =
     standardAttribute === "serviceQuality"
