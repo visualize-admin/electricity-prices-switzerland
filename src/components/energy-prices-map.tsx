@@ -1,6 +1,6 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { Trans, t } from "@lingui/macro";
-import { group, index, ScaleThreshold } from "d3";
+import { index, ScaleThreshold } from "d3";
 import {
   ComponentProps,
   useCallback,
@@ -44,7 +44,6 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 import { combineErrors } from "src/utils/combine-errors";
 
 import { GenericMap, GenericMapControls, GenericMapProps } from "./generic-map";
@@ -88,14 +87,8 @@ export const EnergyPricesMap = ({
     pause: !(entity === "operator" && enrichedData),
   });
 
-  // Create operator observations grouping for map layers
-  const observationsByOperator = useMemo(() => {
-    if (!enrichedData?.observations) {
-      return {};
-    }
-    const grouped = group(enrichedData.observations, (obs) => obs.operator);
-    return aggregateEnergyPricesObservationsByOperator(grouped);
-  }, [enrichedData?.observations]);
+  // Use aggregated operator observations from enriched data
+  const observationsByOperator = enrichedData?.observationsByOperatorAggregated ?? {};
 
   // Create entity selection for unified hook
   const entitySelection: EntitySelection = useMemo(
@@ -104,7 +97,7 @@ export const EnergyPricesMap = ({
         hovered?.type === "municipality" || hovered?.type === "canton"
           ? [hovered.id.toString()]
           : hovered?.type === "operator" && hovered.id
-            ? [hovered.id]
+            ? [hovered.id.toString()]
             : null,
       selectedId: null,
       entityType:

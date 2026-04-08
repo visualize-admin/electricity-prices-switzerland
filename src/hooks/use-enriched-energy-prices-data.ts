@@ -8,6 +8,7 @@ import {
 } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
 import { indexMapper } from "src/lib/array";
+import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 
 interface UseEnrichedEnergyPricesDataParams {
   locale: string;
@@ -106,6 +107,8 @@ export const useEnrichedEnergyPricesData = ({
       (obs) => obs.municipality
     );
     const observationsByCanton = group(observations, (obs) => obs.canton);
+    const observationsByOperator = group(observations, (obs) => obs.operator);
+    const observationsByOperatorAggregated = aggregateEnergyPricesObservationsByOperator(observationsByOperator);
     const cantonMedianObservationsByCanton = index(
       cantonMedianObservations,
       (x) => x.canton
@@ -121,6 +124,8 @@ export const useEnrichedEnergyPricesData = ({
       observations,
       observationsByMunicipality,
       observationsByCanton,
+      observationsByOperator,
+      observationsByOperatorAggregated,
       cantonMedianObservations,
       cantonMedianObservationsByCanton,
       swissMedianObservations,

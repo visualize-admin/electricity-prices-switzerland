@@ -131,6 +131,8 @@ export type HoverState =
       y: number;
       id: string;
       type: "canton";
+      label?: string;
+      value?: number;
     }
   | {
       x: number;
