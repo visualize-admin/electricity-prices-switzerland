@@ -268,7 +268,6 @@ export const EnergyPricesMap = ({
       };
 
       return [
-        // Should be shown only if we have selected to view by municipality
         entity === "municipality" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.municipalities,
@@ -287,7 +286,6 @@ export const EnergyPricesMap = ({
             })
           : null,
 
-        // Should be shown only if we have selected to view by cantons
         entity === "canton" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.cantons,
@@ -304,7 +302,6 @@ export const EnergyPricesMap = ({
               renderMode,
             })
           : null,
-        // Should be shown only if we have selected to view by operators
         entity === "operator" &&
         operatorFeatureResult.data?.features &&
         observationsByOperator &&
