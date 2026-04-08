@@ -85,6 +85,8 @@ jobs:
 
       - name: Run application tests
         env:
+          PLAYWRIGHT_ARGOS_SUITE: app
+          PLAYWRIGHT_GRAPHQL_METRICS: "1"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
           PLAYWRIGHT_NO_WEBSERVER: true
@@ -117,11 +119,6 @@ jobs:
     needs: prepare
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shardIndex: [1, 2]
-        shardTotal: [2]
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -136,18 +133,20 @@ jobs:
 
       - name: Run storybook tests
         env:
+          PLAYWRIGHT_ARGOS_SUITE: storybook
+          PLAYWRIGHT_GRAPHQL_METRICS: "0"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
         run: |
           curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
-          pnpm exec playwright test --grep "@storybook" --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          pnpm run test:playwright:storybook
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report-storybook-shard-${{ matrix.shardIndex }}
+          name: playwright-report-storybook
           path: playwright-report/
           retention-days: 2
 
