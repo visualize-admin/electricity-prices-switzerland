@@ -53,7 +53,7 @@ const IndexPage = ({ locale }: Props) => {
   const medianValue = swissMedianObservations[0]?.value;
 
   const isValidValue = <T extends { value?: number | null | undefined }>(
-    x: T
+    x: T,
   ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
@@ -62,7 +62,7 @@ const IndexPage = ({ locale }: Props) => {
     const encoding = thresholdEncodings.energyPrices(
       medianValue,
       values,
-      +period
+      +period,
     );
     return encoding.makeScale();
   }, [colorAccessor, medianValue, observations, period]);

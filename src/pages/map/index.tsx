@@ -55,29 +55,29 @@ import { defaultLocale } from "src/locales/config";
 
 const MobileControls = dynamic(
   () => import("src/components/map/mobile-controls").then((mod) => mod),
-  { ssr: false }
+  { ssr: false },
 );
 
 const MapDetailsContent = dynamic(
   () =>
     import("src/components/map-details-content").then(
-      (mod) => mod.MapDetailsContent
+      (mod) => mod.MapDetailsContent,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 const ContentWrapper = dynamic(
   () =>
     import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper
+      (mod) => mod.ContentWrapper,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 const ApplicationLayout = dynamic(
   () =>
     import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
-  { ssr: false }
+  { ssr: false },
 );
 
 const DOWNLOAD_ID = "map";
@@ -138,18 +138,21 @@ const MapPageContent = ({
   // Entity from query state for electricity tab, always operator for sunshine tab
   const entity = isElectricityTab ? queryEntity : "operator";
 
-  const setEntity = useCallback((newEntity: Entity) => {
-    if (isElectricityTab) {
-      setQueryState({ entity: newEntity });
-    }
-  }, [isElectricityTab, setQueryState]);
+  const setEntity = useCallback(
+    (newEntity: Entity) => {
+      if (isElectricityTab) {
+        setQueryState({ entity: newEntity });
+      }
+    },
+    [isElectricityTab, setQueryState],
+  );
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
 
   // Simple accessor for sunshine data - just get the value field
   const sunshineAccessor = useCallback(
     (r: SunshineDataIndicatorRow) => r?.value ?? undefined,
-    []
+    [],
   );
 
   const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
@@ -208,11 +211,11 @@ const MapPageContent = ({
   const colorScale = useMemo(() => {
     const medianValue = isElectricityTab
       ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
-      : sunshineAllDataResult.data?.median ?? undefined;
+      : (sunshineAllDataResult.data?.median ?? undefined);
     const specKey = isElectricityTab ? "energyPrices" : indicator;
     const thresholdEncoding = thresholdEncodings[specKey];
     const isValidValue = <T extends { value?: number | null | undefined }>(
-      x: T
+      x: T,
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
     const sunshineValues = (sunshineAllDataResult.data?.observations ?? [])
@@ -242,7 +245,7 @@ const MapPageContent = ({
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
-    "parameters"
+    "parameters",
   );
 
   const handleCloseMobileControlsDrawer = useEventCallback(() => {
@@ -307,14 +310,14 @@ const MapPageContent = ({
       return entity === "canton"
         ? groupsFromCantonElectricityObservations(
             energyPricesEnrichedData.data?.cantonMedianObservations ??
-              EMPTY_ARRAY
+              EMPTY_ARRAY,
           )
         : entity === "operator"
-        ? groupsFromElectricityOperators(observations)
-        : groupsFromElectricityMunicipalities(observations);
+          ? groupsFromElectricityOperators(observations)
+          : groupsFromElectricityMunicipalities(observations);
     } else {
       return groupsFromSunshineObservations(
-        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY
+        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY,
       );
     }
   }, [
@@ -429,7 +432,7 @@ const MapPageContent = ({
           priceComponent: priceComponent,
           indicator: indicator,
           dataType: "sunshine",
-        }
+        },
   );
 
   return (
@@ -618,7 +621,7 @@ export const MapPage = ({
     (id: string | null) => {
       setQueryState({ activeId: id });
     },
-    [setQueryState]
+    [setQueryState],
   );
 
   return (
