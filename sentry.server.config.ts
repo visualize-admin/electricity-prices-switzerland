@@ -21,8 +21,8 @@ Sentry.init({
       : 1.0), // Development: 100%
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: true,
-  enabled: true,
+  debug: false,
+  enabled: process.env.NODE_ENV === "production",
 
   // Note: release is automatically set by the Sentry Next.js plugin
   // based on VERCEL_GIT_COMMIT_SHA or local git state
