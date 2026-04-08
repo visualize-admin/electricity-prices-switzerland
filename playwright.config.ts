@@ -49,9 +49,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI
-    ? Math.max(1, os.cpus().length - 1)
-    : undefined,
+  workers: process.env.CI ? Math.max(1, os.cpus().length - 1) : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"],
@@ -69,8 +67,7 @@ export default defineConfig({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
         enabled:
-          !!process.env.CI &&
-          process.env.PLAYWRIGHT_GRAPHQL_METRICS !== "0",
+          !!process.env.CI && process.env.PLAYWRIGHT_GRAPHQL_METRICS !== "0",
         artifactPath: "test-results/graphql-metrics.json",
       }),
     ],

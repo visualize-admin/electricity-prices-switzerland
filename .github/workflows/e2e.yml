@@ -7,24 +7,18 @@ on:
   workflow_dispatch: {}
 jobs:
   prepare:
+    name: "Wait — Vercel preview"
     runs-on: ubuntu-latest
+    # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
+    timeout-minutes: 20
     outputs:
       deployment_url: ${{ steps.wait-vercel.outputs.deployment-url }}
     steps:
+      # Shallow checkout: only needed to resolve the local composite action path.
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0
-
-      - name: "Install dependencies"
-        uses: ./.github/workflows/install-deps
-
-      - name: Download wiki content from ref
-        env:
-          GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
-          GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
-        run: |
-          pnpm run wiki:update-content
+          fetch-depth: 1
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
@@ -34,6 +28,8 @@ jobs:
             echo "DEPLOY_SHA=${{ github.sha }}" > ${{ github.env }}
           fi
 
+      # No pnpm/wiki here: they blocked the critical path. Playwright/integration
+      # hit the Vercel deployment (wiki is from that build); wait uses Bun + API only.
       - name: "Wait Vercel deploy"
         uses: ./.github/workflows/wait-vercel-deploy
         id: wait-vercel
@@ -43,13 +39,15 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
   integration:
+    name: "Vitest — integration (deployed API)"
     needs: prepare
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
@@ -63,8 +61,9 @@ jobs:
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
   playwright-app:
+    name: "Playwright — app · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
     needs: prepare
-    timeout-minutes: 60
+    timeout-minutes: 12
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -75,7 +74,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
@@ -116,14 +115,15 @@ jobs:
           retention-days: 30
 
   playwright-storybook:
+    name: "Playwright — Storybook"
     needs: prepare
-    timeout-minutes: 60
+    timeout-minutes: 8
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
@@ -151,6 +151,7 @@ jobs:
           retention-days: 2
 
   ci:
+    name: "E2E merge gate"
     needs:
       - prepare
       - integration
