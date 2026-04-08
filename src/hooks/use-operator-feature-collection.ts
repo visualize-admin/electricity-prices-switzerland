@@ -64,8 +64,7 @@ export function useOperatorFeatureCollection({
 
     // Simplify the feature collection with turf to reduce complexity
     const simplifiedFeatureCollection = simplify(featureCollection, {
-      tolerance: 0.005,
-      highQuality: true,
+      tolerance: 0.003,
     });
 
     return {
