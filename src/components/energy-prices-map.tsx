@@ -24,7 +24,7 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
-import { PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";

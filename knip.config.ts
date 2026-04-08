@@ -7,10 +7,8 @@ const config: KnipConfig = {
     "lingui.config.js",
     "src/pages/**/*.ts",
     "src/pages/**/*.tsx",
-    "src/domain/gever/output/cli.js",
     "src/domain/gever/rollup.config.js",
     "src/e2e/*.ts",
-    "lingui.config.ts",
     "src/**/*.stories.tsx",
     // Used for debugging
     "src/components/page-props-debug.tsx",
@@ -21,15 +19,10 @@ const config: KnipConfig = {
   ignore: [
     "src/graphql/resolver-types.ts",
     "src/graphql/queries.ts",
-    "src/locales/trans-dummy.tsx",
-    // Only used for supporting lingui extract for aa translations
-    "scripts/populate-aa.ts",
   ],
   tags: ["-knipignore"],
 
   ignoreBinaries: [
-    // Used for running file encryptions
-    "dotenv",
     // Used for opening accent project in the browser
     "open",
     // Used to run security vulnerability scan, available via nix
@@ -44,9 +37,6 @@ const config: KnipConfig = {
     // Added automatically by next
     "eslint-config-next",
 
-    // Used through import type
-    "geojson",
-
     // binary called directly from script
     "har-to-k6",
 
@@ -59,9 +49,6 @@ const config: KnipConfig = {
     // global library to auto translate po files
     "tpo-deepl",
 
-    // only used to generate map screenshots, and installed by default with next
-    // there was an issue at import time if we directly added it to package.json
-    "sharp",
     // Used in next config experimental.swcPlugins
     "@lingui/swc-plugin",
 
