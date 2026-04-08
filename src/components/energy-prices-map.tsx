@@ -23,9 +23,16 @@ import {
   makeMunicipalityLayer,
   makeSunshineOperatorLayer,
   makeSunshineOperatorPickableLayer,
+  PickingInfoTyped,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
-import { isOperatorFeature, useGeoData } from "src/data/geo";
+import {
+  CantonFeatureCollection,
+  isOperatorFeature,
+  MunicipalityFeatureCollection,
+  OperatorFeature,
+  useGeoData,
+} from "src/data/geo";
 import { Entity, PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
@@ -231,19 +238,25 @@ export const EnergyPricesMap = ({
         );
       };
 
-      const handleHover = ({ x, y, object }: PickingInfo) => {
+      const handleHover = (_info: PickingInfo) => {
+        const info = _info as PickingInfoTyped<
+          | MunicipalityFeatureCollection["features"][number]
+          | CantonFeatureCollection["features"][number]
+          | OperatorFeature
+        >;
+        const { x, y, object } = info;
         const id = object?.id?.toString();
 
-        if (!object || !id) {
+        if (!object || (!id && entity !== "operator")) {
           setHovered(undefined);
           return;
         }
 
         // Handle operator hover differently
         if (entity === "operator") {
-          // For operators, the id contains operator IDs separated by "/"
-          const operatorIds = id.split("/").map(Number);
-
+          const tObject = object as OperatorFeature;
+          const operatorIds = tObject.properties?.operators ?? [];
+          const id = `${operatorIds[0]}`;
           setHovered({
             x,
             y,
@@ -257,12 +270,16 @@ export const EnergyPricesMap = ({
           return;
         }
 
-        setHovered({
-          x,
-          y,
-          id,
-          type: entity,
-        });
+        if (id) {
+          setHovered({
+            x,
+            y,
+            id,
+            type: entity,
+          });
+        } else {
+          setHovered(undefined);
+        }
       };
 
       return [
@@ -317,27 +334,7 @@ export const EnergyPricesMap = ({
               renderMode,
             })
           : null,
-        // Pickable operator layer for interactions
-        entity === "operator" &&
-        operatorFeatureResult.data?.features &&
-        observationsByOperator &&
-        colorScale
-          ? makeSunshineOperatorPickableLayer({
-              data: operatorFeatureResult.data.features.filter((f) => {
-                return f.properties.operators.some(
-                  (operatorId) =>
-                    operatorId.toString() in observationsByOperator,
-                );
-              }),
-              accessor: (_obs) => 10, // Fixed value for pickable layer
-              observationsByOperator,
-              hovered,
-              activeId: activeId ?? undefined,
-              onHover: handleHover,
-              onClick: handleOperatorLayerClick,
-              renderMode,
-            })
-          : null,
+
         makeMunicipalityLayer({
           data: geoData.data.municipalityMesh,
           layerId: "municipality-mesh",
@@ -364,6 +361,27 @@ export const EnergyPricesMap = ({
             type: "municipality",
             renderMode,
           }),
+        // Overlay layer for operator highlights - only show when operators are selected and we have the necessary data
+        entity === "operator" &&
+        operatorFeatureResult.data?.features &&
+        observationsByOperator &&
+        colorScale
+          ? makeSunshineOperatorPickableLayer({
+              data: operatorFeatureResult.data.features.filter((f) => {
+                return f.properties.operators.some(
+                  (operatorId) =>
+                    operatorId.toString() in observationsByOperator,
+                );
+              }),
+              accessor: (_obs) => 10, // Fixed value for pickable layer
+              observationsByOperator,
+              hovered,
+              activeId: activeId ?? undefined,
+              onHover: handleHover,
+              onClick: handleOperatorLayerClick,
+              renderMode,
+            })
+          : null,
       ];
     },
     [

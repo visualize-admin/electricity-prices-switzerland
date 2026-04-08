@@ -17,6 +17,10 @@ import {
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 
+export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
+  object: T | null;
+};
+
 // Common types for layer options
 type LayerHoverHandler = (info: PickingInfo) => void;
 type LayerClickHandler = (
