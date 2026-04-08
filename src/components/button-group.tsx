@@ -82,7 +82,7 @@ const useStyles = makeStyles<{ asSelect: "off" | "on-mobile" | "on" }>()(
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
-      flexBasis: "100%",
+
       "&:first-of-type": {
         borderTopLeftRadius: "2px",
         borderBottomLeftRadius: "2px",
@@ -109,12 +109,15 @@ const useStyles = makeStyles<{ asSelect: "off" | "on-mobile" | "on" }>()(
         backgroundColor: palette.secondary[50],
       },
     },
+    equalWidth: {
+      flexBasis: "100%",
+    },
     fitLabelToContent: {
       "& label": {
         flexBasis: "content",
       },
     },
-  })
+  }),
 );
 
 export const ButtonGroup = <T extends string>({
@@ -137,7 +140,7 @@ export const ButtonGroup = <T extends string>({
         setValue(e.currentTarget.value as T);
       }
     },
-    [setValue]
+    [setValue],
   );
 
   return (
@@ -203,7 +206,8 @@ export const ButtonGroup = <T extends string>({
                 className={cx(
                   classes.tab,
                   isActive ? classes.tabActive : classes.tabInactive,
-                  fitLabelToContent && classes.fitLabelToContent
+                  !fitLabelToContent && classes.equalWidth,
+                  fitLabelToContent && classes.fitLabelToContent,
                 )}
               >
                 <VisuallyHidden>

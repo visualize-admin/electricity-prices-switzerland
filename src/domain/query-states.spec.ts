@@ -52,7 +52,7 @@ describe("Query States", () => {
       const mockRouter = createMockRouter({});
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon({ router: mockRouter })
+        queryStates.useQueryStateMapCommon({ router: mockRouter }),
       );
 
       expect(result.current[0]).toEqual({
@@ -68,7 +68,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon({ router: mockRouter })
+        queryStates.useQueryStateMapCommon({ router: mockRouter }),
       );
 
       expect(result.current[0]).toEqual({
@@ -82,7 +82,7 @@ describe("Query States", () => {
 
       const router = mockRouter();
       const { result } = renderHook(() =>
-        queryStates.useQueryStateMapCommon({ router: () => router })
+        queryStates.useQueryStateMapCommon({ router: () => router }),
       );
 
       act(() => {
@@ -95,7 +95,7 @@ describe("Query States", () => {
           query: { tab: "sunshine" },
         },
         undefined,
-        { shallow: true }
+        { shallow: true },
       );
     });
   });
@@ -111,7 +111,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+        queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
       );
 
       expect(result.current[0]).toEqual({
@@ -138,7 +138,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
       );
 
       // With the updated schema using stringToArray, these should now be arrays
@@ -152,7 +152,7 @@ describe("Query States", () => {
       const mockRouter = createMockRouter({});
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+        queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
       );
 
       // Default values should be properly initialized as arrays
@@ -163,6 +163,7 @@ describe("Query States", () => {
         category: ["H4"],
         priceComponent: ["total"],
         product: ["standard"],
+        tab: "priceComponents",
         cantonsOrder: ["median-asc"],
         view: ["collapsed"],
       });
@@ -179,7 +180,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateSunshineMap({ router: mockRouter })
+        queryStates.useQueryStateSunshineMap({ router: mockRouter }),
       );
 
       expect(result.current[0]).toEqual({
@@ -203,7 +204,7 @@ describe("Query States", () => {
 
       const router = mockRouter();
       const { result } = renderHook(() =>
-        queryStates.useQueryStateSunshineMap({ router: () => router })
+        queryStates.useQueryStateSunshineMap({ router: () => router }),
       );
 
       act(() => {
@@ -216,7 +217,7 @@ describe("Query States", () => {
           query: { tab: "sunshine" },
         },
         undefined,
-        { shallow: true }
+        { shallow: true },
       );
     });
   });
@@ -228,7 +229,7 @@ describe("Query States", () => {
       });
 
       const { result } = renderHook(() =>
-        queryStates.useQueryStateSunshineDetails({ router: mockRouter })
+        queryStates.useQueryStateSunshineDetails({ router: mockRouter }),
       );
 
       expect(result.current[0]).toEqual({
@@ -278,7 +279,7 @@ describe("Query States", () => {
         queryStates.useQueryStateMapCommon({
           router: mockRouter,
           defaultValue: customDefault,
-        })
+        }),
       );
       expect(result.current[0]).toEqual(customDefault);
     });
@@ -293,7 +294,7 @@ describe("Query States", () => {
         queryStates.useQueryStateMapCommon({
           router: mockRouter,
           defaultValue: customDefault,
-        })
+        }),
       );
       expect(result.current[0]).toEqual({
         tab: "electricity",
@@ -310,7 +311,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");
@@ -322,7 +323,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].product).toBe("standard");
@@ -334,7 +335,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].priceComponent).toBe("total");
@@ -346,7 +347,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].period).toBe(runtimeEnv.CURRENT_PERIOD);
@@ -360,7 +361,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toEqual(["H4", "H7", "C6"]);
@@ -372,7 +373,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].product).toEqual(["standard", "cheapest"]);
@@ -384,14 +385,14 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].period).toEqual(
-          expect.arrayContaining(["2024", "2023"])
+          expect.arrayContaining(["2024", "2023"]),
         );
         expect(result.current[0].period).not.toEqual(
-          expect.arrayContaining(["9999", "1800"])
+          expect.arrayContaining(["9999", "1800"]),
         );
       });
 
@@ -401,7 +402,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toEqual(["H4"]);
@@ -413,7 +414,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].priceComponent).toEqual([
@@ -432,7 +433,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");
@@ -445,7 +446,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesDetails({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toEqual(["H4", "H7"]);
@@ -458,7 +459,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");
@@ -472,7 +473,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");
@@ -486,7 +487,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");
@@ -499,7 +500,7 @@ describe("Query States", () => {
         });
 
         const { result } = renderHook(() =>
-          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter })
+          queryStates.useQueryStateEnergyPricesMap({ router: mockRouter }),
         );
 
         expect(result.current[0].category).toBe("H4");

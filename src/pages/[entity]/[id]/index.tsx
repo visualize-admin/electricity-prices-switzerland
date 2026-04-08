@@ -1,7 +1,9 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
+import React, { useCallback } from "react";
 
+import { Combobox, ComboboxItem, MultiCombobox } from "src/components/combobox";
 import { DetailPageBanner } from "src/components/detail-page/banner";
 import { CantonsComparisonRangePlots } from "src/components/detail-page/cantons-comparison-range";
 import {
@@ -13,16 +15,30 @@ import {
 import { PriceComponentsBarChart } from "src/components/detail-page/price-components-bars";
 import { PriceDistributionHistograms } from "src/components/detail-page/price-distribution-histogram";
 import { PriceEvolutionCard } from "src/components/detail-page/price-evolution-line-chart";
-import { SelectorMulti } from "src/components/detail-page/selector-multi";
 import { DetailsPageSidebar } from "src/components/detail-page/sidebar";
+import {
+  CantonsCombobox,
+  MunicipalitiesCombobox,
+  OperatorsCombobox,
+} from "src/components/query-combobox";
+import {
+  ElectricityPricesDetailTab,
+  ElectricityPricesNavigation,
+} from "src/components/sunshine-tabs";
 import {
   getCantonPageProps,
   getMunicipalityPageProps,
   PageParams,
   Props,
 } from "src/data/shared-page-props";
-import { detailsPriceComponents } from "src/domain/data";
-import { getLocalizedLabel } from "src/domain/translation";
+import {
+  categories,
+  ElectricityCategory,
+  periods,
+  products,
+} from "src/domain/data";
+import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import {
   OperatorPagePropsDocument,
@@ -71,7 +87,7 @@ export const getServerSideProps = createGetServerSideProps<
         {
           locale: locale ?? defaultLocale,
           id,
-        }
+        },
       );
 
       if (!data.operator) {
@@ -102,6 +118,24 @@ export const getServerSideProps = createGetServerSideProps<
 // Main page using the generic component
 const ElectricityTariffsPage = (props: Props) => {
   const { query } = useRouter();
+  const [queryState, setQueryState] = useQueryStateEnergyPricesDetails();
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
+
+  const activeTab = queryState.tab satisfies ElectricityPricesDetailTab;
+
+  const handleTabChange = useCallback(
+    (_: React.SyntheticEvent, newValue: ElectricityPricesDetailTab) => {
+      const currentPc = queryState.priceComponent[0];
+      const priceComponentReset =
+        (newValue === "tariffsDevelopment" && currentPc === "meteringrate") ||
+        (newValue !== "tariffsDevelopment" && currentPc === "aidfee");
+      setQueryState({
+        tab: newValue,
+        ...(priceComponentReset && { priceComponent: ["total"] }),
+      });
+    },
+    [setQueryState, queryState.priceComponent],
+  );
 
   if (props.status === "notfound") {
     return <ErrorPage statusCode={404} />;
@@ -126,6 +160,8 @@ const ElectricityTariffsPage = (props: Props) => {
 
   const sidebarContent = <DetailsPageSidebar id={id} entity={entity} />;
 
+  const yearDisabled = activeTab === "tariffsDevelopment";
+
   const mainContent = (
     <>
       <DetailsPageHeader>
@@ -143,20 +179,100 @@ const ElectricityTariffsPage = (props: Props) => {
         </DetailsPageSubtitle>
       </DetailsPageHeader>
 
-      <SelectorMulti entity={entity} />
-
-      <PriceComponentsBarChart id={id} entity={entity} />
-      <PriceEvolutionCard
-        // We hide meteringrate for now as there is only 1 value
-        // To revisit later
-        priceComponents={detailsPriceComponents.filter(
-          (x) => x !== "meteringrate"
-        )}
-        id={id}
-        entity={entity}
+      <ElectricityPricesNavigation
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
       />
-      <PriceDistributionHistograms id={id} entity={entity} />
-      <CantonsComparisonRangePlots id={id} entity={entity} />
+
+      <div
+        data-testid="detail-page-selector-multi"
+        style={{
+          display: "grid",
+          gap: "1rem",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        }}
+      >
+        {entity === "operator" ? (
+          <OperatorsCombobox
+            label={
+              <Trans id="selector.compareoperators">
+                Network operator for comparison
+              </Trans>
+            }
+            selectedItems={queryState.operator ?? []}
+            setSelectedItems={(items) => setQueryState({ operator: items })}
+          />
+        ) : entity === "municipality" ? (
+          <MunicipalitiesCombobox
+            label={
+              <Trans id="selector.comparemunicipalities">
+                Municipalities for comparison
+              </Trans>
+            }
+            selectedItems={queryState.municipality ?? []}
+            setSelectedItems={(items) => setQueryState({ municipality: items })}
+          />
+        ) : (
+          <CantonsCombobox
+            label={<Trans id="selector.comparecantons">Compare with</Trans>}
+            selectedItems={queryState.canton ?? []}
+            setSelectedItems={(items) => setQueryState({ canton: items })}
+          />
+        )}
+        <MultiCombobox
+          id="periods"
+          label={<Trans id="selector.years">Years</Trans>}
+          items={periods}
+          selectedItems={queryState.period}
+          minSelectedItems={1}
+          disabled={yearDisabled}
+          setSelectedItems={(items) => {
+            setQueryState({ period: items }, { shallow: false });
+          }}
+        />
+        <Combobox
+          id="categories"
+          label={t({ id: "selector.category", message: "Category" })}
+          items={categories.map(
+            (value): ComboboxItem<ElectricityCategory> => ({
+              value,
+              group: value.startsWith("H")
+                ? getItemLabel("H-group")
+                : getItemLabel("C-group"),
+            }),
+          )}
+          getItemLabel={(x) => getItemLabel(`${x}-long`)}
+          selectedItem={queryState.category[0]}
+          setSelectedItem={(selectedItem) =>
+            setQueryState({ category: [selectedItem] })
+          }
+          infoDialogSlug="help-categories"
+        />
+        <Combobox
+          id="products"
+          label={t({ id: "selector.product", message: "Product" })}
+          items={products}
+          getItemLabel={getItemLabel}
+          selectedItem={queryState.product[0]}
+          setSelectedItem={(selectedItem) =>
+            setQueryState({ product: [selectedItem] })
+          }
+          infoDialogSlug="help-products"
+        />
+      </div>
+
+      {activeTab === "priceComponents" && (
+        <PriceComponentsBarChart id={id} entity={entity} />
+      )}
+      {activeTab === "tariffsDevelopment" && (
+        <PriceEvolutionCard id={id} entity={entity} />
+      )}
+      {activeTab === "priceDistribution" && (
+        <PriceDistributionHistograms id={id} entity={entity} />
+      )}
+      {activeTab === "cantonComparison" && (
+        <CantonsComparisonRangePlots id={id} entity={entity} />
+      )}
     </>
   );
 
