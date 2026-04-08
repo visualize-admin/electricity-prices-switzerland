@@ -65,7 +65,7 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
               )}
             </Typography>
             <Typography variant="body2" color="text.secondary" gutterBottom>
-              <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
+              <Trans id="sunshine.operational-standards.benchmarking-peer-group">
                 Benchmarking within the Peer Group: {peerGroupLabel}
               </Trans>
             </Typography>

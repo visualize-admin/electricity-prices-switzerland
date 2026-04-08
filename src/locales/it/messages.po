@@ -601,8 +601,8 @@ msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
 #: src/components/network-cost-trend-chart.tsx
-#: src/components/operational-standards-trend-chart.tsx
-#: src/components/operational-standards-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
 msgstr "Altri operatori"
@@ -611,8 +611,8 @@ msgstr "Altri operatori"
 #: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
-#: src/components/operational-standards-trend-chart.tsx
-#: src/components/operational-standards-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1353,22 +1353,20 @@ msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Sì"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-card.tsx
-#: src/components/operational-standards-trend-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Analisi comparativa all'interno del gruppo di confronto: {peerGroupLabel}"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Confronta con"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
@@ -1642,6 +1640,11 @@ msgstr "ct./kWh"
 msgid "sunshine.metric-unit.swiss-francs"
 msgstr "CHF"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.benchmarking-peer-group"
+msgstr "Analisi comparativa all'interno del gruppo di confronto: {peerGroupLabel}"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "Conformità"
@@ -1650,7 +1653,8 @@ msgstr "Conformità"
 msgid "sunshine.operational-standards.compliance-trend"
 msgstr "Confronto in franchi per destinatario di fattura"
 
-#: src/components/operational-standards-trend-card.tsx
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance-trend-title"
 msgstr "Andamento della regola dei 75 franchi"
 
@@ -1682,7 +1686,8 @@ msgstr "Qualità del servizio"
 msgid "sunshine.operational-standards.service-quality-trend"
 msgstr "Confronto dei termini di preavviso per interruzioni programmate"
 
-#: src/components/operational-standards-trend-card.tsx
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality-trend-title"
 msgstr "Andamento del periodo di preavviso"
 
