@@ -30,7 +30,7 @@ export const formatEnergyPricesEntity = (
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
   priceComponent: string,
-  coverageRatioFlag = false
+  coverageRatioFlag = false,
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
     return {
@@ -45,7 +45,8 @@ export const formatEnergyPricesEntity = (
   let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
+    title =
+      firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
   } else if (entityType === "canton") {
     title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
@@ -54,7 +55,10 @@ export const formatEnergyPricesEntity = (
 
   // Create values array from observations
   const values: EntityValue[] = observations.map((obs) => ({
-    label: obs.operatorLabel ?? priceComponent ?? "",
+    label:
+      entityType === "municipality"
+        ? (obs.operatorLabel ?? priceComponent ?? "")
+        : (priceComponent ?? ""),
     formattedValue: `${
       obs.value !== undefined && obs.value !== null
         ? formatValue(obs.value)
@@ -82,7 +86,7 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  formattedIndicator: string
+  formattedIndicator: string,
 ): EntityDisplayData => {
   const { entityType: entity } = selection;
 
@@ -102,7 +106,7 @@ export const formatSunshineEntity = (
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
       label: multipleOperators
-        ? obs.operatorData?.name ?? ""
+        ? (obs.operatorData?.name ?? "")
         : formattedIndicator,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
