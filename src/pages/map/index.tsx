@@ -33,8 +33,7 @@ import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
 import { SessionConfigDebugProps } from "src/data/shared-page-props";
-import { Entity } from "src/domain/data";
-import { PriceComponent } from "src/domain/data";
+import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import {
@@ -280,6 +279,7 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       priceComponent={priceComponent as PriceComponent}
+      category={category as ElectricityCategory}
       entity={entity}
       setEntity={setEntity}
       widgets={mapWidgets}

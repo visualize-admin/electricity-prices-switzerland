@@ -59,3 +59,37 @@ export const aggregateSunshineObservationsByOperator = (
     ),
   );
 };
+
+/**
+ * Aggregates energy prices observations by operator using mean aggregation.
+ * For energy prices, we create a simplified structure that matches what the map layers expect.
+ */
+export const aggregateEnergyPricesObservationsByOperator = (
+  observationsByOperatorMap: Map<string, OperatorObservation[]> | undefined,
+): Record<string, SunshineDataIndicatorRow> => {
+  if (!observationsByOperatorMap) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    Array.from(observationsByOperatorMap.entries()).map(
+      ([operatorId, observations]) => [
+        operatorId,
+        {
+          // Convert energy price observation to sunshine data format for map layers
+          __typename: "SunshineDataIndicatorRow" as const,
+          name: observations[0].operatorLabel ?? `Operator ${operatorId}`,
+          value:
+            mean(
+              observations
+                .map((obs) => obs.value)
+                .filter((v): v is number => v !== null),
+            ) ?? null,
+          period: observations[0].period,
+          operatorId: parseInt(operatorId, 10),
+          operatorUID: operatorId,
+        },
+      ],
+    ),
+  );
+};

@@ -17,6 +17,10 @@ import {
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 
+export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
+  object: T | null;
+};
+
 // Common types for layer options
 type LayerHoverHandler = (info: PickingInfo) => void;
 type LayerClickHandler = (
@@ -74,6 +78,8 @@ interface CantonsLayerOptions {
   renderMode?: MapRenderMode;
 }
 
+// Should be renamed to something more generic if we want to use it for other entity types
+// (e.g. cantons and operators)
 export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   const {
     data,

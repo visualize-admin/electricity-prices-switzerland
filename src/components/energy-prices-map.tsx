@@ -21,14 +21,24 @@ import {
   makeEnergyPricesOverlayLayer,
   makeLakesLayer,
   makeMunicipalityLayer,
+  makeSunshineOperatorLayer,
+  makeSunshineOperatorPickableLayer,
+  PickingInfoTyped,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
-import { useGeoData } from "src/data/geo";
-import { Entity, PriceComponent } from "src/domain/data";
+import {
+  CantonFeatureCollection,
+  isOperatorFeature,
+  MunicipalityFeatureCollection,
+  OperatorFeature,
+  useGeoData,
+} from "src/data/geo";
+import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
+import { useOperatorFeatureCollection } from "src/hooks/use-operator-feature-collection";
 import {
   EntitySelection,
   useSelectedEntityData,
@@ -47,6 +57,7 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
+  category,
   entity,
   setEntity,
   widgets,
@@ -56,6 +67,7 @@ export const EnergyPricesMap = ({
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
+  category: ElectricityCategory;
   entity: Entity;
   setEntity: (entity: Entity) => void;
   widgets?: GenericMapProps["widgets"];
@@ -69,18 +81,31 @@ export const EnergyPricesMap = ({
 
   const { data: enrichedData, fetching, error } = enrichedDataQuery;
 
-  // Create entity selection for unified hook
-  const entitySelection: EntitySelection = useMemo(
-    () => ({
-      hoveredIds:
-        hovered?.type === "municipality" || hovered?.type === "canton"
-          ? [hovered.id.toString()]
-          : null,
-      selectedId: null,
-      entityType: hovered?.type === "municipality" ? "municipality" : "canton",
-    }),
-    [hovered],
+  // Get operator feature collection for operator view
+  const operatorFeatureResult = useOperatorFeatureCollection({
+    period,
+    electricityCategory: category,
+    networkLevel: undefined,
+    pause: !(entity === "operator" && enrichedData),
+  });
+
+  // Use aggregated operator observations from enriched data
+  const observationsByOperator = useMemo(
+    () => enrichedData?.observationsByOperatorAggregated ?? {},
+    [enrichedData],
   );
+
+  // Create entity selection for unified hook
+  const entitySelection: EntitySelection = useMemo(() => {
+    if (!hovered?.type) {
+      return { hoveredIds: null, selectedId: null, entityType: "municipality" };
+    }
+    return {
+      hoveredIds: [hovered.id],
+      selectedId: null,
+      entityType: hovered.type,
+    };
+  }, [hovered]);
 
   // Use the selected entity data hook
   const selectedEntityData = useSelectedEntityData({
@@ -103,8 +128,18 @@ export const EnergyPricesMap = ({
     return {
       municipalities: index(municipalities?.features ?? [], (x) => x.id),
       cantons: index(cantons?.features ?? [], (x) => x.id),
+      operators: new Map(
+        operatorFeatureResult.data?.features
+          .map((f) => {
+            if (!isOperatorFeature(f) || f.properties.operators.length !== 1) {
+              return null;
+            }
+            return [f.properties.operators[0], f] as const;
+          })
+          .filter(truthy) ?? [],
+      ),
     };
-  }, [geoData]);
+  }, [geoData, operatorFeatureResult.data?.features]);
 
   const tooltipContent = useMemo(() => {
     if (!selectedEntityData.formattedData) {
@@ -124,17 +159,15 @@ export const EnergyPricesMap = ({
   const getEntityFromHighlight = useCallback(
     (highlight: HighlightValue) => {
       const { entity: type, id } = highlight;
-      if (!featureIndexes || !id) {
-        return;
-      }
-      const index =
-        type === "canton"
-          ? featureIndexes.cantons
-          : type === "municipality"
-            ? featureIndexes.municipalities
-            : undefined;
-      const entity = index?.get(parseInt(id, 10));
-      return entity;
+      if (!id || !featureIndexes) return;
+
+      const idx =
+        type === "operator"
+          ? featureIndexes.operators
+          : type === "canton"
+            ? featureIndexes.cantons
+            : featureIndexes.municipalities;
+      return idx?.get(parseInt(id, 10));
     },
     [featureIndexes],
   );
@@ -151,31 +184,62 @@ export const EnergyPricesMap = ({
       ) => {
         if (!featureIndexes || !info.layer) return;
         const id = info.object.id as number;
-        const type =
+        const type: Entity =
           info.layer.id === "municipalities" ? "municipality" : "canton";
-        if (
-          type === "municipality" &&
-          !enrichedData?.observationsByMunicipality.get(`${id}`)
-        ) {
-          return;
-        }
-        setEntity("municipality");
+
+        setEntity(type);
+        onEntitySelect(ev.srcEvent as MouseEvent, type, id.toString());
+      };
+
+      // Operator features don't set a GeoJSON top-level id; the entity ID is
+      // stored in properties.operators[0] because a single geographic area can
+      // represent multiple operators. This requires a separate handler from
+      // handleMunicipalityLayerClick which reads info.object.id.
+      const handleOperatorLayerClick = (
+        info: PickingInfo,
+        ev: { srcEvent: Event },
+      ) => {
+        if (!info.object) return;
+        const operatorId = info.object.properties?.operators?.[0];
+        if (!operatorId) return;
+
+        setEntity("operator");
         onEntitySelect(
           ev.srcEvent as MouseEvent,
-          "municipality",
-          id.toString(),
+          "operator",
+          operatorId.toString(),
         );
       };
 
-      const handleHover = ({ x, y, object }: PickingInfo) => {
+      const handleHover = (_info: PickingInfo) => {
+        const info = _info as PickingInfoTyped<
+          | MunicipalityFeatureCollection["features"][number]
+          | CantonFeatureCollection["features"][number]
+          | OperatorFeature
+        >;
+        const { x, y, object } = info;
         const id = object?.id?.toString();
-        setHovered(
-          object && id ? { x, y, id, type: "municipality" } : undefined,
-        );
+        const effectiveId =
+          entity === "operator"
+            ? (
+                object as OperatorFeature
+              )?.properties?.operators?.[0]?.toString()
+            : id;
+
+        if (effectiveId) {
+          setHovered({
+            x,
+            y,
+            id: effectiveId,
+            type: entity,
+          });
+        } else {
+          setHovered(undefined);
+        }
       };
 
       return [
-        enrichedData
+        entity === "municipality" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.municipalities,
               observationsByMunicipalityId:
@@ -192,6 +256,41 @@ export const EnergyPricesMap = ({
               renderMode,
             })
           : null,
+
+        entity === "canton" && enrichedData
+          ? makeMunicipalityLayer({
+              data: geoData.data.cantons,
+              observationsByMunicipalityId: enrichedData.observationsByCanton,
+              colorScale,
+              highlightId:
+                highlightContext?.entity === "canton"
+                  ? highlightContext.id
+                  : undefined,
+              onHover: handleHover,
+              onClick: handleMunicipalityLayerClick,
+              layerId: "cantons-base",
+              mode: "base",
+              renderMode,
+            })
+          : null,
+        entity === "operator" &&
+        operatorFeatureResult.data?.features &&
+        observationsByOperator &&
+        colorScale
+          ? makeSunshineOperatorLayer({
+              data: operatorFeatureResult.data.features.filter((f) => {
+                return f.properties.operators.some(
+                  (operatorId) =>
+                    operatorId.toString() in observationsByOperator,
+                );
+              }),
+              accessor: (obs) => obs.value ?? 0,
+              observationsByOperator,
+              colorScale,
+              renderMode,
+            })
+          : null,
+
         makeMunicipalityLayer({
           data: geoData.data.municipalityMesh,
           layerId: "municipality-mesh",
@@ -200,21 +299,46 @@ export const EnergyPricesMap = ({
         }),
         makeLakesLayer({ data: geoData.data.lakes, renderMode }),
         makeCantonsLayer({ data: geoData.data.cantonMesh, renderMode }),
-        makeEnergyPricesOverlayLayer({
-          data: geoData.data.cantons,
-          hovered,
-          activeId: activeId ?? undefined,
-          type: "canton",
-          renderMode,
-        }),
-        makeEnergyPricesOverlayLayer({
-          data: geoData.data.municipalities,
-          hovered,
-          activeId: activeId ?? undefined,
-          type: "municipality",
-          renderMode,
-        }),
-      ];
+        // Overlay layer for canton highlights - only show when cantons are selected
+        entity === "canton" &&
+          makeEnergyPricesOverlayLayer({
+            data: geoData.data.cantons,
+            hovered,
+            activeId: activeId ?? undefined,
+            type: "canton",
+            renderMode,
+          }),
+        // Overlay layer for municipality highlights - only show when municipalities are selected
+        entity === "municipality" &&
+          makeEnergyPricesOverlayLayer({
+            data: geoData.data.municipalities,
+            hovered,
+            activeId: activeId ?? undefined,
+            type: "municipality",
+            renderMode,
+          }),
+        // Overlay layer for operator highlights - only show when operators are selected and we have the necessary data
+        entity === "operator" &&
+        operatorFeatureResult.data?.features &&
+        observationsByOperator &&
+        colorScale
+          ? makeSunshineOperatorPickableLayer({
+              data: operatorFeatureResult.data.features.filter((f) => {
+                return f.properties.operators.some(
+                  (operatorId) =>
+                    operatorId.toString() in observationsByOperator,
+                );
+              }),
+              accessor: (_obs) => 10, // Fixed value for pickable layer
+              observationsByOperator,
+              hovered,
+              activeId: activeId ?? undefined,
+              onHover: handleHover,
+              onClick: handleOperatorLayerClick,
+              renderMode,
+            })
+          : null,
+      ].filter(truthy);
     },
     [
       geoData.state,
@@ -225,6 +349,9 @@ export const EnergyPricesMap = ({
       highlightContext?.id,
       hovered,
       activeId,
+      entity,
+      operatorFeatureResult.data,
+      observationsByOperator,
       featureIndexes,
       setEntity,
       onEntitySelect,
@@ -299,7 +426,11 @@ export const EnergyPricesMap = ({
     <GenericMap
       layers={(layers as unknown as Layer[]) || []}
       makeScreenshotLayers={makeLayers as (mode: MapRenderMode) => Layer[]}
-      isLoading={geoData.state === "fetching" || fetching}
+      isLoading={
+        geoData.state === "fetching" ||
+        fetching ||
+        (entity === "operator" && operatorFeatureResult.fetching)
+      }
       hasNoData={!enrichedData?.observations.length}
       error={combineErrors(
         [
@@ -309,6 +440,12 @@ export const EnergyPricesMap = ({
               : { message: "Unknown geoData error" }
             : undefined,
           error ? { error: error, label: "Data" } : undefined,
+          entity === "operator" && operatorFeatureResult.error
+            ? {
+                error: { message: "Failed to load operator data" },
+                label: "Operator Data",
+              }
+            : undefined,
         ].filter(truthy),
       )}
       tooltipContent={tooltipContent}

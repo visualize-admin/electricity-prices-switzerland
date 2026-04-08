@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { Entity, PriceComponent } from "src/domain/data";
+import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
@@ -82,6 +82,7 @@ const IndexPage = ({ locale }: Props) => {
           period={period}
           enrichedDataQuery={enrichedEnergyPrices}
           priceComponent={priceComponent as PriceComponent}
+          category={category as ElectricityCategory}
           colorScale={colorScale}
           entity={entity}
           setEntity={setEntity}
