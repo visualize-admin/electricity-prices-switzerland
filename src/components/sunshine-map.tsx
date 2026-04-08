@@ -231,11 +231,6 @@ const SunshineMap = ({
           })
           .filter(truthy);
 
-        if (observationsWithValues.length === 0) {
-          setHovered(undefined);
-          return;
-        }
-
         setHovered({
           type: "operator",
           id: operatorIds.join(","),
