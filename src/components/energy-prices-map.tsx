@@ -257,17 +257,11 @@ export const EnergyPricesMap = ({
           return;
         }
 
-        // For municipality/canton, only handle municipality hover for now
-        if (entity !== "municipality") {
-          setHovered(undefined);
-          return;
-        }
-
         setHovered({
           x,
           y,
           id,
-          type: "municipality",
+          type: entity,
         });
       };
 
