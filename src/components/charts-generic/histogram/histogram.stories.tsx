@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { median as d3Median } from "d3";
 
 import { RP_PER_KWH } from "src/domain/metrics";
+import operationalStandards from "src/mocks/sunshine-operationalStandards-426.json";
 import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 
 import { AnnotationX, AnnotationXLabel } from "../annotation/annotation-x";
@@ -33,7 +34,7 @@ export default meta;
 export const Histogram = () => {
   const medianValue = 20;
   const annotations = [mockData[0], mockData[1], mockData[2]];
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   return (
     <Box width="100%" maxWidth="800px" m={5}>
       <HistogramComponent
@@ -79,9 +80,9 @@ export const Histogram = () => {
 };
 
 export const GroupedHistogram = () => {
-  const operatorId = (
-    serviceQualityMock[0] as { operatorId: string }
-  ).operatorId;
+  const operatorId =
+    operationalStandards.serviceQuality.operatorsNotificationPeriodDays[0]
+      .operatorId;
   const operatorLabel = `Operator ${operatorId}`;
   const median = d3Median(serviceQualityMock, (d: { days: number }) => d.days);
   return (
