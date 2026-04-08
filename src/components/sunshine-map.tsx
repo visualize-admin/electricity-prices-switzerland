@@ -120,7 +120,7 @@ type SunshineMapProps = {
 const aggregateFnPerIndicator: Record<
   SunshineIndicator,
   (
-    obs: SunshineDataIndicatorRow["value"][]
+    obs: SunshineDataIndicatorRow["value"][],
   ) => SunshineDataIndicatorRow["value"]
 > = {
   networkCosts: mean,
@@ -156,8 +156,7 @@ const SunshineMap = ({
   // Use unfiltered data for the legend so the peer group mask doesn't affect
   // the legend extent. Falls back to the (possibly filtered) enrichedData when
   // no separate unfiltered result is provided.
-  const legendSourceData =
-    unfilteredEnrichedDataResult?.data ?? enrichedData;
+  const legendSourceData = unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
 
   // Convert enriched data to format expected by map layers
@@ -172,8 +171,8 @@ const SunshineMap = ({
             ...x[1][0],
             value: aggregateFn(x[1].map((obs) => obs.value)),
           },
-        ]
-      )
+        ],
+      ),
     );
     return record;
   }, [enrichedData?.observationsByOperator, indicator]);
@@ -184,7 +183,7 @@ const SunshineMap = ({
     }
     const operatorsFeatureCollection = getOperatorsFeatureCollection(
       enrichedData.operatorMunicipalities,
-      geoData?.municipalities as MunicipalityFeatureCollection
+      geoData?.municipalities as MunicipalityFeatureCollection,
     );
 
     const features = operatorsFeatureCollection.features;
@@ -208,7 +207,7 @@ const SunshineMap = ({
       selectedId: null,
       entityType: hovered?.type === "operator" ? "operator" : "municipality",
     }),
-    [hovered]
+    [hovered],
   );
 
   // Use the unified entity selection hook
@@ -224,12 +223,12 @@ const SunshineMap = ({
 
   const featuresWithObservations = useMemo(() => {
     const operatorIds = new Set(
-      Object.keys(observationsByOperator).map((x) => parseInt(x, 10))
+      Object.keys(observationsByOperator).map((x) => parseInt(x, 10)),
     );
     return (
       enhancedGeoData?.features.filter(isOperatorFeature).filter((feature) => {
         return feature.properties.operators.some((operatorId) =>
-          operatorIds.has(operatorId)
+          operatorIds.has(operatorId),
         );
       }) ?? []
     );
@@ -278,7 +277,7 @@ const SunshineMap = ({
         setHovered(undefined);
       }
     },
-    [accessor, observationsByOperator]
+    [accessor, observationsByOperator],
   );
 
   // Create tooltip content using the unified entity data
@@ -310,14 +309,14 @@ const SunshineMap = ({
           if (shouldOpenInNewTab(ev.srcEvent)) {
             const href = sunshineDetailsLink(
               `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
-                indicator
+                indicator,
               )}`,
               {
                 tabDetails:
                   indicator === "daysInAdvanceOutageNotification"
                     ? "outageInfo"
                     : indicator,
-              }
+              },
             );
             window.open(href, "_blank");
           } else {
@@ -371,7 +370,7 @@ const SunshineMap = ({
       observationsByOperator,
       onEntitySelect,
       onHoverOperatorLayer,
-    ]
+    ],
   );
 
   const mapLayers = useMemo(() => makeLayers("screen"), [makeLayers]);
@@ -386,7 +385,7 @@ const SunshineMap = ({
           }
           return [f.properties.operators[0], f] as const;
         })
-        .filter(truthy)
+        .filter(truthy),
     );
   }, [enhancedGeoData?.features]);
 
@@ -402,7 +401,7 @@ const SunshineMap = ({
       }
       return entity;
     },
-    [index]
+    [index],
   );
 
   const valuesExtent = useMemo(() => {
@@ -413,7 +412,7 @@ const SunshineMap = ({
       return undefined;
     }
     return extent(
-      legendSourceData.observations.map((x) => accessor(x)).filter(truthy)
+      legendSourceData.observations.map((x) => accessor(x)).filter(truthy),
     );
   }, [accessor, legendSourceData?.observations]);
 
@@ -463,7 +462,7 @@ const SunshineMap = ({
     const { thresholds, palette } = thresholdEncoding(
       legendSourceData.median,
       values,
-      +period
+      +period,
     );
 
     return (
@@ -485,7 +484,17 @@ const SunshineMap = ({
         }}
       />
     );
-  }, [indicator, valuesExtent, legendSourceData, colorScale, networkLevel, period, legendId, legends, valueFormatter]);
+  }, [
+    indicator,
+    valuesExtent,
+    legendSourceData,
+    colorScale,
+    networkLevel,
+    period,
+    legendId,
+    legends,
+    valueFormatter,
+  ]);
 
   return (
     <GenericMap
@@ -506,7 +515,7 @@ const SunshineMap = ({
 
 const featureMatchesId = (
   feature: Feature<Geometry, GeoJsonProperties>,
-  id: string
+  id: string,
 ) => {
   if (!isOperatorFeature(feature)) {
     return false;
