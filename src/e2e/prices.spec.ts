@@ -9,7 +9,7 @@ test.describe("Electricity Prices", () => {
   }) => {
     const inflight = new InflightRequests(page);
     const resp = await page.goto(
-      "/operator/110?category=H8&product=cheapest&period=2019",
+      "/en/operator/110?category=H8&product=cheapest&period=2019",
     );
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
