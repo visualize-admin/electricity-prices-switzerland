@@ -1,9 +1,8 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
-import { extent, mean, ScaleThreshold } from "d3";
+import { extent, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { first } from "lodash";
 import { useCallback, useId, useMemo, useState } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
@@ -50,6 +49,7 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { aggregateSunshineObservationsByOperator } from "src/utils/aggregate-observations";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 // Must be a function to be lazy evaluated in the correct i18n context
@@ -117,22 +117,6 @@ type SunshineMapProps = {
   widgets?: GenericMapProps["widgets"];
 };
 
-const aggregateFnPerIndicator: Record<
-  SunshineIndicator,
-  (
-    obs: SunshineDataIndicatorRow["value"][],
-  ) => SunshineDataIndicatorRow["value"]
-> = {
-  networkCosts: mean,
-  netTariffs: mean,
-  energyTariffs: mean,
-  saidi: mean,
-  saifi: mean,
-  daysInAdvanceOutageNotification: first,
-  outageInfo: first,
-  compliance: first,
-};
-
 const SunshineMap = ({
   enrichedDataResult,
   unfilteredEnrichedDataResult,
@@ -161,20 +145,10 @@ const SunshineMap = ({
 
   // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
-    const aggregateFn = aggregateFnPerIndicator[indicator];
-    const record: Record<string, SunshineDataIndicatorRow> = Object.fromEntries(
-      Array.from(enrichedData?.observationsByOperator.entries() ?? []).map(
-        (x) => [
-          x[0],
-
-          {
-            ...x[1][0],
-            value: aggregateFn(x[1].map((obs) => obs.value)),
-          },
-        ],
-      ),
+    return aggregateSunshineObservationsByOperator(
+      enrichedData?.observationsByOperator,
+      indicator,
     );
-    return record;
   }, [enrichedData?.observationsByOperator, indicator]);
 
   const enhancedGeoData = useMemo(() => {
