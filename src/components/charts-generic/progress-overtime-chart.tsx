@@ -34,6 +34,8 @@ interface ProgressOvertimeChartProps<
   xField: string;
   yField: string;
   yAxisLabel?: string;
+  /** Defaults to currency formatting from useFormatCurrency */
+  yAxisFormat?: (d: number, i: number) => string;
   entityField?: string;
 }
 
@@ -50,10 +52,12 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     xField,
     yField,
     yAxisLabel,
+    yAxisFormat,
     entityField = "operator_id",
   } = props;
 
   const formatCurrency = useFormatCurrency();
+  const formatY = yAxisFormat ?? formatCurrency;
 
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;
@@ -165,7 +169,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format={formatCurrency} />
+          <AxisHeightLinear format={formatY} />
           <AxisTime />
           <Lines medianGroup={peerGroupOperatorName} />
           {showInteractions && <InteractionHorizontal />}
