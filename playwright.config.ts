@@ -8,6 +8,22 @@ import { createMetricsReporterOptions } from "./src/metrics/playwright-reporter"
 
 loadEnvConfig(process.cwd(), true);
 
+/**
+ * In CI we shard app and storybook in separate jobs. The Argos reporter would
+ * otherwise upload *both* build names from every shard (see dynamic buildName +
+ * parallel mode in @argos-ci/playwright), sending conflicting parallelTotal.
+ * @see https://argos-ci.com/docs/parallel-testing
+ */
+const playwrightArgosSuite = process.env.PLAYWRIGHT_ARGOS_SUITE;
+const argosBuildName =
+  playwrightArgosSuite === "app" || playwrightArgosSuite === "storybook"
+    ? playwrightArgosSuite
+    : {
+        values: ["storybook", "app"] as const,
+        get: (test: { tags: string[] }) =>
+          test.tags.includes("@storybook") ? "storybook" : "app",
+      };
+
 const getHttpCredentialsFromEnv = () => {
   const usernamePassword = process.env.BASIC_AUTH_CREDENTIALS;
   if (!usernamePassword) {
@@ -44,11 +60,7 @@ export default defineConfig({
       "@argos-ci/playwright/reporter",
       createArgosReporterOptions({
         uploadToArgos: !!process.env.CI,
-        buildName: {
-          values: ["storybook", "app"],
-          get: (test) =>
-            test.tags.includes("@storybook") ? "storybook" : "app",
-        },
+        buildName: argosBuildName,
       }),
     ],
     [
@@ -56,7 +68,9 @@ export default defineConfig({
       createMetricsReporterOptions({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
-        enabled: !!process.env.CI,
+        enabled:
+          !!process.env.CI &&
+          process.env.PLAYWRIGHT_GRAPHQL_METRICS !== "0",
         artifactPath: "test-results/graphql-metrics.json",
       }),
     ],
