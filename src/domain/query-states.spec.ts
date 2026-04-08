@@ -122,6 +122,7 @@ describe("Query States", () => {
         product: "standard",
         cantonsOrder: "median-asc",
         view: "collapsed",
+        entity: "municipality",
       });
     });
   });
