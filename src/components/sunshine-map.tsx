@@ -159,6 +159,8 @@ const SunshineMap = ({
   const legendSourceData = unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
 
+  // Inner function should be extracted as a util and used by the energy-prices-map as well
+  // Possbility this should be done directly in the function returning enrichedDataResult ?
   // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
     const aggregateFn = aggregateFnPerIndicator[indicator];
@@ -181,6 +183,18 @@ const SunshineMap = ({
     if (!enrichedData?.operatorMunicipalities || !geoData) {
       return null;
     }
+
+    // This getOperatorsFeatureCollection should be in its own hook that would use
+    // useOperatorMunicipalitiesQuery internally and return the feature collection directly.
+    // Something like
+    // useOperatorFeatureCollection({
+    //   variables: {
+    //     period,
+    //     electricityCategory,
+    //     networkLevel,
+    //   },
+    // })
+    // This would make it more easily reusable for other maps
     const operatorsFeatureCollection = getOperatorsFeatureCollection(
       enrichedData.operatorMunicipalities,
       geoData?.municipalities as MunicipalityFeatureCollection,

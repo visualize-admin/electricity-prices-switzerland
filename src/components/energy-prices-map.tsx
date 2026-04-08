@@ -57,7 +57,7 @@ export const EnergyPricesMap = ({
   widgets?: GenericMapProps["widgets"];
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect, setEntity } = useMap();
+  const { activeId, onEntitySelect, setEntity, entity } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
@@ -165,13 +165,23 @@ export const EnergyPricesMap = ({
 
       const handleHover = ({ x, y, object }: PickingInfo) => {
         const id = object?.id?.toString();
-        setHovered(
-          object && id ? { x, y, id, type: "municipality" } : undefined,
-        );
+        // For now, only handle municipality hover (canton hover needs additional data)
+        if (!object || !id || entity !== "municipality") {
+          setHovered(undefined);
+          return;
+        }
+
+        setHovered({
+          x,
+          y,
+          id,
+          type: "municipality",
+        });
       };
 
       return [
-        enrichedData
+        // Should be shown only if we have selected to view by municipality
+        entity === "municipality" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.municipalities,
               observationsByMunicipalityId:
@@ -188,6 +198,24 @@ export const EnergyPricesMap = ({
               renderMode,
             })
           : null,
+
+        // Should be shown only if we have selected to view by cantons
+        entity === "canton" && enrichedData
+          ? makeMunicipalityLayer({
+              data: geoData.data.cantons,
+              observationsByMunicipalityId: enrichedData.observationsByCanton,
+              colorScale,
+              highlightId:
+                highlightContext?.entity === "canton"
+                  ? highlightContext.id
+                  : undefined,
+              onHover: handleHover,
+              onClick: handleMunicipalityLayerClick,
+              layerId: "cantons-base",
+              mode: "base",
+              renderMode,
+            })
+          : null,
         makeMunicipalityLayer({
           data: geoData.data.municipalityMesh,
           layerId: "municipality-mesh",
@@ -196,20 +224,24 @@ export const EnergyPricesMap = ({
         }),
         makeLakesLayer({ data: geoData.data.lakes, renderMode }),
         makeCantonsLayer({ data: geoData.data.cantonMesh, renderMode }),
-        makeEnergyPricesOverlayLayer({
-          data: geoData.data.cantons,
-          hovered,
-          activeId: activeId ?? undefined,
-          type: "canton",
-          renderMode,
-        }),
-        makeEnergyPricesOverlayLayer({
-          data: geoData.data.municipalities,
-          hovered,
-          activeId: activeId ?? undefined,
-          type: "municipality",
-          renderMode,
-        }),
+        // Overlay layer for canton highlights - only show when cantons are selected
+        entity === "canton" &&
+          makeEnergyPricesOverlayLayer({
+            data: geoData.data.cantons,
+            hovered,
+            activeId: activeId ?? undefined,
+            type: "canton",
+            renderMode,
+          }),
+        // Overlay layer for municipality highlights - only show when municipalities are selected
+        entity === "municipality" &&
+          makeEnergyPricesOverlayLayer({
+            data: geoData.data.municipalities,
+            hovered,
+            activeId: activeId ?? undefined,
+            type: "municipality",
+            renderMode,
+          }),
       ];
     },
     [
@@ -221,6 +253,7 @@ export const EnergyPricesMap = ({
       highlightContext?.id,
       hovered,
       activeId,
+      entity,
       featureIndexes,
       setEntity,
       onEntitySelect,

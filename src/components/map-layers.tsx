@@ -74,6 +74,8 @@ interface CantonsLayerOptions {
   renderMode?: MapRenderMode;
 }
 
+// Should be renamed to something more generic if we want to use it for other entity types
+// (e.g. cantons and operators)
 export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   const {
     data,
