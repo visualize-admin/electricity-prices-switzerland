@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
@@ -69,6 +69,7 @@ const IndexPage = ({ locale }: Props) => {
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
+  const [entity, setEntity] = useState<Entity>("municipality");
   return (
     <MapProvider activeId={activeId} setActiveId={setActiveId} embed>
       <HighlightContext.Provider
@@ -82,6 +83,8 @@ const IndexPage = ({ locale }: Props) => {
           enrichedDataQuery={enrichedEnergyPrices}
           priceComponent={priceComponent as PriceComponent}
           colorScale={colorScale}
+          entity={entity}
+          setEntity={setEntity}
         />
       </HighlightContext.Provider>
     </MapProvider>

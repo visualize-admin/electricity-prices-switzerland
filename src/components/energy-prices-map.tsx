@@ -47,6 +47,8 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
+  entity,
+  setEntity,
   widgets,
 }: {
   enrichedDataQuery: ReturnType<typeof useEnrichedEnergyPricesData>;
@@ -54,10 +56,12 @@ export const EnergyPricesMap = ({
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
+  entity: Entity;
+  setEntity: (entity: Entity) => void;
   widgets?: GenericMapProps["widgets"];
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect, setEntity } = useMap();
+  const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
