@@ -21,7 +21,7 @@ import {
 type LayerHoverHandler = (info: PickingInfo) => void;
 type LayerClickHandler = (
   info: PickingInfo,
-  event: { srcEvent: Event }
+  event: { srcEvent: Event },
 ) => void;
 
 interface MunicipalityLayerOptions {
@@ -91,7 +91,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   if (mode === "base") {
     if (!observationsByMunicipalityId || !colorScale) {
       throw new Error(
-        "Base mode requires observationsByMunicipalityId and colorScale"
+        "Base mode requires observationsByMunicipalityId and colorScale",
       );
     }
 
@@ -112,7 +112,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
           ? getFillColor(
               colorScale,
               getObservationsWeightedMean(obs),
-              highlightId === id
+              highlightId === id,
             )
           : styles.municipalities.base.fillColor.withoutData;
       },
@@ -201,7 +201,7 @@ interface EnergyPricesOverlayLayerOptions {
 }
 
 export function makeEnergyPricesOverlayLayer(
-  options: EnergyPricesOverlayLayerOptions
+  options: EnergyPricesOverlayLayerOptions,
 ) {
   const { data, hovered, activeId, type, renderMode } = options;
   const styles = getStyles(renderMode);
@@ -258,7 +258,7 @@ export function makeEnergyPricesOverlayLayer(
 }
 
 export function makeSunshineOperatorLayer(
-  options: SunshineOperatorLayerOptions
+  options: SunshineOperatorLayerOptions,
 ) {
   const { data, accessor, observationsByOperator, colorScale, renderMode } =
     options;
@@ -301,7 +301,7 @@ export function makeSunshineOperatorLayer(
 }
 
 export function makeSunshineOperatorPickableLayer(
-  options: SunshineOperatorPickableLayerOptions
+  options: SunshineOperatorPickableLayerOptions,
 ) {
   const {
     data,

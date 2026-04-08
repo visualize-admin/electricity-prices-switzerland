@@ -117,7 +117,9 @@ const MapPageContent = ({
       product,
       download,
       tab = "electricity",
+      entity: queryEntity,
     },
+    setQueryState,
   ] = useQueryStateEnergyPricesMap();
 
   const [
@@ -134,9 +136,14 @@ const MapPageContent = ({
   const isElectricityTab = tab === "electricity";
   const isSunshineTab = tab === "sunshine";
 
-  // Entity should be part of the state
-  const { entity: mapEntity, setEntity } = useMap();
-  const entity = isElectricityTab ? mapEntity : "operator";
+  // Entity from query state for electricity tab, always operator for sunshine tab
+  const entity = isElectricityTab ? queryEntity : "operator";
+
+  const setEntity = useCallback((newEntity: Entity) => {
+    if (isElectricityTab) {
+      setQueryState({ entity: newEntity });
+    }
+  }, [isElectricityTab, setQueryState]);
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
 
@@ -273,6 +280,8 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       priceComponent={priceComponent as PriceComponent}
+      entity={entity}
+      setEntity={setEntity}
       widgets={mapWidgets}
     />
   ) : (
@@ -286,6 +295,7 @@ const MapPageContent = ({
       period={period}
       indicator={indicator}
       networkLevel={networkLevel}
+      category={netElectricityCategory || energyElectricityCategory}
       widgets={mapWidgets}
     />
   );

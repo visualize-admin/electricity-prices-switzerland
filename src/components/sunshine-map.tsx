@@ -1,9 +1,8 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
 import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
-import { extent, mean, ScaleThreshold } from "d3";
+import { extent, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { first } from "lodash";
 import { useCallback, useId, useMemo, useState } from "react";
 
 import { MapColorLegend } from "src/components/color-legend";
@@ -25,14 +24,12 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
-  getOperatorsFeatureCollection,
   isOperatorFeature,
-  MunicipalityFeatureCollection,
   OperatorFeature,
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
-import { ValueFormatter } from "src/domain/data";
+import { ElectricityCategory, ValueFormatter } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { networkLevelUnits } from "src/domain/metrics";
 import {
@@ -45,11 +42,13 @@ import {
 } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { UseEnrichedSunshineDataResult } from "src/hooks/use-enriched-sunshine-data";
+import { useOperatorFeatureCollection } from "src/hooks/use-operator-feature-collection";
 import {
   EntitySelection,
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { aggregateSunshineObservationsByOperator } from "src/utils/aggregate-observations";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 // Must be a function to be lazy evaluated in the correct i18n context
@@ -114,23 +113,9 @@ type SunshineMapProps = {
   indicator: SunshineIndicator;
   // Necessary when indicator is networkCosts
   networkLevel?: "NE5" | "NE6" | "NE7";
+  // Necessary when indicator is netTariffs or energyTariffs
+  category?: ElectricityCategory;
   widgets?: GenericMapProps["widgets"];
-};
-
-const aggregateFnPerIndicator: Record<
-  SunshineIndicator,
-  (
-    obs: SunshineDataIndicatorRow["value"][]
-  ) => SunshineDataIndicatorRow["value"]
-> = {
-  networkCosts: mean,
-  netTariffs: mean,
-  energyTariffs: mean,
-  saidi: mean,
-  saifi: mean,
-  daysInAdvanceOutageNotification: first,
-  outageInfo: first,
-  compliance: first,
 };
 
 const SunshineMap = ({
@@ -143,57 +128,48 @@ const SunshineMap = ({
   period,
   indicator,
   networkLevel,
+  category,
   widgets,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
 
+  // Get operator feature collection using the reusable hook
+  const electricityCategory =
+    indicator === "netTariffs" || indicator === "energyTariffs"
+      ? category
+      : undefined;
+
+  const operatorFeatureResult = useOperatorFeatureCollection({
+    period,
+    electricityCategory,
+    networkLevel,
+    pause: !enrichedDataResult.data,
+  });
+
   const legends = getLegends();
 
   const isLoading =
-    enrichedDataResult.fetching || geoDataResult.state === "fetching";
+    enrichedDataResult.fetching ||
+    geoDataResult.state === "fetching" ||
+    operatorFeatureResult.fetching;
 
   const enrichedData = enrichedDataResult.data;
   // Use unfiltered data for the legend so the peer group mask doesn't affect
   // the legend extent. Falls back to the (possibly filtered) enrichedData when
   // no separate unfiltered result is provided.
-  const legendSourceData =
-    unfilteredEnrichedDataResult?.data ?? enrichedData;
+  const legendSourceData = unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
+  const enhancedGeoData = operatorFeatureResult.data;
 
+  // Inner function should be extracted as a util and used by the energy-prices-map as well
+  // Possbility this should be done directly in the function returning enrichedDataResult ?
   // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
-    const aggregateFn = aggregateFnPerIndicator[indicator];
-    const record: Record<string, SunshineDataIndicatorRow> = Object.fromEntries(
-      Array.from(enrichedData?.observationsByOperator.entries() ?? []).map(
-        (x) => [
-          x[0],
-
-          {
-            ...x[1][0],
-            value: aggregateFn(x[1].map((obs) => obs.value)),
-          },
-        ]
-      )
+    return aggregateSunshineObservationsByOperator(
+      enrichedData?.observationsByOperator,
+      indicator,
     );
-    return record;
   }, [enrichedData?.observationsByOperator, indicator]);
-
-  const enhancedGeoData = useMemo(() => {
-    if (!enrichedData?.operatorMunicipalities || !geoData) {
-      return null;
-    }
-    const operatorsFeatureCollection = getOperatorsFeatureCollection(
-      enrichedData.operatorMunicipalities,
-      geoData?.municipalities as MunicipalityFeatureCollection
-    );
-
-    const features = operatorsFeatureCollection.features;
-
-    return {
-      ...operatorsFeatureCollection,
-      features,
-    };
-  }, [enrichedData?.operatorMunicipalities, geoData]);
 
   // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
@@ -208,7 +184,7 @@ const SunshineMap = ({
       selectedId: null,
       entityType: hovered?.type === "operator" ? "operator" : "municipality",
     }),
-    [hovered]
+    [hovered],
   );
 
   // Use the unified entity selection hook
@@ -224,12 +200,12 @@ const SunshineMap = ({
 
   const featuresWithObservations = useMemo(() => {
     const operatorIds = new Set(
-      Object.keys(observationsByOperator).map((x) => parseInt(x, 10))
+      Object.keys(observationsByOperator).map((x) => parseInt(x, 10)),
     );
     return (
       enhancedGeoData?.features.filter(isOperatorFeature).filter((feature) => {
         return feature.properties.operators.some((operatorId) =>
-          operatorIds.has(operatorId)
+          operatorIds.has(operatorId),
         );
       }) ?? []
     );
@@ -278,7 +254,7 @@ const SunshineMap = ({
         setHovered(undefined);
       }
     },
-    [accessor, observationsByOperator]
+    [accessor, observationsByOperator],
   );
 
   // Create tooltip content using the unified entity data
@@ -298,7 +274,7 @@ const SunshineMap = ({
   // Create map layers
   const makeLayers = useCallback(
     (renderMode: MapRenderMode) => {
-      if (!enhancedGeoData || !enhancedGeoData.features) {
+      if (!enhancedGeoData?.features) {
         return [];
       }
 
@@ -310,14 +286,14 @@ const SunshineMap = ({
           if (shouldOpenInNewTab(ev.srcEvent)) {
             const href = sunshineDetailsLink(
               `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
-                indicator
+                indicator,
               )}`,
               {
                 tabDetails:
                   indicator === "daysInAdvanceOutageNotification"
                     ? "outageInfo"
                     : indicator,
-              }
+              },
             );
             window.open(href, "_blank");
           } else {
@@ -371,7 +347,7 @@ const SunshineMap = ({
       observationsByOperator,
       onEntitySelect,
       onHoverOperatorLayer,
-    ]
+    ],
   );
 
   const mapLayers = useMemo(() => makeLayers("screen"), [makeLayers]);
@@ -386,7 +362,7 @@ const SunshineMap = ({
           }
           return [f.properties.operators[0], f] as const;
         })
-        .filter(truthy)
+        .filter(truthy),
     );
   }, [enhancedGeoData?.features]);
 
@@ -402,7 +378,7 @@ const SunshineMap = ({
       }
       return entity;
     },
-    [index]
+    [index],
   );
 
   const valuesExtent = useMemo(() => {
@@ -413,7 +389,7 @@ const SunshineMap = ({
       return undefined;
     }
     return extent(
-      legendSourceData.observations.map((x) => accessor(x)).filter(truthy)
+      legendSourceData.observations.map((x) => accessor(x)).filter(truthy),
     );
   }, [accessor, legendSourceData?.observations]);
 
@@ -463,7 +439,7 @@ const SunshineMap = ({
     const { thresholds, palette } = thresholdEncoding(
       legendSourceData.median,
       values,
-      +period
+      +period,
     );
 
     return (
@@ -485,7 +461,17 @@ const SunshineMap = ({
         }}
       />
     );
-  }, [indicator, valuesExtent, legendSourceData, colorScale, networkLevel, period, legendId, legends, valueFormatter]);
+  }, [
+    indicator,
+    valuesExtent,
+    legendSourceData,
+    colorScale,
+    networkLevel,
+    period,
+    legendId,
+    legends,
+    valueFormatter,
+  ]);
 
   return (
     <GenericMap
@@ -506,7 +492,7 @@ const SunshineMap = ({
 
 const featureMatchesId = (
   feature: Feature<Geometry, GeoJsonProperties>,
-  id: string
+  id: string,
 ) => {
   if (!isOperatorFeature(feature)) {
     return false;

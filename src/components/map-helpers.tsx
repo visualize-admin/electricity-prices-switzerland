@@ -9,7 +9,7 @@ import { BBox as GeoJsonBBox } from "geojson";
 export const getFillColor = (
   colorScale: ScaleThreshold<number, string, never> | undefined,
   v: number | undefined,
-  highlighted: boolean
+  highlighted: boolean,
 ): [number, number, number] => {
   if (v === undefined) {
     return [0, 0, 0];
@@ -34,7 +34,7 @@ export const getFillColor = (
 export const constrainZoom = (
   viewState: MapViewState & { width: number; height: number },
   bbox: BBox,
-  { padding = 150 }: { padding?: number } = {}
+  { padding = 150 }: { padding?: number } = {},
 ) => {
   if (viewState.width < padding * 2 || viewState.height < padding * 2) {
     return viewState;
@@ -87,7 +87,7 @@ export const getZoomedViewState = (
   {
     padding = 150,
     transitionDuration = 1000,
-  }: { padding?: number; transitionDuration?: number } = {}
+  }: { padding?: number; transitionDuration?: number } = {},
 ) => {
   const vp = new WebMercatorViewport(currentViewState);
 
@@ -115,7 +115,7 @@ export const getZoomedViewState = (
 };
 
 export const flattenBBox = (
-  bbox: [[number, number], [number, number]]
+  bbox: [[number, number], [number, number]],
 ): [number, number, number, number] => {
   return [bbox[0][0], bbox[0][1], bbox[1][0], bbox[1][1]];
 };
@@ -277,4 +277,3 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
     },
   };
 };
-

@@ -1,5 +1,5 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { index, ScaleThreshold } from "d3";
 import {
   ComponentProps,
@@ -24,14 +24,14 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { useGeoData } from "src/data/geo";
-import { PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
 import {
-  useSelectedEntityData,
   EntitySelection,
+  useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
 import { combineErrors } from "src/utils/combine-errors";
@@ -47,6 +47,8 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
+  entity,
+  setEntity,
   widgets,
 }: {
   enrichedDataQuery: ReturnType<typeof useEnrichedEnergyPricesData>;
@@ -54,10 +56,12 @@ export const EnergyPricesMap = ({
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
+  entity: Entity;
+  setEntity: (entity: Entity) => void;
   widgets?: GenericMapProps["widgets"];
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect, setEntity } = useMap();
+  const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
@@ -75,7 +79,7 @@ export const EnergyPricesMap = ({
       selectedId: null,
       entityType: hovered?.type === "municipality" ? "municipality" : "canton",
     }),
-    [hovered]
+    [hovered],
   );
 
   // Use the selected entity data hook
@@ -127,12 +131,12 @@ export const EnergyPricesMap = ({
         type === "canton"
           ? featureIndexes.cantons
           : type === "municipality"
-          ? featureIndexes.municipalities
-          : undefined;
+            ? featureIndexes.municipalities
+            : undefined;
       const entity = index?.get(parseInt(id, 10));
       return entity;
     },
-    [featureIndexes]
+    [featureIndexes],
   );
 
   const makeLayers = useCallback(
@@ -143,7 +147,7 @@ export const EnergyPricesMap = ({
 
       const handleMunicipalityLayerClick = (
         info: PickingInfo,
-        ev: { srcEvent: Event }
+        ev: { srcEvent: Event },
       ) => {
         if (!featureIndexes || !info.layer) return;
         const id = info.object.id as number;
@@ -159,14 +163,14 @@ export const EnergyPricesMap = ({
         onEntitySelect(
           ev.srcEvent as MouseEvent,
           "municipality",
-          id.toString()
+          id.toString(),
         );
       };
 
       const handleHover = ({ x, y, object }: PickingInfo) => {
         const id = object?.id?.toString();
         setHovered(
-          object && id ? { x, y, id, type: "municipality" } : undefined
+          object && id ? { x, y, id, type: "municipality" } : undefined,
         );
       };
 
@@ -224,7 +228,7 @@ export const EnergyPricesMap = ({
       featureIndexes,
       setEntity,
       onEntitySelect,
-    ]
+    ],
   );
 
   const layers = useMemo(() => makeLayers("screen"), [makeLayers]);
@@ -242,13 +246,13 @@ export const EnergyPricesMap = ({
     // Get the threshold encoding function and generate thresholds and palette from a single source
     const thresholdEncoding = thresholdEncodings.energyPrices;
     const isValidValue = <T extends { value?: number | null | undefined }>(
-      x: T
+      x: T,
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
     const values = observations.filter(isValidValue).map((o) => o.value);
     const { thresholds, palette } = thresholdEncoding(
       medianValue,
       values,
-      +period
+      +period,
     );
 
     return (
@@ -305,7 +309,7 @@ export const EnergyPricesMap = ({
               : { message: "Unknown geoData error" }
             : undefined,
           error ? { error: error, label: "Data" } : undefined,
-        ].filter(truthy)
+        ].filter(truthy),
       )}
       tooltipContent={tooltipContent}
       legend={renderLegend()}

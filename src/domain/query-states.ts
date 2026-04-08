@@ -83,6 +83,7 @@ const defaultCantonOrder: CantonOrder = "median-asc";
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
+  entity: z.enum(["municipality", "operator", "canton"]).default("municipality"),
   operator: z.string().optional(),
   period: periodSchema,
   municipality: z.string().optional(),

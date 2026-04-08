@@ -1,12 +1,9 @@
 import { useRouter } from "next/router";
 import {
   createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   useContext,
   useMemo,
-  useState,
 } from "react";
 
 import { Entity } from "src/domain/data";
@@ -16,8 +13,6 @@ import { assertBaseDomainOK } from "src/utils/domain";
 type MapContextType = {
   activeId: string | null;
   setActiveId: (activeId: string | null) => void;
-  entity: Entity;
-  setEntity: Dispatch<SetStateAction<Entity>>;
   onEntitySelect: (
     event: Event | MouseEvent,
     entity: Entity,
@@ -67,12 +62,10 @@ export const MapProvider = ({
   children,
   embed,
 }: MapProviderProps) => {
-  const [entity, setEntity] = useState<Entity>("municipality");
-
   const embedEntityClick = useEmbedEntityClick();
 
   const onEntitySelect: MapContextType["onEntitySelect"] = useEvent(
-    (ev, entity: Entity, id: string) => {
+    (_ev, entity: Entity, id: string) => {
       if (embed) {
         return embedEntityClick(entity, id);
       } else {
@@ -85,11 +78,9 @@ export const MapProvider = ({
     () => ({
       activeId,
       setActiveId,
-      entity,
-      setEntity,
       onEntitySelect,
     }),
-    [activeId, setActiveId, entity, setEntity, onEntitySelect]
+    [activeId, setActiveId, onEntitySelect]
   );
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

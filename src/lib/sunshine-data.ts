@@ -62,7 +62,7 @@ export type IndicatorMedianParams =
 
 const getTrend = (
   previousValue: number | undefined | null,
-  currentValue: number | undefined | null
+  currentValue: number | undefined | null,
 ): Trend => {
   if (previousValue === null || currentValue === null) {
     return Trend.Stable; // Cannot determine trend without both values
@@ -87,7 +87,7 @@ const getTrend = (
  */
 const findCurrentAndPreviousPeriodData = <T extends { period: number }>(
   yearlyData: T[],
-  targetPeriod: number
+  targetPeriod: number,
 ): {
   currentData: T | undefined;
   previousData: T | undefined;
@@ -97,7 +97,7 @@ const findCurrentAndPreviousPeriodData = <T extends { period: number }>(
 } => {
   const sortedByYear = sortBy(yearlyData, [(x) => x.period]);
   const currentIndex = sortedByYear?.findIndex(
-    (x) => x.period === targetPeriod
+    (x) => x.period === targetPeriod,
   );
   const previousIndex = currentIndex !== undefined ? currentIndex - 1 : -1;
   const previousData = sortedByYear?.[previousIndex];
@@ -133,7 +133,7 @@ export const fetchNetworkCostsData = async (
     networkLevel?: NetworkLevel["id"];
     period?: number;
     operatorOnly?: boolean;
-  }
+  },
 ): Promise<NetworkCostsData> => {
   // Get the latest year if period not provided
   let targetPeriod = period;
@@ -157,7 +157,7 @@ export const fetchNetworkCostsData = async (
     previousYear,
   } = findCurrentAndPreviousPeriodData(
     yearlyPeerGroupMedianNetworkCosts,
-    targetPeriod
+    targetPeriod,
   );
   const [operatorNetworkCosts, networkCosts, previousOperatorNetworkCosts] =
     await Promise.all([
@@ -179,7 +179,7 @@ export const fetchNetworkCostsData = async (
 
   if (operatorNetworkCosts.length > 1) {
     throw new Error(
-      "Cannot have multiple network costs records for one operator in one year"
+      "Cannot have multiple network costs records for one operator in one year",
     );
   }
 
@@ -196,7 +196,7 @@ export const fetchNetworkCostsData = async (
       operator_id: peerGroupOperatorId,
       operator_name: peerGroupOperatorName,
       network_level: item.network_level,
-    })
+    }),
   );
 
   // Concatenate peer group median data into yearlyData with special operator_id and name
@@ -207,12 +207,12 @@ export const fetchNetworkCostsData = async (
     operatorRate: operatorNetworkCost?.rate ?? null,
     operatorTrend: getTrend(
       previousOperatorNetworkCost?.rate,
-      operatorNetworkCost?.rate
+      operatorNetworkCost?.rate,
     ),
     peerGroupMedianRate: peerGroupMedianNetworkCosts?.median_value ?? null,
     peerGroupMedianTrend: getTrend(
       previousPeerGroupMedianNetworkCosts?.median_value,
-      peerGroupMedianNetworkCosts?.median_value
+      peerGroupMedianNetworkCosts?.median_value,
     ),
     yearlyData: combinedYearlyData,
   };
@@ -242,7 +242,7 @@ const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
       category: ElectricityCategory;
       period: number;
       operatorOnly?: boolean;
-    }
+    },
   ): Promise<TariffsData> => {
     const operatorData = operatorData_
       ? operatorData_
@@ -284,7 +284,7 @@ const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
 
     if (operatorTariffs.length > 1) {
       throw new Error(
-        `Cannot have multiple ${tariffType} records for one operator in one year`
+        `Cannot have multiple ${tariffType} records for one operator in one year`,
       );
     }
 
@@ -298,7 +298,7 @@ const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
         operator_id: peerGroupOperatorId,
         operator_name: peerGroupOperatorName,
         category: item.category,
-      })
+      }),
     );
 
     const combinedYearlyData = [...tariffs, ...peerGroupMedianAsYearlyData];
@@ -308,12 +308,12 @@ const createTariffsFetcher = <T extends TariffType>(tariffType: T) => {
       operatorRate: operatorTariff?.rate ?? null,
       operatorTrend: getTrend(
         previousOperatorTariff?.rate,
-        operatorTariff?.rate
+        operatorTariff?.rate,
       ),
       peerGroupMedianRate: peerGroupMedianTariffs?.median_rate ?? null,
       peerGroupMedianTrend: getTrend(
         previousPeerGroupMedianTariffs?.median_rate,
-        peerGroupMedianTariffs?.median_rate
+        peerGroupMedianTariffs?.median_rate,
       ),
       yearlyData: combinedYearlyData,
     };
@@ -346,7 +346,7 @@ export const fetchOperatorCostsAndTariffsData = async (
     category: ElectricityCategory;
     period?: number;
     operatorOnly?: boolean;
-  }
+  },
 ): Promise<CostsAndTariffsData> => {
   const operatorId = parseInt(operatorId_, 10);
 
@@ -429,7 +429,7 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
       operatorData?: OperatorDataRecord;
       period: number;
       operatorOnly?: boolean;
-    }
+    },
   ): Promise<StabilityData> => {
     const operatorData = _operatorData
       ? _operatorData
@@ -453,7 +453,7 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
       previousYear,
     } = findCurrentAndPreviousPeriodData(
       yearlyPeerGroupMedianStability,
-      period
+      period,
     );
 
     const [operatorStability, previousOperatorStability] = await Promise.all([
@@ -469,7 +469,7 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
 
     if (operatorStability.length > 1) {
       throw new Error(
-        "Cannot have multiple stability records for one operator in one year"
+        "Cannot have multiple stability records for one operator in one year",
       );
     }
 
@@ -497,7 +497,7 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
         unplanned: item[medianUnplannedKey],
         operator_id: peerGroupOperatorId,
         operator_name: peerGroupOperatorName,
-      })
+      }),
     );
 
     // Combine all yearly data
@@ -522,13 +522,13 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
       trendTotal: operatorStabilityRecord
         ? getTrend(
             previousOperatorStabilityRecord?.[totalKey],
-            operatorStabilityRecord[totalKey]
+            operatorStabilityRecord[totalKey],
           )
         : null,
       trendUnplanned: operatorStabilityRecord
         ? getTrend(
             previousOperatorStabilityRecord?.[unplannedKey],
-            operatorStabilityRecord[unplannedKey]
+            operatorStabilityRecord[unplannedKey],
           )
         : null,
 
@@ -539,13 +539,13 @@ const createStabilityMetricFetcher = (metricType: StabilityMetricType) => {
         previousPeerGroupMedianStability
           ? previousPeerGroupMedianStability[medianTotalKey]
           : null,
-        peerGroupMedianTotal
+        peerGroupMedianTotal,
       ),
       peerGroupMedianTrendUnplanned: getTrend(
         previousPeerGroupMedianStability
           ? previousPeerGroupMedianStability[medianUnplannedKey]
           : null,
-        peerGroupMedianUnplanned
+        peerGroupMedianUnplanned,
       ),
 
       yearlyData: combinedYearlyData,
@@ -575,7 +575,7 @@ export const fetchPowerStability = async (
     operatorData?: OperatorDataRecord;
     operatorOnly?: boolean;
     period?: number;
-  }
+  },
 ): Promise<PowerStabilityData> => {
   const operatorId = parseInt(operatorId_, 10);
 
@@ -635,7 +635,7 @@ export const fetchOperationalStandards = async (
     operatorId: string;
     operatorData?: OperatorDataRecord;
     period?: number;
-  }
+  },
 ): Promise<OperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
 
@@ -675,7 +675,7 @@ export const fetchOperationalStandards = async (
       operatorId: `${op.operator_id}`,
       days: op.info_days_in_advance ?? null,
       year: `${op.period}`,
-    })
+    }),
   );
 
   const operatorsFrancsPerInvoice = peerGroupOperationalData.map((op) => ({
