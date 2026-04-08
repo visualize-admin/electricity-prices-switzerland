@@ -143,6 +143,8 @@ const SunshineMap = ({
   const legendSourceData = unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
 
+  // Inner function should be extracted as a util and used by the energy-prices-map as well
+  // Possbility this should be done directly in the function returning enrichedDataResult ?
   // Convert enriched data to format expected by map layers
   const observationsByOperator = useMemo(() => {
     return aggregateSunshineObservationsByOperator(
