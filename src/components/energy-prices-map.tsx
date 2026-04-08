@@ -312,8 +312,9 @@ export const EnergyPricesMap = ({
         colorScale
           ? makeSunshineOperatorLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
-                return f.properties.operators.some((operatorId) => 
-                  operatorId.toString() in observationsByOperator
+                return f.properties.operators.some(
+                  (operatorId) =>
+                    operatorId.toString() in observationsByOperator,
                 );
               }),
               accessor: (obs) => obs.value ?? 0,
@@ -329,8 +330,9 @@ export const EnergyPricesMap = ({
         colorScale
           ? makeSunshineOperatorPickableLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
-                return f.properties.operators.some((operatorId) => 
-                  operatorId.toString() in observationsByOperator
+                return f.properties.operators.some(
+                  (operatorId) =>
+                    operatorId.toString() in observationsByOperator,
                 );
               }),
               accessor: (_obs) => 10, // Fixed value for pickable layer
