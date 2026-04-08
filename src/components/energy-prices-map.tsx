@@ -26,7 +26,7 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import { isOperatorFeature, useGeoData } from "src/data/geo";
-import { PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
@@ -51,6 +51,8 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
+  entity,
+  setEntity,
   widgets,
 }: {
   enrichedDataQuery: ReturnType<typeof useEnrichedEnergyPricesData>;
@@ -58,10 +60,12 @@ export const EnergyPricesMap = ({
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
+  entity: Entity;
+  setEntity: (entity: Entity) => void;
   widgets?: GenericMapProps["widgets"];
 }) => {
   const [hovered, setHovered] = useState<HoverState>();
-  const { activeId, onEntitySelect, setEntity, entity } = useMap();
+  const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
   const formatNumber = useFormatCurrency();
 
