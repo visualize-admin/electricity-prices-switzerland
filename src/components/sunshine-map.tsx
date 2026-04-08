@@ -1,5 +1,4 @@
 import { Layer, PickingInfo } from "@deck.gl/core/typed";
-import { GeoJsonLayerProps } from "@deck.gl/layers/typed";
 import { t } from "@lingui/macro";
 import { extent, ScaleThreshold } from "d3";
 import { Feature, GeoJsonProperties, Geometry } from "geojson";
@@ -17,10 +16,10 @@ import { useMap } from "src/components/map-context";
 import { HoverState, MapRenderMode } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
+  makeEntityHighlightLayer,
+  makeEntityLayer,
   makeLakesLayer,
   makeMeshLayer,
-  makeOperatorInteractionLayer,
-  makeOperatorLayer,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
@@ -166,6 +165,14 @@ const SunshineMap = ({
     );
   }, [enrichedData?.observationsByOperator, indicator]);
 
+  const observationsByOperatorMap = useMemo(
+    () =>
+      new Map<string, SunshineDataIndicatorRow>(
+        Object.entries(observationsByOperator),
+      ),
+    [observationsByOperator],
+  );
+
   // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
 
@@ -273,35 +280,41 @@ const SunshineMap = ({
         return [];
       }
 
-      const handleOperatorLayerClick: GeoJsonLayerProps<OperatorFeature>["onClick"] =
-        (info, ev) => {
-          const id = (info.object?.properties as OperatorLayerProperties)
-            ?.operators?.[0];
-          if (!id) return;
-          if (shouldOpenInNewTab(ev.srcEvent)) {
-            const href = sunshineDetailsLink(
-              `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
-                indicator,
-              )}`,
-              {
-                tabDetails:
-                  indicator === "daysInAdvanceOutageNotification"
-                    ? "outageInfo"
-                    : indicator,
-              },
-            );
-            window.open(href, "_blank");
-          } else {
-            onEntitySelect(ev.srcEvent, "operator", id.toString());
-          }
-        };
+      const handleOperatorLayerClick = (
+        info: PickingInfo,
+        ev: { srcEvent: Event },
+      ) => {
+        const id = (info.object?.properties as OperatorLayerProperties)
+          ?.operators?.[0];
+        if (!id) return;
+        if (shouldOpenInNewTab(ev.srcEvent)) {
+          const href = sunshineDetailsLink(
+            `/sunshine/operator/${id}/${getSunshineDetailsPageFromIndicator(
+              indicator,
+            )}`,
+            {
+              tabDetails:
+                indicator === "daysInAdvanceOutageNotification"
+                  ? "outageInfo"
+                  : indicator,
+            },
+          );
+          window.open(href, "_blank");
+        } else {
+          onEntitySelect(ev.srcEvent, "operator", id.toString());
+        }
+      };
 
       return [
-        makeOperatorLayer({
+        makeEntityLayer({
           data: featuresWithObservations,
-          accessor,
-          observationsByOperator,
+          observationsByEntityId: observationsByOperatorMap,
+          getFeatureIds: (f: OperatorFeature) =>
+            (f.properties?.operators ?? []).map(String),
+          getValue: accessor,
           colorScale,
+          layerId: "operator-layer",
+          pickable: false,
           renderMode,
         }),
         geoData?.municipalities?.features
@@ -317,12 +330,13 @@ const SunshineMap = ({
         geoData?.cantonMesh
           ? makeCantonsLayer({ data: geoData.cantonMesh, renderMode })
           : null,
-        makeOperatorInteractionLayer({
+        makeEntityHighlightLayer({
           data: featuresWithObservations,
-          accessor,
-          observationsByOperator,
+          layerId: "operator-overlay",
           hovered,
           activeId: activeId ?? undefined,
+          getId: (f: OperatorFeature) =>
+            f.properties?.operators?.[0]?.toString(),
           onHover: onHoverOperatorLayer,
           onClick: handleOperatorLayerClick,
           renderMode,
@@ -339,6 +353,7 @@ const SunshineMap = ({
       hovered,
       indicator,
       observationsByOperator,
+      observationsByOperatorMap,
       onEntitySelect,
       onHoverOperatorLayer,
     ],

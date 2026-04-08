@@ -244,36 +244,5 @@ export const getStyles = (mode: MapRenderMode = "screen") => {
       lineWidthMaxPixels: 3.6 * s,
       lineWidth: 200, // meters, not scaled
     },
-    operators: {
-      base: {
-        lineColor: LINE_COLOR,
-        lineWidthMinPixels: 0.5 * s,
-        lineWidthMaxPixels: 1 * s,
-        transitions: {
-          duration: 300,
-          easing: "easeExpIn" as const,
-        },
-        fillColor: {
-          doesNotExist: toArray("#00000000"),
-          withoutData: toArray("#dde1e3ff"),
-        },
-      },
-      pickable: {
-        fillColor: toArray("#ffffff00"), // Transparent
-        highlightColor: toArray("#00000032"),
-      },
-      overlay: {
-        active: {
-          fillColor: toArray("#00000000"),
-          lineColor: toArray("#1f2937ff"),
-          lineWidth: 3 * s, // pixel units
-        },
-        inactive: {
-          fillColor: toArray("#ffffff66"),
-          lineColor: toArray("#00000000"),
-          lineWidth: 2 * s, // pixel units
-        },
-      },
-    },
   };
 };

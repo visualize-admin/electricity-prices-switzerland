@@ -22,8 +22,6 @@ import {
   makeEntityLayer,
   makeLakesLayer,
   makeMeshLayer,
-  makeOperatorInteractionLayer,
-  makeOperatorLayer,
   PickingInfoTyped,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
@@ -34,7 +32,11 @@ import {
   OperatorFeature,
   useGeoData,
 } from "src/data/geo";
-import { Entity, PriceComponent } from "src/domain/data";
+import {
+  Entity,
+  getObservationsWeightedMean,
+  PriceComponent,
+} from "src/domain/data";
 import { useFormatCurrency } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
@@ -92,6 +94,11 @@ export const EnergyPricesMap = ({
   const observationsByOperator = useMemo(
     () => enrichedData?.observationsByOperatorAggregated ?? {},
     [enrichedData],
+  );
+
+  const observationsByOperatorMap = useMemo(
+    () => new Map(Object.entries(observationsByOperator)),
+    [observationsByOperator],
   );
 
   // Create entity selection for unified hook
@@ -283,8 +290,11 @@ export const EnergyPricesMap = ({
         entity === "municipality" && enrichedData && colorScale
           ? makeEntityLayer({
               data: geoData.data.municipalities,
-              observationsByEntityId:
-                enrichedData.observationsByMunicipality,
+              observationsByEntityId: enrichedData.observationsByMunicipality,
+              getFeatureIds: (
+                f: MunicipalityFeatureCollection["features"][number],
+              ) => (f.id != null ? [String(f.id)] : []),
+              getValue: getObservationsWeightedMean,
               colorScale,
               highlightId:
                 highlightContext?.entity === "municipality"
@@ -301,6 +311,10 @@ export const EnergyPricesMap = ({
           ? makeEntityLayer({
               data: geoData.data.cantons,
               observationsByEntityId: enrichedData.observationsByCanton,
+              getFeatureIds: (
+                f: CantonFeatureCollection["features"][number],
+              ) => (f.id != null ? [String(f.id)] : []),
+              getValue: getObservationsWeightedMean,
               colorScale,
               highlightId:
                 highlightContext?.entity === "canton"
@@ -314,18 +328,21 @@ export const EnergyPricesMap = ({
           : null,
         entity === "operator" &&
         operatorFeatureResult.data?.features &&
-        observationsByOperator &&
+        observationsByOperatorMap.size > 0 &&
         colorScale
-          ? makeOperatorLayer({
-              data: operatorFeatureResult.data.features.filter((f) => {
-                return f.properties.operators.some(
-                  (operatorId) =>
-                    operatorId.toString() in observationsByOperator,
-                );
-              }),
-              accessor: (obs) => obs.value ?? 0,
-              observationsByOperator,
+          ? makeEntityLayer({
+              data: operatorFeatureResult.data.features.filter((f) =>
+                f.properties.operators.some(
+                  (id) => String(id) in observationsByOperator,
+                ),
+              ),
+              observationsByEntityId: observationsByOperatorMap,
+              getFeatureIds: (f: OperatorFeature) =>
+                (f.properties?.operators ?? []).map(String),
+              getValue: (obs) => obs.value,
               colorScale,
+              layerId: "operator-layer",
+              pickable: false,
               renderMode,
             })
           : null,
@@ -341,36 +358,39 @@ export const EnergyPricesMap = ({
         entity === "canton" &&
           makeEntityHighlightLayer({
             data: geoData.data.cantons,
+            layerId: "canton-overlay",
             hovered,
             activeId: activeId ?? undefined,
-            type: "canton",
+            getId: (f: CantonFeatureCollection["features"][number]) =>
+              f.id?.toString(),
             renderMode,
           }),
         // Overlay layer for municipality highlights - only show when municipalities are selected
         entity === "municipality" &&
           makeEntityHighlightLayer({
             data: geoData.data.municipalities,
+            layerId: "municipality-overlay",
             hovered,
             activeId: activeId ?? undefined,
-            type: "municipality",
+            getId: (f: MunicipalityFeatureCollection["features"][number]) =>
+              f.id?.toString(),
             renderMode,
           }),
-        // Overlay layer for operator highlights - only show when operators are selected and we have the necessary data
+        // Overlay layer for operator highlights - only show when operators are selected
         entity === "operator" &&
         operatorFeatureResult.data?.features &&
-        observationsByOperator &&
-        colorScale
-          ? makeOperatorInteractionLayer({
-              data: operatorFeatureResult.data.features.filter((f) => {
-                return f.properties.operators.some(
-                  (operatorId) =>
-                    operatorId.toString() in observationsByOperator,
-                );
-              }),
-              accessor: (_obs) => 10, // Fixed value for pickable layer
-              observationsByOperator,
+        observationsByOperatorMap.size > 0
+          ? makeEntityHighlightLayer({
+              data: operatorFeatureResult.data.features.filter((f) =>
+                f.properties.operators.some(
+                  (id) => String(id) in observationsByOperator,
+                ),
+              ),
+              layerId: "operator-overlay",
               hovered,
               activeId: activeId ?? undefined,
+              getId: (f: OperatorFeature) =>
+                f.properties?.operators?.[0]?.toString(),
               onHover: handleHover,
               onClick: handleOperatorLayerClick,
               renderMode,
@@ -390,6 +410,7 @@ export const EnergyPricesMap = ({
       entity,
       operatorFeatureResult.data,
       observationsByOperator,
+      observationsByOperatorMap,
       featureIndexes,
       setEntity,
       onEntitySelect,

@@ -1,7 +1,7 @@
 import { PickingInfo } from "@deck.gl/core/typed";
-import { GeoJsonLayer, GeoJsonLayerProps } from "@deck.gl/layers/typed";
-import { easeExpIn, mean, ScaleThreshold } from "d3";
-import { Feature, Geometry } from "geojson";
+import { GeoJsonLayer } from "@deck.gl/layers/typed";
+import { mean, ScaleThreshold } from "d3";
+import { Feature, GeoJsonProperties, Geometry } from "geojson";
 
 import {
   getFillColor,
@@ -9,35 +9,41 @@ import {
   HoverState,
   MapRenderMode,
 } from "src/components/map-helpers";
-import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
-import { getObservationsWeightedMean } from "src/domain/data";
-import {
-  Maybe,
-  OperatorObservationFieldsFragment,
-  SunshineDataIndicatorRow,
-} from "src/graphql/queries";
 
 export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
   object: T | null;
 };
 
 // Common types for layer options
-type LayerHoverHandler = (info: PickingInfo) => void;
-type LayerClickHandler = (
-  info: PickingInfo,
+export type LayerHoverHandler<TFeature> = (
+  info: PickingInfoTyped<TFeature>,
+) => void;
+export type LayerClickHandler<TFeature> = (
+  info: PickingInfoTyped<TFeature>,
   event: { srcEvent: Event },
 ) => void;
 
-interface EntityLayerOptions {
+// TFeature is the GeoJSON feature type; TObs is the observation type per entity.
+interface EntityLayerOptions<
+  TFeature extends Feature<Geometry, GeoJsonProperties>,
+  TObs,
+> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   layerId: string;
   renderMode?: MapRenderMode;
-  observationsByEntityId: Map<string, OperatorObservationFieldsFragment[]>;
+  /** Map from entity ID string to observation(s) for that entity. */
+  observationsByEntityId: Map<string, TObs>;
+  /** Return all IDs that this feature represents (single for areas, multiple for operators). */
+  getFeatureIds: (feature: TFeature) => string[];
+  /** Extract a scalar value from an observation entry. */
+  getValue: (obs: TObs) => number | null | undefined;
   colorScale: ScaleThreshold<number, string>;
   highlightId?: string;
-  onHover?: LayerHoverHandler;
-  onClick?: LayerClickHandler;
+  onHover?: (info: PickingInfo) => void;
+  onClick?: (info: PickingInfo, event: { srcEvent: Event }) => void;
+  /** Pass false to make the layer non-pickable (e.g. operator base layer). Defaults to true. */
+  pickable?: boolean;
 }
 
 interface MeshLayerOptions {
@@ -47,23 +53,20 @@ interface MeshLayerOptions {
   renderMode?: MapRenderMode;
 }
 
-interface OperatorLayerOptions {
-  data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
-  colorScale: ScaleThreshold<number, string>;
+interface EntityHighlightLayerOptions<
+  TFeature extends Feature<Geometry, GeoJsonProperties>,
+> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
+  layerId: string;
   renderMode?: MapRenderMode;
-}
-
-interface OperatorInteractionLayerOptions {
-  data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
   hovered?: HoverState;
-  activeId?: string;
-  onHover?: LayerHoverHandler;
-  onClick?: GeoJsonLayerProps<OperatorFeature>["onClick"];
-  renderMode?: MapRenderMode;
+  activeId?: string | null;
+  /** Return the canonical ID string for a feature, used for hover/active matching. */
+  getId: (feature: TFeature) => string | undefined;
+  /** Presence makes the layer pickable and enables pointer events. */
+  onHover?: (info: PickingInfo) => void;
+  onClick?: (info: PickingInfo, event: { srcEvent: Event }) => void;
 }
 
 interface LakesLayerOptions {
@@ -80,39 +83,48 @@ interface CantonsLayerOptions {
   renderMode?: MapRenderMode;
 }
 
-export function makeEntityLayer(options: EntityLayerOptions) {
+export function makeEntityLayer<
+  TFeature extends Feature<Geometry, GeoJsonProperties>,
+  TObs,
+>(options: EntityLayerOptions<TFeature, TObs>) {
   const {
     data,
     layerId,
     renderMode,
     observationsByEntityId,
+    getFeatureIds,
+    getValue,
     colorScale,
     highlightId,
     onHover,
     onClick,
+    pickable = true,
   } = options;
   const styles = getStyles(renderMode);
 
   return new GeoJsonLayer({
     id: layerId,
     data,
-    pickable: true,
+    pickable,
     stroked: false,
     filled: true,
     extruded: false,
     autoHighlight: false,
     getFillColor: (d) => {
-      const id = d?.id?.toString();
-      if (!id) return styles.areas.base.fillColor.doesNotExist;
+      const ids = getFeatureIds(d as unknown as TFeature);
+      if (ids.length === 0) return styles.areas.base.fillColor.doesNotExist;
 
-      const obs = observationsByEntityId.get(id);
-      return obs
-        ? getFillColor(
-            colorScale,
-            getObservationsWeightedMean(obs),
-            highlightId === id,
-          )
-        : styles.areas.base.fillColor.withoutData;
+      const values = ids
+        .map((id) => {
+          const obs = observationsByEntityId.get(id);
+          return obs != null ? getValue(obs) : null;
+        })
+        .filter((v): v is number => v != null);
+
+      if (values.length === 0) return styles.areas.base.fillColor.withoutData;
+
+      const isHighlighted = ids.some((id) => highlightId === id);
+      return getFillColor(colorScale, mean(values), isHighlighted);
     },
     onHover,
     onClick,
@@ -183,186 +195,57 @@ export function makeCantonsLayer(options: CantonsLayerOptions) {
   });
 }
 
-interface EntityHighlightLayerOptions {
-  data: GeoJSON.FeatureCollection;
-  hovered?: HoverState;
-  activeId?: string | null;
-  type: "municipality" | "canton";
-  renderMode?: MapRenderMode;
-}
-
-export function makeEntityHighlightLayer(
-  options: EntityHighlightLayerOptions,
-) {
-  const { data, hovered, activeId, type, renderMode } = options;
-  const styles = getStyles(renderMode);
-
-  return new GeoJsonLayer({
-    id: `${type}-overlay`,
-    /** @ts-expect-error bad types */
-    data,
-    pickable: false,
-    stroked: true,
-    filled: true,
-    extruded: false,
-    getFillColor: (d) => {
-      const id = d?.id?.toString();
-      if (!id) return styles.overlay.default.fillColor;
-
-      const isActive = activeId === id;
-      const isHovered = hovered?.type === type && hovered.id === id;
-
-      // Only show overlay for the hovered/active municipality
-      if (isActive || isHovered) {
-        return styles.overlay.active.fillColor;
-      }
-      // All other municipalities remain transparent (no reduced opacity overlay)
-      return styles.overlay.default.fillColor;
-    },
-    getLineColor: (d) => {
-      const id = d?.id?.toString();
-      const isActive = activeId === id;
-      const isHovered = hovered?.type === type && hovered.id === id;
-
-      if (isActive || isHovered) {
-        return styles.overlay.active.lineColor;
-      }
-      return styles.overlay.default.lineColor;
-    },
-    getLineWidth: (d) => {
-      const id = d?.id?.toString();
-      const isActive = activeId === id;
-      const isHovered = hovered?.type === type && hovered.id === id;
-
-      if (isActive || isHovered) {
-        return styles.overlay.active.lineWidth;
-      }
-      return styles.overlay.default.lineWidth;
-    },
-    lineWidthUnits: "pixels",
-    updateTriggers: {
-      getFillColor: [hovered, activeId],
-      getLineColor: [hovered, activeId],
-      getLineWidth: [hovered, activeId],
-    },
-  });
-}
-
-export function makeOperatorLayer(
-  options: OperatorLayerOptions,
-) {
-  const { data, accessor, observationsByOperator, colorScale, renderMode } =
-    options;
-  const styles = getStyles(renderMode);
-
-  return new GeoJsonLayer<OperatorFeature>({
-    id: "operator-layer",
-    data,
-    filled: true,
-    stroked: false,
-    updateTriggers: {
-      getFillColor: [getFillColor, accessor, observationsByOperator],
-    },
-    getFillColor: (x: Feature<Geometry, OperatorLayerProperties>) => {
-      if (!x.properties) {
-        return styles.operators.base.fillColor.doesNotExist;
-      }
-      const operatorIds = x.properties.operators;
-      const values = operatorIds
-        .map((x) => {
-          const op = observationsByOperator[x];
-          return accessor(op) ?? null;
-        })
-        .filter((x) => x !== null && x !== undefined);
-      if (values.length === 0) {
-        return styles.operators.base.fillColor.withoutData;
-      }
-      const value = mean(values);
-      const color = getFillColor(colorScale, value, false);
-      return color;
-    },
-    lineWidthUnits: "pixels",
-    transitions: {
-      getFillColor: {
-        duration: styles.operators.base.transitions.duration,
-        easing: easeExpIn,
-      },
-    },
-  });
-}
-
-export function makeOperatorInteractionLayer(
-  options: OperatorInteractionLayerOptions,
-) {
+export function makeEntityHighlightLayer<
+  TFeature extends Feature<Geometry, GeoJsonProperties>,
+>(options: EntityHighlightLayerOptions<TFeature>) {
   const {
     data,
-    accessor,
-    observationsByOperator,
+    layerId,
     hovered,
     activeId,
+    getId,
     onHover,
     onClick,
     renderMode,
   } = options;
   const styles = getStyles(renderMode);
+  const pickable = !!(onHover || onClick);
 
-  const deps = [
-    getFillColor,
-    accessor,
-    observationsByOperator,
-    activeId,
-    hovered,
-  ];
-
-  const isFeatureHovered = (feature: OperatorFeature) => {
-    const id = feature.properties.id;
-    return hovered?.type === "operator" && hovered.id.split(",").includes(id);
+  const isActiveOrHovered = (d: TFeature) => {
+    const id = getId(d);
+    if (!id) return false;
+    const isActive = activeId === id;
+    const isHovered = hovered?.id.split(",").includes(id) ?? false;
+    return isActive || isHovered;
   };
 
-  return new GeoJsonLayer<OperatorFeature>({
-    id: "operator-layer-pickable",
+  return new GeoJsonLayer({
+    id: layerId,
     data,
-    filled: true,
+    pickable,
     onHover,
-    autoHighlight: false,
     onClick,
     stroked: true,
-    getFillColor: (d: OperatorFeature) => {
-      const id = d.properties.operators?.[0]?.toString();
-      const isActive = activeId === id;
-      const isHovered = isFeatureHovered(d);
-
-      if (isActive || isHovered) {
-        return styles.operators.pickable.highlightColor;
-      }
-      return styles.operators.pickable.fillColor;
-    },
+    filled: true,
+    extruded: false,
+    autoHighlight: false,
+    getFillColor: (d) =>
+      isActiveOrHovered(d as unknown as TFeature)
+        ? styles.overlay.active.fillColor
+        : styles.overlay.default.fillColor,
+    getLineColor: (d) =>
+      isActiveOrHovered(d as unknown as TFeature)
+        ? styles.overlay.active.lineColor
+        : styles.overlay.default.lineColor,
+    getLineWidth: (d) =>
+      isActiveOrHovered(d as unknown as TFeature)
+        ? styles.overlay.active.lineWidth
+        : styles.overlay.default.lineWidth,
     lineWidthUnits: "pixels",
-    pickable: true,
     updateTriggers: {
-      getFillColor: deps,
-      getLineColor: deps,
-      getLineWidth: deps,
-    },
-    getLineColor: (d: OperatorFeature) => {
-      const id = d.properties.id;
-      const isActive = activeId === id;
-      const isHovered = isFeatureHovered(d);
-
-      if (isActive || isHovered) {
-        return styles.operators.overlay.active.lineColor;
-      }
-      return styles.operators.overlay.inactive.lineColor;
-    },
-    getLineWidth: (d: OperatorFeature) => {
-      const id = d.properties.id;
-      const isActive = activeId === id;
-      const isHovered = isFeatureHovered(d);
-
-      if (isActive || isHovered) {
-        return styles.operators.overlay.active.lineWidth;
-      }
-      return styles.operators.overlay.inactive.lineWidth;
+      getFillColor: [hovered, activeId],
+      getLineColor: [hovered, activeId],
+      getLineWidth: [hovered, activeId],
     },
   });
 }
