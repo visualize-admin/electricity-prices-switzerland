@@ -1,3 +1,5 @@
+import os from "node:os";
+
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
@@ -31,7 +33,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI
+    ? Math.max(1, os.cpus().length - 1)
+    : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"],

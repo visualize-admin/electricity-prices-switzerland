@@ -6,8 +6,10 @@ on:
     branches: [main]
   workflow_dispatch: {}
 jobs:
-  ci:
+  prepare:
     runs-on: ubuntu-latest
+    outputs:
+      deployment_url: ${{ steps.wait-vercel.outputs.deployment-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -16,9 +18,6 @@ jobs:
 
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
-
-      - name: "Install playwright"
-        uses: ./.github/workflows/install-playwright
 
       - name: Download wiki content from ref
         env:
@@ -37,25 +36,57 @@ jobs:
 
       - name: "Wait Vercel deploy"
         uses: ./.github/workflows/wait-vercel-deploy
-        id: deployment-url
+        id: wait-vercel
         env:
           VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
           VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
+  integration:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
       - name: Integration tests
         run: pnpm run test:integration
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          DEPLOYMENT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
-          # Necessary to be able to create a session cookie in the tests
+          DEPLOYMENT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+
+  playwright-app:
+    needs: prepare
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
+      - name: "Install playwright"
+        uses: ./.github/workflows/install-playwright
 
       - name: Run application tests
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
+          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
@@ -63,35 +94,75 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           ARGOS_THRESHOLD: 0.75
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm run test:playwright:app
+        run: >-
+          pnpm exec playwright test
+          --grep-invert "@storybook|@har|@ignore"
+          --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: graphql-metrics
+          name: graphql-metrics-shard-${{ matrix.shardIndex }}
           path: test-results/graphql-metrics.json
           retention-days: 30
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-shard-${{ matrix.shardIndex }}
           path: playwright-report/
           retention-days: 30
+
+  playwright-storybook:
+    needs: prepare
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2]
+        shardTotal: [2]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
+      - name: "Install playwright"
+        uses: ./.github/workflows/install-playwright
 
       - name: Run storybook tests
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
+          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
         run: |
           curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
-          pnpm run test:playwright:storybook
+          pnpm exec playwright test --grep "@storybook" --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report-storybook
+          name: playwright-report-storybook-shard-${{ matrix.shardIndex }}
           path: playwright-report/
           retention-days: 2
+
+  ci:
+    needs:
+      - prepare
+      - integration
+      - playwright-app
+      - playwright-storybook
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all jobs succeeded
+        run: |
+          test "${{ needs.prepare.result }}" = "success"
+          test "${{ needs.integration.result }}" = "success"
+          test "${{ needs.playwright-app.result }}" = "success"
+          test "${{ needs.playwright-storybook.result }}" = "success"
