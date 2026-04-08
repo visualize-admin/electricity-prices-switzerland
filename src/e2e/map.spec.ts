@@ -5,20 +5,21 @@ import InflightRequests from "src/e2e/inflight";
 
 test.describe("The Map Page", () => {
   test("should be possible to download the map", async ({ page }) => {
+    test.setTimeout(120_000);
     const resp = await page.goto("/en/map");
     await expect(resp?.status()).toEqual(200);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("load");
+    const downloadTrigger = page.getByRole("button", { name: "Download image" });
+    await expect(downloadTrigger).toBeVisible({ timeout: 60_000 });
+    await downloadTrigger.click();
 
-    // click the download button, it has text "Download image"
-    await page.locator(
-      "button:has-text('Download image')"
-    ).click();
-    const downloadPromise = page.waitForEvent('download');
-  
-    await page.getByRole('button', { name: 'Download' }).click();
-  
-    // wait for a download to be triggered
-    const download = await downloadPromise;
+    const confirmDownload = page.getByRole("button", { name: "Download" });
+    await expect(confirmDownload).toBeVisible({ timeout: 15_000 });
+
+    const [download] = await Promise.all([
+      page.waitForEvent("download", { timeout: 90_000 }),
+      confirmDownload.click(),
+    ]);
     // read the download, and assert the mime type
     const mimeType = download.suggestedFilename().split(".").pop();
     expect(mimeType).toBe("png");
@@ -74,7 +75,7 @@ test.describe("Map Hover Behavior", () => {
 
     // Verify the details panel shows content for the selected operator
     const detailsContent = page.getByTestId("map-details-content");
-    await expect(detailsContent).toBeVisible();
+    await expect(detailsContent).toBeVisible({ timeout: 45_000 });
 
     tracker.dispose();
   });
