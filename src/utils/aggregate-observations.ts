@@ -4,7 +4,7 @@ import { first } from "lodash";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 
-export type AggregatedEnergyOperatorObservation = {
+type AggregatedEnergyOperatorObservation = {
   value: number | null;
   name: string;
   period: string;

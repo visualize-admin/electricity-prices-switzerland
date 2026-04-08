@@ -8,13 +8,14 @@ import {
   Polygon,
 } from "geojson";
 import { groupBy, keyBy } from "lodash";
-import { useFetch } from "src/data/use-fetch";
-import { truthy } from "src/lib/truthy";
-import { OperatorMunicipalityRecord } from "src/rdf/queries";
 import {
   feature as topojsonFeature,
   mesh as topojsonMesh,
 } from "topojson-client";
+
+import { useFetch } from "src/data/use-fetch";
+import { truthy } from "src/lib/truthy";
+import { OperatorMunicipalityRecord } from "src/rdf/queries";
 
 const multiGroupBy = <T,>(arr: T[], iter: (item: T) => string[]) => {
   const res: Record<string, T[]> = {};
