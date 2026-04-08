@@ -68,8 +68,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4]
-        shardTotal: [4]
+        # Playwright shards slice an ordered list of test groups (not per-test hash).
+        # Six shards (~7–8 app tests each) reduces wall-time variance vs four (~11–12).
+        shardIndex: [1, 2, 3, 4, 5, 6]
+        shardTotal: [6]
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
