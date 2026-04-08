@@ -25,9 +25,7 @@ import {
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
-  getOperatorsFeatureCollection,
   isOperatorFeature,
-  MunicipalityFeatureCollection,
   OperatorFeature,
   OperatorLayerProperties,
   useGeoData,
@@ -45,6 +43,7 @@ import {
 } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { UseEnrichedSunshineDataResult } from "src/hooks/use-enriched-sunshine-data";
+import { useOperatorFeatureCollection } from "src/hooks/use-operator-feature-collection";
 import {
   EntitySelection,
   useSelectedEntityData,
@@ -147,10 +146,25 @@ const SunshineMap = ({
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
 
+  // Get operator feature collection using the reusable hook
+  const electricityCategory =
+    indicator === "netTariffs" || indicator === "energyTariffs"
+      ? undefined // These will need proper category handling later
+      : undefined;
+
+  const operatorFeatureResult = useOperatorFeatureCollection({
+    period,
+    electricityCategory,
+    networkLevel,
+    pause: !enrichedDataResult.data,
+  });
+
   const legends = getLegends();
 
   const isLoading =
-    enrichedDataResult.fetching || geoDataResult.state === "fetching";
+    enrichedDataResult.fetching ||
+    geoDataResult.state === "fetching" ||
+    operatorFeatureResult.fetching;
 
   const enrichedData = enrichedDataResult.data;
   // Use unfiltered data for the legend so the peer group mask doesn't affect
@@ -158,6 +172,7 @@ const SunshineMap = ({
   // no separate unfiltered result is provided.
   const legendSourceData = unfilteredEnrichedDataResult?.data ?? enrichedData;
   const geoData = geoDataResult.data;
+  const enhancedGeoData = operatorFeatureResult.data;
 
   // Inner function should be extracted as a util and used by the energy-prices-map as well
   // Possbility this should be done directly in the function returning enrichedDataResult ?
@@ -178,35 +193,6 @@ const SunshineMap = ({
     );
     return record;
   }, [enrichedData?.observationsByOperator, indicator]);
-
-  const enhancedGeoData = useMemo(() => {
-    if (!enrichedData?.operatorMunicipalities || !geoData) {
-      return null;
-    }
-
-    // This getOperatorsFeatureCollection should be in its own hook that would use
-    // useOperatorMunicipalitiesQuery internally and return the feature collection directly.
-    // Something like
-    // useOperatorFeatureCollection({
-    //   variables: {
-    //     period,
-    //     electricityCategory,
-    //     networkLevel,
-    //   },
-    // })
-    // This would make it more easily reusable for other maps
-    const operatorsFeatureCollection = getOperatorsFeatureCollection(
-      enrichedData.operatorMunicipalities,
-      geoData?.municipalities as MunicipalityFeatureCollection,
-    );
-
-    const features = operatorsFeatureCollection.features;
-
-    return {
-      ...operatorsFeatureCollection,
-      features,
-    };
-  }, [enrichedData?.operatorMunicipalities, geoData]);
 
   // Handle hover on operator layer
   const [hovered, setHovered] = useState<HoverState>();
@@ -311,7 +297,7 @@ const SunshineMap = ({
   // Create map layers
   const makeLayers = useCallback(
     (renderMode: MapRenderMode) => {
-      if (!enhancedGeoData || !enhancedGeoData.features) {
+      if (!enhancedGeoData?.features) {
         return [];
       }
 
