@@ -34,13 +34,13 @@ import {
 import { Loading, NoDataHint } from "src/components/hint";
 import {
   BBox,
+  CH_BBOX,
   constrainZoom,
   flattenBBox,
   getInitialViewState,
   getZoomedViewState,
-  InitialViewState,
-  CH_BBOX,
   HoverState,
+  InitialViewState,
   MapRenderMode,
 } from "src/components/map-helpers";
 import HintBox from "src/components/map-hint-box";
@@ -86,7 +86,7 @@ const ZoomWidget = ({
     () =>
       typeof navigator !== "undefined" &&
       navigator.userAgent.indexOf("Mac OS X") !== -1,
-    []
+    [],
   );
   return (
     <Box className={classes.container}>
@@ -206,7 +206,7 @@ export const GenericMap = ({
   const mapZoomPadding = isMobile ? 20 : 150;
 
   const [viewState, setViewState] = useState(() =>
-    getInitialViewState(isMobile)
+    getInitialViewState(isMobile),
   );
   const [screenshotting, setScreenshotting] = useState(false);
   // Tracks the paper size in use for the current screenshot, so the offscreen
@@ -233,7 +233,7 @@ export const GenericMap = ({
     }
     const center = centroid(entity as Parameters<typeof centroid>[0]);
     const projected = vp.project(
-      center.geometry.coordinates as [number, number]
+      center.geometry.coordinates as [number, number],
     );
 
     const common = {
@@ -248,24 +248,24 @@ export const GenericMap = ({
             type: "municipality",
           }
         : type === "canton"
-        ? {
-            ...common,
-            type: "canton",
-            label: highlightContext.label,
-            value: highlightContext.value,
-          }
-        : type === "operator"
-        ? {
-            ...common,
-            type: "operator",
-            values: [
-              {
-                operatorName: highlightContext.label,
-                value: highlightContext.value,
-              },
-            ],
-          }
-        : (null as never);
+          ? {
+              ...common,
+              type: "canton",
+              label: highlightContext.label,
+              value: highlightContext.value,
+            }
+          : type === "operator"
+            ? {
+                ...common,
+                type: "operator",
+                values: [
+                  {
+                    operatorName: highlightContext.label,
+                    value: highlightContext.value,
+                  },
+                ],
+              }
+            : (null as never);
     setHovered(newHoverState);
   }, [getEntityFromHighlight, highlightContext, setHovered, viewState]);
 
@@ -279,7 +279,7 @@ export const GenericMap = ({
         userOnViewStateChange(newViewState);
       }
     },
-    [screenshotting, userOnViewStateChange]
+    [screenshotting, userOnViewStateChange],
   );
 
   // Resize handler
@@ -291,7 +291,7 @@ export const GenericMap = ({
           initialBBox,
           {
             padding: mapZoomPadding,
-          }
+          },
         );
         return {
           ...viewState,
@@ -301,7 +301,7 @@ export const GenericMap = ({
         };
       });
     },
-    [setViewState, mapZoomPadding, initialBBox]
+    [setViewState, mapZoomPadding, initialBBox],
   );
 
   const deckRef = useRef<DeckGLRef>(null);
@@ -318,7 +318,7 @@ export const GenericMap = ({
     // Poll until all layers have finished loading their data
     const allLoaded =
       (deck.props.layers as Layer[] | undefined)?.every(
-        (layer) => !layer || layer.isLoaded
+        (layer) => !layer || layer.isLoaded,
       ) ?? true;
 
     if (allLoaded) {
@@ -356,7 +356,7 @@ export const GenericMap = ({
             return getMapImageData(
               deck,
               legendElement || undefined,
-              activePaperSizeRef.current
+              activePaperSizeRef.current,
             );
           } finally {
             setScreenshotting(false);
@@ -380,7 +380,7 @@ export const GenericMap = ({
             {
               padding: mapZoomPadding,
               transitionDuration: 1000,
-            }
+            },
           );
 
           if (newViewState) {
@@ -401,7 +401,7 @@ export const GenericMap = ({
             {
               padding: mapZoomPadding,
               transitionDuration: 1000,
-            }
+            },
           );
 
           if (newViewState) {
@@ -417,7 +417,17 @@ export const GenericMap = ({
         },
       };
     }
-  }, [controls, downloadId, featureMatchesId, initialBBox, layers, legendId, mapZoomPadding, paperSize, viewState]);
+  }, [
+    controls,
+    downloadId,
+    featureMatchesId,
+    initialBBox,
+    layers,
+    legendId,
+    mapZoomPadding,
+    paperSize,
+    viewState,
+  ]);
 
   const [scrollZoom, setScrollZoom] = useState(false);
   const [displayScrollZoom, setDisplayScrollZoom] = useState(false);
@@ -532,8 +542,8 @@ export const GenericMap = ({
             viewState.width - tooltipMinimumWidth
               ? { x: "left", y: "top" }
               : tooltipContent.hoveredState.x < tooltipMinimumWidth
-              ? { x: "right", y: "top" }
-              : defaultMapTooltipPlacement
+                ? { x: "right", y: "top" }
+                : defaultMapTooltipPlacement
           }
         >
           {tooltipContent.content}
@@ -582,12 +592,12 @@ export const GenericMap = ({
             displayScrollZoom={displayScrollZoom}
             onZoomIn={() => {
               setViewState((viewState) =>
-                zoomIn(viewState || getInitialViewState(isMobile))
+                zoomIn(viewState || getInitialViewState(isMobile)),
               );
             }}
             onZoomOut={() => {
               setViewState((viewState) =>
-                zoomOut(viewState || getInitialViewState(isMobile))
+                zoomOut(viewState || getInitialViewState(isMobile)),
               );
             }}
           />
@@ -624,11 +634,11 @@ export const GenericMap = ({
                 height: SCREENSHOT_SIZES[activePaperSize].canvas.height * 2,
               },
               initialBBox,
-              { padding: mapZoomPadding }
+              { padding: mapZoomPadding },
             )}
             layers={(
               makeScreenshotLayers?.(
-                activePaperSize === "a3" ? "print-a3" : "print-a4"
+                activePaperSize === "a3" ? "print-a3" : "print-a4",
               ) ?? layers
             ).map((l) => l?.clone({}))}
             onAfterRender={handleScreenshotRender}
@@ -651,7 +661,7 @@ const isFeatureCollection = (data: unknown): data is FeatureCollection => {
 function findFeatureInLayers(
   layers: Layer<{}>[],
   id: string,
-  featureMatchesId: (feature: Feature, id: string) => boolean
+  featureMatchesId: (feature: Feature, id: string) => boolean,
 ): Feature | undefined {
   let feature;
   for (const layer of layers) {
@@ -661,8 +671,8 @@ function findFeatureInLayers(
     const features = isFeatureCollection(data)
       ? data.features
       : Array.isArray(data)
-      ? (data as Feature[])
-      : undefined;
+        ? (data as Feature[])
+        : undefined;
     feature = features?.find((f) => featureMatchesId(f, id));
 
     if (feature) break;

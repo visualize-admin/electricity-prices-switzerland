@@ -1,5 +1,6 @@
 import { simplify } from "@turf/turf";
 import { useMemo } from "react";
+
 import {
   getOperatorsFeatureCollection,
   MunicipalityFeatureCollection,

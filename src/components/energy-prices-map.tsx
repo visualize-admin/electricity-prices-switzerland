@@ -37,6 +37,7 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
+import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 import { combineErrors } from "src/utils/combine-errors";
 
 import { GenericMap, GenericMapControls, GenericMapProps } from "./generic-map";
@@ -79,9 +80,10 @@ export const EnergyPricesMap = ({
   // Create operator observations grouping for map layers
   const observationsByOperator = useMemo(() => {
     if (!enrichedData?.observations) {
-      return new Map();
+      return {};
     }
-    return group(enrichedData.observations, (obs) => obs.operator);
+    const grouped = group(enrichedData.observations, (obs) => obs.operator);
+    return aggregateEnergyPricesObservationsByOperator(grouped);
   }, [enrichedData?.observations]);
 
   // Create entity selection for unified hook
@@ -91,12 +93,15 @@ export const EnergyPricesMap = ({
         hovered?.type === "municipality" || hovered?.type === "canton"
           ? [hovered.id.toString()]
           : hovered?.type === "operator" && hovered.id
-          ? [hovered.id]
-          : null,
+            ? [hovered.id]
+            : null,
       selectedId: null,
-      entityType: hovered?.type === "municipality" ? "municipality" 
-                : hovered?.type === "canton" ? "canton" 
-                : "operator",
+      entityType:
+        hovered?.type === "municipality"
+          ? "municipality"
+          : hovered?.type === "canton"
+            ? "canton"
+            : "operator",
     }),
     [hovered],
   );
@@ -146,14 +151,18 @@ export const EnergyPricesMap = ({
       if (!featureIndexes || !id) {
         return;
       }
-      
+
       // Handle operator highlights
       if (type === "operator" && operatorFeatureResult.data?.features) {
         return operatorFeatureResult.data.features
           .filter(isOperatorFeature)
-          .find(feature => feature.properties.operators.some(operatorId => operatorId.toString() === id));
+          .find((feature) =>
+            feature.properties.operators.some(
+              (operatorId) => operatorId.toString() === id,
+            ),
+          );
       }
-      
+
       // Handle municipality/canton highlights
       const index =
         type === "canton"
@@ -180,15 +189,20 @@ export const EnergyPricesMap = ({
         if (!featureIndexes || !info.layer) return;
         const id = info.object.id as number;
         const type =
-          info.layer.id === "municipalities" || info.layer.id === "cantons-base" ? 
-            (info.layer.id === "municipalities" ? "municipality" : "canton") :
-            "operator";
-            
+          info.layer.id === "municipalities" || info.layer.id === "cantons-base"
+            ? info.layer.id === "municipalities"
+              ? "municipality"
+              : "canton"
+            : "operator";
+
         // For energy prices, we currently only handle municipality navigation
-        if (type === "municipality" && !enrichedData?.observationsByMunicipality.get(`${id}`)) {
+        if (
+          type === "municipality" &&
+          !enrichedData?.observationsByMunicipality.get(`${id}`)
+        ) {
           return;
         }
-        
+
         setEntity(type === "canton" ? "canton" : "municipality");
         onEntitySelect(
           ev.srcEvent as MouseEvent,
@@ -196,7 +210,7 @@ export const EnergyPricesMap = ({
           id.toString(),
         );
       };
-      
+
       const handleOperatorLayerClick = (
         info: PickingInfo,
         ev: { srcEvent: Event },
@@ -204,7 +218,7 @@ export const EnergyPricesMap = ({
         if (!info.object) return;
         const operatorId = info.object.properties?.operators?.[0];
         if (!operatorId) return;
-        
+
         setEntity("operator");
         onEntitySelect(
           ev.srcEvent as MouseEvent,
@@ -215,7 +229,7 @@ export const EnergyPricesMap = ({
 
       const handleHover = ({ x, y, object }: PickingInfo) => {
         const id = object?.id?.toString();
-        
+
         if (!object || !id) {
           setHovered(undefined);
           return;
@@ -225,7 +239,7 @@ export const EnergyPricesMap = ({
         if (entity === "operator") {
           // For operators, the id contains operator IDs separated by "/"
           const operatorIds = id.split("/").map(Number);
-          
+
           setHovered({
             x,
             y,
@@ -291,21 +305,35 @@ export const EnergyPricesMap = ({
             })
           : null,
         // Should be shown only if we have selected to view by operators
-        entity === "operator" && operatorFeatureResult.data?.state === "loaded" && observationsByOperator && colorScale
+        entity === "operator" &&
+        operatorFeatureResult.data?.features &&
+        observationsByOperator &&
+        colorScale
           ? makeSunshineOperatorLayer({
-              data: operatorFeatureResult.data.features,
-              accessor: (obs) => obs.value ?? 0, // Simple accessor for now
-              observationsByOperator: Object.fromEntries(observationsByOperator),
+              data: operatorFeatureResult.data.features.filter((f) => {
+                return f.properties.operators.some((operatorId) => 
+                  operatorId.toString() in observationsByOperator
+                );
+              }),
+              accessor: (obs) => obs.value ?? 0,
+              observationsByOperator,
               colorScale,
               renderMode,
             })
           : null,
         // Pickable operator layer for interactions
-        entity === "operator" && operatorFeatureResult.data?.state === "loaded" && observationsByOperator && colorScale
+        entity === "operator" &&
+        operatorFeatureResult.data?.features &&
+        observationsByOperator &&
+        colorScale
           ? makeSunshineOperatorPickableLayer({
-              data: operatorFeatureResult.data.features,
-              accessor: (obs) => obs.value ?? 0,
-              observationsByOperator: Object.fromEntries(observationsByOperator),
+              data: operatorFeatureResult.data.features.filter((f) => {
+                return f.properties.operators.some((operatorId) => 
+                  operatorId.toString() in observationsByOperator
+                );
+              }),
+              accessor: (_obs) => 10, // Fixed value for pickable layer
+              observationsByOperator,
               hovered,
               activeId: activeId ?? undefined,
               onHover: handleHover,
@@ -428,8 +456,8 @@ export const EnergyPricesMap = ({
       layers={(layers as unknown as Layer[]) || []}
       makeScreenshotLayers={makeLayers as (mode: MapRenderMode) => Layer[]}
       isLoading={
-        geoData.state === "fetching" || 
-        fetching || 
+        geoData.state === "fetching" ||
+        fetching ||
         (entity === "operator" && operatorFeatureResult.fetching)
       }
       hasNoData={!enrichedData?.observations.length}
@@ -441,8 +469,11 @@ export const EnergyPricesMap = ({
               : { message: "Unknown geoData error" }
             : undefined,
           error ? { error: error, label: "Data" } : undefined,
-          entity === "operator" && operatorFeatureResult.error 
-            ? { error: { message: "Failed to load operator data" }, label: "Operator Data" } 
+          entity === "operator" && operatorFeatureResult.error
+            ? {
+                error: { message: "Failed to load operator data" },
+                label: "Operator Data",
+              }
             : undefined,
         ].filter(truthy),
       )}
