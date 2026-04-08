@@ -295,6 +295,7 @@ const MapPageContent = ({
       period={period}
       indicator={indicator}
       networkLevel={networkLevel}
+      category={netElectricityCategory || energyElectricityCategory}
       widgets={mapWidgets}
     />
   );
