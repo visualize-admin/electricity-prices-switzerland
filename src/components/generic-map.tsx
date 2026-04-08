@@ -25,8 +25,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { makeStyles } from "tss-react/mui";
-
 import {
   HighlightContext,
   HighlightValue,
@@ -59,6 +57,7 @@ import { IconMinus } from "src/icons/ic-minus";
 import { IconPlus } from "src/icons/ic-plus";
 import { useIsMobile } from "src/lib/use-mobile";
 import { useFlag } from "src/utils/flags";
+import { makeStyles } from "tss-react/mui";
 
 const useStyles = makeStyles()((theme) => ({
   container: {
