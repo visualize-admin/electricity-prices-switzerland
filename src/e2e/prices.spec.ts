@@ -1,6 +1,6 @@
 import InflightRequests from "src/e2e/inflight";
 
-import { test, expect } from "./common";
+import { expect, test } from "./common";
 
 test.describe("Electricity Prices", () => {
   test("it should load the page for an operator", async ({
@@ -9,7 +9,7 @@ test.describe("Electricity Prices", () => {
   }) => {
     const inflight = new InflightRequests(page);
     const resp = await page.goto(
-      "/operator/110?category=H8&product=cheapest&period=2019"
+      "/operator/110?category=H8&product=cheapest&period=2019",
     );
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
@@ -26,10 +26,11 @@ test.describe("Electricity Prices", () => {
     });
     for (const { sectionId, tabLabel } of sections) {
       await page.getByRole("tab", { name: tabLabel }).click();
+      await inflight.waitForRequests();
       await snapshot({
-      note: `Electricity Prices - Operator - ${sectionId}`,
-      locator: await page.getByTestId(`card-${sectionId}`),
-      fullPage: true,
+        note: `Electricity Prices - Operator - ${sectionId}`,
+        locator: await page.getByTestId(`card-${sectionId}`),
+        fullPage: true,
       });
     }
     inflight.dispose();
