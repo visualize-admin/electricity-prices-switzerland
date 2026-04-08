@@ -12,7 +12,9 @@
     "dev": "NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=4096' next",
     "wiki:update-content": "tsx scripts/wiki-content.ts download",
     "wiki:update-types": "tsx scripts/wiki-content.ts pages --format typescript --file src/domain/wiki.ts",
-    "build": "lingui compile && pnpm build-storybook && pnpm build:next",
+    "build": "turbo run build:app",
+    "build:app": "node -e \"process.exit(0)\"",
+    "lingui:compile": "lingui compile",
     "build:next": "NODE_OPTIONS='--max_old_space_size=16384 --openssl-legacy-provider' next build -d",
     "start": "GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE='' NODE_OPTIONS='-r \"./configure-proxy\" --max_old_space_size=2048 --openssl-legacy-provider --unhandled-rejections=warn' next start -p $PORT",
     "tsgo": "tsgo",
@@ -202,6 +204,7 @@
     "storybook": "^8.6.11",
     "tpo-deepl": "^1.2.4",
     "tsx": "^4.21.0",
+    "turbo": "^2.9.5",
     "typescript": "^5.8.2",
     "vite": "7.3.2",
     "vitest": "^4.0.15"

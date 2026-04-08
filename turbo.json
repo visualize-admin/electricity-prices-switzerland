@@ -1,0 +1,33 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "lingui:compile": {
+      "outputs": ["src/locales/**/messages.ts", "src/locales/**/messages.d.ts"]
+    },
+    "build-storybook": {
+      "dependsOn": ["lingui:compile"],
+      "inputs": [
+        ".storybook/**",
+        "src/**/*.mdx",
+        "src/**/*.stories.js",
+        "src/**/*.stories.jsx",
+        "src/**/*.stories.mjs",
+        "src/**/*.stories.ts",
+        "src/**/*.stories.tsx",
+        "package.json",
+        "pnpm-lock.yaml",
+        "next.config.ts",
+        "tsconfig.json"
+      ],
+      "outputs": ["public/storybook/**"]
+    },
+    "build:next": {
+      "dependsOn": ["lingui:compile"],
+      "outputs": [".next/**"]
+    },
+    "build:app": {
+      "dependsOn": ["build:next", "build-storybook"],
+      "cache": false
+    }
+  }
+}
