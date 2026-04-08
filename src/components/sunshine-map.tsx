@@ -19,8 +19,8 @@ import {
   makeCantonsLayer,
   makeLakesLayer,
   makeMunicipalityLayer,
-  makeSunshineOperatorLayer,
-  makeSunshineOperatorPickableLayer,
+  makeOperatorLayer,
+  makeOperatorPickableLayer,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
@@ -211,46 +211,21 @@ const SunshineMap = ({
     );
   }, [enhancedGeoData?.features, observationsByOperator]);
 
-  const onHoverOperatorLayer = useCallback(
-    (info: PickingInfo) => {
-      if (info.object?.properties) {
-        const properties = info.object.properties as OperatorLayerProperties;
-        const operatorIds = properties.operators;
+  const onHoverOperatorLayer = useCallback((info: PickingInfo) => {
+    if (info.object?.properties) {
+      const properties = info.object.properties as OperatorLayerProperties;
+      const operatorIds = properties.operators;
 
-        const observationsWithValues = operatorIds
-          .map((operatorId) => {
-            const observation = observationsByOperator[operatorId];
-            const value = observation ? accessor(observation) : null;
-            if (value === null || value === undefined) {
-              return null;
-            }
-            return {
-              observation: observation,
-              value: value,
-            };
-          })
-          .filter(truthy);
-
-        setHovered({
-          type: "operator",
-          id: operatorIds.join(","),
-          values: observationsWithValues
-            .map(({ observation, value }) => {
-              return {
-                value,
-                operatorName: observation?.name ?? "",
-              };
-            })
-            .filter(truthy),
-          x: info.x,
-          y: info.y,
-        });
-      } else {
-        setHovered(undefined);
-      }
-    },
-    [accessor, observationsByOperator],
-  );
+      setHovered({
+        type: "operator",
+        id: operatorIds.join(","),
+        x: info.x,
+        y: info.y,
+      });
+    } else {
+      setHovered(undefined);
+    }
+  }, []);
 
   // Create tooltip content using the unified entity data
   const tooltipContent = useMemo(() => {
@@ -297,7 +272,7 @@ const SunshineMap = ({
         };
 
       return [
-        makeSunshineOperatorLayer({
+        makeOperatorLayer({
           data: featuresWithObservations,
           accessor,
           observationsByOperator,
@@ -318,10 +293,8 @@ const SunshineMap = ({
         geoData?.cantonMesh
           ? makeCantonsLayer({ data: geoData.cantonMesh, renderMode })
           : null,
-        makeSunshineOperatorPickableLayer({
+        makeOperatorPickableLayer({
           data: featuresWithObservations,
-          accessor,
-          observationsByOperator,
           hovered,
           activeId: activeId ?? undefined,
           onHover: onHoverOperatorLayer,

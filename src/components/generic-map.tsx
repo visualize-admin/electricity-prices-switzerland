@@ -242,28 +242,11 @@ export const GenericMap = ({
     };
     const newHoverState: HoverState =
       type === "municipality"
-        ? {
-            ...common,
-            type: "municipality",
-          }
+        ? { ...common, type: "municipality" }
         : type === "canton"
-          ? {
-              ...common,
-              type: "canton",
-              label: highlightContext.label,
-              value: highlightContext.value,
-            }
+          ? { ...common, type: "canton" }
           : type === "operator"
-            ? {
-                ...common,
-                type: "operator",
-                values: [
-                  {
-                    operatorName: highlightContext.label,
-                    value: highlightContext.value,
-                  },
-                ],
-              }
+            ? { ...common, type: "operator" }
             : (null as never);
     setHovered(newHoverState);
   }, [getEntityFromHighlight, highlightContext, setHovered, viewState]);

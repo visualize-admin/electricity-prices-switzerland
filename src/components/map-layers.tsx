@@ -11,11 +11,7 @@ import {
 } from "src/components/map-helpers";
 import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
 import { getObservationsWeightedMean } from "src/domain/data";
-import {
-  Maybe,
-  OperatorObservationFieldsFragment,
-  SunshineDataIndicatorRow,
-} from "src/graphql/queries";
+import { Maybe, OperatorObservationFieldsFragment } from "src/graphql/queries";
 
 export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
   object: T | null;
@@ -45,18 +41,16 @@ interface MunicipalityLayerOptions {
   onClick?: LayerClickHandler;
 }
 
-interface SunshineOperatorLayerOptions {
+interface OperatorLayerOptions<T> {
   data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
+  accessor: (x: T) => Maybe<number> | undefined;
+  observationsByOperator: Record<string, T>;
   colorScale: ScaleThreshold<number, string>;
   renderMode?: MapRenderMode;
 }
 
-interface SunshineOperatorPickableLayerOptions {
+interface OperatorPickableLayerOptions {
   data: OperatorFeature[];
-  accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
-  observationsByOperator: Record<string, SunshineDataIndicatorRow>;
   hovered?: HoverState;
   activeId?: string;
   onHover?: LayerHoverHandler;
@@ -263,9 +257,7 @@ export function makeEnergyPricesOverlayLayer(
   });
 }
 
-export function makeSunshineOperatorLayer(
-  options: SunshineOperatorLayerOptions,
-) {
+export function makeOperatorLayer<T>(options: OperatorLayerOptions<T>) {
   const { data, accessor, observationsByOperator, colorScale, renderMode } =
     options;
   const styles = getStyles(renderMode);
@@ -306,28 +298,13 @@ export function makeSunshineOperatorLayer(
   });
 }
 
-export function makeSunshineOperatorPickableLayer(
-  options: SunshineOperatorPickableLayerOptions,
+export function makeOperatorPickableLayer(
+  options: OperatorPickableLayerOptions,
 ) {
-  const {
-    data,
-    accessor,
-    observationsByOperator,
-    hovered,
-    activeId,
-    onHover,
-    onClick,
-    renderMode,
-  } = options;
+  const { data, hovered, activeId, onHover, onClick, renderMode } = options;
   const styles = getStyles(renderMode);
 
-  const deps = [
-    getFillColor,
-    accessor,
-    observationsByOperator,
-    activeId,
-    hovered,
-  ];
+  const deps = [activeId, hovered];
 
   const isFeatureHovered = (feature: OperatorFeature) => {
     const id = feature.properties.id;

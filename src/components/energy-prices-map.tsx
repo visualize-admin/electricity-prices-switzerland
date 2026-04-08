@@ -21,8 +21,8 @@ import {
   makeEnergyPricesOverlayLayer,
   makeLakesLayer,
   makeMunicipalityLayer,
-  makeSunshineOperatorLayer,
-  makeSunshineOperatorPickableLayer,
+  makeOperatorLayer,
+  makeOperatorPickableLayer,
   PickingInfoTyped,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
@@ -277,14 +277,14 @@ export const EnergyPricesMap = ({
         operatorFeatureResult.data?.features &&
         observationsByOperator &&
         colorScale
-          ? makeSunshineOperatorLayer({
+          ? makeOperatorLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>
                     operatorId.toString() in observationsByOperator,
                 );
               }),
-              accessor: (obs) => obs.value ?? 0,
+              accessor: (obs) => obs.value,
               observationsByOperator,
               colorScale,
               renderMode,
@@ -322,15 +322,13 @@ export const EnergyPricesMap = ({
         operatorFeatureResult.data?.features &&
         observationsByOperator &&
         colorScale
-          ? makeSunshineOperatorPickableLayer({
+          ? makeOperatorPickableLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>
                     operatorId.toString() in observationsByOperator,
                 );
               }),
-              accessor: (_obs) => 10, // Fixed value for pickable layer
-              observationsByOperator,
               hovered,
               activeId: activeId ?? undefined,
               onHover: handleHover,

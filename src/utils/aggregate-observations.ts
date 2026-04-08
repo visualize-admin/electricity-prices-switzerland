@@ -4,6 +4,18 @@ import { first } from "lodash";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 
+export type AggregatedEnergyOperatorObservation = {
+  value: number | null;
+  name: string;
+  period: string;
+};
+
+type EnergyPricesObservation = {
+  operatorLabel?: string | null;
+  period: string;
+  value?: number | null;
+};
+
 // Aggregation functions per sunshine indicator
 const aggregateFnPerIndicator: Record<
   SunshineIndicator,
@@ -62,11 +74,10 @@ export const aggregateSunshineObservationsByOperator = (
 
 /**
  * Aggregates energy prices observations by operator using mean aggregation.
- * For energy prices, we create a simplified structure that matches what the map layers expect.
  */
 export const aggregateEnergyPricesObservationsByOperator = (
-  observationsByOperatorMap: Map<string, OperatorObservation[]> | undefined,
-): Record<string, SunshineDataIndicatorRow> => {
+  observationsByOperatorMap: Map<string, EnergyPricesObservation[]> | undefined,
+): Record<string, AggregatedEnergyOperatorObservation> => {
   if (!observationsByOperatorMap) {
     return {};
   }
@@ -76,18 +87,14 @@ export const aggregateEnergyPricesObservationsByOperator = (
       ([operatorId, observations]) => [
         operatorId,
         {
-          // Convert energy price observation to sunshine data format for map layers
-          __typename: "SunshineDataIndicatorRow" as const,
           name: observations[0].operatorLabel ?? `Operator ${operatorId}`,
           value:
             mean(
               observations
                 .map((obs) => obs.value)
-                .filter((v): v is number => v !== null),
+                .filter((v): v is number => v !== null && v !== undefined),
             ) ?? null,
           period: observations[0].period,
-          operatorId: parseInt(operatorId, 10),
-          operatorUID: operatorId,
         },
       ],
     ),
