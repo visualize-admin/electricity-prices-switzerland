@@ -1,3 +1,4 @@
+import { simplify } from "@turf/turf";
 import { useMemo } from "react";
 
 import {
@@ -19,6 +20,7 @@ interface UseOperatorFeatureCollectionOptions {
  *
  * Combines operator-municipality relationships from GraphQL with municipality
  * geometry data to create operator territory features for map rendering.
+ * Applies geometry simplification using turf to improve rendering performance.
  *
  * Used by both sunshine map and energy prices map when displaying operator data.
  */
@@ -60,8 +62,13 @@ export function useOperatorFeatureCollection({
       geoData.data.municipalities as MunicipalityFeatureCollection,
     );
 
+    // Simplify the feature collection with turf to reduce complexity
+    const simplifiedFeatureCollection = simplify(featureCollection, {
+      tolerance: 0.003,
+    });
+
     return {
-      ...featureCollection,
+      ...simplifiedFeatureCollection,
       state: "loaded" as const,
     };
   }, [
