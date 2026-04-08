@@ -1,4 +1,4 @@
-name: End-to-end tests
+name: E2E tooling
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: {}
 jobs:
   prepare:
-    name: "Wait — Vercel preview"
+    name: "Preview · Vercel"
     runs-on: ubuntu-latest
     # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
     timeout-minutes: 20
@@ -39,7 +39,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
   integration:
-    name: "Vitest — integration (deployed API)"
+    name: "Vitest · integration"
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 8
@@ -61,7 +61,7 @@ jobs:
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
   playwright-app:
-    name: "Playwright — app · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
+    name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
     needs: prepare
     timeout-minutes: 12
     runs-on: ubuntu-latest
@@ -115,7 +115,7 @@ jobs:
           retention-days: 30
 
   playwright-storybook:
-    name: "Playwright — Storybook"
+    name: "Storybook"
     needs: prepare
     timeout-minutes: 8
     runs-on: ubuntu-latest
@@ -151,7 +151,7 @@ jobs:
           retention-days: 2
 
   ci:
-    name: "E2E merge gate"
+    name: "Merge gate"
     needs:
       - prepare
       - integration
