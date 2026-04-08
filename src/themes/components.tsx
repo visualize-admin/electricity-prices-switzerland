@@ -56,6 +56,9 @@ export const components = (theme: Theme): Components => ({
       popper: {
         zIndex: 1300,
       },
+      noOptions: {
+        ...typography.h6,
+      },
       paper: {
         boxShadow: shadows[3],
         borderRadius: 2,
@@ -139,7 +142,7 @@ export const components = (theme: Theme): Components => ({
       select: {
         "&&": {
           paddingRight: `calc(var(--icon-width) + ${theme.spacing(
-            2
+            2,
           )}) !important`,
           paddingLeft: theme.spacing(2),
           height: `var(--select-height)`,

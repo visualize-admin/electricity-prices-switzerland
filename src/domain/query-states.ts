@@ -83,6 +83,7 @@ const defaultCantonOrder: CantonOrder = "median-asc";
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
+  entity: z.enum(["municipality", "operator", "canton"]).default("municipality"),
   operator: z.string().optional(),
   period: periodSchema,
   municipality: z.string().optional(),
@@ -94,6 +95,13 @@ const energyPricesMapSchema = z.object({
   cantonsOrder: CantonOrder.default("median-asc"),
   view: z.enum(["collapsed", "expanded"]).default("collapsed"),
 });
+const electricityPricesTabSchema = z.enum([
+  "priceComponents",
+  "tariffsDevelopment",
+  "priceDistribution",
+  "cantonComparison",
+]);
+
 const energyPricesDetailsSchema = z.object({
   operator: stringToArray().optional(),
   period: stringToValidatedArray(periods, [runtimeEnv.CURRENT_PERIOD]),
@@ -105,6 +113,7 @@ const energyPricesDetailsSchema = z.object({
   cantonsOrder: stringToArray<CantonOrder[]>([defaultCantonOrder]),
   download: z.string().optional(),
   view: stringToArray<["collapsed", "expanded"]>(["collapsed"]),
+  tab: electricityPricesTabSchema.default("priceComponents"),
 });
 
 const saidiSaifiTypeSchema = z.enum(["total", "unplanned"]);

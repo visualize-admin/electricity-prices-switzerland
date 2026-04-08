@@ -46,7 +46,7 @@ export type ComboboxMultiProps = {
 const defaultGetItemLabel = (d: string) => d;
 const defaultOptionEqualToValue = (
   option: unknown,
-  value: unknown
+  value: unknown,
 ): boolean => {
   return option === value;
 };
@@ -224,7 +224,7 @@ export const MultiCombobox = ({
             selectedItems.indexOf(option) < 0 &&
             getItemLabel(option)
               .toLowerCase()
-              .startsWith(state.inputValue.toLowerCase())
+              .startsWith(state.inputValue.toLowerCase()),
         );
         return filteredOptions;
       }}
@@ -245,7 +245,7 @@ export type ComboboxItem<T extends string = string> = {
 };
 
 export const toComboboxItems = <T extends string>(
-  values: readonly T[]
+  values: readonly T[],
 ): ComboboxItem<T>[] => {
   return values.map((value) => ({ value }));
 };
@@ -285,7 +285,7 @@ export const Combobox = <T extends string>({
 
   const normalizedItems = useMemo(() => {
     return items.map((item) =>
-      typeof item === "string" ? { value: item } : item
+      typeof item === "string" ? { value: item } : item,
     );
   }, [items]);
 

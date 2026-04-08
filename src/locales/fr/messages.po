@@ -864,6 +864,22 @@ msgstr "Gestionnaire de réseau"
 msgid "page.electricity-tariffs.description"
 msgstr "La page de détail du gestionnaire de réseau fournit des informations actuelles sur les tarifs d’électricité pour permettre une comparaison des prix. Vous pouvez voir la répartition des coûts d’énergie, du réseau et des suppléments, ainsi que les tendances historiques pour mieux comprendre les coûts d’électricité."
 
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.canton-comparison"
+msgstr "Comparaison des cantons"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-components"
+msgstr "Composantes du prix"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-distribution"
+msgstr "Distribution des prix"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.tariffs-development"
+msgstr "Évolution des tarifs"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "Tarifs d'électricité"
@@ -1035,8 +1051,8 @@ msgstr "Commune"
 msgid "search.result.operator"
 msgstr "Gestionnaire de réseau"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1171,15 +1187,15 @@ msgstr "H8"
 msgid "selector.category.H8-long"
 msgstr "H8 - Grand immeuble en copropriété hautement électrifié"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Comparaison entre cantons"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Comparaison entre communes"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Comparaison entre gestionnaires de réseau"
 
@@ -1218,6 +1234,7 @@ msgstr "Composantes du prix"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "selector.priceComponents"
 msgstr "Composantes du prix"
 
@@ -1281,8 +1298,8 @@ msgstr "Tarif de la mesure"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
 msgstr "Produit"
 
@@ -1320,7 +1337,7 @@ msgstr "Indicateurs d’efficacité, y compris les tendances des prix."
 msgid "selector.year"
 msgstr "Année tarifaire"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
 msgstr "Années tarifaires"
 

@@ -182,7 +182,7 @@ msgstr "Price components"
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.title.prices.distribution"
-msgstr "Prize distribution in Switzerland"
+msgstr "Price distribution in Switzerland"
 
 #: src/components/detail-page/price-evolution-line-chart.tsx
 #: src/components/detail-page/price-evolution-line-chart.tsx
@@ -863,6 +863,22 @@ msgstr "Operator"
 msgid "page.electricity-tariffs.description"
 msgstr "On the grid operator's details page, you will find up-to-date information on electricity tariffs, allowing you to compare prices. You can view the breakdown of energy, grid and additional costs and call up historical trends to gain a better understanding of electricity costs."
 
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.canton-comparison"
+msgstr "Canton Comparison"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-components"
+msgstr "Price Components"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.price-distribution"
+msgstr "Price Distribution"
+
+#: src/components/sunshine-tabs.tsx
+msgid "page.electricity-tariffs.tab.tariffs-development"
+msgstr "Tariffs Development"
+
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
 msgstr "Electricity tariffs"
@@ -1034,8 +1050,8 @@ msgstr "Municipality"
 msgid "search.result.operator"
 msgstr "Network operator"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
@@ -1170,15 +1186,15 @@ msgstr "H8"
 msgid "selector.category.H8-long"
 msgstr "H8 - Large, highly electrified condominium"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
 msgstr "Cantons for comparison"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
 msgstr "Municipalities for comparison"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
 msgstr "Network operator for comparison"
 
@@ -1217,6 +1233,7 @@ msgstr "Price component"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
+#: src/components/detail-page/price-evolution-line-chart.tsx
 msgid "selector.priceComponents"
 msgstr "Price components"
 
@@ -1280,8 +1297,8 @@ msgstr "Metering Rate"
 msgid "selector.pricecomponent.total"
 msgstr "Total"
 
-#: src/components/detail-page/selector-multi.tsx
 #: src/components/electricity-selectors.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.product"
 msgstr "Product"
 
@@ -1319,9 +1336,9 @@ msgstr "selector.tab.indicators-content"
 msgid "selector.year"
 msgstr "Year"
 
-#: src/components/detail-page/selector-multi.tsx
+#: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
-msgstr "years"
+msgstr "Years"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
