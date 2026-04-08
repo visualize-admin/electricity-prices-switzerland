@@ -2,6 +2,7 @@
   "latestYear": "2025",
   "operator": {
     "peerGroup": {
+      "id": "1",
       "settlementDensity": "Mountain",
       "energyDensity": "Low"
     }
@@ -26,6 +27,32 @@
         "days": 1,
         "year": "2025"
       }
+    ],
+    "yearlyData": [
+      {
+        "year": 2024,
+        "days": 2,
+        "operator_id": 426,
+        "operator_name": "Test grid operator 426"
+      },
+      {
+        "year": 2025,
+        "days": 1,
+        "operator_id": 426,
+        "operator_name": "Test grid operator 426"
+      },
+      {
+        "year": 2024,
+        "days": 2,
+        "operator_id": 10000,
+        "operator_name": "MEDIAN_PEER_GROUP"
+      },
+      {
+        "year": 2025,
+        "days": 3,
+        "operator_id": 10000,
+        "operator_name": "MEDIAN_PEER_GROUP"
+      }
     ]
   },
   "compliance": {
@@ -36,6 +63,32 @@
         "operatorId": "426",
         "francsPerInvoice": 75,
         "year": "2025"
+      }
+    ],
+    "yearlyData": [
+      {
+        "year": 2024,
+        "francsPerInvoice": 70,
+        "operator_id": 426,
+        "operator_name": "Test grid operator 426"
+      },
+      {
+        "year": 2025,
+        "francsPerInvoice": 75,
+        "operator_id": 426,
+        "operator_name": "Test grid operator 426"
+      },
+      {
+        "year": 2024,
+        "francsPerInvoice": 72,
+        "operator_id": 10000,
+        "operator_name": "MEDIAN_PEER_GROUP"
+      },
+      {
+        "year": 2025,
+        "francsPerInvoice": 74,
+        "operator_id": 10000,
+        "operator_name": "MEDIAN_PEER_GROUP"
       }
     ]
   },
