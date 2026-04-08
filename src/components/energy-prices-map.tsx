@@ -88,7 +88,10 @@ export const EnergyPricesMap = ({
   });
 
   // Use aggregated operator observations from enriched data
-  const observationsByOperator = enrichedData?.observationsByOperatorAggregated ?? {};
+  const observationsByOperator = useMemo(
+    () => enrichedData?.observationsByOperatorAggregated ?? {},
+    [enrichedData],
+  );
 
   // Create entity selection for unified hook
   const entitySelection: EntitySelection = useMemo(
@@ -375,7 +378,7 @@ export const EnergyPricesMap = ({
               renderMode,
             })
           : null,
-      ];
+      ].filter(truthy);
     },
     [
       geoData.state,
