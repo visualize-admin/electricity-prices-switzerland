@@ -18,11 +18,12 @@ import {
 import { HoverState, MapRenderMode } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
-  makeEnergyPricesOverlayLayer,
+  makeEntityHighlightLayer,
+  makeEntityLayer,
   makeLakesLayer,
-  makeMunicipalityLayer,
-  makeSunshineOperatorLayer,
-  makeSunshineOperatorPickableLayer,
+  makeMeshLayer,
+  makeOperatorInteractionLayer,
+  makeOperatorLayer,
   PickingInfoTyped,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
@@ -279,10 +280,10 @@ export const EnergyPricesMap = ({
       };
 
       return [
-        entity === "municipality" && enrichedData
-          ? makeMunicipalityLayer({
+        entity === "municipality" && enrichedData && colorScale
+          ? makeEntityLayer({
               data: geoData.data.municipalities,
-              observationsByMunicipalityId:
+              observationsByEntityId:
                 enrichedData.observationsByMunicipality,
               colorScale,
               highlightId:
@@ -292,15 +293,14 @@ export const EnergyPricesMap = ({
               onHover: handleHover,
               onClick: handleMunicipalityLayerClick,
               layerId: "municipalities-base",
-              mode: "base",
               renderMode,
             })
           : null,
 
-        entity === "canton" && enrichedData
-          ? makeMunicipalityLayer({
+        entity === "canton" && enrichedData && colorScale
+          ? makeEntityLayer({
               data: geoData.data.cantons,
-              observationsByMunicipalityId: enrichedData.observationsByCanton,
+              observationsByEntityId: enrichedData.observationsByCanton,
               colorScale,
               highlightId:
                 highlightContext?.entity === "canton"
@@ -309,7 +309,6 @@ export const EnergyPricesMap = ({
               onHover: handleHover,
               onClick: handleMunicipalityLayerClick,
               layerId: "cantons-base",
-              mode: "base",
               renderMode,
             })
           : null,
@@ -317,7 +316,7 @@ export const EnergyPricesMap = ({
         operatorFeatureResult.data?.features &&
         observationsByOperator &&
         colorScale
-          ? makeSunshineOperatorLayer({
+          ? makeOperatorLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>
@@ -331,17 +330,16 @@ export const EnergyPricesMap = ({
             })
           : null,
 
-        makeMunicipalityLayer({
+        makeMeshLayer({
           data: geoData.data.municipalityMesh,
           layerId: "municipality-mesh",
-          mode: "mesh",
           renderMode,
         }),
         makeLakesLayer({ data: geoData.data.lakes, renderMode }),
         makeCantonsLayer({ data: geoData.data.cantonMesh, renderMode }),
         // Overlay layer for canton highlights - only show when cantons are selected
         entity === "canton" &&
-          makeEnergyPricesOverlayLayer({
+          makeEntityHighlightLayer({
             data: geoData.data.cantons,
             hovered,
             activeId: activeId ?? undefined,
@@ -350,7 +348,7 @@ export const EnergyPricesMap = ({
           }),
         // Overlay layer for municipality highlights - only show when municipalities are selected
         entity === "municipality" &&
-          makeEnergyPricesOverlayLayer({
+          makeEntityHighlightLayer({
             data: geoData.data.municipalities,
             hovered,
             activeId: activeId ?? undefined,
@@ -362,7 +360,7 @@ export const EnergyPricesMap = ({
         operatorFeatureResult.data?.features &&
         observationsByOperator &&
         colorScale
-          ? makeSunshineOperatorPickableLayer({
+          ? makeOperatorInteractionLayer({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>

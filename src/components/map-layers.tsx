@@ -28,24 +28,26 @@ type LayerClickHandler = (
   event: { srcEvent: Event },
 ) => void;
 
-interface MunicipalityLayerOptions {
+interface EntityLayerOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any; // Can be FeatureCollection for base layer or MultiLineString for mesh
+  data: any;
   layerId: string;
-  mode: "base" | "mesh";
   renderMode?: MapRenderMode;
-  // Options for base mode (data visualization)
-  observationsByMunicipalityId?: Map<
-    string,
-    OperatorObservationFieldsFragment[]
-  >;
-  colorScale?: ScaleThreshold<number, string> | undefined;
+  observationsByEntityId: Map<string, OperatorObservationFieldsFragment[]>;
+  colorScale: ScaleThreshold<number, string>;
   highlightId?: string;
   onHover?: LayerHoverHandler;
   onClick?: LayerClickHandler;
 }
 
-interface SunshineOperatorLayerOptions {
+interface MeshLayerOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
+  layerId: string;
+  renderMode?: MapRenderMode;
+}
+
+interface OperatorLayerOptions {
   data: OperatorFeature[];
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observationsByOperator: Record<string, SunshineDataIndicatorRow>;
@@ -53,7 +55,7 @@ interface SunshineOperatorLayerOptions {
   renderMode?: MapRenderMode;
 }
 
-interface SunshineOperatorPickableLayerOptions {
+interface OperatorInteractionLayerOptions {
   data: OperatorFeature[];
   accessor: (x: SunshineDataIndicatorRow) => Maybe<number> | undefined;
   observationsByOperator: Record<string, SunshineDataIndicatorRow>;
@@ -78,15 +80,12 @@ interface CantonsLayerOptions {
   renderMode?: MapRenderMode;
 }
 
-// Should be renamed to something more generic if we want to use it for other entity types
-// (e.g. cantons and operators)
-export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
+export function makeEntityLayer(options: EntityLayerOptions) {
   const {
     data,
     layerId,
-    mode,
     renderMode,
-    observationsByMunicipalityId,
+    observationsByEntityId,
     colorScale,
     highlightId,
     onHover,
@@ -94,67 +93,53 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   } = options;
   const styles = getStyles(renderMode);
 
-  if (mode === "base") {
-    if (!observationsByMunicipalityId || !colorScale) {
-      throw new Error(
-        "Base mode requires observationsByMunicipalityId and colorScale",
-      );
-    }
+  return new GeoJsonLayer({
+    id: layerId,
+    data,
+    pickable: true,
+    stroked: false,
+    filled: true,
+    extruded: false,
+    autoHighlight: false,
+    getFillColor: (d) => {
+      const id = d?.id?.toString();
+      if (!id) return styles.areas.base.fillColor.doesNotExist;
 
-    return new GeoJsonLayer({
-      id: layerId,
-      data,
-      pickable: true,
-      stroked: false,
-      filled: true,
-      extruded: false,
-      autoHighlight: false,
-      getFillColor: (d) => {
-        const id = d?.id?.toString();
-        if (!id) return styles.municipalities.base.fillColor.doesNotExist;
+      const obs = observationsByEntityId.get(id);
+      return obs
+        ? getFillColor(
+            colorScale,
+            getObservationsWeightedMean(obs),
+            highlightId === id,
+          )
+        : styles.areas.base.fillColor.withoutData;
+    },
+    onHover,
+    onClick,
+    updateTriggers: {
+      getFillColor: [observationsByEntityId, highlightId],
+    },
+  });
+}
 
-        const obs = observationsByMunicipalityId.get(id);
-        return obs
-          ? getFillColor(
-              colorScale,
-              getObservationsWeightedMean(obs),
-              highlightId === id,
-            )
-          : styles.municipalities.base.fillColor.withoutData;
-      },
-      onHover: onHover
-        ? ({ x, y, object }: PickingInfo) => {
-            const id = object?.id?.toString();
-            onHover({
-              x,
-              y,
-              object:
-                object && id ? { x, y, id, type: "municipality" } : undefined,
-            } as PickingInfo);
-          }
-        : undefined,
-      onClick,
-      updateTriggers: {
-        getFillColor: [observationsByMunicipalityId, highlightId],
-      },
-    });
-  } else {
-    const meshStyles = styles.municipalityMesh;
+export function makeMeshLayer(options: MeshLayerOptions) {
+  const { data, layerId, renderMode } = options;
+  const styles = getStyles(renderMode);
+  const meshStyles = styles.municipalityMesh;
 
-    return new GeoJsonLayer({
-      id: layerId,
-      data,
-      pickable: false,
-      stroked: true,
-      filled: false,
-      extruded: false,
-      lineWidthMinPixels: meshStyles.lineWidthMinPixels,
-      lineWidthMaxPixels: meshStyles.lineWidthMaxPixels,
-      getLineWidth: styles.municipalityMesh.lineWidth,
-      lineMiterLimit: 1,
-      getLineColor: meshStyles.lineColor,
-    });
-  }
+  return new GeoJsonLayer({
+    id: layerId,
+    data,
+    pickable: false,
+    stroked: true,
+    filled: false,
+    extruded: false,
+    lineWidthMinPixels: meshStyles.lineWidthMinPixels,
+    lineWidthMaxPixels: meshStyles.lineWidthMaxPixels,
+    getLineWidth: meshStyles.lineWidth,
+    lineMiterLimit: 1,
+    getLineColor: meshStyles.lineColor,
+  });
 }
 
 export function makeLakesLayer(options: LakesLayerOptions) {
@@ -198,7 +183,7 @@ export function makeCantonsLayer(options: CantonsLayerOptions) {
   });
 }
 
-interface EnergyPricesOverlayLayerOptions {
+interface EntityHighlightLayerOptions {
   data: GeoJSON.FeatureCollection;
   hovered?: HoverState;
   activeId?: string | null;
@@ -206,8 +191,8 @@ interface EnergyPricesOverlayLayerOptions {
   renderMode?: MapRenderMode;
 }
 
-export function makeEnergyPricesOverlayLayer(
-  options: EnergyPricesOverlayLayerOptions,
+export function makeEntityHighlightLayer(
+  options: EntityHighlightLayerOptions,
 ) {
   const { data, hovered, activeId, type, renderMode } = options;
   const styles = getStyles(renderMode);
@@ -263,8 +248,8 @@ export function makeEnergyPricesOverlayLayer(
   });
 }
 
-export function makeSunshineOperatorLayer(
-  options: SunshineOperatorLayerOptions,
+export function makeOperatorLayer(
+  options: OperatorLayerOptions,
 ) {
   const { data, accessor, observationsByOperator, colorScale, renderMode } =
     options;
@@ -306,8 +291,8 @@ export function makeSunshineOperatorLayer(
   });
 }
 
-export function makeSunshineOperatorPickableLayer(
-  options: SunshineOperatorPickableLayerOptions,
+export function makeOperatorInteractionLayer(
+  options: OperatorInteractionLayerOptions,
 ) {
   const {
     data,

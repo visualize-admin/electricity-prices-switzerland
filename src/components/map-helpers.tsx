@@ -200,7 +200,7 @@ const PRINT_PIXEL_SCALE: Record<MapRenderMode, number> = {
 export const getStyles = (mode: MapRenderMode = "screen") => {
   const s = PRINT_PIXEL_SCALE[mode];
   return {
-    municipalities: {
+    areas: {
       base: {
         fillColor: {
           doesNotExist: toArray("#00000000"),

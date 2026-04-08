@@ -18,9 +18,9 @@ import { HoverState, MapRenderMode } from "src/components/map-helpers";
 import {
   makeCantonsLayer,
   makeLakesLayer,
-  makeMunicipalityLayer,
-  makeSunshineOperatorLayer,
-  makeSunshineOperatorPickableLayer,
+  makeMeshLayer,
+  makeOperatorInteractionLayer,
+  makeOperatorLayer,
 } from "src/components/map-layers";
 import { SelectedEntityCard } from "src/components/map-tooltip";
 import {
@@ -297,7 +297,7 @@ const SunshineMap = ({
         };
 
       return [
-        makeSunshineOperatorLayer({
+        makeOperatorLayer({
           data: featuresWithObservations,
           accessor,
           observationsByOperator,
@@ -305,10 +305,9 @@ const SunshineMap = ({
           renderMode,
         }),
         geoData?.municipalities?.features
-          ? makeMunicipalityLayer({
+          ? makeMeshLayer({
               data: geoData.municipalities.features,
               layerId: "municipality-layer",
-              mode: "mesh",
               renderMode,
             })
           : null,
@@ -318,7 +317,7 @@ const SunshineMap = ({
         geoData?.cantonMesh
           ? makeCantonsLayer({ data: geoData.cantonMesh, renderMode })
           : null,
-        makeSunshineOperatorPickableLayer({
+        makeOperatorInteractionLayer({
           data: featuresWithObservations,
           accessor,
           observationsByOperator,
