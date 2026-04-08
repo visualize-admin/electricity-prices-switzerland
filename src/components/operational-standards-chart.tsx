@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { msg, t, Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import {
   Box,
@@ -43,12 +43,12 @@ const DOWNLOAD_ID_COMPLIANCE: Download = "operational-standards-compliance";
 
 type StandardAttribute = "serviceQuality" | "compliance";
 
-export type OperationalStandardsChartFilters = {
+type OperationalStandardsChartFilters = {
   compareWith?: CompareWithFilter;
   viewBy?: ViewByFilter;
 };
 
-export type OperationalStandardsChartProps = {
+type OperationalStandardsChartProps = {
   rootProps?: Omit<BoxProps, "children">;
   standardAttribute: StandardAttribute;
   observations: Array<
@@ -64,7 +64,7 @@ export type OperationalStandardsChartProps = {
 } & OperationalStandardsChartFilters;
 
 /** Renders **yearlyData** rows (multi-year + peer median), not `operators*` snapshot arrays. */
-export const OperationalStandardsChart = (props: OperationalStandardsChartProps) => {
+const OperationalStandardsChart = (props: OperationalStandardsChartProps) => {
   const {
     observations,
     viewBy,
@@ -118,10 +118,20 @@ const OperationalLatestYearChartView = ({
   const { i18n } = useLingui();
 
   const mappedObservations = useMemo((): GenericObservation[] => {
+    const stripLabel = i18n._(
+      msg({
+        id: "sunshine.operational-standards.latest-year-compare-row",
+        message: "Comparison",
+      })
+    );
     if (standardAttribute === "serviceQuality") {
       const rows = observations as OperationalStandardsServiceQualityTrendRow[];
       return rows
-        .map((o) => ({ ...o, year: o.year }))
+        .map((o) => ({
+          ...o,
+          year: o.year,
+          [OPERATIONAL_LATEST_YEAR_Y_FIELD]: stripLabel,
+        }))
         .filter(
           (x): x is NonNullableProp<typeof x, "days"> =>
             !isPeerGroupRow(x) && x.days !== null
@@ -129,12 +139,16 @@ const OperationalLatestYearChartView = ({
     }
     const rows = observations as OperationalStandardsComplianceTrendRow[];
     return rows
-      .map((o) => ({ ...o, year: o.year }))
+      .map((o) => ({
+        ...o,
+        year: o.year,
+        [OPERATIONAL_LATEST_YEAR_Y_FIELD]: stripLabel,
+      }))
       .filter(
         (x): x is NonNullableProp<typeof x, "francsPerInvoice"> =>
           !isPeerGroupRow(x) && x.francsPerInvoice !== null
       ) as GenericObservation[];
-  }, [observations, standardAttribute]);
+  }, [observations, standardAttribute, i18n]);
 
   if (mappedObservations.length === 0) {
     return <NoDataHint />;
@@ -155,7 +169,7 @@ const OperationalLatestYearChartView = ({
           componentIri: "days",
           axisLabel: i18n._(DAYS),
         }}
-        yField={{ componentIri: "operator_name" }}
+        yField={{ componentIri: OPERATIONAL_LATEST_YEAR_Y_FIELD }}
         segmentField={{
           componentIri: "operator_name",
           palette: compareWith?.includes("sunshine.select-all")
@@ -200,7 +214,7 @@ const OperationalLatestYearChartView = ({
         componentIri: "francsPerInvoice",
         axisLabel: i18n._(SWISS_FRANCS),
       }}
-      yField={{ componentIri: "operator_name" }}
+      yField={{ componentIri: OPERATIONAL_LATEST_YEAR_Y_FIELD }}
       segmentField={{
         componentIri: "operator_name",
         palette: compareWith?.includes("sunshine.select-all")
@@ -336,7 +350,7 @@ export const OperationalStandardsChartCardState = (
   );
 };
 
-export const OperationalStandardsChartCard: React.FC<
+const OperationalStandardsChartCard: React.FC<
   OperationalStandardsChartCardProps
 > = (props) => {
   const {
