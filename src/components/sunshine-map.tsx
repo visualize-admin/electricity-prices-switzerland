@@ -352,7 +352,6 @@ const SunshineMap = ({
       geoData,
       hovered,
       indicator,
-      observationsByOperator,
       observationsByOperatorMap,
       onEntitySelect,
       onHoverOperatorLayer,

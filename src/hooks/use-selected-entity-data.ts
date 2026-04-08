@@ -5,7 +5,6 @@ import { useMemo } from "react";
 import { Entity, PriceComponent } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { getLocalizedLabel } from "src/domain/translation";
-import { SunshineDataIndicatorRow } from "src/graphql/resolver-types";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
