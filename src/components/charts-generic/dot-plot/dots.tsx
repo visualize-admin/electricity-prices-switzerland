@@ -1,4 +1,3 @@
-import { groupBy } from "lodash";
 import { memo, useMemo } from "react";
 
 import { MedianDiamond } from "src/components/charts-generic/dot-plot/median-diamond.tsx";
@@ -45,38 +44,45 @@ export const Dots = (props: DotProps) => {
     }));
   }, [data, getX, getY, xScale, yScale]);
 
-  const { true: regularDots = [], false: selectedDots = [] } = groupBy(
-    dotProps,
-    ({ d }) =>
-      d !== hovered &&
-      (!highlightedValue ||
-        getHighlightEntity(d)?.toString() !== highlightedValue.toString())
-  );
+  const isHighlighted = (d: (typeof data)[number]) =>
+    !!highlightedValue &&
+    getHighlightEntity(d)?.toString() === highlightedValue.toString();
 
+  const fillForDot = (d: (typeof data)[number]) =>
+    compareWith?.includes("sunshine.select-all")
+      ? palette.monochrome[200]
+      : isHighlighted(d)
+        ? chartPalette.categorical[0]
+        : colors(getColor(d));
+
+  /** Non-highlighted dots are slightly transparent; hover only increases opacity, not hue. */
+  const opacityForDot = (d: (typeof data)[number]) => {
+    if (d === hovered) return 1;
+    return isHighlighted(d) ? 1 : 0.75;
+  };
+
+  const highlightedDotProps = dotProps.filter(({ d }) => isHighlighted(d));
   const hoveredDot = dotProps.find(({ d }) => d === hovered);
   const medianX = medianValue ? xScale(medianValue) : null;
 
+  /** Paint hovered circle last so it stays on top without a separate fill override. */
+  const dotPropsPaintOrder = useMemo(
+    () =>
+      [...dotProps].sort((a, b) => {
+        if (a.d === hovered) return 1;
+        if (b.d === hovered) return -1;
+        return 0;
+      }),
+    [dotProps, hovered],
+  );
+
   return (
     <>
-      {/* Regular dots */}
-      {regularDots.map(({ cx, cy, d }, i) => (
-        <Dot
-          key={`regular-${i}`}
-          cx={cx}
-          cy={cy}
-          color={
-            !compareWith?.includes("sunshine.select-all")
-              ? colors(getColor(d))
-              : palette.monochrome[200]
-          }
-          opacity={0.75}
-        />
-      ))}
-
-      {/* Connector lines under selected/hovered */}
+      {/* Connector lines from hovered dot to highlighted series */}
       {hovered &&
         hoveredDot &&
-        selectedDots.map(({ d, cx }, i) => (
+        highlightedValue &&
+        highlightedDotProps.map(({ d, cx }, i) => (
           <line
             key={`connector-${i}`}
             x1={xScale(getX(hovered))}
@@ -89,31 +95,15 @@ export const Dots = (props: DotProps) => {
           />
         ))}
 
-      {/* Selected dots */}
-      {selectedDots.map((dot, i) => (
+      {dotPropsPaintOrder.map(({ cx, cy, d }, i) => (
         <Dot
-          key={`selected-${i}`}
-          cx={dot.cx}
-          cy={dot.cy}
-          color={chartPalette.categorical[0]}
-          opacity={1}
+          key={`dot-${i}`}
+          cx={cx}
+          cy={cy}
+          color={fillForDot(d)}
+          opacity={opacityForDot(d)}
         />
       ))}
-
-      {/* Hovered dot */}
-      {hoveredDot && (
-        <Dot
-          key="hovered"
-          cx={hoveredDot.cx}
-          cy={hoveredDot.cy}
-          color={
-            selectedDots.find((dot) => dot.d === hoveredDot.d)
-              ? chartPalette.categorical[0]
-              : colors(getColor(hoveredDot.d))
-          }
-          opacity={1}
-        />
-      )}
 
       {/* Median diamonds */}
       {medianX &&
