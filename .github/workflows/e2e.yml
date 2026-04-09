@@ -88,6 +88,7 @@ jobs:
         env:
           PLAYWRIGHT_ARGOS_SUITE: app
           PLAYWRIGHT_GRAPHQL_METRICS: "1"
+          ARGOS_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_attempt }}
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
           PLAYWRIGHT_NO_WEBSERVER: true
@@ -108,13 +109,15 @@ jobs:
           name: graphql-metrics-shard-${{ matrix.shardIndex }}
           path: test-results/graphql-metrics.json
           retention-days: 30
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report-shard-${{ matrix.shardIndex }}
-          path: playwright-report/
-          retention-days: 30
+          name: blob-report-app-${{ matrix.shardIndex }}
+          path: blob-report/
+          retention-days: 7
+          if-no-files-found: warn
 
   playwright-storybook:
     name: "Storybook"
@@ -148,9 +151,39 @@ jobs:
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report-storybook
+          name: blob-report-storybook
+          path: blob-report/
+          retention-days: 7
+          if-no-files-found: warn
+
+  playwright-merge-reports:
+    name: "Playwright · merged HTML report"
+    if: ${{ always() && !cancelled() }}
+    needs: [playwright-app, playwright-storybook]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with: { fetch-depth: 1 }
+      - uses: ./.github/workflows/install-deps
+      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        continue-on-error: true
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+      - run: |
+          set -e
+          if [ ! -d all-blob-reports ] || [ -z "$(find all-blob-reports -type f | head -1)" ]; then
+            echo "skip merge (no blobs)"; exit 0; fi
+          pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        if: always()
+        with:
+          name: playwright-html-report
           path: playwright-report/
-          retention-days: 2
+          retention-days: 30
+          if-no-files-found: ignore
 
   ci:
     name: "Merge gate"

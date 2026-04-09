@@ -50,10 +50,12 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? Math.max(1, os.cpus().length - 1) : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  // CI: blob so sharded runs can be merged → html (see playwright.dev/docs/test-sharding).
   reporter: [
     ["list"],
-    ["html"],
+    ...(process.env.CI
+      ? ([["blob", { outputDir: "blob-report" }]] as const)
+      : ([["html"]] as const)),
     [
       "@argos-ci/playwright/reporter",
       createArgosReporterOptions({
