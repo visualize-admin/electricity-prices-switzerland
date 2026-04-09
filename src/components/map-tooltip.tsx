@@ -6,6 +6,9 @@ import { TooltipPlacement } from "src/components/charts-generic/interaction/tool
 import { TooltipBoxWithoutChartState } from "src/components/charts-generic/interaction/tooltip-box";
 import ValueChip from "src/components/value-chip";
 
+/** Tooltip inner width; keep in sync with `maxWidth` clamp below. */
+const MAP_TOOLTIP_WIDTH_PX = 240;
+
 export const SelectedEntityCard: React.FC<{
   title: React.ReactNode;
   caption: React.ReactNode;
@@ -25,7 +28,7 @@ export const SelectedEntityCard: React.FC<{
       <Typography variant="caption" color={"text.500"}>
         {caption}
       </Typography>
-      <Typography variant="h5" fontWeight={700} sx={{ overflow: "hidden" }}>
+      <Typography variant="h5" fontWeight={700} noWrap>
         {title}
       </Typography>
     </Box>
@@ -42,7 +45,7 @@ export const SelectedEntityCard: React.FC<{
         {values.map((d, i) => {
           return (
             <Fragment key={i}>
-              <Typography variant="caption" sx={{ minWidth: 0, overflow: "hidden" }}>
+              <Typography variant="caption" noWrap sx={{ minWidth: 0 }}>
                 {d.label}
               </Typography>
               <ValueChip color={d.color} formattedValue={d.formattedValue} />
@@ -80,8 +83,8 @@ export const MapTooltip = ({
     >
       <Box
         display="flex"
-        width={240}
-        maxWidth="min(240px, 90vw)"
+        width={MAP_TOOLTIP_WIDTH_PX}
+        maxWidth={`min(${MAP_TOOLTIP_WIDTH_PX}px, 90vw)`}
         flexDirection="column"
         gap={1}
         sx={{ overflow: "hidden", minWidth: 0 }}
