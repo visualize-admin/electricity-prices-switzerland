@@ -568,8 +568,10 @@ msgid "image.download"
 msgstr "image.download"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "indicator.compliance"
+msgstr "Costs and profit"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -1225,7 +1227,7 @@ msgstr "selector.indicator"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.compliance.long"
-msgstr "selector.indicator.compliance.long"
+msgstr "Costs and profit from energy distribution"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
@@ -1395,10 +1397,6 @@ msgid "site.title"
 msgstr "site.title"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "sunshine.compliance.francs-rule-regulation"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "sunshine.compliance.timely-paper-submission"
 
@@ -1552,11 +1550,6 @@ msgstr "sunshine.export.column.days-in-advance"
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "sunshine.export.column.energy-tariff"
-
-#: src/domain/translation.tsx
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "sunshine.export.column.franc-rule"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts

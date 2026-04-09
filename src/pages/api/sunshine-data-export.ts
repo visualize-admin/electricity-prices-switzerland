@@ -84,7 +84,7 @@ const getDimensions = () => {
     },
     {
       attr: "francRule",
-      name: `${t({ id: "sunshine.export.column.franc-rule", message: "Franc Rule" })} (${chf})`,
+      name: `${t({ id: "indicator.compliance", message: "Costs and profit" })} (${chf})`,
     },
     {
       attr: "infoYesNo",

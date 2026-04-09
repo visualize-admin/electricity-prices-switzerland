@@ -9,11 +9,11 @@ import {
   EnergyDensity,
 } from "src/domain/data";
 import {
+  CHF_PER_YEAR,
   COUNT_PER_YEAR,
   DAYS,
   MIN_PER_YEAR,
   RP_PER_KWH,
-  SWISS_FRANCS,
   getNetworkLevelMetrics,
 } from "src/domain/metrics";
 
@@ -176,7 +176,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     compliance: t({
       id: "indicator.compliance",
-      message: "Compliance",
+      message: "Costs and profit",
     }),
     outageInfo: t({
       id: "indicator.outage-info",
@@ -230,8 +230,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "selector.indicator.compliance.long": t({
       id: "selector.indicator.compliance.long",
-      message:
-        "Whether the operator complies with the franc rule for tariff components.",
+      message: "Costs and profit from energy distribution",
     }),
   };
 
@@ -667,13 +666,8 @@ export const getSunshineMapMetricLegendParts = (
       };
     case "compliance":
       return {
-        metricLabel: i18n._(
-          t({
-            id: "sunshine.export.column.franc-rule",
-            message: "Franc Rule",
-          })
-        ),
-        metricUnit: i18n._(SWISS_FRANCS),
+        metricLabel: getLocalizedLabel({ id: "compliance" }),
+        metricUnit: i18n._(CHF_PER_YEAR),
       };
     default: {
       const _exhaustive: never = indicator;
@@ -684,8 +678,7 @@ export const getSunshineMapMetricLegendParts = (
 
 /**
  * Short metric title for map legend, tooltip, and compact mobile summary.
- * Reuses `sunshine.export.column.*` message ids (and the same unit macros as the CSV export)
- * so labels stay aligned with the data export.
+ * Reuses export column / `indicator.*` strings where applicable so labels stay aligned with CSV and cards.
  */
 export const getSunshineMapMetricLegendTitle = (
   indicator: SunshineIndicator,

@@ -128,8 +128,8 @@ test.describe("Map Details Table Information", () => {
         notExpectedFields: ["Network level", "Category"],
       },
       {
-        indicatorName: "Franc Rule",
-        indicatorPattern: /franc rule for tariff components/i,
+        indicatorName: "Costs and profit",
+        indicatorPattern: /Costs and profit from energy distribution/i,
         expectedFields: ["Year"],
         notExpectedFields: ["Network level", "Category"],
       },

@@ -570,8 +570,10 @@ msgid "image.download"
 msgstr "Download image"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Compliance"
+msgstr "Costs and profit"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -1227,7 +1229,7 @@ msgstr "Indicator"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.compliance.long"
-msgstr "Whether the operator complies with the franc rule for tariff components."
+msgstr "Costs and profit from energy distribution"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
@@ -1397,10 +1399,6 @@ msgid "site.title"
 msgstr "Electricity tariffs in Switzerland"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "Francs Rule"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "Timely Paper Submission"
 
@@ -1554,11 +1552,6 @@ msgstr "Days in Advance for Notification"
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "Energy Tariff"
-
-#: src/domain/translation.tsx
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "Franc Rule"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
