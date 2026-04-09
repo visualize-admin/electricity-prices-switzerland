@@ -1529,26 +1529,32 @@ msgstr "{year}"
 msgid "sunshine.date"
 msgstr "Date : {date}"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "Notification d'interruption de service aux clients"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "Jours d'avance pour la notification"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "Tarif de l'énergie"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.franc-rule"
 msgstr "Règle du franc"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "Tarif de réseau"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "Coûts du réseau"
@@ -1569,6 +1575,7 @@ msgstr "UID du gestionnaire de réseau"
 msgid "sunshine.export.column.period"
 msgstr "Période"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Total"
@@ -1577,6 +1584,7 @@ msgstr "SAIDI Total"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Non planifié"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Total"
@@ -1611,42 +1619,6 @@ msgstr "Qualité de l’approvisionnement"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Année tarifaire en cours ({latestYear})"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.compliance"
-msgstr "Respect de la règle du franc"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
-msgstr "Délai d'annonce des coupures (jours)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.energyTariffs"
-msgstr "Tarifs d'énergie (Rp./kWh)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.netTariffs"
-msgstr "Tarifs réseau (Rp./kWh)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/kVA"
-msgstr "Coûts du réseau (CHF/kVA)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/km"
-msgstr "Coûts du réseau (CHF/km)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.outageInfo"
-msgstr "Information client sur les coupures"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saidi"
-msgstr "SAIDI (min/an)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saifi"
-msgstr "SAIFI (nombre/an)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"

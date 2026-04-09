@@ -1523,26 +1523,32 @@ msgstr "sunshine.costs-and-tariffs.year"
 msgid "sunshine.date"
 msgstr "sunshine.date"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "sunshine.export.column.customer-outage-notification"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "sunshine.export.column.days-in-advance"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "sunshine.export.column.energy-tariff"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.franc-rule"
 msgstr "sunshine.export.column.franc-rule"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "sunshine.export.column.net-tariff"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "sunshine.export.column.network-costs"
@@ -1563,6 +1569,7 @@ msgstr "sunshine.export.column.operator-uid"
 msgid "sunshine.export.column.period"
 msgstr "sunshine.export.column.period"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "sunshine.export.column.saidi-total"
@@ -1571,6 +1578,7 @@ msgstr "sunshine.export.column.saidi-total"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "sunshine.export.column.saidi-unplanned"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "sunshine.export.column.saifi-total"
@@ -1605,42 +1613,6 @@ msgstr "sunshine.grid.power-stability-title"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "sunshine.latest-year"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.compliance"
-msgstr "sunshine.map.legend.compliance"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
-msgstr "sunshine.map.legend.daysInAdvanceOutageNotification"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.energyTariffs"
-msgstr "sunshine.map.legend.energyTariffs"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.netTariffs"
-msgstr "sunshine.map.legend.netTariffs"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/kVA"
-msgstr "sunshine.map.legend.networkCosts-CHF/kVA"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/km"
-msgstr "sunshine.map.legend.networkCosts-CHF/km"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.outageInfo"
-msgstr "sunshine.map.legend.outageInfo"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saidi"
-msgstr "sunshine.map.legend.saidi"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saifi"
-msgstr "sunshine.map.legend.saifi"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
