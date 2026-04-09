@@ -19,8 +19,16 @@ import { messages as catalogEn } from "./en/messages";
 import { messages as catalogFr } from "./fr/messages";
 import { messages as catalogIt } from "./it/messages";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const numberFormatCh = require("d3-format/locale/de-CH");
+const numberFormatSwissData: FormatLocaleDefinition = {
+  decimal: ".",
+  thousands: "'",
+  grouping: [3],
+  currency: ["", "\u00a0CHF"],
+};
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- d3 locale JSON via package subpath
+const numberFormatEnUS =
+  require("d3-format/locale/en-US") as FormatLocaleDefinition;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatDe = require("d3-time-format/locale/de-CH");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -30,7 +38,7 @@ const timeFormatFr = require("d3-time-format/locale/fr-FR");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatIt = require("d3-time-format/locale/it-IT");
 
-export type Locale = "de" | "fr" | "it" | "en";
+export type Locale = "de" | "fr" | "it" | "en" | "aa";
 
 i18n.loadLocaleData({
   de: { plurals: pluralsDe },
@@ -61,16 +69,29 @@ export const parseLocaleString = (localeString: string | undefined): Locale => {
   return result ? (result[1] as Locale) : defaultLocale;
 };
 
-export const d3TimeFormatLocales = {
-  de: timeFormatLocale(timeFormatDe as TimeLocaleDefinition),
+const timeLocaleDe = timeFormatLocale(timeFormatDe as TimeLocaleDefinition);
+
+export const d3TimeFormatLocales: Record<
+  Locale,
+  ReturnType<typeof timeFormatLocale>
+> = {
+  de: timeLocaleDe,
   fr: timeFormatLocale(timeFormatFr as TimeLocaleDefinition),
   it: timeFormatLocale(timeFormatIt as TimeLocaleDefinition),
   en: timeFormatLocale(timeFormatEn as TimeLocaleDefinition),
-} as const;
+  aa: timeLocaleDe,
+};
 
-export const d3FormatLocales = {
-  de: formatLocale(numberFormatCh as FormatLocaleDefinition),
-  fr: formatLocale(numberFormatCh as FormatLocaleDefinition),
-  it: formatLocale(numberFormatCh as FormatLocaleDefinition),
-  en: formatLocale(numberFormatCh as FormatLocaleDefinition),
-} as const;
+const swissNumberFormat = formatLocale(numberFormatSwissData);
+const usNumberFormat = formatLocale(numberFormatEnUS);
+
+export const d3FormatLocales: Record<
+  Locale,
+  ReturnType<typeof formatLocale>
+> = {
+  de: swissNumberFormat,
+  fr: swissNumberFormat,
+  it: swissNumberFormat,
+  en: usNumberFormat,
+  aa: usNumberFormat,
+};
