@@ -196,7 +196,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("md")]: {
+        [theme.breakpoints.up("xl")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto",
           gridTemplateAreas: `"comparison peer-group" "trend trend"`,
