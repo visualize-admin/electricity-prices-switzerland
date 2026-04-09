@@ -18,7 +18,7 @@ import {
   timeYear,
 } from "d3";
 import { pick } from "lodash";
-import React, { useMemo } from "react";
+import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "src/domain/data";
@@ -411,13 +411,11 @@ export const useIndicatorValueFormatter = (
   const formatDisplay = useFormatDisplayNumber();
   const formatInteger = useFormatIntegerNumber();
 
-  return useMemo(() => {
-    if (config.type === "custom") {
-      return config.fn;
-    }
-    if (config.type === "integer") {
-      return formatInteger;
-    }
-    return formatDisplay;
-  }, [config, formatDisplay, formatInteger]);
+  if (config.type === "custom") {
+    return config.fn;
+  }
+  if (config.type === "integer") {
+    return formatInteger;
+  }
+  return formatDisplay;
 };
