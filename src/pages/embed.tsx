@@ -7,7 +7,7 @@ import {
   HighlightValue,
 } from "src/components/highlight-context";
 import { MapProvider } from "src/components/map-context";
-import { Entity, PriceComponent } from "src/domain/data";
+import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/queries";
@@ -53,7 +53,7 @@ const IndexPage = ({ locale }: Props) => {
   const medianValue = swissMedianObservations[0]?.value;
 
   const isValidValue = <T extends { value?: number | null | undefined }>(
-    x: T
+    x: T,
   ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
@@ -62,7 +62,7 @@ const IndexPage = ({ locale }: Props) => {
     const encoding = thresholdEncodings.energyPrices(
       medianValue,
       values,
-      +period
+      +period,
     );
     return encoding.makeScale();
   }, [colorAccessor, medianValue, observations, period]);
@@ -82,6 +82,7 @@ const IndexPage = ({ locale }: Props) => {
           period={period}
           enrichedDataQuery={enrichedEnergyPrices}
           priceComponent={priceComponent as PriceComponent}
+          category={category as ElectricityCategory}
           colorScale={colorScale}
           entity={entity}
           setEntity={setEntity}

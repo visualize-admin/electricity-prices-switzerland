@@ -52,7 +52,8 @@ export const formatEnergyPricesEntity = (
   let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
+    title =
+      firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
   } else if (entityType === "canton") {
     title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
@@ -61,22 +62,22 @@ export const formatEnergyPricesEntity = (
 
   const unit = i18n._(RP_PER_KWH);
 
-  const values: EntityValue[] = observations.map((obs) => {
-    const baseLabel = obs.operatorLabel ?? priceComponent ?? "";
-    return {
-      label: baseLabel,
-      unit,
-      formattedValue: `${
-        obs.value !== undefined && obs.value !== null
-          ? formatValue(obs.value)
-          : ""
-      }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
-      color:
-        obs.value !== undefined && obs.value !== null
-          ? colorScale(obs.value)
-          : "",
-    };
-  });
+  const values: EntityValue[] = observations.map((obs) => ({
+    label:
+      entityType === "municipality"
+        ? obs.operatorLabel ?? priceComponent ?? ""
+        : priceComponent ?? "",
+    unit,
+    formattedValue: `${
+      obs.value !== undefined && obs.value !== null
+        ? formatValue(obs.value)
+        : ""
+    }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
+    color:
+      obs.value !== undefined && obs.value !== null
+        ? colorScale(obs.value)
+        : "",
+  }));
 
   return {
     title,

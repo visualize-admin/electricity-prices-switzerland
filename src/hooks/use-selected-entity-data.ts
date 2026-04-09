@@ -146,10 +146,41 @@ export function useSelectedEntityData(
             energyData.cantonMedianObservationsByCanton.get(entityId) ?? []
         )
         .filter(truthy);
+      
+      // Handle operator observations for energy prices (using aggregated data)
+      const operatorObservations = entityIds
+        .flatMap((entityId) => {
+          const aggregatedOp = energyData.observationsByOperatorAggregated[entityId];
+          if (aggregatedOp) {
+            // Convert the aggregated operator data back to observations format
+            return [{
+              value: aggregatedOp.value ?? 0,
+              operatorLabel: aggregatedOp.name,
+              operator: entityId,
+              period: aggregatedOp.period,
+              municipality: "",
+              municipalityLabel: "",
+              canton: "",
+              cantonLabel: "",
+              category: "",
+              categoryLabel: "",
+              product: "",
+              productLabel: "",
+              coverageRatio: 1,
+              municipalityData: undefined,
+              cantonData: undefined,
+            }];
+          }
+          return [];
+        })
+        .filter(truthy);
+      
       const entityObservations =
-        (entityType === "municipality"
+        entityType === "municipality"
           ? municipalityObservations
-          : cantonObservations) ?? [];
+          : entityType === "canton"
+          ? cantonObservations  
+          : operatorObservations;
 
       if (entityObservations.length === 0) {
         return {
