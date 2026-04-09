@@ -380,8 +380,9 @@ export const filterBySeparator = (
 
   return arr.filter((item) => item !== separator);
 };
+/** Per-indicator number formatting (not TypeScript types). */
 type IndicatorFormatterConfig =
-  | { type: "display" }
+  | { type: "displayNumber" }
   | { type: "integer" }
   | { type: "custom"; fn: (value: number) => string };
 
@@ -395,13 +396,13 @@ const indicatorFormatterConfig: Record<
   IndicatorFormatterConfig
 > = {
   saidi: { type: "integer" },
-  saifi: { type: "display" },
+  saifi: { type: "displayNumber" },
   outageInfo: booleanNumberFormatter,
   daysInAdvanceOutageNotification: { type: "integer" },
-  compliance: { type: "display" },
-  energyTariffs: { type: "display" },
-  netTariffs: { type: "display" },
-  networkCosts: { type: "display" },
+  compliance: { type: "displayNumber" },
+  energyTariffs: { type: "displayNumber" },
+  netTariffs: { type: "displayNumber" },
+  networkCosts: { type: "displayNumber" },
 };
 
 export const useIndicatorValueFormatter = (
