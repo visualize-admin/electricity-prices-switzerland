@@ -1,19 +1,15 @@
 import { Trans } from "@lingui/macro";
 import { Card, CardContent, CardProps, Typography } from "@mui/material";
+import React from "react";
 
 import CardSource from "src/components/card-source";
 import { PeerGroup } from "src/domain/sunshine";
-import { getLocalizedLabel, getPeerGroupLabels } from "src/domain/translation";
+import { getPeerGroupLabels } from "src/domain/translation";
 import { OperationalStandardsData } from "src/graphql/resolver-types";
-import { lowercase } from "src/utils/str";
 
 import { CardHeader } from "./detail-page/card";
-import { Download, DownloadImage } from "./detail-page/download-image";
 import { NoDataAvailable } from "./no-data-available";
-import {
-  ComplianceChart,
-  ServiceQualityChart,
-} from "./operational-standards-chart";
+import { OperationalStandardsChartCardState } from "./operational-standards-chart";
 
 type AttributeProps =
   | {
@@ -30,11 +26,10 @@ type OperationalStandardsCardProps = AttributeProps & {
   updateDate: string;
   operatorId: string;
   operatorLabel: string;
+  latestYear: number;
   /** When true, shows NoDataAvailable instead of the chart */
   noData?: boolean;
 } & CardProps;
-
-const DOWNLOAD_ID: Download = "operational-standards";
 
 const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
   props
@@ -47,71 +42,52 @@ const OperationalStandardsCard: React.FC<OperationalStandardsCardProps> = (
     operatorLabel,
     attribute,
     noData,
+    latestYear,
     ...rest
   } = props;
 
   const { peerGroupLabel } = getPeerGroupLabels(peerGroup);
-  return (
-    <Card {...rest} id={DOWNLOAD_ID}>
-      <CardContent>
-        <CardHeader
-          trailingContent={
-            <>
-              <DownloadImage
-                iconOnly
-                iconSize={24}
-                elementId={DOWNLOAD_ID}
-                fileName={DOWNLOAD_ID}
-                downloadType={DOWNLOAD_ID}
-              />
-            </>
-          }
-        >
-          <Typography variant="h3">
-            {getLocalizedLabel({
-              id: `${lowercase(attribute)}-trend`,
-            })}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            <Trans id="sunshine.costs-and-tariffs.benchmarking-peer-group">
-              Benchmarking within the Peer Group: {peerGroupLabel}
-            </Trans>
-          </Typography>
-        </CardHeader>
 
-        {/* Stacked Horizontal Bar Chart */}
-        {noData ? (
+  if (noData) {
+    return (
+      <Card {...rest}>
+        <CardContent>
+          <CardHeader>
+            <Typography variant="h3">
+              {attribute === "serviceQuality" ? (
+                <Trans id="sunshine.operational-standards.service-quality-trend-title">
+                  Notification period trend
+                </Trans>
+              ) : (
+                <Trans id="sunshine.operational-standards.compliance-trend-title">
+                  75 francs rule trend
+                </Trans>
+              )}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              <Trans id="sunshine.operational-standards.benchmarking-peer-group">
+                Benchmarking within the Peer Group: {peerGroupLabel}
+              </Trans>
+            </Typography>
+          </CardHeader>
           <NoDataAvailable sx={{ mt: 8 }} />
-        ) : (
-          (() => {
-            switch (attribute) {
-              case "serviceQuality":
-                return (
-                  <ServiceQualityChart
-                    data={operationalStandards}
-                    id={operatorId}
-                    operatorLabel={operatorLabel}
-                  />
-                );
-              case "compliance":
-                return (
-                  <ComplianceChart
-                    data={operationalStandards}
-                    id={operatorId}
-                    operatorLabel={operatorLabel}
-                  />
-                );
-              default: {
-                const _exhaustiveCheck: never = attribute;
-                return _exhaustiveCheck;
-              }
-            }
-          })()
-        )}
-        {/* Footer Info */}
-        <CardSource date={`${updateDate}`} source={"Lindas"} />
-      </CardContent>
-    </Card>
+          <CardSource date={`${updateDate}`} source={"Lindas"} />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <OperationalStandardsChartCardState
+      {...rest}
+      peerGroup={peerGroup}
+      updateDate={updateDate}
+      operatorId={operatorId}
+      operatorLabel={operatorLabel}
+      latestYear={latestYear}
+      standardAttribute={attribute}
+      yearlyData={operationalStandards.yearlyData}
+    />
   );
 };
 

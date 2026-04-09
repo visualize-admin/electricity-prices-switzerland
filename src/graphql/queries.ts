@@ -158,6 +158,15 @@ export type OperationalStandardsCompliance = {
   francsRule?: Maybe<Scalars["String"]["output"]>;
   operatorsFrancsPerInvoice: Array<OperationalStandardsOperatorFrancs>;
   timelyPaperSubmission?: Maybe<Scalars["Boolean"]["output"]>;
+  yearlyData: Array<OperationalStandardsComplianceTrendRow>;
+};
+
+export type OperationalStandardsComplianceTrendRow = {
+  __typename: "OperationalStandardsComplianceTrendRow";
+  francsPerInvoice?: Maybe<Scalars["Float"]["output"]>;
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  year: Scalars["Int"]["output"];
 };
 
 export type OperationalStandardsData = {
@@ -171,6 +180,7 @@ export type OperationalStandardsData = {
 
 export type OperationalStandardsFilter = {
   operatorId: Scalars["Int"]["input"];
+  operatorOnly?: InputMaybe<Scalars["Boolean"]["input"]>;
   period?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
@@ -193,6 +203,15 @@ export type OperationalStandardsServiceQuality = {
   informingCustomersOfOutage?: Maybe<Scalars["Boolean"]["output"]>;
   notificationPeriodDays?: Maybe<Scalars["Int"]["output"]>;
   operatorsNotificationPeriodDays: Array<OperationalStandardsOperatorNotification>;
+  yearlyData: Array<OperationalStandardsServiceQualityTrendRow>;
+};
+
+export type OperationalStandardsServiceQualityTrendRow = {
+  __typename: "OperationalStandardsServiceQualityTrendRow";
+  days?: Maybe<Scalars["Int"]["output"]>;
+  operator_id: Scalars["Int"]["output"];
+  operator_name: Scalars["String"]["output"];
+  year: Scalars["Int"]["output"];
 };
 
 export type Operator = {
@@ -1105,6 +1124,13 @@ export type OperationalStandardsQuery = {
         days?: number | null;
         year: string;
       }>;
+      yearlyData: Array<{
+        __typename: "OperationalStandardsServiceQualityTrendRow";
+        year: number;
+        days?: number | null;
+        operator_id: number;
+        operator_name: string;
+      }>;
     };
     compliance: {
       __typename: "OperationalStandardsCompliance";
@@ -1115,6 +1141,13 @@ export type OperationalStandardsQuery = {
         operatorId: string;
         francsPerInvoice?: number | null;
         year: string;
+      }>;
+      yearlyData: Array<{
+        __typename: "OperationalStandardsComplianceTrendRow";
+        year: number;
+        francsPerInvoice?: number | null;
+        operator_id: number;
+        operator_name: string;
       }>;
     };
   };
@@ -1912,6 +1945,12 @@ export const OperationalStandardsDocument = gql`
           days
           year
         }
+        yearlyData {
+          year
+          days
+          operator_id
+          operator_name
+        }
       }
       compliance {
         francsRule
@@ -1920,6 +1959,12 @@ export const OperationalStandardsDocument = gql`
           operatorId
           francsPerInvoice
           year
+        }
+        yearlyData {
+          year
+          francsPerInvoice
+          operator_id
+          operator_name
         }
       }
       updateDate

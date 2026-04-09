@@ -15,6 +15,8 @@ export type Download =
   | "distribution"
   | "comparison"
   | "operational-standards"
+  | "operational-standards-service-quality"
+  | "operational-standards-compliance"
   | "costs-and-tariffs"
   | "power-stability";
 

@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Ability to download the Sunshine data as CSV
+- Operational standards charts show trends over time and peer comparison instead of histograms.
 
 # 2.40.4 - 2026-04-07
 

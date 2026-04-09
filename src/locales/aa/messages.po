@@ -599,6 +599,8 @@ msgid "indicator.saifi"
 msgstr "indicator.saifi"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
 msgstr "legend-item.other-operators"
@@ -607,6 +609,8 @@ msgstr "legend-item.other-operators"
 #: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1364,19 +1368,20 @@ msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "sunshine.compliance.timely-paper-submission.yes"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "sunshine.costs-and-tariffs.benchmarking-peer-group"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "sunshine.costs-and-tariffs.compare-with"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
@@ -1650,6 +1655,11 @@ msgstr "sunshine.metric-unit.rp-kwh"
 msgid "sunshine.metric-unit.swiss-francs"
 msgstr "sunshine.metric-unit.swiss-francs"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.benchmarking-peer-group"
+msgstr "sunshine.operational-standards.benchmarking-peer-group"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "sunshine.operational-standards.compliance"
@@ -1658,6 +1668,11 @@ msgstr "sunshine.operational-standards.compliance"
 msgid "sunshine.operational-standards.compliance-trend"
 msgstr "sunshine.operational-standards.compliance-trend"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance-trend-title"
+msgstr "sunshine.operational-standards.compliance-trend-title"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "sunshine.operational-standards.compliance.comparison-card-title"
@@ -1665,10 +1680,6 @@ msgstr "sunshine.operational-standards.compliance.comparison-card-title"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
 msgstr "sunshine.operational-standards.compliance.info-dialog-label"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "sunshine.operational-standards.compliance.share-of-operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1690,6 +1701,11 @@ msgstr "sunshine.operational-standards.service-quality"
 msgid "sunshine.operational-standards.service-quality-trend"
 msgstr "sunshine.operational-standards.service-quality-trend"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality-trend-title"
+msgstr "sunshine.operational-standards.service-quality-trend-title"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "sunshine.operational-standards.service-quality.comparison-card-title"
@@ -1697,10 +1713,6 @@ msgstr "sunshine.operational-standards.service-quality.comparison-card-title"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "sunshine.operational-standards.service-quality.info-dialog-label"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "sunshine.operational-standards.service-quality.share-of-operators"
 
 #: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx

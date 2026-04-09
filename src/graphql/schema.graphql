@@ -372,10 +372,25 @@ input StabilityFilter {
   operatorOnly: Boolean
 }
 
+type OperationalStandardsServiceQualityTrendRow @cacheControl(maxAge: 300) {
+  year: Int!
+  days: Int
+  operator_id: Int!
+  operator_name: String!
+}
+
+type OperationalStandardsComplianceTrendRow @cacheControl(maxAge: 300) {
+  year: Int!
+  francsPerInvoice: Float
+  operator_id: Int!
+  operator_name: String!
+}
+
 type OperationalStandardsServiceQuality @cacheControl(maxAge: 300) {
   notificationPeriodDays: Int
   informingCustomersOfOutage: Boolean
   operatorsNotificationPeriodDays: [OperationalStandardsOperatorNotification!]!
+  yearlyData: [OperationalStandardsServiceQualityTrendRow!]!
 }
 
 type OperationalStandardsOperatorNotification @cacheControl(maxAge: 300) {
@@ -388,6 +403,7 @@ type OperationalStandardsCompliance @cacheControl(maxAge: 300) {
   francsRule: String
   timelyPaperSubmission: Boolean
   operatorsFrancsPerInvoice: [OperationalStandardsOperatorFrancs!]!
+  yearlyData: [OperationalStandardsComplianceTrendRow!]!
 }
 
 type OperationalStandardsOperatorFrancs @cacheControl(maxAge: 300) {
@@ -411,6 +427,7 @@ type OperationalStandardsData @cacheControl(maxAge: 300) {
 input OperationalStandardsFilter {
   operatorId: Int!
   period: Int
+  operatorOnly: Boolean
 }
 
 input CostsAndTariffsFilter {
