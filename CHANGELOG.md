@@ -16,6 +16,7 @@ Nothing yet.
 # 2.41.0 - 2026-04-09
 
 - Ability to download the Sunshine data as CSV
+- Improve map chart hovering with unit displays, text length adjustments and style changes
 - Operational standards charts show trends over time and peer comparison instead of histograms.
 - Map: Hovering on a canton or operator now shows a tooltip with the entity name and current price component value ([#610](https://github.com/visualize-admin/electricity-prices-switzerland/pull/610))
 - Map: Show "no data" tooltips when hovering over areas with no data ([#611](https://github.com/visualize-admin/electricity-prices-switzerland/pull/611))

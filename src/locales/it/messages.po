@@ -27,6 +27,7 @@ msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e gestori di rete."
 msgid "app.meta.title"
 msgstr "Tariffe dell'elettricità in Svizzera"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Cantone"
@@ -316,7 +317,7 @@ msgstr "Cliccate qui per tornare alla pagina principale"
 #: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr ""
-"Questa pagina purtroppo non esiste.\n"
+"Potrebbe aver inserito un indirizzo (URL) non corretto, oppure la pagina o il documento non esiste più o ne è stato cambiato il nome. La pagina richiesta non è stata trovata.Questa pagina purtroppo non esiste.\n"
 "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che il collegamento ipertestuale sia obsoleto."
 
 #: src/components/not-found.tsx
@@ -569,8 +570,10 @@ msgid "image.download"
 msgstr "Scaricare l'immagine"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Conformità"
+msgstr "Costi e utile"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -779,6 +782,12 @@ msgstr "Tenere premuto {key} durante lo scorrimento per ingrandire la carta"
 msgid "map.share"
 msgstr "Condividi"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Più gestori di rete"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
@@ -802,6 +811,10 @@ msgstr "Vista sulla mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametro"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Comune"
@@ -855,6 +868,10 @@ msgstr "Non ci sono dati disponibili per questo gestore di rete, poiché non è 
 msgid "no-data-available.title"
 msgstr "Nessun dato disponibile"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Gestore di rete"
@@ -1214,6 +1231,38 @@ msgstr "Categoria"
 msgid "selector.indicator"
 msgstr "Indicatore"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Costi e utile della distribuzione di energia"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "Quanti giorni prima i clienti vengono informati di un'interruzione programmata."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Tariffe energetiche per la categoria di utenza finale selezionata (IVA esclusa)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Tariffe di uso della rete per la categoria di utenza finale selezionata (IVA esclusa)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Costi di infrastruttura di rete addebitati agli utenti finali per livello di rete (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Se gli utenti interessati da interruzioni programmate sono informati come richiesto."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Durata annuale delle interruzioni di corrente per cliente (SAIDI), in minuti all'anno."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Frequenza annuale delle interruzioni di corrente per cliente (SAIFI), in interruzioni all'anno."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Categoria"
@@ -1352,10 +1401,6 @@ msgstr "URL copiato"
 #: src/utils/page-title.tsx
 msgid "site.title"
 msgstr "Tariffe dell’elettricità in Svizzera"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "Regola del franco"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
@@ -1498,26 +1543,27 @@ msgstr "{year}"
 msgid "sunshine.date"
 msgstr "Data: {date}"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "Notifica di interruzione del servizio al cliente"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "Giorni di anticipo per la notifica"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "Tariffa energetica"
 
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "Regola del franco"
-
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "Tariffa di rete"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "Costi di rete"
@@ -1538,6 +1584,7 @@ msgstr "UID del gestore di rete"
 msgid "sunshine.export.column.period"
 msgstr "Periodo"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Totale"
@@ -1546,6 +1593,7 @@ msgstr "SAIDI Totale"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Non pianificato"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Totale"
@@ -1569,42 +1617,6 @@ msgstr "Indicatori di prestazione"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
 msgstr "Qualità dell'approvvigionamento"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Costi e profitti in CHF/anno"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Giorni di anticipo per la notifica delle interruzioni"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Tariffe energetiche in ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Tariffe della rete in ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Costi di rete in CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Costi di rete in CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Informazione dei clienti interessati in merito alle interruzioni programmate"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx

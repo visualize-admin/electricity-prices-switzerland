@@ -1,5 +1,6 @@
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/macro";
-import { Button, Chip, Divider, Link, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Link, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { ScaleThreshold } from "d3";
 import NextLink from "next/link";
@@ -8,6 +9,7 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
+import { RP_PER_KWH } from "src/domain/metrics";
 import {
   energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
@@ -30,7 +32,7 @@ type MapDetailsContentProps = {
 };
 
 const MapDetailsContentWrapper = (
-  props: MapDetailsContentProps & { showBackButton?: boolean },
+  props: MapDetailsContentProps & { showBackButton?: boolean }
 ) => {
   const { onBack, children, showBackButton = true } = props;
   return (
@@ -131,7 +133,7 @@ const MapDetailsEntityTable = (
   props: MapDetailProps & {
     colorScale: ScaleThreshold<number, string>;
     formatValue: (value: number) => string;
-  },
+  }
 ) => {
   const { entity, operators, colorScale, formatValue } = props;
   const [{ tab }] = useQueryStateMapCommon();
@@ -167,6 +169,7 @@ const MapDetailsEntityTable = (
         return (
           <KeyValueTableRow
             dataKey={operator.label ?? ""}
+            labelUnit={tab === "electricity" ? i18n._(RP_PER_KWH) : undefined}
             component={NextLink}
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}
@@ -191,15 +194,18 @@ const MapDetailsEntityTable = (
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
 const KeyValueTableRow = <
-  T extends Partial<Record<EntityTableValue, string | undefined>>,
+  T extends Partial<Record<EntityTableValue, string | undefined>>
 >(props: {
   state?: T;
   dataKey: keyof T | string;
+  /** When there is no `state` (e.g. operator link row), show after the label in a muted color — not baked into `dataKey`. */
+  labelUnit?: string;
   component?: "span" | typeof NextLink;
   href?: string;
   tag?: ReactElement;
 }) => {
-  const { dataKey, state, component = "span", tag, href } = props;
+  const { dataKey, state, labelUnit, component = "span", tag, href } = props;
+  const leftColor = component === "span" ? "text.500" : "primary";
   return (
     <Stack
       justifyContent={"space-between"}
@@ -210,18 +216,54 @@ const KeyValueTableRow = <
       <Typography
         href={href}
         component={component}
-        color={component === "span" ? "text.500" : "primary"}
+        color={leftColor}
         sx={{
           textDecoration: "none",
+          minWidth: 0,
+          flex: 1,
+          ...(state || !labelUnit
+            ? {
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }
+            : {
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "baseline",
+                gap: "0.5ch",
+                overflow: "hidden",
+              }),
         }}
-        whiteSpace="nowrap"
-        overflow="hidden"
-        textOverflow="ellipsis"
         variant="body3"
       >
-        {state
-          ? getLocalizedLabel({ id: dataKey.toString() as $IntentionalAny })
-          : dataKey.toString()}
+        {state ? (
+          getLocalizedLabel({ id: dataKey.toString() as $IntentionalAny })
+        ) : labelUnit ? (
+          <>
+            <Box
+              component="span"
+              sx={{
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {dataKey.toString()}
+            </Box>
+            <Typography
+              component="span"
+              variant="body3"
+              color="text.500"
+              sx={{ flexShrink: 0 }}
+            >
+              ({labelUnit})
+            </Typography>
+          </>
+        ) : (
+          dataKey.toString()
+        )}
       </Typography>
       {tag ? (
         tag

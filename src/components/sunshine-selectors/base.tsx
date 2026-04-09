@@ -13,7 +13,7 @@ import {
   IndicatorGroup,
   SunshineIndicator,
 } from "src/domain/sunshine";
-import { TranslationKey } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
 type SunshineSelectorsBaseProps = {
   year: string;
@@ -126,9 +126,13 @@ export const SunshineSelectorsBase = ({
           // instead of compliance, so we map it here. It should be changed if in the future,
           // we show more "compliance" types on the map.
           if (id === "compliance") {
-            return getItemLabel("franc-rule");
+            return getLocalizedLabel({
+              id: "selector.indicator.compliance.long",
+            });
           }
-          return getItemLabel(id);
+          return getLocalizedLabel({
+            id: `selector.indicator.${id}.long` as TranslationKey,
+          });
         }}
         selectedItem={indicator}
         setSelectedItem={setIndicator}

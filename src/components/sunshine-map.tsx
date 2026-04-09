@@ -31,15 +31,12 @@ import {
 } from "src/data/geo";
 import { ElectricityCategory, ValueFormatter } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
-import { networkLevelUnits } from "src/domain/metrics";
 import {
   getSunshineDetailsPageFromIndicator,
   sunshineDetailsLink,
 } from "src/domain/query-states";
-import {
-  indicatorWikiPageSlugMapping,
-  SunshineIndicator,
-} from "src/domain/sunshine";
+import { indicatorWikiPageSlugMapping, SunshineIndicator } from "src/domain/sunshine";
+import { getSunshineMapMetricLegendTitle } from "src/domain/translation";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 import { UseEnrichedSunshineDataResult } from "src/hooks/use-enriched-sunshine-data";
 import { useOperatorFeatureCollection } from "src/hooks/use-operator-feature-collection";
@@ -50,51 +47,6 @@ import {
 import { truthy } from "src/lib/truthy";
 import { aggregateSunshineObservationsByOperator } from "src/utils/aggregate-observations";
 import { shouldOpenInNewTab } from "src/utils/platform";
-
-// Must be a function to be lazy evaluated in the correct i18n context
-const getLegends: () => Record<
-  | Exclude<SunshineIndicator, "networkCosts">
-  | "networkCosts-CHF/km"
-  | "networkCosts-CHF/kVA",
-  string
-> = () => ({
-  "networkCosts-CHF/km": t({
-    message: "Network costs in CHF/km",
-    id: "sunshine.indicator.networkCosts-CHF/km",
-  }),
-  "networkCosts-CHF/kVA": t({
-    message: "Network costs in CHF/kVA",
-    id: "sunshine.indicator.networkCosts-CHF/kVA",
-  }),
-  netTariffs: t({
-    message: "Net tariffs in Rp./kWh",
-    id: "sunshine.indicator.netTariffs",
-  }),
-  energyTariffs: t({
-    message: "Energy tariffs in Rp./kWh",
-    id: "sunshine.indicator.energyTariffs",
-  }),
-  saidi: t({
-    message: "Power outage duration (SAIDI) in minutes",
-    id: "sunshine.indicator.saidi",
-  }),
-  saifi: t({
-    message: "Power outage frequency (SAIFI) per year",
-    id: "sunshine.indicator.saifi",
-  }),
-  outageInfo: t({
-    message: "Informing the affected customer about planned interruptions",
-    id: "sunshine.indicator.outageInfo",
-  }),
-  daysInAdvanceOutageNotification: t({
-    message: "Days in advance for outage notification",
-    id: "sunshine.indicator.daysInAdvanceOutageNotification",
-  }),
-  compliance: t({
-    message: "Complies with the franc rule",
-    id: "sunshine.indicator.compliance",
-  }),
-});
 
 type SunshineMapProps = {
   enrichedDataResult: UseEnrichedSunshineDataResult;
@@ -146,8 +98,6 @@ const SunshineMap = ({
     pause: !enrichedDataResult.data,
   });
 
-  const legends = getLegends();
-
   const isLoading =
     enrichedDataResult.fetching ||
     geoDataResult.state === "fetching" ||
@@ -196,6 +146,7 @@ const SunshineMap = ({
     formatValue: valueFormatter,
     priceComponent: "total",
     indicator,
+    networkLevel,
   });
 
   const featuresWithObservations = useMemo(() => {
@@ -376,7 +327,7 @@ const SunshineMap = ({
       return (
         <MapColorLegend
           id={legendId}
-          title={legends[indicator]}
+          title={getSunshineMapMetricLegendTitle(indicator, networkLevel)}
           ticks={ticks}
           mode="yesNo"
           palette={palette}
@@ -392,12 +343,10 @@ const SunshineMap = ({
       legendSourceData.median,
       valuesExtent[1],
     ];
-    const legendKey =
-      indicator === "networkCosts"
-        ? (`${indicator}-${
-            networkLevelUnits[networkLevel ?? ("NE5" as const)]
-          }` as const)
-        : indicator;
+    const metricLegendTitle = getSunshineMapMetricLegendTitle(
+      indicator,
+      networkLevel
+    );
 
     // Get the threshold encoding function and generate thresholds and palette from a single source
     const thresholdEncoding = thresholdEncodings[indicator];
@@ -413,7 +362,7 @@ const SunshineMap = ({
     return (
       <MapColorLegend
         id={legendId}
-        title={legends[legendKey]}
+        title={metricLegendTitle}
         ticks={legendData.map((value) => ({
           value,
           label: value !== undefined ? valueFormatter(value) : "",
@@ -424,7 +373,7 @@ const SunshineMap = ({
           slug: indicatorWikiPageSlugMapping[indicator],
           label: t({
             id: `help.${indicator}`,
-            message: legends[legendKey],
+            message: metricLegendTitle,
           }),
         }}
       />
@@ -437,7 +386,6 @@ const SunshineMap = ({
     networkLevel,
     period,
     legendId,
-    legends,
     valueFormatter,
   ]);
 

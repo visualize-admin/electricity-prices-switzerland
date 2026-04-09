@@ -252,9 +252,7 @@ export const prepComplianceCardProps = (
     rows: [
       {
         label: (
-          <Trans id="sunshine.compliance.francs-rule-regulation">
-            75 Francs Rule Regulation
-          </Trans>
+          <Trans id="indicator.compliance">Costs and profit</Trans>
         ),
         value: {
           value: (

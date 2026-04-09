@@ -27,6 +27,7 @@ msgstr "app.meta.description"
 msgid "app.meta.title"
 msgstr "app.meta.title"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "canton"
@@ -567,8 +568,10 @@ msgid "image.download"
 msgstr "image.download"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "indicator.compliance"
+msgstr "Costs and profit"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -777,6 +780,12 @@ msgstr "map.scrollzoom.hint"
 msgid "map.share"
 msgstr "map.share"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Multiple grid operators"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "map.tooltipnodata"
@@ -800,6 +809,10 @@ msgstr "mobile-drawer.list-title"
 msgid "mobile-drawer.parameters-title"
 msgstr "mobile-drawer.parameters-title"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "municipality"
@@ -853,6 +866,10 @@ msgstr "no-data-available.description"
 msgid "no-data-available.title"
 msgstr "no-data-available.title"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "operator"
@@ -1212,6 +1229,38 @@ msgstr "selector.energy-tariffs-category"
 msgid "selector.indicator"
 msgstr "selector.indicator"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Costs and profit from energy distribution"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "selector.indicator.daysInAdvanceOutageNotification.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "selector.indicator.energyTariffs.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "selector.indicator.netTariffs.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "selector.indicator.networkCosts.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "selector.indicator.outageInfo.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "selector.indicator.saidi.long"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "selector.indicator.saifi.long"
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "selector.net-tariffs-category"
@@ -1350,10 +1399,6 @@ msgstr "share.url-copied"
 #: src/utils/page-title.tsx
 msgid "site.title"
 msgstr "site.title"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "sunshine.compliance.francs-rule-regulation"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
@@ -1496,26 +1541,27 @@ msgstr "sunshine.costs-and-tariffs.year"
 msgid "sunshine.date"
 msgstr "sunshine.date"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "sunshine.export.column.customer-outage-notification"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "sunshine.export.column.days-in-advance"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "sunshine.export.column.energy-tariff"
 
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "sunshine.export.column.franc-rule"
-
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "sunshine.export.column.net-tariff"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "sunshine.export.column.network-costs"
@@ -1536,6 +1582,7 @@ msgstr "sunshine.export.column.operator-uid"
 msgid "sunshine.export.column.period"
 msgstr "sunshine.export.column.period"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "sunshine.export.column.saidi-total"
@@ -1544,6 +1591,7 @@ msgstr "sunshine.export.column.saidi-total"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "sunshine.export.column.saidi-unplanned"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "sunshine.export.column.saifi-total"
@@ -1567,42 +1615,6 @@ msgstr "sunshine.grid.operational-standards-title"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
 msgstr "sunshine.grid.power-stability-title"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "sunshine.indicator.compliance"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "sunshine.indicator.daysInAdvanceOutageNotification"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "sunshine.indicator.energyTariffs"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "sunshine.indicator.netTariffs"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "sunshine.indicator.networkCosts-CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "sunshine.indicator.networkCosts-CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "sunshine.indicator.outageInfo"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "sunshine.indicator.saidi"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "sunshine.indicator.saifi"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx

@@ -449,7 +449,7 @@ export const GenericMap = ({
     };
   }, []);
 
-  const tooltipMinimumWidth = 200;
+  const tooltipMinimumWidth = 240;
   const webglDeactivated = useFlag("webglDeactivated");
 
   return (

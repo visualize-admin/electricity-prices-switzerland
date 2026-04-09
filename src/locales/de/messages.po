@@ -27,6 +27,7 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 msgid "app.meta.title"
 msgstr "Strompreise Schweiz"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Kanton"
@@ -567,8 +568,10 @@ msgid "image.download"
 msgstr "Bild herunterladen"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Compliance"
+msgstr "Kosten und Gewinn"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -777,6 +780,12 @@ msgstr "Halten Sie die Taste {key} beim Scrollen gedrückt, um die Karte zu verg
 msgid "map.share"
 msgstr "Teilen"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Mehrere Netzbetreiber"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
@@ -800,6 +809,10 @@ msgstr "Kartenansicht"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filter"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Gemeinde"
@@ -853,6 +866,10 @@ msgstr "Für diesen Netzbetreiber sind keine Daten verfügbar, da er entweder ke
 msgid "no-data-available.title"
 msgstr "Keine Daten"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Netzbetreiber"
@@ -1212,6 +1229,38 @@ msgstr "Kategorie"
 msgid "selector.indicator"
 msgstr "Indikator"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Kosten und Gewinn Energievertrieb"
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "Wie viele Tage im Voraus Kunden vor einer geplanten Unterbrechung informiert werden."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Energiepreise für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Netznutzungstarife für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Netzinfrastrukturkosten für Endverbrauchende nach Netzebene (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Jährliche Dauer von Stromunterbrechungen pro Kunde (SAIDI), in Minuten pro Jahr."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Jährliche Häufigkeit von Stromunterbrechungen pro Kunde (SAIFI), in Unterbrechungen pro Jahr."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Kategorie"
@@ -1350,10 +1399,6 @@ msgstr "URL kopiert"
 #: src/utils/page-title.tsx
 msgid "site.title"
 msgstr "Strompreise Schweiz"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "Franken-Regel"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
@@ -1496,26 +1541,27 @@ msgstr "{year}"
 msgid "sunshine.date"
 msgstr "Datum: {date}"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "Benachrichtigung von Kunden über Ausfälle"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "Tage im Voraus für die Benachrichtigung"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "Energietarif"
 
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "Franc-Regel"
-
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "Netztarif"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "Netzkosten"
@@ -1536,6 +1582,7 @@ msgstr "Netzbetreiber UID"
 msgid "sunshine.export.column.period"
 msgstr "Zeitraum"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Insgesamt"
@@ -1544,6 +1591,7 @@ msgstr "SAIDI Insgesamt"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Ungeplant"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Gesamt"
@@ -1567,42 +1615,6 @@ msgstr "Leistungsindikatoren"
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.power-stability-title"
 msgstr "Versorgungsqualität"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Kosten und Gewinn in CHF/Jahr"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "So viele Tage im Voraus erfolgt die Meldung von Unterbrüchen"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Energietarife in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Netztarife in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Netzkosten in CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Netzkosten in CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Information der betroffenen Kunden über geplante Unterbrechungen"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Dauer der Stromunterbrechung (SAIDI) in Minuten"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
 
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx

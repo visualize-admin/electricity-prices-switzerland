@@ -4,9 +4,18 @@ import { memoize } from "lodash";
 
 import {
   ElectricityCategory,
+  NetworkLevelId,
   SettlementDensity,
   EnergyDensity,
 } from "src/domain/data";
+import {
+  CHF_PER_YEAR,
+  COUNT_PER_YEAR,
+  DAYS,
+  MIN_PER_YEAR,
+  RP_PER_KWH,
+  getNetworkLevelMetrics,
+} from "src/domain/metrics";
 
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
@@ -167,7 +176,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     compliance: t({
       id: "indicator.compliance",
-      message: "Compliance",
+      message: "Costs and profit",
     }),
     outageInfo: t({
       id: "indicator.outage-info",
@@ -176,6 +185,52 @@ const getTranslationTable = (_locale: string) => {
     daysInAdvanceOutageNotification: t({
       id: "indicator.days-in-advance-outage-notification",
       message: "Days in advance outage notification",
+    }),
+  };
+
+  /** Long descriptive labels for the map sidebar indicator combobox only. */
+  const selectorIndicatorLong: Record<
+    `selector.indicator.${SunshineIndicator}.long`,
+    string
+  > = {
+    "selector.indicator.networkCosts.long": t({
+      id: "selector.indicator.networkCosts.long",
+      message:
+        "Network infrastructure costs charged to end consumers by network level (NE5–NE7).",
+    }),
+    "selector.indicator.netTariffs.long": t({
+      id: "selector.indicator.netTariffs.long",
+      message:
+        "Net tariffs for the selected end-consumer category (excl. VAT).",
+    }),
+    "selector.indicator.energyTariffs.long": t({
+      id: "selector.indicator.energyTariffs.long",
+      message:
+        "Energy tariffs for the selected end-consumer category (excl. VAT).",
+    }),
+    "selector.indicator.saidi.long": t({
+      id: "selector.indicator.saidi.long",
+      message:
+        "Annual duration of power interruptions per customer (SAIDI), in minutes per year.",
+    }),
+    "selector.indicator.saifi.long": t({
+      id: "selector.indicator.saifi.long",
+      message:
+        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year.",
+    }),
+    "selector.indicator.outageInfo.long": t({
+      id: "selector.indicator.outageInfo.long",
+      message:
+        "Whether customers affected by planned outages are informed as required.",
+    }),
+    "selector.indicator.daysInAdvanceOutageNotification.long": t({
+      id: "selector.indicator.daysInAdvanceOutageNotification.long",
+      message:
+        "How many days in advance customers are notified before a planned outage.",
+    }),
+    "selector.indicator.compliance.long": t({
+      id: "selector.indicator.compliance.long",
+      message: "Costs and profit from energy distribution",
     }),
   };
 
@@ -365,6 +420,7 @@ const getTranslationTable = (_locale: string) => {
     }),
 
     ...indicators,
+    ...selectorIndicatorLong,
     ...energyDensities,
     ...settlementDensities,
 
@@ -530,6 +586,111 @@ export const getLocalizedLabel = ({ id }: { id: TranslationKey }): string => {
   const table = memoizeGetTranslationTable(locale);
   return table[id as keyof typeof table] || id;
 };
+
+/** Metric name + unit for map tooltip rows / subtitles (Figma: unit in muted parentheses). */
+export const getSunshineMapMetricLegendParts = (
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
+): { metricLabel: string; metricUnit: string | null } => {
+  const level = networkLevel ?? "NE5";
+  switch (indicator) {
+    case "networkCosts":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.network-costs",
+            message: "Network Costs",
+          })
+        ),
+        metricUnit: i18n._(getNetworkLevelMetrics(level)),
+      };
+    case "netTariffs":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.net-tariff",
+            message: "Net Tariff",
+          })
+        ),
+        metricUnit: i18n._(RP_PER_KWH),
+      };
+    case "energyTariffs":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.energy-tariff",
+            message: "Energy Tariff",
+          })
+        ),
+        metricUnit: i18n._(RP_PER_KWH),
+      };
+    case "saidi":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.saidi-total",
+            message: "SAIDI Total",
+          })
+        ),
+        metricUnit: i18n._(MIN_PER_YEAR),
+      };
+    case "saifi":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.saifi-total",
+            message: "SAIFI Total",
+          })
+        ),
+        metricUnit: i18n._(COUNT_PER_YEAR),
+      };
+    case "outageInfo":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.customer-outage-notification",
+            message: "Customer Outage Notification",
+          })
+        ),
+        metricUnit: null,
+      };
+    case "daysInAdvanceOutageNotification":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.days-in-advance",
+            message: "Days in Advance for Notification",
+          })
+        ),
+        metricUnit: i18n._(DAYS),
+      };
+    case "compliance":
+      return {
+        metricLabel: getLocalizedLabel({ id: "compliance" }),
+        metricUnit: i18n._(CHF_PER_YEAR),
+      };
+    default: {
+      const _exhaustive: never = indicator;
+      return _exhaustive;
+    }
+  }
+};
+
+/**
+ * Short metric title for map legend, tooltip, and compact mobile summary.
+ * Reuses export column / `indicator.*` strings where applicable so labels stay aligned with CSV and cards.
+ */
+export const getSunshineMapMetricLegendTitle = (
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
+): string => {
+  const { metricLabel, metricUnit } = getSunshineMapMetricLegendParts(
+    indicator,
+    networkLevel
+  );
+  return metricUnit ? `${metricLabel} (${metricUnit})` : metricLabel;
+};
+
 /** @deprecated Refactor to use getLocalizedLabel */
 export const getLocalizedLabelUnsafe = ({ id }: { id: string }): string => {
   const locale = i18n.locale;
