@@ -1,4 +1,3 @@
-import { groupBy } from "lodash";
 import { memo, useMemo } from "react";
 
 import { MedianDiamond } from "src/components/charts-generic/dot-plot/median-diamond.tsx";
@@ -37,46 +36,54 @@ export const Dots = (props: DotProps) => {
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
 
-  const dotProps = useMemo(() => {
-    return data.map((d) => ({
-      d,
-      cx: xScale(getX(d)),
-      cy: (yScale(getY(d)) || 0) + yScale.bandwidth() / 2,
-    }));
-  }, [data, getX, getY, xScale, yScale]);
+  const svgDots = useMemo(() => {
+    const isHighlighted = (d: (typeof data)[number]) =>
+      !!highlightedValue &&
+      getHighlightEntity(d)?.toString() === highlightedValue.toString();
 
-  const { true: regularDots = [], false: selectedDots = [] } = groupBy(
-    dotProps,
-    ({ d }) =>
-      d !== hovered &&
-      (!highlightedValue ||
-        getHighlightEntity(d)?.toString() !== highlightedValue.toString())
-  );
+    const rows = data.map((d) => {
+      const cx = xScale(getX(d));
+      const cy = (yScale(getY(d)) || 0) + yScale.bandwidth() / 2;
+      const highlighted = isHighlighted(d);
+      const isHovered = d === hovered;
+      const fill = compareWith?.includes("sunshine.select-all")
+        ? palette.monochrome[200]
+        : highlighted
+          ? chartPalette.categorical[0]
+          : colors(getColor(d));
+      const opacity = isHovered ? 1 : highlighted ? 1 : 0.75;
 
-  const hoveredDot = dotProps.find(({ d }) => d === hovered);
+      return { d, cx, cy, fill, opacity, isHovered, isHighlighted: highlighted };
+    });
+
+    return [...rows].sort(
+      (a, b) => Number(a.isHovered) - Number(b.isHovered),
+    );
+  }, [
+    colors,
+    compareWith,
+    data,
+    getColor,
+    getHighlightEntity,
+    getX,
+    getY,
+    highlightedValue,
+    hovered,
+    xScale,
+    yScale,
+  ]);
+
+  const highlightedDotProps = svgDots.filter((x) => x.isHighlighted);
+  const hoveredDot = svgDots.find((x) => x.isHovered);
   const medianX = medianValue ? xScale(medianValue) : null;
 
   return (
     <>
-      {/* Regular dots */}
-      {regularDots.map(({ cx, cy, d }, i) => (
-        <Dot
-          key={`regular-${i}`}
-          cx={cx}
-          cy={cy}
-          color={
-            !compareWith?.includes("sunshine.select-all")
-              ? colors(getColor(d))
-              : palette.monochrome[200]
-          }
-          opacity={0.75}
-        />
-      ))}
-
-      {/* Connector lines under selected/hovered */}
+      {/* Connector lines from hovered dot to highlighted series */}
       {hovered &&
         hoveredDot &&
-        selectedDots.map(({ d, cx }, i) => (
+        highlightedValue &&
+        highlightedDotProps.map(({ d, cx }, i) => (
           <line
             key={`connector-${i}`}
             x1={xScale(getX(hovered))}
@@ -89,31 +96,15 @@ export const Dots = (props: DotProps) => {
           />
         ))}
 
-      {/* Selected dots */}
-      {selectedDots.map((dot, i) => (
+      {svgDots.map(({ cx, cy, fill, opacity }, i) => (
         <Dot
-          key={`selected-${i}`}
-          cx={dot.cx}
-          cy={dot.cy}
-          color={chartPalette.categorical[0]}
-          opacity={1}
+          key={`dot-${i}`}
+          cx={cx}
+          cy={cy}
+          color={fill}
+          opacity={opacity}
         />
       ))}
-
-      {/* Hovered dot */}
-      {hoveredDot && (
-        <Dot
-          key="hovered"
-          cx={hoveredDot.cx}
-          cy={hoveredDot.cy}
-          color={
-            selectedDots.find((dot) => dot.d === hoveredDot.d)
-              ? chartPalette.categorical[0]
-              : colors(getColor(hoveredDot.d))
-          }
-          opacity={1}
-        />
-      )}
 
       {/* Median diamonds */}
       {medianX &&
