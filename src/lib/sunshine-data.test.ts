@@ -1,8 +1,17 @@
 import { describe, expect, it, test, vi } from "vitest";
 
-import { Trend } from "src/graphql/resolver-types";
-import { fetchSaidi, fetchSaifi } from "src/lib/sunshine-data";
 import {
+  peerGroupOperatorId,
+  peerGroupOperatorName,
+} from "src/domain/sunshine";
+import { Trend } from "src/graphql/resolver-types";
+import {
+  fetchOperationalStandards,
+  fetchSaidi,
+  fetchSaifi,
+} from "src/lib/sunshine-data";
+import {
+  OperationalStandardRecord,
   OperatorDataRecord,
   SunshineDataService,
 } from "src/lib/sunshine-data-service";
@@ -265,8 +274,148 @@ describe.each([
         expect(result.peerGroupMedianTotal).toBe(expectedMedianTotal);
         expect(result.peerGroupMedianUnplanned).toBe(expectedMedianUnplanned);
         expect(result.peerGroupMedianTrendTotal).toBe(expectedTrendTotal);
-        expect(result.peerGroupMedianTrendUnplanned).toBe(expectedTrendUnplanned);
+        expect(result.peerGroupMedianTrendUnplanned).toBe(
+          expectedTrendUnplanned
+        );
       }
     );
   }
 );
+
+describe("fetchOperationalStandards", () => {
+  const operationalRecord = (
+    partial: Partial<OperationalStandardRecord> &
+      Pick<
+        OperationalStandardRecord,
+        "operator_id" | "operator_name" | "period"
+      >
+  ): OperationalStandardRecord => ({
+    franc_rule: 75,
+    info_yes_no: true,
+    info_days_in_advance: 10,
+    timely: true,
+    settlement_density: "High",
+    energy_density: "High",
+    ...partial,
+  });
+
+  it("merges multi-year operator rows and peer median rows into yearlyData", async () => {
+    const getOperationalStandards = vi
+      .fn()
+      .mockImplementation(
+        async (params: {
+          operatorId?: number;
+          peerGroup?: string;
+          period?: number;
+        }) => {
+          if (params.peerGroup && params.period === undefined) {
+            return [
+              operationalRecord({
+                operator_id: 100,
+                operator_name: "Main",
+                period: 2022,
+                info_days_in_advance: 8,
+                franc_rule: 65,
+              }),
+              operationalRecord({
+                operator_id: 100,
+                operator_name: "Main",
+                period: 2023,
+                info_days_in_advance: 4,
+                franc_rule: 80,
+              }),
+              operationalRecord({
+                operator_id: 201,
+                operator_name: "Other",
+                period: 2022,
+                info_days_in_advance: 9,
+                franc_rule: 68,
+              }),
+              operationalRecord({
+                operator_id: 201,
+                operator_name: "Other",
+                period: 2023,
+                info_days_in_advance: 6,
+                franc_rule: 70,
+              }),
+            ];
+          }
+          if (params.peerGroup && params.period !== undefined) {
+            return [
+              operationalRecord({
+                operator_id: 100,
+                operator_name: "Main",
+                period: 2023,
+                info_days_in_advance: 4,
+                franc_rule: 80,
+              }),
+              operationalRecord({
+                operator_id: 201,
+                operator_name: "Other",
+                period: 2023,
+                info_days_in_advance: 6,
+                franc_rule: 70,
+              }),
+            ];
+          }
+          if (params.operatorId !== undefined) {
+            return [
+              operationalRecord({
+                operator_id: 100,
+                operator_name: "Main",
+                period: 2023,
+                info_days_in_advance: 4,
+                franc_rule: 80,
+              }),
+            ];
+          }
+          return [];
+        }
+      );
+
+    const getYearlyIndicatorMedians = vi.fn().mockResolvedValue([
+      {
+        period: 2022,
+        median_franc_rule: 66,
+        median_info_days: 8.4,
+        median_timely: 1,
+      },
+      {
+        period: 2023,
+        median_franc_rule: 72,
+        median_info_days: 5.5,
+        median_timely: 1,
+      },
+    ]);
+
+    const db = createMockDb({
+      getOperationalStandards,
+      getYearlyIndicatorMedians,
+    });
+
+    const result = await fetchOperationalStandards(db, {
+      operatorId: "100",
+      operatorData: mockOperatorData,
+      period: 2023,
+    });
+
+    const sq = result.serviceQuality.yearlyData;
+    expect(sq).toHaveLength(6);
+
+    const median2023 = sq.find(
+      (r) => r.operator_id === peerGroupOperatorId && r.year === 2023
+    );
+    expect(median2023?.operator_name).toBe(peerGroupOperatorName);
+    expect(median2023?.days).toBe(6);
+
+    expect(sq.find((r) => r.operator_id === 100 && r.year === 2023)?.days).toBe(
+      4
+    );
+
+    const comp = result.compliance.yearlyData;
+    expect(
+      comp.find((r) => r.operator_id === peerGroupOperatorId && r.year === 2023)
+        ?.francsPerInvoice
+    ).toBe(72);
+  });
+});

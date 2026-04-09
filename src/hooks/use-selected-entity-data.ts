@@ -4,10 +4,7 @@ import { useMemo } from "react";
 
 import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import {
-  getLocalizedLabel,
-  getSunshineMapMetricLegendTitle,
-} from "src/domain/translation";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -149,10 +146,41 @@ export function useSelectedEntityData(
             energyData.cantonMedianObservationsByCanton.get(entityId) ?? []
         )
         .filter(truthy);
+      
+      // Handle operator observations for energy prices (using aggregated data)
+      const operatorObservations = entityIds
+        .flatMap((entityId) => {
+          const aggregatedOp = energyData.observationsByOperatorAggregated[entityId];
+          if (aggregatedOp) {
+            // Convert the aggregated operator data back to observations format
+            return [{
+              value: aggregatedOp.value ?? 0,
+              operatorLabel: aggregatedOp.name,
+              operator: entityId,
+              period: aggregatedOp.period,
+              municipality: "",
+              municipalityLabel: "",
+              canton: "",
+              cantonLabel: "",
+              category: "",
+              categoryLabel: "",
+              product: "",
+              productLabel: "",
+              coverageRatio: 1,
+              municipalityData: undefined,
+              cantonData: undefined,
+            }];
+          }
+          return [];
+        })
+        .filter(truthy);
+      
       const entityObservations =
-        (entityType === "municipality"
+        entityType === "municipality"
           ? municipalityObservations
-          : cantonObservations) ?? [];
+          : entityType === "canton"
+          ? cantonObservations  
+          : operatorObservations;
 
       if (entityObservations.length === 0) {
         return {
@@ -202,14 +230,23 @@ export function useSelectedEntityData(
         };
       }
 
+      if (!indicator) {
+        return {
+          entityIds,
+          isHovered,
+          isSelected,
+          formattedData: null,
+          observations: operatorObservations,
+        };
+      }
+
       const formattedData = formatSunshineEntity(
         selection,
         operatorObservations,
         colorScale,
         formatValue,
-        indicator
-          ? getSunshineMapMetricLegendTitle(indicator, networkLevel)
-          : ""
+        indicator,
+        networkLevel
       );
 
       return {

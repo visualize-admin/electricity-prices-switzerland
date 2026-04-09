@@ -45,7 +45,7 @@ test.describe("Segmented control visibility", () => {
 
     await expect(
       page.getByRole("button", { name: "Grouping network operators" })
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 25_000 });
   });
 
   test("should not appear for canton view", async ({ page }) => {

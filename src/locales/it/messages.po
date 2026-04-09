@@ -27,6 +27,7 @@ msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e gestori di rete."
 msgid "app.meta.title"
 msgstr "Tariffe dell'elettricità in Svizzera"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Cantone"
@@ -569,8 +570,10 @@ msgid "image.download"
 msgstr "Scaricare l'immagine"
 
 #: src/domain/translation.tsx
+#: src/pages/api/sunshine-data-export.ts
+#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Conformità"
+msgstr "Costi e utile"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -601,6 +604,8 @@ msgid "indicator.saifi"
 msgstr "Frequenza delle interruzioni di corrente (SAIFI)"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
 msgstr "Altri operatori"
@@ -609,6 +614,8 @@ msgstr "Altri operatori"
 #: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -775,6 +782,12 @@ msgstr "Tenere premuto {key} durante lo scorrimento per ingrandire la carta"
 msgid "map.share"
 msgstr "Condividi"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Più gestori di rete"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
@@ -798,6 +811,10 @@ msgstr "Vista sulla mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametro"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Comune"
@@ -851,6 +868,10 @@ msgstr "Non ci sono dati disponibili per questo gestore di rete, poiché non è 
 msgid "no-data-available.title"
 msgstr "Nessun dato disponibile"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Gestore di rete"
@@ -1212,7 +1233,7 @@ msgstr "Indicatore"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.compliance.long"
-msgstr "Se l'operatore rispetta la regola del franco per le componenti tariffarie."
+msgstr "Costi e utile della distribuzione di energia"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
@@ -1382,10 +1403,6 @@ msgid "site.title"
 msgstr "Tariffe dell’elettricità in Svizzera"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
-msgid "sunshine.compliance.francs-rule-regulation"
-msgstr "Regola del franco"
-
-#: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.compliance.timely-paper-submission"
 msgstr "Consegna dei documenti entro i termini"
 
@@ -1398,19 +1415,20 @@ msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Sì"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Analisi comparativa all'interno del gruppo di confronto: {peerGroupLabel}"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Confronta con"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
@@ -1525,26 +1543,27 @@ msgstr "{year}"
 msgid "sunshine.date"
 msgstr "Data: {date}"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
 msgstr "Notifica di interruzione del servizio al cliente"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
 msgstr "Giorni di anticipo per la notifica"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
 msgstr "Tariffa energetica"
 
-#: src/pages/api/sunshine-data-export.ts
-msgid "sunshine.export.column.franc-rule"
-msgstr "Regola del franco"
-
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
 msgstr "Tariffa di rete"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.network-costs"
 msgstr "Costi di rete"
@@ -1565,6 +1584,7 @@ msgstr "UID del gestore di rete"
 msgid "sunshine.export.column.period"
 msgstr "Periodo"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Totale"
@@ -1573,6 +1593,7 @@ msgstr "SAIDI Totale"
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Non pianificato"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Totale"
@@ -1607,42 +1628,6 @@ msgstr "Qualità dell'approvvigionamento"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Anno tariffario attuale ({latestYear})"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.compliance"
-msgstr "Conformità regola del franco"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
-msgstr "Preavviso interruzioni (giorni)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.energyTariffs"
-msgstr "Tariffe energia (Rp./kWh)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.netTariffs"
-msgstr "Tariffe rete (Rp./kWh)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/kVA"
-msgstr "Costi di rete (CHF/kVA)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.networkCosts-CHF/km"
-msgstr "Costi di rete (CHF/km)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.outageInfo"
-msgstr "Avviso agli utenti sulle interruzioni"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saidi"
-msgstr "SAIDI (min/anno)"
-
-#: src/domain/translation.tsx
-msgid "sunshine.map.legend.saifi"
-msgstr "SAIFI (n./anno)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
@@ -1684,6 +1669,11 @@ msgstr "ct./kWh"
 msgid "sunshine.metric-unit.swiss-francs"
 msgstr "CHF"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.benchmarking-peer-group"
+msgstr "Analisi comparativa all'interno del gruppo di confronto: {peerGroupLabel}"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "Conformità"
@@ -1692,6 +1682,11 @@ msgstr "Conformità"
 msgid "sunshine.operational-standards.compliance-trend"
 msgstr "Confronto in franchi per destinatario di fattura"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance-trend-title"
+msgstr "Andamento della regola dei 75 franchi"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Conformità"
@@ -1699,10 +1694,6 @@ msgstr "Conformità"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
 msgstr "Conformità alle prescrizioni"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "Quota di gestori di rete"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1724,6 +1715,11 @@ msgstr "Qualità del servizio"
 msgid "sunshine.operational-standards.service-quality-trend"
 msgstr "Confronto dei termini di preavviso per interruzioni programmate"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality-trend-title"
+msgstr "Andamento del periodo di preavviso"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Qualità del servizio"
@@ -1731,10 +1727,6 @@ msgstr "Qualità del servizio"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Qualità del servizio"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "Quota di gestori di rete"
 
 #: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx

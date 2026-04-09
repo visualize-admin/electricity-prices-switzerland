@@ -9,6 +9,7 @@ import {
   Locator,
   Page,
   PageScreenshotOptions,
+  Response,
   TestInfo,
   TestType,
 } from "@playwright/test";
@@ -143,5 +144,48 @@ export const ensureLoadingIsComplete = async (page: Page) =>
   await page.waitForSelector("[data-testid='loading']", {
     state: "hidden",
   });
+
+/**
+ * Vercel preview / serverless often returns 502–504 when many tests navigate in parallel.
+ * Retry with backoff so shard runs against a cold or contended deploy stay green.
+ */
+export async function gotoWithRetry(
+  page: Page,
+  url: string,
+  options?: Parameters<Page["goto"]>[1] & { maxAttempts?: number }
+): Promise<Response> {
+  const merged = {
+    maxAttempts: 4,
+    waitUntil: "load" as const,
+    timeout: 90_000,
+    ...options,
+  };
+  const { maxAttempts, ...gotoOpts } = merged;
+  let lastResp: Response | null = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    lastResp = await page.goto(url, gotoOpts);
+    const status = lastResp?.status() ?? 0;
+    if (status >= 200 && status < 500) {
+      return lastResp as Response;
+    }
+    if (attempt < maxAttempts) {
+      await sleep(3000 * attempt);
+    }
+  }
+  throw new Error(
+    `gotoWithRetry: ${url} failed after ${maxAttempts} attempts (last status: ${lastResp?.status() ?? "null"})`
+  );
+}
+
+/** Details layout mounts inside client-only dynamic imports; wait after navigation. */
+export async function waitForDetailsPageContent(
+  page: Page,
+  timeout = 120_000
+): Promise<void> {
+  await page.getByTestId("details-page-content").waitFor({
+    state: "visible",
+    timeout,
+  });
+}
 
 export { expect, test };

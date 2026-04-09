@@ -34,6 +34,8 @@ interface ProgressOvertimeChartProps<
   xField: string;
   yField: string;
   yAxisLabel?: string;
+  /** Defaults to axis number formatting from useFormatAxisNumber */
+  yAxisFormat?: (d: number, i: number) => string;
   entityField?: string;
 }
 
@@ -50,10 +52,12 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     xField,
     yField,
     yAxisLabel,
+    yAxisFormat,
     entityField = "operator_id",
   } = props;
 
   const formatAxis = useFormatAxisNumber();
+  const formatY = yAxisFormat ?? formatAxis;
 
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;
@@ -165,7 +169,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format={formatAxis} />
+          <AxisHeightLinear format={formatY} />
           <AxisTime />
           <Lines medianGroup={peerGroupOperatorName} />
           {showInteractions && <InteractionHorizontal />}

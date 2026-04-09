@@ -36,45 +36,46 @@ export const Dots = (props: DotProps) => {
   const [interaction] = useInteraction();
   const hovered = interaction.interaction?.d;
 
-  const dotProps = useMemo(() => {
-    return data.map((d) => ({
-      d,
-      cx: xScale(getX(d)),
-      cy: (yScale(getY(d)) || 0) + yScale.bandwidth() / 2,
-    }));
-  }, [data, getX, getY, xScale, yScale]);
+  const svgDots = useMemo(() => {
+    const isHighlighted = (d: (typeof data)[number]) =>
+      !!highlightedValue &&
+      getHighlightEntity(d)?.toString() === highlightedValue.toString();
 
-  const isHighlighted = (d: (typeof data)[number]) =>
-    !!highlightedValue &&
-    getHighlightEntity(d)?.toString() === highlightedValue.toString();
+    const rows = data.map((d) => {
+      const cx = xScale(getX(d));
+      const cy = (yScale(getY(d)) || 0) + yScale.bandwidth() / 2;
+      const highlighted = isHighlighted(d);
+      const isHovered = d === hovered;
+      const fill = compareWith?.includes("sunshine.select-all")
+        ? palette.monochrome[200]
+        : highlighted
+          ? chartPalette.categorical[0]
+          : colors(getColor(d));
+      const opacity = isHovered ? 1 : highlighted ? 1 : 0.75;
 
-  const fillForDot = (d: (typeof data)[number]) =>
-    compareWith?.includes("sunshine.select-all")
-      ? palette.monochrome[200]
-      : isHighlighted(d)
-        ? chartPalette.categorical[0]
-        : colors(getColor(d));
+      return { d, cx, cy, fill, opacity, isHovered, isHighlighted: highlighted };
+    });
 
-  /** Non-highlighted dots are slightly transparent; hover only increases opacity, not hue. */
-  const opacityForDot = (d: (typeof data)[number]) => {
-    if (d === hovered) return 1;
-    return isHighlighted(d) ? 1 : 0.75;
-  };
+    return [...rows].sort(
+      (a, b) => Number(a.isHovered) - Number(b.isHovered),
+    );
+  }, [
+    colors,
+    compareWith,
+    data,
+    getColor,
+    getHighlightEntity,
+    getX,
+    getY,
+    highlightedValue,
+    hovered,
+    xScale,
+    yScale,
+  ]);
 
-  const highlightedDotProps = dotProps.filter(({ d }) => isHighlighted(d));
-  const hoveredDot = dotProps.find(({ d }) => d === hovered);
+  const highlightedDotProps = svgDots.filter((x) => x.isHighlighted);
+  const hoveredDot = svgDots.find((x) => x.isHovered);
   const medianX = medianValue ? xScale(medianValue) : null;
-
-  /** Paint hovered circle last so it stays on top without a separate fill override. */
-  const dotPropsPaintOrder = useMemo(
-    () =>
-      [...dotProps].sort((a, b) => {
-        if (a.d === hovered) return 1;
-        if (b.d === hovered) return -1;
-        return 0;
-      }),
-    [dotProps, hovered],
-  );
 
   return (
     <>
@@ -95,13 +96,13 @@ export const Dots = (props: DotProps) => {
           />
         ))}
 
-      {dotPropsPaintOrder.map(({ cx, cy, d }, i) => (
+      {svgDots.map(({ cx, cy, fill, opacity }, i) => (
         <Dot
           key={`dot-${i}`}
           cx={cx}
           cy={cy}
-          color={fillForDot(d)}
-          opacity={opacityForDot(d)}
+          color={fill}
+          opacity={opacity}
         />
       ))}
 
