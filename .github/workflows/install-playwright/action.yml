@@ -3,10 +3,12 @@ description: "Install dependencies and restores cache"
 runs:
   using: "composite"
   steps:
-    - name: Get installed Playwright version
+    - name: Get Playwright version from node_modules
       id: playwright-version
       shell: bash
-      run: echo "PLAYWRIGHT_VERSION=1.31.2" >> $GITHUB_ENV
+      run: |
+        VERSION=$(node -p "require('./node_modules/@playwright/test/package.json').version")
+        echo "PLAYWRIGHT_VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Cache playwright binaries
       uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
