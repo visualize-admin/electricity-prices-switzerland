@@ -32,7 +32,7 @@ type MapDetailsContentProps = {
 };
 
 const MapDetailsContentWrapper = (
-  props: MapDetailsContentProps & { showBackButton?: boolean },
+  props: MapDetailsContentProps & { showBackButton?: boolean }
 ) => {
   const { onBack, children, showBackButton = true } = props;
   return (
@@ -133,7 +133,7 @@ const MapDetailsEntityTable = (
   props: MapDetailProps & {
     colorScale: ScaleThreshold<number, string>;
     formatValue: (value: number) => string;
-  },
+  }
 ) => {
   const { entity, operators, colorScale, formatValue } = props;
   const [{ tab }] = useQueryStateMapCommon();
@@ -169,9 +169,7 @@ const MapDetailsEntityTable = (
         return (
           <KeyValueTableRow
             dataKey={operator.label ?? ""}
-            labelUnit={
-              tab === "electricity" ? i18n._(RP_PER_KWH) : undefined
-            }
+            labelUnit={tab === "electricity" ? i18n._(RP_PER_KWH) : undefined}
             component={NextLink}
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}
@@ -196,7 +194,7 @@ const MapDetailsEntityTable = (
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
 const KeyValueTableRow = <
-  T extends Partial<Record<EntityTableValue, string | undefined>>,
+  T extends Partial<Record<EntityTableValue, string | undefined>>
 >(props: {
   state?: T;
   dataKey: keyof T | string;
@@ -233,7 +231,7 @@ const KeyValueTableRow = <
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "baseline",
-                gap: 0.5,
+                gap: "0.5ch",
                 overflow: "hidden",
               }),
         }}
