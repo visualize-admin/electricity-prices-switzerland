@@ -223,7 +223,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     yearlyData: _yearlyData,
   } = networkCosts;
   const networkLabels = getNetworkLevelLabels({ id: networkLevel });
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const operatorLabel = props.name;
 
@@ -282,7 +282,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("xl")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto",
           // On Desktop, peer group and network costs cards are side by side
@@ -412,7 +412,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const comparisonCardProps = {
     title: (
@@ -469,7 +469,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto",
           // On Desktop, peer group and comparison cards are side by side
@@ -605,7 +605,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const comparisonCardProps = {
     title: (
@@ -662,7 +662,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
           // On Desktop, peer group and comparison cards are side by side

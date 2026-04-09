@@ -191,7 +191,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("xl")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
           // On Desktop, peer group and comparison cards are side by side
@@ -311,7 +311,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto", // Three rows: two for cards, one for trend chart
           // On Desktop, peer group and comparison cards are side by side
