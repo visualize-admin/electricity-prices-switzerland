@@ -124,7 +124,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
   } = props.powerStability;
 
   const operatorLabel = props.name;
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const comparisonCardProps = {
     title: (
@@ -196,7 +196,7 @@ const Saidi = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto",
           gridTemplateAreas: `"comparison peer-group" "trend trend"`,
@@ -242,7 +242,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
   } = props.powerStability;
 
   const operatorLabel = props.name;
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   const comparisonCardProps = {
     title: (
@@ -314,7 +314,7 @@ const Saifi = (props: Extract<Props, { status: "found" }>) => {
           "peer-group"
           "trend"
         `,
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
           gridTemplateColumns: "repeat(2, 1fr)",
           gridTemplateRows: "auto auto auto",
           gridTemplateAreas: `"comparison peer-group" "trend trend"`,
