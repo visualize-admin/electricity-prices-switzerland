@@ -18,7 +18,7 @@ import { NoDataHint } from "src/components/hint";
 import { ColorMapping, createColorMapping } from "src/domain/color-mapping";
 import type { GenericObservation } from "src/domain/data";
 import { filterBySeparator } from "src/domain/helpers";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { DAYS, SWISS_FRANCS } from "src/domain/metrics";
 import type { CompareWithFilter, ViewByFilter } from "src/domain/query-states";
 import { useQueryStateOperationalStandardsChartFilters } from "src/domain/query-states";
@@ -259,7 +259,7 @@ const OperationalProgressChartView = ({
 }: Omit<OperationalStandardsChartProps, "viewBy" | "rootProps"> & {
   operatorsNames: Set<string>;
 }) => {
-  const formatCurrency = useFormatCurrency();
+  const formatCurrency = useFormatDisplayNumber();
   const { i18n } = useLingui();
 
   const validObservations = useMemo((): GenericObservation[] => {
