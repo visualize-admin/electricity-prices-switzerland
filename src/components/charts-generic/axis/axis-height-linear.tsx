@@ -8,6 +8,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatAxisNumber } from "src/domain/helpers";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
 const TICK_MIN_HEIGHT = 50;
@@ -19,6 +20,7 @@ interface AxisTicksProps {
 }
 
 const AxisTicks = ({ format, percentage, leftMargin }: AxisTicksProps) => {
+  const formatAxisDefault = useFormatAxisNumber();
   const ref = useRef<SVGGElement>(null);
 
   const { yScale, bounds } = useChartState() as
@@ -49,7 +51,11 @@ const AxisTicks = ({ format, percentage, leftMargin }: AxisTicksProps) => {
       .tickSizeInner(-bounds.chartWidth)
       .tickSizeOuter(0)
       .tickFormat((d, i) =>
-        percentage ? `${d}%` : format ? format(Number(d), i) : String(d)
+        percentage
+          ? `${d}%`
+          : format
+          ? format(Number(d), i)
+          : formatAxisDefault(Number(d))
       );
     g.call(axis);
 

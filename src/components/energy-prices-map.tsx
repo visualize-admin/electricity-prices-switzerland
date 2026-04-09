@@ -34,7 +34,7 @@ import {
   useGeoData,
 } from "src/data/geo";
 import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
 import { useEnrichedEnergyPricesData } from "src/hooks/use-enriched-energy-prices-data";
@@ -75,7 +75,7 @@ export const EnergyPricesMap = ({
   const [hovered, setHovered] = useState<HoverState>();
   const { activeId, onEntitySelect } = useMap();
   const legendId = useId();
-  const formatNumber = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
 
   const geoData = useGeoData(period);
 
@@ -113,7 +113,7 @@ export const EnergyPricesMap = ({
     dataType: "energy-prices",
     enrichedData: enrichedData,
     colorScale: colorScale!,
-    formatValue: formatNumber,
+    formatValue: formatDisplay,
     priceComponent: priceComponent,
   });
 
@@ -358,8 +358,6 @@ export const EnergyPricesMap = ({
 
   const layers = useMemo(() => makeLayers("screen"), [makeLayers]);
 
-  const formatCurrency = useFormatCurrency();
-
   const renderLegend = useCallback(() => {
     const medianValue = enrichedData?.medianValue;
     const valuesExtent = enrichedData?.valuesExtent;
@@ -396,7 +394,7 @@ export const EnergyPricesMap = ({
         }
         ticks={legendData.map((value) => ({
           value,
-          label: value !== undefined ? formatCurrency(value) : "",
+          label: value !== undefined ? formatDisplay(value) : "",
         }))}
         infoDialogButtonProps={{
           slug: "help-price-comparison",
@@ -416,7 +414,7 @@ export const EnergyPricesMap = ({
     colorScale,
     legendId,
     priceComponent,
-    formatCurrency,
+    formatDisplay,
     period,
   ]);
 

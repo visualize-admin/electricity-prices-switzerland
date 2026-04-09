@@ -3,7 +3,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 
 export const RangeplotMedian = ({ label }: { label: string }) => {
   const {
@@ -16,7 +16,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
 
   return (
     <>
@@ -45,7 +45,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)} {xAxisLabel}
+            {formatDisplay(m)} {xAxisLabel}
           </text>
           <text
             x={xScale(m)}

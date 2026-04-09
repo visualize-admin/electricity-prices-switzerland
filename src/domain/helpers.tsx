@@ -18,51 +18,66 @@ import {
   timeYear,
 } from "d3";
 import { pick } from "lodash";
-import React, { useMemo } from "react";
+import React from "react";
 
 import { ANNOTATION_TRIANGLE_HEIGHT } from "src/components/charts-generic/annotation/annotation-x";
 import { GenericObservation } from "src/domain/data";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { useLocale } from "src/lib/use-locale";
 import { defaultLocale } from "src/locales/config";
-import { d3FormatLocales, d3TimeFormatLocales } from "src/locales/locales";
+import {
+  d3FormatLocales,
+  d3TimeFormatLocales,
+  type Locale,
+} from "src/locales/locales";
 import { chartPalette, palette as themePalette } from "src/themes/palette";
 import { typography } from "src/themes/typography";
 
+import {
+  formatAxisNumber,
+  formatDisplayNumber,
+  normalizeNumberStringForUi,
+} from "./number-format";
 import { SunshineIndicator } from "./sunshine";
 
 export const isNumber = (x: $IntentionalAny): boolean =>
   typeof x === "number" && !Number.isNaN(x);
 export const mkNumber = (x: $IntentionalAny): number => +x;
 
-// We don't use CHF currency because the unit used is Rp./kWh. Intead we just reuse the regular number format:
-// E.g. 3,5 Rp./kWh, 1 Rp./kWh
-// Same as useFormatNumber currently
-export const useFormatCurrency = (alwaysLeaveDecimals: boolean = false) => {
+export const useFormatDisplayNumber = () => {
   const locale = useLocale();
-  const formatter = React.useMemo(() => {
+  return React.useMemo(() => {
     const { format } =
-      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
-    return format(alwaysLeaveDecimals ? ",.2f" : ",.2~f");
-  }, [locale, alwaysLeaveDecimals]);
-  return formatter;
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
+    return (value: number) => formatDisplayNumber(value, format);
+  }, [locale]);
 };
 
-const useD3Format = (fmtString: string) => {
+export const useFormatAxisNumber = () => {
   const locale = useLocale();
-  const formatter = React.useMemo(() => {
+  return React.useMemo(() => {
     const { format } =
-      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale];
-    return format(fmtString);
-  }, [fmtString, locale]);
-  return formatter;
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
+    return (value: number) => formatAxisNumber(value, format);
+  }, [locale]);
+};
+
+const useFormatIntegerNumber = () => {
+  const locale = useLocale();
+  return React.useMemo(() => {
+    const { format } =
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
+    return (value: number) => formatAxisNumber(value, format);
+  }, [locale]);
 };
 
 export const useFormatPercentage = () => {
   const locale = useLocale();
   const formatter = React.useMemo(() => {
-    const { format } = d3FormatLocales[locale];
-    return format(",.2%");
+    const { format } =
+      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
+    const pct = format(",.2%");
+    return (value: number) => normalizeNumberStringForUi(pct(value));
   }, [locale]);
   return formatter;
 };
@@ -365,8 +380,10 @@ export const filterBySeparator = (
 
   return arr.filter((item) => item !== separator);
 };
-type FormatterConfig =
-  | { type: "d3"; format: string }
+/** Per-indicator number formatting (not TypeScript types). */
+type IndicatorFormatterConfig =
+  | { type: "displayNumber" }
+  | { type: "integer" }
   | { type: "custom"; fn: (value: number) => string };
 
 const booleanNumberFormatter = {
@@ -374,26 +391,32 @@ const booleanNumberFormatter = {
   fn: (value: number) => (value === 1 ? t`Yes` : value === 0 ? t`No` : "-"),
 } as const;
 
-const indicatorFormatterConfig: Record<SunshineIndicator, FormatterConfig> = {
-  saidi: { type: "d3", format: ".0~f" },
-  saifi: { type: "d3", format: ",.2~f" },
+const indicatorFormatterConfig: Record<
+  SunshineIndicator,
+  IndicatorFormatterConfig
+> = {
+  saidi: { type: "integer" },
+  saifi: { type: "displayNumber" },
   outageInfo: booleanNumberFormatter,
-  daysInAdvanceOutageNotification: { type: "d3", format: ".0~f" },
-  compliance: { type: "d3", format: ",.2~f" },
-  energyTariffs: { type: "d3", format: ",.2~f" },
-  netTariffs: { type: "d3", format: ",.2~f" },
-
-  networkCosts: { type: "d3", format: ",.0~f" },
+  daysInAdvanceOutageNotification: { type: "integer" },
+  compliance: { type: "displayNumber" },
+  energyTariffs: { type: "displayNumber" },
+  netTariffs: { type: "displayNumber" },
+  networkCosts: { type: "displayNumber" },
 };
 
 export const useIndicatorValueFormatter = (
   indicator: SunshineIndicator
 ): ((value: number) => string) => {
   const config = indicatorFormatterConfig[indicator];
-  const d3Formatter = useD3Format(config.type === "d3" ? config.format : "");
+  const formatDisplay = useFormatDisplayNumber();
+  const formatInteger = useFormatIntegerNumber();
 
-  return useMemo(
-    () => (config.type === "d3" ? d3Formatter : config.fn),
-    [config, d3Formatter]
-  );
+  if (config.type === "custom") {
+    return config.fn;
+  }
+  if (config.type === "integer") {
+    return formatInteger;
+  }
+  return formatDisplay;
 };

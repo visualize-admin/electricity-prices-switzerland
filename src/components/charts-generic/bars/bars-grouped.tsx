@@ -7,7 +7,7 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { useFlag } from "src/utils/flags";
 
 import { BAR_HEIGHT, LABEL_PADDING } from "../constants";
@@ -108,7 +108,7 @@ export const BarsGroupedLabels = () => {
 
   const { margins } = bounds;
   const { labelFontSize } = useChartTheme();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
 
   const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
 
@@ -118,12 +118,12 @@ export const BarsGroupedLabels = () => {
         const segment = getSegment(d);
         const y = yScale(segment) as number;
 
-        const value = formatCurrency(getX(d));
+        const value = formatDisplay(getX(d));
         const label = getLabel(d);
 
         const isDynamic = dynamicTariffsFlag;
         const dynamicText = isDynamic
-          ? `(${formatCurrency(d.min as number)} - ${formatCurrency(
+          ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
               d.max as number
             )}, ${t({
               id: "dynamic.tariff",

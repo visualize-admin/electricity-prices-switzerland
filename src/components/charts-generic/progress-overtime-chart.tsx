@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { getChartColorMapping } from "src/components/charts-generic/chart-color-mapping";
 import { NoDataHint } from "src/components/hint";
 import type { GenericObservation } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatAxisNumber } from "src/domain/helpers";
 import { peerGroupOperatorName } from "src/domain/sunshine";
 import { palette as themePalette } from "src/themes/palette";
 
@@ -34,7 +34,7 @@ interface ProgressOvertimeChartProps<
   xField: string;
   yField: string;
   yAxisLabel?: string;
-  /** Defaults to currency formatting from useFormatCurrency */
+  /** Defaults to axis number formatting from useFormatAxisNumber */
   yAxisFormat?: (d: number, i: number) => string;
   entityField?: string;
 }
@@ -56,8 +56,8 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     entityField = "operator_id",
   } = props;
 
-  const formatCurrency = useFormatCurrency();
-  const formatY = yAxisFormat ?? formatCurrency;
+  const formatAxis = useFormatAxisNumber();
+  const formatY = yAxisFormat ?? formatAxis;
 
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;

@@ -30,7 +30,8 @@ import {
   getAnnotationSpaces,
   getPalette,
   mkNumber,
-  useFormatCurrency,
+  useFormatAxisNumber,
+  useFormatDisplayNumber,
   useFormatPercentage,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
@@ -171,7 +172,8 @@ const useHistogramState = ({
   yAsPercentage?: boolean;
 }): HistogramState => {
   const width = useWidth();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
+  const formatAxis = useFormatAxisNumber();
   const formatPercentage = useFormatPercentage();
   const { annotationFontSize } = useChartTheme();
   const theme = useTheme();
@@ -230,9 +232,9 @@ const useHistogramState = ({
 
   // Dimensions
   const left = Math.max(
-    estimateTextWidth(formatCurrency(yScale.domain()[0])),
+    estimateTextWidth(formatAxis(yScale.domain()[0])),
     estimateTextWidth(
-      formatCurrency(
+      formatAxis(
         yScale.domain().length > 1 ? yScale.domain()[1] : yScale.domain()[0]
       )
     )
@@ -252,7 +254,7 @@ const useHistogramState = ({
         annotation,
         getX,
         getLabel,
-        format: formatCurrency,
+        format: formatDisplay,
         width,
         annotationFontSize,
       })
@@ -334,7 +336,7 @@ const useHistogramState = ({
         xLabel: xScale(getX(datum)),
         yLabel: annotationSpaces[i + 1].height - 20,
         nbOfLines: annotationSpaces[i + 1].nbOfLines,
-        value: formatCurrency(getX(datum)),
+        value: formatDisplay(getX(datum)),
         label: getLabel(datum),
         onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2),
       };

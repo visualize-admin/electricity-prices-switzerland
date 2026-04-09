@@ -30,7 +30,7 @@ import { GenericObservation } from "src/domain/data";
 import {
   getAnnotationSpaces,
   mkNumber,
-  useFormatCurrency,
+  useFormatDisplayNumber,
 } from "src/domain/helpers";
 import { minMaxBy } from "src/lib/array";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
@@ -47,7 +47,7 @@ const useRangePlotState = ({
   fields: RangePlotFields;
 }): RangePlotState => {
   const width = useWidth();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
   const { annotationFontSize } = useChartTheme();
 
   const getX = useCallback(
@@ -116,7 +116,7 @@ const useRangePlotState = ({
         annotation,
         getX,
         getLabel,
-        format: formatCurrency,
+        format: formatDisplay,
         width,
         annotationFontSize,
       })
@@ -164,12 +164,12 @@ const useRangePlotState = ({
       placement: { x: "right", y: "middle" },
       xValue: getY(d),
       datum: {
-        value: `${getX(d)}`,
+        value: formatDisplay(getX(d)),
       },
       values: tooltipValues.map((tv) => {
         return {
           label: getLabel(tv),
-          value: `${getX(tv)}`,
+          value: formatDisplay(getX(tv)),
           color: colors(getX(tv)),
         };
       }),
@@ -186,7 +186,7 @@ const useRangePlotState = ({
         xLabel: xScale(getX(datum)),
         yLabel: annotationSpaces[i].height,
         nbOfLines: annotationSpaces[i + 1].nbOfLines,
-        value: formatCurrency(getX(datum)),
+        value: formatDisplay(getX(datum)),
         label: getLabel(datum),
         onTheLeft: !(xScale(getX(datum)) <= chartWidth / 2),
       };

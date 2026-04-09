@@ -163,7 +163,7 @@ export const PowerStabilityHorizontalStackedBars = (
   }, [compact, sortedDataWithoutMedian]);
   const rowHeight = 46;
 
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   return (
     <StackedBarsChart
@@ -171,7 +171,10 @@ export const PowerStabilityHorizontalStackedBars = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
-          axisLabel: overallOrRatio === "ratio" ? i18n._(PERCENT) : i18n._(COUNT_PER_YEAR),
+          axisLabel:
+            overallOrRatio === "ratio"
+              ? i18n._(PERCENT)
+              : i18n._(COUNT_PER_YEAR),
         },
         domain: xDomain,
         annotation: medianPeerGroupObservation
@@ -276,7 +279,6 @@ export const PowerStabilityHorizontalStackedBars = (
       ) : (
         <ChartContainer>
           <ChartSvg>
-            hello
             <AxisWidthLinear />
             <AxisHeightCategories
               hideXAxis

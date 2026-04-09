@@ -19,6 +19,7 @@ Nothing yet.
 - Improve map chart hovering with unit displays, text length adjustments and style changes
 - Costs & tariffs (latest-year) dot chart: hovering or tapping a dot only changes **opacity**, not the base fill color (avoids a misleading jump to the highlight color).
 - Cards on the sunshine indicator pages now break earlier to prevent weird visual bugs
+- Numbers across the application follow a set of formatting rules which have been consolidated and improved for user experience
 - Operational standards charts show trends over time and peer comparison instead of histograms.
 - Map: Hovering on a canton or operator now shows a tooltip with the entity name and current price component value ([#610](https://github.com/visualize-admin/electricity-prices-switzerland/pull/610))
 - Map: Show "no data" tooltips when hovering over areas with no data ([#611](https://github.com/visualize-admin/electricity-prices-switzerland/pull/611))

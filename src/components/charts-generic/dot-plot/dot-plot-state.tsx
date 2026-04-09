@@ -14,7 +14,7 @@ import { GenericObservation } from "src/domain/data";
 import {
   getPalette,
   getTextWidth,
-  useFormatCurrency,
+  useFormatDisplayNumber,
 } from "src/domain/helpers";
 import { chartPalette } from "src/themes/palette";
 
@@ -34,7 +34,7 @@ const useScatterPlotState = ({
   isMobile?: boolean;
 }): DotPlotState => {
   const width = useWidth();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
   const { labelFontSize } = useChartTheme();
 
   const getX = useCallback(
@@ -189,7 +189,7 @@ const useScatterPlotState = ({
       if (highlightedPoint) {
         tooltipValues.push({
           label: getSegment(highlightedPoint),
-          value: `${formatCurrency(getX(highlightedPoint))} ${
+          value: `${formatDisplay(getX(highlightedPoint))} ${
             xAxisLabel ? xAxisLabel : ""
           }`,
           color: chartPalette.categorical[0],
@@ -204,7 +204,7 @@ const useScatterPlotState = ({
       ) {
         tooltipValues.push({
           label: getSegment(d),
-          value: `${formatCurrency(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
+          value: `${formatDisplay(getX(d))} ${xAxisLabel ? xAxisLabel : ""}`,
           color: colors(getColor(d)),
           symbol: "circle",
         });
@@ -241,7 +241,7 @@ const useScatterPlotState = ({
       bounds.chartWidth,
       getTooltipLabel,
       getSegment,
-      formatCurrency,
+      formatDisplay,
       xAxisLabel,
       colors,
       getColor,

@@ -7,15 +7,13 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatAxisNumber } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
-export const AxisWidthLinear = ({
-  format = "number",
-}: {
-  format?: "number" | "currency";
-}) => {
-  const formatCurrency = useFormatCurrency();
+type AxisWidthLinearProps = { format?: "number" | "currency" };
+
+export const AxisWidthLinear = (_props: AxisWidthLinearProps = {}) => {
+  const formatAxis = useFormatAxisNumber();
   const {
     xScale,
     bounds,
@@ -26,11 +24,12 @@ export const AxisWidthLinear = ({
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
   const xAxisRef = useRef<SVGGElement>(null);
 
-  const formatValue =
-    format === "currency" ? formatCurrency : (d: NumberValue) => d.toString();
+  const formatValue = (d: NumberValue, _i: number) => formatAxis(Number(d));
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const maxLabelLength = estimateTextWidth(formatValue(xScale.domain()[1]));
+    const maxLabelLength = estimateTextWidth(
+      formatValue(xScale.domain()[1], 0)
+    );
     const ticks = Math.min(bounds.chartWidth / (maxLabelLength + 40), 10);
     const tickValues = xScale.ticks(ticks);
 
