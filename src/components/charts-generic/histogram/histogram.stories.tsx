@@ -34,7 +34,7 @@ export default meta;
 export const Histogram = () => {
   const medianValue = 20;
   const annotations = [mockData[0], mockData[1], mockData[2]];
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   return (
     <Box width="100%" maxWidth="800px" m={5}>
       <HistogramComponent

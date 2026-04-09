@@ -334,6 +334,12 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
         days
         year
       }
+      yearlyData {
+        year
+        days
+        operator_id
+        operator_name
+      }
     }
     compliance {
       francsRule
@@ -342,6 +348,12 @@ query OperationalStandards($filter: OperationalStandardsFilter!) {
         operatorId
         francsPerInvoice
         year
+      }
+      yearlyData {
+        year
+        francsPerInvoice
+        operator_id
+        operator_name
       }
     }
     updateDate

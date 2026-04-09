@@ -604,6 +604,8 @@ msgid "indicator.saifi"
 msgstr "Power Outage Frequency (SAIFI)"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
 msgstr "Other operators"
@@ -612,6 +614,8 @@ msgstr "Other operators"
 #: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1411,19 +1415,20 @@ msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Yes"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Compare With"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
@@ -1664,6 +1669,11 @@ msgstr "ct./kWh"
 msgid "sunshine.metric-unit.swiss-francs"
 msgstr "CHF"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.benchmarking-peer-group"
+msgstr "Benchmarking within the Peer Group: {peerGroupLabel}"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "Compliance"
@@ -1672,6 +1682,11 @@ msgstr "Compliance"
 msgid "sunshine.operational-standards.compliance-trend"
 msgstr "Comparison of francs per invoice recipient"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance-trend-title"
+msgstr "75 francs rule trend"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
@@ -1679,10 +1694,6 @@ msgstr "Compliance"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
 msgstr "Compliance"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "Share of operators"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1704,6 +1715,11 @@ msgstr "Service Quality"
 msgid "sunshine.operational-standards.service-quality-trend"
 msgstr "Comparison of advance notice periods for planned outages"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality-trend-title"
+msgstr "Notification period trend"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Service Quality"
@@ -1711,10 +1727,6 @@ msgstr "Service Quality"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Service Quality"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "Share of operators"
 
 #: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx

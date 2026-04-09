@@ -602,6 +602,8 @@ msgid "indicator.saifi"
 msgstr "Häufigkeit von Stromunterbrechungen (SAIFI)"
 
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 msgid "legend-item.other-operators"
 msgstr "Andere Netzbetreiber"
@@ -610,6 +612,8 @@ msgstr "Andere Netzbetreiber"
 #: src/components/charts-generic/latest-year-dots-chart-view.tsx
 #: src/components/charts-generic/progress-overtime-chart.tsx
 #: src/components/network-cost-trend-chart.tsx
+#: src/components/operational-standards-chart.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/tariffs-trend-chart.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1409,19 +1413,20 @@ msgid "sunshine.compliance.timely-paper-submission.yes"
 msgstr "Ja"
 
 #: src/components/network-costs-trend-card.tsx
-#: src/components/operational-standards-card.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.benchmarking-peer-group"
 msgstr "Benchmark innerhalb der Vergleichsgruppe: {peerGroupLabel}"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with"
 msgstr "Vergleichen mit"
 
 #: src/components/network-costs-trend-card.tsx
+#: src/components/operational-standards-chart.tsx
 #: src/components/power-stability-card.tsx
 #: src/components/tariffs-trend-card.tsx
 msgid "sunshine.costs-and-tariffs.compare-with-placeholder"
@@ -1662,6 +1667,11 @@ msgstr "Rp./kWh"
 msgid "sunshine.metric-unit.swiss-francs"
 msgstr "CHF"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.benchmarking-peer-group"
+msgstr "Benchmark innerhalb der Vergleichsgruppe: {peerGroupLabel}"
+
 #: src/components/sunshine-tabs.tsx
 msgid "sunshine.operational-standards.compliance"
 msgstr "Compliance"
@@ -1670,6 +1680,11 @@ msgstr "Compliance"
 msgid "sunshine.operational-standards.compliance-trend"
 msgstr "Vergleich in Franken pro Rechnungsempfänger"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.compliance-trend-title"
+msgstr "Entwicklung der Frankenregel"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
 msgstr "Compliance"
@@ -1677,10 +1692,6 @@ msgstr "Compliance"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.compliance.info-dialog-label"
 msgstr "Einhaltung der Weisungen"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.compliance.share-of-operators"
-msgstr "Anteil der Netzbetreiber"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.description"
@@ -1702,6 +1713,11 @@ msgstr "Servicequalität"
 msgid "sunshine.operational-standards.service-quality-trend"
 msgstr "Vergleich der Vorankündigungsfristen für geplante Ausfälle"
 
+#: src/components/operational-standards-card.tsx
+#: src/components/operational-standards-chart.tsx
+msgid "sunshine.operational-standards.service-quality-trend-title"
+msgstr "Entwicklung der Vorankündigungsfristen"
+
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"
 msgstr "Servicequalität"
@@ -1709,10 +1725,6 @@ msgstr "Servicequalität"
 #: src/components/info-dialog-props.ts
 msgid "sunshine.operational-standards.service-quality.info-dialog-label"
 msgstr "Servicequalität"
-
-#: src/components/operational-standards-chart.tsx
-msgid "sunshine.operational-standards.service-quality.share-of-operators"
-msgstr "Anteil der Netzbetreiber"
 
 #: src/components/sunshine-selectors/base.tsx
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
