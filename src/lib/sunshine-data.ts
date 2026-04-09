@@ -631,11 +631,13 @@ export const fetchOperationalStandards = async (
     operatorId: operatorId_,
     operatorData: operatorData_,
     period: periodParam,
+    operatorOnly = false,
   }: {
     operatorId: string;
     operatorData?: OperatorDataRecord;
     period?: number;
-  },
+    operatorOnly?: boolean;
+  }
 ): Promise<OperationalStandardsData> => {
   const operatorId = parseInt(operatorId_, 10);
 
@@ -650,20 +652,36 @@ export const fetchOperationalStandards = async (
   const operatorData = operatorData_
     ? operatorData_
     : await db.getOperatorData(operatorId, period);
-  const [operationalData, peerGroupOperationalData, updateDate] =
-    await Promise.all([
-      db.getOperationalStandards({
-        operatorId: operatorId,
-        operatorData,
-        period: period,
-      }),
-      db.getOperationalStandards({
-        peerGroup: operatorData.peer_group,
-        operatorData,
-        period: period,
-      }),
-      db.fetchUpdateDate(),
-    ]);
+
+  const [
+    operationalData,
+    peerGroupOperationalData,
+    multiYearOperationalData,
+    yearlyPeerGroupMedianOperational,
+    updateDate,
+  ] = await Promise.all([
+    db.getOperationalStandards({
+      operatorId: operatorId,
+      operatorData,
+      period: period,
+    }),
+    db.getOperationalStandards({
+      peerGroup: operatorData.peer_group,
+      operatorData,
+      period: period,
+    }),
+    db.getOperationalStandards({
+      peerGroup: operatorData.peer_group,
+      operatorData,
+      period: undefined,
+      operatorId: operatorOnly ? operatorId : undefined,
+    }),
+    db.getYearlyIndicatorMedians<"operational">({
+      peerGroup: operatorData.peer_group,
+      metric: "operational",
+    }),
+    db.fetchUpdateDate(),
+  ]);
 
   const data = operationalData[0];
 
@@ -684,6 +702,40 @@ export const fetchOperationalStandards = async (
     year: `${op.period}`,
   }));
 
+  const serviceQualityYearlyFromCube = multiYearOperationalData.map((op) => ({
+    year: op.period,
+    days:
+      op.info_days_in_advance != null
+        ? Math.round(op.info_days_in_advance)
+        : null,
+    operator_id: op.operator_id,
+    operator_name: op.operator_name,
+  }));
+
+  const complianceYearlyFromCube = multiYearOperationalData.map((op) => ({
+    year: op.period,
+    francsPerInvoice: op.franc_rule,
+    operator_id: op.operator_id,
+    operator_name: op.operator_name,
+  }));
+
+  const serviceQualityMedianRows = yearlyPeerGroupMedianOperational.map(
+    (m) => ({
+      year: m.period,
+      days:
+        m.median_info_days != null ? Math.round(m.median_info_days) : null,
+      operator_id: peerGroupOperatorId,
+      operator_name: peerGroupOperatorName,
+    })
+  );
+
+  const complianceMedianRows = yearlyPeerGroupMedianOperational.map((m) => ({
+    year: m.period,
+    francsPerInvoice: m.median_franc_rule,
+    operator_id: peerGroupOperatorId,
+    operator_name: peerGroupOperatorName,
+  }));
+
   return {
     latestYear: `${period}`,
     operator: {
@@ -697,6 +749,7 @@ export const fetchOperationalStandards = async (
       notificationPeriodDays: data.info_days_in_advance ?? null,
       informingCustomersOfOutage,
       operatorsNotificationPeriodDays,
+      yearlyData: [...serviceQualityYearlyFromCube, ...serviceQualityMedianRows],
     },
     compliance: {
       francsRule:
@@ -705,6 +758,7 @@ export const fetchOperationalStandards = async (
           : null,
       timelyPaperSubmission,
       operatorsFrancsPerInvoice,
+      yearlyData: [...complianceYearlyFromCube, ...complianceMedianRows],
     },
     updateDate,
   };

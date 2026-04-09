@@ -1,4 +1,4 @@
-name: End-to-end tests
+name: E2E tooling
 on:
   push:
     branches: [main]
@@ -6,26 +6,19 @@ on:
     branches: [main]
   workflow_dispatch: {}
 jobs:
-  ci:
+  prepare:
+    name: "Preview · Vercel"
     runs-on: ubuntu-latest
+    # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
+    timeout-minutes: 20
+    outputs:
+      deployment_url: ${{ steps.wait-vercel.outputs.deployment-url }}
     steps:
+      # Shallow checkout: only needed to resolve the local composite action path.
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0
-
-      - name: "Install dependencies"
-        uses: ./.github/workflows/install-deps
-
-      - name: "Install playwright"
-        uses: ./.github/workflows/install-playwright
-
-      - name: Download wiki content from ref
-        env:
-          GITLAB_WIKI_TOKEN: ${{ secrets.GITLAB_WIKI_TOKEN }}
-          GITLAB_WIKI_URL: ${{ secrets.GITLAB_WIKI_URL }}
-        run: |
-          pnpm run wiki:update-content
+          fetch-depth: 1
 
       - name: Sets DEPLOY_SHA environment variable
         run: |
@@ -35,27 +28,71 @@ jobs:
             echo "DEPLOY_SHA=${{ github.sha }}" > ${{ github.env }}
           fi
 
+      # No pnpm/wiki here: they blocked the critical path. Playwright/integration
+      # hit the Vercel deployment (wiki is from that build); wait uses Bun + API only.
       - name: "Wait Vercel deploy"
         uses: ./.github/workflows/wait-vercel-deploy
-        id: deployment-url
+        id: wait-vercel
         env:
           VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
           VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
+  integration:
+    name: "Vitest · integration"
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
       - name: Integration tests
         run: pnpm run test:integration
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          DEPLOYMENT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
-          # Necessary to be able to create a session cookie in the tests
+          DEPLOYMENT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
+  playwright-app:
+    name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
+    needs: prepare
+    timeout-minutes: 12
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Playwright shards slice an ordered list of test groups (not per-test hash).
+        # Six shards (~7–8 app tests each) reduces wall-time variance vs four (~11–12).
+        shardIndex: [1, 2, 3, 4, 5, 6]
+        shardTotal: [6]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
+      - name: "Install playwright"
+        uses: ./.github/workflows/install-playwright
+
       - name: Run application tests
         env:
+          PLAYWRIGHT_ARGOS_SUITE: app
+          PLAYWRIGHT_GRAPHQL_METRICS: "1"
+          ARGOS_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_attempt }}
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}
+          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
@@ -63,35 +100,119 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           ARGOS_THRESHOLD: 0.75
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm run test:playwright:app
+        run: >-
+          pnpm exec playwright test
+          --grep-invert "@storybook|@har|@ignore"
+          --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: graphql-metrics
+          name: graphql-metrics-shard-${{ matrix.shardIndex }}
           path: test-results/graphql-metrics.json
           retention-days: 30
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          name: blob-report-app-${{ matrix.shardIndex }}
+          path: blob-report/
+          retention-days: 7
+          if-no-files-found: warn
+
+  playwright-storybook:
+    name: "Storybook"
+    needs: prepare
+    timeout-minutes: 8
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: "Install dependencies"
+        uses: ./.github/workflows/install-deps
+
+      - name: "Install playwright"
+        uses: ./.github/workflows/install-playwright
 
       - name: Run storybook tests
         env:
+          PLAYWRIGHT_ARGOS_SUITE: storybook
+          PLAYWRIGHT_GRAPHQL_METRICS: "0"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ steps.deployment-url.outputs.deployment-url }}/storybook
+          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
         run: |
-          curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
+          CURL_ARGS=("-f")
+
+          # Add basic auth if we have the secret
+          if [ -n "$BASIC_AUTH_CREDENTIALS" ]; then
+            CURL_ARGS+=("-u" "$BASIC_AUTH_CREDENTIALS")
+          fi
+
+          # Add Vercel automation header if we have the secret
+          if [ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            CURL_ARGS+=("-H" "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
+          fi
+
+          curl "${CURL_ARGS[@]}" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
           pnpm run test:playwright:storybook
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
-          name: playwright-report-storybook
+          name: blob-report-storybook
+          path: blob-report/
+          retention-days: 7
+          if-no-files-found: warn
+
+  playwright-merge-reports:
+    name: "Playwright · merged HTML report"
+    if: ${{ always() && !cancelled() }}
+    needs: [playwright-app, playwright-storybook]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with: { fetch-depth: 1 }
+      - uses: ./.github/workflows/install-deps
+      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        continue-on-error: true
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+      - run: |
+          set -e
+          if [ ! -d all-blob-reports ] || [ -z "$(find all-blob-reports -type f | head -1)" ]; then
+            echo "skip merge (no blobs)"; exit 0; fi
+          pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        if: always()
+        with:
+          name: playwright-html-report
           path: playwright-report/
-          retention-days: 2
+          retention-days: 30
+          if-no-files-found: ignore
+
+  ci:
+    name: "Merge gate"
+    needs:
+      - prepare
+      - integration
+      - playwright-app
+      - playwright-storybook
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all jobs succeeded
+        run: |
+          test "${{ needs.prepare.result }}" = "success"
+          test "${{ needs.integration.result }}" = "success"
+          test "${{ needs.playwright-app.result }}" = "success"
+          test "${{ needs.playwright-storybook.result }}" = "success"

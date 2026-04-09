@@ -20,6 +20,8 @@ type TooltipBoxProps = {
   children: ReactNode;
   style?: React.HTMLAttributes<HTMLDivElement>["style"];
   interactive?: boolean;
+  /** Merged onto the inner chrome `Box` (e.g. map tooltip Figma padding/width). */
+  boxSx?: BoxProps["sx"];
 };
 
 type TooltipChromeProps = {
@@ -175,6 +177,7 @@ export const TooltipBoxWithoutChartState = ({
   placement,
   margins,
   children,
+  boxSx,
 }: TooltipBoxProps) => {
   const { classes } = useTooltipStyles({ placement });
 
@@ -187,7 +190,9 @@ export const TooltipBoxWithoutChartState = ({
         transform: mkTranslation(placement),
       }}
     >
-      <Box className={classes.tooltipBox}>{children}</Box>
+      <Box className={classes.tooltipBox} sx={boxSx}>
+        {children}
+      </Box>
     </Box>
   );
 };

@@ -1,3 +1,5 @@
+import os from "node:os";
+
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
@@ -5,6 +7,22 @@ import { defineConfig, devices } from "@playwright/test";
 import { createMetricsReporterOptions } from "./src/metrics/playwright-reporter";
 
 loadEnvConfig(process.cwd(), true);
+
+/**
+ * In CI we shard app and storybook in separate jobs. The Argos reporter would
+ * otherwise upload *both* build names from every shard (see dynamic buildName +
+ * parallel mode in @argos-ci/playwright), sending conflicting parallelTotal.
+ * @see https://argos-ci.com/docs/parallel-testing
+ */
+const playwrightArgosSuite = process.env.PLAYWRIGHT_ARGOS_SUITE;
+const argosBuildName =
+  playwrightArgosSuite === "app" || playwrightArgosSuite === "storybook"
+    ? playwrightArgosSuite
+    : {
+        values: ["storybook", "app"] as const,
+        get: (test: { tags: string[] }) =>
+          test.tags.includes("@storybook") ? "storybook" : "app",
+      };
 
 const getHttpCredentialsFromEnv = () => {
   const usernamePassword = process.env.BASIC_AUTH_CREDENTIALS;
@@ -31,21 +49,18 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  workers: process.env.CI ? Math.max(1, os.cpus().length - 1) : undefined,
+  // CI: blob so sharded runs can be merged → html (see playwright.dev/docs/test-sharding).
   reporter: [
     ["list"],
-    ["html"],
+    ...(process.env.CI
+      ? ([["blob", { outputDir: "blob-report" }]] as const)
+      : ([["html"]] as const)),
     [
       "@argos-ci/playwright/reporter",
       createArgosReporterOptions({
         uploadToArgos: !!process.env.CI,
-        buildName: {
-          values: ["storybook", "app"],
-          get: (test) =>
-            test.tags.includes("@storybook") ? "storybook" : "app",
-        },
+        buildName: argosBuildName,
       }),
     ],
     [
@@ -53,7 +68,8 @@ export default defineConfig({
       createMetricsReporterOptions({
         githubToken: process.env.GITHUB_TOKEN,
         deploymentUrl: process.env.PLAYWRIGHT_BASE_URL,
-        enabled: !!process.env.CI,
+        enabled:
+          !!process.env.CI && process.env.PLAYWRIGHT_GRAPHQL_METRICS !== "0",
         artifactPath: "test-results/graphql-metrics.json",
       }),
     ],
@@ -75,6 +91,10 @@ export default defineConfig({
         httpCredentials: getHttpCredentialsFromEnv(),
         extraHTTPHeaders: {
           "x-vercel-skip-toolbar": "1",
+          ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET && {
+            "x-vercel-protection-bypass":
+              process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+          }),
         },
       },
     },

@@ -8,6 +8,7 @@ import {
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
 import { BASE_URL } from "src/utils/base-url";
+import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";
 
 const GRAPHQL_BASE_URL = `${BASE_URL}/api/graphql`;
 
@@ -15,15 +16,7 @@ const makeHeaders = async () => ({
   cookie: await createCookieFromFlags({
     sparqlEndpoint: "https://lindas.int.cz-aws.net/query",
   }),
-
-  ...(process.env.BASIC_AUTH_CREDENTIALS
-    ? {
-        // basic auth
-        authorization: `Basic ${Buffer.from(
-          `${process.env.BASIC_AUTH_CREDENTIALS}`,
-        ).toString("base64")}`,
-      }
-    : {}),
+  ...makeDeploymentAuthHeaders(),
 });
 
 const performHealthCheck = async (graphqlEndpoint: string) => {

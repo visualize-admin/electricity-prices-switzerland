@@ -43,7 +43,7 @@ export const CHF_PER_YEAR = defineMessage({
   message: "CHF p.a.",
 });
 
-export const networkLevelUnits = {
+const networkLevelUnits = {
   NE5: "CHF/km",
   NE6: "CHF/kVA",
   NE7: "CHF/km",

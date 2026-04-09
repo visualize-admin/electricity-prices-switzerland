@@ -254,6 +254,13 @@ const networkCostsTrendCardFiltersSchema = z.object({
 export const useQueryStateNetworkCostsTrendCardFilters = makeUseQueryState(
   networkCostsTrendCardFiltersSchema
 );
+
+const operationalStandardsChartFiltersSchema = z.object({
+  opStdCompareWith: compareWithFilterSchema.default([]),
+  opStdViewBy: viewByFilterSchema.default("latest"),
+});
+export const useQueryStateOperationalStandardsChartFilters =
+  makeUseQueryState(operationalStandardsChartFiltersSchema);
 const tariffsTrendCardFiltersSchema = z.object({
   compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),

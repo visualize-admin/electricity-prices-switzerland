@@ -42,9 +42,12 @@ test.describe("The Home Page", () => {
     await page
       .locator('[data-testid="locale-select"] select')
       .selectOption("fr");
-    // await page. location("pathname").should("equal", "/fr");
-
-    await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+    await expect(page.locator("html")).not.toHaveClass(/nprogress-busy/, {
+      timeout: 25_000,
+    });
+    await expect(page.locator("html")).toHaveAttribute("lang", "fr", {
+      timeout: 25_000,
+    });
   });
 
   test("sunshine links", async ({ page, snapshot }) => {
