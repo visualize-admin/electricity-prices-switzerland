@@ -41,7 +41,7 @@ const DOWNLOAD_ID_COMPLIANCE: Download = "operational-standards-compliance";
 /** Latest-year view: one Y band; operators are segments (like network costs), not one row per operator. */
 const OPERATIONAL_LATEST_YEAR_Y_FIELD = "comparison_strip";
 /** Placeholder label for the single strip (arbitrary; kept minimal on the axis). */
-const OPERATIONAL_LATEST_YEAR_STRIP_LABEL = "\u2014";
+const OPERATIONAL_LATEST_YEAR_STRIP_LABEL = "\u00a0";
 
 type StandardAttribute = "serviceQuality" | "compliance";
 
