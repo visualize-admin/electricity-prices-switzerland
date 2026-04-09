@@ -27,8 +27,7 @@ const numberFormatSwissData: FormatLocaleDefinition = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports -- d3 locale JSON via package subpath
-const numberFormatEnUS =
-  require("d3-format/locale/en-US") as FormatLocaleDefinition;
+const numberFormatEnUS = require("d3-format/locale/en-US");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const timeFormatDe = require("d3-time-format/locale/de-CH");
 // eslint-disable-next-line @typescript-eslint/no-require-imports
