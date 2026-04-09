@@ -39,7 +39,7 @@ import {
   Entity,
   GenericObservation,
 } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatAxisNumber } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
@@ -248,7 +248,7 @@ const PriceEvolutionLineChart = (props: {
   mini?: boolean;
 }) => {
   const { pc, entity, i, observations, mini } = props;
-  const formatCurrency = useFormatCurrency();
+  const formatAxis = useFormatAxisNumber();
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
       obs.__typename === "OperatorObservation"
@@ -316,7 +316,7 @@ const PriceEvolutionLineChart = (props: {
         )}
         <ChartContainer>
           <ChartSvg>
-            <AxisHeightLinear format={formatCurrency} /> <AxisTime />
+            <AxisHeightLinear format={formatAxis} /> <AxisTime />
             <Lines />
             <InteractionHorizontal />
           </ChartSvg>

@@ -27,7 +27,8 @@ import {
   getPalette,
   getTextWidth,
   parseDate,
-  useFormatCurrency,
+  useFormatAxisNumber,
+  useFormatDisplayNumber,
   useFormatFullDateAuto,
 } from "src/domain/helpers";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -52,7 +53,8 @@ const useLinesState = ({
   const { labelFontSize } = useChartTheme();
   const width = useWidth();
 
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
+  const formatAxis = useFormatAxisNumber();
   const formatDateAuto = useFormatFullDateAuto();
 
   const getGroups = (d: GenericObservation): string =>
@@ -163,12 +165,12 @@ const useLinesState = ({
   const maxYLabelWidth = useMemo(() => {
     return Math.max(
       ...yScale.ticks().map((label) =>
-        getTextWidth(label.toString(), {
+        getTextWidth(formatAxis(label), {
           fontSize: labelFontSize,
         })
       )
     );
-  }, [yScale, labelFontSize]);
+  }, [yScale, labelFontSize, formatAxis]);
 
   const margins = {
     top: 50,
@@ -274,7 +276,7 @@ const useLinesState = ({
       xValue: formatDateAuto(xValue),
       datum: {
         label: fields.segment && getSegment(datum),
-        value: `${formatCurrency(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
+        value: `${formatDisplay(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
       },
       values: summarizedTooltipValues
         .filter((td) => getY(td) !== undefined)
@@ -285,7 +287,7 @@ const useLinesState = ({
           return {
             symbol: "line",
             label: getSegment(td),
-            value: `${formatCurrency(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
+            value: `${formatDisplay(yValue)} ${yAxisLabel ? yAxisLabel : ""}`,
             color: colors(getColor(td)) as string,
             yPos: yScale(yValue),
           };

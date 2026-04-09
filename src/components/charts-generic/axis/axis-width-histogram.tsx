@@ -6,6 +6,7 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useFormatAxisNumber } from "src/domain/helpers";
 
 export const AxisWidthHistogramDomain = () => {
   const { xScale, yScale, bounds } = useChartState() as HistogramState;
@@ -44,6 +45,7 @@ export const AxisWidthHistogram = () => {
     useChartState() as HistogramState;
   const { chartHeight, margins } = bounds;
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
+  const formatAxis = useFormatAxisNumber();
   const xAxisRef = useRef<SVGGElement>(null);
   const binTickSpace = bandScale ? bandScale.bandwidth() : 0;
 
@@ -57,7 +59,13 @@ export const AxisWidthHistogram = () => {
     g.selectAll("*").remove();
     if (!binMeta || !bandScale) {
       const ticks = Math.min(bounds.chartWidth / 60, 10);
-      g.call(axisBottom(xScale).ticks(ticks).tickSizeInner(6).tickSizeOuter(0));
+      g.call(
+        axisBottom(xScale)
+          .ticks(ticks)
+          .tickFormat((d) => formatAxis(Number(d)))
+          .tickSizeInner(6)
+          .tickSizeOuter(0)
+      );
       g.selectAll(".tick line").attr("stroke", gridColor);
       g.selectAll(".tick text")
         .attr("font-size", labelFontSize)
@@ -102,6 +110,7 @@ export const AxisWidthHistogram = () => {
     binMeta,
     bandScale,
     binTickSpace,
+    formatAxis,
   ]);
 
   return (

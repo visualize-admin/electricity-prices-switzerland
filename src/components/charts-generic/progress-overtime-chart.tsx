@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { getChartColorMapping } from "src/components/charts-generic/chart-color-mapping";
 import { NoDataHint } from "src/components/hint";
 import type { GenericObservation } from "src/domain/data";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatAxisNumber } from "src/domain/helpers";
 import { peerGroupOperatorName } from "src/domain/sunshine";
 import { palette as themePalette } from "src/themes/palette";
 
@@ -53,7 +53,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
     entityField = "operator_id",
   } = props;
 
-  const formatCurrency = useFormatCurrency();
+  const formatAxis = useFormatAxisNumber();
 
   const hasNotSelectedAll = !compareWith.includes("sunshine.select-all");
   const showInteractions = hasNotSelectedAll;
@@ -165,7 +165,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
 
       <ChartContainer>
         <ChartSvg>
-          <AxisHeightLinear format={formatCurrency} />
+          <AxisHeightLinear format={formatAxis} />
           <AxisTime />
           <Lines medianGroup={peerGroupOperatorName} />
           {showInteractions && <InteractionHorizontal />}

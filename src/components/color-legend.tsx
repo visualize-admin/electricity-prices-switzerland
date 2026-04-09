@@ -5,6 +5,7 @@ import { makeStyles } from "tss-react/mui";
 
 import { InfoDialogButton } from "src/components/info-dialog";
 import { WidgetIcon } from "src/components/map-widget-icon";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { Threshold } from "src/domain/map-encodings";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
@@ -290,6 +291,7 @@ const ColorsLine = ({
   palette: string[];
   thresholds?: Threshold[];
 }) => {
+  const formatDisplay = useFormatDisplayNumber();
   return (
     <Box
       data-name="color-line"
@@ -365,7 +367,7 @@ const ColorsLine = ({
                 borderRight="1px solid #FFF"
               />
               {threshold && threshold.value !== undefined ? (
-                <Tooltip title={threshold.value.toFixed(2)} arrow>
+                <Tooltip title={formatDisplay(threshold.value)} arrow>
                   {labelContent}
                 </Tooltip>
               ) : (

@@ -21,7 +21,12 @@ import { InteractionProvider } from "src/components/charts-generic/use-interacti
 import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
-import { getOpacityRanges, getPalette, getTextWidth } from "src/domain/helpers";
+import {
+  getOpacityRanges,
+  getPalette,
+  getTextWidth,
+  useFormatDisplayNumber,
+} from "src/domain/helpers";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import {
@@ -44,6 +49,7 @@ const useStackedBarsState = ({
 }): StackedBarsState => {
   const width = useWidth();
   const { labelFontSize } = useChartTheme();
+  const formatDisplay = useFormatDisplayNumber();
 
   const measuresByIri = useMemo(() => {
     return Object.fromEntries(measures.map((m) => [m.iri, m]));
@@ -201,7 +207,7 @@ const useStackedBarsState = ({
         nbOfLines: 1,
         xLabel: xScale(a.value as number),
         yLabel: 0,
-        value: a.value.toString(),
+        value: formatDisplay(a.value as number),
         label: getLabel(a),
       };
     });
@@ -229,7 +235,8 @@ const useStackedBarsState = ({
         values: segments
           .map((seg) => ({
             label: measuresByIri[seg]?.label ?? seg,
-            value: d[seg] !== null ? (+d[seg]).toFixed(2) : undefined,
+            value:
+              d[seg] !== null ? formatDisplay(+d[seg]) : undefined,
             color: colors(seg),
           }))
           .filter(
@@ -275,6 +282,7 @@ const useStackedBarsState = ({
     getLabel,
     measuresByIri,
     isMobile,
+    formatDisplay,
   ]);
 
   const getSegmentValue = useCallback(

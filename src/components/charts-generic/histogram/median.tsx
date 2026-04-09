@@ -3,7 +3,8 @@ import {
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
-import { useFormatCurrency } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
+
 export const HistogramMedian = ({ label }: { label: string }) => {
   const {
     medianValue: m,
@@ -18,7 +19,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
-  const formatCurrency = useFormatCurrency();
+  const formatDisplay = useFormatDisplayNumber();
 
   let medianX: number | undefined ;
 
@@ -57,7 +58,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatCurrency(m)} {xAxisLabel}
+            {formatDisplay(m)} {xAxisLabel}
           </text>
           <text
             x={medianX}
