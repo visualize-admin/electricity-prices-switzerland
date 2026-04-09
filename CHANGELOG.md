@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Ability to download the Sunshine data as CSV
+- Improve map chart hovering with unit displays, text length adjustments and style changes
 
 # 2.40.4 - 2026-04-07
 
