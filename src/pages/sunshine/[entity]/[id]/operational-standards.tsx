@@ -223,6 +223,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         updateDate={updateDate}
         operatorId={props.id}
         operatorLabel={operatorLabel}
+        latestYear={Number(latestYear)}
         operationalStandards={data.serviceQuality}
         attribute="serviceQuality"
         noData={data.serviceQuality.informingCustomersOfOutage == null}
@@ -251,9 +252,7 @@ export const prepComplianceCardProps = (
     rows: [
       {
         label: (
-          <Trans id="sunshine.compliance.francs-rule-regulation">
-            75 Francs Rule Regulation
-          </Trans>
+          <Trans id="indicator.compliance">Costs and profit</Trans>
         ),
         value: {
           value: (
@@ -344,6 +343,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         updateDate={updateDate}
         operatorId={props.id}
         operatorLabel={operatorLabel}
+        latestYear={Number(props.operationalStandards.latestYear)}
         operationalStandards={data.compliance}
         attribute="compliance"
         noData={data.compliance.francsRule == null}

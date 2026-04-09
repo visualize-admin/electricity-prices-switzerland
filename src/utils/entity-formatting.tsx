@@ -1,27 +1,29 @@
 import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/macro";
+import { Box } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import React from "react";
 
-import { Entity } from "src/domain/data";
+import { Entity, NetworkLevelId } from "src/domain/data";
 import { RP_PER_KWH } from "src/domain/metrics";
+import { SunshineIndicator } from "src/domain/sunshine";
+import { getSunshineMapMetricLegendParts } from "src/domain/translation";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 import { EntitySelection } from "src/hooks/use-selected-entity-data";
 
-/** Map tooltip + sidebar: left column shows metric/operator with unit; chip stays numeric. */
-export const electricityMapRowLabelWithUnit = (baseLabel: string) =>
-  `${baseLabel} (${i18n._(RP_PER_KWH)})`;
-
-// Core entity types for unified handling
 interface EntityValue {
   label: string;
+  /** Map tooltip: muted `(unit)` after label; chip shows `formattedValue` only. */
+  unit?: string;
   formattedValue: string;
   color: string;
 }
 
 interface EntityDisplayData {
   title: React.ReactNode;
+  /** Sunshine multi-operator: metric under title (Figma). */
+  subtitle?: React.ReactNode;
   caption: React.ReactNode;
   values: EntityValue[];
 }
@@ -46,33 +48,36 @@ export const formatEnergyPricesEntity = (
     };
   }
 
-  // Get entity information from the first observation
   const firstObs = observations[0];
   let title: null | string = null;
 
   if (entityType === "municipality") {
-    title = firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
+    title =
+      firstObs.municipalityData?.name || firstObs.municipalityLabel || null;
   } else if (entityType === "canton") {
     title = firstObs.cantonData?.name || firstObs.cantonLabel || null;
   } else if (entityType === "operator") {
     title = firstObs.operatorLabel || null;
   }
 
-  const values: EntityValue[] = observations.map((obs) => {
-    const baseLabel = obs.operatorLabel ?? priceComponent ?? "";
-    return {
-      label: electricityMapRowLabelWithUnit(baseLabel),
-      formattedValue: `${
-        obs.value !== undefined && obs.value !== null
-          ? formatValue(obs.value)
-          : ""
-      }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
-      color:
-        obs.value !== undefined && obs.value !== null
-          ? colorScale(obs.value)
-          : "",
-    };
-  });
+  const unit = i18n._(RP_PER_KWH);
+
+  const values: EntityValue[] = observations.map((obs) => ({
+    label:
+      entityType === "municipality"
+        ? obs.operatorLabel ?? priceComponent ?? ""
+        : priceComponent ?? "",
+    unit,
+    formattedValue: `${
+      obs.value !== undefined && obs.value !== null
+        ? formatValue(obs.value)
+        : ""
+    }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
+    color:
+      obs.value !== undefined && obs.value !== null
+        ? colorScale(obs.value)
+        : "",
+  }));
 
   return {
     title,
@@ -90,8 +95,8 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  /** Same short string as map legend title (metric + unit in parentheses). */
-  metricLegendTitle: string
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
 ): EntityDisplayData => {
   const { entityType: entity } = selection;
 
@@ -106,20 +111,46 @@ export const formatSunshineEntity = (
   const multipleOperators =
     new Set(observations.map((obs) => obs.operatorId)).size > 1;
 
+  const { metricLabel, metricUnit } = getSunshineMapMetricLegendParts(
+    indicator,
+    networkLevel
+  );
+
+  const subtitle =
+    multipleOperators && metricUnit !== null ? (
+      <>
+        <Box component="span" sx={{ color: "text.primary" }}>
+          {metricLabel}
+        </Box>
+        <Box component="span" sx={{ color: "text.500" }}>
+          {" "}
+          ({metricUnit})
+        </Box>
+      </>
+    ) : multipleOperators ? (
+      <Box component="span" sx={{ color: "text.primary" }}>
+        {metricLabel}
+      </Box>
+    ) : undefined;
+
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
-      label: multipleOperators
-        ? obs.operatorData?.name ?? ""
-        : metricLegendTitle,
+      label: multipleOperators ? obs.operatorData?.name ?? "" : metricLabel,
+      unit: multipleOperators ? undefined : metricUnit ?? undefined,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
-    title: multipleOperators
-      ? metricLegendTitle
-      : observations[0].operatorData?.name || "Unknown Operator",
+    title: multipleOperators ? (
+      <Trans id="map.tooltip.multiple-grid-operators">
+        Multiple grid operators
+      </Trans>
+    ) : (
+      observations[0].operatorData?.name || "Unknown Operator"
+    ),
+    subtitle,
     caption: getEntityCaption(entity),
     values,
   };

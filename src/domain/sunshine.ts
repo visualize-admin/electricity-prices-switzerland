@@ -7,8 +7,13 @@ import {
 } from "src/domain/query-states";
 import { WikiPageSlug } from "src/domain/types";
 import { runtimeEnv } from "src/env/runtime";
-import { StabilityDataRow } from "src/graphql/resolver-types";
-import { TariffRow, NetworkCostRow } from "src/graphql/resolver-types";
+import {
+  NetworkCostRow,
+  OperationalStandardsComplianceTrendRow,
+  OperationalStandardsServiceQualityTrendRow,
+  StabilityDataRow,
+  TariffRow,
+} from "src/graphql/resolver-types";
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
  * Years available for sunshine data queries
@@ -96,7 +101,12 @@ export const peerGroupOperatorId = 10000;
 export const peerGroupOperatorName = "MEDIAN_PEER_GROUP";
 
 export const isPeerGroupRow = (
-  row: NetworkCostRow | TariffRow | StabilityDataRow
+  row:
+    | NetworkCostRow
+    | TariffRow
+    | StabilityDataRow
+    | OperationalStandardsServiceQualityTrendRow
+    | OperationalStandardsComplianceTrendRow
 ) => {
   return row.operator_id === peerGroupOperatorId;
 };

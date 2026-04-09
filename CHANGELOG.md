@@ -14,6 +14,7 @@ You can also check the
 - Ability to download the Sunshine data as CSV
 - Improve map chart hovering with unit displays, text length adjustments and style changes
 - Costs & tariffs (latest-year) dot chart: hovering or tapping a dot only changes **opacity**, not the base fill color (avoids a misleading jump to the highlight color).
+- Operational standards charts show trends over time and peer comparison instead of histograms.
 
 # 2.40.4 - 2026-04-07
 

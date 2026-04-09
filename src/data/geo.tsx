@@ -42,7 +42,7 @@ const fetchGeoData = async (year: string) => {
   const municipalityMesh = topojsonMesh(
     topo,
     topo.objects.municipalities,
-    (a, b) => a !== b
+    (a, b) => a !== b,
   );
   const cantonMesh = topojsonMesh(topo, topo.objects.cantons);
   const lakes = topojsonFeature(topo, topo.objects.lakes);
@@ -60,7 +60,7 @@ const fetchGeoData = async (year: string) => {
 
 type CantonLayerProperties = { id: string };
 
-type CantonFeatureCollection = FeatureCollection<
+export type CantonFeatureCollection = FeatureCollection<
   Polygon | MultiPolygon,
   CantonLayerProperties
 >;
@@ -87,7 +87,7 @@ export type OperatorFeature = Feature<
 >;
 
 export const isOperatorFeature = (
-  feature: Feature
+  feature: Feature,
 ): feature is OperatorFeature => {
   return (
     feature.type === "Feature" && feature.properties?.type === "OperatorFeature"
@@ -128,7 +128,7 @@ export const useGeoData = (year: string) => {
  */
 export const getOperatorsFeatureCollection = (
   operatorMunicipalities: OperatorMunicipalityRecord[],
-  municipalities: MunicipalityFeatureCollection
+  municipalities: MunicipalityFeatureCollection,
 ): OperatorFeatureCollection => {
   if (!operatorMunicipalities || !municipalities)
     return {
@@ -138,10 +138,10 @@ export const getOperatorsFeatureCollection = (
 
   const operatorsByMunicipality = groupBy(
     operatorMunicipalities,
-    "municipality"
+    "municipality",
   );
   const municipalitySet = Array.from(
-    new Set(operatorMunicipalities.map((x) => x.municipality))
+    new Set(operatorMunicipalities.map((x) => x.municipality)),
   );
 
   // Group municipalities by operator, a municipality will be part of several groups if it
@@ -150,7 +150,7 @@ export const getOperatorsFeatureCollection = (
   // EWL, EWA, EWL/EWA
   const municipalitiesByOperators = multiGroupBy(municipalitySet, (x) => {
     const operatorIds = (operatorsByMunicipality[x] ?? []).map(
-      (x) => x.operator
+      (x) => x.operator,
     );
     const all = sort(operatorIds).join("/");
     return [...operatorIds, all];
@@ -175,8 +175,8 @@ export const getOperatorsFeatureCollection = (
       }
       const featureCollection = turf.featureCollection(
         municipalityFeatures.map((feat) =>
-          turf.feature(feat.geometry as Polygon | MultiPolygon)
-        )
+          turf.feature(feat.geometry as Polygon | MultiPolygon),
+        ),
       );
 
       const geometry =
