@@ -57,6 +57,7 @@ jobs:
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           DEPLOYMENT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
@@ -91,6 +92,7 @@ jobs:
           ARGOS_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_attempt }}
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
@@ -142,10 +144,23 @@ jobs:
           PLAYWRIGHT_GRAPHQL_METRICS: "0"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
           PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
         run: |
-          curl -u "$BASIC_AUTH_CREDENTIALS" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
+          CURL_ARGS=("-f")
+
+          # Add basic auth if we have the secret
+          if [ -n "$BASIC_AUTH_CREDENTIALS" ]; then
+            CURL_ARGS+=("-u" "$BASIC_AUTH_CREDENTIALS")
+          fi
+
+          # Add Vercel automation header if we have the secret
+          if [ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            CURL_ARGS+=("-H" "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
+          fi
+
+          curl "${CURL_ARGS[@]}" "$PLAYWRIGHT_BASE_URL/index.json" -o storybook-index.json
           pnpm run test:playwright:storybook
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0

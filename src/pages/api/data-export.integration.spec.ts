@@ -1,16 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { BASE_URL } from "src/utils/base-url";
-
-const makeHeaders = async () => ({
-  ...(process.env.BASIC_AUTH_CREDENTIALS
-    ? {
-        authorization: `Basic ${Buffer.from(
-          `${process.env.BASIC_AUTH_CREDENTIALS}`,
-        ).toString("base64")}`,
-      }
-    : {}),
-});
+import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";
 
 describe("Data Export API", () => {
   const endpoints = [
@@ -26,7 +17,7 @@ describe("Data Export API", () => {
     name,
     path,
   }) => {
-    const headers = await makeHeaders();
+    const headers = makeDeploymentAuthHeaders();
     const response = await fetch(`${BASE_URL}${path}`, { headers });
 
     expect(response.status).toBe(200);

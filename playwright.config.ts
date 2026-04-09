@@ -91,6 +91,10 @@ export default defineConfig({
         httpCredentials: getHttpCredentialsFromEnv(),
         extraHTTPHeaders: {
           "x-vercel-skip-toolbar": "1",
+          ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET && {
+            "x-vercel-protection-bypass":
+              process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+          }),
         },
       },
     },
