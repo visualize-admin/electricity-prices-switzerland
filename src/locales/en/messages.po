@@ -27,6 +27,7 @@ msgstr "Detailed price analyses of cantons, municipalities and grid operators."
 msgid "app.meta.title"
 msgstr "Electricity tariffs in Switzerland"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Canton"
@@ -775,6 +776,12 @@ msgstr "Hold {key} and scroll to zoom"
 msgid "map.share"
 msgstr "Share"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Multiple grid operators"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "No data"
@@ -798,6 +805,10 @@ msgstr "Map View"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filters"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Municipality"
@@ -851,6 +862,10 @@ msgstr "There is no data available for this operator"
 msgid "no-data-available.title"
 msgstr "No data available"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Operator"

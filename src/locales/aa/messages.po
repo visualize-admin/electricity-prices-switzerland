@@ -27,6 +27,7 @@ msgstr "app.meta.description"
 msgid "app.meta.title"
 msgstr "app.meta.title"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "canton"
@@ -773,6 +774,12 @@ msgstr "map.scrollzoom.hint"
 msgid "map.share"
 msgstr "map.share"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Multiple grid operators"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "map.tooltipnodata"
@@ -796,6 +803,10 @@ msgstr "mobile-drawer.list-title"
 msgid "mobile-drawer.parameters-title"
 msgstr "mobile-drawer.parameters-title"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "municipality"
@@ -849,6 +860,10 @@ msgstr "no-data-available.description"
 msgid "no-data-available.title"
 msgstr "no-data-available.title"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "operator"

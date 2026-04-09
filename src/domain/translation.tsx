@@ -588,6 +588,100 @@ export const getLocalizedLabel = ({ id }: { id: TranslationKey }): string => {
   return table[id as keyof typeof table] || id;
 };
 
+/** Metric name + unit for map tooltip rows / subtitles (Figma: unit in muted parentheses). */
+export const getSunshineMapMetricLegendParts = (
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
+): { metricLabel: string; metricUnit: string | null } => {
+  const level = networkLevel ?? "NE5";
+  switch (indicator) {
+    case "networkCosts":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.network-costs",
+            message: "Network Costs",
+          })
+        ),
+        metricUnit: i18n._(getNetworkLevelMetrics(level)),
+      };
+    case "netTariffs":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.net-tariff",
+            message: "Net Tariff",
+          })
+        ),
+        metricUnit: i18n._(RP_PER_KWH),
+      };
+    case "energyTariffs":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.energy-tariff",
+            message: "Energy Tariff",
+          })
+        ),
+        metricUnit: i18n._(RP_PER_KWH),
+      };
+    case "saidi":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.saidi-total",
+            message: "SAIDI Total",
+          })
+        ),
+        metricUnit: i18n._(MIN_PER_YEAR),
+      };
+    case "saifi":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.saifi-total",
+            message: "SAIFI Total",
+          })
+        ),
+        metricUnit: i18n._(COUNT_PER_YEAR),
+      };
+    case "outageInfo":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.customer-outage-notification",
+            message: "Customer Outage Notification",
+          })
+        ),
+        metricUnit: null,
+      };
+    case "daysInAdvanceOutageNotification":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.days-in-advance",
+            message: "Days in Advance for Notification",
+          })
+        ),
+        metricUnit: i18n._(DAYS),
+      };
+    case "compliance":
+      return {
+        metricLabel: i18n._(
+          t({
+            id: "sunshine.export.column.franc-rule",
+            message: "Franc Rule",
+          })
+        ),
+        metricUnit: i18n._(SWISS_FRANCS),
+      };
+    default: {
+      const _exhaustive: never = indicator;
+      return _exhaustive;
+    }
+  }
+};
+
 /**
  * Short metric title for map legend, tooltip, and compact mobile summary.
  * Reuses `sunshine.export.column.*` message ids (and the same unit macros as the CSV export)
@@ -597,69 +691,11 @@ export const getSunshineMapMetricLegendTitle = (
   indicator: SunshineIndicator,
   networkLevel?: NetworkLevelId
 ): string => {
-  const level = networkLevel ?? "NE5";
-  switch (indicator) {
-    case "networkCosts":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.network-costs",
-          message: "Network Costs",
-        })
-      )} (${i18n._(getNetworkLevelMetrics(level))})`;
-    case "netTariffs":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.net-tariff",
-          message: "Net Tariff",
-        })
-      )} (${i18n._(RP_PER_KWH)})`;
-    case "energyTariffs":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.energy-tariff",
-          message: "Energy Tariff",
-        })
-      )} (${i18n._(RP_PER_KWH)})`;
-    case "saidi":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.saidi-total",
-          message: "SAIDI Total",
-        })
-      )} (${i18n._(MIN_PER_YEAR)})`;
-    case "saifi":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.saifi-total",
-          message: "SAIFI Total",
-        })
-      )} (${i18n._(COUNT_PER_YEAR)})`;
-    case "outageInfo":
-      return i18n._(
-        t({
-          id: "sunshine.export.column.customer-outage-notification",
-          message: "Customer Outage Notification",
-        })
-      );
-    case "daysInAdvanceOutageNotification":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.days-in-advance",
-          message: "Days in Advance for Notification",
-        })
-      )} (${i18n._(DAYS)})`;
-    case "compliance":
-      return `${i18n._(
-        t({
-          id: "sunshine.export.column.franc-rule",
-          message: "Franc Rule",
-        })
-      )} (${i18n._(SWISS_FRANCS)})`;
-    default: {
-      const _exhaustive: never = indicator;
-      return _exhaustive;
-    }
-  }
+  const { metricLabel, metricUnit } = getSunshineMapMetricLegendParts(
+    indicator,
+    networkLevel
+  );
+  return metricUnit ? `${metricLabel} (${metricUnit})` : metricLabel;
 };
 
 /** @deprecated Refactor to use getLocalizedLabel */

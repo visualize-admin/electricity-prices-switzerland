@@ -27,6 +27,7 @@ msgstr "Analisi dettagliate dei prezzi di cantoni, comuni e gestori di rete."
 msgid "app.meta.title"
 msgstr "Tariffe dell'elettricità in Svizzera"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Cantone"
@@ -775,6 +776,12 @@ msgstr "Tenere premuto {key} durante lo scorrimento per ingrandire la carta"
 msgid "map.share"
 msgstr "Condividi"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Più gestori di rete"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Nessun dato"
@@ -798,6 +805,10 @@ msgstr "Vista sulla mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametro"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Comune"
@@ -851,6 +862,10 @@ msgstr "Non ci sono dati disponibili per questo gestore di rete, poiché non è 
 msgid "no-data-available.title"
 msgstr "Nessun dato disponibile"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Gestore di rete"

@@ -27,6 +27,7 @@ msgstr "Detaillierte Preisanalysen von Kantonen, Gemeinden und Netzbetreibern."
 msgid "app.meta.title"
 msgstr "Strompreise Schweiz"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Kanton"
@@ -773,6 +774,12 @@ msgstr "Halten Sie die Taste {key} beim Scrollen gedrückt, um die Karte zu verg
 msgid "map.share"
 msgstr "Teilen"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Mehrere Netzbetreiber"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Keine Daten"
@@ -796,6 +803,10 @@ msgstr "Kartenansicht"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filter"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Gemeinde"
@@ -849,6 +860,10 @@ msgstr "Für diesen Netzbetreiber sind keine Daten verfügbar, da er entweder ke
 msgid "no-data-available.title"
 msgstr "Keine Daten"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Netzbetreiber"

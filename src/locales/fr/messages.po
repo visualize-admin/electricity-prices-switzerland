@@ -27,6 +27,7 @@ msgstr "Analyses détaillées des prix des cantons, des communes et des gestionn
 msgid "app.meta.title"
 msgstr "Tarifs de l'électricité en Suisse"
 
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "canton"
 msgstr "Canton"
@@ -776,6 +777,12 @@ msgstr "Maintenez la touche {key} enfoncée pendant le défilement pour agrandir
 msgid "map.share"
 msgstr "Partager"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/utils/entity-formatting.tsx
+msgid "map.tooltip.multiple-grid-operators"
+msgstr "Plusieurs gestionnaires de réseau"
+
 #: src/components/map-tooltip.tsx
 msgid "map.tooltipnodata"
 msgstr "Aucune donnée"
@@ -799,6 +806,10 @@ msgstr "Voir la carte"
 msgid "mobile-drawer.parameters-title"
 msgstr "Paramètres"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "municipality"
 msgstr "Commune"
@@ -852,6 +863,10 @@ msgstr "Aucune donnée n’est disponible pour ce gestionnaire de réseau, soit 
 msgid "no-data-available.title"
 msgstr "Pas de données disponibles"
 
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
+#: src/components/map-tooltip.stories.tsx
 #: src/utils/entity-formatting.tsx
 msgid "operator"
 msgstr "Gestionnaire de réseau"

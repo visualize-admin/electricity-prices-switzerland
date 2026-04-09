@@ -4,10 +4,7 @@ import { useMemo } from "react";
 
 import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import {
-  getLocalizedLabel,
-  getSunshineMapMetricLegendTitle,
-} from "src/domain/translation";
+import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -202,14 +199,23 @@ export function useSelectedEntityData(
         };
       }
 
+      if (!indicator) {
+        return {
+          entityIds,
+          isHovered,
+          isSelected,
+          formattedData: null,
+          observations: operatorObservations,
+        };
+      }
+
       const formattedData = formatSunshineEntity(
         selection,
         operatorObservations,
         colorScale,
         formatValue,
-        indicator
-          ? getSunshineMapMetricLegendTitle(indicator, networkLevel)
-          : ""
+        indicator,
+        networkLevel
       );
 
       return {
