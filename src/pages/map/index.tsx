@@ -428,6 +428,7 @@ const MapPageContent = ({
           formatValue: valueFormatter,
           priceComponent: priceComponent,
           indicator: indicator,
+          networkLevel,
           dataType: "sunshine",
         }
   );

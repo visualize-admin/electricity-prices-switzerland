@@ -1208,6 +1208,38 @@ msgstr "Kategorie"
 msgid "selector.indicator"
 msgstr "Indikator"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Ob der Betreiber die Frankenregel für Tarifkomponenten einhält."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "Wie viele Tage im Voraus Kunden vor einer geplanten Unterbrechung informiert werden."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Energiepreise für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Netznutzungstarife für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Netzinfrastrukturkosten für Endverbrauchende nach Netzebene (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Jährliche Dauer von Stromunterbrechungen pro Kunde (SAIDI), in Minuten pro Jahr."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Jährliche Häufigkeit von Stromunterbrechungen pro Kunde (SAIFI), in Unterbrechungen pro Jahr."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Kategorie"
@@ -1563,42 +1595,6 @@ msgstr "Leistungsindikatoren"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Versorgungsqualität"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Kosten und Gewinn in CHF/Jahr"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "So viele Tage im Voraus erfolgt die Meldung von Unterbrüchen"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Energietarife in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Netztarife in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Netzkosten in CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Netzkosten in CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Information der betroffenen Kunden über geplante Unterbrechungen"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Dauer der Stromunterbrechung (SAIDI) in Minuten"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
-
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1609,6 +1605,42 @@ msgstr "Häufigkeit von Stromunterbrechungen  (SAIFI) pro Jahr"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Aktuelles Tarifjahr ({latestYear})"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.compliance"
+msgstr "Frankenregel-Konformität"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
+msgstr "Vorlaufzeit Störungsankündigung (Tage)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.energyTariffs"
+msgstr "Energiepreise (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.netTariffs"
+msgstr "Netznutzungstarife (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/kVA"
+msgstr "Netzkosten (CHF/kVA)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/km"
+msgstr "Netzkosten (CHF/km)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.outageInfo"
+msgstr "Kundeninformation bei Störungen"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saidi"
+msgstr "SAIDI (Min./Jahr)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saifi"
+msgstr "SAIFI (Anz./Jahr)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"

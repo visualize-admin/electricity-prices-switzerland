@@ -1210,6 +1210,38 @@ msgstr "Category"
 msgid "selector.indicator"
 msgstr "Indicator"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Whether the operator complies with the franc rule for tariff components."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "How many days in advance customers are notified before a planned outage."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Energy tariffs for the selected end-consumer category (excl. VAT)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Net tariffs for the selected end-consumer category (excl. VAT)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Network infrastructure costs charged to end consumers by network level (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Whether customers affected by planned outages are informed as required."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Annual duration of power interruptions per customer (SAIDI), in minutes per year."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Category"
@@ -1565,42 +1597,6 @@ msgstr "Operational Standards"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Power Stability"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Costs and benefits in CHF/year"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Days in advance for outage notification"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Energy tariffs in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Grid tariffs in Rp./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Network costs in CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Network costs in CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Informing the affected customer about planned interruptions"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Power outage duration (SAIDI) in minutes"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Power outage frequency (SAIFI) per year"
-
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1611,6 +1607,42 @@ msgstr "Power outage frequency (SAIFI) per year"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Latest year ({latestYear})"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.compliance"
+msgstr "Franc rule compliance"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
+msgstr "Outage notice lead time (days)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.energyTariffs"
+msgstr "Energy tariffs (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.netTariffs"
+msgstr "Net tariffs (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/kVA"
+msgstr "Network costs (CHF/kVA)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/km"
+msgstr "Network costs (CHF/km)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.outageInfo"
+msgstr "Outage customer notice"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saidi"
+msgstr "SAIDI (min/year)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saifi"
+msgstr "SAIFI (count/year)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"

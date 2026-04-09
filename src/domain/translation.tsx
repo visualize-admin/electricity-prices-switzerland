@@ -4,9 +4,11 @@ import { memoize } from "lodash";
 
 import {
   ElectricityCategory,
+  NetworkLevelId,
   SettlementDensity,
   EnergyDensity,
 } from "src/domain/data";
+import { networkLevelUnits } from "src/domain/metrics";
 
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
@@ -176,6 +178,104 @@ const getTranslationTable = (_locale: string) => {
     daysInAdvanceOutageNotification: t({
       id: "indicator.days-in-advance-outage-notification",
       message: "Days in advance outage notification",
+    }),
+  };
+
+  /** Long descriptive labels for the map sidebar indicator combobox only. */
+  const selectorIndicatorLong: Record<
+    `selector.indicator.${SunshineIndicator}.long`,
+    string
+  > = {
+    "selector.indicator.networkCosts.long": t({
+      id: "selector.indicator.networkCosts.long",
+      message:
+        "Network infrastructure costs charged to end consumers by network level (NE5–NE7).",
+    }),
+    "selector.indicator.netTariffs.long": t({
+      id: "selector.indicator.netTariffs.long",
+      message:
+        "Net tariffs for the selected end-consumer category (excl. VAT).",
+    }),
+    "selector.indicator.energyTariffs.long": t({
+      id: "selector.indicator.energyTariffs.long",
+      message:
+        "Energy tariffs for the selected end-consumer category (excl. VAT).",
+    }),
+    "selector.indicator.saidi.long": t({
+      id: "selector.indicator.saidi.long",
+      message:
+        "Annual duration of power interruptions per customer (SAIDI), in minutes per year.",
+    }),
+    "selector.indicator.saifi.long": t({
+      id: "selector.indicator.saifi.long",
+      message:
+        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year.",
+    }),
+    "selector.indicator.outageInfo.long": t({
+      id: "selector.indicator.outageInfo.long",
+      message:
+        "Whether customers affected by planned outages are informed as required.",
+    }),
+    "selector.indicator.daysInAdvanceOutageNotification.long": t({
+      id: "selector.indicator.daysInAdvanceOutageNotification.long",
+      message:
+        "How many days in advance customers are notified before a planned outage.",
+    }),
+    "selector.indicator.compliance.long": t({
+      id: "selector.indicator.compliance.long",
+      message:
+        "Whether the operator complies with the franc rule for tariff components.",
+    }),
+  };
+
+  /** Short map legend / tooltip titles (metric + unit). */
+  const sunshineMapLegend: Record<
+    | "sunshine.map.legend.networkCosts-CHF/km"
+    | "sunshine.map.legend.networkCosts-CHF/kVA"
+    | "sunshine.map.legend.netTariffs"
+    | "sunshine.map.legend.energyTariffs"
+    | "sunshine.map.legend.saidi"
+    | "sunshine.map.legend.saifi"
+    | "sunshine.map.legend.outageInfo"
+    | "sunshine.map.legend.daysInAdvanceOutageNotification"
+    | "sunshine.map.legend.compliance",
+    string
+  > = {
+    "sunshine.map.legend.networkCosts-CHF/km": t({
+      id: "sunshine.map.legend.networkCosts-CHF/km",
+      message: "Network costs (CHF/km)",
+    }),
+    "sunshine.map.legend.networkCosts-CHF/kVA": t({
+      id: "sunshine.map.legend.networkCosts-CHF/kVA",
+      message: "Network costs (CHF/kVA)",
+    }),
+    "sunshine.map.legend.netTariffs": t({
+      id: "sunshine.map.legend.netTariffs",
+      message: "Net tariffs (Rp./kWh)",
+    }),
+    "sunshine.map.legend.energyTariffs": t({
+      id: "sunshine.map.legend.energyTariffs",
+      message: "Energy tariffs (Rp./kWh)",
+    }),
+    "sunshine.map.legend.saidi": t({
+      id: "sunshine.map.legend.saidi",
+      message: "SAIDI (min/year)",
+    }),
+    "sunshine.map.legend.saifi": t({
+      id: "sunshine.map.legend.saifi",
+      message: "SAIFI (count/year)",
+    }),
+    "sunshine.map.legend.outageInfo": t({
+      id: "sunshine.map.legend.outageInfo",
+      message: "Outage customer notice",
+    }),
+    "sunshine.map.legend.daysInAdvanceOutageNotification": t({
+      id: "sunshine.map.legend.daysInAdvanceOutageNotification",
+      message: "Outage notice lead time (days)",
+    }),
+    "sunshine.map.legend.compliance": t({
+      id: "sunshine.map.legend.compliance",
+      message: "Franc rule compliance",
     }),
   };
 
@@ -365,6 +465,8 @@ const getTranslationTable = (_locale: string) => {
     }),
 
     ...indicators,
+    ...selectorIndicatorLong,
+    ...sunshineMapLegend,
     ...energyDensities,
     ...settlementDensities,
 
@@ -513,6 +615,38 @@ const getTranslationTable = (_locale: string) => {
 };
 export type TranslationKey = keyof ReturnType<typeof getTranslationTable>;
 
+type SunshineMapLegendMetricKey =
+  | Exclude<SunshineIndicator, "networkCosts">
+  | "networkCosts-CHF/km"
+  | "networkCosts-CHF/kVA";
+
+const sunshineMapLegendMetricKey = (
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
+): SunshineMapLegendMetricKey => {
+  if (indicator === "networkCosts") {
+    const unit = networkLevelUnits[networkLevel ?? "NE5"];
+    return `networkCosts-${unit}` as SunshineMapLegendMetricKey;
+  }
+  return indicator;
+};
+
+const SUNSHINE_MAP_LEGEND_LABEL_BY_METRIC: Record<
+  SunshineMapLegendMetricKey,
+  TranslationKey
+> = {
+  "networkCosts-CHF/km": "sunshine.map.legend.networkCosts-CHF/km",
+  "networkCosts-CHF/kVA": "sunshine.map.legend.networkCosts-CHF/kVA",
+  netTariffs: "sunshine.map.legend.netTariffs",
+  energyTariffs: "sunshine.map.legend.energyTariffs",
+  saidi: "sunshine.map.legend.saidi",
+  saifi: "sunshine.map.legend.saifi",
+  outageInfo: "sunshine.map.legend.outageInfo",
+  daysInAdvanceOutageNotification:
+    "sunshine.map.legend.daysInAdvanceOutageNotification",
+  compliance: "sunshine.map.legend.compliance",
+};
+
 type LowercaseWithoutDots<T> = T extends string
   ? Lowercase<T> extends infer L
     ? L extends string
@@ -530,6 +664,18 @@ export const getLocalizedLabel = ({ id }: { id: TranslationKey }): string => {
   const table = memoizeGetTranslationTable(locale);
   return table[id as keyof typeof table] || id;
 };
+
+/** Short metric title for map legend, tooltip, and compact mobile summary. */
+export const getSunshineMapMetricLegendTitle = (
+  indicator: SunshineIndicator,
+  networkLevel?: NetworkLevelId
+): string =>
+  getLocalizedLabel({
+    id: SUNSHINE_MAP_LEGEND_LABEL_BY_METRIC[
+      sunshineMapLegendMetricKey(indicator, networkLevel)
+    ],
+  });
+
 /** @deprecated Refactor to use getLocalizedLabel */
 export const getLocalizedLabelUnsafe = ({ id }: { id: string }): string => {
   const locale = i18n.locale;

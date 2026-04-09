@@ -82,7 +82,8 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  formattedIndicator: string
+  /** Same short string as map legend title (metric + unit). */
+  metricLegendTitle: string
 ): EntityDisplayData => {
   const { entityType: entity } = selection;
 
@@ -97,20 +98,19 @@ export const formatSunshineEntity = (
   const multipleOperators =
     new Set(observations.map((obs) => obs.operatorId)).size > 1;
 
-  // Create values array from observations
   const values: EntityValue[] = observations
     .filter((obs) => obs.value !== null && obs.value !== undefined)
     .map((obs) => ({
       label: multipleOperators
         ? obs.operatorData?.name ?? ""
-        : formattedIndicator,
+        : metricLegendTitle,
       formattedValue: formatValue(obs.value!),
       color: colorScale(obs.value!),
     }));
 
   return {
     title: multipleOperators
-      ? null
+      ? metricLegendTitle
       : observations[0].operatorData?.name || "Unknown Operator",
     caption: getEntityCaption(entity),
     values,

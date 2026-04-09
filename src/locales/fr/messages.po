@@ -528,7 +528,7 @@ msgstr "Coûts du réseau et tarifs"
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
 msgstr ""
-"Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
+"Le SAIDI mesure la durée totale des coupures d'alimentation par client et par an, tandis que le SAIFI indique la fréquence des coupures. Ensemble, ils offrent des indications clés sur la fiabilité et la stabilité de l'approvisionnement en électricité sur une période donnée.Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
 "Les deux indicateurs fournissent des informations importantes sur la fiabilité et la stabilité de l’approvisionnement en électricité.\n"
 "Les valeurs sont présentées séparément pour les interruptions planifiées et non planifiées. Les données ne sont collectées que chez les plus grands gestionnaires de réseau. Certaines zones d’approvisionnement sont donc représentées en gris."
 
@@ -1211,6 +1211,38 @@ msgstr "Catégorie"
 msgid "selector.indicator"
 msgstr "Indicateur"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Indique si l'exploitant respecte la règle du franc pour les composantes tarifaires."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "Combien de jours à l'avance les clients sont informés avant une coupure planifiée."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Tarifs d'énergie pour la catégorie de consommateurs final sélectionnée (hors TVA)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Tarifs d'utilisation du réseau pour la catégorie de consommateurs final sélectionnée (hors TVA)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Coûts d'infrastructure réseau facturés aux consommateurs finals par niveau de réseau (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Indique si les clients affectés par des coupures planifiées sont informés comme requis."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Durée annuelle des interruptions d'alimentation par client (SAIDI), en minutes par an."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Fréquence annuelle des interruptions d'alimentation par client (SAIFI), en interruptions par an."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Catégorie"
@@ -1388,7 +1420,7 @@ msgstr "Sélectionner les opérateurs à comparer"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr ""
-"Sur cette page, vous trouverez une répartition détaillée des coûts de l’électricité selon trois indicateurs principaux : coûts du réseau, tarifs réseau et tarifs d’énergie.\n"
+"Cette page présente un aperçu des coûts et tarifs de l'électricité, y compris les coûts du réseau, les tarifs d'utilisation du réseau et les tarifs d'énergie. Comparez différents fournisseurs et analysez les tendances au sein de votre groupe homologue pour mieux comprendre votre position sur le marché.Sur cette page, vous trouverez une répartition détaillée des coûts de l’électricité selon trois indicateurs principaux : coûts du réseau, tarifs réseau et tarifs d’énergie.\n"
 "Ces indicateurs couvrent les coûts liés à l’exploitation et à l’entretien du réseau, les tarifs pour l’utilisation du réseau ainsi que les coûts de consommation d’énergie.\n"
 "Comme toutes les données affichées sont comparables au sein du même groupe de gestionnaires de réseau, il est facile d’évaluer les différents tarifs appliqués à l’intérieur du réseau."
 
@@ -1569,42 +1601,6 @@ msgstr "Indicateurs de performance"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Qualité de l’approvisionnement"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Coûts et bénéfices en CHF/an"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Les interruptions sont signalées autant de jours à l'avance"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Tarifs de l'énergie en ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Tarifs du réseau en ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Coûts du réseau en CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Coûts du réseau en CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Information des clients sur les coupures planifiées"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Durée de la coupure de courant (SAIDI) en minutes"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Fréquence des interruptions de courant (SAIFI) par an"
-
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1615,6 +1611,42 @@ msgstr "Fréquence des interruptions de courant (SAIFI) par an"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Année tarifaire en cours ({latestYear})"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.compliance"
+msgstr "Respect de la règle du franc"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
+msgstr "Délai d'annonce des coupures (jours)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.energyTariffs"
+msgstr "Tarifs d'énergie (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.netTariffs"
+msgstr "Tarifs réseau (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/kVA"
+msgstr "Coûts du réseau (CHF/kVA)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/km"
+msgstr "Coûts du réseau (CHF/km)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.outageInfo"
+msgstr "Information client sur les coupures"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saidi"
+msgstr "SAIDI (min/an)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saifi"
+msgstr "SAIFI (nombre/an)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"

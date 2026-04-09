@@ -316,7 +316,7 @@ msgstr "Cliccate qui per tornare alla pagina principale"
 #: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr ""
-"Questa pagina purtroppo non esiste.\n"
+"Potrebbe aver inserito un indirizzo (URL) non corretto, oppure la pagina o il documento non esiste più o ne è stato cambiato il nome. La pagina richiesta non è stata trovata.Questa pagina purtroppo non esiste.\n"
 "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che il collegamento ipertestuale sia obsoleto."
 
 #: src/components/not-found.tsx
@@ -1210,6 +1210,38 @@ msgstr "Categoria"
 msgid "selector.indicator"
 msgstr "Indicatore"
 
+#: src/domain/translation.tsx
+msgid "selector.indicator.compliance.long"
+msgstr "Se l'operatore rispetta la regola del franco per le componenti tariffarie."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.daysInAdvanceOutageNotification.long"
+msgstr "Quanti giorni prima i clienti vengono informati di un'interruzione programmata."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.energyTariffs.long"
+msgstr "Tariffe energetiche per la categoria di utenza finale selezionata (IVA esclusa)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.netTariffs.long"
+msgstr "Tariffe di uso della rete per la categoria di utenza finale selezionata (IVA esclusa)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.networkCosts.long"
+msgstr "Costi di infrastruttura di rete addebitati agli utenti finali per livello di rete (NE5–NE7)."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.outageInfo.long"
+msgstr "Se gli utenti interessati da interruzioni programmate sono informati come richiesto."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saidi.long"
+msgstr "Durata annuale delle interruzioni di corrente per cliente (SAIDI), in minuti all'anno."
+
+#: src/domain/translation.tsx
+msgid "selector.indicator.saifi.long"
+msgstr "Frequenza annuale delle interruzioni di corrente per cliente (SAIFI), in interruzioni all'anno."
+
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
 msgstr "Categoria"
@@ -1565,42 +1597,6 @@ msgstr "Indicatori di prestazione"
 msgid "sunshine.grid.power-stability-title"
 msgstr "Qualità dell'approvvigionamento"
 
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.compliance"
-msgstr "Costi e profitti in CHF/anno"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.daysInAdvanceOutageNotification"
-msgstr "Giorni di anticipo per la notifica delle interruzioni"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.energyTariffs"
-msgstr "Tariffe energetiche in ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.netTariffs"
-msgstr "Tariffe della rete in ct./kWh"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/kVA"
-msgstr "Costi di rete in CHF/kVA"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.networkCosts-CHF/km"
-msgstr "Costi di rete in CHF/km"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.outageInfo"
-msgstr "Informazione dei clienti interessati in merito alle interruzioni programmate"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saidi"
-msgstr "Durata dell'interruzione di corrente (SAIDI) in minuti"
-
-#: src/components/sunshine-map.tsx
-msgid "sunshine.indicator.saifi"
-msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
-
 #: src/components/peer-group-card.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
@@ -1611,6 +1607,42 @@ msgstr "Frequenza delle interruzioni di corrente (SAIFI) all'anno"
 #: src/pages/sunshine/[entity]/[id]/power-stability.tsx
 msgid "sunshine.latest-year"
 msgstr "Anno tariffario attuale ({latestYear})"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.compliance"
+msgstr "Conformità regola del franco"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.daysInAdvanceOutageNotification"
+msgstr "Preavviso interruzioni (giorni)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.energyTariffs"
+msgstr "Tariffe energia (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.netTariffs"
+msgstr "Tariffe rete (Rp./kWh)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/kVA"
+msgstr "Costi di rete (CHF/kVA)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.networkCosts-CHF/km"
+msgstr "Costi di rete (CHF/km)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.outageInfo"
+msgstr "Avviso agli utenti sulle interruzioni"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saidi"
+msgstr "SAIDI (min/anno)"
+
+#: src/domain/translation.tsx
+msgid "sunshine.map.legend.saifi"
+msgstr "SAIFI (n./anno)"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"

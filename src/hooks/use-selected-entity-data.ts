@@ -2,9 +2,12 @@ import { ScaleThreshold } from "d3";
 import { isEqual } from "lodash";
 import { useMemo } from "react";
 
-import { Entity, PriceComponent } from "src/domain/data";
+import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import { getLocalizedLabel } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  getSunshineMapMetricLegendTitle,
+} from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -36,6 +39,7 @@ type UseSelectedEntityDataOptions = {
   | {
       dataType: "sunshine";
       indicator: SunshineIndicator;
+      networkLevel?: NetworkLevelId;
     }
   | {
       dataType: "energy-prices";
@@ -84,6 +88,8 @@ export function useSelectedEntityData(
     priceComponent,
   } = options;
   const indicator = options.dataType === "sunshine" ? options.indicator : null;
+  const networkLevel =
+    options.dataType === "sunshine" ? options.networkLevel : undefined;
 
   // Determine the active entity ID (selected takes precedence over hovered)
   const entityIds = useMemo(
@@ -201,7 +207,9 @@ export function useSelectedEntityData(
         operatorObservations,
         colorScale,
         formatValue,
-        indicator ? getLocalizedLabel({ id: indicator }) : ""
+        indicator
+          ? getSunshineMapMetricLegendTitle(indicator, networkLevel)
+          : ""
       );
 
       return {
@@ -230,5 +238,6 @@ export function useSelectedEntityData(
     dataType,
     priceComponent,
     indicator,
+    networkLevel,
   ]);
 }
