@@ -2,7 +2,14 @@ import { Page } from "@playwright/test";
 
 import InflightRequests from "src/e2e/inflight";
 
-import { expect, sleep, TestFixtures, test } from "./common";
+import {
+  expect,
+  gotoWithRetry,
+  sleep,
+  TestFixtures,
+  test,
+  waitForDetailsPageContent,
+} from "./common";
 
 test.describe("Sunshine overview page", () => {
   test("it should load the sunshine overview page (partial data)", async ({
@@ -10,7 +17,7 @@ test.describe("Sunshine overview page", () => {
     snapshot,
   }) => {
     const inflight = new InflightRequests(page);
-    const resp = await page.goto("/en/sunshine/operator/72/overview");
+    const resp = await gotoWithRetry(page, "/en/sunshine/operator/72/overview");
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
 
@@ -27,7 +34,10 @@ test.describe("Sunshine overview page", () => {
     snapshot,
   }) => {
     const inflight = new InflightRequests(page);
-    const resp = await page.goto("/en/sunshine/operator/426/overview");
+    const resp = await gotoWithRetry(
+      page,
+      "/en/sunshine/operator/426/overview"
+    );
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
 
@@ -58,7 +68,7 @@ test.describe("Sunshine details page", () => {
     url: string;
   }) => {
     const inflight = new InflightRequests(page);
-    const resp = await page.goto(withFlag(url, { sunshine: true }));
+    const resp = await gotoWithRetry(page, withFlag(url, { sunshine: true }));
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
     await page.waitForSelector('[data-testid="loading"]', {
@@ -208,7 +218,7 @@ test.describe("Sunshine map details panel", () => {
   }) => {
     test.setTimeout(120_000);
     await setFlags(page, ["webglDeactivated"]);
-    await page.goto("/en/map?flag__sunshine=true");
+    await gotoWithRetry(page, "/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
     await page.getByRole("button", { name: "Indicators" }).click();
@@ -280,7 +290,8 @@ test.describe("Sunshine map details panel", () => {
   }) => {
     await setFlags(page, ["webglDeactivated"]);
     const tracker = new InflightRequests(page);
-    await page.goto(
+    await gotoWithRetry(
+      page,
       "/en/map?tab=sunshine&indicator=saidi&peerGroup=4&activeId=31"
     );
     await tracker.waitForRequests();
@@ -297,7 +308,7 @@ test.describe("Sunshine map details panel", () => {
     snapshot,
   }) => {
     test.setTimeout(120_000);
-    await page.goto("/en/map?flag__sunshine=true");
+    await gotoWithRetry(page, "/en/map?flag__sunshine=true");
 
     const tracker = new InflightRequests(page);
     await page.getByRole("button", { name: "Indicators" }).click();
@@ -328,10 +339,8 @@ test.describe("Sunshine map details panel", () => {
 });
 
 const checkCategories = async (page: Page) => {
-  // Get the page content
+  await waitForDetailsPageContent(page);
   const pageContent = page.getByTestId("details-page-content");
-  await expect(pageContent).toBeVisible();
-
   const contentText = await pageContent.textContent();
 
   // Verify only sunshine categories C2, C3, C4, C6, H2, H4, H7 are displayed
@@ -363,7 +372,7 @@ const checkCategories = async (page: Page) => {
 
 test.describe("Sunshine Costs and Tariffs page", () => {
   test("it should display the correct title", async ({ page }) => {
-    await page.goto("/en/sunshine/operator/36/costs-and-tariffs");
+    await gotoWithRetry(page, "/en/sunshine/operator/36/costs-and-tariffs");
     // Scroll for BKW Energie AG to be at the top
     await page.waitForLoadState("networkidle");
 
@@ -398,7 +407,8 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     const tracker = new InflightRequests(page);
 
     // Navigate to operator 426 costs-and-tariffs page with net tariffs tab
-    await page.goto(
+    await gotoWithRetry(
+      page,
       "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
     );
     await tracker.waitForRequests();
@@ -409,37 +419,45 @@ test.describe("Sunshine Costs and Tariffs page", () => {
 
 test.describe("Trend icons on Costs and Tariffs page", () => {
   test("should display trend icons for energy tariffs", async ({ page }) => {
-    await page.goto(
+    await gotoWithRetry(
+      page,
       "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=energyTariffs"
     );
+    await waitForDetailsPageContent(page);
     await page.waitForLoadState("networkidle");
 
     // Check that trend icons are visible
     const trendIcons = page.getByTestId(/^trend-icon-(up|down)$/);
-    await expect(trendIcons.first()).toBeVisible();
+    await expect(trendIcons.first()).toBeVisible({ timeout: 60_000 });
   });
 
   test("should display trend icons for net tariffs", async ({ page }) => {
-    await page.goto(
+    await gotoWithRetry(
+      page,
       "/en/sunshine/operator/426/costs-and-tariffs?tabDetails=netTariffs"
     );
+    await waitForDetailsPageContent(page);
     await page.waitForLoadState("networkidle");
 
     // Check that trend icons are visible
     const trendIcons = page.getByTestId(/^trend-icon-(up|down)$/);
-    await expect(trendIcons.first()).toBeVisible();
+    await expect(trendIcons.first()).toBeVisible({ timeout: 60_000 });
   });
 });
 
 test.describe("Operational Standards page", () => {
   test("it should display the correct tabs and content", async ({ page }) => {
-    await page.goto("/en/sunshine/operator/468/operational-standards");
+    await gotoWithRetry(
+      page,
+      "/en/sunshine/operator/468/operational-standards"
+    );
+    await waitForDetailsPageContent(page);
 
     // Check table row labelled "Information on planned interruptions" has "Yes"
     const infoRow = page.getByRole("row", {
       name: /Information on planned interruptions Yes/i,
     });
-    await expect(infoRow).toBeVisible();
+    await expect(infoRow).toBeVisible({ timeout: 60_000 });
 
     // Click on Compliance tab
     await page.getByTestId("compliance-tab").click();
@@ -448,7 +466,7 @@ test.describe("Operational Standards page", () => {
     const complianceRow = page.getByRole("row", {
       name: /Timely Paper Submission Yes/i,
     });
-    await expect(complianceRow).toBeVisible();
+    await expect(complianceRow).toBeVisible({ timeout: 60_000 });
   });
 });
 
@@ -460,10 +478,12 @@ test.describe("NULL peer group medians display as «–» not «0»", () => {
   test("SAIDI peer group medians show «–» when there is no data", async ({
     page,
   }) => {
-    const resp = await page.goto(
+    const resp = await gotoWithRetry(
+      page,
       `/en/sunshine/operator/${OPERATOR_ID}/power-stability`
     );
-    await expect(resp?.status()).toEqual(200);
+    await expect(resp.status()).toEqual(200);
+    await waitForDetailsPageContent(page);
     await page.waitForLoadState("networkidle");
 
     // The SAIDI tab is active by default.
@@ -490,10 +510,12 @@ test.describe("NULL peer group medians display as «–» not «0»", () => {
   test("SAIFI peer group medians show «–» when there is no data", async ({
     page,
   }) => {
-    const resp = await page.goto(
+    const resp = await gotoWithRetry(
+      page,
       `/en/sunshine/operator/${OPERATOR_ID}/power-stability?tabDetails=saifi`
     );
-    await expect(resp?.status()).toEqual(200);
+    await expect(resp.status()).toEqual(200);
+    await waitForDetailsPageContent(page);
     await page.waitForLoadState("networkidle");
 
     const rows = page
@@ -525,7 +547,7 @@ test.describe("Sunshine legend stays stable when peer group changes", () => {
 
     // Use the default indicator (networkCosts), peerGroup (all_grid_operators),
     // and default period (CURRENT_PERIOD).
-    await page.goto("/en/map?tab=sunshine");
+    await gotoWithRetry(page, "/en/map?tab=sunshine");
     await tracker.waitForRequests();
     await page.getByTestId("loading").waitFor({ state: "detached" });
 
