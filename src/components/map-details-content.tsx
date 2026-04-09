@@ -20,6 +20,7 @@ import {
 } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import { Icon } from "src/icons";
+import { electricityMapRowLabelWithUnit } from "src/utils/entity-formatting";
 
 import { ListItemType } from "./list";
 
@@ -164,9 +165,13 @@ const MapDetailsEntityTable = (
         );
       })}
       {operators?.map((operator, i) => {
+        const operatorRowLabel =
+          tab === "sunshine"
+            ? (operator.label ?? "")
+            : electricityMapRowLabelWithUnit(operator.label ?? "");
         return (
           <KeyValueTableRow
-            dataKey={operator.label ?? ""}
+            dataKey={operatorRowLabel}
             component={NextLink}
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}

@@ -1,11 +1,17 @@
+import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/macro";
 import { ScaleThreshold } from "d3";
 import React from "react";
 
 import { Entity } from "src/domain/data";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 import { EntitySelection } from "src/hooks/use-selected-entity-data";
+
+/** Map tooltip + sidebar: left column shows metric/operator with unit; chip stays numeric. */
+export const electricityMapRowLabelWithUnit = (baseLabel: string) =>
+  `${baseLabel} (${i18n._(RP_PER_KWH)})`;
 
 // Core entity types for unified handling
 interface EntityValue {
@@ -52,19 +58,21 @@ export const formatEnergyPricesEntity = (
     title = firstObs.operatorLabel || null;
   }
 
-  // Create values array from observations
-  const values: EntityValue[] = observations.map((obs) => ({
-    label: obs.operatorLabel ?? priceComponent ?? "",
-    formattedValue: `${
-      obs.value !== undefined && obs.value !== null
-        ? formatValue(obs.value)
-        : ""
-    }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
-    color:
-      obs.value !== undefined && obs.value !== null
-        ? colorScale(obs.value)
-        : "",
-  }));
+  const values: EntityValue[] = observations.map((obs) => {
+    const baseLabel = obs.operatorLabel ?? priceComponent ?? "";
+    return {
+      label: electricityMapRowLabelWithUnit(baseLabel),
+      formattedValue: `${
+        obs.value !== undefined && obs.value !== null
+          ? formatValue(obs.value)
+          : ""
+      }${coverageRatioFlag ? ` (ratio: ${obs.coverageRatio})` : ""}`,
+      color:
+        obs.value !== undefined && obs.value !== null
+          ? colorScale(obs.value)
+          : "",
+    };
+  });
 
   return {
     title,
@@ -82,7 +90,7 @@ export const formatSunshineEntity = (
   observations: EnrichedSunshineObservation[],
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  /** Same short string as map legend title (metric + unit). */
+  /** Same short string as map legend title (metric + unit in parentheses). */
   metricLegendTitle: string
 ): EntityDisplayData => {
   const { entityType: entity } = selection;
