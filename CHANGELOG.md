@@ -15,6 +15,7 @@ You can also check the
 - Improve map chart hovering with unit displays, text length adjustments and style changes
 - Costs & tariffs (latest-year) dot chart: hovering or tapping a dot only changes **opacity**, not the base fill color (avoids a misleading jump to the highlight color).
 - Cards on the sunshine indicator pages now break earlier to prevent weird visual bugs
+- Numbers across the application follow a set of formatting rules which have been consolidated and improved for user experience
 
 # 2.40.4 - 2026-04-07
 
