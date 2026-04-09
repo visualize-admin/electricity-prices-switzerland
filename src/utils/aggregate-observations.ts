@@ -4,6 +4,18 @@ import { first } from "lodash";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 
+type AggregatedEnergyOperatorObservation = {
+  value: number | null;
+  name: string;
+  period: string;
+};
+
+type EnergyPricesObservation = {
+  operatorLabel?: string | null;
+  period: string;
+  value?: number | null;
+};
+
 // Aggregation functions per sunshine indicator
 const aggregateFnPerIndicator: Record<
   SunshineIndicator,
@@ -54,6 +66,35 @@ export const aggregateSunshineObservationsByOperator = (
           value: aggregateFn(
             observations.map((obs) => obs.value).filter((v) => v !== undefined),
           ),
+        },
+      ],
+    ),
+  );
+};
+
+/**
+ * Aggregates energy prices observations by operator using mean aggregation.
+ */
+export const aggregateEnergyPricesObservationsByOperator = (
+  observationsByOperatorMap: Map<string, EnergyPricesObservation[]> | undefined,
+): Record<string, AggregatedEnergyOperatorObservation> => {
+  if (!observationsByOperatorMap) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    Array.from(observationsByOperatorMap.entries()).map(
+      ([operatorId, observations]) => [
+        operatorId,
+        {
+          name: observations[0].operatorLabel ?? `Operator ${operatorId}`,
+          value:
+            mean(
+              observations
+                .map((obs) => obs.value)
+                .filter((v): v is number => v !== null && v !== undefined),
+            ) ?? null,
+          period: observations[0].period,
         },
       ],
     ),

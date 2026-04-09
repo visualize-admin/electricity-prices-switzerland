@@ -131,18 +131,12 @@ export type HoverState =
       y: number;
       id: string;
       type: "canton";
-      value: number;
-      label: string;
     }
   | {
       x: number;
       y: number;
       id: string;
       type: "operator";
-      values: {
-        operatorName: string;
-        value: number;
-      }[];
     };
 export const getInitialViewState = (isMobile: boolean) => ({
   latitude: 46.8182,
