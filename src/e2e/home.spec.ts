@@ -1,5 +1,6 @@
 import { ensureLoadingIsComplete, expect, sleep, test } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
+import { getExtraHttpHeadersFromEnv } from "src/utils/test-utils";
 
 test.describe("The Home Page", () => {
   test.beforeEach(async ({ setFlags, page }) => {
@@ -8,6 +9,7 @@ test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
     const page = await browser.newPage({
       extraHTTPHeaders: {
+        ...(getExtraHttpHeadersFromEnv() ?? {}),
         "Accept-Language": "de",
       },
     });
