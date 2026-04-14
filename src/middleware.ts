@@ -51,4 +51,11 @@ const middleware: NextMiddleware = (request: NextRequest, ev) => {
 
 export default middleware;
 
-export const config: MiddlewareConfig = {};
+export const config: MiddlewareConfig = {
+  // Exclude Next.js image optimization and static assets so the image
+  // optimization backend can fetch source images without being blocked
+  // by the basic auth middleware (issue #482).
+  matcher: [
+    "/((?!_next/image|_next/static|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};
