@@ -78,6 +78,17 @@ describe("Search - municipalities", () => {
     expect(results[0]).toHaveProperty("id");
     expect(results[0]).toHaveProperty("name");
   });
+
+  it("hydrates labels by ids (empty query)", async () => {
+    // Used by MunicipalitiesCombobox to display names of already-selected items
+    const results = await searchMunicipalities({
+      locale: "de",
+      query: "",
+      ids: ["351"],
+    });
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({ id: "351", name: "Bern" });
+  });
 });
 
 describe("Search - cantons", () => {
@@ -98,6 +109,16 @@ describe("Search - cantons", () => {
     expect(results.some((r) => r.name.toLowerCase().includes("zürich"))).toBe(
       true
     );
+  });
+
+  it("hydrates labels by ids (empty query)", async () => {
+    const results = await searchCantons({
+      locale: "de",
+      query: "",
+      ids: ["2"],
+    });
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({ id: "2", name: "Bern" });
   });
 });
 
@@ -131,6 +152,16 @@ describe("Search - operators", () => {
       query: "axpo gid",
     });
     expect(results.some((r) => r.name === "Axpo Grid AG")).toBe(true);
+  });
+
+  it("hydrates labels by ids (empty query)", async () => {
+    const results = await searchOperators({
+      locale: "de",
+      query: "",
+      ids: ["36"],
+    });
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({ id: "36", name: "BKW Energie AG" });
   });
 });
 
