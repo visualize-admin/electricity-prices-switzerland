@@ -182,7 +182,7 @@ describe("Search - operators", () => {
 });
 
 describe("Search - multi-type", () => {
-  it("returns mixed types when searching across all types", async () => {
+  async function rawSearch(query: string) {
     const res = await fetch(GRAPHQL_URL, {
       method: "POST",
       headers: {
@@ -190,14 +190,26 @@ describe("Search - multi-type", () => {
         ...makeDeploymentAuthHeaders(),
       },
       body: JSON.stringify({
-        query: `query { search(locale: "de", query: "bern") { __typename id name } }`,
+        query: `query { search(locale: "de", query: "${query}") { __typename id name } }`,
       }),
     });
     const { data } = await res.json();
-    const typeNames = new Set(
-      (data.search as { __typename: string }[]).map((r) => r.__typename)
-    );
+    return data.search as { __typename: string; id: string; name: string }[];
+  }
+
+  it("returns mixed types when searching across all types", async () => {
+    const results = await rawSearch("bern");
+    const typeNames = new Set(results.map((r) => r.__typename));
     expect(typeNames.has("MunicipalityResult")).toBe(true);
     expect(typeNames.has("CantonResult")).toBe(true);
+  });
+
+  it("returns municipality Zürich when searching zurich (id collision regression)", async () => {
+    // Municipality Zürich (id=261) shares the same numeric ID as an operator,
+    // which previously caused the municipality to be silently dropped from results.
+    const results = await rawSearch("zurich");
+    expect(
+      results.some((r) => r.__typename === "MunicipalityResult" && r.name === "Zürich")
+    ).toBe(true);
   });
 });
