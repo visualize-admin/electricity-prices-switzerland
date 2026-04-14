@@ -40,7 +40,7 @@ export const Search = () => {
     pause: searchString === "",
   });
 
-  const items = gqlQuery.data?.search ?? EMPTY_ARRAY;
+  const items = searchString === "" ? EMPTY_ARRAY : (gqlQuery.data?.search ?? EMPTY_ARRAY);
 
   useEffect(() => {
     const currentVariables = gqlQuery.operation?.variables as
