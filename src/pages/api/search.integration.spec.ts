@@ -89,6 +89,22 @@ describe("Search - municipalities", () => {
     expect(results).toHaveLength(1);
     expect(results[0]).toMatchObject({ id: "351", name: "Bern" });
   });
+
+  it("finds municipality by exact zip code - 3011 returns Bern", async () => {
+    const results = await searchMunicipalities({ locale: "de", query: "3011" });
+    expect(results.some((r) => r.name === "Bern")).toBe(true);
+  });
+
+  it("finds municipality by exact zip code - 8001 returns Zürich", async () => {
+    const results = await searchMunicipalities({ locale: "de", query: "8001" });
+    expect(results.some((r) => r.name === "Zürich")).toBe(true);
+  });
+
+  it("finds municipalities by partial zip code prefix", async () => {
+    // Prefix "301" should match zip codes like 3011, 3012, 3013, … all in Bern
+    const results = await searchMunicipalities({ locale: "de", query: "301" });
+    expect(results.some((r) => r.name === "Bern")).toBe(true);
+  });
 });
 
 describe("Search - cantons", () => {
