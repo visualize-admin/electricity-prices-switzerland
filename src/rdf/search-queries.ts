@@ -1,5 +1,4 @@
 import { SELECT } from "@tpluscode/sparql-builder";
-import rdf from "rdf-ext";
 import { Literal, NamedNode, Quad } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
