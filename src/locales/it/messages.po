@@ -1213,7 +1213,7 @@ msgstr "Confrontare con il comune…"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
-msgstr "Confrontare con il gestore di rete…"
+msgstr "Confronta con"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"

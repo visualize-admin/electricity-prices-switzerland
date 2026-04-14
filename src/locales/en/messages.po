@@ -1213,7 +1213,7 @@ msgstr "Municipalities for comparison"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
-msgstr "Network operator for comparison"
+msgstr "Compare with"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"

@@ -196,7 +196,7 @@ const ElectricityTariffsPage = (props: Props) => {
           <OperatorsCombobox
             label={
               <Trans id="selector.compareoperators">
-                Network operator for comparison
+                Compare with
               </Trans>
             }
             selectedItems={queryState.operator ?? []}

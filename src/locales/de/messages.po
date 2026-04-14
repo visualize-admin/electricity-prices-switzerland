@@ -1211,7 +1211,7 @@ msgstr "Gemeinden zum Vergleich"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
-msgstr "Netzbetreiber zum Vergleich"
+msgstr "Vergleichen mit"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
