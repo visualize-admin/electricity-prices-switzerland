@@ -46,7 +46,8 @@ import {
   getOperatorsMunicipalities,
   getView,
 } from "src/rdf/queries";
-import { fetchOperatorInfo, search } from "src/rdf/search-queries";
+import { fetchOperatorInfo } from "src/rdf/search-queries";
+import { getSearchIndex, SearchType } from "src/lib/search-index-cache";
 import { asElectricityCategory } from "src/domain/data";
 import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import { last, sortBy } from "lodash";
@@ -58,6 +59,38 @@ import { truthy } from "src/lib/truthy";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
+
+import type { SearchResult as CachedSearchResult } from "src/lib/search-index-cache";
+import ParsingClient from "sparql-http-client/ParsingClient";
+
+const searchWithIndex = async ({
+  locale,
+  types,
+  query,
+  ids,
+  client,
+}: {
+  locale: string;
+  types: SearchType[];
+  query: string;
+  ids: string[];
+  client: ParsingClient;
+}): Promise<CachedSearchResult[]> => {
+  if (query === "" && ids.length === 0) return [];
+
+  const { data, index } = await getSearchIndex(locale, types, client);
+
+  if (ids.length > 0) {
+    const idSet = new Set(ids);
+    return data.filter((d) => idSet.has(d.id));
+  }
+
+  const hits = index.search(query);
+  const byId = new Map(data.map((d) => [d.id, d]));
+  return hits
+    .map((hit) => byId.get(hit.id))
+    .filter((r): r is CachedSearchResult => r !== undefined);
+};
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -426,15 +459,13 @@ const Query: QueryResolvers = {
     return medianObservations;
   },
   operators: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
 
   peerGroups: async (_parent, { locale }, context) => {
@@ -443,82 +474,66 @@ const Query: QueryResolvers = {
   },
 
   municipalities: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   cantons: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   search: async (_, { query, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: [],
       types: ["municipality", "operator", "canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   searchMunicipalities: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   allMunicipalities: async (_, { locale }, context) => {
-    const results = await search({
+    const { data } = await getSearchIndex(
       locale,
-      query: ".*",
-      ids: [],
-      limit: 5000,
-      types: ["municipality"],
-      client: context.sparqlClient,
-    });
-
-    return results;
+      ["municipality"],
+      context.sparqlClient
+    );
+    return data;
   },
   searchOperators: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   searchCantons: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   municipality: async (_, { id }, ctx) => {
     const cube = await getElectricityPriceCube(ctx.sparqlClient);
