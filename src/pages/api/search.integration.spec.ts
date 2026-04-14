@@ -41,7 +41,7 @@ describe("Search - municipalities", () => {
     const result = await makeClient()
       .query<MunicipalitiesQuery, MunicipalitiesQueryVariables>(
         MunicipalitiesDocument,
-        vars
+        vars,
       )
       .toPromise();
     return result.data?.municipalities ?? [];
@@ -123,7 +123,7 @@ describe("Search - cantons", () => {
   it("handles diacritics - zurich should match Zürich", async () => {
     const results = await searchCantons({ locale: "de", query: "zurich" });
     expect(results.some((r) => r.name.toLowerCase().includes("zürich"))).toBe(
-      true
+      true,
     );
   });
 
@@ -162,12 +162,12 @@ describe("Search - operators", () => {
     expect(results.some((r) => r.name === "AEW Energie AG")).toBe(true);
   });
 
-  it("handles typos - axpo gid should match Axpo Grid AG", async () => {
+  it("handles typos - axpo hidro should match Axpo Hydro", async () => {
     const results = await searchOperators({
       locale: "de",
-      query: "axpo gid",
+      query: "axpo hidro",
     });
-    expect(results.some((r) => r.name === "Axpo Grid AG")).toBe(true);
+    expect(results.some((r) => r.name === "Axpo Hydro Surselva AG")).toBe(true);
   });
 
   it("hydrates labels by ids (empty query)", async () => {
@@ -209,7 +209,9 @@ describe("Search - multi-type", () => {
     // which previously caused the municipality to be silently dropped from results.
     const results = await rawSearch("zurich");
     expect(
-      results.some((r) => r.__typename === "MunicipalityResult" && r.name === "Zürich")
+      results.some(
+        (r) => r.__typename === "MunicipalityResult" && r.name === "Zürich",
+      ),
     ).toBe(true);
   });
 });
