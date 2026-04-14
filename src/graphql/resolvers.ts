@@ -86,9 +86,9 @@ const searchWithIndex = async ({
   }
 
   const hits = index.search(query);
-  const byId = new Map(data.map((d) => [d.id, d]));
+  const byKey = new Map(data.map((d) => [`${d.type}:${d.id}`, d]));
   return hits
-    .map((hit) => byId.get(hit.id))
+    .map((hit) => byKey.get(`${(hit as $IntentionalAny).type}:${hit.id}`))
     .filter((r): r is CachedSearchResult => r !== undefined);
 };
 
