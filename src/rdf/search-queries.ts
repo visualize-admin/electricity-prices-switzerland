@@ -5,11 +5,6 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import * as ns from "./namespace";
 
-const graphs = {
-  electricityPrice: rdf.namedNode(
-    "https://lindas.admin.ch/elcom/electricityprice"
-  ),
-};
 
 export type SearchResult = {
   id: string;

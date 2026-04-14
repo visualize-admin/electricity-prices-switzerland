@@ -104,9 +104,6 @@ importers:
       '@tpluscode/rdf-ns-builders':
         specifier: ^1.0.0
         version: 1.1.0(@zazuko/rdf-vocabularies@2023.1.19)(clownface@2.0.3)(safe-identifier@0.4.2)(ts-morph@27.0.2)(ts-node@10.7.0(@types/node@22.19.1)(typescript@5.9.3))
-      '@tpluscode/rdf-string':
-        specifier: ^1.3.3
-        version: 1.3.4
       '@tpluscode/sparql-builder':
         specifier: ^2.0.3
         version: 2.0.4(sparql-http-client@2.4.2(encoding@0.1.13))
