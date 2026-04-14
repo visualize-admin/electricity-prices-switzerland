@@ -193,6 +193,30 @@ const getSearchSparqlQuery = ({
   };
 };
 
+/**
+ * Returns the set of municipality IRIs that are actually linked to observations
+ * in the electricity price cube. Used to filter out municipalities with no data.
+ */
+export const fetchLinkedMunicipalityIds = async ({
+  client,
+}: {
+  client: ParsingClient;
+}): Promise<Set<string>> => {
+  const query = `
+    SELECT DISTINCT ?municipality WHERE {
+      <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet .
+      ?observationSet <https://cube.link/observation> ?obs .
+      ?obs <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
+    }
+  `;
+
+  const results = (await client.query.select(query)) as {
+    municipality: NamedNode;
+  }[];
+
+  return new Set(results.map((r) => r.municipality.value));
+};
+
 export const fetchOperatorInfo = async ({
   operatorId,
   client,

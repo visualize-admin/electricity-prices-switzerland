@@ -1,7 +1,7 @@
 import MiniSearch from "minisearch";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { search } from "src/rdf/search-queries";
+import { fetchLinkedMunicipalityIds, search } from "src/rdf/search-queries";
 
 export type SearchType = "municipality" | "canton" | "operator";
 
@@ -51,14 +51,18 @@ async function buildCacheEntry(
   type: SearchType,
   client: ParsingClient
 ): Promise<CacheEntry> {
-  const data = await search({
-    query: ".*",
-    ids: [],
-    locale,
-    types: [type],
-    limit: 5000,
-    client,
-  });
+  const [allData, linkedIds] = await Promise.all([
+    search({ query: ".*", ids: [], locale, types: [type], limit: 5000, client }),
+    type === "municipality" ? fetchLinkedMunicipalityIds({ client }) : null,
+  ]);
+
+  const data =
+    linkedIds !== null
+      ? allData.filter((d) =>
+          linkedIds.has(`https://ld.admin.ch/municipality/${d.id}`)
+        )
+      : allData;
+
   const index = buildIndex(data);
   return { data, index, builtAt: Date.now() };
 }
