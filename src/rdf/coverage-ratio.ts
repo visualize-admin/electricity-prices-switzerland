@@ -9,7 +9,7 @@ export const DEFAULT_COVERAGE_NETWORK_LEVEL = "NE7";
 /**
  * Under this threshold, observations are not returned
  */
-const COVERAGE_RATIO_THRESHOLD = 0.25;
+export const COVERAGE_RATIO_THRESHOLD = 0.25;
 
 /**
  * The coverage ratios for operators for each year are cached for 5m
@@ -134,6 +134,77 @@ export class CoverageCacheManager {
     this.coverageCachesByYear = Object.fromEntries(
       await Promise.all(coveragePromises)
     );
+  }
+
+  /**
+   * Returns the raw offer coverage ratio for a specific observation and network
+   * level, or null if no offer exists (no defaulting applied).
+   *
+   * Warning: The cache for the specific year must have been prepared before calling this method.
+   */
+  getRealCoverage(
+    observation: {
+      period?: string | undefined;
+      municipality?: string | undefined;
+      operator?: string | undefined;
+    },
+    networkLevel: NetworkLevel["id"] = DEFAULT_COVERAGE_NETWORK_LEVEL
+  ): number | null {
+    const { period, municipality, operator } = observation;
+    if (!period || !municipality || !operator) return null;
+    const yearCache = this.coverageCachesByYear[period];
+    if (!yearCache) return null;
+    return (
+      yearCache.get(coverageRatioKey(municipality, networkLevel, operator)) ??
+      null
+    );
+  }
+
+  /**
+   * Check if an operator has at least one municipality with sufficient coverage
+   * for a given period and network level.
+   *
+   * When strict=false (default / inferred mode): include the operator when no
+   * offer data exists for them (conservative, avoids false negatives).
+   * When strict=true (offers mode): exclude the operator if offers exist for
+   * other operators at this network level but not for this one.
+   */
+  hasOperatorSufficientCoverage(
+    period: string,
+    operatorId: string,
+    networkLevel: NetworkLevel["id"] = DEFAULT_COVERAGE_NETWORK_LEVEL
+  ): boolean {
+    const yearCache = this.coverageCachesByYear[period];
+    if (!yearCache) {
+      return true;
+    }
+
+    const operatorSuffix = `-${networkLevel}-${operatorId}`;
+    const networkLevelInfix = `-${networkLevel}-`;
+    let operatorHasData = false;
+    let networkLevelHasAnyData = false;
+
+    for (const [key, ratio] of yearCache.entries()) {
+      if (!key.startsWith("coverage-")) continue;
+      if (key.includes(networkLevelInfix)) {
+        networkLevelHasAnyData = true;
+      }
+      if (key.endsWith(operatorSuffix)) {
+        operatorHasData = true;
+        if (ratio >= COVERAGE_RATIO_THRESHOLD) {
+          return true;
+        }
+      }
+    }
+
+    if (!operatorHasData) {
+      // If offer data exists for this network level but not for this operator,
+      // they don't operate here → exclude. Only include when no offer data
+      // exists at this level at all.
+      return !networkLevelHasAnyData;
+    }
+
+    return false;
   }
 
   logMunicipalityValues(municipalityId: string) {

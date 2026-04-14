@@ -98,6 +98,7 @@ type OperatorMunicipality @cacheControl(maxAge: 300) {
   municipality: Int!
   canton: String!
   operator: String!
+  coverageRatio: Float!
 }
 
 type Canton {
@@ -244,7 +245,6 @@ type Query {
 
   operatorMunicipalities(
     period: String!
-    electricityCategory: String
     networkLevel: String
   ): [OperatorMunicipality!]! @cacheControl(maxAge: 300)
 

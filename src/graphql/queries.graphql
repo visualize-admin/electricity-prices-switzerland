@@ -197,19 +197,12 @@ query WikiContent($locale: String!, $slug: String!) {
   }
 }
 
-query OperatorMunicipalities(
-  $period: String!
-  $electricityCategory: String
-  $networkLevel: String
-) {
-  operatorMunicipalities(
-    period: $period
-    electricityCategory: $electricityCategory
-    networkLevel: $networkLevel
-  ) {
+query OperatorMunicipalities($period: String!, $networkLevel: String) {
+  operatorMunicipalities(period: $period, networkLevel: $networkLevel) {
     municipality
     canton
     operator
+    coverageRatio
   }
 }
 

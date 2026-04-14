@@ -6,7 +6,11 @@ import micromark from "micromark";
 import { asElectricityCategory } from "src/domain/data";
 
 import { searchGeverDocuments } from "src/domain/gever";
-import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
+import {
+  asNetworkLevel,
+  NetworkLevel,
+  SunshineIndicator,
+} from "src/domain/sunshine";
 import { getWikiPage } from "src/domain/wiki/gitlab-api";
 import {
   ElectricityCategory,
@@ -52,7 +56,7 @@ import {
   getElectricityPriceObservations,
   getElectricityPriceSwissCube,
   getOperatorDocuments,
-  getOperatorsMunicipalities,
+  getOperatorsMunicipalitiesFromOffers,
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
@@ -114,7 +118,30 @@ const Query: QueryResolvers = {
     const sunshineData = await context.sunshineDataService.getSunshineData(
       filter
     );
-    return sunshineData;
+
+    if (sunshineData.length === 0) {
+      return sunshineData;
+    }
+
+    const periods = Array.from(new Set(sunshineData.map((r) => r.period)));
+    const networkLevel =
+      filter.networkLevel === "NE5" ||
+      filter.networkLevel === "NE6" ||
+      filter.networkLevel === "NE7"
+        ? (filter.networkLevel as NetworkLevel["id"])
+        : DEFAULT_COVERAGE_NETWORK_LEVEL;
+    const coverageManager = new CoverageCacheManager(context.sparqlClient);
+    await coverageManager.prepare(periods);
+
+    return sunshineData.filter((row) =>
+      row.operatorId != null
+        ? coverageManager.hasOperatorSufficientCoverage(
+            row.period,
+            String(row.operatorId),
+            networkLevel
+          )
+        : true
+    );
   },
   sunshineDataByIndicator: async (_parent, args, context) => {
     const { filter } = args;
@@ -177,8 +204,36 @@ const Query: QueryResolvers = {
       }
     }
 
+    const filteredData =
+      sunshineData.length > 0
+        ? await (async () => {
+            const periods = Array.from(
+              new Set(sunshineData.map((r) => r.period))
+            );
+            const networkLevel =
+              filter.networkLevel === "NE5" ||
+              filter.networkLevel === "NE6" ||
+              filter.networkLevel === "NE7"
+                ? (filter.networkLevel as NetworkLevel["id"])
+                : DEFAULT_COVERAGE_NETWORK_LEVEL;
+            const coverageManager = new CoverageCacheManager(
+              context.sparqlClient
+            );
+            await coverageManager.prepare(periods);
+            return sunshineData.filter((row) =>
+              row.operatorId != null
+                ? coverageManager.hasOperatorSufficientCoverage(
+                    row.period,
+                    String(row.operatorId),
+                    networkLevel
+                  )
+                : true
+            );
+          })()
+        : sunshineData;
+
     return {
-      data: sunshineData,
+      data: filteredData,
       median: medianValue,
     };
   },
@@ -650,34 +705,15 @@ const Query: QueryResolvers = {
       operatorOnly: filter.operatorOnly ?? undefined,
     });
   },
-  operatorMunicipalities: async (
-    _,
-    { period, electricityCategory, networkLevel },
-    context
-  ) => {
-    const category = electricityCategory
-      ? asElectricityCategory(electricityCategory)
-      : undefined;
+  operatorMunicipalities: async (_, { period, networkLevel }, context) => {
     const level = networkLevel
       ? asNetworkLevel(networkLevel)
       : DEFAULT_COVERAGE_NETWORK_LEVEL;
-    const coverageManager = new CoverageCacheManager(context.sparqlClient);
-    const [results] = await Promise.all([
-      getOperatorsMunicipalities(period, category, context.sparqlClient),
-      coverageManager.prepare([period]),
-    ]);
-
-    return CoverageCacheManager.filterByCoverageRatio(results, (item) => {
-      const coverage = coverageManager.getCoverage(
-        {
-          period,
-          municipality: String(item.municipality),
-          operator: item.operator,
-        },
-        level
-      );
-      return coverage;
-    });
+    return getOperatorsMunicipalitiesFromOffers(
+      period,
+      level,
+      context.sparqlClient
+    );
   },
 };
 

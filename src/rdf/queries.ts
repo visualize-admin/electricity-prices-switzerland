@@ -7,7 +7,6 @@ import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 import { LRUCache } from "typescript-lru-cache";
 
-import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
 import { PriceComponent } from "src/graphql/queries";
@@ -15,7 +14,10 @@ import { OperatorDocumentCategory } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
 import { makeClientVerbose } from "src/rdf/client-helpers";
-import { CoverageCacheManager } from "src/rdf/coverage-ratio";
+import {
+  COVERAGE_RATIO_THRESHOLD,
+  CoverageCacheManager,
+} from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 
 import { createSparqlClientForCube } from "./sparql-client";
@@ -559,50 +561,53 @@ export const getOperatorDocuments = async ({
   });
 };
 
-export const getOperatorsMunicipalities = async (
+/**
+ * Returns operator-municipality pairs sourced directly from offer entities,
+ * filtered to those with coverageRatio >= threshold at the given network level.
+ * This is the accurate approach: absence of an offer means the operator does
+ * not serve that municipality at that network level.
+ */
+export const getOperatorsMunicipalitiesFromOffers = async (
   year: string,
-  category: ElectricityCategory | undefined,
+  networkLevel: NetworkLevel["id"],
   client: ParsingClient
 ) => {
-  const query = /*sparql*/`
-  SELECT DISTINCT ?period ?operator ?municipality ?canton WHERE {
-    <https://energy.ld.admin.ch/elcom/electricityprice> <https://cube.link/observationSet> ?observationSet0 .
-    ?observationSet0 <https://cube.link/observation> ?source0 .
-    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/period> "${year}"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/operator> ?operator .
-    ?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/municipality> ?municipality .
-    ${
-      category
-        ? `?source0 <https://energy.ld.admin.ch/elcom/electricityprice/dimension/category> <https://energy.ld.admin.ch/elcom/electricityprice/category/${category}> .`
-        : ""
-    }
-    ?municipality <http://schema.org/containedInPlace> ?canton .
-    ?canton <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.ld.admin.ch/Canton> .
-  }
-  GROUP BY ?period ?operator ?dimension3 ?municipality ?canton
+  const query = /*sparql*/ `
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX : <https://energy.ld.admin.ch/elcom/electricityprice/>
+PREFIX schemaAdmin: <https://schema.ld.admin.ch/>
+
+SELECT DISTINCT ?municipality ?operator ?coverageRatio ?canton
+WHERE {
+    ?offer a schema:Offer ;
+        schema:temporalCoverage "${year}"^^xsd:gYear ;
+        schema:areaServed ?municipality ;
+        :coverageRatio ?coverageRatio ;
+        schema:offeredBy ?operator ;
+        :networkLevel <https://energy.ld.admin.ch/elcom/electricityprice/networkLevel/${networkLevel}> .
+    FILTER(?coverageRatio >= ${COVERAGE_RATIO_THRESHOLD})
+    ?municipality schema:containedInPlace ?canton .
+    ?canton a schemaAdmin:Canton .
+}
+ORDER BY ?municipality ?operator
   `;
   const result = await client.query.select(query);
-  const parsed = result.map((res) => {
-    const municipalityIri = res.municipality.value;
-    const cantonIri = res.canton.value;
-    const operatorIri = res.operator.value;
+  return result.map((res) => {
     const municipality = parseInt(
-      municipalityIri.replace("https://ld.admin.ch/municipality/", ""),
+      ns.stripNamespaceFromIri({ iri: res.municipality.value }),
       10
     );
-    const canton = cantonIri.replace("https://ld.admin.ch/canton/", "");
-    const operator = operatorIri.replace(
-      "https://energy.ld.admin.ch/elcom/electricityprice/operator/",
-      ""
-    );
-
+    const canton = ns.stripNamespaceFromIri({ iri: res.canton.value });
+    const operator = ns.stripNamespaceFromIri({ iri: res.operator.value });
+    const coverageRatio = parseFloat(res.coverageRatio.value);
     return {
       municipality,
       canton,
       operator,
+      coverageRatio,
     };
   });
-  return parsed;
 };
 
 /**
@@ -625,7 +630,7 @@ export const getMunicipalityOperators = async (
   years: string[] | null,
   networkLevel?: NetworkLevel["id"]
 ) => {
-  const queryViaObservations = /*sparql*/`
+  const queryViaObservations = /*sparql*/ `
 # from file queries/tariff.rq
 PREFIX schema: <http://schema.org/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -706,7 +711,7 @@ WHERE {
 };
 
 export type OperatorMunicipalityRecord = Awaited<
-  ReturnType<typeof getOperatorsMunicipalities>
+  ReturnType<typeof getOperatorsMunicipalitiesFromOffers>
 >[number];
 
 /** @knipignore */

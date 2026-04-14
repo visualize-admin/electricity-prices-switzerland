@@ -33,7 +33,7 @@ import { SessionConfigDebug } from "src/components/session-config-debug";
 import ShareButton from "src/components/share-button";
 import SunshineMap from "src/components/sunshine-map";
 import { SessionConfigDebugProps } from "src/data/shared-page-props";
-import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useIndicatorValueFormatter } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import {
@@ -55,29 +55,29 @@ import { defaultLocale } from "src/locales/config";
 
 const MobileControls = dynamic(
   () => import("src/components/map/mobile-controls").then((mod) => mod),
-  { ssr: false },
+  { ssr: false }
 );
 
 const MapDetailsContent = dynamic(
   () =>
     import("src/components/map-details-content").then(
-      (mod) => mod.MapDetailsContent,
+      (mod) => mod.MapDetailsContent
     ),
-  { ssr: false },
+  { ssr: false }
 );
 
 const ContentWrapper = dynamic(
   () =>
     import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper,
+      (mod) => mod.ContentWrapper
     ),
-  { ssr: false },
+  { ssr: false }
 );
 
 const ApplicationLayout = dynamic(
   () =>
     import("src/components/app-layout").then((mod) => mod.ApplicationLayout),
-  { ssr: false },
+  { ssr: false }
 );
 
 const DOWNLOAD_ID = "map";
@@ -144,7 +144,7 @@ const MapPageContent = ({
         setQueryState({ entity: newEntity });
       }
     },
-    [isElectricityTab, setQueryState],
+    [isElectricityTab, setQueryState]
   );
 
   const colorAccessor = useCallback((d: { value: number }) => d.value, []);
@@ -152,7 +152,7 @@ const MapPageContent = ({
   // Simple accessor for sunshine data - just get the value field
   const sunshineAccessor = useCallback(
     (r: SunshineDataIndicatorRow) => r?.value ?? undefined,
-    [],
+    []
   );
 
   const controlsRef: NonNullable<EnergyPricesMapProps["controls"]> =
@@ -211,11 +211,11 @@ const MapPageContent = ({
   const colorScale = useMemo(() => {
     const medianValue = isElectricityTab
       ? energyPricesEnrichedData.data?.swissMedianObservations[0]?.value
-      : (sunshineAllDataResult.data?.median ?? undefined);
+      : sunshineAllDataResult.data?.median ?? undefined;
     const specKey = isElectricityTab ? "energyPrices" : indicator;
     const thresholdEncoding = thresholdEncodings[specKey];
     const isValidValue = <T extends { value?: number | null | undefined }>(
-      x: T,
+      x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
     const sunshineValues = (sunshineAllDataResult.data?.observations ?? [])
@@ -245,7 +245,7 @@ const MapPageContent = ({
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
-    "parameters",
+    "parameters"
   );
 
   const handleCloseMobileControlsDrawer = useEventCallback(() => {
@@ -282,7 +282,6 @@ const MapPageContent = ({
       controls={controlsRef}
       period={period}
       priceComponent={priceComponent as PriceComponent}
-      category={category as ElectricityCategory}
       entity={entity}
       setEntity={setEntity}
       widgets={mapWidgets}
@@ -298,7 +297,6 @@ const MapPageContent = ({
       period={period}
       indicator={indicator}
       networkLevel={networkLevel}
-      category={netElectricityCategory || energyElectricityCategory}
       widgets={mapWidgets}
     />
   );
@@ -310,14 +308,14 @@ const MapPageContent = ({
       return entity === "canton"
         ? groupsFromCantonElectricityObservations(
             energyPricesEnrichedData.data?.cantonMedianObservations ??
-              EMPTY_ARRAY,
+              EMPTY_ARRAY
           )
         : entity === "operator"
-          ? groupsFromElectricityOperators(observations)
-          : groupsFromElectricityMunicipalities(observations);
+        ? groupsFromElectricityOperators(observations)
+        : groupsFromElectricityMunicipalities(observations);
     } else {
       return groupsFromSunshineObservations(
-        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY,
+        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY
       );
     }
   }, [
@@ -433,7 +431,7 @@ const MapPageContent = ({
           indicator: indicator,
           networkLevel,
           dataType: "sunshine",
-        },
+        }
   );
 
   return (
@@ -622,7 +620,7 @@ export const MapPage = ({
     (id: string | null) => {
       setQueryState({ activeId: id });
     },
-    [setQueryState],
+    [setQueryState]
   );
 
   return (
