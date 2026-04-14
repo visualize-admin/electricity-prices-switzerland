@@ -1,16 +1,15 @@
 import MiniSearch from "minisearch";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
-import { fetchLinkedMunicipalityIds, search } from "src/rdf/search-queries";
+import {
+  loadAllCantons,
+  loadAllMunicipalities,
+  loadAllOperators,
+  SearchResult,
+} from "src/rdf/search-queries";
 
+export type { SearchResult };
 export type SearchType = "municipality" | "canton" | "operator";
-
-export type SearchResult = {
-  id: string;
-  name: string;
-  type: string;
-  isAbolished: boolean;
-};
 
 type CacheEntry = {
   data: SearchResult[];
@@ -32,8 +31,8 @@ const normalizeText = (term: string) =>
 function buildIndex(data: SearchResult[]): MiniSearch {
   const idx = new MiniSearch({
     idField: "_key",
-    fields: ["name"],
-    storeFields: ["id", "name", "type", "isAbolished"],
+    fields: ["name", "postalCodes"],
+    storeFields: ["id", "name", "type", "isAbolished", "postalCodes"],
     tokenize: (term) => term.split(/[\s\-:(),]+/),
     processTerm: normalizeText,
     searchOptions: {
@@ -46,23 +45,27 @@ function buildIndex(data: SearchResult[]): MiniSearch {
   return idx;
 }
 
+async function loadAll(
+  locale: string,
+  type: SearchType,
+  client: ParsingClient
+): Promise<SearchResult[]> {
+  switch (type) {
+    case "municipality":
+      return loadAllMunicipalities({ client });
+    case "operator":
+      return loadAllOperators({ client });
+    case "canton":
+      return loadAllCantons({ client, locale });
+  }
+}
+
 async function buildCacheEntry(
   locale: string,
   type: SearchType,
   client: ParsingClient
 ): Promise<CacheEntry> {
-  const [allData, linkedIds] = await Promise.all([
-    search({ query: ".*", ids: [], locale, types: [type], limit: 5000, client }),
-    type === "municipality" ? fetchLinkedMunicipalityIds({ client }) : null,
-  ]);
-
-  const data =
-    linkedIds !== null
-      ? allData.filter((d) =>
-          linkedIds.has(`https://ld.admin.ch/municipality/${d.id}`)
-        )
-      : allData;
-
+  const data = await loadAll(locale, type, client);
   const index = buildIndex(data);
   return { data, index, builtAt: Date.now() };
 }
