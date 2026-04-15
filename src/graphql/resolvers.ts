@@ -1,17 +1,18 @@
 import { difference } from "d3";
 import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
+import { last, sortBy } from "lodash";
 import micromark from "micromark";
-import type { IndicatorMedianParams } from "src/lib/sunshine-data";
-import type { PeerGroupRecord } from "src/lib/sunshine-data-service";
+import { asElectricityCategory } from "src/domain/data";
 
 import { searchGeverDocuments } from "src/domain/gever";
+import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
 import { getWikiPage } from "src/domain/wiki/gitlab-api";
 import {
+  ElectricityCategory,
   ResolvedCantonMedianObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
-  ElectricityCategory,
 } from "src/graphql/resolver-mapped-types";
 import {
   CantonMedianObservationResolvers,
@@ -25,6 +26,8 @@ import {
   SunshineDataFilter,
   SwissMedianObservationResolvers,
 } from "src/graphql/resolver-types";
+import { getSearchIndex, SearchType } from "src/lib/search-index-cache";
+import type { IndicatorMedianParams } from "src/lib/sunshine-data";
 import {
   fetchEnergyTariffsData,
   fetchNetTariffsData,
@@ -35,29 +38,59 @@ import {
   fetchSaidi,
   fetchSaifi,
 } from "src/lib/sunshine-data";
+import type { PeerGroupRecord } from "src/lib/sunshine-data-service";
+import { truthy } from "src/lib/truthy";
 import { defaultLocale } from "src/locales/config";
-import {
-  getElectricityPriceCantonCube,
-  getDimensionValuesAndLabels,
-  getElectricityPriceObservations,
-  getElectricityPriceCube,
-  getOperatorDocuments,
-  getElectricityPriceSwissCube,
-  getOperatorsMunicipalities,
-  getView,
-} from "src/rdf/queries";
-import { fetchOperatorInfo, search } from "src/rdf/search-queries";
-import { asElectricityCategory } from "src/domain/data";
-import { asNetworkLevel, SunshineIndicator } from "src/domain/sunshine";
-import { last, sortBy } from "lodash";
 import {
   CoverageCacheManager,
   DEFAULT_COVERAGE_NETWORK_LEVEL,
 } from "src/rdf/coverage-ratio";
-import { truthy } from "src/lib/truthy";
+import {
+  getDimensionValuesAndLabels,
+  getElectricityPriceCantonCube,
+  getElectricityPriceCube,
+  getElectricityPriceObservations,
+  getElectricityPriceSwissCube,
+  getOperatorDocuments,
+  getOperatorsMunicipalities,
+  getView,
+} from "src/rdf/queries";
+import { fetchOperatorInfo } from "src/rdf/search-queries";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
+
+import ParsingClient from "sparql-http-client/ParsingClient";
+import type { SearchResult as CachedSearchResult } from "src/lib/search-index-cache";
+
+const searchWithIndex = async ({
+  locale,
+  types,
+  query,
+  ids,
+  client,
+}: {
+  locale: string;
+  types: SearchType[];
+  query: string;
+  ids: string[];
+  client: ParsingClient;
+}): Promise<CachedSearchResult[]> => {
+  if (query === "" && ids.length === 0) return [];
+
+  const { data, index } = await getSearchIndex(locale, types, client);
+
+  if (ids.length > 0) {
+    const idSet = new Set(ids);
+    return data.filter((d) => idSet.has(d.id));
+  }
+
+  const hits = index.search(query);
+  const byKey = new Map(data.map((d) => [`${d.type}:${d.id}`, d]));
+  return hits
+    .map((hit) => byKey.get(`${hit.type}:${hit.id}`))
+    .filter((r): r is CachedSearchResult => r !== undefined);
+};
 
 const expectedCubeDimensions = [
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/category",
@@ -78,9 +111,8 @@ const expectedCubeDimensions = [
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
     const { filter } = args;
-    const sunshineData = await context.sunshineDataService.getSunshineData(
-      filter
-    );
+    const sunshineData =
+      await context.sunshineDataService.getSunshineData(filter);
     return sunshineData;
   },
   sunshineDataByIndicator: async (_parent, args, context) => {
@@ -105,7 +137,7 @@ const Query: QueryResolvers = {
 
     // Calculate median value
     const typedIndicator = filter.indicator as SunshineIndicator | undefined;
-    let medianValue: number | undefined = undefined;
+    let medianValue: number | undefined;
 
     if (typedIndicator) {
       try {
@@ -120,9 +152,9 @@ const Query: QueryResolvers = {
         if (medianParams) {
           const medianRows = sortBy(
             await context.sunshineDataService.getYearlyIndicatorMedians(
-              medianParams
+              medianParams,
             ),
-            (x) => x.period
+            (x) => x.period,
           );
           const medianResult = filter.period
             ? medianRows.find((x) => `${x.period}` === filter.period!)
@@ -131,7 +163,7 @@ const Query: QueryResolvers = {
             getMedianValueFromResult(
               medianResult,
               typedIndicator,
-              filter.saidiSaifiType ?? undefined
+              filter.saidiSaifiType ?? undefined,
             ) ?? undefined;
         }
       } catch (_error) {
@@ -139,7 +171,7 @@ const Query: QueryResolvers = {
         console.error(
           `Failed to calculate median for indicator ${filter.indicator}: ${
             _error instanceof Error ? _error.message : _error
-          }`
+          }`,
         );
       }
     }
@@ -173,9 +205,9 @@ const Query: QueryResolvers = {
       if (medianParams) {
         const medianRows = sortBy(
           await context.sunshineDataService.getYearlyIndicatorMedians(
-            medianParams
+            medianParams,
           ),
-          (x) => x.period
+          (x) => x.period,
         );
         const medianResult = filter.period
           ? medianRows.find((x) => `${x.period}` === filter.period!)
@@ -184,14 +216,14 @@ const Query: QueryResolvers = {
           getMedianValueFromResult(
             medianResult,
             typedIndicator!,
-            filter.saidiSaifiType ?? undefined
+            filter.saidiSaifiType ?? undefined,
           ) ?? 0;
       } else {
         throw new GraphQLError(
           `Unsupported indicator for median calculation: ${typedIndicator}`,
           {
             extensions: { code: "UNSUPPORTED_INDICATOR" },
-          }
+          },
         );
       }
     } catch (_error) {
@@ -201,7 +233,7 @@ const Query: QueryResolvers = {
         }`,
         {
           extensions: { code: "MEDIAN_CALCULATION_ERROR" },
-        }
+        },
       );
     }
 
@@ -212,9 +244,8 @@ const Query: QueryResolvers = {
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData = await context.sunshineDataService.getSunshineData(
-      filter
-    );
+    const sunshineData =
+      await context.sunshineDataService.getSunshineData(filter);
     return sunshineData;
   },
   sunshineTariffsByIndicator: async (_parent, args, context) => {
@@ -277,7 +308,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: observationDimensionKeys,
-            }
+            },
           )
         : [];
 
@@ -287,7 +318,7 @@ const Query: QueryResolvers = {
     })) as ResolvedOperatorObservation[];
 
     const years = Array.from(
-      new Set(operatorObservations.map((x) => x.period).filter(truthy))
+      new Set(operatorObservations.map((x) => x.period).filter(truthy)),
     );
     if (years) {
       const defaultNetworkLevel = "NE7";
@@ -296,7 +327,7 @@ const Query: QueryResolvers = {
       operatorObservations.forEach((x) => {
         const coverageRatio = coverageManager.getCoverage(
           x,
-          defaultNetworkLevel
+          defaultNetworkLevel,
         );
         x.coverageRatio = coverageRatio;
         return x;
@@ -305,14 +336,14 @@ const Query: QueryResolvers = {
 
     return CoverageCacheManager.filterByCoverageRatio(
       operatorObservations,
-      (o) => o.coverageRatio
+      (o) => o.coverageRatio,
     );
   },
   cantonMedianObservations: async (
     _,
     { locale, filters, observationKind },
     ctx,
-    info
+    info,
   ) => {
     if (observationKind && observationKind !== ObservationKind.Canton) {
       return null;
@@ -334,7 +365,7 @@ const Query: QueryResolvers = {
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
-      "CantonMedianObservation"
+      "CantonMedianObservation",
     );
 
     const medianDimensionKeys = medianObservationFields
@@ -359,7 +390,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: medianDimensionKeys,
-            }
+            },
           )
         : [];
 
@@ -389,7 +420,7 @@ const Query: QueryResolvers = {
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
-      "SwissMedianObservation"
+      "SwissMedianObservation",
     );
 
     const medianDimensionKeys = medianObservationFields
@@ -414,7 +445,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: medianDimensionKeys,
-            }
+            },
           )
         : [];
 
@@ -426,15 +457,13 @@ const Query: QueryResolvers = {
     return medianObservations;
   },
   operators: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
 
   peerGroups: async (_parent, { locale }, context) => {
@@ -443,82 +472,66 @@ const Query: QueryResolvers = {
   },
 
   municipalities: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   cantons: async (_, { query, ids, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   search: async (_, { query, locale }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: [],
       types: ["municipality", "operator", "canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   searchMunicipalities: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["municipality"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   allMunicipalities: async (_, { locale }, context) => {
-    const results = await search({
+    const { data } = await getSearchIndex(
       locale,
-      query: ".*",
-      ids: [],
-      limit: 5000,
-      types: ["municipality"],
-      client: context.sparqlClient,
-    });
-
-    return results;
+      ["municipality"],
+      context.sparqlClient,
+    );
+    return data;
   },
   searchOperators: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["operator"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   searchCantons: async (_, { query, locale, ids }, context) => {
-    const results = await search({
+    return searchWithIndex({
       locale,
       query: query ?? "",
       ids: ids ?? [],
       types: ["canton"],
       client: context.sparqlClient,
     });
-
-    return results;
   },
   municipality: async (_, { id }, ctx) => {
     const cube = await getElectricityPriceCube(ctx.sparqlClient);
@@ -556,7 +569,7 @@ const Query: QueryResolvers = {
     // Exit early if home-banner is requested and it's disabled
     const extraInfo = await getExtraInfo(slug);
     const wikiPage = await getWikiPage(
-      `${slug}/${locale === "en" ? "de" : locale}`
+      `${slug}/${locale === "en" ? "de" : locale}`,
     );
 
     if (!wikiPage) {
@@ -638,7 +651,7 @@ const Query: QueryResolvers = {
   operatorMunicipalities: async (
     _,
     { period, electricityCategory, networkLevel },
-    context
+    context,
   ) => {
     const category = electricityCategory
       ? asElectricityCategory(electricityCategory)
@@ -659,7 +672,7 @@ const Query: QueryResolvers = {
           municipality: String(item.municipality),
           operator: item.operator,
         },
-        level
+        level,
       );
       return coverage;
     });
@@ -669,7 +682,7 @@ const Query: QueryResolvers = {
 const getExtraInfo = async (slug: string) => {
   if (slug === "home-banner") {
     const bannerEnabled = (await getWikiPage("home"))?.content.match(
-      /home_banner_enabled:\W*true/
+      /home_banner_enabled:\W*true/,
     );
     return { bannerEnabled };
   } else {
@@ -693,7 +706,7 @@ const Operator: OperatorResolvers = {
     const cube = await getElectricityPriceCube(ctx.sparqlClient);
 
     // Get locale from operation variables, default to 'de'
-    const locale = (info.variableValues as any)?.locale ?? 'de';
+    const locale = (info.variableValues as any)?.locale ?? "de";
 
     const municipalities = await getDimensionValuesAndLabels({
       cube,
@@ -725,7 +738,7 @@ const Operator: OperatorResolvers = {
     } catch (e) {
       console.warn(
         "Could not search documents",
-        e instanceof Error ? e.message : e
+        e instanceof Error ? e.message : e,
       );
       return [];
     }
@@ -733,11 +746,11 @@ const Operator: OperatorResolvers = {
 
   peerGroup: async ({ id }, _args, context) => {
     const latestYear = await context.sunshineDataService.getLatestYearSunshine(
-      parseInt(id, 10)
+      parseInt(id, 10),
     );
     const peerGroups = await context.sunshineDataService.getOperatorPeerGroup(
       id,
-      latestYear
+      latestYear,
     );
     return peerGroups;
   },
@@ -847,7 +860,7 @@ export const resolvers: Resolvers = {
 
 // Helper function to create indicator median params from structured filter
 const createIndicatorMedianParams = (
-  filter: SunshineDataFilter
+  filter: SunshineDataFilter,
 ): IndicatorMedianParams | null => {
   if (!filter.indicator) return null;
 
@@ -918,7 +931,7 @@ const createIndicatorMedianParams = (
 const getMedianValueFromResult = (
   result_: PeerGroupRecord<any> | undefined,
   indicator: SunshineIndicator,
-  saidiSaifiType?: string
+  saidiSaifiType?: string,
 ): number | undefined => {
   if (!result_) return undefined;
 

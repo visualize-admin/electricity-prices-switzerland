@@ -5,6 +5,10 @@ import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
 
 import { createMetricsReporterOptions } from "./src/metrics/playwright-reporter";
+import {
+  getExtraHttpHeadersFromEnv,
+  getHttpCredentialsFromEnv,
+} from "./src/utils/test-utils";
 
 loadEnvConfig(process.cwd(), true);
 
@@ -23,20 +27,6 @@ const argosBuildName =
         get: (test: { tags: string[] }) =>
           test.tags.includes("@storybook") ? "storybook" : "app",
       };
-
-const getHttpCredentialsFromEnv = () => {
-  const usernamePassword = process.env.BASIC_AUTH_CREDENTIALS;
-  if (!usernamePassword) {
-    return undefined;
-  }
-  const [username, password] = usernamePassword.split(":");
-  if (!username || !password) {
-    throw new Error(
-      "BASIC_AUTH_CREDENTIALS environment variable must be in the format 'username:password'"
-    );
-  }
-  return { username, password };
-};
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -89,13 +79,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         httpCredentials: getHttpCredentialsFromEnv(),
-        extraHTTPHeaders: {
-          "x-vercel-skip-toolbar": "1",
-          ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET && {
-            "x-vercel-protection-bypass":
-              process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
-          }),
-        },
+        extraHTTPHeaders: getExtraHttpHeadersFromEnv(),
       },
     },
 

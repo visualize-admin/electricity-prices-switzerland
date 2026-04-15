@@ -309,6 +309,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
         latestYear={latestYear}
         peerGroup={peerGroup}
         sx={{ gridArea: "peer-group" }}
+        infoDialogProps={getInfoDialogProps("help-peer-group")}
       />
       <TableComparisonCard
         {...comparisonCardProps}
@@ -498,6 +499,7 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
         latestYear={latestYear}
         peerGroup={peerGroup}
         sx={{ gridArea: "peer-group" }}
+        infoDialogProps={getInfoDialogProps("help-peer-group")}
       />
 
       <TableComparisonCard
@@ -690,6 +692,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
         latestYear={latestYear}
         peerGroup={peerGroup}
         sx={{ gridArea: "peer-group" }}
+        infoDialogProps={getInfoDialogProps("help-peer-group")}
       />
 
       <TableComparisonCard

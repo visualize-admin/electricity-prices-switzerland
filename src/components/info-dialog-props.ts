@@ -61,6 +61,13 @@ const infoDialogProps = () =>
         message: "Outage Information",
       }),
     },
+    "help-peer-group": {
+      slug: "help-peer-group",
+      label: t({
+        id: "sunshine.costs-and-tariffs.peer-group",
+        message: "Peer Group",
+      }),
+    },
   } satisfies Partial<Record<WikiPageSlug, InfoDialogButtonProps>>);
 
 export const getInfoDialogProps = <
