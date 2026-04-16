@@ -4,7 +4,6 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import * as ns from "./namespace";
 
-
 export type SearchResult = {
   id: string;
   name: string;
@@ -31,9 +30,10 @@ export const loadAllMunicipalities = async ({
       }
       ?municipality a ?class .
       ?municipality <http://schema.org/name> ?municipalityLabel .
-      OPTIONAL { ?municipality <http://schema.org/postalCode> ?postalCode . }
+
       GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-        [] <http://schema.org/areaServed> ?municipality .
+        [] <http://schema.org/areaServed> ?municipality ;
+            <http://schema.org/postalCode> ?postalCode .
       }
     }
     GROUP BY ?municipality ?municipalityLabel ?class
@@ -52,7 +52,7 @@ export const loadAllMunicipalities = async ({
     name: d.name.value,
     type: d.type.value,
     isAbolished: ns.schemaAdmin`AbolishedMunicipality`.equals(
-      d.municipalityClass
+      d.municipalityClass,
     ),
     postalCodes: d.postalCodes?.value || undefined,
   }));
