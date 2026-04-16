@@ -1,9 +1,9 @@
 import {
-  Footer as SwissFederalCiFooter,
   FooterSection,
   FooterSectionButton,
   FooterSectionText,
   FooterSectionTitle,
+  Footer as SwissFederalCiFooter,
   useConsentBanner,
 } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
@@ -133,7 +133,7 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             onClick={showBanner}
             label={t({
               id: "footer.usage-statistics-choice",
-              message: "Manage Analytics Preferences",
+              message: "Manage cookie preferences",
             })}
           />
         )}
@@ -168,7 +168,9 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
 
-        <Link href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}>
+        <Link
+          href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}
+        >
           <FooterSectionButton
             iconName="download"
             label={t({

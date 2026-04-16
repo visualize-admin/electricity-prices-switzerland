@@ -64,7 +64,7 @@ msgstr "Svuotare il campo di ricerca"
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.accept"
-msgstr ""
+msgstr "Accettare"
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.content"
@@ -72,7 +72,7 @@ msgstr "Per adattare al meglio la nostra offerta web alle vostre esigenze, utili
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.reject"
-msgstr ""
+msgstr "Rifiuto"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
@@ -442,7 +442,7 @@ msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
 
 #: src/components/footer.tsx
 msgid "footer.usage-statistics-choice"
-msgstr ""
+msgstr "Gestione delle preferenze sui cookie"
 
 #: src/components/header.tsx
 msgid "header.long-title"

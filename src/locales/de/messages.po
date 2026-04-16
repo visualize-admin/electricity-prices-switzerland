@@ -64,7 +64,7 @@ msgstr "Suchfeld leeren"
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.accept"
-msgstr ""
+msgstr "Akzeptieren"
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.content"
@@ -72,7 +72,7 @@ msgstr "Damit wir unser Webangebot optimal auf Ihre Bedürfnisse ausrichten kön
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.reject"
-msgstr ""
+msgstr "Ablehnen"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
@@ -440,7 +440,7 @@ msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
 
 #: src/components/footer.tsx
 msgid "footer.usage-statistics-choice"
-msgstr ""
+msgstr "Cookie-Einstellungen verwalten"
 
 #: src/components/header.tsx
 msgid "header.long-title"

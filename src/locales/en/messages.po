@@ -440,7 +440,7 @@ msgstr "Transmission grid tariff components - Swissgrid"
 
 #: src/components/footer.tsx
 msgid "footer.usage-statistics-choice"
-msgstr "Your choice on Usage Statistics"
+msgstr "Manage cookie preferences"
 
 #: src/components/header.tsx
 msgid "header.long-title"
