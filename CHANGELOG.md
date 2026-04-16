@@ -15,6 +15,14 @@ You can also check the
 - Mini charts period indicator now highlights the selected period
 - Added missing formatting to costs and tariffs card values
 
+# 2.43.0 - 2026-04-16
+
+- Added small resolution in map download
+- Analytics is fixed and users need to consent before they are sent
+- Fix home images on ref/abn
+- Improve search (support for diacritics and remove municipalities without offers)
+
+
 # 2.42.1 - 2026-04-14
 
 - Update nextjs to 15.5.15
