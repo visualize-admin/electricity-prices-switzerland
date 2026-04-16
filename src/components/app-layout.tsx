@@ -1,8 +1,13 @@
 import {
+  ConsentBanner,
+  giveMatomoConsent,
+  useConsentBanner,
+} from "@interactivethings/swiss-federal-ci/dist/components";
+import {
   MenuButton,
   MenuContainer,
 } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { t } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
@@ -15,6 +20,7 @@ import {
 } from "src/components/highlight-context";
 import { SafeHydration } from "src/components/hydration";
 import { Search } from "src/components/search";
+import { useMatomo } from "src/domain/analytics";
 
 type ApplicationLayoutProps = {
   children: ReactNode;
@@ -28,6 +34,8 @@ export const ApplicationLayout = ({
   showHeaderCaption = true,
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
+  const matomoId = useMatomo();
+  const { isShown, giveConsent, rejectConsent } = useConsentBanner();
 
   return (
     <HighlightContext.Provider
@@ -48,6 +56,27 @@ export const ApplicationLayout = ({
         </Box>
         <Footer />
       </Box>
+      {matomoId && (
+        <ConsentBanner
+          isShown={isShown}
+          content={
+            <Trans id="cookie.banner.content">
+              To optimally tailor our website to your needs, we use the
+              analytics tool Matomo. Your behaviour on the website is recorded
+              in anonymised form. No personal data is transmitted or stored. If
+              you do not agree, you can prevent data collection by Matomo and
+              still use this website without restrictions.
+            </Trans>
+          }
+          acceptButtonLabel={<Trans id="cookie.banner.accept">Accept</Trans>}
+          rejectButtonLabel={<Trans id="cookie.banner.reject">Reject</Trans>}
+          onConsentGive={() => {
+            giveConsent();
+            giveMatomoConsent();
+          }}
+          onConsentReject={rejectConsent}
+        />
+      )}
     </HighlightContext.Provider>
   );
 };

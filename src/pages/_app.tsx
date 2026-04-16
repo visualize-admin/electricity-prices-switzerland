@@ -7,11 +7,11 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { analyticsPageView, useMatomo } from "src/domain/analytics";
 import createEmotionCache from "src/emotion-cache";
-import { getClientRuntimeEnv, runtimeEnv } from "src/env/runtime";
+import { getClientRuntimeEnv } from "src/env/runtime";
 import { GraphqlProvider } from "src/graphql/context";
 import { LocaleProvider } from "src/lib/use-locale";
 import { useNProgress } from "src/lib/use-nprogress";

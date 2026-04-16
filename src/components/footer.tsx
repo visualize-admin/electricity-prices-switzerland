@@ -4,10 +4,12 @@ import {
   FooterSectionButton,
   FooterSectionText,
   FooterSectionTitle,
+  useConsentBanner,
 } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
+import { useMatomo } from "src/domain/analytics";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { useLocale } from "src/lib/use-locale";
 
@@ -20,6 +22,8 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
   const helpMunicipalitiesInfoDisclosure = useDisclosure();
+  const matomoId = useMatomo();
+  const { showBanner } = useConsentBanner();
 
   const bottomLinks = [
     {
@@ -123,6 +127,16 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             })}
           />
         </Link>
+        {matomoId && (
+          <FooterSectionButton
+            iconName="arrow-right"
+            onClick={showBanner}
+            label={t({
+              id: "footer.usage-statistics-choice",
+              message: "Manage Analytics Preferences",
+            })}
+          />
+        )}
       </FooterSection>
       <FooterSection>
         <FooterSectionTitle
