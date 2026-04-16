@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -376,7 +376,7 @@ msgstr "Datenvisualisierungen mit den ElCom-Daten erstellen"
 
 #: src/components/footer.tsx
 msgid "footer.data-as-csv"
-msgstr "Daten als CSV"
+msgstr "Daten als .csv"
 
 #: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"
@@ -408,7 +408,7 @@ msgstr "Weitere Informationen"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Sunshinedaten als CSV"
+msgstr "Daten als CSV (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -571,7 +571,7 @@ msgstr "Bild herunterladen"
 #: src/pages/api/sunshine-data-export.ts
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Kosten und Gewinn"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -728,7 +728,7 @@ msgstr "Herunterladen"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3"
+msgstr "Gross (A3)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.info"
@@ -736,7 +736,7 @@ msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
-msgstr "Kann ressourcenintensiv sein und länger dauern"
+msgstr "Längere Ladezeit"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
@@ -744,7 +744,7 @@ msgstr "Auf dem Handy nicht verfügbar, bitte verwenden Sie einen Desktop-Browse
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4"
+msgstr "Mittel (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
@@ -880,11 +880,11 @@ msgstr "Auf der Detailseite des Netzbetreibers finden Sie aktuelle Informationen
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.canton-comparison"
-msgstr "Kanton Vergleich"
+msgstr "Kantonsvergleich"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-components"
-msgstr "Preiskomponenten"
+msgstr "Preis Komponenten"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-distribution"
@@ -892,7 +892,7 @@ msgstr "Preisverteilung"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.tariffs-development"
-msgstr "Entwicklung der Tarife"
+msgstr "Tarifentwicklung"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"

@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -376,7 +376,7 @@ msgstr "Créer des visualisations de données avec les données ElCom"
 
 #: src/components/footer.tsx
 msgid "footer.data-as-csv"
-msgstr "Données au format CSV"
+msgstr "Données au format .csv"
 
 #: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"
@@ -408,7 +408,7 @@ msgstr "Informations complémentaires"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Données Sunshine au format CSV"
+msgstr "Données au format .csv (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -529,7 +529,7 @@ msgstr "Coûts du réseau et tarifs"
 #: src/components/sunshine/sunshine-topics.tsx
 msgid "home.sunshine-topics.card.power-stability.description"
 msgstr ""
-"Le SAIDI mesure la durée totale des coupures d'alimentation par client et par an, tandis que le SAIFI indique la fréquence des coupures. Ensemble, ils offrent des indications clés sur la fiabilité et la stabilité de l'approvisionnement en électricité sur une période donnée.Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
+"Le SAIDI mesure la durée moyenne des interruptions de courant, tandis que le SAIFI en mesure la fréquence.\n"
 "Les deux indicateurs fournissent des informations importantes sur la fiabilité et la stabilité de l’approvisionnement en électricité.\n"
 "Les valeurs sont présentées séparément pour les interruptions planifiées et non planifiées. Les données ne sont collectées que chez les plus grands gestionnaires de réseau. Certaines zones d’approvisionnement sont donc représentées en gris."
 
@@ -731,7 +731,7 @@ msgstr "Télécharger"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3"
+msgstr "Grand (A3)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.info"
@@ -739,7 +739,7 @@ msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
-msgstr "Peut nécessiter des ressources importantes et prendre plus de temps à produire"
+msgstr "Temps de chargement plus long"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
@@ -747,7 +747,7 @@ msgstr "Indisponible sur mobile, veuillez utiliser un navigateur de bureau"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4"
+msgstr "Moyen (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
@@ -1438,7 +1438,7 @@ msgstr "Sélectionner les opérateurs à comparer"
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.description"
 msgstr ""
-"Cette page présente un aperçu des coûts et tarifs de l'électricité, y compris les coûts du réseau, les tarifs d'utilisation du réseau et les tarifs d'énergie. Comparez différents fournisseurs et analysez les tendances au sein de votre groupe homologue pour mieux comprendre votre position sur le marché.Sur cette page, vous trouverez une répartition détaillée des coûts de l’électricité selon trois indicateurs principaux : coûts du réseau, tarifs réseau et tarifs d’énergie.\n"
+"Sur cette page, vous trouverez une répartition détaillée des coûts de l’électricité selon trois indicateurs principaux : coûts du réseau, tarifs réseau et tarifs d’énergie.\n"
 "Ces indicateurs couvrent les coûts liés à l’exploitation et à l’entretien du réseau, les tarifs pour l’utilisation du réseau ainsi que les coûts de consommation d’énergie.\n"
 "Comme toutes les données affichées sont comparables au sein du même groupe de gestionnaires de réseau, il est facile d’évaluer les différents tarifs appliqués à l’intérieur du réseau."
 
