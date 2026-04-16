@@ -42,9 +42,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create fake wiki content
-        run: echo "[]" > src/domain/wiki/content.json
-
       - name: Install dependencies
         uses: ./.github/workflows/install-deps
 
@@ -55,7 +52,7 @@ jobs:
 
       - name: Check for uncommitted locale changes
         run: |
-          if ! git diff --exit-code; then
+          if ! git diff src/locales --exit-code; then
             echo "Locales should be updated in the repository via pnpm locales:export"
             exit 1
           fi
