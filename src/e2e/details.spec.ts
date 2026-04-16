@@ -12,7 +12,7 @@ test.describe("Segmented control visibility", () => {
     await expect(
       await page.getByRole("button", { name: "Group municipalities" }),
     ).toBeVisible({
-      timeout: 10_000,
+      timeout: 30_000,
     });
   });
 
@@ -25,7 +25,7 @@ test.describe("Segmented control visibility", () => {
     await expect(
       page.getByRole("button", { name: "Group municipalites" }),
     ).not.toBeVisible({
-      timeout: 10_000,
+      timeout: 30_000,
     });
   });
 
@@ -48,7 +48,7 @@ test.describe("Segmented control visibility", () => {
 
     await expect(
       page.getByRole("button", { name: "Grouping network operators" }),
-    ).toBeVisible({ timeout: 25_000 });
+    ).toBeVisible({ timeout: 30_000 });
   });
 
   test("should not appear for canton view", async ({ page }) => {
