@@ -1,5 +1,6 @@
 import {
   ConsentBanner,
+  forgetMatomoConsent,
   giveMatomoConsent,
   useConsentBanner,
 } from "@interactivethings/swiss-federal-ci/dist/components";
@@ -74,7 +75,10 @@ export const ApplicationLayout = ({
             giveConsent();
             giveMatomoConsent();
           }}
-          onConsentReject={rejectConsent}
+          onConsentReject={() => {
+            rejectConsent();
+            forgetMatomoConsent();
+          }}
         />
       )}
     </HighlightContext.Provider>
