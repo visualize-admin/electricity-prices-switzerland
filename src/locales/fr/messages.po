@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -752,6 +752,14 @@ msgstr "Moyen (A4)"
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
 msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "Petit"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "{0} × {1} px"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
@@ -1518,6 +1526,7 @@ msgstr "Aucune donnée sur les coûts de réseau n'est disponible pour ce gestio
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Groupe de comparaison"

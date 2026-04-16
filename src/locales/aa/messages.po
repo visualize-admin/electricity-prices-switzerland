@@ -751,6 +751,14 @@ msgid "map.download.paper-size.a4.info"
 msgstr "map.download.paper-size.a4.info"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "map.download.paper-size.small"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "map.download.paper-size.small.info"
+
+#: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
 msgid "map.download.title"
 msgstr "map.download.title"
@@ -1512,6 +1520,7 @@ msgstr "sunshine.costs-and-tariffs.no-network-costs"
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "sunshine.costs-and-tariffs.operator"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "sunshine.costs-and-tariffs.peer-group"
