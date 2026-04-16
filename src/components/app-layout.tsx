@@ -11,7 +11,7 @@ import {
 import { Trans, t } from "@lingui/macro";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { Footer } from "src/components/footer";
 import { Header } from "src/components/header";
@@ -36,7 +36,16 @@ export const ApplicationLayout = ({
 }: ApplicationLayoutProps) => {
   const [highlightContext, setHighlightContext] = useState<HighlightValue>();
   const matomoId = useMatomo();
-  const { isShown, giveConsent, rejectConsent } = useConsentBanner();
+  const { hasConsented, isShown, giveConsent, rejectConsent } =
+    useConsentBanner();
+
+  useEffect(() => {
+    if (hasConsented === "accepted") {
+      giveMatomoConsent();
+    } else if (hasConsented === "rejected") {
+      forgetMatomoConsent();
+    }
+  }, [hasConsented]);
 
   return (
     <HighlightContext.Provider
@@ -71,14 +80,8 @@ export const ApplicationLayout = ({
           }
           acceptButtonLabel={<Trans id="cookie.banner.accept">Accept</Trans>}
           rejectButtonLabel={<Trans id="cookie.banner.reject">Reject</Trans>}
-          onConsentGive={() => {
-            giveConsent();
-            giveMatomoConsent();
-          }}
-          onConsentReject={() => {
-            rejectConsent();
-            forgetMatomoConsent();
-          }}
+          onConsentGive={giveConsent}
+          onConsentReject={rejectConsent}
         />
       )}
     </HighlightContext.Provider>
