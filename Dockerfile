@@ -6,7 +6,7 @@ FROM node:22-slim AS base
 
 # Install npm and force cross-spawn, glob version
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
-    apt-get install --only-upgrade perl-base && \
+    apt-get install --only-upgrade perl-base openssl libssl3 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm install -g npm@10.9.4 && \
