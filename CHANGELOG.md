@@ -9,6 +9,14 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+Nothing yet.
+
+# 2.42.1 - 2026-04-14
+
+- Update nextjs to 15.5.15
+
 # 2.42.0 - 2026-04-09
 
 - Improve map chart hovering with unit displays, text length adjustments and style changes

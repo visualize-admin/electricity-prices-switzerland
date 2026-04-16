@@ -408,7 +408,7 @@ msgstr "Further information"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Sunshine data as csv"
+msgstr "Data as csv (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -730,7 +730,7 @@ msgstr "Download"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3"
+msgstr "Large (A3)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.info"
@@ -738,7 +738,7 @@ msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
-msgstr "May be resource intensive and take longer to generate"
+msgstr "Longer loading time"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
@@ -746,11 +746,19 @@ msgstr "Unavailable on mobile, please use a desktop browser"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4"
+msgstr "Medium (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
 msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "Small"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "{0} × {1} px"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
@@ -1514,6 +1522,7 @@ msgstr "No network costs data available for this operator in the selected year."
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Peer Group"

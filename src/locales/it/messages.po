@@ -317,7 +317,7 @@ msgstr "Cliccate qui per tornare alla pagina principale"
 #: src/components/not-found.tsx
 msgid "error.page.404.description"
 msgstr ""
-"Potrebbe aver inserito un indirizzo (URL) non corretto, oppure la pagina o il documento non esiste più o ne è stato cambiato il nome. La pagina richiesta non è stata trovata.Questa pagina purtroppo non esiste.\n"
+"Questa pagina purtroppo non esiste.\n"
 "È possibile che sia stato inserito un indirizzo (URL) errato, oppure che il collegamento ipertestuale sia obsoleto."
 
 #: src/components/not-found.tsx
@@ -410,7 +410,7 @@ msgstr "Informazioni complementari"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Dati Sunshine come CSV"
+msgstr "Dati in formato .csv (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -730,7 +730,7 @@ msgstr "Scaricare"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3"
+msgstr "Grande (A3)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.info"
@@ -738,7 +738,7 @@ msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
-msgstr "Può essere ad alta intensità di risorse e richiedere più tempo per essere generato"
+msgstr "Tempo di caricamento più lungo"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
@@ -746,11 +746,19 @@ msgstr "Non disponibile su mobile, si prega di utilizzare un browser desktop"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4"
+msgstr "Medio (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
 msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "Piccolo"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "{0} × {1} px"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
@@ -882,11 +890,11 @@ msgstr "Nella pagina dei dettagli del gestore di rete si trovano informazioni ag
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.canton-comparison"
-msgstr "Canton a confronto"
+msgstr "Confronto tra cantoni"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-components"
-msgstr "Componenti del prezzo"
+msgstr "Componenti della tariffa"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-distribution"
@@ -894,7 +902,7 @@ msgstr "Distribuzione dei prezzi"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.tariffs-development"
-msgstr "Sviluppo delle tariffe"
+msgstr "Evoluzione delle tariffe"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "page.electricity-tariffs.title"
@@ -1514,6 +1522,7 @@ msgstr "Non sono disponibili dati sui costi di rete per questo gestore di rete n
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Gruppo di confronto"

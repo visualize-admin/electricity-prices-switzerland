@@ -6,7 +6,7 @@ const toBlob = (canvas: HTMLCanvasElement, type: string) =>
     canvas.toBlob((blob) => resolve(blob), type);
   });
 
-export type PaperSize = "a4" | "a3";
+export type PaperSize = "small" | "a4" | "a3";
 
 interface ScreenshotSizeConfig {
   image: { width: number; height: number };
@@ -21,6 +21,18 @@ const A3_IMAGE_WIDTH = 4961;
 const A3_CANVAS_WIDTH = 1490;
 
 export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
+  small: {
+    image: {
+      width: 1120,
+      height: 730,
+    },
+    canvas: {
+      width: 1120,
+      height: 730,
+    },
+    legendScale: 0.5,
+    legendPaddingPercent: 0.6,
+  },
   a4: {
     image: {
       width: Math.round(A3_IMAGE_WIDTH / Math.SQRT2),
@@ -47,8 +59,7 @@ export const SCREENSHOT_SIZES: Record<PaperSize, ScreenshotSizeConfig> = {
   },
 };
 
-export const DEFAULT_PAPER_SIZE: PaperSize = "a4";
-
+export const DEFAULT_PAPER_SIZE: PaperSize = "small";
 
 /**
  * Get the map as an image, using the Deck.gl canvas and html2canvas to get
@@ -57,7 +68,7 @@ export const DEFAULT_PAPER_SIZE: PaperSize = "a4";
 export const getMapImageData = async (
   deck: Deck,
   legend: HTMLElement | undefined,
-  paperSize: PaperSize = DEFAULT_PAPER_SIZE
+  paperSize: PaperSize = DEFAULT_PAPER_SIZE,
 ) => {
   if (!deck || "canvas" in deck === false) {
     return;
@@ -113,7 +124,7 @@ export const getMapImageData = async (
     0,
     (newCanvas.height - drawnMapHeight) / 2,
     newCanvas.width,
-    drawnMapHeight
+    drawnMapHeight,
   );
 
   if (legend) {
@@ -129,13 +140,13 @@ export const getMapImageData = async (
       legendPadding,
       legendPadding,
       width * ratio * sizeConfig.legendScale,
-      height * ratio * sizeConfig.legendScale
+      height * ratio * sizeConfig.legendScale,
     );
   }
 
   // Returns the canvas as a png
   const res = await toBlob(newCanvas, "image/png").then((blob) =>
-    blob ? URL.createObjectURL(blob) : undefined
+    blob ? URL.createObjectURL(blob) : undefined,
   );
 
   Object.assign(canvas, initialSize);
