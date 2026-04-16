@@ -42,12 +42,32 @@ const MapDownloadContent = ({
       sx={{ py: 2 }}
     >
       <FormControlLabel
+        value="small"
+        control={<Radio size="small" sx={{ mt: -2 }} />}
+        sx={{ alignItems: "flex-start", mb: 1 }}
+        label={
+          <Typography variant="body3" display="flex" alignItems="center" gap={1}>
+            {t({ id: "map.download.paper-size.small", message: "Small" })}
+            <Tooltip
+              title={t({
+                id: "map.download.paper-size.small.info",
+                message: `${SCREENSHOT_SIZES.small.image.width} × ${SCREENSHOT_SIZES.small.image.height} px`,
+              })}
+            >
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <Icon name="infocircle" size={16} />
+              </span>
+            </Tooltip>
+          </Typography>
+        }
+      />
+      <FormControlLabel
         value="a4"
         control={<Radio size="small" sx={{ mt: -2 }} />}
         sx={{ alignItems: "flex-start", mb: 1 }}
         label={
           <Typography variant="body3" display="flex" alignItems="center" gap={1}>
-            {t({ id: "map.download.paper-size.a4", message: "A4" })}
+            {t({ id: "map.download.paper-size.a4", message: "Medium (A4)" })}
             <Tooltip
               title={t({
                 id: "map.download.paper-size.a4.info",
@@ -69,7 +89,7 @@ const MapDownloadContent = ({
         label={
           <div>
             <Typography variant="body3" display="flex" alignItems="center" gap={1}>
-              {t({ id: "map.download.paper-size.a3", message: "A3" })}
+              {t({ id: "map.download.paper-size.a3", message: "Large (A3)" })}
               <Tooltip
                 title={t({
                   id: "map.download.paper-size.a3.info",

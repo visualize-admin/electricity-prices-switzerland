@@ -753,6 +753,14 @@ msgid "map.download.paper-size.a4.info"
 msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "Small"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "{0} × {1} px"
+
+#: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
 msgid "map.download.title"
 msgstr "Download image"
@@ -1514,6 +1522,7 @@ msgstr "No network costs data available for this operator in the selected year."
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Peer Group"
