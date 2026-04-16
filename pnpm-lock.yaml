@@ -60,8 +60,8 @@ importers:
         specifier: ^11.13.0
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.0.0)(react@18.3.1))(@types/react@19.0.0)(react@18.3.1)
       '@interactivethings/swiss-federal-ci':
-        specifier: ^3.1.1
-        version: 3.1.1(a4661d0b902c74bc8e500100f2282327)
+        specifier: ^3.3.0
+        version: 3.3.0(a4661d0b902c74bc8e500100f2282327)
       '@lingui/babel-plugin-lingui-macro':
         specifier: ^5.9.2
         version: 5.9.2(babel-plugin-macros@3.1.0)(typescript@5.9.3)
@@ -2479,8 +2479,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@interactivethings/swiss-federal-ci@3.1.1':
-    resolution: {integrity: sha512-5HbXA2RTXS7ejdNwPcnkgc5b5pY354EGA/HFDBqZoWDR7T4obDArecjmpLsNAxiXLvbPDnbhjQoB+WJZ9U683g==}
+  '@interactivethings/swiss-federal-ci@3.3.0':
+    resolution: {integrity: sha512-i2iciavsWGSm+xwCKAh8/HVaBYU9M+v3632GXDZp2SbMcC3fPJms5tlPmmcqYyghqRgocB9Vb8TE2unlT76qew==}
     peerDependencies:
       '@emotion/react': ^11.11.0
       '@emotion/styled': ^11.11.0
@@ -14689,7 +14689,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.19.1
 
-  '@interactivethings/swiss-federal-ci@3.1.1(a4661d0b902c74bc8e500100f2282327)':
+  '@interactivethings/swiss-federal-ci@3.3.0(a4661d0b902c74bc8e500100f2282327)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.0.0)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.0.0)(react@18.3.1))(@types/react@19.0.0)(react@18.3.1)
