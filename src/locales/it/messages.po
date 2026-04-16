@@ -62,6 +62,18 @@ msgstr "Inserire la descrizione..."
 msgid "controls.search.clear"
 msgstr "Svuotare il campo di ricerca"
 
+#: src/components/app-layout.tsx
+msgid "cookie.banner.accept"
+msgstr "Accettare"
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.content"
+msgstr "Per adattare al meglio la nostra offerta web alle vostre esigenze, utilizziamo lo strumento di analisi Matomo. Il vostro comportamento sul sito web viene registrato in forma anonima. Non vengono trasmessi o memorizzati dati personali. Se non siete d'accordo, potete impedire la raccolta di dati da parte di Matomo e continuare a utilizzare questo sito web senza restrizioni."
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.reject"
+msgstr "Rifiuto"
+
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
 msgstr "Tassa di aiuto"
@@ -427,6 +439,10 @@ msgstr "Comuni svizzeri e gestori di rete elettrica responsabili"
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Componenti tariffarie della rete di trasmissione - Swissgrid"
+
+#: src/components/footer.tsx
+msgid "footer.usage-statistics-choice"
+msgstr "Gestione delle preferenze sui cookie"
 
 #: src/components/header.tsx
 msgid "header.long-title"

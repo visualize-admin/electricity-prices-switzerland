@@ -1,13 +1,15 @@
 import {
-  Footer as SwissFederalCiFooter,
   FooterSection,
   FooterSectionButton,
   FooterSectionText,
   FooterSectionTitle,
+  Footer as SwissFederalCiFooter,
+  useConsentBanner,
 } from "@interactivethings/swiss-federal-ci/dist/components";
 import { t } from "@lingui/macro";
 import { Link, SxProps } from "@mui/material";
 
+import { useMatomo } from "src/domain/analytics";
 import { useQueryStateEnergyPricesMap } from "src/domain/query-states";
 import { useLocale } from "src/lib/use-locale";
 
@@ -20,6 +22,8 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
   const helpCalculationDisclosure = useDisclosure();
   const helpCsvDisclosure = useDisclosure();
   const helpMunicipalitiesInfoDisclosure = useDisclosure();
+  const matomoId = useMatomo();
+  const { showBanner } = useConsentBanner();
 
   const bottomLinks = [
     {
@@ -123,6 +127,16 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
             })}
           />
         </Link>
+        {matomoId && (
+          <FooterSectionButton
+            iconName="arrow-right"
+            onClick={showBanner}
+            label={t({
+              id: "footer.usage-statistics-choice",
+              message: "Manage cookie preferences",
+            })}
+          />
+        )}
       </FooterSection>
       <FooterSection>
         <FooterSectionTitle
@@ -154,7 +168,9 @@ export const Footer = ({ sx }: { sx?: SxProps }) => {
           />
         </Link>
 
-        <Link href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}>
+        <Link
+          href={`/api/sunshine-data-export?period=${period}&locale=${locale}`}
+        >
           <FooterSectionButton
             iconName="download"
             label={t({

@@ -1,9 +1,7 @@
-import { SELECT } from "@tpluscode/sparql-builder";
 import { Literal, NamedNode, Quad } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
 
 import * as ns from "./namespace";
-
 
 export type SearchResult = {
   id: string;
@@ -23,7 +21,7 @@ export const loadAllMunicipalities = async ({
 }: {
   client: ParsingClient;
 }): Promise<SearchResult[]> => {
-  const query = `
+  const query = /* sparql */ `
     SELECT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) (?class AS ?municipalityClass) (GROUP_CONCAT(DISTINCT STR(?postalCode); separator=" ") AS ?postalCodes) WHERE {
       VALUES ?class {
         <https://schema.ld.admin.ch/Municipality>
@@ -31,9 +29,10 @@ export const loadAllMunicipalities = async ({
       }
       ?municipality a ?class .
       ?municipality <http://schema.org/name> ?municipalityLabel .
-      OPTIONAL { ?municipality <http://schema.org/postalCode> ?postalCode . }
+
       GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
-        [] <http://schema.org/areaServed> ?municipality .
+        [] <http://schema.org/areaServed> ?municipality ;
+            <http://schema.org/postalCode> ?postalCode .
       }
     }
     GROUP BY ?municipality ?municipalityLabel ?class
@@ -52,7 +51,7 @@ export const loadAllMunicipalities = async ({
     name: d.name.value,
     type: d.type.value,
     isAbolished: ns.schemaAdmin`AbolishedMunicipality`.equals(
-      d.municipalityClass
+      d.municipalityClass,
     ),
     postalCodes: d.postalCodes?.value || undefined,
   }));
@@ -67,7 +66,7 @@ export const loadAllOperators = async ({
 }: {
   client: ParsingClient;
 }): Promise<SearchResult[]> => {
-  const query = `
+  const query = /* sparql */ `
     SELECT DISTINCT ("operator" AS ?type) (?operator AS ?iri) (?operatorLabel AS ?name) WHERE {
       GRAPH <https://lindas.admin.ch/elcom/electricityprice> {
         ?operator a <http://schema.org/Organization> .
@@ -101,7 +100,7 @@ export const loadAllCantons = async ({
   client: ParsingClient;
   locale: string;
 }): Promise<SearchResult[]> => {
-  const query = `
+  const query = /* sparql */ `
     SELECT DISTINCT ("canton" AS ?type) (?canton AS ?iri) (?cantonLabel AS ?name) WHERE {
       ?canton a <https://schema.ld.admin.ch/Canton> .
       ?canton <http://schema.org/name> ?cantonLabel .
@@ -124,10 +123,14 @@ export const loadAllCantons = async ({
 };
 
 const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
-  return SELECT`?uid`.WHERE`
-    <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a ${ns.schema.Organization} ;
-      ${ns.schema.identifier} ?uid
-  `;
+  return {
+    build: () => /* sparql */ `
+      SELECT ?uid WHERE {
+        <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a <http://schema.org/Organization> ;
+          <http://schema.org/identifier> ?uid .
+      }
+    `,
+  };
 };
 
 export const fetchOperatorInfo = async ({

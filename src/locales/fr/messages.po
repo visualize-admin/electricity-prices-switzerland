@@ -62,6 +62,18 @@ msgstr "Saisir la description…"
 msgid "controls.search.clear"
 msgstr "Supprimer"
 
+#: src/components/app-layout.tsx
+msgid "cookie.banner.accept"
+msgstr "Accepter"
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.content"
+msgstr "Afin d'adapter au mieux notre offre web à vos besoins, nous utilisons l'outil d'analyse Matomo. Votre comportement sur le site web est enregistré sous forme anonymisée. Aucune donnée personnelle n'est transmise ou stockée. Si vous n'êtes pas d'accord, vous pouvez empêcher la collecte de données par Matomo et continuer à utiliser ce site web sans restrictions."
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.reject"
+msgstr "Rejeter"
+
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
 msgstr "Frais d'aide"
@@ -425,6 +437,10 @@ msgstr "Communes suisses et gestionnaires de réseau d'électricité compétents
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Composantes tarifaires du réseau de transport - Swissgrid"
+
+#: src/components/footer.tsx
+msgid "footer.usage-statistics-choice"
+msgstr "Gérer les préférences en matière de cookies"
 
 #: src/components/header.tsx
 msgid "header.long-title"

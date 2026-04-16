@@ -48,7 +48,7 @@ function buildIndex(data: SearchResult[]): MiniSearch {
 async function loadAll(
   locale: string,
   type: SearchType,
-  client: ParsingClient
+  client: ParsingClient,
 ): Promise<SearchResult[]> {
   switch (type) {
     case "municipality":
@@ -63,7 +63,7 @@ async function loadAll(
 async function buildCacheEntry(
   locale: string,
   type: SearchType,
-  client: ParsingClient
+  client: ParsingClient,
 ): Promise<CacheEntry> {
   const data = await loadAll(locale, type, client);
   const index = buildIndex(data);
@@ -77,7 +77,7 @@ function getEndpointUrl(client: ParsingClient): string {
 async function getTypeEntry(
   locale: string,
   type: SearchType,
-  client: ParsingClient
+  client: ParsingClient,
 ): Promise<CacheEntry> {
   const key = `${getEndpointUrl(client)}:${locale}:${type}`;
   const cached = cache.get(key);
@@ -100,14 +100,14 @@ async function getTypeEntry(
 export async function getSearchIndex(
   locale: string,
   types: SearchType[],
-  client: ParsingClient
+  client: ParsingClient,
 ): Promise<CacheEntry> {
   if (types.length === 1) {
     return getTypeEntry(locale, types[0], client);
   }
 
   const entries = await Promise.all(
-    types.map((t) => getTypeEntry(locale, t, client))
+    types.map((t) => getTypeEntry(locale, t, client)),
   );
   const data = entries.flatMap((e) => e.data);
   const index = buildIndex(data);

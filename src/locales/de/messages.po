@@ -62,6 +62,18 @@ msgstr "Bezeichnung eingeben…"
 msgid "controls.search.clear"
 msgstr "Suchfeld leeren"
 
+#: src/components/app-layout.tsx
+msgid "cookie.banner.accept"
+msgstr "Akzeptieren"
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.content"
+msgstr "Damit wir unser Webangebot optimal auf Ihre Bedürfnisse ausrichten können, verwenden wir das Analysetool Matomo. Dabei wird Ihr Verhalten auf der Website in anonymisierter Form erfasst. Es werden also keine personenbezogenen Daten übermittelt oder gespeichert. Wenn Sie damit nicht einverstanden sind, können Sie die Datenerfassung durch Matomo unterbinden und diese Website trotzdem ohne Einschränkungen nutzen."
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.reject"
+msgstr "Ablehnen"
+
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
 msgstr "Gebühr für die Beihilfe"
@@ -425,6 +437,10 @@ msgstr "Schweizerische Gemeinden und zuständige Stromnetzbetreiber"
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Tarifkomponenten Übertragungsnetz - Swissgrid"
+
+#: src/components/footer.tsx
+msgid "footer.usage-statistics-choice"
+msgstr "Cookie-Einstellungen verwalten"
 
 #: src/components/header.tsx
 msgid "header.long-title"
