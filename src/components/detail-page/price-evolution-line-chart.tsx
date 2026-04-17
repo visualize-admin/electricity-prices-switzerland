@@ -273,6 +273,7 @@ const PriceEvolutionLineChart = (props: {
       </Box>
       <LineChart
         data={withUniqueEntityId}
+        mini={mini}
         fields={{
           x: {
             componentIri: "period",

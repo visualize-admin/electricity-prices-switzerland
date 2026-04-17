@@ -46,9 +46,11 @@ const useLinesState = ({
   data,
   fields,
   aspectRatio,
+  mini = false,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: LineFields;
   aspectRatio: number;
+  mini?: boolean;
 }): LinesState => {
   const { labelFontSize } = useChartTheme();
   const width = useWidth();
@@ -266,7 +268,11 @@ const useLinesState = ({
       )
     );
 
-    const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
+    const xPlacement = mini
+      ? "right"
+      : xAnchor < chartWidth * 0.5
+        ? "right"
+        : "left";
     const yPlacement = "middle";
 
     return {
@@ -322,11 +328,13 @@ const LineChartProvider = ({
   dimensions,
   measures,
   aspectRatio,
+  mini,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: LineFields;
   aspectRatio: number;
+  mini?: boolean;
 }) => {
   const state = useLinesState({
     data,
@@ -334,6 +342,7 @@ const LineChartProvider = ({
     dimensions,
     measures,
     aspectRatio,
+    mini,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -346,11 +355,13 @@ export const LineChart = ({
   dimensions,
   measures,
   aspectRatio,
+  mini,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: LineFields;
   children: ReactNode;
+  mini?: boolean;
 }) => {
   return (
     <Observer>
@@ -361,6 +372,7 @@ export const LineChart = ({
           dimensions={dimensions}
           measures={measures}
           aspectRatio={aspectRatio}
+          mini={mini}
         >
           {children}
         </LineChartProvider>
