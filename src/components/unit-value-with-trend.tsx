@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 import { TrendIcon } from "src/components/trend-icon";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { Trend } from "src/graphql/resolver-types";
 
 const roundTo = (value: number, round?: number): number => {
@@ -15,6 +16,9 @@ const UnitValueWithTrend: React.FC<{
   trend: Trend | undefined | null;
   round?: number;
 }> = ({ value, unit, trend, round }) => {
+  const formatDisplay = useFormatDisplayNumber();
+  const formatted = formatDisplay(roundTo(value, round));
+
   return (
     <Box display="inline-flex" alignItems="baseline" gap={1}>
       <span>
@@ -26,7 +30,7 @@ const UnitValueWithTrend: React.FC<{
         component="span"
         fontWeight={700}
       >
-        {roundTo(value, round)}
+        {formatted}
       </Typography>
       <Typography variant="caption" color="text.primary">
         {unit}
