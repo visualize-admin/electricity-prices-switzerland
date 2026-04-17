@@ -7,7 +7,6 @@ import {
   max,
   min,
   scaleLinear,
-  ScaleLinear,
   scaleOrdinal,
   scaleTime,
 } from "d3";
@@ -37,11 +36,6 @@ import { truthy } from "src/lib/truthy";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
-const roundDomain = (scale: ScaleLinear<number, number>) => {
-  const d = scale.domain();
-  return scale.domain([Math.floor(d[0]), Math.ceil(d[1])]);
-};
-
 const useLinesState = ({
   data,
   fields,
@@ -69,8 +63,10 @@ const useLinesState = ({
     [fields.x.componentIri]
   );
   const getY = (d: GenericObservation): number | undefined => {
-    const value = d[fields.y.componentIri];
-    return value === null ? undefined : (+value as number);
+    const v = d[fields.y.componentIri];
+    if (v == null) return undefined;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : undefined;
   };
 
   const getSegment = useCallback(
@@ -108,11 +104,11 @@ const useLinesState = ({
   const xAxisLabel = fields.x.axisLabel;
   const yAxisLabel = fields.y.axisLabel;
 
-  const minValue = min(sortedData, getY) || 0;
-  const maxValue = max(sortedData, getY) as number;
-  const yDomain = [minValue, maxValue];
-
-  const yScale = roundDomain(scaleLinear().domain(yDomain).nice(4));
+  // getY only returns finite numbers or undefined — domain never sees NaN.
+  const yValues = sortedData.map(getY).filter((v): v is number => v !== undefined);
+  const yMin = yValues.length ? (min(yValues) ?? 0) : 0;
+  const yMax = yValues.length ? (max(yValues) ?? yMin) : yMin;
+  const yScale = scaleLinear().domain([yMin, yMax]).nice(4);
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
