@@ -15,5 +15,6 @@ runs:
         cache: "pnpm"
 
     - name: Install dependencies
-      run: pnpm install
+      # --frozen-lockfile: never mutate pnpm-lock.yaml (avoids e.g. pnpm 10.33+
+      run: pnpm install --frozen-lockfile
       shell: "bash"
