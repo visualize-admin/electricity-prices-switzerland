@@ -176,7 +176,7 @@ const useLinesState = ({
 
   const margins = {
     top: 50,
-    right: 40,
+    right: mini ? 0 : 40,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
