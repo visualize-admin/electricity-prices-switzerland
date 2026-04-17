@@ -513,10 +513,12 @@ msgid "home.hero-section.title"
 msgstr "Scoprite le tariffe dell’elettricità nella cartina"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.map-view"
 msgstr "Vista cartografica"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.overview"
 msgstr "Panoramica"
 
@@ -835,6 +837,14 @@ msgstr "Vista sulla mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametro"
 
+#: src/components/header.tsx
+msgid "mobile-nav.close-menu"
+msgstr "Chiudi menu"
+
+#: src/components/header.tsx
+msgid "mobile-nav.open-menu"
+msgstr "Apri menu"
+
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
@@ -1067,11 +1077,11 @@ msgstr "Vai a…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "Inserire il nome del comune, codice postale, gestore di rete, cantone…"
 
-#: src/components/search.tsx
+#: src/components/header.tsx
+#: src/components/header.tsx
 msgid "search.open"
 msgstr "ricerca aperta"
 

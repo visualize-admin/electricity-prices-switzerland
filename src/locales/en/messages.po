@@ -511,10 +511,12 @@ msgid "home.hero-section.title"
 msgstr "Discover the electricity tariffs in the map view"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.map-view"
 msgstr "Map view"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.overview"
 msgstr "Overview"
 
@@ -835,6 +837,14 @@ msgstr "Map View"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filters"
 
+#: src/components/header.tsx
+msgid "mobile-nav.close-menu"
+msgstr "Close menu"
+
+#: src/components/header.tsx
+msgid "mobile-nav.open-menu"
+msgstr "Open menu"
+
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
@@ -1067,11 +1077,11 @@ msgstr "Go to..."
 
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "Search by municipality name, zip code, network operator, canton"
 
-#: src/components/search.tsx
+#: src/components/header.tsx
+#: src/components/header.tsx
 msgid "search.open"
 msgstr "Open search"
 
