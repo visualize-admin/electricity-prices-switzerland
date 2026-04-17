@@ -511,10 +511,12 @@ msgid "home.hero-section.title"
 msgstr "Découvrez les tarifs d'électricité en vue cartographique"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.map-view"
 msgstr "Vue cartographique"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.overview"
 msgstr "Vue d’ensemble"
 
@@ -836,6 +838,14 @@ msgstr "Voir la carte"
 msgid "mobile-drawer.parameters-title"
 msgstr "Paramètres"
 
+#: src/components/header.tsx
+msgid "mobile-nav.close-menu"
+msgstr "Fermer le menu"
+
+#: src/components/header.tsx
+msgid "mobile-nav.open-menu"
+msgstr "Ouvrir le menu"
+
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
@@ -1068,11 +1078,11 @@ msgstr "Aller à…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "Entrez le nom de la commune, le code postal, le gestionnaire de réseau, le canton…"
 
-#: src/components/search.tsx
+#: src/components/header.tsx
+#: src/components/header.tsx
 msgid "search.open"
 msgstr "recherche ouverte"
 

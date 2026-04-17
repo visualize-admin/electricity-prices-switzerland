@@ -511,10 +511,12 @@ msgid "home.hero-section.title"
 msgstr "home.hero-section.title"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.map-view"
 msgstr "home.menu.map-view"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.overview"
 msgstr "home.menu.overview"
 
@@ -833,6 +835,14 @@ msgstr "mobile-drawer.list-title"
 msgid "mobile-drawer.parameters-title"
 msgstr "mobile-drawer.parameters-title"
 
+#: src/components/header.tsx
+msgid "mobile-nav.close-menu"
+msgstr "mobile-nav.close-menu"
+
+#: src/components/header.tsx
+msgid "mobile-nav.open-menu"
+msgstr "mobile-nav.open-menu"
+
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
@@ -1065,11 +1075,11 @@ msgstr "search.global.hint.go.to"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "search.global.label"
 
-#: src/components/search.tsx
+#: src/components/header.tsx
+#: src/components/header.tsx
 msgid "search.open"
 msgstr "search.open"
 
