@@ -25,7 +25,7 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
-export type SearchProps = {
+type SearchProps = {
   variant?: "desktop" | "drawer";
   autoFocus?: boolean;
   onResultNavigate?: () => void;
