@@ -241,6 +241,16 @@ const SearchField = ({
         size="small"
         sx={{
           width: "100%",
+          // themes/components.tsx: MuiInputBase adds border-left on .MuiAutocomplete-endAdornment (loading).
+          // We merge that slot back in for loading (see endAdornment); strip the divider on desktop + drawer.
+          "& .MuiOutlinedInput-root .MuiAutocomplete-endAdornment": {
+            borderLeft: "none !important",
+            border: "none !important",
+            marginLeft: "0 !important",
+            paddingLeft: "0 !important",
+            minHeight: "unset",
+            height: "auto",
+          },
           ...(bareDrawerField
             ? {
                 // MUI default: sizeSmall .MuiAutocomplete-input { padding: 2.5px 4px 2.5px 8px }
@@ -248,15 +258,6 @@ const SearchField = ({
                   {
                     padding: "2.5px 4px 2.5px 0 !important",
                   },
-                // themes/components.tsx adds border-left on .MuiAutocomplete-endAdornment (loading spinner slot)
-                "& .MuiOutlinedInput-root .MuiAutocomplete-endAdornment": {
-                  borderLeft: "none !important",
-                  border: "none !important",
-                  marginLeft: "0 !important",
-                  paddingLeft: "0 !important",
-                  minHeight: "unset",
-                  height: "auto",
-                },
               }
             : {}),
         }}
