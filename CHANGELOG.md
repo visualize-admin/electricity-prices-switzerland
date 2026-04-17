@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Added missing formatting to costs and tariffs card values
 
 # 2.41.0 - 2026-04-09
 
