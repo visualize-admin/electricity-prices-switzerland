@@ -205,6 +205,7 @@ const ServiceQuality = (props: Extract<Props, { status: "found" }>) => {
         latestYear={latestYear}
         peerGroup={peerGroup}
         sx={{ gridArea: "peer-group" }}
+        infoDialogProps={getInfoDialogProps("help-peer-group")}
       />
 
       <TableComparisonCard
@@ -325,6 +326,7 @@ const Compliance = (props: Extract<Props, { status: "found" }>) => {
         latestYear={latestYear}
         peerGroup={peerGroup}
         sx={{ gridArea: "peer-group" }}
+        infoDialogProps={getInfoDialogProps("help-peer-group")}
       />
 
       <TableComparisonCard

@@ -11,8 +11,8 @@ export const electricityPrice = namespace(
 export const electricityPriceDimension = namespace(
   "https://energy.ld.admin.ch/elcom/electricityprice/dimension/"
 );
-export const municipality = namespace("https://ld.admin.ch/municipality/");
-export const canton = namespace("https://ld.admin.ch/canton/");
+const municipality = namespace("https://ld.admin.ch/municipality/");
+const canton = namespace("https://ld.admin.ch/canton/");
 
 /**
  * Strips the namespace from an IRI to get shorter IDs

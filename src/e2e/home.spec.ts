@@ -1,5 +1,6 @@
 import { ensureLoadingIsComplete, expect, sleep, test } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
+import { getExtraHttpHeadersFromEnv } from "src/utils/test-utils";
 
 test.describe("The Home Page", () => {
   test.beforeEach(async ({ setFlags, page }) => {
@@ -8,6 +9,7 @@ test.describe("The Home Page", () => {
   test("default language (de) should render on /", async ({ browser }) => {
     const page = await browser.newPage({
       extraHTTPHeaders: {
+        ...(getExtraHttpHeadersFromEnv() ?? {}),
         "Accept-Language": "de",
       },
     });
@@ -100,11 +102,11 @@ test.describe("The Home Page", () => {
     await page.goto("/de");
     const links = [
       {
-        name: "Daten als CSV",
+        name: "Daten als .csv",
         href: /\/api\/data-export\?period=\d{4}&locale=de/,
       },
       {
-        name: "Sunshinedaten als CSV",
+        name: "Daten als CSV (Sunshine)",
         href: /\/api\/sunshine-data-export\?period=\d{4}&locale=de/,
       },
     ];

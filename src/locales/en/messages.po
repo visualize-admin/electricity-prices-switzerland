@@ -62,6 +62,18 @@ msgstr "Enter designation ..."
 msgid "controls.search.clear"
 msgstr "Clear search field"
 
+#: src/components/app-layout.tsx
+msgid "cookie.banner.accept"
+msgstr "Accept"
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.content"
+msgstr "This website uses Matomo to collect anonymized usage statistics to help us improve the service. No personal data is stored."
+
+#: src/components/app-layout.tsx
+msgid "cookie.banner.reject"
+msgstr "Reject"
+
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
 msgstr "Aid Fee"
@@ -408,7 +420,7 @@ msgstr "Further information"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Sunshine data as csv"
+msgstr "Data as csv (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -425,6 +437,10 @@ msgstr "Swiss municipalities and responsible electricity grid operators"
 #: src/components/footer.tsx
 msgid "footer.tariff-components"
 msgstr "Transmission grid tariff components - Swissgrid"
+
+#: src/components/footer.tsx
+msgid "footer.usage-statistics-choice"
+msgstr "Manage cookie preferences"
 
 #: src/components/header.tsx
 msgid "header.long-title"
@@ -730,7 +746,7 @@ msgstr "Download"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3"
-msgstr "A3"
+msgstr "Large (A3)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.info"
@@ -738,7 +754,7 @@ msgstr "{0} × {1} px, 300dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning"
-msgstr "May be resource intensive and take longer to generate"
+msgstr "Longer loading time"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
@@ -746,11 +762,19 @@ msgstr "Unavailable on mobile, please use a desktop browser"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
-msgstr "A4"
+msgstr "Medium (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
 msgstr "{0} × {1} px, 300dpi"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small"
+msgstr "Small"
+
+#: src/components/map-download-image.tsx
+msgid "map.download.paper-size.small.info"
+msgstr "{0} × {1} px"
 
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
@@ -1213,7 +1237,7 @@ msgstr "Municipalities for comparison"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
-msgstr "Network operator for comparison"
+msgstr "Compare with"
 
 #: src/domain/translation.tsx
 msgid "selector.compliance-type"
@@ -1514,6 +1538,7 @@ msgstr "No network costs data available for this operator in the selected year."
 msgid "sunshine.costs-and-tariffs.operator"
 msgstr "{operatorLabel}"
 
+#: src/components/info-dialog-props.ts
 #: src/components/peer-group-card.tsx
 msgid "sunshine.costs-and-tariffs.peer-group"
 msgstr "Peer Group"

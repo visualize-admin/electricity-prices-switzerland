@@ -13,13 +13,20 @@ You can also check the
 
 - Added missing formatting to costs and tariffs card values
 
-# 2.41.0 - 2026-04-09
+# 2.42.1 - 2026-04-14
 
-- Ability to download the Sunshine data as CSV
+- Update nextjs to 15.5.15
+
+# 2.42.0 - 2026-04-09
+
 - Improve map chart hovering with unit displays, text length adjustments and style changes
 - Costs & tariffs (latest-year) dot chart: hovering or tapping a dot only changes **opacity**, not the base fill color (avoids a misleading jump to the highlight color).
 - Cards on the sunshine indicator pages now break earlier to prevent weird visual bugs
 - Numbers across the application follow a set of formatting rules which have been consolidated and improved for user experience
+
+# 2.41.0 - 2026-04-09
+
+- Ability to download the Sunshine data as CSV
 - Operational standards charts show trends over time and peer comparison instead of histograms.
 - Map: Hovering on a canton or operator now shows a tooltip with the entity name and current price component value ([#610](https://github.com/visualize-admin/electricity-prices-switzerland/pull/610))
 - Map: Show "no data" tooltips when hovering over areas with no data ([#611](https://github.com/visualize-admin/electricity-prices-switzerland/pull/611))

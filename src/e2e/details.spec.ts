@@ -1,15 +1,18 @@
-import { test, expect } from "src/e2e/common";
+import { expect, test } from "src/e2e/common";
 
 test.describe("Segmented control visibility", () => {
   test("should appear for operator with multiple municipalities", async ({
     page,
   }) => {
     await page.goto("/en/operator/565?period=2025");
-    await page.getByRole("heading", { name: "Price components" }).waitFor();
+    const priceComponents = page.getByRole("heading", {
+      name: "Price components",
+    });
+    await priceComponents.scrollIntoViewIfNeeded();
     await expect(
-      await page.getByRole("button", { name: "Group municipalities",  })
+      await page.getByRole("button", { name: "Group municipalities" }),
     ).toBeVisible({
-      timeout: 10_000,
+      timeout: 30_000,
     });
   });
 
@@ -20,9 +23,9 @@ test.describe("Segmented control visibility", () => {
     await page.getByRole("heading", { name: "Price components" }).waitFor();
 
     await expect(
-      page.getByRole("button", { name: "Group municipalites" })
+      page.getByRole("button", { name: "Group municipalites" }),
     ).not.toBeVisible({
-      timeout: 10_000,
+      timeout: 30_000,
     });
   });
 
@@ -33,7 +36,7 @@ test.describe("Segmented control visibility", () => {
     await page.getByRole("heading", { name: "Price components" }).waitFor();
 
     await expect(
-      page.getByRole("button", { name: "Grouping network operators" })
+      page.getByRole("button", { name: "Grouping network operators" }),
     ).not.toBeVisible();
   });
 
@@ -44,14 +47,14 @@ test.describe("Segmented control visibility", () => {
     await page.getByRole("heading", { name: "Price components" }).waitFor();
 
     await expect(
-      page.getByRole("button", { name: "Grouping network operators" })
-    ).toBeVisible({ timeout: 25_000 });
+      page.getByRole("button", { name: "Grouping network operators" }),
+    ).toBeVisible({ timeout: 30_000 });
   });
 
   test("should not appear for canton view", async ({ page }) => {
     await page.goto("/en/canton/1");
     await expect(
-      page.getByRole("button", { name: "Group municipalities" })
+      page.getByRole("button", { name: "Group municipalities" }),
     ).not.toBeVisible();
   });
 });

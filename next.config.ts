@@ -45,7 +45,7 @@ const nextConfig = async (): Promise<NextConfig> => {
     {
       ignore: (file) =>
         file.replace(/\\/g, "/").startsWith("node_modules/.bin/"),
-    }
+    },
   );
 
   const config: NextConfig = {

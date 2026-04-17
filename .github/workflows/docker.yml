@@ -45,6 +45,21 @@ jobs:
       - name: Create fake wiki content
         run: echo "[]" > src/domain/wiki/content.json
 
+      - name: Install dependencies
+        uses: ./.github/workflows/install-deps
+
+      - name: Download locales
+        run: pnpm locales:export
+        env:
+          ACCENT_API_KEY: ${{ secrets.ACCENT_API_KEY }}
+
+      - name: Check for uncommitted locale changes
+        run: |
+          if ! git diff --exit-code --quiet; then
+            echo "Locales should be updated in the repository via pnpm locales:export"
+            exit 1
+          fi
+
         # Build app
       - name: Extract metadata (tags, labels) for Docker
         id: meta-app

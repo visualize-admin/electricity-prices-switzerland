@@ -40,7 +40,7 @@ export const Search = () => {
     pause: searchString === "",
   });
 
-  const items = gqlQuery.data?.search ?? EMPTY_ARRAY;
+  const items = searchString === "" ? EMPTY_ARRAY : (gqlQuery.data?.search ?? EMPTY_ARRAY);
 
   useEffect(() => {
     const currentVariables = gqlQuery.operation?.variables as
@@ -197,9 +197,10 @@ const SearchField = ({
   type SearchAutocompleteProps = AutocompleteProps<Item, false, false, false>;
   const handleInputChange: SearchAutocompleteProps["onInputChange"] = (
     event,
-    value
+    value,
+    reason
   ) => {
-    if (!event) {
+    if (!event || reason === "reset") {
       return;
     }
     setInputValue(value);
@@ -218,6 +219,9 @@ const SearchField = ({
       };
       push(href);
       onSelection();
+      setInputValue("");
+      setSearchString("");
+      inputRef.current?.blur();
     }
   };
 

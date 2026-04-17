@@ -28,7 +28,6 @@ const PeerGroupCard: React.FC<
             right: (theme) => theme.spacing(3),
           }}
           iconOnly
-          iconSize={24}
           type="outline"
           slug={infoDialogProps.slug}
           label={infoDialogProps.label}
