@@ -4,8 +4,6 @@ import {
   autocompleteClasses,
   AutocompleteProps,
   Box,
-  ClickAwayListener,
-  IconButton,
   InputAdornment,
   TextField,
   Typography,
@@ -27,10 +25,23 @@ import { Icon } from "src/icons";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
-export const Search = () => {
+export type SearchProps = {
+  variant?: "desktop" | "drawer";
+  autoFocus?: boolean;
+  onResultNavigate?: () => void;
+  inputRef?: React.Ref<HTMLInputElement>;
+  bareDrawerField?: boolean;
+};
+
+export const Search = ({
+  variant = "desktop",
+  autoFocus = false,
+  onResultNavigate,
+  inputRef: inputRefProp,
+  bareDrawerField = false,
+}: SearchProps) => {
   const locale = useLocale();
   const [searchString, setSearchString] = useState<string>("");
-  const [expanded, setExpanded] = useState(false);
 
   const [gqlQuery] = useSearchQuery({
     variables: {
@@ -40,7 +51,8 @@ export const Search = () => {
     pause: searchString === "",
   });
 
-  const items = searchString === "" ? EMPTY_ARRAY : (gqlQuery.data?.search ?? EMPTY_ARRAY);
+  const items =
+    searchString === "" ? EMPTY_ARRAY : gqlQuery.data?.search ?? EMPTY_ARRAY;
 
   useEffect(() => {
     const currentVariables = gqlQuery.operation?.variables as
@@ -68,21 +80,24 @@ export const Search = () => {
   }, [items]);
 
   const handleSelection = () => {
-    setExpanded(false);
+    onResultNavigate?.();
   };
 
-  const handleClickAway = () => {
-    setExpanded(false);
-  };
+  const isDrawer = variant === "drawer";
 
   return (
     <Box
       position="relative"
-      py={{
-        md: 4,
-      }}
+      py={
+        isDrawer
+          ? 0
+          : {
+              md: 4,
+            }
+      }
+      width={isDrawer ? "100%" : undefined}
     >
-      <Box display={{ xxs: "none", md: "block" }} width="22rem">
+      <Box width={isDrawer ? "100%" : "22rem"}>
         <SearchField
           items={items.map(({ id, __typename }) => ({
             id,
@@ -97,64 +112,13 @@ export const Search = () => {
           }
           isLoading={gqlQuery.fetching && searchString.length > 0}
           onSelection={handleSelection}
-          isMobile={false}
+          isMobile={isDrawer}
+          autoFocus={autoFocus}
+          omitFieldSearchIcon={isDrawer}
+          inputRefProp={inputRefProp}
+          compactInputHeight={isDrawer}
+          bareDrawerField={bareDrawerField && isDrawer}
         />
-      </Box>
-      <Box display={{ xxs: "block", md: "none" }} position="relative">
-        <IconButton
-          onClick={() => setExpanded(true)}
-          aria-label={t({ id: "search.open", message: "Open search" })}
-        >
-          <Icon name="search" />
-        </IconButton>
-
-        {expanded && (
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <Box
-              position="absolute"
-              top={0}
-              right={0}
-              width="22rem"
-              zIndex={100}
-              boxShadow={2}
-              sx={{
-                backgroundColor: "background.paper",
-                animation: "width-expand 0.3s ease-in-out",
-
-                "@keyframes width-expand": {
-                  "0%": {
-                    width: "44px",
-                    opacity: 0.7,
-                  },
-                  "100%": {
-                    width: "22rem",
-                    opacity: 1,
-                  },
-                },
-              }}
-            >
-              <SearchField
-                items={items.map(({ id, __typename }) => ({
-                  id,
-                  __typename,
-                }))}
-                getItemLabel={(item) =>
-                  itemById.get(item.id)?.name ?? `[${item.id}]`
-                }
-                setSearchString={setSearchString}
-                label={
-                  <Trans id="search.global.label">
-                    Search by municipality name, zip code, network operator,
-                    canton
-                  </Trans>
-                }
-                isLoading={gqlQuery.fetching && searchString.length > 0}
-                onSelection={handleSelection}
-                isMobile={true}
-              />
-            </Box>
-          </ClickAwayListener>
-        )}
       </Box>
     </Box>
   );
@@ -175,6 +139,11 @@ const SearchField = ({
   isLoading,
   onSelection,
   isMobile,
+  autoFocus,
+  omitFieldSearchIcon,
+  inputRefProp,
+  compactInputHeight,
+  bareDrawerField,
 }: {
   items: Item[];
   setSearchString: (searchString: string) => void;
@@ -183,16 +152,32 @@ const SearchField = ({
   isLoading: boolean;
   onSelection: () => void;
   isMobile: boolean;
+  autoFocus?: boolean;
+  omitFieldSearchIcon?: boolean;
+  inputRefProp?: React.Ref<HTMLInputElement>;
+  compactInputHeight?: boolean;
+  bareDrawerField?: boolean;
 }) => {
   const { query, push } = useRouter();
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const setInputRefs = (el: HTMLInputElement | null) => {
+    inputRef.current = el;
+    if (typeof inputRefProp === "function") {
+      inputRefProp(el);
+    } else if (inputRefProp) {
+      (
+        inputRefProp as React.MutableRefObject<HTMLInputElement | null>
+      ).current = el;
+    }
+  };
+
   useEffect(() => {
-    if (isMobile && inputRef.current) {
+    if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isMobile]);
+  }, [autoFocus]);
 
   type SearchAutocompleteProps = AutocompleteProps<Item, false, false, false>;
   const handleInputChange: SearchAutocompleteProps["onInputChange"] = (
@@ -236,7 +221,7 @@ const SearchField = ({
         <label>{label}</label>
       </VisuallyHidden>
       <Autocomplete
-        id="search-global"
+        id={isMobile ? "search-global-mobile-drawer" : "search-global"}
         options={groupedItems}
         getOptionLabel={(item) => `${getItemLabel(item)}`}
         inputValue={inputValue}
@@ -254,7 +239,27 @@ const SearchField = ({
         loading={isLoading}
         popupIcon={null}
         size="small"
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          ...(bareDrawerField
+            ? {
+                // MUI default: sizeSmall .MuiAutocomplete-input { padding: 2.5px 4px 2.5px 8px }
+                [`& .MuiOutlinedInput-root.MuiInputBase-sizeSmall .${autocompleteClasses.input}`]:
+                  {
+                    padding: "2.5px 4px 2.5px 0 !important",
+                  },
+                // themes/components.tsx adds border-left on .MuiAutocomplete-endAdornment (loading spinner slot)
+                "& .MuiOutlinedInput-root .MuiAutocomplete-endAdornment": {
+                  borderLeft: "none !important",
+                  border: "none !important",
+                  marginLeft: "0 !important",
+                  paddingLeft: "0 !important",
+                  minHeight: "unset",
+                  height: "auto",
+                },
+              }
+            : {}),
+        }}
         groupBy={groupBy}
         renderGroup={(params) => (
           <li key={params.group}>
@@ -272,26 +277,79 @@ const SearchField = ({
           <TextField
             {...params}
             variant="outlined"
-            inputRef={inputRef}
+            inputRef={setInputRefs}
+            sx={
+              bareDrawerField
+                ? {
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      padding: 0,
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                        borderWidth: 0,
+                      },
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                        borderWidth: 0,
+                      },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                        borderWidth: 0,
+                      },
+                      "&.Mui-focused": { boxShadow: "none" },
+                    },
+                  }
+                : undefined
+            }
             InputProps={{
               ...params.InputProps,
               sx: {
-                px: "16px !important",
-                borderRadius: 0.5,
-                height: 44,
-                borderColor: "monochrome.500",
+                px: bareDrawerField ? "0px !important" : "16px !important",
+                borderRadius: bareDrawerField ? 0 : 0.5,
+                height: compactInputHeight ? 40 : 44,
+                borderColor: bareDrawerField ? "transparent" : "monochrome.500",
+                bgcolor: "transparent",
+                ...(bareDrawerField
+                  ? {
+                      "& fieldset": { border: "none !important" },
+                      "&:hover fieldset": { border: "none !important" },
+                      "&.Mui-focused fieldset": { border: "none !important" },
+                      "&.Mui-focused": { boxShadow: "none" },
+                    }
+                  : {}),
+                ...(compactInputHeight
+                  ? {
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "text.secondary",
+                        opacity: 1,
+                        fontSize: "0.875rem",
+                      },
+                    }
+                  : {}),
               },
               placeholder: t({
                 id: "search.global.hint.canton.muni.operator",
                 message: "Municipality, canton, grid operator",
               }),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Icon name="search" />
-                </InputAdornment>
+              endAdornment: omitFieldSearchIcon ? (
+                params.InputProps.endAdornment
+              ) : (
+                <>
+                  {params.InputProps.endAdornment}
+                  <InputAdornment position={"end"}>
+                    <Icon name="search" />
+                  </InputAdornment>
+                </>
               ),
               startAdornment: inputValue ? null : (
-                <InputAdornment position="start">
+                <InputAdornment
+                  position="start"
+                  sx={{
+                    marginRight: bareDrawerField
+                      ? "0px !important"
+                      : "8px !important",
+                  }}
+                >
                   {!isMobile && (
                     <Typography
                       variant="h5"
