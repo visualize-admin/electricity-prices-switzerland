@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Changed main menu navigation on mobile to use a burger menu
 
 # 2.42.1 - 2026-04-14
 
