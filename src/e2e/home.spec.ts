@@ -40,10 +40,10 @@ test.describe("The Home Page", () => {
   test("language switch should work", async ({ page }) => {
     await page.goto("/");
 
-    await page.getByTestId("locale-select").click();
-    await page
-      .locator('[data-testid="locale-select"] select')
-      .selectOption("fr");
+    // Two locale controls exist (TopBar + mobile drawer with keepMounted); target the primary one.
+    const localeSelect = page.getByTestId("locale-select").first();
+    await localeSelect.click();
+    await localeSelect.locator("select").selectOption("fr");
     await expect(page.locator("html")).not.toHaveClass(/nprogress-busy/, {
       timeout: 25_000,
     });
