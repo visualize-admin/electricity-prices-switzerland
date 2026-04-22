@@ -326,11 +326,11 @@ const PriceEvolutionLineChart = (props: {
           <ChartSvg>
             <AxisHeightLinear format={formatAxis} /> <AxisTime />
             <Lines />
+            {mini && <HighlightIndicator highlightYear={highlightYear} />}
             <InteractionHorizontal />
           </ChartSvg>
 
           {hasMultipleLines && <Ruler />}
-          {mini && <HighlightIndicator highlightYear={highlightYear} />}
           <HoverDotMultiple />
 
           <Tooltip type={hasMultipleLines ? "multiple" : "single"} />
