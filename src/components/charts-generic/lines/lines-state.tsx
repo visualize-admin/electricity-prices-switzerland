@@ -36,6 +36,22 @@ import { truthy } from "src/lib/truthy";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
+/** Y extent: finite values only, so the scale domain is never [NaN, NaN]. Unit-tested. */
+export const getLineChartYScaleDomain = (
+  data: readonly GenericObservation[],
+  getY: (d: GenericObservation) => number | undefined
+): [number, number] => {
+  const yValues = data
+    .map((d) => getY(d))
+    .filter((v): v is number => v !== undefined && Number.isFinite(v));
+  if (yValues.length === 0) {
+    return [0, 0];
+  }
+  const yMin = min(yValues) ?? 0;
+  const yMax = max(yValues) ?? yMin;
+  return [yMin, yMax];
+};
+
 const useLinesState = ({
   data,
   fields,
@@ -104,11 +120,9 @@ const useLinesState = ({
   const xAxisLabel = fields.x.axisLabel;
   const yAxisLabel = fields.y.axisLabel;
 
-  // getY only returns finite numbers or undefined — domain never sees NaN.
-  const yValues = sortedData.map(getY).filter((v): v is number => v !== undefined);
-  const yMin = yValues.length ? (min(yValues) ?? 0) : 0;
-  const yMax = yValues.length ? (max(yValues) ?? yMin) : yMin;
-  const yScale = scaleLinear().domain([yMin, yMax]).nice(4);
+  const yScale = scaleLinear()
+    .domain(getLineChartYScaleDomain(sortedData, getY))
+    .nice(4);
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
@@ -267,8 +281,8 @@ const useLinesState = ({
     const xPlacement = mini
       ? "right"
       : xAnchor < chartWidth * 0.5
-        ? "right"
-        : "left";
+      ? "right"
+      : "left";
     const yPlacement = "middle";
 
     return {
