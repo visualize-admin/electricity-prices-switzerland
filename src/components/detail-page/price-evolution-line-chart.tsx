@@ -50,7 +50,7 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
-import { LatestIndicator } from "../charts-generic/interaction/latest-indicator";
+import { HighlightIndicator } from "../charts-generic/interaction/highlight-indicator";
 
 const DOWNLOAD_ID: Download = "evolution";
 
@@ -147,9 +147,11 @@ export const PriceEvolution = ({
   entity,
   priceComponents,
   mini,
+  highlightYear,
 }: SectionProps & {
   priceComponents: DetailPriceComponent[];
   mini?: boolean;
+  highlightYear?: number;
 }) => {
   const locale = useLocale();
   const [{ category, municipality, operator, canton, product }] =
@@ -204,6 +206,7 @@ export const PriceEvolution = ({
           entity={entity}
           priceComponents={priceComponents}
           mini={mini}
+          highlightYear={highlightYear}
         />
       </WithClassName>
     </div>
@@ -216,10 +219,12 @@ export const PriceEvolutionLineCharts = memo(
     entity,
     priceComponents,
     mini,
+    highlightYear,
   }: Pick<SectionProps, "entity"> & {
     priceComponents: DetailPriceComponent[];
     observations: GenericObservation[];
     mini?: boolean;
+    highlightYear?: number;
   }) => {
     return (
       <Box display={"flex"} flexDirection="column" gap={6.5}>
@@ -232,6 +237,7 @@ export const PriceEvolutionLineCharts = memo(
               entity={entity}
               observations={observations}
               mini={mini}
+              highlightYear={highlightYear}
             />
           );
         })}
@@ -246,8 +252,9 @@ const PriceEvolutionLineChart = (props: {
   observations: GenericObservation[];
   entity: Entity;
   mini?: boolean;
+  highlightYear?: number;
 }) => {
-  const { pc, entity, i, observations, mini } = props;
+  const { pc, entity, i, observations, mini, highlightYear } = props;
   const formatAxis = useFormatAxisNumber();
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
@@ -273,6 +280,7 @@ const PriceEvolutionLineChart = (props: {
       </Box>
       <LineChart
         data={withUniqueEntityId}
+        mini={mini}
         fields={{
           x: {
             componentIri: "period",
@@ -318,11 +326,11 @@ const PriceEvolutionLineChart = (props: {
           <ChartSvg>
             <AxisHeightLinear format={formatAxis} /> <AxisTime />
             <Lines />
+            {mini && <HighlightIndicator highlightYear={highlightYear} />}
             <InteractionHorizontal />
           </ChartSvg>
 
           {hasMultipleLines && <Ruler />}
-          {mini && <LatestIndicator />}
           <HoverDotMultiple />
 
           <Tooltip type={hasMultipleLines ? "multiple" : "single"} />

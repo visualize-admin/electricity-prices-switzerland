@@ -7,7 +7,6 @@ import {
   max,
   min,
   scaleLinear,
-  ScaleLinear,
   scaleOrdinal,
   scaleTime,
 } from "d3";
@@ -37,18 +36,42 @@ import { truthy } from "src/lib/truthy";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
-const roundDomain = (scale: ScaleLinear<number, number>) => {
-  const d = scale.domain();
-  return scale.domain([Math.floor(d[0]), Math.ceil(d[1])]);
+/** Y accessor shared by `useLinesState` and `getLineChartYScaleDomain` tests. */
+export const getLineYValue = (
+  d: GenericObservation,
+  yComponentIri: string
+): number | undefined => {
+  const v = d[yComponentIri];
+  if (v == null) return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : undefined;
+};
+
+/** Y extent: finite values only, so the scale domain is never [NaN, NaN]. Unit-tested. */
+export const getLineChartYScaleDomain = (
+  data: readonly GenericObservation[],
+  getY: (d: GenericObservation) => number | undefined
+): [number, number] => {
+  const yValues = data
+    .map((d) => getY(d))
+    .filter((v): v is number => v !== undefined && Number.isFinite(v));
+  if (yValues.length === 0) {
+    return [0, 0];
+  }
+  const yMin = min(yValues) ?? 0;
+  const yMax = max(yValues) ?? yMin;
+  return [yMin, yMax];
 };
 
 const useLinesState = ({
   data,
   fields,
   aspectRatio,
+  mini = false,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   fields: LineFields;
   aspectRatio: number;
+  mini?: boolean;
 }): LinesState => {
   const { labelFontSize } = useChartTheme();
   const width = useWidth();
@@ -66,10 +89,8 @@ const useLinesState = ({
     },
     [fields.x.componentIri]
   );
-  const getY = (d: GenericObservation): number | undefined => {
-    const value = d[fields.y.componentIri];
-    return value === null ? undefined : (+value as number);
-  };
+  const getY = (d: GenericObservation): number | undefined =>
+    getLineYValue(d, fields.y.componentIri);
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
@@ -106,11 +127,9 @@ const useLinesState = ({
   const xAxisLabel = fields.x.axisLabel;
   const yAxisLabel = fields.y.axisLabel;
 
-  const minValue = min(sortedData, getY) || 0;
-  const maxValue = max(sortedData, getY) as number;
-  const yDomain = [minValue, maxValue];
-
-  const yScale = roundDomain(scaleLinear().domain(yDomain).nice(4));
+  const yScale = scaleLinear()
+    .domain(getLineChartYScaleDomain(sortedData, getY))
+    .nice(4);
 
   const segments = [...new Set(sortedData.map(getSegment))];
 
@@ -174,7 +193,7 @@ const useLinesState = ({
 
   const margins = {
     top: 50,
-    right: 40,
+    right: mini ? 0 : 40,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
@@ -266,7 +285,11 @@ const useLinesState = ({
       )
     );
 
-    const xPlacement = xAnchor < chartWidth * 0.5 ? "right" : "left";
+    const xPlacement = mini
+      ? "right"
+      : xAnchor < chartWidth * 0.5
+      ? "right"
+      : "left";
     const yPlacement = "middle";
 
     return {
@@ -322,11 +345,13 @@ const LineChartProvider = ({
   dimensions,
   measures,
   aspectRatio,
+  mini,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   children: ReactNode;
   fields: LineFields;
   aspectRatio: number;
+  mini?: boolean;
 }) => {
   const state = useLinesState({
     data,
@@ -334,6 +359,7 @@ const LineChartProvider = ({
     dimensions,
     measures,
     aspectRatio,
+    mini,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -346,11 +372,13 @@ export const LineChart = ({
   dimensions,
   measures,
   aspectRatio,
+  mini,
   children,
 }: Pick<ChartProps, "data" | "dimensions" | "measures"> & {
   aspectRatio: number;
   fields: LineFields;
   children: ReactNode;
+  mini?: boolean;
 }) => {
   return (
     <Observer>
@@ -361,6 +389,7 @@ export const LineChart = ({
           dimensions={dimensions}
           measures={measures}
           aspectRatio={aspectRatio}
+          mini={mini}
         >
           {children}
         </LineChartProvider>

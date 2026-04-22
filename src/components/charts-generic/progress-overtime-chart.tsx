@@ -96,6 +96,7 @@ export const ProgressOvertimeChart = <T extends GenericObservation>(
   return (
     <LineChart
       data={sortedObservations}
+      mini={mini}
       fields={{
         x: {
           componentIri: xField,

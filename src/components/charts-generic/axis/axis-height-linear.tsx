@@ -32,22 +32,14 @@ const AxisTicks = ({ format, percentage, leftMargin }: AxisTicksProps) => {
   const { labelColor, labelFontSize, gridColor, fontFamily } = useChartTheme();
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
-    const tickValues = yScale.ticks(ticks);
-    const yDomain = yScale.domain();
-
-    if (
-      Math.max(yDomain[0], yDomain[1]) >
-      Math.max(tickValues[0], tickValues[tickValues.length - 1])
-    ) {
-      const diff =
-        tickValues[1] > tickValues[0]
-          ? tickValues[1] - tickValues[0]
-          : tickValues[0] - tickValues[1];
-      tickValues.push(tickValues[tickValues.length - 1] + diff);
+    const [a, b] = yScale.domain();
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+      g.selectAll("*").remove();
+      return;
     }
 
     const axis = axisLeft(yScale)
-      .tickValues(tickValues)
+      .ticks(ticks)
       .tickSizeInner(-bounds.chartWidth)
       .tickSizeOuter(0)
       .tickFormat((d, i) =>
