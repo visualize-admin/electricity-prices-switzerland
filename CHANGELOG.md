@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Changed main menu navigation on mobile to use a burger menu
+- Added missing formatting to costs and tariffs card values
 
 # 2.42.1 - 2026-04-14
 
