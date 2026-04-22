@@ -35,8 +35,6 @@ export const serverSchema = z.object({
       "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport"
     ),
 
-  PREVIEW_PASSWORD: z.string().optional(),
-
   GEVER_BINDING_RPSTS: z
     .string()
     .default(
