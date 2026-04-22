@@ -13,6 +13,7 @@ You can also check the
 
 - Improvements towards the mini charts: Removed any occurrences of NaN, prevented label overlaps and fixed chart alignments.
 - Mini charts period indicator now highlights the selected period
+- Added missing formatting to costs and tariffs card values
 
 # 2.42.1 - 2026-04-14
 
