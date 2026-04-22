@@ -36,6 +36,17 @@ import { truthy } from "src/lib/truthy";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
+/** Y accessor shared by `useLinesState` and `getLineChartYScaleDomain` tests. */
+export const getLineYValue = (
+  d: GenericObservation,
+  yComponentIri: string
+): number | undefined => {
+  const v = d[yComponentIri];
+  if (v == null) return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : undefined;
+};
+
 /** Y extent: finite values only, so the scale domain is never [NaN, NaN]. Unit-tested. */
 export const getLineChartYScaleDomain = (
   data: readonly GenericObservation[],
@@ -78,12 +89,8 @@ const useLinesState = ({
     },
     [fields.x.componentIri]
   );
-  const getY = (d: GenericObservation): number | undefined => {
-    const v = d[fields.y.componentIri];
-    if (v == null) return undefined;
-    const n = Number(v);
-    return Number.isFinite(n) ? n : undefined;
-  };
+  const getY = (d: GenericObservation): number | undefined =>
+    getLineYValue(d, fields.y.componentIri);
 
   const getSegment = useCallback(
     (d: GenericObservation): string =>
