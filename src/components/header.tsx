@@ -315,6 +315,7 @@ export const Header = ({
               keepMounted: true,
             }}
             PaperProps={{
+              "data-testid": "mobile-nav-drawer",
               sx: {
                 width: "100%",
                 maxWidth: "100%",
