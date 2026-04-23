@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.44.0 - 2026-04-23
+
 - Changed main menu navigation on mobile to use a burger menu
 - Improvements towards the mini charts: Removed any occurrences of NaN, prevented label overlaps and fixed chart alignments.
 - Mini charts period indicator now highlights the selected period
