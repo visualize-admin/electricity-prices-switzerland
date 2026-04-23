@@ -55,7 +55,7 @@ jobs:
 
       - name: Check for uncommitted locale changes
         run: |
-          if ! git diff --exit-code --quiet; then
+          if ! git diff --exit-code src/locales; then
             echo "Locales should be updated in the repository via pnpm locales:export"
             exit 1
           fi
