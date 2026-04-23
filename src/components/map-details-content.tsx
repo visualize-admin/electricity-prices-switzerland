@@ -326,6 +326,7 @@ export const MapDetailsContent: React.FC<{
           id={selectedItem.id}
           entity={entity}
           mini
+          highlightYear={parseInt(energyPricesPeriod, 10)}
         />
       ) : (
         (() => {
