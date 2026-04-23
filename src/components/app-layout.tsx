@@ -22,6 +22,7 @@ import {
 import { SafeHydration } from "src/components/hydration";
 import { Search } from "src/components/search";
 import { useMatomo } from "src/domain/analytics";
+import { useIsMobile } from "src/lib/use-mobile";
 
 type ApplicationLayoutProps = {
   children: ReactNode;
@@ -89,8 +90,13 @@ export const ApplicationLayout = ({
 };
 
 const AppNavigation = () => {
+  const isMobile = useIsMobile();
   const { asPath: asPathWithQueryString } = useRouter();
   const asPath = asPathWithQueryString.split("?")[0];
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <Box position="relative">
@@ -131,7 +137,7 @@ const AppNavigation = () => {
           }}
         />
         <Box flex={1} />
-        <Search />
+        <Search variant="desktop" />
       </MenuContainer>
     </Box>
   );

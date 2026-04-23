@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Changed main menu navigation on mobile to use a burger menu
 - Improvements towards the mini charts: Removed any occurrences of NaN, prevented label overlaps and fixed chart alignments.
 - Mini charts period indicator now highlights the selected period
 - Added missing formatting to costs and tariffs card values

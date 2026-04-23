@@ -511,10 +511,12 @@ msgid "home.hero-section.title"
 msgstr "Entdecken Sie die Stromtarife in der Kartenansicht"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.map-view"
 msgstr "Kartenansicht"
 
 #: src/components/app-layout.tsx
+#: src/components/header.tsx
 msgid "home.menu.overview"
 msgstr "Übersicht"
 
@@ -833,6 +835,14 @@ msgstr "Kartenansicht"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filter"
 
+#: src/components/header.tsx
+msgid "mobile-nav.close-menu"
+msgstr "Menü schließen"
+
+#: src/components/header.tsx
+msgid "mobile-nav.open-menu"
+msgstr "Menü öffnen"
+
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
 #: src/components/map-tooltip.stories.tsx
@@ -1065,11 +1075,11 @@ msgstr "Gehe zu…"
 
 #: src/components/search.tsx
 #: src/components/search.tsx
-#: src/components/search.tsx
 msgid "search.global.label"
 msgstr "Suche nach Gemeindename, PLZ, Netzbetreiber, Kanton"
 
-#: src/components/search.tsx
+#: src/components/header.tsx
+#: src/components/header.tsx
 msgid "search.open"
 msgstr "Suche öffnen"
 

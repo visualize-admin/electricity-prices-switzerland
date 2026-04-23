@@ -76,7 +76,7 @@ const meta: Meta<typeof Search> = {
     docs: {
       description: {
         component:
-          "A global search component that allows users to search for municipalities, cantons, and network operators. Features both desktop and mobile responsive layouts with autocomplete functionality.",
+          "A global search component that allows users to search for municipalities, cantons, and network operators. On desktop it sits in the main nav row; on small screens it appears in the header drawer.",
       },
     },
   },
@@ -134,7 +134,11 @@ export const LoadingState: Story = {
   },
 };
 
-export const MobileView: Story = {
+export const DrawerVariant: Story = {
+  args: {
+    variant: "drawer",
+    autoFocus: true,
+  },
   parameters: {
     mockData: mockSearchResults,
     viewport: {
@@ -143,7 +147,7 @@ export const MobileView: Story = {
     docs: {
       description: {
         story:
-          "Mobile version of the search component which shows as an expandable search button that opens a full-width search field.",
+          "Search field as used inside the mobile navigation drawer (full-width autocomplete).",
       },
     },
   },
