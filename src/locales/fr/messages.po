@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: text/plain\n"
+"Content-Type: \n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -1240,11 +1240,11 @@ msgstr "H8 - Grand immeuble en copropriété hautement électrifié"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
-msgstr "Comparaison entre cantons"
+msgstr "Comparer avec"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
-msgstr "Comparaison entre communes"
+msgstr "Comparer avec"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"

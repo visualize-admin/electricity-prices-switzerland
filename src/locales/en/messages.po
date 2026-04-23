@@ -1239,11 +1239,11 @@ msgstr "H8 - Large, highly electrified condominium"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparecantons"
-msgstr "Cantons for comparison"
+msgstr "Compare with"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.comparemunicipalities"
-msgstr "Municipalities for comparison"
+msgstr "Compare with"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.compareoperators"
