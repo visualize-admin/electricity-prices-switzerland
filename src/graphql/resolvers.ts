@@ -111,8 +111,9 @@ const expectedCubeDimensions = [
 const Query: QueryResolvers = {
   sunshineData: async (_parent, args, context) => {
     const { filter } = args;
-    const sunshineData =
-      await context.sunshineDataService.getSunshineData(filter);
+    const sunshineData = await context.sunshineDataService.getSunshineData(
+      filter
+    );
     return sunshineData;
   },
   sunshineDataByIndicator: async (_parent, args, context) => {
@@ -152,9 +153,9 @@ const Query: QueryResolvers = {
         if (medianParams) {
           const medianRows = sortBy(
             await context.sunshineDataService.getYearlyIndicatorMedians(
-              medianParams,
+              medianParams
             ),
-            (x) => x.period,
+            (x) => x.period
           );
           const medianResult = filter.period
             ? medianRows.find((x) => `${x.period}` === filter.period!)
@@ -163,7 +164,7 @@ const Query: QueryResolvers = {
             getMedianValueFromResult(
               medianResult,
               typedIndicator,
-              filter.saidiSaifiType ?? undefined,
+              filter.saidiSaifiType ?? undefined
             ) ?? undefined;
         }
       } catch (_error) {
@@ -171,7 +172,7 @@ const Query: QueryResolvers = {
         console.error(
           `Failed to calculate median for indicator ${filter.indicator}: ${
             _error instanceof Error ? _error.message : _error
-          }`,
+          }`
         );
       }
     }
@@ -205,9 +206,9 @@ const Query: QueryResolvers = {
       if (medianParams) {
         const medianRows = sortBy(
           await context.sunshineDataService.getYearlyIndicatorMedians(
-            medianParams,
+            medianParams
           ),
-          (x) => x.period,
+          (x) => x.period
         );
         const medianResult = filter.period
           ? medianRows.find((x) => `${x.period}` === filter.period!)
@@ -216,14 +217,14 @@ const Query: QueryResolvers = {
           getMedianValueFromResult(
             medianResult,
             typedIndicator!,
-            filter.saidiSaifiType ?? undefined,
+            filter.saidiSaifiType ?? undefined
           ) ?? 0;
       } else {
         throw new GraphQLError(
           `Unsupported indicator for median calculation: ${typedIndicator}`,
           {
             extensions: { code: "UNSUPPORTED_INDICATOR" },
-          },
+          }
         );
       }
     } catch (_error) {
@@ -233,7 +234,7 @@ const Query: QueryResolvers = {
         }`,
         {
           extensions: { code: "MEDIAN_CALCULATION_ERROR" },
-        },
+        }
       );
     }
 
@@ -244,8 +245,9 @@ const Query: QueryResolvers = {
     if (!filter.operatorId && !filter.period) {
       throw new Error("Must either filter by year or by provider.");
     }
-    const sunshineData =
-      await context.sunshineDataService.getSunshineData(filter);
+    const sunshineData = await context.sunshineDataService.getSunshineData(
+      filter
+    );
     return sunshineData;
   },
   sunshineTariffsByIndicator: async (_parent, args, context) => {
@@ -308,7 +310,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: observationDimensionKeys,
-            },
+            }
           )
         : [];
 
@@ -318,7 +320,7 @@ const Query: QueryResolvers = {
     })) as ResolvedOperatorObservation[];
 
     const years = Array.from(
-      new Set(operatorObservations.map((x) => x.period).filter(truthy)),
+      new Set(operatorObservations.map((x) => x.period).filter(truthy))
     );
     if (years) {
       const defaultNetworkLevel = "NE7";
@@ -327,7 +329,7 @@ const Query: QueryResolvers = {
       operatorObservations.forEach((x) => {
         const coverageRatio = coverageManager.getCoverage(
           x,
-          defaultNetworkLevel,
+          defaultNetworkLevel
         );
         x.coverageRatio = coverageRatio;
         return x;
@@ -336,14 +338,14 @@ const Query: QueryResolvers = {
 
     return CoverageCacheManager.filterByCoverageRatio(
       operatorObservations,
-      (o) => o.coverageRatio,
+      (o) => o.coverageRatio
     );
   },
   cantonMedianObservations: async (
     _,
     { locale, filters, observationKind },
     ctx,
-    info,
+    info
   ) => {
     if (observationKind && observationKind !== ObservationKind.Canton) {
       return null;
@@ -365,7 +367,7 @@ const Query: QueryResolvers = {
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
-      "CantonMedianObservation",
+      "CantonMedianObservation"
     );
 
     const medianDimensionKeys = medianObservationFields
@@ -390,7 +392,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: medianDimensionKeys,
-            },
+            }
           )
         : [];
 
@@ -420,7 +422,7 @@ const Query: QueryResolvers = {
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
-      "SwissMedianObservation",
+      "SwissMedianObservation"
     );
 
     const medianDimensionKeys = medianObservationFields
@@ -445,7 +447,7 @@ const Query: QueryResolvers = {
             {
               filters,
               dimensions: medianDimensionKeys,
-            },
+            }
           )
         : [];
 
@@ -511,7 +513,7 @@ const Query: QueryResolvers = {
     const { data } = await getSearchIndex(
       locale,
       ["municipality"],
-      context.sparqlClient,
+      context.sparqlClient
     );
     return data;
   },
@@ -569,7 +571,7 @@ const Query: QueryResolvers = {
     // Exit early if home-banner is requested and it's disabled
     const extraInfo = await getExtraInfo(slug);
     const wikiPage = await getWikiPage(
-      `${slug}/${locale === "en" ? "de" : locale}`,
+      `${slug}/${locale === "en" ? "de" : locale}`
     );
 
     if (!wikiPage) {
@@ -651,7 +653,7 @@ const Query: QueryResolvers = {
   operatorMunicipalities: async (
     _,
     { period, electricityCategory, networkLevel },
-    context,
+    context
   ) => {
     const category = electricityCategory
       ? asElectricityCategory(electricityCategory)
@@ -672,7 +674,7 @@ const Query: QueryResolvers = {
           municipality: String(item.municipality),
           operator: item.operator,
         },
-        level,
+        level
       );
       return coverage;
     });
@@ -682,7 +684,7 @@ const Query: QueryResolvers = {
 const getExtraInfo = async (slug: string) => {
   if (slug === "home-banner") {
     const bannerEnabled = (await getWikiPage("home"))?.content.match(
-      /home_banner_enabled:\W*true/,
+      /home_banner_enabled:\W*true/
     );
     return { bannerEnabled };
   } else {
@@ -729,16 +731,18 @@ const Operator: OperatorResolvers = {
       client: ctx.sparqlClient,
     });
     const uid = operatorInfo?.uid;
+    const referenceId = operatorInfo?.referenceId;
     try {
       const { docs } = await searchGeverDocuments({
         operatorId,
         uid,
+        referenceId,
       });
       return docs || [];
     } catch (e) {
       console.warn(
         "Could not search documents",
-        e instanceof Error ? e.message : e,
+        e instanceof Error ? e.message : e
       );
       return [];
     }
@@ -746,11 +750,11 @@ const Operator: OperatorResolvers = {
 
   peerGroup: async ({ id }, _args, context) => {
     const latestYear = await context.sunshineDataService.getLatestYearSunshine(
-      parseInt(id, 10),
+      parseInt(id, 10)
     );
     const peerGroups = await context.sunshineDataService.getOperatorPeerGroup(
       id,
-      latestYear,
+      latestYear
     );
     return peerGroups;
   },
@@ -860,7 +864,7 @@ export const resolvers: Resolvers = {
 
 // Helper function to create indicator median params from structured filter
 const createIndicatorMedianParams = (
-  filter: SunshineDataFilter,
+  filter: SunshineDataFilter
 ): IndicatorMedianParams | null => {
   if (!filter.indicator) return null;
 
@@ -931,7 +935,7 @@ const createIndicatorMedianParams = (
 const getMedianValueFromResult = (
   result_: PeerGroupRecord<any> | undefined,
   indicator: SunshineIndicator,
-  saidiSaifiType?: string,
+  saidiSaifiType?: string
 ): number | undefined => {
   if (!result_) return undefined;
 

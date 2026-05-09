@@ -177,8 +177,9 @@ describe("SPARQL Sunshine Data Service", () => {
       });
 
       expect(result.length).toMatchInlineSnapshot(`589`);
-      expect(result.filter((x) => x.saidi_total !== null).slice(0, 3))
-        .toMatchInlineSnapshot(`
+      expect(
+        result.filter((x) => x.saidi_total !== null).slice(0, 3),
+      ).toMatchInlineSnapshot(`
           [
             {
               "operator_id": 11,
@@ -383,9 +384,8 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return default year when no data found for non-existent operator", async () => {
-      const result = await sunshineDataServiceSparql.getLatestYearSunshine(
-        99999
-      );
+      const result =
+        await sunshineDataServiceSparql.getLatestYearSunshine(99999);
 
       expect(result).toMatchInlineSnapshot(`2024`);
     });
@@ -399,9 +399,8 @@ describe("SPARQL Sunshine Data Service", () => {
     });
 
     it("should return default year when no stability data found for non-existent operator", async () => {
-      const result = await sunshineDataServiceSparql.getLatestYearSunshine(
-        99999
-      );
+      const result =
+        await sunshineDataServiceSparql.getLatestYearSunshine(99999);
 
       expect(result).toMatchInlineSnapshot(`2024`);
     });
@@ -411,7 +410,7 @@ describe("SPARQL Sunshine Data Service", () => {
     it("should return peer group information", async () => {
       const result = await sunshineDataServiceSparql.getOperatorPeerGroup(
         8,
-        2024
+        2024,
       );
 
       expect(result).toMatchInlineSnapshot(`
@@ -426,7 +425,7 @@ describe("SPARQL Sunshine Data Service", () => {
     it("should return peer group information for string id", async () => {
       const result = await sunshineDataServiceSparql.getOperatorPeerGroup(
         "8",
-        2025
+        2025,
       );
 
       expect(result).toMatchInlineSnapshot(`

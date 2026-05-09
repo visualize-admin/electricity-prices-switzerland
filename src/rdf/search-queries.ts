@@ -51,7 +51,7 @@ export const loadAllMunicipalities = async ({
     name: d.name.value,
     type: d.type.value,
     isAbolished: ns.schemaAdmin`AbolishedMunicipality`.equals(
-      d.municipalityClass,
+      d.municipalityClass
     ),
     postalCodes: d.postalCodes?.value || undefined,
   }));
@@ -125,9 +125,16 @@ export const loadAllCantons = async ({
 const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
   return {
     build: () => /* sparql */ `
-      SELECT ?uid WHERE {
+      SELECT ?uid ?referenceId WHERE {
         <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a <http://schema.org/Organization> ;
           <http://schema.org/identifier> ?uid .
+        OPTIONAL {
+          <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> <http://schema.org/identifier> [
+            a <http://schema.org/PropertyValue> ;
+            <http://schema.org/name> "NBReferenzID" ;
+            <http://schema.org/value> ?referenceId
+          ] .
+        }
       }
     `,
   };
@@ -143,20 +150,19 @@ export const fetchOperatorInfo = async ({
   const sparqlQuery = getOperatorQuery({ operatorId });
   const results = (await client.query.select(sparqlQuery.build())) as {
     uid: Literal;
+    referenceId?: Literal;
   }[];
 
-  if (results.length > 1) {
-    console.warn(`Multiple uid results for operator id ${operatorId}`);
-  } else if (results.length === 0) {
+  if (results.length === 0) {
     console.warn(`No uid results for operator id ${operatorId}`);
   }
 
   return {
     query: sparqlQuery.build(),
     data: results.map((d) => {
-      const uid = d.uid.value;
       return {
-        uid,
+        uid: d.uid.value,
+        referenceId: d.referenceId?.value,
       };
     })[0],
   };

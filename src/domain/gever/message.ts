@@ -229,7 +229,7 @@ const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
 
   // Fill timestamp
   const creationDate = new Date().toISOString();
-  const expirationDate = new Date(Date.now()+ 5 * 60 * 1000).toISOString();
+  const expirationDate = new Date(Date.now() + 5 * 60 * 1000).toISOString();
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
@@ -284,7 +284,7 @@ const setupGeverAPIRequest = (
 
   // Fill timestamp
   const creationDate = new Date().toISOString();
-  const expirationDate = new Date(Date.now()+ 5 * 60 * 1000).toISOString();
+  const expirationDate = new Date(Date.now() + 5 * 60 * 1000).toISOString();
   $(timestampNode, ns.u, "Created").textContent = creationDate;
   $(timestampNode, ns.u, "Expires").textContent = expirationDate;
 
@@ -351,25 +351,30 @@ const makeSearchRequest = async (
 ) => {
   const doc = setupGeverAPIRequest(searchDocumentsTemplate, rpStsInfo);
 
-  if (!searchOptions.uid && !searchOptions.operatorId) {
+  if (
+    !searchOptions.referenceId &&
+    !searchOptions.uid &&
+    !searchOptions.operatorId
+  ) {
     throw new Error(
-      "Both uid and operatorId cannot be falsy when searching operator documents"
+      "referenceId, uid, and operatorId cannot all be falsy when searching operator documents"
     );
   }
 
   const parameterNameNode = doc.getElementsByTagName("ParameterName")[0];
-  const parameterName = searchOptions.uid
+  const parameterName = searchOptions.referenceId
+    ? "Gtx_ELCOM_ERH_REFID_Suche"
+    : searchOptions.uid
     ? "Gtx_ELCOM_ERH_UID_Suche"
     : "Gtx_ELCOM_ERH_OpID_Suche";
   parameterNameNode.textContent = parameterName;
 
   const parameterValueNode = doc.getElementsByTagName("ParameterValue")[0];
-  const parameterValue = searchOptions.uid
-    ? searchOptions.uid
-    : searchOptions.operatorId;
+  const parameterValue =
+    searchOptions.referenceId ?? searchOptions.uid ?? searchOptions.operatorId;
 
   if (!parameterValue) {
-    throw new Error("At least uid or operatorId must be passed");
+    throw new Error("At least referenceId, uid, or operatorId must be passed");
   }
   parameterValueNode.textContent = parameterValue;
 
@@ -455,6 +460,7 @@ export const downloadGeverDocument = memoize(
 type SearchOptions = {
   operatorId: string | undefined;
   uid: string | undefined;
+  referenceId: string | undefined;
 };
 
 export const searchGeverDocuments = async (searchOptions: SearchOptions) => {

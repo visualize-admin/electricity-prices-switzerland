@@ -613,6 +613,7 @@ const DocumentDownloadStatus = () => {
     ) as {
       uid: string;
       oid: string;
+      referenceId: string;
     };
     execute(formData);
   };
@@ -647,6 +648,15 @@ const DocumentDownloadStatus = () => {
             <p style={{ fontSize: "small", color: "#111" }}>
               Either OID or UID is mandatory.
             </p>
+            <label>
+              Reference ID (NBReferenzID):{" "}
+              <input
+                type="value"
+                name="referenceId"
+                placeholder="fetched automatically from OID"
+                disabled
+              />
+            </label>
             <button disabled={query.status === "fetching"} type="submit">
               fetch documents
             </button>
@@ -663,6 +673,8 @@ const DocumentDownloadStatus = () => {
                 </textarea>
                 <br />
                 Lindas data <pre>{JSON.stringify(data.lindasInfo?.data)}</pre>
+                Reference ID (NBReferenzID){" "}
+                <pre>{data.referenceId ?? "not found"}</pre>
               </div>
               <div>
                 Bindings

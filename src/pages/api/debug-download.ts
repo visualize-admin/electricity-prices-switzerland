@@ -29,6 +29,7 @@ const handler = api({
     }
 
     let uid: string;
+    let referenceId: string | undefined;
     let lindasInfo: Awaited<ReturnType<typeof fetchOperatorInfo>> | null = null;
     if (queryUid && !Array.isArray(queryUid)) {
       uid = queryUid;
@@ -36,6 +37,7 @@ const handler = api({
       const client = await getSparqlClientFromRequest(req);
       lindasInfo = await fetchOperatorInfo({ operatorId: queryOid, client });
       uid = lindasInfo?.data.uid;
+      referenceId = lindasInfo?.data.referenceId;
     } else {
       uid = "Not found";
     }
@@ -43,11 +45,13 @@ const handler = api({
     const searchResp = await searchGeverDocuments({
       operatorId: queryOid,
       uid,
+      referenceId,
     });
     return {
       lindasEndpoint: client.query.endpoint.endpointUrl,
       lindasInfo,
       uid,
+      referenceId,
       searchResp,
     };
   },
