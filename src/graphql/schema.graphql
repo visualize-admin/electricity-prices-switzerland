@@ -231,6 +231,7 @@ type Query {
 type SunshineDataRow @cacheControl(maxAge: 300) {
   operatorId: Int
   operatorUID: String!
+  peerGroupId: String
   name: String!
   period: String!
   francRule: Float

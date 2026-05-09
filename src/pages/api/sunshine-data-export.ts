@@ -3,12 +3,12 @@ import { csvFormat } from "d3";
 import { NextApiHandler } from "next";
 
 import {
-  DAYS,
   COUNT_PER_YEAR,
+  DAYS,
+  getNetworkLevelMetrics,
   MIN_PER_YEAR,
   RP_PER_KWH,
   SWISS_FRANCS,
-  getNetworkLevelMetrics,
 } from "src/domain/metrics";
 import { runtimeEnv } from "src/env/runtime";
 import { contextFromAPIRequest } from "src/graphql/server-context";
@@ -62,6 +62,13 @@ const getDimensions = () => {
     {
       attr: "period",
       name: t({ id: "sunshine.export.column.period", message: "Period" }),
+    },
+    {
+      attr: "peerGroup",
+      name: t({
+        id: "sunshine.export.column.peer-group",
+        message: "Peer Group",
+      }),
     },
     { attr: "networkCostsNE5", name: `${networkCostsLabel} NE5 (${ne5Unit})` },
     { attr: "networkCostsNE6", name: `${networkCostsLabel} NE6 (${ne6Unit})` },
@@ -131,15 +138,17 @@ const handler: NextApiHandler = async (req, res) => {
   const dimensions = getDimensions();
 
   const context = await contextFromAPIRequest(req);
-  const data = await context.sunshineDataService.getSunshineData({
-    period,
-    peerGroup,
-  });
+  const [data, peerGroups] = await Promise.all([
+    context.sunshineDataService.getSunshineData({ period, peerGroup }),
+    context.sunshineDataService.getPeerGroups(locale),
+  ]);
+
+  const peerGroupNameById = new Map(peerGroups.map((pg) => [pg.id, pg.name]));
 
   const booleanAttrs = new Set<string>(["infoYesNo", "timely"]);
   const formatValue = (
     attr: string,
-    value: unknown
+    value: unknown,
   ): string | number | null => {
     if (booleanAttrs.has(attr)) {
       if (value === true) return i18n._({ id: "boolean.yes", message: "Ja" });
@@ -153,25 +162,29 @@ const handler: NextApiHandler = async (req, res) => {
   };
 
   const columns = dimensions.map((d) => d.name);
-  const rows = data.map((row) =>
-    Object.fromEntries(
+  const rows = data.map((row) => {
+    const enriched = {
+      ...row,
+      peerGroup: peerGroupNameById.get(row.peerGroupId ?? "") ?? "",
+    };
+    return Object.fromEntries(
       dimensions.map((d) => [
         d.name,
-        formatValue(d.attr, row[d.attr as keyof typeof row]),
-      ])
-    )
-  );
+        formatValue(d.attr, enriched[d.attr as keyof typeof enriched]),
+      ]),
+    );
+  });
 
   const csv = csvFormat(rows, columns);
 
   res.setHeader("Content-Type", "text/csv");
   res.setHeader(
     "Content-Disposition",
-    `attachment;filename=elcom-sunshine-data-${period}.csv`
+    `attachment;filename=elcom-sunshine-data-${period}.csv`,
   );
   res.setHeader(
     "Cache-Control",
-    "public, max-age=300, s-maxage=300, stale-while-revalidate"
+    "public, max-age=300, s-maxage=300, stale-while-revalidate",
   );
   res.status(200).send(csv);
 };

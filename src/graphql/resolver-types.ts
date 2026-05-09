@@ -584,6 +584,7 @@ export type SunshineDataRow = {
   networkCostsNE7?: Maybe<Scalars["Float"]["output"]>;
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
+  peerGroupId?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
   productsCount?: Maybe<Scalars["Int"]["output"]>;
   productsSelection?: Maybe<Scalars["Boolean"]["output"]>;
@@ -671,7 +672,12 @@ export type ResolverTypeWrapper<T> = Promise<T> | T;
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+export type Resolver<
+  TResult,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>
+> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
@@ -735,22 +741,29 @@ export type SubscriptionObject<
 export type SubscriptionResolver<
   TResult,
   TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {}
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>
 > =
   | ((
       ...args: any[]
     ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
-export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
+export type TypeResolveFn<
+  TTypes,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>
+> = (
   parent: TParent,
   context: TContext,
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+export type IsTypeOfResolverFn<
+  T = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>
+> = (
   obj: T,
   context: TContext,
   info: GraphQLResolveInfo
@@ -759,10 +772,10 @@ export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
 export type NextResolverFn<T> = () => Promise<T>;
 
 export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {}
+  TResult = Record<PropertyKey, never>,
+  TParent = Record<PropertyKey, never>,
+  TContext = Record<PropertyKey, never>,
+  TArgs = Record<PropertyKey, never>
 > = (
   next: NextResolverFn<TResult>,
   parent: TParent,
@@ -824,7 +837,7 @@ export type ResolversTypes = ResolversObject<{
   PowerStabilityData: ResolverTypeWrapper<PowerStabilityData>;
   PowerStabilityFilter: PowerStabilityFilter;
   PriceComponent: PriceComponent;
-  Query: ResolverTypeWrapper<{}>;
+  Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   SearchResult: ResolverTypeWrapper<
     ResolversInterfaceTypes<ResolversTypes>["SearchResult"]
   >;
@@ -884,7 +897,7 @@ export type ResolversParentTypes = ResolversObject<{
   PeerGroupItem: PeerGroupItem;
   PowerStabilityData: PowerStabilityData;
   PowerStabilityFilter: PowerStabilityFilter;
-  Query: {};
+  Query: Record<PropertyKey, never>;
   SearchResult: ResolversInterfaceTypes<ResolversParentTypes>["SearchResult"];
   StabilityData: StabilityData;
   StabilityDataRow: StabilityDataRow;
@@ -932,7 +945,6 @@ export type CantonResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CantonMedianObservationResolvers<
@@ -987,7 +999,6 @@ export type CostsAndTariffsDataResolvers<
     ContextType
   >;
   updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CubeHealthResolvers<
@@ -1000,7 +1011,6 @@ export type CubeHealthResolvers<
     ContextType
   >;
   ok?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface ElectricityCategoryScalarConfig
@@ -1025,7 +1035,6 @@ export type MunicipalityResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MunicipalityResultResolvers<
@@ -1046,7 +1055,6 @@ export type NetworkCostRowResolvers<
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   rate?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type NetworkCostsDataResolvers<
@@ -1083,7 +1091,6 @@ export type NetworkCostsDataResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type NetworkLevelResolvers<
@@ -1091,7 +1098,6 @@ export type NetworkLevelResolvers<
   ParentType extends ResolversParentTypes["NetworkLevel"] = ResolversParentTypes["NetworkLevel"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ObservationResolvers<
@@ -1131,7 +1137,6 @@ export type OperationalStandardsComplianceResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsComplianceTrendRowResolvers<
@@ -1146,7 +1151,6 @@ export type OperationalStandardsComplianceTrendRowResolvers<
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsDataResolvers<
@@ -1170,7 +1174,6 @@ export type OperationalStandardsDataResolvers<
     ContextType
   >;
   updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsOperatorFrancsResolvers<
@@ -1184,7 +1187,6 @@ export type OperationalStandardsOperatorFrancsResolvers<
   >;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsOperatorNotificationResolvers<
@@ -1194,7 +1196,6 @@ export type OperationalStandardsOperatorNotificationResolvers<
   days?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   operatorId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsServiceQualityResolvers<
@@ -1221,7 +1222,6 @@ export type OperationalStandardsServiceQualityResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperationalStandardsServiceQualityTrendRowResolvers<
@@ -1232,7 +1232,6 @@ export type OperationalStandardsServiceQualityTrendRowResolvers<
   operator_id?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorResolvers<
@@ -1263,7 +1262,6 @@ export type OperatorResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorDocumentResolvers<
@@ -1279,7 +1277,6 @@ export type OperatorDocumentResolvers<
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   url?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorMunicipalityResolvers<
@@ -1289,7 +1286,6 @@ export type OperatorMunicipalityResolvers<
   canton?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type OperatorObservationResolvers<
@@ -1340,7 +1336,6 @@ export type OperatorWithPeerGroupResolvers<
   ParentType extends ResolversParentTypes["OperatorWithPeerGroup"] = ResolversParentTypes["OperatorWithPeerGroup"]
 > = ResolversObject<{
   peerGroup?: Resolver<ResolversTypes["PeerGroup"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PeerGroupResolvers<
@@ -1354,7 +1349,6 @@ export type PeerGroupResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PeerGroupItemResolvers<
@@ -1363,7 +1357,6 @@ export type PeerGroupItemResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PowerStabilityDataResolvers<
@@ -1379,7 +1372,6 @@ export type PowerStabilityDataResolvers<
   saidi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
   saifi?: Resolver<ResolversTypes["StabilityData"], ParentType, ContextType>;
   updateDate?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<
@@ -1583,8 +1575,6 @@ export type SearchResultResolvers<
     ParentType,
     ContextType
   >;
-  id?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
 }>;
 
 export type StabilityDataResolvers<
@@ -1636,7 +1626,6 @@ export type StabilityDataResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type StabilityDataRowResolvers<
@@ -1648,7 +1637,6 @@ export type StabilityDataRowResolvers<
   total?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   unplanned?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   year?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SunshineDataByIndicatorResultResolvers<
@@ -1661,7 +1649,6 @@ export type SunshineDataByIndicatorResultResolvers<
     ContextType
   >;
   median?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SunshineDataIndicatorRowResolvers<
@@ -1673,7 +1660,6 @@ export type SunshineDataIndicatorRowResolvers<
   operatorUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SunshineDataRowResolvers<
@@ -1709,6 +1695,11 @@ export type SunshineDataRowResolvers<
   >;
   operatorId?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   operatorUID?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  peerGroupId?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   productsCount?: Resolver<
     Maybe<ResolversTypes["Int"]>,
@@ -1755,7 +1746,6 @@ export type SunshineDataRowResolvers<
   tariffNH4?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   tariffNH7?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
   timely?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SwissMedianObservationResolvers<
@@ -1779,7 +1769,6 @@ export type SystemInfoResolvers<
 > = ResolversObject<{
   SPARQL_ENDPOINT?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   VERSION?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type TariffRowResolvers<
@@ -1795,7 +1784,6 @@ export type TariffRowResolvers<
   operator_name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   rate?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type TariffsDataResolvers<
@@ -1832,7 +1820,6 @@ export type TariffsDataResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type WikiContentResolvers<
@@ -1845,7 +1832,6 @@ export type WikiContentResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface WikiContentInfoScalarConfig

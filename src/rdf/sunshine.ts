@@ -1004,7 +1004,7 @@ const getSunshineData = async (
 ): Promise<SunshineDataRow[]> => {
   const groupFilter =
     peerGroup !== "all_grid_operators" && peerGroup
-      ? `:group <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>;`
+      ? `FILTER(?group = <https://energy.ld.admin.ch/elcom/electricityprice/group/${peerGroup}>)`
       : "";
   const periodFilter = period
     ? `:period "${period}"^^xsd:gYear`
@@ -1027,8 +1027,8 @@ const getSunshineData = async (
     PREFIX cube: <https://cube.link/>
     PREFIX schema: <http://schema.org/>
     PREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>
-    
-    SELECT ?operator ?operator_name ?operator_uid ?period ?gridcost_ne5 ?gridcost_ne6 ?gridcost_ne7
+
+    SELECT ?operator ?operator_name ?operator_uid ?group ?period ?gridcost_ne5 ?gridcost_ne6 ?gridcost_ne7
            ?franken_regel ?info ?days_in_advance ?in_time ?saidi_total ?saidi_unplanned ?saifi_total ?saifi_unplanned
     WHERE {
       <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs .
@@ -1036,8 +1036,8 @@ const getSunshineData = async (
       ${values}
       ?obs
         :operator ?operator ;
+        :group ?group ;
         ${periodFilter} ;
-        ${groupFilter}
         :gridcost_ne5 ?gridcost_ne5 ;
         :gridcost_ne6 ?gridcost_ne6 ;
         :gridcost_ne7 ?gridcost_ne7 ;
@@ -1049,6 +1049,7 @@ const getSunshineData = async (
         :saidi_unplanned ?saidi_unplanned ;
         :saifi_total ?saifi_total ;
         :saifi_unplanned ?saifi_unplanned .
+      ${groupFilter}
       ${
         operatorId
           ? `FILTER(?operator = <${convertOperatorIdToUri(operatorId!)}>)`
@@ -1093,6 +1094,7 @@ const getSunshineData = async (
       operator: string;
       operator_name: string;
       operator_uid: string | undefined;
+      group: string;
       period: string;
       gridcost_ne5: string;
       gridcost_ne6: string;
@@ -1148,6 +1150,7 @@ const getSunshineData = async (
       return {
         operatorId,
         operatorUID: row.operator_uid ?? operatorId.toString(),
+        peerGroupId: stripNamespaceFromIri({ iri: row.group }),
         name: row.operator_name,
         period,
         francRule: parseFloatOrNull(row.franken_regel),

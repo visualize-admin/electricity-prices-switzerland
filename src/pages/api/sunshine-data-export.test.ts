@@ -34,16 +34,23 @@ async function* asyncRows<T>(rows: T[]) {
   }
 }
 
+const mockPeerGroupRows = [
+  { concept: { value: "https://energy.ld.admin.ch/elcom/electricityprice/group/1" }, name: { value: "Gruppe 1" } },
+  { concept: { value: "https://energy.ld.admin.ch/elcom/electricityprice/group/2" }, name: { value: "Gruppe 2" } },
+];
+
 const createMockClient = (
   mainRows: Record<string, unknown>[],
-  tariffRows: Record<string, unknown>[] = []
+  tariffRows: Record<string, unknown>[] = [],
+  peerGroupRows: Record<string, unknown>[] = mockPeerGroupRows
 ) =>
   ({
     query: {
       select: vi
         .fn()
         .mockResolvedValueOnce(asyncRows(mainRows))
-        .mockResolvedValueOnce(asyncRows(tariffRows)),
+        .mockResolvedValueOnce(asyncRows(tariffRows))
+        .mockResolvedValueOnce(asyncRows(peerGroupRows)),
     },
   }) as never;
 
@@ -70,6 +77,7 @@ const makeMainRow = (
     `https://energy.ld.admin.ch/elcom/sunshine/operator/${id}`
   ),
   operator_name: sparqlValue(`Operator ${id}`),
+  group: sparqlValue("https://energy.ld.admin.ch/elcom/electricityprice/group/1"),
   period: sparqlValue("2025"),
   gridcost_ne5: sparqlValue("0"),
   gridcost_ne6: sparqlValue("0"),
@@ -164,6 +172,36 @@ describe("sunshine-data-export handler", () => {
     expect(rows.find((r) => r["Operator Name"] === "Without UID")?.["Operator UID"]).toBe(
       "99"
     );
+  });
+
+  it("resolves peer group label from secondary query and falls back to empty when absent", async () => {
+    const peerGroupRows = [
+      {
+        concept: sparqlValue("https://energy.ld.admin.ch/elcom/electricityprice/group/1"),
+        name: sparqlValue("Hohe Siedlungsdichte / Hohe Energiedichte"),
+      },
+    ];
+    const client = createMockClient(
+      [
+        makeMainRow(1, { group: sparqlValue("https://energy.ld.admin.ch/elcom/electricityprice/group/1") }),
+        makeMainRow(2, { group: sparqlValue("https://energy.ld.admin.ch/elcom/electricityprice/group/99") }),
+      ],
+      [],
+      peerGroupRows
+    );
+
+    vi.mocked(contextFromAPIRequest).mockResolvedValue({
+      sunshineDataService: createSunshineDataService(client),
+    } as never);
+
+    const res = createMockRes();
+    await handler(createMockReq(), res as never);
+
+    const rows = csvParse(res.getBody());
+    expect(rows.find((r) => r["Operator ID"] === "1")?.["Peer Group"]).toBe(
+      "Hohe Siedlungsdichte / Hohe Energiedichte"
+    );
+    expect(rows.find((r) => r["Operator ID"] === "2")?.["Peer Group"]).toBe("");
   });
 
   it("sorts rows numerically by operator ID, not lexicographically", async () => {

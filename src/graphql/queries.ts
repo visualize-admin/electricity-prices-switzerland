@@ -568,6 +568,7 @@ export type SunshineDataRow = {
   networkCostsNE7?: Maybe<Scalars["Float"]["output"]>;
   operatorId?: Maybe<Scalars["Int"]["output"]>;
   operatorUID: Scalars["String"]["output"];
+  peerGroupId?: Maybe<Scalars["String"]["output"]>;
   period: Scalars["String"]["output"];
   productsCount?: Maybe<Scalars["Int"]["output"]>;
   productsSelection?: Maybe<Scalars["Boolean"]["output"]>;
