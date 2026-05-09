@@ -136,10 +136,29 @@ const handler: NextApiHandler = async (req, res) => {
     peerGroup,
   });
 
+  const booleanAttrs = new Set<string>(["infoYesNo", "timely"]);
+  const formatValue = (
+    attr: string,
+    value: unknown
+  ): string | number | null => {
+    if (booleanAttrs.has(attr)) {
+      if (value === true) return i18n._({ id: "boolean.yes", message: "Ja" });
+      if (value === false) return i18n._({ id: "boolean.no", message: "Nein" });
+      return "";
+    }
+    if (typeof value === "number") {
+      return Math.round(value * 1000) / 1000;
+    }
+    return value as string | null;
+  };
+
   const columns = dimensions.map((d) => d.name);
   const rows = data.map((row) =>
     Object.fromEntries(
-      dimensions.map((d) => [d.name, row[d.attr as keyof typeof row]])
+      dimensions.map((d) => [
+        d.name,
+        formatValue(d.attr, row[d.attr as keyof typeof row]),
+      ])
     )
   );
 

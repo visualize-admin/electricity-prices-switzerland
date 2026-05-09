@@ -12,6 +12,7 @@ vi.mock("src/env/runtime", () => ({
 vi.mock("fs", () => ({ default: { writeFileSync: vi.fn() } }));
 
 import { contextFromAPIRequest } from "src/graphql/server-context";
+
 import handler from "./municipalities-data.csv";
 
 const sparqlBinding = (value: string) => ({ value });
