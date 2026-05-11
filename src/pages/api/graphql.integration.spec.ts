@@ -7,6 +7,7 @@ import {
   type SunshineDataByIndicatorQuery,
   type SunshineDataByIndicatorQueryVariables,
 } from "src/graphql/queries";
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
 import { BASE_URL } from "src/utils/base-url";
 import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";
 
@@ -14,7 +15,7 @@ const GRAPHQL_BASE_URL = `${BASE_URL}/api/graphql`;
 
 const makeHeaders = async () => ({
   cookie: await createCookieFromFlags({
-    sparqlEndpoint: "https://lindas.int.cz-aws.net/query",
+    sparqlEndpoint: LINDAS_ENDPOINTS.int,
   }),
   ...makeDeploymentAuthHeaders(),
 });
@@ -32,7 +33,7 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
     .then(async (response) => {
       if (!response.ok) {
         throw new Error(
-          `GraphQL API is not reachable at ${graphqlEndpoint}: ${await response.text()}`,
+          `GraphQL API is not reachable at ${graphqlEndpoint}: ${await response.text()}`
         );
       }
       return response.json();
@@ -40,7 +41,7 @@ const performHealthCheck = async (graphqlEndpoint: string) => {
     .catch((error) => {
       console.error(
         `Error performing health check (endpoint: ${graphqlEndpoint}):`,
-        error,
+        error
       );
       throw error;
     });
@@ -52,7 +53,7 @@ beforeAll(async () => {
 });
 
 async function executeGraphQLQuery(
-  variables: SunshineDataByIndicatorQueryVariables,
+  variables: SunshineDataByIndicatorQueryVariables
 ): Promise<{ data?: SunshineDataByIndicatorQuery; error?: Error }> {
   const headers = await makeHeaders();
   const client = new Client({

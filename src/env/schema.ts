@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
+
 export const buildSchema = z.object({
   // Used to display a mention of the current deployment in development mode
   VERSION: z.string().optional(),
@@ -32,18 +34,18 @@ export const serverSchema = z.object({
   GEVER_BINDING_IPSTS: z
     .string()
     .default(
-      "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport"
+      "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
     ),
 
   GEVER_BINDING_RPSTS: z
     .string()
     .default(
-      "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256"
+      "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
     ),
   GEVER_BINDING_SERVICE: z
     .string()
     .default(
-      "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc"
+      "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
     ),
   DEBUG_DOWNLOAD_SECRET: z
     .string()
@@ -69,13 +71,11 @@ export const serverSchema = z.object({
 
   // Sparql
   SPARQL_EDITOR: z.string().optional(),
-  SPARQL_ENDPOINT: z.string().default("https://test.lindas.admin.ch/query"),
+  SPARQL_ENDPOINT: z.string().default(LINDAS_ENDPOINTS.test),
   GRAPHDB_ENDPOINTS: z
     .string()
     .optional()
-    .transform((value) =>
-      value ? value.split(",").map((s) => s.trim()) : []
-    ),
+    .transform((value) => (value ? value.split(",").map((s) => s.trim()) : [])),
 
   // Admin authentication
   ADMIN_PASSWORD: z.string().optional(),

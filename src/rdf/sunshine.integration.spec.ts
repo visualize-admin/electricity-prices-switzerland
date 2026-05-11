@@ -2,10 +2,11 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { describe, expect, it } from "vitest";
 
 import { makeClientVerbose } from "src/rdf/client-helpers";
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
 import { createSunshineDataService } from "src/rdf/sunshine";
 
 const client = new ParsingClient({
-  endpointUrl: "https://lindas-cached.cluster.ldbar.ch/query",
+  endpointUrl: LINDAS_ENDPOINTS.prodCached,
 });
 
 // Switch to true to see verbose SPARQL client logs
