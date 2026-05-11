@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: de\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -182,6 +182,10 @@ msgstr "Sortieren"
 #: src/components/detail-page/banner.tsx
 msgid "detail.canton"
 msgstr "Kanton"
+
+#: src/components/detail-page/price-distribution-histogram.tsx
+msgid "detail.card.subtitle.year"
+msgstr "Jahr: {p}"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx

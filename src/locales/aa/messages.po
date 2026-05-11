@@ -183,6 +183,10 @@ msgstr "dataset.sortby"
 msgid "detail.canton"
 msgstr "detail.canton"
 
+#: src/components/detail-page/price-distribution-histogram.tsx
+msgid "detail.card.subtitle.year"
+msgstr "detail.card.subtitle.year"
+
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "detail.card.title.cantons.comparison"
@@ -589,7 +593,7 @@ msgstr "image.download"
 #: src/pages/api/sunshine-data-export.ts
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Costs and profit"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"

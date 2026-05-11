@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: it\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -72,11 +72,11 @@ msgstr "Per adattare al meglio la nostra offerta web alle vostre esigenze, utili
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.reject"
-msgstr "Rifiuto"
+msgstr "Rifiutare"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
-msgstr "Tassa di aiuto"
+msgstr "Emolumento di aiuto"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.annual-metering-cost"
@@ -182,6 +182,10 @@ msgstr "Selezionare"
 #: src/components/detail-page/banner.tsx
 msgid "detail.canton"
 msgstr "Cantone"
+
+#: src/components/detail-page/price-distribution-histogram.tsx
+msgid "detail.card.subtitle.year"
+msgstr "Anno: {p}"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
@@ -591,7 +595,7 @@ msgstr "Scaricare l'immagine"
 #: src/pages/api/sunshine-data-export.ts
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Costi e utile"
+msgstr "Conformità"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -781,7 +785,7 @@ msgstr "{0} × {1} px"
 #: src/components/map-download-image.tsx
 #: src/components/map-download-image.tsx
 msgid "map.download.title"
-msgstr "Scarica l'immagine"
+msgstr "Scaricare l'immagine"
 
 #: src/components/generic-map.tsx
 msgid "map.error.description"
@@ -831,11 +835,11 @@ msgstr "Filtro"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.list-title"
-msgstr "Vista sulla mappa"
+msgstr "Vista della mappa"
 
 #: src/components/map/mobile-controls.tsx
 msgid "mobile-drawer.parameters-title"
-msgstr "Parametro"
+msgstr "Parametri"
 
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
@@ -1279,7 +1283,7 @@ msgstr "Tariffe energetiche per la categoria di utenza finale selezionata (IVA e
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Tariffe di uso della rete per la categoria di utenza finale selezionata (IVA esclusa)."
+msgstr "Tariffe per l'utilizzazione della rete per la categoria di utenza finale selezionata (IVA esclusa)."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
@@ -1581,17 +1585,17 @@ msgstr "Data: {date}"
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
-msgstr "Notifica di interruzione del servizio al cliente"
+msgstr "Notifica al cliente di interruzione del servizio "
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
-msgstr "Giorni di anticipo per la notifica"
+msgstr "Giorni di preavviso per la notifica"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.energy-tariff"
-msgstr "Tariffa energetica"
+msgstr "Tariffa dell'energia"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
@@ -1613,7 +1617,7 @@ msgstr "Nome del gestore di rete"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.operator-uid"
-msgstr "UID del gestore di rete"
+msgstr "IDI del gestore di rete"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.peer-group"
@@ -1724,7 +1728,7 @@ msgstr "Confronto in franchi per destinatario di fattura"
 #: src/components/operational-standards-card.tsx
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance-trend-title"
-msgstr "Andamento della regola dei 75 franchi"
+msgstr "Evoluzione della regola dei 75 franchi"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
@@ -1757,7 +1761,7 @@ msgstr "Confronto dei termini di preavviso per interruzioni programmate"
 #: src/components/operational-standards-card.tsx
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.service-quality-trend-title"
-msgstr "Andamento del periodo di preavviso"
+msgstr "Evoluzione del periodo di preavviso"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.service-quality.comparison-card-title"

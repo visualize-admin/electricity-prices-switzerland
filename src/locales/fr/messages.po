@@ -7,7 +7,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: \n"
-"Content-Type: \n"
+"Content-Type: text/plain\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
@@ -76,7 +76,7 @@ msgstr "Rejeter"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
-msgstr "Frais d'aide"
+msgstr "Émolument pour l’aide"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.annual-metering-cost"
@@ -92,15 +92,15 @@ msgstr "Taxes"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy"
-msgstr "Énergie après réduction"
+msgstr "Énergie après rabais"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-before-discount"
-msgstr "Énergie avant réduction"
+msgstr "Énergie avant rabais"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-discount"
-msgstr "Remise sur l'énergie"
+msgstr "Rabais sur l'énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-fix-costs"
@@ -128,15 +128,15 @@ msgstr "Prix de l'électricité du réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage"
-msgstr "Utilisation du réseau après réduction"
+msgstr "Utilisation du réseau après rabais"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage-before-discount"
-msgstr "Utilisation du réseau avant réduction"
+msgstr "Utilisation du réseau avant rabais"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage-discount"
-msgstr "Remise sur l'utilisation du réseau"
+msgstr "Rabais sur l'utilisation du réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage-name"
@@ -182,6 +182,10 @@ msgstr "Trier"
 #: src/components/detail-page/banner.tsx
 msgid "detail.canton"
 msgstr "Canton"
+
+#: src/components/detail-page/price-distribution-histogram.tsx
+msgid "detail.card.subtitle.year"
+msgstr "Année : {p}"
 
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
@@ -420,7 +424,7 @@ msgstr "Informations complémentaires"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Données au format .csv (Sunshine)"
+msgstr "Données au format CSV (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -592,7 +596,7 @@ msgstr "Télécharger comme image"
 #: src/pages/api/sunshine-data-export.ts
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Coûts et bénéfices"
+msgstr "Conformité"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -761,7 +765,7 @@ msgstr "Temps de chargement plus long"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
-msgstr "Indisponible sur mobile, veuillez utiliser un navigateur de bureau"
+msgstr "Non disponible sur téléphone portable, veuillez utiliser un navigateur sur ordinateur."
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
@@ -1288,7 +1292,7 @@ msgstr "Coûts d'infrastructure réseau facturés aux consommateurs finals par n
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Indique si les clients affectés par des coupures planifiées sont informés comme requis."
+msgstr "Indique si les clients concernés par des coupures planifiées sont informés conformément aux prescriptions."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
@@ -1590,7 +1594,7 @@ msgstr "Notification d'interruption de service aux clients"
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
-msgstr "Jours d'avance pour la notification"
+msgstr "Jours de préavis pour la notification"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts

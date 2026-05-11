@@ -183,6 +183,10 @@ msgstr "Sortieren"
 msgid "detail.canton"
 msgstr "Canton"
 
+#: src/components/detail-page/price-distribution-histogram.tsx
+msgid "detail.card.subtitle.year"
+msgstr "Year: {p}"
+
 #: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/cantons-comparison-range.tsx
 msgid "detail.card.title.cantons.comparison"
@@ -591,7 +595,7 @@ msgstr "Download image"
 #: src/pages/api/sunshine-data-export.ts
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "indicator.compliance"
-msgstr "Costs and profit"
+msgstr "Compliance"
 
 #: src/domain/translation.tsx
 msgid "indicator.days-in-advance-outage-notification"
@@ -1271,7 +1275,7 @@ msgstr "Costs and profit from energy distribution"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "How many days in advance customers are notified before a planned outage."
+msgstr "How many days in advance customers are notified of a planned interruption."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
@@ -1279,7 +1283,7 @@ msgstr "Energy tariffs for the selected end-consumer category (excl. VAT)."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Net tariffs for the selected end-consumer category (excl. VAT)."
+msgstr "Grid usage tariffs for the selected end-consumer category (excluding VAT)."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
@@ -1287,7 +1291,7 @@ msgstr "Network infrastructure costs charged to end consumers by network level (
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Whether customers affected by planned outages are informed as required."
+msgstr "Whether customers affected by planned interruptions are notified as required."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
@@ -1421,7 +1425,7 @@ msgstr "Year"
 
 #: src/pages/[entity]/[id]/index.tsx
 msgid "selector.years"
-msgstr "Years"
+msgstr "Tariff years"
 
 #: src/components/share-button.tsx
 msgid "share.url-copied"
@@ -1596,7 +1600,7 @@ msgstr "Energy Tariff"
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.net-tariff"
-msgstr "Net Tariff"
+msgstr "Network tariff"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
@@ -1682,7 +1686,7 @@ msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-year"
-msgstr "CHF p.a."
+msgstr "CHF p.y."
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
@@ -1724,7 +1728,7 @@ msgstr "Comparison of francs per invoice recipient"
 #: src/components/operational-standards-card.tsx
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance-trend-title"
-msgstr "75 francs rule trend"
+msgstr "Development of the 75 franc rule"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"
