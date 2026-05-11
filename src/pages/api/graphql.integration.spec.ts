@@ -15,7 +15,6 @@ const GRAPHQL_BASE_URL = `${BASE_URL}/api/graphql`;
 
 const makeHeaders = async () => {
   const headers = await makeDeploymentAuthHeaders();
-  console.log("Integration test headers:", headers);
   return {
     ...headers,
     cookie: await createCookieFromFlags({
