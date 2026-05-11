@@ -1620,6 +1620,10 @@ msgid "sunshine.export.column.operator-uid"
 msgstr "UID du gestionnaire de réseau"
 
 #: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.peer-group"
+msgstr "Groupe de comparaison"
+
+#: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.period"
 msgstr "Période"
 

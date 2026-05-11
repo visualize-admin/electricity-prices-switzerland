@@ -1614,6 +1614,10 @@ msgid "sunshine.export.column.operator-uid"
 msgstr "sunshine.export.column.operator-uid"
 
 #: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.peer-group"
+msgstr "sunshine.export.column.peer-group"
+
+#: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.period"
 msgstr "sunshine.export.column.period"
 

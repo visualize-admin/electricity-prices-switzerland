@@ -1614,6 +1614,10 @@ msgid "sunshine.export.column.operator-uid"
 msgstr "Netzbetreiber UID"
 
 #: src/pages/api/sunshine-data-export.ts
+msgid "sunshine.export.column.peer-group"
+msgstr "Vergleichsgruppe"
+
+#: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.period"
 msgstr "Zeitraum"
 
