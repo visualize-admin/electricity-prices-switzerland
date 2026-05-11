@@ -20,12 +20,18 @@ type ObjectEntry<T> = {
 
 export const FilterSetDescription = ({
   filters,
+  hideYear = false,
 }: {
   filters: Partial<FilterSet>;
+  hideYear?: boolean;
 }) => {
   return Object.entries(filters).map((entry_, i) => {
     const entry = entry_ as ObjectEntry<FilterSet>;
     if (!entry) {
+      return null;
+    }
+
+    if (hideYear && entry[0] === "period") {
       return null;
     }
 
