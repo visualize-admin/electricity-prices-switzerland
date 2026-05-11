@@ -11,6 +11,7 @@ import { UseQueryState } from "urql";
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
 import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
 import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { ExecuteGraphqlQuery } from "src/utils/execute-graphql-query";
@@ -424,12 +425,8 @@ DESCRIBE <https://ld.admin.ch/municipality/${formData.municipalityId}>
             }}
           >
             <select name="endpoint">
-              <option value="https://int.lindas.admin.ch/query">
-                int.lindas.admin.ch
-              </option>
-              <option value="https://lindas.admin.ch/query">
-                lindas.admin.ch
-              </option>
+              <option value={LINDAS_ENDPOINTS.int}>int.lindas.admin.ch</option>
+              <option value={LINDAS_ENDPOINTS.prod}>lindas.admin.ch</option>
             </select>
             <div>Either use municipality name or BFS id</div>
             <label>
@@ -524,15 +521,11 @@ const SunshineMedianStatus = () => {
             }}
           >
             <select name="endpoint">
-              <option value="https://test.lindas.admin.ch/query">
+              <option value={LINDAS_ENDPOINTS.test}>
                 test.lindas.admin.ch
               </option>
-              <option value="https://int.lindas.admin.ch/query">
-                int.lindas.admin.ch
-              </option>
-              <option value="https://lindas.admin.ch/query">
-                lindas.admin.ch
-              </option>
+              <option value={LINDAS_ENDPOINTS.int}>int.lindas.admin.ch</option>
+              <option value={LINDAS_ENDPOINTS.prod}>lindas.admin.ch</option>
             </select>
             <br />
             <button disabled={query.status === "fetching"} type="submit">
@@ -700,7 +693,9 @@ const DocumentDownloadStatus = () => {
 };
 
 const serializeQueryResult = <T,>(
-  result: { data: T; variables: Record<string, $IntentionalAny> } | { error: Error; variables: Record<string, $IntentionalAny> }
+  result:
+    | { data: T; variables: Record<string, $IntentionalAny> }
+    | { error: Error; variables: Record<string, $IntentionalAny> }
 ) => {
   if ("error" in result) {
     return {
@@ -748,7 +743,10 @@ const executeQuerySafe = async <T,>(
   executeGraphqlQuery: ExecuteGraphqlQuery,
   document: $IntentionalAny,
   variables: Record<string, $IntentionalAny>
-): Promise<{ data: T; variables: typeof variables } | { error: Error; variables: typeof variables }> => {
+): Promise<
+  | { data: T; variables: typeof variables }
+  | { error: Error; variables: typeof variables }
+> => {
   try {
     const data = await executeGraphqlQuery<T>(document, variables);
     return { data, variables };
@@ -822,34 +820,36 @@ export const getServerSideProps = createGetServerSideProps(
           query: "3000",
         }
       ),
-      observations: executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
-        executeGraphqlQuery,
-        Queries.ObservationsWithAllPriceComponentsDocument,
-        {
-          locale: "de",
-          observationKind: Queries.ObservationKind.Municipality,
-          filters: {
-            municipality: ["261"],
-            period: ["2021"],
-            category: ["H4"],
-            product: ["standard"],
-          },
-        }
-      ),
-      cantonMedian: executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
-        executeGraphqlQuery,
-        Queries.ObservationsWithAllPriceComponentsDocument,
-        {
-          locale: "de",
-          observationKind: Queries.ObservationKind.Canton,
-          filters: {
-            canton: ["1", "2"],
-            period: ["2021"],
-            category: ["H4"],
-            product: ["standard"],
-          },
-        }
-      ),
+      observations:
+        executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
+          executeGraphqlQuery,
+          Queries.ObservationsWithAllPriceComponentsDocument,
+          {
+            locale: "de",
+            observationKind: Queries.ObservationKind.Municipality,
+            filters: {
+              municipality: ["261"],
+              period: ["2021"],
+              category: ["H4"],
+              product: ["standard"],
+            },
+          }
+        ),
+      cantonMedian:
+        executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
+          executeGraphqlQuery,
+          Queries.ObservationsWithAllPriceComponentsDocument,
+          {
+            locale: "de",
+            observationKind: Queries.ObservationKind.Canton,
+            filters: {
+              canton: ["1", "2"],
+              period: ["2021"],
+              category: ["H4"],
+              product: ["standard"],
+            },
+          }
+        ),
       swissMedian: executeQuerySafe<Queries.ObservationsQuery>(
         executeGraphqlQuery,
         Queries.ObservationsDocument,

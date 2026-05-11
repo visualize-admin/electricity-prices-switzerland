@@ -1,3 +1,5 @@
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
+
 import { test } from "./common";
 
 test.describe("Admin Interface", () => {
@@ -57,13 +59,11 @@ test.describe("Admin Interface", () => {
     // Login first
     await adminLogin(page);
     await page.getByRole("textbox").click();
-    await page.getByRole("textbox").fill("https://int.lindas.admin.ch/query");
+    await page.getByRole("textbox").fill(LINDAS_ENDPOINTS.int);
     await page.getByRole("button", { name: "Update Flags" }).click();
     await page.getByText("Flags updated successfully.").click();
     await page.goto("/map");
-    await page
-      .getByText("SPARQL Endpoint: https://int.lindas.admin.ch/query")
-      .click();
+    await page.getByText(`SPARQL Endpoint: ${LINDAS_ENDPOINTS.int}`).click();
     await page.getByRole("link", { name: "Configure" }).click();
     await page.getByRole("heading", { name: "Session Config Flags" }).click();
   });

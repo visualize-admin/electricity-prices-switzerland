@@ -11,6 +11,7 @@ import { contextFromAPIRequest } from "src/graphql/server-context";
 const MunicipalityInfo = z
   .object({
     netzbetreiber: z.string(),
+    uid: z.string().optional(),
     webseite: z.string().optional(),
     gemeindeNummer: z.string(),
     gemeindeName: z.string(),
@@ -49,6 +50,7 @@ const MunicipalityInfo = z
   })
   .transform((x) => ({
     operator: x.netzbetreiber,
+    operatorUid: x.uid,
     operatorPostalCode: x.netzbetreiberPlz,
     operatorAddress: `${x.netzbetreiberStrasse}, ${x.netzbetreiberOrt}`,
     municipalityName: x.gemeindeName,
@@ -76,7 +78,7 @@ const fetchMunicipalitiesInfo = async (
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   PREFIX strom: <https://energy.ld.admin.ch/elcom/electricityprice/dimension/>
   
-  SELECT DISTINCT  ?netzbetreiber ?webseite ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
+  SELECT DISTINCT  ?netzbetreiber ?uid ?webseite ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?gemeindePlz ?gemeindeName ?gemeindeNummer ?kanton ?webseite
   
   FROM <https://lindas.admin.ch/elcom/electricityprice>
   FROM <https://lindas.admin.ch/territorial>
@@ -85,11 +87,14 @@ const fetchMunicipalitiesInfo = async (
   WHERE
   {
     {  
-      SELECT ?operator ?netzbetreiber ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?webseite { 
+      SELECT ?operator ?netzbetreiber ?uid ?netzbetreiberStrasse ?netzbetreiberPlz ?netzbetreiberOrt ?webseite {
         ?operator a schema:Organization ;
           schema:name ?netzbetreiber .
           OPTIONAL {
             ?operator schema:url ?webseite .
+          }
+          OPTIONAL {
+            ?operator schema:identifier ?uid .
           }
         ?operator schema:address ?address .
         ?address schema:postalCode ?netzbetreiberPlz ;
@@ -147,6 +152,7 @@ const handler: NextApiHandler = async (req, res) => {
   const filename = `municipalities-data-${period}.csv`;
   const csv = csvFormat(data, [
     "operator",
+    "operatorUid",
     "website",
     "municipalityNumber",
     "municipalityName",

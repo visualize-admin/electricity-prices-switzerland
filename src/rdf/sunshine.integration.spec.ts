@@ -2,10 +2,11 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 import { describe, expect, it } from "vitest";
 
 import { makeClientVerbose } from "src/rdf/client-helpers";
+import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
 import { createSunshineDataService } from "src/rdf/sunshine";
 
 const client = new ParsingClient({
-  endpointUrl: "https://lindas-cached.cluster.ldbar.ch/query",
+  endpointUrl: LINDAS_ENDPOINTS.prodCached,
 });
 
 // Switch to true to see verbose SPARQL client logs
@@ -175,7 +176,7 @@ describe("SPARQL Sunshine Data Service", () => {
         period: 2025,
       });
 
-      expect(result.length).toMatchInlineSnapshot(`588`);
+      expect(result.length).toMatchInlineSnapshot(`589`);
       expect(result.filter((x) => x.saidi_total !== null).slice(0, 3))
         .toMatchInlineSnapshot(`
           [
@@ -456,7 +457,8 @@ describe("SPARQL Sunshine Data Service", () => {
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26654.642,
             "operatorId": 672,
-            "operatorUID": "672",
+            "operatorUID": "CHE-175.038.369",
+            "peerGroupId": "1",
             "period": "2025",
             "saidiTotal": 8.806,
             "saidiUnplanned": 0.643,
@@ -476,7 +478,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "tariffNH2": 13.821,
             "tariffNH4": 12.175,
             "tariffNH7": 10.425,
-            "timely": false,
+            "timely": true,
           },
         ]
       `);
@@ -487,69 +489,71 @@ describe("SPARQL Sunshine Data Service", () => {
         period: "2025",
       });
 
-      expect(result.length).toMatchInlineSnapshot(`588`);
+      expect(result.length).toMatchInlineSnapshot(`589`);
       expect(result.slice(0, 2)).toMatchInlineSnapshot(`
         [
           {
-            "francRule": 45.594,
-            "infoDaysInAdvance": 3,
+            "francRule": 45.094,
+            "infoDaysInAdvance": 2,
             "infoYesNo": true,
-            "name": "Arosa Energie",
-            "networkCostsNE5": 9338.377,
-            "networkCostsNE6": 11.729,
-            "networkCostsNE7": 12858.57,
-            "operatorId": 10,
-            "operatorUID": "10",
+            "name": "AGE SA",
+            "networkCostsNE5": 25017.076,
+            "networkCostsNE6": 7.355,
+            "networkCostsNE7": 15046.575,
+            "operatorId": 2,
+            "operatorUID": "CHE-108.955.110",
+            "peerGroupId": "4",
             "period": "2025",
-            "saidiTotal": null,
-            "saidiUnplanned": null,
-            "saifiTotal": null,
-            "saifiUnplanned": null,
-            "tariffEC2": 8.093,
-            "tariffEC3": 7.637,
-            "tariffEC4": 6.998,
-            "tariffEC6": 7.632,
-            "tariffEH2": 7.73,
-            "tariffEH4": 7.648,
-            "tariffEH7": 6.769,
-            "tariffNC2": 11.052,
-            "tariffNC3": 8.807,
-            "tariffNC4": 8.284,
-            "tariffNC6": 7.866,
-            "tariffNH2": 16.123,
-            "tariffNH4": 13.51,
-            "tariffNH7": 11.067,
-            "timely": false,
+            "saidiTotal": 3.977,
+            "saidiUnplanned": 1.474,
+            "saifiTotal": 0.065,
+            "saifiUnplanned": 0.047,
+            "tariffEC2": 14.571,
+            "tariffEC3": 12.227,
+            "tariffEC4": 11.031,
+            "tariffEC6": 11.327,
+            "tariffEH2": 14.142,
+            "tariffEH4": 14.053,
+            "tariffEH7": 12.824,
+            "tariffNC2": 11.332,
+            "tariffNC3": 11.476,
+            "tariffNC4": 10.775,
+            "tariffNC6": 8.117,
+            "tariffNH2": 14.773,
+            "tariffNH4": 12.846,
+            "tariffNH7": 10.265,
+            "timely": true,
           },
           {
-            "francRule": 71.403,
-            "infoDaysInAdvance": 14,
+            "francRule": 74.8,
+            "infoDaysInAdvance": 3,
             "infoYesNo": true,
-            "name": "ELEKTRA ENERGIE Genossenschaft",
-            "networkCostsNE5": 9085.843,
-            "networkCostsNE6": 12.023,
-            "networkCostsNE7": 11059.218,
-            "operatorId": 105,
-            "operatorUID": "105",
+            "name": "Commune de Courchapoix, electricite",
+            "networkCostsNE5": 10626.667,
+            "networkCostsNE6": 5.514,
+            "networkCostsNE7": 12283.594,
+            "operatorId": 3,
+            "operatorUID": "CHE-112.591.057",
+            "peerGroupId": "8",
             "period": "2025",
             "saidiTotal": null,
             "saidiUnplanned": null,
             "saifiTotal": null,
             "saifiUnplanned": null,
-            "tariffEC2": 16.5,
-            "tariffEC3": 0,
-            "tariffEC4": 0,
-            "tariffEC6": null,
-            "tariffEH2": 16.5,
-            "tariffEH4": 16.5,
-            "tariffEH7": 15.846,
-            "tariffNC2": 14.26,
-            "tariffNC3": 14.02,
-            "tariffNC4": 13.352,
-            "tariffNC6": null,
-            "tariffNH2": 19.54,
-            "tariffNH4": 16.98,
-            "tariffNH7": 13.711,
+            "tariffEC2": 15.093,
+            "tariffEC3": 13.738,
+            "tariffEC4": 13.525,
+            "tariffEC6": 0,
+            "tariffEH2": 14.92,
+            "tariffEH4": 15.228,
+            "tariffEH7": 14.136,
+            "tariffNC2": 14,
+            "tariffNC3": 14.346,
+            "tariffNC4": 11.872,
+            "tariffNC6": 0,
+            "tariffNH2": 21.02,
+            "tariffNH4": 16.9,
+            "tariffNH7": 11.817,
             "timely": false,
           },
         ]
@@ -573,7 +577,8 @@ describe("SPARQL Sunshine Data Service", () => {
             "networkCostsNE6": 13.072,
             "networkCostsNE7": 28262.076,
             "operatorId": 672,
-            "operatorUID": "672",
+            "operatorUID": "CHE-175.038.369",
+            "peerGroupId": "1",
             "period": "2026",
             "saidiTotal": 7.248,
             "saidiUnplanned": 0.926,
@@ -593,7 +598,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "tariffNH2": 11.871,
             "tariffNH4": 11.25,
             "tariffNH7": 10.485,
-            "timely": false,
+            "timely": true,
           },
           {
             "francRule": 74.276,
@@ -604,7 +609,8 @@ describe("SPARQL Sunshine Data Service", () => {
             "networkCostsNE6": 12.366,
             "networkCostsNE7": 26654.642,
             "operatorId": 672,
-            "operatorUID": "672",
+            "operatorUID": "CHE-175.038.369",
+            "peerGroupId": "1",
             "period": "2025",
             "saidiTotal": 8.806,
             "saidiUnplanned": 0.643,
@@ -624,7 +630,7 @@ describe("SPARQL Sunshine Data Service", () => {
             "tariffNH2": 13.821,
             "tariffNH4": 12.175,
             "tariffNH7": 10.425,
-            "timely": false,
+            "timely": true,
           },
         ]
       `); // First 2 results
