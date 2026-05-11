@@ -68,13 +68,25 @@
   {
     "kind": 1,
     "language": "markdown",
+    "value": "# Get operator id through name",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "# GET operator through name\nPREFIX schema: <http://schema.org/>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT ?op ?name\nWHERE {\n  ?op schema:name ?name.\n  ?op a schema:Organization .\n  ?op schema:identifier ?id .\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator ?op;\n  FILTER (CONTAINS(?id, \"CHE\"))\n  # Name contains\n  FILTER (CONTAINS(LCASE(?name), \"herzogenbuchsee\"))\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
     "value": "Sunshine indicators are measure dimensions of observations in the cube `<https://energy.ld.admin.ch/elcom/sunshine>`.\n\n## Indicator values\n\n### For year and operator\n\nThe following query returns the indicators for a specific year and operator:",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
-    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/313> ;\n  \t:period \"2025\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
+    "value": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX cube: <https://cube.link/>\nPREFIX : <https://energy.ld.admin.ch/elcom/sunshine/dimension/>\n\nSELECT *\nWHERE {\n  <https://energy.ld.admin.ch/elcom/sunshine> cube:observationSet/cube:observation ?obs . \n  ?obs \n    :operator <https://energy.ld.admin.ch/elcom/electricityprice/operator/162> ;\n  \t:period \"2026\"^^xsd:gYear ;\n  \t:gridcost_ne5 ?gridcost_ne5 ;\n    :gridcost_ne6 ?gridcost_ne6 ;\n    :gridcost_ne7 ?gridcost_ne7 ;\n    :franken_regel ?franken_regel ;\n    :saidi_total ?saidi_total ;\n    :saidi_unplanned ?saidi_unplanned ;\n    :saifi_total ?saifi_total ;\n    :saifi_unplanned ?saifi_unplanned ;\n    :info ?info ;\n    :days_in_advance ?days_in_advance ;   \n    :in_time ?in_time ;\n}",
     "metadata": {}
   },
   {
