@@ -1,7 +1,8 @@
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { groups } from "d3";
+import { Fragment } from "react";
 
 import {
   ChartContainer,
@@ -72,6 +73,8 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
     setQueryState,
   ] = useQueryStateEnergyPricesDetails();
 
+  const sortedPeriods = [...period].sort();
+
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
 
   const comparisonIds =
@@ -122,7 +125,10 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} />
+          <FilterSetDescription
+            filters={filters}
+            hideYear={sortedPeriods.length > 1}
+          />
         </CardDescription>
       </CardHeader>
       {!download && (
@@ -188,16 +194,25 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
-      {period.map((p) => (
-        <PriceDistributionHistogram
-          key={p}
-          year={p}
-          priceComponent={priceComponent[0] as PriceComponent}
-          category={category}
-          product={product}
-          annotationIds={annotationIds}
-          entity={entity}
-        />
+      {sortedPeriods.map((p) => (
+        <Fragment key={p}>
+          {/* When multiple periods are selected, show the period */}
+          {sortedPeriods.length > 1 && (
+            <Typography variant="subtitle2" key={p}>
+              <Trans id="detail.card.subtitle.year" values={{ period: p }}>
+                Year: {p}
+              </Trans>
+            </Typography>
+          )}
+          <PriceDistributionHistogram
+            year={p}
+            priceComponent={priceComponent[0] as PriceComponent}
+            category={category}
+            product={product}
+            annotationIds={annotationIds}
+            entity={entity}
+          />
+        </Fragment>
       ))}
       {/*FIXME: placeholder values */}
       {/* <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" /> */}
