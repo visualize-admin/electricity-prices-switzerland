@@ -9,9 +9,11 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
-# Unreleased
+# 2.45.0 - 2026-05-11
 
-Nothing yet.
+- Address CSV problems from #643 and #645
+- Use reference id to download gever documents #647
+- Add year legend in price distribution histograms when multiple years are selected #644
 
 # 2.44.0 - 2026-04-23
 
