@@ -1,7 +1,4 @@
-export type ServerErrorCode =
-  | "GEVER_AUTH_IPSTS"
-  | "GEVER_AUTH_RPSTS"
-  | "GEVER_SVC";
+type ServerErrorCode = "GEVER_AUTH_IPSTS" | "GEVER_AUTH_RPSTS" | "GEVER_SVC";
 
 const userMessages: Record<ServerErrorCode, string> = {
   GEVER_AUTH_IPSTS: "Cannot reach document download authentication servers",

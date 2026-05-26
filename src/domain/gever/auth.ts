@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import fs from "fs";
 
-import { ServerError } from "src/server/errors";
 import { makeRequest, makeSslConfiguredAgent } from "src/domain/gever/soap";
 import * as templates from "src/domain/gever/templates";
 import {
@@ -14,7 +13,7 @@ import {
 } from "src/domain/gever/utils";
 import serverEnv from "src/env/server";
 import assert from "src/lib/assert";
-
+import { ServerError } from "src/server/errors";
 assert(!!serverEnv, "serverEnv is not defined");
 
 export const bindings = {
