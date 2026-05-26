@@ -58,6 +58,7 @@ export type RangePlotState = {
   annotations?: Annotation[];
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   xAxisLabel?: string;
+  xAxisUnit?: string;
   axisPlacement: "top" | "bottom";
 };
 
@@ -135,6 +136,7 @@ export type HistogramState = {
   getY: (d: GenericObservation[]) => number;
   yScale: ScaleLinear<number, number>;
   xAxisLabel?: string;
+  xAxisUnit?: string;
   yAxisLabel?: string;
   bins: Bin<GenericObservation, number>[];
   binMeta: BinMeta[];
@@ -230,6 +232,7 @@ export type StackedBarsState = {
   ) => string | undefined;
   annotations?: Annotation[];
   xAxisLabel?: string;
+  xAxisUnit?: string;
   getAnnotationInfo: (d: GenericObservation) => Tooltip;
   axisPlacement: "top" | "bottom";
 };

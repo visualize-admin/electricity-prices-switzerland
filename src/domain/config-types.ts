@@ -17,6 +17,7 @@ const GenericField = z.object({ componentIri: z.string() });
 
 const AxisField = z.object({
   axisLabel: z.string().optional(),
+  axisUnit: z.string().optional(),
 });
 const Observation = z.record(
   z.string(),
@@ -160,7 +161,13 @@ const AreaFields = z.object({
 type AreaFields = z.infer<typeof AreaFields>;
 
 const HistogramFields = z.object({
-  x: GenericField,
+  x: z.intersection(GenericField, AxisField),
+  y: z
+    .object({
+      axisLabel: z.string().optional(),
+      asPercentage: z.boolean().optional(),
+    })
+    .optional(),
   label: GenericField,
   segment: SegmentField.optional(),
   annotation: z.array(Observation).optional(),

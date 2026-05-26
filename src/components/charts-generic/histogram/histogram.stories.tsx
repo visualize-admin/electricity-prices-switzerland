@@ -41,12 +41,14 @@ export const Histogram = () => {
         data={mockData}
         medianValue={medianValue}
         aspectRatio={0.3}
-        xAxisLabel="Price"
-        yAxisLabel="Number of municipalities"
-        xAxisUnit={i18n._(RP_PER_KWH)}
         fields={{
           x: {
             componentIri: "value",
+            axisLabel: "Price",
+            axisUnit: i18n._(RP_PER_KWH),
+          },
+          y: {
+            axisLabel: "Number of municipalities",
           },
           label: {
             componentIri: "muniOperator",
@@ -92,12 +94,9 @@ export const GroupedHistogram = () => {
         medianValue={median}
         aspectRatio={0.3}
         groupedBy={5}
-        xAxisLabel="Days"
-        yAxisLabel="Share of operators"
-        xAxisUnit="Days"
-        yAsPercentage
         fields={{
-          x: { componentIri: "days" },
+          x: { componentIri: "days", axisLabel: "Days", axisUnit: "Days" },
+          y: { axisLabel: "Share of operators", asPercentage: true },
           label: { componentIri: "label" },
           style: {
             palette: "elcom-categorical-2",

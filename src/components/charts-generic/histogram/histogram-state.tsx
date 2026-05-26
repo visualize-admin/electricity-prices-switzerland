@@ -157,19 +157,11 @@ const useHistogramState = ({
   medianValue,
   fields,
   aspectRatio,
-  xAxisLabel,
-  yAxisLabel,
-  xAxisUnit,
   groupedBy,
-  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  xAxisUnit?: string;
   groupedBy?: number;
-  yAsPercentage?: boolean;
 }): HistogramState => {
   const width = useWidth();
   const formatDisplay = useFormatDisplayNumber();
@@ -192,6 +184,11 @@ const useHistogramState = ({
     [fields.label.componentIri]
   );
   const { annotation } = fields;
+
+  const xAxisUnit = fields.x.axisUnit;
+  const xAxisLabel = fields.x.axisLabel;
+  const yAxisLabel = fields.y?.axisLabel;
+  const yAsPercentage = fields.y?.asPercentage;
 
   const minValue = min(data, (d) => getX(d)) || 0;
   const maxValue = max(data, (d) => getX(d)) || 10000;
@@ -363,6 +360,7 @@ const useHistogramState = ({
     getY,
     yScale,
     xAxisLabel: xAxisLabel || "",
+    xAxisUnit,
     yAxisLabel: yAxisLabel || "",
     bins,
     colors,
@@ -386,20 +384,12 @@ const HistogramProvider = ({
   measures,
   children,
   aspectRatio,
-  xAxisLabel,
-  yAxisLabel,
-  xAxisUnit,
   groupedBy,
-  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  xAxisUnit?: string;
   groupedBy?: number;
-  yAsPercentage?: boolean;
 }) => {
   const state = useHistogramState({
     data,
@@ -407,11 +397,7 @@ const HistogramProvider = ({
     fields,
     measures,
     aspectRatio,
-    xAxisLabel,
-    yAxisLabel,
-    xAxisUnit,
     groupedBy,
-    yAsPercentage,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -419,9 +405,6 @@ const HistogramProvider = ({
 };
 
 export const Histogram = ({
-  xAxisLabel,
-  yAxisLabel,
-  xAxisUnit,
   data,
   medianValue,
   fields,
@@ -429,16 +412,11 @@ export const Histogram = ({
   children,
   aspectRatio,
   groupedBy,
-  yAsPercentage,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  xAxisUnit?: string;
   groupedBy?: number;
-  yAsPercentage?: boolean;
 }) => {
   return (
     <Observer>
@@ -449,11 +427,7 @@ export const Histogram = ({
           fields={fields}
           measures={measures}
           aspectRatio={aspectRatio}
-          xAxisLabel={xAxisLabel}
-          yAxisLabel={yAxisLabel}
-          xAxisUnit={xAxisUnit}
           groupedBy={groupedBy}
-          yAsPercentage={yAsPercentage}
         >
           {children}
         </HistogramProvider>
