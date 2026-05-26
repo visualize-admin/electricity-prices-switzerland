@@ -14,6 +14,7 @@ import {
 import serverEnv from "src/env/server";
 import assert from "src/lib/assert";
 import { ServerError } from "src/server/errors";
+
 assert(!!serverEnv, "serverEnv is not defined");
 
 export const bindings = {
@@ -43,7 +44,7 @@ export const digestTimestampNode = async (timestampNode: Element) => {
 
 export const digestSignedInfoNode = async (
   signedInfoNode: Element,
-  binaryToken: Buffer
+  binaryToken: Buffer,
 ) => {
   const hmac = crypto.createHmac("sha256", binaryToken);
   const signedInfoCanonical = await canonicalizeXML(signedInfoNode);
@@ -66,7 +67,7 @@ const memoizeSwr = <T, Args extends unknown[]>(
   options: {
     key: (...args: Args) => string;
     timeout: number;
-  }
+  },
 ) => {
   const cache = {} as Record<string, { last: T; updatedAt: number }>;
   const { timeout, key: makeKey } = options;
@@ -109,7 +110,7 @@ const requestIpSts = async () => {
           SOAPAction:
             "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue",
         },
-        makeSslConfiguredAgent()
+        makeSslConfiguredAgent(),
       )
     ).text();
   } catch (e) {
@@ -161,7 +162,7 @@ const requestRpSts = async (ipStsInfo: IPSTSInfo) => {
   const signedInfoNode = $(sigNode, ns.sig, "SignedInfo");
   const signatureValue = await digestSignedInfoNode(
     signedInfoNode,
-    binaryToken
+    binaryToken,
   );
   sigValueNode.textContent = signatureValue;
 
@@ -202,11 +203,11 @@ export const authenticate = memoizeSwr(
     console.info(`IP-STS OK, assertion: ${ipStsInfo.assertionId}`);
     console.info("RP-STS...");
     const resp2 = await requestRpSts(ipStsInfo);
-    console.info(`RP-STS OK: ${resp2.samlAssertion}`);
+    console.info(`RP-STS OK`);
     return resp2;
   },
   {
     timeout: 10_000,
     key: () => "auth",
-  }
+  },
 );
