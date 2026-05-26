@@ -10,7 +10,6 @@ import { UseQueryState } from "urql";
 
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
-import { DebugDownloadGetResponse } from "src/pages/api/debug-download";
 import { LINDAS_ENDPOINTS } from "src/rdf/lindas-endpoints";
 import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import createGetServerSideProps from "src/utils/create-server-side-props";
@@ -596,16 +595,60 @@ const SPARQLTable = ({
   );
 };
 
+const GEVER_DOCUMENTS_QUERY = `
+  query DebugGeverDocuments($id: String!) {
+    operator(id: $id, locale: "de") {
+      geverDocuments {
+        docs { id name url year category }
+        meta { referenceId uid }
+        debug { request response bindings { ipsts rpsts service } }
+      }
+    }
+  }
+`;
+
+type GeverDocumentsQueryResult = {
+  operator: {
+    geverDocuments: {
+      docs: {
+        id: string;
+        name: string;
+        url: string;
+        year: string;
+        category: string | null;
+      }[];
+      meta: { referenceId: string | null; uid: string | null };
+      debug: {
+        request: string;
+        response: string;
+        bindings: { ipsts: string; rpsts: string; service: string };
+      } | null;
+    };
+  } | null;
+};
+
 const DocumentDownloadStatus = () => {
   const [query, execute] = useManualQuery({
-    queryFn: async (options: { uid: string; oid: string }) => {
-      const searchParams = new URLSearchParams(options);
-      const res = await fetch(`/api/debug-download?${searchParams}`);
+    queryFn: async (options: { oid: string; secret: string }) => {
+      const res = await fetch("/api/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-gever-debug-secret": options.secret,
+        },
+        body: JSON.stringify({
+          query: GEVER_DOCUMENTS_QUERY,
+          variables: { id: options.oid },
+        }),
+      });
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body?.message ?? `HTTP ${res.status}`);
+        throw new Error(`HTTP ${res.status}`);
       }
-      return res.json() as Promise<{ data: DebugDownloadGetResponse }>;
+      const json = await res.json();
+      if (json.errors?.length) {
+        throw new Error(json.errors[0].message);
+      }
+      return json.data as GeverDocumentsQueryResult;
     },
   });
 
@@ -613,15 +656,13 @@ const DocumentDownloadStatus = () => {
     ev.preventDefault();
     const formData = Object.fromEntries(
       new FormData(ev.currentTarget as HTMLFormElement)
-    ) as {
-      uid: string;
-      oid: string;
-      referenceId: string;
-    };
+    ) as { oid: string; secret: string };
     execute(formData);
   };
 
-  const data = query.data?.data;
+  const geverDocuments = query.data?.operator?.geverDocuments;
+  const meta = geverDocuments?.meta;
+  const debug = geverDocuments?.debug;
 
   return (
     <StatusBox>
@@ -641,63 +682,41 @@ const DocumentDownloadStatus = () => {
               Password: <input type="password" name="secret" />
             </label>
             <label>
-              OID: <input type="value" name="oid" placeholder="218" />
-            </label>
-            <br />
-            <label>
-              UID:{" "}
-              <input type="value" name="uid" placeholder="CHE-102.286.322" />
-            </label>
-            <p style={{ fontSize: "small", color: "#111" }}>
-              Either OID or UID is mandatory.
-            </p>
-            <label>
-              Reference ID (NBReferenzID):{" "}
-              <input
-                type="value"
-                name="referenceId"
-                placeholder="fetched automatically from OID"
-                disabled
-              />
+              OID: <input type="text" name="oid" placeholder="218" />
             </label>
             <button disabled={query.status === "fetching"} type="submit">
               fetch documents
             </button>
           </Box>
           {query.status === "fetching" ? "Loading...." : ""}
-          {data?.searchResp ? (
+          {geverDocuments ? (
             <Box mt={2}>
               <div>
-                Lindas endpoint <pre>{JSON.stringify(data.lindasEndpoint)}</pre>
-                Lindas query
-                <br />
-                <textarea cols={100} rows={5}>
-                  {data.lindasInfo?.query}
-                </textarea>
-                <br />
-                Lindas data <pre>{JSON.stringify(data.lindasInfo?.data)}</pre>
-                Reference ID (NBReferenzID){" "}
-                <pre>{data.referenceId ?? "not found"}</pre>
+                UID: <pre>{meta?.uid ?? "not found"}</pre>
+                Reference ID (NBReferenzID):{" "}
+                <pre>{meta?.referenceId ?? "not used"}</pre>
+                Documents ({geverDocuments.docs.length}):{" "}
+                <pre>{JSON.stringify(geverDocuments.docs, null, 2)}</pre>
               </div>
-              <div>
-                Bindings
-                <pre>
-                  {JSON.stringify(data.searchResp.debug.bindings, null, 2)}
-                </pre>
-                <br />
-                Search request
-                <br />
-                <textarea cols={100} rows={30}>
-                  {data.searchResp.debug.request}
-                </textarea>
-                <br />
-                Search response
-                <br />
-                <textarea cols={100} rows={30}>
-                  {data.searchResp.debug.response}
-                </textarea>
-                <br />
-              </div>
+              {debug ? (
+                <div>
+                  Bindings
+                  <pre>{JSON.stringify(debug.bindings, null, 2)}</pre>
+                  Search request
+                  <br />
+                  <textarea cols={100} rows={30}>
+                    {debug.request}
+                  </textarea>
+                  <br />
+                  Search response
+                  <br />
+                  <textarea cols={100} rows={30}>
+                    {debug.response}
+                  </textarea>
+                </div>
+              ) : (
+                <div>Provide the password above to see SOAP debug info.</div>
+              )}
             </Box>
           ) : null}
           {query.error ? <div>Error: {query.error.message}</div> : null}

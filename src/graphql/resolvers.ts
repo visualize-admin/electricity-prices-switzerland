@@ -732,20 +732,35 @@ const Operator: OperatorResolvers = {
     });
     const uid = operatorInfo?.uid;
     const referenceId = operatorInfo?.referenceId;
-    try {
-      const { docs } = await searchGeverDocuments({
-        operatorId,
-        uid,
-        referenceId,
-      });
-      return docs || [];
-    } catch (e) {
+
+    const { docs, debug, error } = await searchGeverDocuments({
+      operatorId,
+      uid,
+      referenceId,
+    });
+
+    if (error) {
       console.warn(
         "Could not search documents",
-        e instanceof Error ? e.message : e
+        error instanceof Error ? error.message : error
       );
-      return [];
     }
+
+    return {
+      docs,
+      meta: {
+        referenceId: referenceId ?? null,
+        uid: uid ?? null,
+      },
+      debug:
+        ctx.isGeverDebugAuthorized && debug
+          ? {
+              request: debug.request,
+              response: debug.response,
+              bindings: debug.bindings,
+            }
+          : null,
+    };
   },
 
   peerGroup: async ({ id }, _args, context) => {

@@ -53,8 +53,31 @@ type Operator @cacheControl(maxAge: 300) {
   municipalities: [Municipality!]!
   cantons: [Canton!]!
   documents: [OperatorDocument!]!
-  geverDocuments: [OperatorDocument!]!
+  geverDocuments: GeverDocumentsResult!
   peerGroup: PeerGroup
+}
+
+type GeverDocumentsResult {
+  docs: [OperatorDocument!]!
+  meta: GeverDocumentsMeta!
+  debug: GeverDocumentsDebug
+}
+
+type GeverDocumentsMeta {
+  referenceId: String
+  uid: String
+}
+
+type GeverDocumentsDebug {
+  request: String!
+  response: String!
+  bindings: GeverBindings!
+}
+
+type GeverBindings {
+  ipsts: String!
+  rpsts: String!
+  service: String!
 }
 
 enum OperatorDocumentCategory {

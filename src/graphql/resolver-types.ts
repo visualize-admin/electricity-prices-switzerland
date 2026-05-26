@@ -104,6 +104,33 @@ export type CubeHealth = {
   ok: Scalars["Boolean"]["output"];
 };
 
+export type GeverBindings = {
+  __typename?: "GeverBindings";
+  ipsts: Scalars["String"]["output"];
+  rpsts: Scalars["String"]["output"];
+  service: Scalars["String"]["output"];
+};
+
+export type GeverDocumentsDebug = {
+  __typename?: "GeverDocumentsDebug";
+  bindings: GeverBindings;
+  request: Scalars["String"]["output"];
+  response: Scalars["String"]["output"];
+};
+
+export type GeverDocumentsMeta = {
+  __typename?: "GeverDocumentsMeta";
+  referenceId?: Maybe<Scalars["String"]["output"]>;
+  uid?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type GeverDocumentsResult = {
+  __typename?: "GeverDocumentsResult";
+  debug?: Maybe<GeverDocumentsDebug>;
+  docs: Array<OperatorDocument>;
+  meta: GeverDocumentsMeta;
+};
+
 export type Municipality = {
   __typename?: "Municipality";
   canton: Canton;
@@ -234,7 +261,7 @@ export type Operator = {
   __typename?: "Operator";
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
-  geverDocuments: Array<OperatorDocument>;
+  geverDocuments: GeverDocumentsResult;
   geverId?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
@@ -807,6 +834,10 @@ export type ResolversTypes = ResolversObject<{
     Scalars["ElectricityCategory"]["output"]
   >;
   Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
+  GeverBindings: ResolverTypeWrapper<GeverBindings>;
+  GeverDocumentsDebug: ResolverTypeWrapper<GeverDocumentsDebug>;
+  GeverDocumentsMeta: ResolverTypeWrapper<GeverDocumentsMeta>;
+  GeverDocumentsResult: ResolverTypeWrapper<GeverDocumentsResult>;
   Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Municipality: ResolverTypeWrapper<ResolvedMunicipality>;
   MunicipalityResult: ResolverTypeWrapper<ResolvedSearchResult>;
@@ -870,6 +901,10 @@ export type ResolversParentTypes = ResolversObject<{
   CubeHealth: CubeHealth;
   ElectricityCategory: Scalars["ElectricityCategory"]["output"];
   Float: Scalars["Float"]["output"];
+  GeverBindings: GeverBindings;
+  GeverDocumentsDebug: GeverDocumentsDebug;
+  GeverDocumentsMeta: GeverDocumentsMeta;
+  GeverDocumentsResult: GeverDocumentsResult;
   Int: Scalars["Int"]["output"];
   Municipality: ResolvedMunicipality;
   MunicipalityResult: ResolvedSearchResult;
@@ -1017,6 +1052,57 @@ export interface ElectricityCategoryScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["ElectricityCategory"], any> {
   name: "ElectricityCategory";
 }
+
+export type GeverBindingsResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["GeverBindings"] = ResolversParentTypes["GeverBindings"]
+> = ResolversObject<{
+  ipsts?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  rpsts?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  service?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+}>;
+
+export type GeverDocumentsDebugResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["GeverDocumentsDebug"] = ResolversParentTypes["GeverDocumentsDebug"]
+> = ResolversObject<{
+  bindings?: Resolver<ResolversTypes["GeverBindings"], ParentType, ContextType>;
+  request?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  response?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+}>;
+
+export type GeverDocumentsMetaResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["GeverDocumentsMeta"] = ResolversParentTypes["GeverDocumentsMeta"]
+> = ResolversObject<{
+  referenceId?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  uid?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+}>;
+
+export type GeverDocumentsResultResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["GeverDocumentsResult"] = ResolversParentTypes["GeverDocumentsResult"]
+> = ResolversObject<{
+  debug?: Resolver<
+    Maybe<ResolversTypes["GeverDocumentsDebug"]>,
+    ParentType,
+    ContextType
+  >;
+  docs?: Resolver<
+    Array<ResolversTypes["OperatorDocument"]>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<
+    ResolversTypes["GeverDocumentsMeta"],
+    ParentType,
+    ContextType
+  >;
+}>;
 
 export type MunicipalityResolvers<
   ContextType = GraphqlRequestContext,
@@ -1245,7 +1331,7 @@ export type OperatorResolvers<
     ContextType
   >;
   geverDocuments?: Resolver<
-    Array<ResolversTypes["OperatorDocument"]>,
+    ResolversTypes["GeverDocumentsResult"],
     ParentType,
     ContextType
   >;
@@ -1846,6 +1932,10 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   CostsAndTariffsData?: CostsAndTariffsDataResolvers<ContextType>;
   CubeHealth?: CubeHealthResolvers<ContextType>;
   ElectricityCategory?: GraphQLScalarType;
+  GeverBindings?: GeverBindingsResolvers<ContextType>;
+  GeverDocumentsDebug?: GeverDocumentsDebugResolvers<ContextType>;
+  GeverDocumentsMeta?: GeverDocumentsMetaResolvers<ContextType>;
+  GeverDocumentsResult?: GeverDocumentsResultResolvers<ContextType>;
   Municipality?: MunicipalityResolvers<ContextType>;
   MunicipalityResult?: MunicipalityResultResolvers<ContextType>;
   NetworkCostRow?: NetworkCostRowResolvers<ContextType>;

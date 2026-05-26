@@ -196,50 +196,43 @@ const requestSearch = async (
 ) => {
   const doc = setupGeverAPIRequest(templates.searchDocuments, rpStsInfo);
 
-  if (
-    !searchOptions.referenceId &&
-    !searchOptions.uid &&
-    !searchOptions.operatorId
-  ) {
-    throw new Error(
-      "referenceId, uid, and operatorId cannot all be falsy when searching operator documents"
-    );
-  }
-
-  const parameterNameNode = doc.getElementsByTagName("ParameterName")[0];
   const parameterName = searchOptions.referenceId
     ? "Gtx_ELCOM_ERH_REFID_Suche"
     : searchOptions.uid
     ? "Gtx_ELCOM_ERH_UID_Suche"
     : "Gtx_ELCOM_ERH_OpID_Suche";
-  parameterNameNode.textContent = parameterName;
-
-  const parameterValueNode = doc.getElementsByTagName("ParameterValue")[0];
   const parameterValue =
     searchOptions.referenceId ?? searchOptions.uid ?? searchOptions.operatorId;
 
   if (!parameterValue) {
-    throw new Error("At least referenceId, uid, or operatorId must be passed");
+    return {
+      request: null,
+      response: null,
+      error: new Error("referenceId, uid, and operatorId cannot all be falsy"),
+    };
   }
-  parameterValueNode.textContent = parameterValue;
+
+  doc.getElementsByTagName("ParameterName")[0].textContent = parameterName;
+  doc.getElementsByTagName("ParameterValue")[0].textContent = parameterValue;
 
   console.info(
     `Searching with parameterName=${parameterName}, parameterValue=${parameterValue}`
   );
 
-  const req3 = stripWhitespace(serializeXMLToString(doc));
-  fs.writeFileSync("/tmp/req3.xml", req3);
+  const request = stripWhitespace(serializeXMLToString(doc));
+  fs.writeFileSync("/tmp/req3.xml", request);
 
-  let resp: string;
+  let response: string | null = null;
+  let error: unknown = null;
   try {
-    resp = await makeRequest(bindings.service, req3, {
+    response = await makeRequest(bindings.service, request, {
       "Content-Type": "application/soap+xml; charset=utf-8",
     }).then((x) => x.text());
   } catch (e) {
-    throw new ServerError("GEVER_SVC", e);
+    error = new ServerError("GEVER_SVC", e);
   }
 
-  return { request: req3, response: resp };
+  return { request, response, error };
 };
 
 export const downloadGeverDocument = memoize(
@@ -253,14 +246,37 @@ export const downloadGeverDocument = memoize(
 
 export const searchGeverDocuments = async (searchOptions: SearchOptions) => {
   const authResp = await authenticate();
-  const { request, response } = await requestSearch(authResp, searchOptions);
-  fs.writeFileSync("/tmp/search-resp.xml", response);
+  const {
+    request,
+    response,
+    error: requestError,
+  } = await requestSearch(authResp, searchOptions);
+
+  let docs: ReturnType<typeof parseSearchResponse> = [];
+  let error: unknown = requestError;
+
+  if (response !== null) {
+    fs.writeFileSync("/tmp/search-resp.xml", response);
+    try {
+      docs = parseSearchResponse(response);
+    } catch (e) {
+      error = e;
+    }
+  }
+
   return {
-    debug: {
-      response: redactSAML(response),
-      request: redactSAML(request),
-      bindings,
-    },
-    docs: parseSearchResponse(response),
+    docs,
+    error,
+    debug:
+      request !== null
+        ? {
+            request: redactSAML(request),
+            response:
+              response !== null
+                ? redactSAML(response)
+                : "(no response — network error)",
+            bindings,
+          }
+        : null,
   };
 };
