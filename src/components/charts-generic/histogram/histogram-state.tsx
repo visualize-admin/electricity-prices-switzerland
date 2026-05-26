@@ -31,8 +31,7 @@ import {
   getPalette,
   mkNumber,
   useFormatAxisNumber,
-  useFormatDisplayNumber,
-  useFormatPercentage,
+  useFormatDisplayNumber
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { chartPalette } from "src/themes/palette";
@@ -166,7 +165,6 @@ const useHistogramState = ({
   const width = useWidth();
   const formatDisplay = useFormatDisplayNumber();
   const formatAxis = useFormatAxisNumber();
-  const formatPercentage = useFormatPercentage();
   const { annotationFontSize } = useChartTheme();
   const theme = useTheme();
 

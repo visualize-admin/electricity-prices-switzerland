@@ -258,7 +258,6 @@ const PriceDistributionHistogram = ({
 }) => {
   const locale = useLocale();
   const { i18n } = useLingui();
-  const formatDisplay = useFormatDisplayNumber();
 
   const [observationsQuery] = useObservationsQuery({
     variables: {
