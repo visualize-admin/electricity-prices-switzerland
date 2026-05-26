@@ -104,7 +104,7 @@
     "micromark-extension-gfm": "^0.3.3",
     "minisearch": "^7.2.0",
     "mitt": "^3.0.1",
-    "next": "^15.5.15",
+    "next": "^15.5.18",
     "node-fetch": "^2.6.7",
     "nprogress": "^0.2.0",
     "rdf-cube-view-query": "2.1.1",
