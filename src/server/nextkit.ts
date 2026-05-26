@@ -1,9 +1,19 @@
 // This server defines a basic implementation of the nextkit API.
 import nextkit from "nextkit";
 
+import { ServerError } from "src/server/errors";
+
 export const api = nextkit({
   // On error is responsible for shipping an error message and a status back to the client.
   async onError(_req, _res, error) {
+    if (error instanceof ServerError) {
+      console.error(`[${error.code}] ${error.userMessage}`, error.cause);
+      return {
+        message: error.code,
+        status: 503,
+      };
+    }
+
     console.error("error", error);
 
     return {

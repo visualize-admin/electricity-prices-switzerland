@@ -5,6 +5,7 @@ import { memoize } from "lodash";
 import z from "zod";
 
 import { decrypt, encrypt } from "src/domain/gever/encrypt";
+import { ServerError } from "src/server/errors";
 import { parseMultiPart } from "src/domain/gever/multipart";
 import { redactSAML } from "src/domain/gever/redact";
 import { makeRequest, makeSslConfiguredAgent } from "src/domain/gever/soap";
@@ -52,18 +53,23 @@ const makeIpStsRequest = async () => {
   const message = prepareIpStsMessage();
   fs.writeFileSync("/tmp/req1.xml", message);
 
-  const respText = await (
-    await makeRequest(
-      bindings.ipsts,
-      message,
-      {
-        "Content-Type": "text/xml",
-        SOAPAction:
-          "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue",
-      },
-      makeSslConfiguredAgent()
-    )
-  ).text();
+  let respText: string;
+  try {
+    respText = await (
+      await makeRequest(
+        bindings.ipsts,
+        message,
+        {
+          "Content-Type": "text/xml",
+          SOAPAction:
+            "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue",
+        },
+        makeSslConfiguredAgent()
+      )
+    ).text();
+  } catch (e) {
+    throw new ServerError("GEVER_AUTH_IPSTS", e);
+  }
 
   const doc = parseXMLString(respText).documentElement;
 
@@ -252,11 +258,18 @@ const makeRpStsRequest = async (ipStsInfo: IPSTSInfo) => {
   req2 = stripWhitespace(req2);
 
   fs.writeFileSync("/tmp/req2.xml", req2);
-  const respText = await (
-    await makeRequest(bindings.rpsts, req2, {
-      "Content-Type": "application/soap+xml; charset=utf-8",
-    })
-  ).text();
+
+  let respText: string;
+  try {
+    respText = await (
+      await makeRequest(bindings.rpsts, req2, {
+        "Content-Type": "application/soap+xml; charset=utf-8",
+      })
+    ).text();
+  } catch (e) {
+    throw new ServerError("GEVER_AUTH_RPSTS", e);
+  }
+
   fs.writeFileSync("/tmp/res2.xml", respText);
 
   const resp2 = parseXMLString(respText).documentElement;
@@ -330,9 +343,14 @@ const makeContentRequest = async (rpStsInfo: RPSTSInfo, docId: string) => {
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync("/tmp/content-request.xml", req3);
 
-  const resp = await makeRequest(bindings.service, req3, {
-    "Content-Type": "application/soap+xml; charset=utf-8",
-  });
+  let resp: Awaited<ReturnType<typeof makeRequest>>;
+  try {
+    resp = await makeRequest(bindings.service, req3, {
+      "Content-Type": "application/soap+xml; charset=utf-8",
+    });
+  } catch (e) {
+    throw new ServerError("GEVER_SVC", e);
+  }
 
   const buffer = await resp.buffer();
 
@@ -385,9 +403,14 @@ const makeSearchRequest = async (
   const req3 = stripWhitespace(serializeXMLToString(doc));
   fs.writeFileSync("/tmp/req3.xml", req3);
 
-  const resp = await makeRequest(bindings.service, req3, {
-    "Content-Type": "application/soap+xml; charset=utf-8",
-  }).then((x) => x.text());
+  let resp: string;
+  try {
+    resp = await makeRequest(bindings.service, req3, {
+      "Content-Type": "application/soap+xml; charset=utf-8",
+    }).then((x) => x.text());
+  } catch (e) {
+    throw new ServerError("GEVER_SVC", e);
+  }
 
   return {
     request: req3,

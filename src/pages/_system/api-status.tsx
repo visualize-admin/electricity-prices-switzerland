@@ -598,11 +598,14 @@ const SPARQLTable = ({
 
 const DocumentDownloadStatus = () => {
   const [query, execute] = useManualQuery({
-    queryFn: (options: { uid: string; oid: string }) => {
+    queryFn: async (options: { uid: string; oid: string }) => {
       const searchParams = new URLSearchParams(options);
-      return fetch(`/api/debug-download?${searchParams}`).then(
-        (x) => x.json() as Promise<{ data: DebugDownloadGetResponse }>
-      );
+      const res = await fetch(`/api/debug-download?${searchParams}`);
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.message ?? `HTTP ${res.status}`);
+      }
+      return res.json() as Promise<{ data: DebugDownloadGetResponse }>;
     },
   });
 
@@ -697,7 +700,7 @@ const DocumentDownloadStatus = () => {
               </div>
             </Box>
           ) : null}
-          {query.error ? <div>Erreur: {`${query.error}`}</div> : null}
+          {query.error ? <div>Error: {query.error.message}</div> : null}
         </details>
       </Box>
     </StatusBox>
