@@ -36,7 +36,6 @@ import { typography } from "src/themes/typography";
 import {
   formatAxisNumber,
   formatDisplayNumber,
-  normalizeNumberStringForUi,
 } from "./number-format";
 import { SunshineIndicator } from "./sunshine";
 
@@ -69,17 +68,6 @@ const useFormatIntegerNumber = () => {
       d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
     return (value: number) => formatAxisNumber(value, format);
   }, [locale]);
-};
-
-export const useFormatPercentage = () => {
-  const locale = useLocale();
-  const formatter = React.useMemo(() => {
-    const { format } =
-      d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
-    const pct = format(",.2%");
-    return (value: number) => normalizeNumberStringForUi(pct(value));
-  }, [locale]);
-  return formatter;
 };
 
 const parseTime = timeParse("%Y-%m-%dT%H:%M:%S");

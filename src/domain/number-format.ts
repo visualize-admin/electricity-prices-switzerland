@@ -2,7 +2,7 @@ export const DISPLAY_INTEGER_FROM_ABS = 1000;
 
 type D3LocaleFormat = (spec: string) => (n: number) => string;
 
-export const normalizeNumberStringForUi = (s: string) =>
+const normalizeNumberStringForUi = (s: string) =>
   s.replace(/\u2212/g, "-");
 
 export const formatDisplayNumber = (
