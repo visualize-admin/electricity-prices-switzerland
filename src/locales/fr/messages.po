@@ -76,7 +76,7 @@ msgstr "Rejeter"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
-msgstr "Émolument pour l’aide"
+msgstr "Supplément réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.annual-metering-cost"
@@ -104,7 +104,7 @@ msgstr "Rabais sur l'énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-fix-costs"
-msgstr "Coûts fixes de l'énergie"
+msgstr "Tarif de base de l’énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-name"
@@ -112,15 +112,15 @@ msgstr "Nom de l'énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-power-price"
-msgstr "Prix de puissance de l'énergie"
+msgstr "Tarif de puissance de l’énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-working-price"
-msgstr "Prix de l'énergie"
+msgstr "Tarif de travail de l’énergie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-fix-costs"
-msgstr "Coûts fixes du réseau"
+msgstr "Tarif de base du réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-power-price"
@@ -144,7 +144,7 @@ msgstr "Nom de l'utilisation du réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-working-price"
-msgstr "Prix de fonctionnement du réseau"
+msgstr "Tarif de travail du réseau"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.metering-rate"
@@ -392,7 +392,7 @@ msgstr "Créer des visualisations de données avec les données ElCom"
 
 #: src/components/footer.tsx
 msgid "footer.data-as-csv"
-msgstr "Données au format .csv"
+msgstr "Données au format CSV"
 
 #: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"

@@ -68,7 +68,7 @@ msgstr "Akzeptieren"
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.content"
-msgstr "Damit wir unser Webangebot optimal auf Ihre Bedürfnisse ausrichten können, verwenden wir das Analysetool Matomo. Dabei wird Ihr Verhalten auf der Website in anonymisierter Form erfasst. Es werden also keine personenbezogenen Daten übermittelt oder gespeichert. Wenn Sie damit nicht einverstanden sind, können Sie die Datenerfassung durch Matomo unterbinden und diese Website trotzdem ohne Einschränkungen nutzen."
+msgstr "Wir verwenden das Analysetool Matomo. Dieses erfasst Ihr Verhalten auf der Website in anonymisierter Form. Es werden also keine personenbezogenen Daten übermittelt oder gespeichert. Wenn Sie damit nicht einverstanden sind, können Sie die Datenerfassung durch Matomo unterbinden und diese Website trotzdem ohne Einschränkungen nutzen."
 
 #: src/components/app-layout.tsx
 msgid "cookie.banner.reject"
@@ -76,7 +76,7 @@ msgstr "Ablehnen"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
-msgstr "Gebühr für die Beihilfe"
+msgstr "Netzzuschlag"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.annual-metering-cost"
@@ -88,7 +88,7 @@ msgstr "Kategorie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.charge"
-msgstr "Abgaben"
+msgstr "Abgaben an Gemeinwesen"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy"
@@ -100,31 +100,31 @@ msgstr "Energie vor Rabatt"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-discount"
-msgstr "Energie-Rabatt"
+msgstr "Rabatt für Energie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-fix-costs"
-msgstr "Energie Fixkosten"
+msgstr "Grundtarif Energie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-name"
-msgstr "Energie Name"
+msgstr "Name des Energietarifs"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-power-price"
-msgstr "Energieleistungspreis"
+msgstr "Leistungstarif Energie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-working-price"
-msgstr "Energie Arbeitspreis"
+msgstr "Arbeitstarif Energie"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-fix-costs"
-msgstr "Netzfixkosten"
+msgstr "Grundtarif Netz"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-power-price"
-msgstr "Netzstrompreis"
+msgstr "Leistungstarif Netz"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage"
@@ -136,15 +136,15 @@ msgstr "Netznutzung vor Rabatt"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage-discount"
-msgstr "Netznutzungsrabatt"
+msgstr "Rabatt auf den Netznutzungstarif"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-usage-name"
-msgstr "Netznutzungsname"
+msgstr "Name des Netznutzungstarifs"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.grid-working-price"
-msgstr "Netzarbeitspreis"
+msgstr "Arbeitstarif Netz"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.metering-rate"
@@ -199,7 +199,7 @@ msgstr "Preis Komponenten"
 #: src/components/detail-page/price-distribution-histogram.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.title.prices.distribution"
-msgstr "Preisverteilung in der Schweiz"
+msgstr "Verteilung der Tarife in der Schweiz"
 
 #: src/components/detail-page/price-evolution-line-chart.tsx
 #: src/components/detail-page/price-evolution-line-chart.tsx
@@ -392,7 +392,7 @@ msgstr "Datenvisualisierungen mit den ElCom-Daten erstellen"
 
 #: src/components/footer.tsx
 msgid "footer.data-as-csv"
-msgstr "Daten als .csv"
+msgstr "Daten im CSV-Format"
 
 #: src/components/footer.tsx
 msgid "footer.data-on-opendata-swiss"
@@ -424,7 +424,7 @@ msgstr "Weitere Informationen"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-data-as-csv"
-msgstr "Daten als CSV (Sunshine)"
+msgstr "Daten im CSV-Format (Sunshine)"
 
 #: src/components/footer.tsx
 msgid "footer.sunshine-regulation"
@@ -762,7 +762,7 @@ msgstr "Längere Ladezeit"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a3.warning.mobile"
-msgstr "Auf dem Handy nicht verfügbar, bitte verwenden Sie einen Desktop-Browser"
+msgstr "Auf Mobiltelefonen nicht verfügbar, bitte verwenden Sie einen Desktop-Browser"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4"
@@ -770,7 +770,7 @@ msgstr "Mittel (A4)"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.a4.info"
-msgstr "{0} × {1} px, 300dpi"
+msgstr "{0} × {1} px, 300 dpi"
 
 #: src/components/map-download-image.tsx
 msgid "map.download.paper-size.small"
@@ -841,7 +841,7 @@ msgstr "Filter"
 
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
-msgstr "Menü schließen"
+msgstr "Menü schliessen"
 
 #: src/components/header.tsx
 msgid "mobile-nav.open-menu"
@@ -922,7 +922,7 @@ msgstr "Kantonsvergleich"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-components"
-msgstr "Preis Komponenten"
+msgstr "Tarif-Bestandteile"
 
 #: src/components/sunshine-tabs.tsx
 msgid "page.electricity-tariffs.tab.price-distribution"
@@ -1269,35 +1269,35 @@ msgstr "Indikator"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.compliance.long"
-msgstr "Kosten und Gewinn Energievertrieb"
+msgstr "Kosten und Gewinn im Energievertrieb"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "Wie viele Tage im Voraus Kunden vor einer geplanten Unterbrechung informiert werden."
+msgstr "Wie viele Tage im Voraus die Kundschaft vor einer geplanten Unterbrechung informiert wird."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
-msgstr "Energiepreise für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+msgstr "Energietarife für die gewählte Endverbraucherkategorie (ohne MwSt.)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Netznutzungstarife für die gewählte Endverbraucherkategorie (ohne MwSt.)."
+msgstr "Netznutzungstarife für die gewählte Endverbraucherkategorie (ohne MwSt.)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
-msgstr "Netzinfrastrukturkosten für Endverbrauchende nach Netzebene (NE5–NE7)."
+msgstr "Endverbrauchern verrechnete Kosten fürs Netz nach Netzebene (NE5–NE7)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden."
+msgstr "Angabe, ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Jährliche Dauer von Stromunterbrechungen pro Kunde (SAIDI), in Minuten pro Jahr."
+msgstr "Dauer von Stromunterbrüchen pro Kunde (SAIDI), in Minuten pro Jahr."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Jährliche Häufigkeit von Stromunterbrechungen pro Kunde (SAIFI), in Unterbrechungen pro Jahr."
+msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Minuten pro Jahr."
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
@@ -1583,12 +1583,12 @@ msgstr "Datum: {date}"
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.customer-outage-notification"
-msgstr "Benachrichtigung von Kunden über Ausfälle"
+msgstr "Benachrichtigung von Kunden über Versorgungsunterbrüche"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.days-in-advance"
-msgstr "Tage im Voraus für die Benachrichtigung"
+msgstr "Tage im Voraus bei Benachrichtigungen"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
@@ -1615,7 +1615,7 @@ msgstr "Name des Netzbetreibers"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.operator-uid"
-msgstr "Netzbetreiber UID"
+msgstr "Netzbetreiber-UID"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.peer-group"
@@ -1628,24 +1628,24 @@ msgstr "Zeitraum"
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-total"
-msgstr "SAIDI Insgesamt"
+msgstr "SAIDI Total"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-unplanned"
-msgstr "SAIDI Ungeplant"
+msgstr "SAIDI ungeplant"
 
 #: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-total"
-msgstr "SAIFI Gesamt"
+msgstr "SAIFI Total"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-unplanned"
-msgstr "SAIFI Ungeplant"
+msgstr "SAIFI ungeplant"
 
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.timely-submission"
-msgstr "Rechtzeitige Einreichung von Papieren"
+msgstr "Unterlagen rechtzeitig eingereicht"
 
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
@@ -1684,7 +1684,7 @@ msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-year"
-msgstr "CHF p.a."
+msgstr "CHF p. a."
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
@@ -1726,7 +1726,7 @@ msgstr "Vergleich in Franken pro Rechnungsempfänger"
 #: src/components/operational-standards-card.tsx
 #: src/components/operational-standards-chart.tsx
 msgid "sunshine.operational-standards.compliance-trend-title"
-msgstr "Entwicklung der Frankenregel"
+msgstr "Entwicklung der Franken-Regel"
 
 #: src/pages/sunshine/[entity]/[id]/operational-standards.tsx
 msgid "sunshine.operational-standards.compliance.comparison-card-title"

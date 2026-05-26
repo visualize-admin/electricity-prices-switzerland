@@ -76,7 +76,7 @@ msgstr "Rifiutare"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.aid-fee"
-msgstr "Emolumento di aiuto"
+msgstr "Supplemento rete"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.annual-metering-cost"
@@ -104,7 +104,7 @@ msgstr "Sconto sull'energia"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-fix-costs"
-msgstr "Costi fissi dell'energia"
+msgstr "Tariffa di base dell'energia"
 
 #: src/pages/api/data-export.ts
 msgid "data-export.column.energy-name"
