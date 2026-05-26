@@ -9,6 +9,14 @@ and this project adheres to
 You can also check the
 [release page](https://github.com/visualize-admin/electricity-prices-switzerland/releases)
 
+# Unreleased
+
+Nothing yet.
+
+# 2.45.3 - 2026-05-26
+
+- Better debugging for Gever download documents
+
 # 2.45.0 - 2026-05-11
 
 - Address CSV problems from #643 and #645
