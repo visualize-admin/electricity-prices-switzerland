@@ -16,10 +16,7 @@ const config: KnipConfig = {
     "scripts/pr-content.ts",
   ],
   project: ["src/**", "scripts/**"],
-  ignore: [
-    "src/graphql/resolver-types.ts",
-    "src/graphql/queries.ts",
-  ],
+  ignore: ["src/graphql/resolver-types.ts", "src/graphql/queries.ts"],
   tags: ["-knipignore"],
 
   ignoreBinaries: [
@@ -54,6 +51,9 @@ const config: KnipConfig = {
 
     // Used as formatter/linter via CLI
     "@biomejs/biome",
+
+    // Used by claude
+    "typescript-language-server",
   ],
 };
 export default config;

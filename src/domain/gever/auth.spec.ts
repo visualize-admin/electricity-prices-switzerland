@@ -7,11 +7,9 @@ import { expect, it, vi } from "vitest";
 import {
   digestSignedInfoNode,
   digestTimestampNode,
-  extractFileFromContentResp,
-  parseSearchResponse,
   prepareIpStsMessage,
   prepareRpStsDoc,
-} from "src/domain/gever/message";
+} from "src/domain/gever/auth";
 import {
   $,
   ns,
@@ -85,65 +83,5 @@ it("should digest the signed info node", async () => {
   assert(
     signatureValue === expectedValue,
     "Signature value differs from expected value"
-  );
-});
-
-it("should parse search results", () => {
-  const res = parseSearchResponse(
-    fs.readFileSync(path.join(__dirname, "./examples/search.res.xml"), "utf-8")
-  );
-  expect(res.length).toBe(4);
-  expect(res[0].id).toBe("9073bf7e-7eaa-4993-9475-350cdde95907");
-  expect(res[0].url).toContain("/api/download-operator-document");
-});
-
-it("should extract pdf file from content response", () => {
-  const buf = fs.readFileSync(
-    path.join(__dirname, "./examples/content-resp-pdf.bin")
-  );
-  const fileAttrs = extractFileFromContentResp(
-    buf,
-    'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";boundary="uuid:1b1eb29a-a92e-441b-8ac7-f954cb72160e+id=20"'
-  );
-
-  expect(fileAttrs.buffer.length).toEqual(42608);
-  expect(fileAttrs).toEqual(
-    expect.objectContaining({
-      contentType: "application/octet-stream",
-      mimeType: "application/pdf",
-      name: "Dokumente Eingang Netzbetreiber",
-      extension: "pdf",
-    })
-  );
-  fs.writeFileSync(
-    `/tmp/${fileAttrs.name}.${fileAttrs.extension}`,
-    fileAttrs.buffer,
-    "binary"
-  );
-});
-
-it("should extract xlsx file from content response", () => {
-  const buf = fs.readFileSync(
-    path.join(__dirname, "./examples/content-resp-xlsx.bin")
-  );
-  const { buffer, ...fileAttrs } = extractFileFromContentResp(
-    buf,
-    'multipart/related; type="application/xop+xml";start="<http://tempuri.org/0>";boundary="uuid:1b1eb29a-a92e-441b-8ac7-f954cb72160e+id=18"'
-  );
-
-  expect(buffer.length).toEqual(8395);
-  expect(fileAttrs).toEqual(
-    expect.objectContaining({
-      contentType: "application/octet-stream",
-      mimeType:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      name: "Abfrage_Netzbetreiber_Meldepflichten_2022-07-07_11-03-21",
-      extension: "xlsx",
-    })
-  );
-  fs.writeFileSync(
-    `/tmp/${fileAttrs.name}.${fileAttrs.extension}`,
-    buffer,
-    "binary"
   );
 });

@@ -105,8 +105,8 @@ test.describe("Map Details Table Information", () => {
         notExpectedFields: ["Category", "Typology"],
       },
       {
-        indicatorName: "Net tariffs",
-        indicatorPattern: /Net tariffs for the selected end-consumer category/i,
+        indicatorName: "Grid usage tariffs",
+        indicatorPattern: /Grid usage tariffs for the selected end-consumer category/i,
         expectedFields: ["Year", "Category"],
         notExpectedFields: ["Network level", "Typology"],
       },

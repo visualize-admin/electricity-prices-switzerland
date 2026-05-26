@@ -210,7 +210,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
   const legacyDocuments =
     documentsQuery.data?.operator?.documents ?? EMPTY_ARRAY;
   const geverDocuments =
-    documentsQuery.data?.operator?.geverDocuments ?? EMPTY_ARRAY;
+    documentsQuery.data?.operator?.geverDocuments.docs ?? EMPTY_ARRAY;
 
   const documents = uniqBy(
     [...geverDocuments, ...legacyDocuments],

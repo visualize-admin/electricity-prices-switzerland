@@ -169,11 +169,17 @@ query OperatorDocuments($id: String!, $locale: String!) {
       category
     }
     geverDocuments {
-      id
-      name
-      url
-      year
-      category
+      docs {
+        id
+        name
+        url
+        year
+        category
+      }
+      meta {
+        referenceId
+        uid
+      }
     }
   }
 }

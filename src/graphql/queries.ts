@@ -88,6 +88,33 @@ export type CubeHealth = {
   ok: Scalars["Boolean"]["output"];
 };
 
+export type GeverBindings = {
+  __typename: "GeverBindings";
+  ipsts: Scalars["String"]["output"];
+  rpsts: Scalars["String"]["output"];
+  service: Scalars["String"]["output"];
+};
+
+export type GeverDocumentsDebug = {
+  __typename: "GeverDocumentsDebug";
+  bindings: GeverBindings;
+  request: Scalars["String"]["output"];
+  response: Scalars["String"]["output"];
+};
+
+export type GeverDocumentsMeta = {
+  __typename: "GeverDocumentsMeta";
+  referenceId?: Maybe<Scalars["String"]["output"]>;
+  uid?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type GeverDocumentsResult = {
+  __typename: "GeverDocumentsResult";
+  debug?: Maybe<GeverDocumentsDebug>;
+  docs: Array<OperatorDocument>;
+  meta: GeverDocumentsMeta;
+};
+
 export type Municipality = {
   __typename: "Municipality";
   canton: Canton;
@@ -218,7 +245,7 @@ export type Operator = {
   __typename: "Operator";
   cantons: Array<Canton>;
   documents: Array<OperatorDocument>;
-  geverDocuments: Array<OperatorDocument>;
+  geverDocuments: GeverDocumentsResult;
   geverId?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   municipalities: Array<Municipality>;
@@ -896,14 +923,22 @@ export type OperatorDocumentsQuery = {
       year: string;
       category?: OperatorDocumentCategory | null;
     }>;
-    geverDocuments: Array<{
-      __typename: "OperatorDocument";
-      id: string;
-      name: string;
-      url: string;
-      year: string;
-      category?: OperatorDocumentCategory | null;
-    }>;
+    geverDocuments: {
+      __typename: "GeverDocumentsResult";
+      docs: Array<{
+        __typename: "OperatorDocument";
+        id: string;
+        name: string;
+        url: string;
+        year: string;
+        category?: OperatorDocumentCategory | null;
+      }>;
+      meta: {
+        __typename: "GeverDocumentsMeta";
+        referenceId?: string | null;
+        uid?: string | null;
+      };
+    };
   } | null;
 };
 
@@ -1673,11 +1708,17 @@ export const OperatorDocumentsDocument = gql`
         category
       }
       geverDocuments {
-        id
-        name
-        url
-        year
-        category
+        docs {
+          id
+          name
+          url
+          year
+          category
+        }
+        meta {
+          referenceId
+          uid
+        }
       }
     }
   }

@@ -1,1 +1,1 @@
-export { downloadGeverDocument, searchGeverDocuments } from "./message";
+export { downloadGeverDocument, searchGeverDocuments } from "./documents";

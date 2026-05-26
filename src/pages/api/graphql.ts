@@ -47,7 +47,7 @@ const server = new ApolloServer({
         const locale = (ctx.request.variables as $IntentionalAny)?.locale;
         const cacheKey = `sunshine-data-service:${sunshineDataService}/sparql-endpoint:${sparqlEndpoint}${
           locale ? `/locale:${locale}` : ""
-        }`;
+        }/gever-debug:${ctx.contextValue.isGeverDebugAuthorized}`;
         return cacheKey;
       },
     }),
