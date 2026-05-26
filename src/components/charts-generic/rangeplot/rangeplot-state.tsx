@@ -160,7 +160,7 @@ const useRangePlotState = ({
 
     return {
       xAnchor: xScale(getX(tooltipValues[1])) + 10,
-      yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
+      yAnchor: yAnchor ? yAnchor + annotationSpace + DOT_RADIUS : 0,
       placement: { x: "right", y: "middle" },
       xValue: getY(d),
       datum: {

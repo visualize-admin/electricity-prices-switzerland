@@ -33,7 +33,7 @@ export const InteractionHistogram = ({
   return (
     <>
       <g
-        transform={`translate(0, ${(margins.annotations ?? 0) + margins.top})`}
+        transform={`translate(${margins.left}, ${(margins.annotations ?? 0) + margins.top})`}
       >
         {groupedBy && binMeta
           ? binMeta.map((meta, i) => {
@@ -67,7 +67,7 @@ export const InteractionHistogram = ({
               b.x0 !== undefined && b.x1 !== undefined ? (
                 <rect
                   key={i}
-                  x={margins.left + xScale(b.x0)}
+                  x={xScale(b.x0)}
                   y={0}
                   width={xScale(b.x1) - xScale(b.x0)}
                   height={chartHeight}

@@ -284,7 +284,7 @@ const useHistogramState = ({
     if (groupedBy && binMeta && bandScale) {
       xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
     } else {
-      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2) + baseMargins.left;
+      xAnchor = xScale(((d.x1 ?? 0) + (d.x0 ?? 0)) / 2);
     }
     return {
       placement: { x: "center", y: "top" },
