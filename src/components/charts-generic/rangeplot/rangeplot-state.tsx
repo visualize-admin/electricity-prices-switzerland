@@ -72,7 +72,8 @@ const useRangePlotState = ({
   const sortingType = fields.y.sorting?.sortingType;
   const sortingOrder = fields.y.sorting?.sortingOrder;
 
-  const xAxisLabel = fields.x.axisLabel;
+  const xAxisUnit = fields.x.axisUnit;
+  const xAxisLabel = fields.x.axisLabel || "";
 
   const yDomain =
     sortingType && sortingOrder
@@ -160,7 +161,7 @@ const useRangePlotState = ({
 
     return {
       xAnchor: xScale(getX(tooltipValues[1])) + 10,
-      yAnchor: yAnchor ? yAnchor + margins.top + DOT_RADIUS : 0,
+      yAnchor: yAnchor ? yAnchor + annotationSpace + DOT_RADIUS : 0,
       placement: { x: "right", y: "middle" },
       xValue: getY(d),
       datum: {
@@ -169,7 +170,9 @@ const useRangePlotState = ({
       values: tooltipValues.map((tv) => {
         return {
           label: getLabel(tv),
-          value: formatDisplay(getX(tv)),
+          value: xAxisUnit
+            ? `${formatDisplay(getX(tv))} ${xAxisUnit}`
+            : formatDisplay(getX(tv)),
           color: colors(getX(tv)),
         };
       }),
@@ -204,6 +207,7 @@ const useRangePlotState = ({
     rangeGroups,
     annotations,
     xAxisLabel,
+    xAxisUnit,
     getAnnotationInfo,
     axisPlacement: "top",
   };

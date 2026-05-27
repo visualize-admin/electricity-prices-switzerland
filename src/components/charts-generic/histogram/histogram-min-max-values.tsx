@@ -9,7 +9,7 @@ import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatDisplayNumber } from "src/domain/helpers";
 
 export const HistogramMinMaxValues = () => {
-  const { data, bounds, getX, xScale, xAxisLabel } =
+  const { data, bounds, getX, xScale, xAxisUnit } =
     useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
@@ -37,7 +37,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "start",
             }}
           >
-            {formatDisplay(minValue)} {xAxisLabel}
+            {formatDisplay(minValue)} {xAxisUnit}
           </text>
           <text
             x={0}
@@ -71,7 +71,7 @@ export const HistogramMinMaxValues = () => {
               textAnchor: "end",
             }}
           >
-            {formatDisplay(maxValue)} {xAxisLabel}
+            {formatDisplay(maxValue)} {xAxisUnit}
           </text>
           <text
             x={0}

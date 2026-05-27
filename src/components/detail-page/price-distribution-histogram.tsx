@@ -81,8 +81,8 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
     entity === "municipality"
       ? municipality
       : entity === "operator"
-        ? operator
-        : canton;
+      ? operator
+      : canton;
 
   const annotationIds = comparisonIds?.some((m) => m !== "")
     ? [...comparisonIds, id]
@@ -277,18 +277,19 @@ const PriceDistributionHistogram = ({
 
   const operatorObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : (observationsQuery.data?.observations ?? EMPTY_ARRAY);
+    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : (observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY);
+    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
   const swissObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
-    : (observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY);
+    : observationsQuery.data?.swissMedianObservations ?? EMPTY_ARRAY;
 
   const medianValue = swissObservations[0]?.value;
 
   const observations = [...operatorObservations, ...cantonObservations];
 
+  const unit = i18n._(RP_PER_KWH);
   const annotations =
     annotationIds &&
     observations
@@ -306,7 +307,7 @@ const PriceDistributionHistogram = ({
   const groupedAnnotations = groups(
     annotations,
     (d) => (d as GenericObservation)[entity],
-    (d) => d.value,
+    (d) => d.value
   ).flatMap((ent: $FixMe) =>
     ent[1].flatMap((d: $FixMe) => {
       return d[1].length === 1
@@ -321,7 +322,7 @@ const PriceDistributionHistogram = ({
               id: entity === "operator" ? "municipalities" : "operators",
             })}`,
           };
-    }),
+    })
   );
   return (
     <Box position="relative">
@@ -348,11 +349,13 @@ const PriceDistributionHistogram = ({
           <Histogram
             data={observations as GenericObservation[]}
             medianValue={medianValue}
-            yAxisLabel={getEntityLabelId(entity)}
-            xAxisUnit={i18n._(RP_PER_KWH)}
             fields={{
               x: {
                 componentIri: "value",
+                axisUnit: unit,
+              },
+              y: {
+                axisLabel: getEntityLabelId(entity),
               },
               label: {
                 componentIri: "muniOperator",

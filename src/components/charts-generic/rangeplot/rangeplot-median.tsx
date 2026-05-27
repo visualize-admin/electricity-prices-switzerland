@@ -12,6 +12,7 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
     xScale,
     yScale,
     xAxisLabel,
+    xAxisUnit,
   } = useChartState() as RangePlotState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
@@ -35,17 +36,17 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
             strokeDasharray="4px 2px"
           />
           <text
-            x={xScale(m)}
+            x={`${xScale(m)}`}
             y={bounds.chartHeight + margins.bottom * 0.2}
             dy={labelFontSize}
             style={{
               fontFamily,
               fill: domainColor,
-              fontSize: labelFontSize,
+              fontSize: labelFontSize,  
               textAnchor: "middle",
             }}
           >
-            {formatDisplay(m)} {xAxisLabel}
+            {formatDisplay(m)} {xAxisUnit}
           </text>
           <text
             x={xScale(m)}

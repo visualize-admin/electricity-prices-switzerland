@@ -1,4 +1,5 @@
 import { t, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
 import { groups } from "d3";
 import { memo, useEffect, useState } from "react";
@@ -46,6 +47,7 @@ import {
   GenericObservation,
   detailsPriceComponents,
 } from "src/domain/data";
+import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import {
@@ -282,6 +284,7 @@ const CantonsComparisonRangePlot = memo(
     product: string[];
   }) => {
     const locale = useLocale();
+    const { i18n } = useLingui();
 
     const [observationsQuery] = useObservationsQuery({
       variables: {
@@ -313,6 +316,7 @@ const CantonsComparisonRangePlot = memo(
 
     const observations = [...operatorObservations, ...cantonObservations];
 
+    const unit = i18n._(RP_PER_KWH);
     const annotations =
       annotationIds &&
       observations
@@ -366,6 +370,7 @@ const CantonsComparisonRangePlot = memo(
               fields={{
                 x: {
                   componentIri: "value",
+                  axisUnit: unit,
                 },
                 y: {
                   componentIri: "cantonLabel",

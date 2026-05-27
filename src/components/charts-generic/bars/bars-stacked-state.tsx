@@ -100,6 +100,7 @@ const useStackedBarsState = ({
 
   const { annotation } = fields;
   const xAxisLabel = fields.x.axisLabel;
+  const xAxisUnit = fields.x.axisUnit;
 
   const {
     categories,
@@ -235,8 +236,7 @@ const useStackedBarsState = ({
         values: segments
           .map((seg) => ({
             label: measuresByIri[seg]?.label ?? seg,
-            value:
-              d[seg] !== null ? formatDisplay(+d[seg]) : undefined,
+            value: d[seg] !== null ? formatDisplay(+d[seg]) : undefined,
             color: colors(seg),
           }))
           .filter(
@@ -336,6 +336,7 @@ const useStackedBarsState = ({
     getCategoryFromYValue,
     annotations,
     xAxisLabel,
+    xAxisUnit,
     getAnnotationInfo,
     axisPlacement: isMobile ? "bottom" : "top",
   };

@@ -102,11 +102,11 @@ test.describe("The Home Page", () => {
     await page.goto("/de");
     const links = [
       {
-        name: "Daten als .csv",
+        name: "Daten im CSV-Format",
         href: /\/api\/data-export\?period=\d{4}&locale=de/,
       },
       {
-        name: "Daten als CSV (Sunshine)",
+        name: "Daten im CSV-Format (Sunshine)",
         href: /\/api\/sunshine-data-export\?period=\d{4}&locale=de/,
       },
     ];

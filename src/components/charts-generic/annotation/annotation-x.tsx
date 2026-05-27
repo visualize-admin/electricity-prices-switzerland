@@ -150,7 +150,7 @@ export const AnnotationXDataPoint = () => {
 };
 
 export const AnnotationXLabel = () => {
-  const { bounds, annotations, xAxisLabel } = useChartState() as
+  const { bounds, annotations, xAxisUnit } = useChartState() as
     | RangePlotState
     | HistogramState
     | StackedBarsState;
@@ -181,7 +181,7 @@ export const AnnotationXLabel = () => {
           }}
         >
           <Box component="span" fontWeight={700}>
-            {a.value} {xAxisLabel}{" "}
+            {a.value} {xAxisUnit}{" "}
           </Box>
           {a.label}
         </Box>
