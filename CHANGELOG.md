@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.46.0 - 2026-05-27
+
+- Add units in Preisverteilung & Kantonsvergleich chart on operator page #650
+- Fix tooltip positioning in those charts #649
+
 # 2.45.3 - 2026-05-26
 
 - Better debugging for Gever download documents
