@@ -11,7 +11,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
     bounds,
     xScale,
     yScale,
-    xAxisLabel,
+    xAxisUnit,
     groupedBy,
     binMeta,
     bandScale,
@@ -58,7 +58,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
               textAnchor: "middle",
             }}
           >
-            {formatDisplay(m)} {xAxisLabel}
+            {formatDisplay(m)} {xAxisUnit}
           </text>
           <text
             x={medianX}
