@@ -34,23 +34,19 @@ export const serverSchema = z.object({
   GEVER_BINDING_IPSTS: z
     .string()
     .default(
-      "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport",
+      "https://idp-cert.gate-r.eiam.admin.ch/auth/sts/v14/certificatetransport"
     ),
 
   GEVER_BINDING_RPSTS: z
     .string()
     .default(
-      "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256",
+      "https://feds-r.eiam.admin.ch/adfs/services/trust/13/issuedtokenmixedsymmetricbasic256"
     ),
   GEVER_BINDING_SERVICE: z
     .string()
     .default(
-      "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc",
+      "https://api-bv.egov-abn.uvek.admin.ch/BusinessManagement/GeverService/GeverServiceAdvanced.svc"
     ),
-  DEBUG_DOWNLOAD_SECRET: z
-    .string()
-    .default("GqQF$t$Fm^oddinivkY8TT8F^kRuRUJ$NJ5Jt%vQ"),
-
   ELCOM_ENV: z.string().optional(),
 
   // Gitlab as CMS

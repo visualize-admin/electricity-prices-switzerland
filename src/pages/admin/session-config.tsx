@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
+  context,
 ) => {
   // Get session
   const session = await parseSessionFromRequest(context.req);
@@ -62,16 +62,11 @@ export default function AdminSessionConfigPage({
       title="Session Config - Flags"
       csrfToken={csrfToken}
       breadcrumbs={[{ label: "Admin" }, { label: "Session Config" }]}
-      header={
-        <Typography variant="h4" component="h1">
-          Session Config Flags Management
-        </Typography>
-      }
       message={message}
       error={error}
     >
       <Box
-        sx={{ maxWidth: "800px", margin: "0 auto" }}
+        sx={{ maxWidth: "800px" }}
         component="form"
         action="/api/admin/session-config"
         method="POST"
@@ -88,7 +83,7 @@ export default function AdminSessionConfigPage({
 
           {Object.entries(flags).map(([key, value]) => {
             const { description, type } = getFlagInfo(
-              key as keyof typeof flags
+              key as keyof typeof flags,
             );
             return (
               <FlagInput

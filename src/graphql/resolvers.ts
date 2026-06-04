@@ -753,7 +753,7 @@ const Operator: OperatorResolvers = {
         uid: uid ?? null,
       },
       debug:
-        ctx.isGeverDebugAuthorized && debug
+        ctx.isAdmin && debug
           ? {
               request: debug.request,
               response: debug.response,

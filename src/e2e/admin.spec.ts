@@ -65,7 +65,7 @@ test.describe("Admin Interface", () => {
     await page.goto("/map");
     await page.getByText(`SPARQL Endpoint: ${LINDAS_ENDPOINTS.int}`).click();
     await page.getByRole("link", { name: "Configure" }).click();
-    await page.getByRole("heading", { name: "Session Config Flags" }).click();
+    await page.getByRole("link", { name: "Session Config" }).click();
   });
 
   test("should not see metrics page if not logged in", async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe("Admin Interface", () => {
     await adminLogin(page);
     await page.goto("/admin/metrics");
     await page
-      .getByRole("heading", { name: "GraphQL Metrics Dashboard" })
+      .getByText('Please select releases to compare.')
       .click();
   });
 });

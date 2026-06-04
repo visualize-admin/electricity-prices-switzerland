@@ -44,7 +44,7 @@ const cacheCoverageRatios = async (
 
   const cached = coveragesByYearCache.get(cacheKey);
   if (cached) {
-    return cached;
+  return cached;
   }
 
   const query = `
