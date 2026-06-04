@@ -51,7 +51,7 @@ function DocumentDownloadForm() {
     ev.preventDefault();
     const formData = Object.fromEntries(
       new FormData(ev.currentTarget as HTMLFormElement)
-    ) as { oid: string; secret: string };
+    ) as { oid: string };
 
     setStatus("fetching");
     setData(null);
@@ -62,7 +62,6 @@ function DocumentDownloadForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-gever-debug-secret": formData.secret,
         },
         body: JSON.stringify({
           query: GEVER_DOCUMENTS_QUERY,
@@ -94,10 +93,6 @@ function DocumentDownloadForm() {
         gap={2}
         maxWidth={400}
       >
-        <label>
-          Password:{" "}
-          <input type="password" name="secret" style={{ marginLeft: 8 }} />
-        </label>
         <label>
           OID:{" "}
           <input
