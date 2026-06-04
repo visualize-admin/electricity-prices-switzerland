@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.47.0
+
+- API status, document download debug & Municipality status moved to admin
+
 # 2.46.0 - 2026-05-27
 
 - Add units in Preisverteilung & Kantonsvergleich chart on operator page #650
