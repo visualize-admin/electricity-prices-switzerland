@@ -204,7 +204,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.8.2",
     "vite": "7.3.2",
-    "vitest": "^4.0.15"
+    "vitest": "^4.1.8"
   },
   "packageManager": "pnpm@10.28.2",
   "pnpm": {
