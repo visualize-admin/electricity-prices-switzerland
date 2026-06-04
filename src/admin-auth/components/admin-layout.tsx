@@ -1,9 +1,9 @@
 import {
-  Box,
-  Paper,
   Alert,
+  Box,
   Breadcrumbs,
   Link,
+  Paper,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
@@ -94,7 +94,7 @@ export default function AdminLayout({
           {/* Navigation */}
           <Box
             display="flex"
-            gap={3}
+            gap={8}
             mb={3}
             pb={2}
             borderBottom={1}
@@ -102,6 +102,13 @@ export default function AdminLayout({
           >
             <ActiveLink href="/admin/session-config">Session Config</ActiveLink>
             <ActiveLink href="/admin/metrics">Metrics</ActiveLink>
+            <ActiveLink href="/admin/api-status">API Status</ActiveLink>
+            <ActiveLink href="/admin/document-download">
+              Document Download
+            </ActiveLink>
+            <ActiveLink href="/admin/municipality-status">
+              Municipality Status
+            </ActiveLink>
           </Box>
           {/* Header */}
           <Box
