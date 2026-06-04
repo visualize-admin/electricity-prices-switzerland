@@ -56,7 +56,7 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
       await page.getByRole("textbox", { name: "Password" }).fill(adminPassword);
       await page.getByRole("button", { name: "Login" }).click();
       await page
-        .getByRole("heading", { name: "Session Config Flags" })
+        .getByRole("link", { name: "Session Config" })
         .waitFor();
     };
     await use(login);
