@@ -11,7 +11,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 
-import LogoutButton from "./logout-button";
+import LogoutButton from "src/admin-auth/components/logout-button";
 
 interface ActiveLinkProps {
   href: string;
@@ -40,7 +40,6 @@ interface AdminLayoutProps {
   title: string;
   csrfToken: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
-  header?: ReactNode;
   message?: string;
   error?: string;
   children: ReactNode;
@@ -50,7 +49,6 @@ export default function AdminLayout({
   title,
   csrfToken,
   breadcrumbs,
-  header,
   message,
   error,
   children,
@@ -67,30 +65,39 @@ export default function AdminLayout({
             padding: 5,
           }}
         >
-          {/* Breadcrumbs */}
-          {breadcrumbs && breadcrumbs.length > 0 && (
-            <Breadcrumbs sx={{ mb: 3 }}>
-              {breadcrumbs.map((crumb, index) => {
-                if (crumb.href) {
+          <Box display="flex" width="100%">
+            {/* Breadcrumbs */}
+            {breadcrumbs && breadcrumbs.length > 0 && (
+              <Breadcrumbs sx={{ mb: 3 }}>
+                {breadcrumbs.map((crumb, index) => {
+                  if (crumb.href) {
+                    return (
+                      <Link
+                        key={index}
+                        href={crumb.href}
+                        underline="hover"
+                        variant="body2"
+                      >
+                        {crumb.label}
+                      </Link>
+                    );
+                  }
                   return (
-                    <Link
+                    <Typography
                       key={index}
-                      href={crumb.href}
-                      underline="hover"
+                      color="text.primary"
                       variant="body2"
                     >
                       {crumb.label}
-                    </Link>
+                    </Typography>
                   );
-                }
-                return (
-                  <Typography key={index} color="text.primary" variant="body2">
-                    {crumb.label}
-                  </Typography>
-                );
-              })}
-            </Breadcrumbs>
-          )}
+                })}
+              </Breadcrumbs>
+            )}
+            <Box ml="auto">
+              <LogoutButton csrfToken={csrfToken} />
+            </Box>
+          </Box>
           {/* Navigation */}
           <Box
             display="flex"
@@ -111,24 +118,6 @@ export default function AdminLayout({
             </ActiveLink>
           </Box>
           {/* Header */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={4}
-            pb={3}
-            borderBottom={2}
-            borderColor="divider"
-          >
-            {header ? (
-              header
-            ) : (
-              <Typography variant="h4" component="h1">
-                {title}
-              </Typography>
-            )}
-            <LogoutButton csrfToken={csrfToken} />
-          </Box>
 
           {/* Messages */}
           {message && (
@@ -141,9 +130,10 @@ export default function AdminLayout({
               {error}
             </Alert>
           )}
-
-          {/* Content */}
-          {children}
+          <Box mt={8}>
+            {/* Content */}
+            {children}
+          </Box>
         </Paper>
       </Box>
     </>
