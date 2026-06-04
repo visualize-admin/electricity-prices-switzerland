@@ -9,8 +9,8 @@ import { parseSessionFromRequest } from "src/admin-auth/session";
 import { LoadingIconInline } from "src/components/hint";
 import * as Queries from "src/graphql/queries";
 import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
-import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import { apolloServer } from "src/pages/api/graphql";
+import { defaultSparqlEndpointUrl } from "src/rdf/sparql-client";
 import {
   createExecuteGraphqlQuery,
   ExecuteGraphqlQuery,
@@ -147,7 +147,7 @@ export default function ApiStatusPage({
 const executeQuerySafe = async <T,>(
   executeGraphqlQuery: ExecuteGraphqlQuery,
   document: $IntentionalAny,
-  variables: Record<string, $IntentionalAny>
+  variables: Record<string, $IntentionalAny>,
 ): Promise<
   | { data: T; variables: typeof variables }
   | { error: Error; variables: typeof variables }
@@ -163,7 +163,7 @@ const executeQuerySafe = async <T,>(
 const serializeQueryResult = <T,>(
   result:
     | { data: T; variables: Record<string, $IntentionalAny> }
-    | { error: Error; variables: Record<string, $IntentionalAny> }
+    | { error: Error; variables: Record<string, $IntentionalAny> },
 ): QueryProp => {
   if ("error" in result) {
     return {
@@ -182,7 +182,7 @@ const serializeQueryResult = <T,>(
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
+  context,
 ) => {
   const session = await parseSessionFromRequest(context.req);
   if (!session) {
@@ -215,42 +215,42 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     executeQuerySafe<Queries.CubeHealthQuery>(
       executeGraphqlQuery,
       Queries.CubeHealthDocument,
-      {}
+      {},
     ),
     executeQuerySafe<Queries.SystemInfoQuery>(
       executeGraphqlQuery,
       Queries.SystemInfoDocument,
-      {}
+      {},
     ),
     executeQuerySafe<Queries.WikiContentQuery>(
       executeGraphqlQuery,
       Queries.WikiContentDocument,
-      { locale: "de", slug: "help-price-comparison" }
+      { locale: "de", slug: "help-price-comparison" },
     ),
     executeQuerySafe<Queries.MunicipalitiesQuery>(
       executeGraphqlQuery,
       Queries.MunicipalitiesDocument,
-      { locale: "de", ids: ["261", "700"], query: "Ber" }
+      { locale: "de", ids: ["261", "700"], query: "Ber" },
     ),
     executeQuerySafe<Queries.CantonsQuery>(
       executeGraphqlQuery,
       Queries.CantonsDocument,
-      { locale: "de", ids: ["1"], query: "Ber" }
+      { locale: "de", ids: ["1"], query: "Ber" },
     ),
     executeQuerySafe<Queries.OperatorsQuery>(
       executeGraphqlQuery,
       Queries.OperatorsDocument,
-      { locale: "de", ids: ["565"], query: "lausanne" }
+      { locale: "de", ids: ["565"], query: "lausanne" },
     ),
     executeQuerySafe<Queries.SearchQuery>(
       executeGraphqlQuery,
       Queries.SearchDocument,
-      { locale: "de", query: "lausanne" }
+      { locale: "de", query: "lausanne" },
     ),
     executeQuerySafe<Queries.SearchQuery>(
       executeGraphqlQuery,
       Queries.SearchDocument,
-      { locale: "de", query: "3000" }
+      { locale: "de", query: "3000" },
     ),
     executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
       executeGraphqlQuery,
@@ -264,7 +264,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           category: ["H4"],
           product: ["standard"],
         },
-      }
+      },
     ),
     executeQuerySafe<Queries.ObservationsWithAllPriceComponentsQuery>(
       executeGraphqlQuery,
@@ -278,7 +278,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           category: ["H4"],
           product: ["standard"],
         },
-      }
+      },
     ),
     executeQuerySafe<Queries.ObservationsQuery>(
       executeGraphqlQuery,
@@ -293,7 +293,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           category: ["H4"],
           product: ["standard"],
         },
-      }
+      },
     ),
   ]);
 
