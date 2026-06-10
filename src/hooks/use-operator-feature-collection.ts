@@ -10,7 +10,6 @@ import { useOperatorMunicipalitiesQuery } from "src/graphql/queries";
 
 interface UseOperatorFeatureCollectionOptions {
   period: string;
-  electricityCategory?: string;
   networkLevel?: string;
   pause?: boolean;
 }
@@ -26,7 +25,6 @@ interface UseOperatorFeatureCollectionOptions {
  */
 export function useOperatorFeatureCollection({
   period,
-  electricityCategory,
   networkLevel,
   pause = false,
 }: UseOperatorFeatureCollectionOptions) {
@@ -34,7 +32,6 @@ export function useOperatorFeatureCollection({
   const [operatorMunicipalitiesQuery] = useOperatorMunicipalitiesQuery({
     variables: {
       period,
-      electricityCategory,
       networkLevel,
     },
     pause,
@@ -59,7 +56,7 @@ export function useOperatorFeatureCollection({
 
     const featureCollection = getOperatorsFeatureCollection(
       operatorMunicipalitiesQuery.data.operatorMunicipalities,
-      geoData.data.municipalities as MunicipalityFeatureCollection,
+      geoData.data.municipalities as MunicipalityFeatureCollection
     );
 
     // Simplify the feature collection with turf to reduce complexity

@@ -287,6 +287,7 @@ export enum OperatorDocumentCategory {
 export type OperatorMunicipality = {
   __typename?: "OperatorMunicipality";
   canton: Scalars["String"]["output"];
+  coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["Int"]["output"];
   operator: Scalars["String"]["output"];
 };
@@ -461,7 +462,6 @@ export type QueryOperatorArgs = {
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
-  electricityCategory?: InputMaybe<Scalars["String"]["input"]>;
   networkLevel?: InputMaybe<Scalars["String"]["input"]>;
   period: Scalars["String"]["input"];
 };
@@ -1370,6 +1370,7 @@ export type OperatorMunicipalityResolvers<
   ParentType extends ResolversParentTypes["OperatorMunicipality"] = ResolversParentTypes["OperatorMunicipality"]
 > = ResolversObject<{
   canton?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
 }>;

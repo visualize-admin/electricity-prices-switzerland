@@ -62,14 +62,9 @@ export const useEnrichedSunshineData = ({
   // Different indicators require different query parameters:
   // - netTariffs/energyTariffs: uses category from filter
   // - All other indicators (networkCosts, saidi, saifi, outageInfo, etc.): do not use a category
-  const electricityCategory =
-    indicator === "netTariffs" || indicator === "energyTariffs"
-      ? category
-      : undefined;
   const [operatorMunicipalitiesQuery] = useOperatorMunicipalitiesQuery({
     variables: {
       period,
-      electricityCategory,
       networkLevel,
     },
     pause: !enabled,

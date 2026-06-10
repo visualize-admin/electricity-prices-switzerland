@@ -33,7 +33,7 @@ import {
   OperatorFeature,
   useGeoData,
 } from "src/data/geo";
-import { ElectricityCategory, Entity, PriceComponent } from "src/domain/data";
+import { Entity, PriceComponent } from "src/domain/data";
 import { useFormatDisplayNumber } from "src/domain/helpers";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { PriceComponent as PriceComponentEnum } from "src/graphql/resolver-types";
@@ -57,7 +57,6 @@ export const EnergyPricesMap = ({
   controls,
   period,
   priceComponent,
-  category,
   entity,
   setEntity,
   widgets,
@@ -67,7 +66,6 @@ export const EnergyPricesMap = ({
   controls?: GenericMapControls;
   period: string;
   priceComponent: PriceComponent;
-  category: ElectricityCategory;
   entity: Entity;
   setEntity: (entity: Entity) => void;
   widgets?: GenericMapProps["widgets"];
@@ -84,7 +82,6 @@ export const EnergyPricesMap = ({
   // Get operator feature collection for operator view
   const operatorFeatureResult = useOperatorFeatureCollection({
     period,
-    electricityCategory: category,
     networkLevel: undefined,
     pause: !(entity === "operator" && enrichedData),
   });
@@ -92,7 +89,7 @@ export const EnergyPricesMap = ({
   // Use aggregated operator observations from enriched data
   const observationsByOperator = useMemo(
     () => enrichedData?.observationsByOperatorAggregated ?? {},
-    [enrichedData],
+    [enrichedData]
   );
 
   // Create entity selection for unified hook
@@ -136,7 +133,7 @@ export const EnergyPricesMap = ({
             }
             return [f.properties.operators[0], f] as const;
           })
-          .filter(truthy) ?? [],
+          .filter(truthy) ?? []
       ),
     };
   }, [geoData, operatorFeatureResult.data?.features]);
@@ -165,11 +162,11 @@ export const EnergyPricesMap = ({
         type === "operator"
           ? featureIndexes.operators
           : type === "canton"
-            ? featureIndexes.cantons
-            : featureIndexes.municipalities;
+          ? featureIndexes.cantons
+          : featureIndexes.municipalities;
       return idx?.get(parseInt(id, 10));
     },
-    [featureIndexes],
+    [featureIndexes]
   );
 
   const makeLayers = useCallback(
@@ -180,7 +177,7 @@ export const EnergyPricesMap = ({
 
       const handleMunicipalityLayerClick = (
         info: PickingInfo,
-        ev: { srcEvent: Event },
+        ev: { srcEvent: Event }
       ) => {
         if (!featureIndexes || !info.layer) return;
         const id = info.object.id as number;
@@ -197,7 +194,7 @@ export const EnergyPricesMap = ({
       // handleMunicipalityLayerClick which reads info.object.id.
       const handleOperatorLayerClick = (
         info: PickingInfo,
-        ev: { srcEvent: Event },
+        ev: { srcEvent: Event }
       ) => {
         if (!info.object) return;
         const operatorId = info.object.properties?.operators?.[0];
@@ -207,7 +204,7 @@ export const EnergyPricesMap = ({
         onEntitySelect(
           ev.srcEvent as MouseEvent,
           "operator",
-          operatorId.toString(),
+          operatorId.toString()
         );
       };
 
@@ -281,7 +278,7 @@ export const EnergyPricesMap = ({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>
-                    operatorId.toString() in observationsByOperator,
+                    operatorId.toString() in observationsByOperator
                 );
               }),
               accessor: (obs) => obs.value,
@@ -326,7 +323,7 @@ export const EnergyPricesMap = ({
               data: operatorFeatureResult.data.features.filter((f) => {
                 return f.properties.operators.some(
                   (operatorId) =>
-                    operatorId.toString() in observationsByOperator,
+                    operatorId.toString() in observationsByOperator
                 );
               }),
               hovered,
@@ -353,7 +350,7 @@ export const EnergyPricesMap = ({
       featureIndexes,
       setEntity,
       onEntitySelect,
-    ],
+    ]
   );
 
   const layers = useMemo(() => makeLayers("screen"), [makeLayers]);
@@ -369,13 +366,13 @@ export const EnergyPricesMap = ({
     // Get the threshold encoding function and generate thresholds and palette from a single source
     const thresholdEncoding = thresholdEncodings.energyPrices;
     const isValidValue = <T extends { value?: number | null | undefined }>(
-      x: T,
+      x: T
     ): x is T & { value: number } => x.value !== undefined && x.value !== null;
     const values = observations.filter(isValidValue).map((o) => o.value);
     const { thresholds, palette } = thresholdEncoding(
       medianValue,
       values,
-      +period,
+      +period
     );
 
     return (
@@ -442,7 +439,7 @@ export const EnergyPricesMap = ({
                 label: "Operator Data",
               }
             : undefined,
-        ].filter(truthy),
+        ].filter(truthy)
       )}
       tooltipContent={tooltipContent}
       legend={renderLegend()}
