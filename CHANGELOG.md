@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.48.0 - 2026-06-10
+
+- Derive operator municipality coverage from offers, not observations
+
 # 2.47.0
 
 - API status, document download debug & Municipality status moved to admin
