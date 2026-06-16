@@ -203,7 +203,7 @@
     "tpo-deepl": "^1.2.4",
     "tsx": "^4.21.0",
     "typescript": "^5.8.2",
-    "vite": "7.3.2",
+    "vite": "7.3.5",
     "vitest": "^4.1.8"
   },
   "packageManager": "pnpm@10.28.2",
@@ -212,7 +212,8 @@
       "@sentry/node>minimatch": "9.0.7",
       "@typescript-eslint/typescript-estree>minimatch": "9.0.7",
       "serialize-javascript": "^7.0.3",
-      "esbuild": "0.27.1",
+      "esbuild": "0.28.1",
+      "ws": "8.21.0",
       "graphql-config>minimatch": "9.0.7",
       "js-base64": "2.5.2",
       "cross-spawn": "7.0.6",
