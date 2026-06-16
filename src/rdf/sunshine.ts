@@ -1057,7 +1057,10 @@ const getSunshineData = async (
       }
 
       ?operator schema:name ?operator_name .
-      OPTIONAL { ?operator schema:identifier ?operator_uid . }
+      OPTIONAL {
+        ?operator schema:identifier ?operator_uid .
+        FILTER(STRSTARTS(STR(?operator_uid), "CHE-"))
+      }
     }
     ORDER BY DESC(?period) ?operator
   `;

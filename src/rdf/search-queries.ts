@@ -128,6 +128,7 @@ const getOperatorQuery = ({ operatorId }: { operatorId: string }) => {
       SELECT ?uid ?referenceId WHERE {
         <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> a <http://schema.org/Organization> ;
           <http://schema.org/identifier> ?uid .
+        FILTER(STRSTARTS(STR(?uid), "CHE-"))
         OPTIONAL {
           <https://energy.ld.admin.ch/elcom/electricityprice/operator/${operatorId}> <http://schema.org/identifier> [
             a <http://schema.org/PropertyValue> ;
