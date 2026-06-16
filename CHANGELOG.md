@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.48.1 - 2026-06-16
+
+- Fixed duplicate observations rows
+
 # 2.48.0 - 2026-06-10
 
 - Derive operator municipality coverage from offers, not observations
