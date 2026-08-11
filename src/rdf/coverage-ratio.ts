@@ -12,6 +12,12 @@ export const DEFAULT_COVERAGE_NETWORK_LEVEL = "NE7";
 export const COVERAGE_RATIO_THRESHOLD = 0.25;
 
 /**
+ * Year whose offer coverage ratios are reused for years with no offer data
+ * of their own (e.g. 2024 and earlier, before offers were published).
+ */
+export const FALLBACK_OFFERS_YEAR = "2025";
+
+/**
  * The coverage ratios for operators for each year are cached for 5m
  */
 const coveragesByYearCache = new LRUCache<string, Promise<Map<string, number>>>(
@@ -44,7 +50,7 @@ const cacheCoverageRatios = async (
 
   const cached = coveragesByYearCache.get(cacheKey);
   if (cached) {
-  return cached;
+    return cached;
   }
 
   const query = `
@@ -126,9 +132,21 @@ export class CoverageCacheManager {
     });
   }
 
+  /**
+   * Preloads coverage data for the given years. Years with no offer data of
+   * their own (e.g. 2024 and earlier) reuse `FALLBACK_OFFERS_YEAR`'s offer
+   * coverage ratios instead, so operator coverage is still based on real
+   * offer data rather than the "no data" default in `getCoverage()`.
+   */
   async prepare(years: string[]) {
     const coveragePromises = years.map(async (year) => {
-      const coverage = await cacheCoverageRatios(this.sparqlClient, year);
+      let coverage = await cacheCoverageRatios(this.sparqlClient, year);
+      if (coverage.size === 0 && year !== FALLBACK_OFFERS_YEAR) {
+        coverage = await cacheCoverageRatios(
+          this.sparqlClient,
+          FALLBACK_OFFERS_YEAR
+        );
+      }
       return [year, coverage] as const;
     });
     this.coverageCachesByYear = Object.fromEntries(

@@ -1,6 +1,6 @@
 Municipality: Zurzach (4324)
-Operators: none
-Municipality Operator via: n/a
+Operators: Elektra Genossenschaft Kaiserstuhl (149), Elektra Genossenschaft Rietheim (178), AEW Energie AG (5), Elektra Genossenschaft Baldingen (87)
+Municipality Operator via: OFFERS_2025
 Year: 2020
 Product: standard
 Category: H4

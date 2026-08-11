@@ -96,7 +96,8 @@ type OperatorDocument @cacheControl(maxAge: 300) {
 
 enum OperatorMunicipalitySource {
   OFFERS
-  OBSERVATIONS
+  "Offers for FALLBACK_OFFERS_YEAR, reused because the requested period has no offer data of its own."
+  OFFERS_2025
 }
 
 type OperatorMunicipality @cacheControl(maxAge: 300) {

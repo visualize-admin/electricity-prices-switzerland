@@ -56,7 +56,7 @@ import {
   getElectricityPriceObservations,
   getElectricityPriceSwissCube,
   getOperatorDocuments,
-  getOperatorsMunicipalitiesFromOffers,
+  getOperatorsMunicipalities,
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
@@ -721,11 +721,7 @@ const Query: QueryResolvers = {
     const level = networkLevel
       ? asNetworkLevel(networkLevel)
       : DEFAULT_COVERAGE_NETWORK_LEVEL;
-    return getOperatorsMunicipalitiesFromOffers(
-      period,
-      level,
-      context.sparqlClient
-    );
+    return getOperatorsMunicipalities(period, level, context.sparqlClient);
   },
 };
 

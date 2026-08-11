@@ -20,6 +20,7 @@ import { makeClientVerbose } from "src/rdf/client-helpers";
 import {
   COVERAGE_RATIO_THRESHOLD,
   CoverageCacheManager,
+  FALLBACK_OFFERS_YEAR,
 } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 
@@ -565,6 +566,30 @@ export const getOperatorDocuments = async ({
 };
 
 /**
+ * Whether any offer exists at all for a given period and network level,
+ * regardless of operator, municipality, or coverage ratio. Used to detect
+ * years for which offers haven't been published yet (e.g. 2024 and earlier).
+ */
+const hasOffersForPeriod = async (
+  year: string,
+  networkLevel: NetworkLevel["id"],
+  client: ParsingClient
+) => {
+  const query = /*sparql*/ `
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+PREFIX : <https://energy.ld.admin.ch/elcom/electricityprice/>
+
+ASK {
+    ?offer a schema:Offer ;
+        schema:temporalCoverage "${year}"^^xsd:gYear ;
+        :networkLevel <https://energy.ld.admin.ch/elcom/electricityprice/networkLevel/${networkLevel}> .
+}
+  `;
+  return client.query.ask(query);
+};
+
+/**
  * Returns operator-municipality pairs sourced directly from offer entities,
  * filtered to those with coverageRatio >= threshold at the given network level.
  * This is the accurate approach: absence of an offer means the operator does
@@ -612,6 +637,31 @@ ORDER BY ?municipality ?operator
       source: OperatorMunicipalitySource.Offers,
     };
   });
+};
+
+/**
+ * Returns operator-municipality pairs for a given period and network level,
+ * always sourced from offer entities. Years with no offer data of their own
+ * (e.g. 2024 and earlier) reuse `FALLBACK_OFFERS_YEAR`'s offers instead of
+ * inferring coverage from price observations; those rows are tagged
+ * `OFFERS_2025` so consumers can tell the coverage ratio is borrowed.
+ */
+export const getOperatorsMunicipalities = async (
+  year: string,
+  networkLevel: NetworkLevel["id"],
+  client: ParsingClient
+) => {
+  const hasOwnOffers = await hasOffersForPeriod(year, networkLevel, client);
+  const rows = await getOperatorsMunicipalitiesFromOffers(
+    hasOwnOffers ? year : FALLBACK_OFFERS_YEAR,
+    networkLevel,
+    client
+  );
+  if (hasOwnOffers) return rows;
+  return rows.map((row) => ({
+    ...row,
+    source: OperatorMunicipalitySource.Offers_2025,
+  }));
 };
 
 /**
@@ -715,7 +765,7 @@ WHERE {
 };
 
 export type OperatorMunicipalityRecord = Awaited<
-  ReturnType<typeof getOperatorsMunicipalitiesFromOffers>
+  ReturnType<typeof getOperatorsMunicipalities>
 >[number];
 
 /** @knipignore */

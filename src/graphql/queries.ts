@@ -278,8 +278,9 @@ export type OperatorMunicipality = {
 };
 
 export enum OperatorMunicipalitySource {
-  Observations = "OBSERVATIONS",
   Offers = "OFFERS",
+  /** Offers for FALLBACK_OFFERS_YEAR, reused because the requested period has no offer data of its own. */
+  Offers_2025 = "OFFERS_2025",
 }
 
 export type OperatorObservation = {
