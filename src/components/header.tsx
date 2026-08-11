@@ -1,10 +1,10 @@
 import { TopBar } from "@interactivethings/swiss-federal-ci/dist/components";
 import {
-  Header as SwissFederalCiHeader,
   MenuButton,
   MenuContainer,
+  Header as SwissFederalCiHeader,
 } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -17,8 +17,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { makeStyles } from "tss-react/mui";
-
 import { SafeHydration } from "src/components/hydration";
 import { Search } from "src/components/search";
 import contentRoutes from "src/content-routes.json";
@@ -29,6 +27,7 @@ import { useResizeObserver } from "src/lib/use-resize-observer";
 import { locales } from "src/locales/config";
 import { palette } from "src/themes/palette";
 import { F, FlagList, useFlag } from "src/utils/flags";
+import { makeStyles } from "tss-react/mui";
 
 const useHeaderStyles = makeStyles()(() => ({
   mobileDrawerMenuButton: {
@@ -85,9 +84,16 @@ const LocaleSelector = ({ alternates }: LocaleSelectorProps) => {
           border: "none !important",
           backgroundColor: "transparent",
           color: "white !important",
-          paddingRight: `0.75rem`,
           width: "fit-content",
           minWidth: "auto",
+
+          [`& .${nativeSelectClasses.select}`]: {
+            paddingRight: `var(--icon-width) !important`,
+          },
+
+          "&:focus": {
+            background: "transparent",
+          },
 
           [`.${nativeSelectClasses.icon}`]: {
             color: "white !important",
@@ -116,7 +122,7 @@ const LocaleSelector = ({ alternates }: LocaleSelectorProps) => {
 
 const FlagMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(
-    undefined
+    undefined,
   );
   const isEnabled = useFlag(F.debug);
   if (!isEnabled) {
