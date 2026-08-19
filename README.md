@@ -149,6 +149,10 @@ cat ../../../vault/svc.spw-d.elcom.admin.ch.p12 | base64
 
 See [Load Testing](./docs/load-testing.md) document for more information.
 
+## Energy prices CLI
+
+A debugging tool for the energy prices map, usable by humans and AI agents alike. See [Energy Prices CLI](./docs/energy-prices-cli.md).
+
 ## Docker
 
 Both the frontend and the screenshot service can be built as docker images

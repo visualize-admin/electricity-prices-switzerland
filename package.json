@@ -46,7 +46,8 @@
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
     "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed",
     "metrics:compare": "tsx scripts/compare-metrics.ts",
-    "metrics": "bun --env-file .env.local src/metrics/cli.ts"
+    "metrics": "bun --env-file .env.local src/metrics/cli.ts",
+    "energy-prices:cli": "tsx scripts/energy-prices-cli.ts"
   },
   "dependencies": {
     "@apollo/server": "^5.4.0",
