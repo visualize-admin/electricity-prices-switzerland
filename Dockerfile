@@ -6,7 +6,7 @@ FROM node:22-slim AS base
 
 # Install npm and force cross-spawn, glob version
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
-    apt install -y --only-upgrade perl-base libgnutls30 && \
+    apt install -y --only-upgrade perl-base libgnutls30 curl libcurl4 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm install -g npm@10.9.4 && \
@@ -17,7 +17,7 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
         # Install new version
         npm install -g cross-spawn@7.0.5 --force && \
-        npm install -g pnpm@10.28.2 && \
+        npm install -g pnpm@10.34.4 && \
         # Modify 7.5.6 to 7.5.8 to bypass vulnerability cve-2026-24842, CVE-2026-29786, CVE-2026-31802. Since pnpm did
         # not release a new version yet, we do this manual fix to bypass the trivy
         # scan failure. We know that we are not affected by the vulnerability in our usage.
