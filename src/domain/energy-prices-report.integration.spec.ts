@@ -5,10 +5,10 @@ import {
   fetchEnergyPricesReportData,
 } from "src/domain/energy-prices-report";
 import { createNodeGraphqlClient } from "src/graphql/node-client";
+import { BASE_URL } from "src/utils/base-url";
+import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";
 
-const ENDPOINT = `${
-  process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000"
-}/api/graphql`;
+const ENDPOINT = `${BASE_URL}/api/graphql`;
 
 const BASE_ARGS = {
   category: "H4",
@@ -26,7 +26,7 @@ const BASE_ARGS = {
  * -u`).
  */
 describe("energy prices map data (against live GraphQL API)", () => {
-  const client = createNodeGraphqlClient(ENDPOINT);
+  const client = createNodeGraphqlClient(ENDPOINT, makeDeploymentAuthHeaders());
 
   test("Zurich 2025: resolves via offers and colors dark green", async () => {
     const data = await fetchEnergyPricesReportData(client, {
