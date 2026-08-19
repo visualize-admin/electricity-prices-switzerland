@@ -207,6 +207,7 @@ query OperatorMunicipalities($period: String!, $networkLevel: String) {
     canton
     operator
     coverageRatio
+    source
   }
 }
 

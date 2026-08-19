@@ -274,7 +274,13 @@ export type OperatorMunicipality = {
   coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["Int"]["output"];
   operator: Scalars["String"]["output"];
+  source: OperatorMunicipalitySource;
 };
+
+export enum OperatorMunicipalitySource {
+  Observations = "OBSERVATIONS",
+  Offers = "OFFERS",
+}
 
 export type OperatorObservation = {
   __typename: "OperatorObservation";
@@ -992,6 +998,7 @@ export type OperatorMunicipalitiesQuery = {
     canton: string;
     operator: string;
     coverageRatio: number;
+    source: OperatorMunicipalitySource;
   }>;
 };
 
@@ -1779,6 +1786,7 @@ export const OperatorMunicipalitiesDocument = gql`
       canton
       operator
       coverageRatio
+      source
     }
   }
 `;

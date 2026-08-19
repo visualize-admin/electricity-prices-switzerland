@@ -94,11 +94,17 @@ type OperatorDocument @cacheControl(maxAge: 300) {
   category: OperatorDocumentCategory
 }
 
+enum OperatorMunicipalitySource {
+  OFFERS
+  OBSERVATIONS
+}
+
 type OperatorMunicipality @cacheControl(maxAge: 300) {
   municipality: Int!
   canton: String!
   operator: String!
   coverageRatio: Float!
+  source: OperatorMunicipalitySource!
 }
 
 type Canton {

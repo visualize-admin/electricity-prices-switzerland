@@ -10,7 +10,10 @@ import { LRUCache } from "typescript-lru-cache";
 import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
 import { PriceComponent } from "src/graphql/queries";
-import { OperatorDocumentCategory } from "src/graphql/resolver-types";
+import {
+  OperatorDocumentCategory,
+  OperatorMunicipalitySource,
+} from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
 import { makeClientVerbose } from "src/rdf/client-helpers";
@@ -606,6 +609,7 @@ ORDER BY ?municipality ?operator
       canton,
       operator,
       coverageRatio,
+      source: OperatorMunicipalitySource.Offers,
     };
   });
 };

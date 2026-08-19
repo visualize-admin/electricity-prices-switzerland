@@ -290,7 +290,13 @@ export type OperatorMunicipality = {
   coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["Int"]["output"];
   operator: Scalars["String"]["output"];
+  source: OperatorMunicipalitySource;
 };
+
+export enum OperatorMunicipalitySource {
+  Observations = "OBSERVATIONS",
+  Offers = "OFFERS",
+}
 
 export type OperatorObservation = {
   __typename?: "OperatorObservation";
@@ -862,6 +868,7 @@ export type ResolversTypes = ResolversObject<{
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   OperatorDocumentCategory: OperatorDocumentCategory;
   OperatorMunicipality: ResolverTypeWrapper<OperatorMunicipality>;
+  OperatorMunicipalitySource: OperatorMunicipalitySource;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   OperatorWithPeerGroup: ResolverTypeWrapper<OperatorWithPeerGroup>;
@@ -1375,6 +1382,11 @@ export type OperatorMunicipalityResolvers<
   coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  source?: Resolver<
+    ResolversTypes["OperatorMunicipalitySource"],
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export type OperatorObservationResolvers<
