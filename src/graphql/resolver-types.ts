@@ -447,6 +447,7 @@ export type QueryNetworkCostsArgs = {
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };

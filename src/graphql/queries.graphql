@@ -85,11 +85,13 @@ query Observations(
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
   $observationKind: ObservationKind
+  $includeBelowCoverageThreshold: Boolean
 ) {
   observations(
     locale: $locale
     filters: $filters
     observationKind: $observationKind
+    includeBelowCoverageThreshold: $includeBelowCoverageThreshold
   ) {
     ...operatorObservationFields
   }

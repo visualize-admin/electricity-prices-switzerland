@@ -227,6 +227,8 @@ type Query {
     locale: String
     filters: ObservationFilters
     observationKind: ObservationKind
+    "When true, also returns operator observations below the coverage ratio threshold that are normally excluded. Intended for debugging coverage filtering, not for production use."
+    includeBelowCoverageThreshold: Boolean
   ): [OperatorObservation!] @cacheControl(maxAge: 300)
 
   cantonMedianObservations(

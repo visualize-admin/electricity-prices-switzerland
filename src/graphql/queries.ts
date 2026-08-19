@@ -431,6 +431,7 @@ export type QueryNetworkCostsArgs = {
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
@@ -800,6 +801,7 @@ export type ObservationsQueryVariables = Exact<{
   priceComponent: PriceComponent;
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type ObservationsQuery = {
@@ -1628,11 +1630,13 @@ export const ObservationsDocument = gql`
     $priceComponent: PriceComponent!
     $filters: ObservationFilters!
     $observationKind: ObservationKind
+    $includeBelowCoverageThreshold: Boolean
   ) {
     observations(
       locale: $locale
       filters: $filters
       observationKind: $observationKind
+      includeBelowCoverageThreshold: $includeBelowCoverageThreshold
     ) {
       ...operatorObservationFields
     }

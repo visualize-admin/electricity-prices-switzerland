@@ -326,7 +326,12 @@ const Query: QueryResolvers = {
       VERSION: process.env.VERSION!,
     };
   },
-  observations: async (_, { locale, filters, observationKind }, ctx, info) => {
+  observations: async (
+    _,
+    { locale, filters, observationKind, includeBelowCoverageThreshold },
+    ctx,
+    info
+  ) => {
     if (observationKind && observationKind !== ObservationKind.Municipality) {
       return null;
     }
@@ -391,10 +396,12 @@ const Query: QueryResolvers = {
       });
     }
 
-    return CoverageCacheManager.filterByCoverageRatio(
-      operatorObservations,
-      (o) => o.coverageRatio
-    );
+    return includeBelowCoverageThreshold
+      ? operatorObservations
+      : CoverageCacheManager.filterByCoverageRatio(
+          operatorObservations,
+          (o) => o.coverageRatio
+        );
   },
   cantonMedianObservations: async (
     _,
