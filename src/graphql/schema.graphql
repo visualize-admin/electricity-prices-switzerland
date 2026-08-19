@@ -227,6 +227,8 @@ type Query {
     locale: String
     filters: ObservationFilters
     observationKind: ObservationKind
+    "Network level used for coverage ratio filtering, e.g. NE5, NE6, NE7. Defaults to NE7."
+    networkLevel: String
     "When true, also returns operator observations below the coverage ratio threshold that are normally excluded. Intended for debugging coverage filtering, not for production use."
     includeBelowCoverageThreshold: Boolean
   ): [OperatorObservation!] @cacheControl(maxAge: 300)

@@ -328,7 +328,13 @@ const Query: QueryResolvers = {
   },
   observations: async (
     _,
-    { locale, filters, observationKind, includeBelowCoverageThreshold },
+    {
+      locale,
+      filters,
+      observationKind,
+      networkLevel,
+      includeBelowCoverageThreshold,
+    },
     ctx,
     info
   ) => {
@@ -383,14 +389,13 @@ const Query: QueryResolvers = {
       new Set(operatorObservations.map((x) => x.period).filter(truthy))
     );
     if (years) {
-      const defaultNetworkLevel = "NE7";
+      const level = networkLevel
+        ? asNetworkLevel(networkLevel)
+        : DEFAULT_COVERAGE_NETWORK_LEVEL;
       const coverageManager = new CoverageCacheManager(ctx.sparqlClient);
       await coverageManager.prepare(years);
       operatorObservations.forEach((x) => {
-        const coverageRatio = coverageManager.getCoverage(
-          x,
-          defaultNetworkLevel
-        );
+        const coverageRatio = coverageManager.getCoverage(x, level);
         x.coverageRatio = coverageRatio;
         return x;
       });
