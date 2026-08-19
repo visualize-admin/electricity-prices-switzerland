@@ -1,5 +1,3 @@
-import { Client } from "urql";
-
 import { getObservationsWeightedMean } from "src/domain/data";
 import {
   buildEnrichedEnergyPricesData,
@@ -16,6 +14,7 @@ import {
   OperatorsQuery,
 } from "src/graphql/queries";
 import { COVERAGE_RATIO_THRESHOLD } from "src/rdf/coverage-ratio";
+import { Client } from "urql";
 
 export class MunicipalityNotFoundError extends Error {}
 
@@ -43,7 +42,7 @@ export type EnergyPricesReportData = {
 };
 
 const isValidValue = <T extends { value?: number | null | undefined }>(
-  x: T
+  x: T,
 ): x is T & { value: number } => x.value !== undefined && x.value !== null;
 
 /**
@@ -54,7 +53,7 @@ const isValidValue = <T extends { value?: number | null | undefined }>(
  */
 export async function fetchEnergyPricesReportData(
   client: Client,
-  args: EnergyPricesReportArgs
+  args: EnergyPricesReportArgs,
 ): Promise<EnergyPricesReportData> {
   const locale = args.locale ?? "en";
 
@@ -98,12 +97,12 @@ export async function fetchEnergyPricesReportData(
   const municipality = municipalities.find(
     (m) =>
       m.id === args.municipality ||
-      m.name.toLowerCase() === args.municipality.toLowerCase()
+      m.name.toLowerCase() === args.municipality.toLowerCase(),
   );
 
   if (!municipality) {
     throw new MunicipalityNotFoundError(
-      `Municipality not found: ${args.municipality}`
+      `Municipality not found: ${args.municipality}`,
     );
   }
 
@@ -112,7 +111,7 @@ export async function fetchEnergyPricesReportData(
   // for them too (to report them), re-apply the same threshold here to
   // reproduce what the map/API would actually return.
   const includedObservations = allObservations.filter(
-    (o) => o.coverageRatio >= COVERAGE_RATIO_THRESHOLD
+    (o) => o.coverageRatio >= COVERAGE_RATIO_THRESHOLD,
   );
 
   const enrichedData = buildEnrichedEnergyPricesData({
@@ -129,14 +128,14 @@ export async function fetchEnergyPricesReportData(
   ).filter((row) => row.municipality === Number(municipality.id));
 
   const priceObservationsForMunicipality = allObservations.filter(
-    (o) => o.municipality === municipality.id
+    (o) => o.municipality === municipality.id,
   );
 
   const operatorIds = Array.from(
     new Set([
       ...operatorRows.map((r) => r.operator),
       ...priceObservationsForMunicipality.map((o) => o.operator),
-    ])
+    ]),
   );
   const operatorsResult = operatorIds.length
     ? await client
@@ -149,7 +148,7 @@ export async function fetchEnergyPricesReportData(
   if (operatorsResult?.error) throw operatorsResult.error;
 
   const operatorNameById = new Map(
-    (operatorsResult?.data?.operators ?? []).map((o) => [o.id, o.name])
+    (operatorsResult?.data?.operators ?? []).map((o) => [o.id, o.name]),
   );
 
   const municipalityObservations =
@@ -200,29 +199,29 @@ export function buildEnergyPricesReport(data: EnergyPricesReportData): string {
   const source = operatorRows[0]?.source;
 
   const lines: string[] = [];
+  lines.push(`Year: ${args.year}`);
+  lines.push(`Price component: ${args.priceComponent}`);
+  lines.push(`Category: ${args.category}`);
+  lines.push(`Product: ${args.product}`);
   lines.push(`Municipality: ${municipality.name} (${municipality.id})`);
   lines.push(
     operatorRows.length
       ? `Operators: ${operatorRows
           .map(
             (r) =>
-              `${operatorNameById.get(r.operator) ?? "unknown"} (${r.operator})`
+              `${operatorNameById.get(r.operator) ?? "unknown"} (${r.operator})`,
           )
           .join(", ")}`
-      : "Operators: none"
+      : "Operators: none",
   );
   lines.push(`Municipality Operator via: ${source ?? "n/a"}`);
-  lines.push(`Year: ${args.year}`);
-  lines.push(`Product: ${args.product}`);
-  lines.push(`Category: ${args.category}`);
-  lines.push(`Price component: ${args.priceComponent}`);
   lines.push(`Color: ${color ?? "no data"}`);
 
   lines.push("");
   lines.push(
     `Operator coverage (network level: ${
       args.networkLevel ?? "NE7 (default)"
-    }, threshold: ${COVERAGE_RATIO_THRESHOLD}):`
+    }, threshold: ${COVERAGE_RATIO_THRESHOLD}):`,
   );
   if (priceObservationsForMunicipality.length === 0) {
     lines.push("  No price observations for this municipality/filter.");
@@ -235,7 +234,7 @@ export function buildEnergyPricesReport(data: EnergyPricesReportData): string {
           obs.value ?? "n/a"
         }, coverageRatio=${obs.coverageRatio.toFixed(2)}${
           ignored ? " — IGNORED (below threshold)" : ""
-        }`
+        }`,
       );
     }
   }

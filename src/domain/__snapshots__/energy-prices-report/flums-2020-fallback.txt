@@ -1,10 +1,10 @@
+Year: 2020
+Price component: total
+Category: H4
+Product: standard
 Municipality: Flums (3292)
 Operators: Murg Flums Energie (421), EVU Flums AG (542), Martin Zeller AG, Elektrizitätswerk (637), St. Gallisch-Appenzellische Kraftwerke AG (727)
 Municipality Operator via: OFFERS_2025
-Year: 2020
-Product: standard
-Category: H4
-Price component: total
 Color: light orange
 
 Operator coverage (network level: NE7 (default), threshold: 0.25):

@@ -1,10 +1,10 @@
+Year: 2025
+Price component: total
+Category: H4
+Product: standard
 Municipality: Zürich (261)
 Operators: Elektrizitätswerk der Stadt Zürich (565)
 Municipality Operator via: OFFERS
-Year: 2025
-Product: standard
-Category: H4
-Price component: total
 Color: dark green
 
 Operator coverage (network level: NE7 (default), threshold: 0.25):

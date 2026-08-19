@@ -1,10 +1,10 @@
+Year: 2025
+Price component: total
+Category: H4
+Product: standard
 Municipality: Grindelwald (576)
 Operators: BKW Energie AG (36), Jungfraubahn AG (627)
 Municipality Operator via: OFFERS
-Year: 2025
-Product: standard
-Category: H4
-Price component: total
 Color: yellow
 
 Operator coverage (network level: NE7 (default), threshold: 0.25):
