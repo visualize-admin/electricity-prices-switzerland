@@ -1,3 +1,5 @@
+import { Client } from "urql";
+
 import { getObservationsWeightedMean } from "src/domain/data";
 import {
   buildEnrichedEnergyPricesData,
@@ -14,7 +16,6 @@ import {
   OperatorsQuery,
 } from "src/graphql/queries";
 import { COVERAGE_RATIO_THRESHOLD } from "src/rdf/coverage-ratio";
-import { Client } from "urql";
 
 export class MunicipalityNotFoundError extends Error {}
 
