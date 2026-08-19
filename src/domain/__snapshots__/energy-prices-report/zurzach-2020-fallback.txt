@@ -1,0 +1,11 @@
+Municipality: Zurzach (4324)
+Operators: none
+Municipality Operator via: n/a
+Year: 2020
+Product: standard
+Category: H4
+Price component: total
+Color: no data
+
+Operator coverage (network level: NE7 (default), threshold: 0.25):
+  No price observations for this municipality/filter.

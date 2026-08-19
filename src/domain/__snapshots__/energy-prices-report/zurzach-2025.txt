@@ -1,0 +1,15 @@
+Municipality: Zurzach (4324)
+Operators: Elektra Genossenschaft Kaiserstuhl (149), Elektra Genossenschaft Rietheim (178), AEW Energie AG (5), Elektra Genossenschaft Baldingen (87)
+Municipality Operator via: OFFERS
+Year: 2025
+Product: standard
+Category: H4
+Price component: total
+Color: yellow
+
+Operator coverage (network level: NE7 (default), threshold: 0.25):
+  AEW Energie AG (5): value=29.933, coverageRatio=1.00
+  Elektra Genossenschaft Baldingen (87): value=28.295, coverageRatio=1.00
+  Elektra Genossenschaft Kaiserstuhl (149): value=25.517, coverageRatio=1.00
+  Elektra-Genossenschaft Siglistorf-Wislikofen-Mellstorf (280): value=29.281, coverageRatio=0.05 — IGNORED (below threshold)
+  Elektra Genossenschaft Rietheim (178): value=26.719, coverageRatio=1.00

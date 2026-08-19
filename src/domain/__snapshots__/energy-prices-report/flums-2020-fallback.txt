@@ -1,0 +1,13 @@
+Municipality: Flums (3292)
+Operators: none
+Municipality Operator via: n/a
+Year: 2020
+Product: standard
+Category: H4
+Price component: total
+Color: light orange
+
+Operator coverage (network level: NE7 (default), threshold: 0.25):
+  EVU Flums AG (542): value=23.28, coverageRatio=1.00
+  Murg Flums Energie (421): value=20.557, coverageRatio=1.00
+  Martin Zeller AG, Elektrizitätswerk (637): value=23.28, coverageRatio=1.00
