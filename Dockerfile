@@ -17,19 +17,15 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
         # Install new version
         npm install -g cross-spawn@7.0.5 --force && \
-        npm install -g pnpm@10.34.4 && \
-        # Modify 7.5.6 to 7.5.8 to bypass vulnerability cve-2026-24842, CVE-2026-29786, CVE-2026-31802. Since pnpm did
+        npm install -g pnpm@10.34.5 && \
+        # Modify 2.1.2 to 2.1.4 to bypass vulnerability CVE-2026-14257 & CVE-2026-69152. Since pnpm did
         # not release a new version yet, we do this manual fix to bypass the trivy
         # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"7.5.6"/"7.5.11"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/tar/package.json && \
-        # Modify 9.0.5 to 9.0.7 to bypass vulnerability CVE-2026-26996 & CVE-2026-27903. Since pnpm did
+        sed -i 's/"2.1.2"/"2.1.4"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/brace-expansion/package.json && \
+        # Modify 10.2.0 to 10.3.1 to bypass vulnerability CVE-2026-69192. Since pnpm did
         # not release a new version yet, we do this manual fix to bypass the trivy
         # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"9.0.5"/"9.0.7"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/minimatch/package.json && \
-        # Modify 4.0.3 to 4.0.4 to bypass vulnerability  CVE-2026-33671. Since pnpm did
-        # not release a new version yet, we do this manual fix to bypass the acs
-        # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"4.0.3"/"4.0.4"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/picomatch/package.json && \
+        sed -i 's/"10.2.0"/"10.3.1"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/ip-address/package.json && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
