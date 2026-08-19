@@ -1,10 +1,10 @@
 import { TopBar } from "@interactivethings/swiss-federal-ci/dist/components";
 import {
-  Header as SwissFederalCiHeader,
   MenuButton,
   MenuContainer,
+  Header as SwissFederalCiHeader,
 } from "@interactivethings/swiss-federal-ci/dist/components/pages-router";
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -85,9 +85,16 @@ const LocaleSelector = ({ alternates }: LocaleSelectorProps) => {
           border: "none !important",
           backgroundColor: "transparent",
           color: "white !important",
-          paddingRight: `0.75rem`,
           width: "fit-content",
           minWidth: "auto",
+
+          [`& .${nativeSelectClasses.select}`]: {
+            paddingRight: `var(--icon-width) !important`,
+          },
+
+          "&:focus": {
+            background: "transparent",
+          },
 
           [`.${nativeSelectClasses.icon}`]: {
             color: "white !important",
@@ -116,7 +123,7 @@ const LocaleSelector = ({ alternates }: LocaleSelectorProps) => {
 
 const FlagMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(
-    undefined
+    undefined,
   );
   const isEnabled = useFlag(F.debug);
   if (!isEnabled) {
