@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { makeStyles } from "tss-react/mui";
+
 import { SafeHydration } from "src/components/hydration";
 import { Search } from "src/components/search";
 import contentRoutes from "src/content-routes.json";
@@ -27,7 +29,6 @@ import { useResizeObserver } from "src/lib/use-resize-observer";
 import { locales } from "src/locales/config";
 import { palette } from "src/themes/palette";
 import { F, FlagList, useFlag } from "src/utils/flags";
-import { makeStyles } from "tss-react/mui";
 
 const useHeaderStyles = makeStyles()(() => ({
   mobileDrawerMenuButton: {
