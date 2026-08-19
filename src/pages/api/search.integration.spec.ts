@@ -41,7 +41,7 @@ describe("Search - municipalities", () => {
     const result = await makeClient()
       .query<MunicipalitiesQuery, MunicipalitiesQueryVariables>(
         MunicipalitiesDocument,
-        vars,
+        vars
       )
       .toPromise();
     return result.data?.municipalities ?? [];
@@ -90,6 +90,17 @@ describe("Search - municipalities", () => {
     expect(results[0]).toMatchObject({ id: "351", name: "Bern" });
   });
 
+  it("still returns query matches when a municipality is already selected (regression: comparison limited to 1)", async () => {
+    // Once one municipality is selected, the combobox keeps sending its id
+    // alongside new search queries - the query must not be ignored.
+    const results = await searchMunicipalities({
+      locale: "de",
+      query: "zurich",
+      ids: ["351"],
+    });
+    expect(results.some((r) => r.name === "Zürich")).toBe(true);
+  });
+
   it("finds municipality by exact zip code - 3011 returns Bern", async () => {
     const results = await searchMunicipalities({ locale: "de", query: "3011" });
     expect(results.some((r) => r.name === "Bern")).toBe(true);
@@ -123,7 +134,7 @@ describe("Search - cantons", () => {
   it("handles diacritics - zurich should match Zürich", async () => {
     const results = await searchCantons({ locale: "de", query: "zurich" });
     expect(results.some((r) => r.name.toLowerCase().includes("zürich"))).toBe(
-      true,
+      true
     );
   });
 
@@ -210,8 +221,8 @@ describe("Search - multi-type", () => {
     const results = await rawSearch("zurich");
     expect(
       results.some(
-        (r) => r.__typename === "MunicipalityResult" && r.name === "Zürich",
-      ),
+        (r) => r.__typename === "MunicipalityResult" && r.name === "Zürich"
+      )
     ).toBe(true);
   });
 });
