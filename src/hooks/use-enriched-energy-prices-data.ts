@@ -1,14 +1,11 @@
-import { extent, group, index } from "d3";
 import { useMemo } from "react";
 
-import { getObservationsWeightedMean } from "src/domain/data";
+import { buildEnrichedEnergyPricesData } from "src/domain/energy-prices-map-data";
 import {
   useAllMunicipalitiesQuery,
   useObservationsQuery,
 } from "src/graphql/queries";
 import { PriceComponent } from "src/graphql/resolver-types";
-import { indexMapper } from "src/lib/array";
-import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 
 interface UseEnrichedEnergyPricesDataParams {
   locale: string;
@@ -58,83 +55,12 @@ export const useEnrichedEnergyPricesData = ({
       return null;
     }
 
-    const rawObservations = observationsQuery.data.observations || [];
-    const municipalities = municipalitiesQuery.data.municipalities || [];
-    const rawCantonMedianObservations =
-      observationsQuery.data.cantonMedianObservations || [];
-    const swissMedianObservations =
-      observationsQuery.data.swissMedianObservations || [];
-
-    const municipalityIndex = indexMapper(
-      municipalities,
-      (municipality) => municipality.id,
-      (municipality) => ({
-        id: municipality.id,
-        name: municipality.name,
-      })
-    );
-
-    const cantonIndex = indexMapper(
-      rawObservations.filter((obs) => obs.canton && obs.cantonLabel),
-      (obs) => obs.canton,
-      (obs) => ({
-        id: obs.canton,
-        name: obs.cantonLabel,
-      })
-    );
-
-    // Enrich observations with municipality and canton data
-    const observations = rawObservations.map((observation) => ({
-      ...observation,
-      municipalityData: municipalityIndex.get(observation.municipality),
-      cantonData: cantonIndex.get(observation.canton),
-    }));
-
-    const cantonMedianObservations = rawCantonMedianObservations.map(
-      (observation) => ({
-        ...observation,
-        municipalityData: undefined,
-        cantonData: cantonIndex.get(observation.canton),
-        municipalityLabel: undefined,
-        municipality: "",
-        coverageRatio: 1,
-        operator: "",
-      })
-    );
-
-    const observationsByMunicipality = group(
-      observations,
-      (obs) => obs.municipality
-    );
-    const observationsByCanton = group(observations, (obs) => obs.canton);
-    const observationsByOperator = group(observations, (obs) => obs.operator);
-    const observationsByOperatorAggregated = aggregateEnergyPricesObservationsByOperator(observationsByOperator);
-    const cantonMedianObservationsByCanton = index(
-      cantonMedianObservations,
-      (x) => x.canton
-    );
-
-    const medianValue = swissMedianObservations[0]?.value;
-    const means = Array.from(observationsByMunicipality.values()).map(
-      (observations) => getObservationsWeightedMean(observations)
-    );
-    const valuesExtent = extent(means) as [number, number];
-
-    return {
-      observations,
-      observationsByMunicipality,
-      observationsByCanton,
-      observationsByOperator,
-      observationsByOperatorAggregated,
-      cantonMedianObservations,
-      cantonMedianObservationsByCanton,
-      swissMedianObservations,
-      municipalities: municipalities,
-      municipalityIndex,
-      cantonIndex,
-      medianValue,
-      valuesExtent,
-    };
+    return buildEnrichedEnergyPricesData({
+      observations: observationsQuery.data.observations,
+      municipalities: municipalitiesQuery.data.municipalities,
+      cantonMedianObservations: observationsQuery.data.cantonMedianObservations,
+      swissMedianObservations: observationsQuery.data.swissMedianObservations,
+    });
   }, [
     observationsQuery.data,
     observationsQuery.fetching,
