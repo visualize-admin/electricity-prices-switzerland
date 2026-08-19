@@ -99,20 +99,11 @@ export const buildEnrichedEnergyPricesData = ({
   };
 };
 
-export type EnrichedEnergyPricesData = ReturnType<
-  typeof buildEnrichedEnergyPricesData
->;
-
-export type EnrichedEnergyObservation = Omit<
-  EnrichedEnergyPricesData["observations"][number],
-  "__typename"
->;
-
 /**
  * Legend names for the 5-step GreenToOrange palette used by
  * `thresholdEncodings.energyPrices`, in palette order (lowest to highest value).
  */
-export const ENERGY_PRICE_LEGEND_COLOR_NAMES = [
+const ENERGY_PRICE_LEGEND_COLOR_NAMES = [
   "dark green",
   "light green",
   "yellow",
@@ -120,7 +111,7 @@ export const ENERGY_PRICE_LEGEND_COLOR_NAMES = [
   "dark orange",
 ] as const;
 
-export type EnergyPriceLegendColorName =
+type EnergyPriceLegendColorName =
   (typeof ENERGY_PRICE_LEGEND_COLOR_NAMES)[number];
 
 /**

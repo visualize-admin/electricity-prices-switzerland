@@ -595,7 +595,7 @@ ASK {
  * This is the accurate approach: absence of an offer means the operator does
  * not serve that municipality at that network level.
  */
-export const getOperatorsMunicipalitiesFromOffers = async (
+const getOperatorsMunicipalitiesFromOffers = async (
   year: string,
   networkLevel: NetworkLevel["id"],
   client: ParsingClient
