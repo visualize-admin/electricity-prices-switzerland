@@ -83,17 +83,25 @@ const searchWithIndex = async ({
   if (query === "" && ids.length === 0) return [];
 
   const { data, index } = await getSearchIndex(locale, types, client);
+  const byKey = new Map(data.map((d) => [`${d.type}:${d.id}`, d]));
+  const results = new Map<string, CachedSearchResult>();
 
   if (ids.length > 0) {
     const idSet = new Set(ids);
-    return data.filter((d) => idSet.has(d.id));
+    for (const d of data) {
+      if (idSet.has(d.id)) results.set(`${d.type}:${d.id}`, d);
+    }
   }
 
-  const hits = index.search(query);
-  const byKey = new Map(data.map((d) => [`${d.type}:${d.id}`, d]));
-  return hits
-    .map((hit) => byKey.get(`${hit.type}:${hit.id}`))
-    .filter((r): r is CachedSearchResult => r !== undefined);
+  if (query !== "") {
+    const hits = index.search(query);
+    for (const hit of hits) {
+      const r = byKey.get(`${hit.type}:${hit.id}`);
+      if (r) results.set(`${hit.type}:${hit.id}`, r);
+    }
+  }
+
+  return Array.from(results.values());
 };
 
 const expectedCubeDimensions = [
