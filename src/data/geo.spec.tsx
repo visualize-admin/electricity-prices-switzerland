@@ -1,6 +1,7 @@
 import { FeatureCollection, Polygon } from "geojson";
 import { describe, expect, test } from "vitest";
 
+import { OperatorMunicipalitySource } from "src/graphql/resolver-types";
 import { OperatorMunicipalityRecord } from "src/rdf/queries";
 
 import { getOperatorsFeatureCollection } from "./geo";
@@ -118,24 +119,84 @@ describe("getOperatorsFeatureCollection", () => {
   // Mock operator-municipality relationships
   const mockOperatorMunicipalities: OperatorMunicipalityRecord[] = [
     // municipality 1 is served by operator 1
-    { operator: "1", municipality: 101, canton: "1", coverageRatio: 1 },
+    {
+      operator: "1",
+      municipality: 101,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
 
     // municipality 2 is served by operator 2
-    { operator: "2", municipality: 102, canton: "1", coverageRatio: 1 },
+    {
+      operator: "2",
+      municipality: 102,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
 
     // municipality 3 is served by operators 3 and 4
-    { operator: "3", municipality: 103, canton: "1", coverageRatio: 1 },
-    { operator: "4", municipality: 103, canton: "1", coverageRatio: 1 },
+    {
+      operator: "3",
+      municipality: 103,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
+    {
+      operator: "4",
+      municipality: 103,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
 
     // municipalities 4 and 5 are served by operators 5 and 6
-    { operator: "5", municipality: 104, canton: "1", coverageRatio: 1 },
-    { operator: "6", municipality: 104, canton: "1", coverageRatio: 1 },
-    { operator: "5", municipality: 105, canton: "1", coverageRatio: 1 },
-    { operator: "6", municipality: 105, canton: "1", coverageRatio: 1 },
+    {
+      operator: "5",
+      municipality: 104,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
+    {
+      operator: "6",
+      municipality: 104,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
+    {
+      operator: "5",
+      municipality: 105,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
+    {
+      operator: "6",
+      municipality: 105,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
 
     // municipality 6 is served by operators 7 and 8
-    { operator: "7", municipality: 106, canton: "1", coverageRatio: 1 },
-    { operator: "8", municipality: 106, canton: "1", coverageRatio: 1 },
+    {
+      operator: "7",
+      municipality: 106,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
+    {
+      operator: "8",
+      municipality: 106,
+      canton: "1",
+      coverageRatio: 1,
+      source: OperatorMunicipalitySource.Offers,
+    },
   ];
 
   test("should create empty feature collection when no data is provided", () => {

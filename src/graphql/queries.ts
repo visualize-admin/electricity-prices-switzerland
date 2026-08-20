@@ -274,7 +274,14 @@ export type OperatorMunicipality = {
   coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["Int"]["output"];
   operator: Scalars["String"]["output"];
+  source: OperatorMunicipalitySource;
 };
+
+export enum OperatorMunicipalitySource {
+  Offers = "OFFERS",
+  /** Offers for FALLBACK_OFFERS_YEAR, reused because the requested period has no offer data of its own. */
+  Offers_2025 = "OFFERS_2025",
+}
 
 export type OperatorObservation = {
   __typename: "OperatorObservation";
@@ -431,7 +438,9 @@ export type QueryNetworkCostsArgs = {
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
@@ -800,6 +809,8 @@ export type ObservationsQueryVariables = Exact<{
   priceComponent: PriceComponent;
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type ObservationsQuery = {
@@ -988,6 +999,7 @@ export type OperatorMunicipalitiesQuery = {
     canton: string;
     operator: string;
     coverageRatio: number;
+    source: OperatorMunicipalitySource;
   }>;
 };
 
@@ -1628,11 +1640,15 @@ export const ObservationsDocument = gql`
     $priceComponent: PriceComponent!
     $filters: ObservationFilters!
     $observationKind: ObservationKind
+    $networkLevel: String
+    $includeBelowCoverageThreshold: Boolean
   ) {
     observations(
       locale: $locale
       filters: $filters
       observationKind: $observationKind
+      networkLevel: $networkLevel
+      includeBelowCoverageThreshold: $includeBelowCoverageThreshold
     ) {
       ...operatorObservationFields
     }
@@ -1771,6 +1787,7 @@ export const OperatorMunicipalitiesDocument = gql`
       canton
       operator
       coverageRatio
+      source
     }
   }
 `;

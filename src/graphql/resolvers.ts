@@ -56,7 +56,7 @@ import {
   getElectricityPriceObservations,
   getElectricityPriceSwissCube,
   getOperatorDocuments,
-  getOperatorsMunicipalitiesFromOffers,
+  getOperatorsMunicipalities,
   getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
@@ -326,7 +326,18 @@ const Query: QueryResolvers = {
       VERSION: process.env.VERSION!,
     };
   },
-  observations: async (_, { locale, filters, observationKind }, ctx, info) => {
+  observations: async (
+    _,
+    {
+      locale,
+      filters,
+      observationKind,
+      networkLevel,
+      includeBelowCoverageThreshold,
+    },
+    ctx,
+    info
+  ) => {
     if (observationKind && observationKind !== ObservationKind.Municipality) {
       return null;
     }
@@ -378,23 +389,24 @@ const Query: QueryResolvers = {
       new Set(operatorObservations.map((x) => x.period).filter(truthy))
     );
     if (years) {
-      const defaultNetworkLevel = "NE7";
+      const level = networkLevel
+        ? asNetworkLevel(networkLevel)
+        : DEFAULT_COVERAGE_NETWORK_LEVEL;
       const coverageManager = new CoverageCacheManager(ctx.sparqlClient);
       await coverageManager.prepare(years);
       operatorObservations.forEach((x) => {
-        const coverageRatio = coverageManager.getCoverage(
-          x,
-          defaultNetworkLevel
-        );
+        const coverageRatio = coverageManager.getCoverage(x, level);
         x.coverageRatio = coverageRatio;
         return x;
       });
     }
 
-    return CoverageCacheManager.filterByCoverageRatio(
-      operatorObservations,
-      (o) => o.coverageRatio
-    );
+    return includeBelowCoverageThreshold
+      ? operatorObservations
+      : CoverageCacheManager.filterByCoverageRatio(
+          operatorObservations,
+          (o) => o.coverageRatio
+        );
   },
   cantonMedianObservations: async (
     _,
@@ -709,11 +721,7 @@ const Query: QueryResolvers = {
     const level = networkLevel
       ? asNetworkLevel(networkLevel)
       : DEFAULT_COVERAGE_NETWORK_LEVEL;
-    return getOperatorsMunicipalitiesFromOffers(
-      period,
-      level,
-      context.sparqlClient
-    );
+    return getOperatorsMunicipalities(period, level, context.sparqlClient);
   },
 };
 

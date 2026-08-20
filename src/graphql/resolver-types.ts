@@ -290,7 +290,14 @@ export type OperatorMunicipality = {
   coverageRatio: Scalars["Float"]["output"];
   municipality: Scalars["Int"]["output"];
   operator: Scalars["String"]["output"];
+  source: OperatorMunicipalitySource;
 };
+
+export enum OperatorMunicipalitySource {
+  Offers = "OFFERS",
+  /** Offers for FALLBACK_OFFERS_YEAR, reused because the requested period has no offer data of its own. */
+  Offers_2025 = "OFFERS_2025",
+}
 
 export type OperatorObservation = {
   __typename?: "OperatorObservation";
@@ -447,7 +454,9 @@ export type QueryNetworkCostsArgs = {
 
 export type QueryObservationsArgs = {
   filters?: InputMaybe<ObservationFilters>;
+  includeBelowCoverageThreshold?: InputMaybe<Scalars["Boolean"]["input"]>;
   locale?: InputMaybe<Scalars["String"]["input"]>;
+  networkLevel?: InputMaybe<Scalars["String"]["input"]>;
   observationKind?: InputMaybe<ObservationKind>;
 };
 
@@ -860,6 +869,7 @@ export type ResolversTypes = ResolversObject<{
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   OperatorDocumentCategory: OperatorDocumentCategory;
   OperatorMunicipality: ResolverTypeWrapper<OperatorMunicipality>;
+  OperatorMunicipalitySource: OperatorMunicipalitySource;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
   OperatorResult: ResolverTypeWrapper<ResolvedSearchResult>;
   OperatorWithPeerGroup: ResolverTypeWrapper<OperatorWithPeerGroup>;
@@ -1373,6 +1383,11 @@ export type OperatorMunicipalityResolvers<
   coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   municipality?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  source?: Resolver<
+    ResolversTypes["OperatorMunicipalitySource"],
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export type OperatorObservationResolvers<

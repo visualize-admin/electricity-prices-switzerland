@@ -23,20 +23,24 @@ Items are filtered using a threshold of **0.25** (25%). This means:
 - Items with coverage ratio ≥ 0.25 are **included**
 - Items with coverage ratio < 0.25 are **excluded**
 
+### Years With No Offer Data
+
+Offers only exist from 2025 onward. For earlier years, `CoverageCacheManager.prepare()` reuses `FALLBACK_OFFERS_YEAR` (2025)'s offer coverage ratios instead, so coverage is still based on real offer data. `getOperatorsMunicipalities()` (`src/rdf/queries.ts`) tags operator-municipality pairs sourced this way with `OFFERS_2025` instead of `OFFERS`, so consumers can tell the coverage ratio is borrowed from a different year.
+
 ### The Default Coverage Logic
 
-We use the following strategy when coverage data is unavailable for a specific operator-municipality-network level combination:
+We use the following strategy when coverage data is unavailable for a specific operator-municipality-network level combination, after the `FALLBACK_OFFERS_YEAR` substitution above has already been applied:
 
 1. **If coverage data exists for the municipality-network level combination:**
 
    - But not for the specific operator → assume coverage ratio of **0** (exclude it)
    - This means "we know other operators have coverage data here, so if this operator doesn't, they likely don't serve this area"
 
-2. **If no coverage data exists for the municipality-network level combination at all:**
+2. **If no coverage data exists for the municipality-network level combination at all, even in `FALLBACK_OFFERS_YEAR`:**
    - Assume coverage ratio of **1** (include it by default)
-   - This means "we don't have coverage data for this network level in this municipality, so assume full coverage to avoid false negatives"
+   - This means "we don't have coverage data for this network level in this municipality in any year we checked, so assume full coverage to avoid false negatives"
 
-This logic is implemented in `CoverageCacheManager.getCoverage()` (see `src/rdf/coverage-ratio.ts:162-197`):
+This logic is implemented in `CoverageCacheManager.getCoverage()` (see `src/rdf/coverage-ratio.ts`):
 
 ```typescript
 const cacheKey = coverageRatioKey(municipality, networkLevel, operator);
