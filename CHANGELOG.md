@@ -13,6 +13,17 @@ You can also check the
 
 Nothing yet.
 
+# 2.49.0 - 2026-08-24
+
+- Add offers feature, with fallback to 2025 data when unavailable
+- Fix ability to compare with more than one municipality (#667)
+- Fix design imperfection in language switcher (#666)
+- Add source for operator/municipality provenance
+- Make observations coverage ratio respect network level
+- Add energy prices debugging CLI and integration tests
+- Upgrade Node.js to 24 and vulnerable dependencies
+- Update current period to 2027
+
 # 2.48.1 - 2026-06-16
 
 - Fixed duplicate observations rows
@@ -53,7 +64,6 @@ Nothing yet.
 - Analytics is fixed and users need to consent before they are sent
 - Fix home images on ref/abn
 - Improve search (support for diacritics and remove municipalities without offers)
-
 
 # 2.42.1 - 2026-04-14
 
