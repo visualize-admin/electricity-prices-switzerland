@@ -37,4 +37,16 @@ describe("energy prices gray-area scan (against live GraphQL API)", () => {
       "__snapshots__/gray-areas-report/operator-2025.txt"
     );
   });
+
+  test("municipality entity, 2025: gray municipalities are diagnosed per municipality/operator pair", async () => {
+    const data = await fetchGrayAreasReportData(client, {
+      ...BASE_ARGS,
+      year: "2025",
+      entity: "municipality",
+    });
+    const report = buildGrayAreasReport(data, { limit: 0 });
+    await expect(report).toMatchFileSnapshot(
+      "__snapshots__/gray-areas-report/municipality-2025.txt"
+    );
+  });
 });

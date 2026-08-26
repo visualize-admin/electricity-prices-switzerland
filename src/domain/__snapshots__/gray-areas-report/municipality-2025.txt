@@ -1,0 +1,27 @@
+Year: 2025
+Price component: total
+Category: H4
+Product: standard
+Entity: municipality
+Network level: NE7 (default)
+
+Gray areas: 9 / 2135 municipalities
+
+Augst (2822)
+  Genossenschaft Elektra Augst (110): no price observation for this year/category/product
+Turgi (4042)
+  No price observations found for any operator serving this municipality.
+Bourg-Saint-Pierre (6032)
+  No price observations found for any operator serving this municipality.
+Liddes (6033)
+  No price observations found for any operator serving this municipality.
+Orsières (6034)
+  No price observations found for any operator serving this municipality.
+Beurnevésin (6773)
+  No price observations found for any operator serving this municipality.
+Bonfol (6775)
+  No price observations found for any operator serving this municipality.
+Zwieselberg (947)
+  No price observations found for any operator serving this municipality.
+Wangenried (993)
+  No price observations found for any operator serving this municipality.

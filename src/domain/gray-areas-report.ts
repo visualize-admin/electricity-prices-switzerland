@@ -120,9 +120,15 @@ export async function fetchGrayAreasReportData(
     swissMedianObservations: [],
   });
 
+  const rowsIncludingBelowThreshold =
+    observationsIncludingBelowThresholdResult.data?.observations ?? [];
   const rowsIncludingBelowThresholdByOperator = group(
-    observationsIncludingBelowThresholdResult.data?.observations ?? [],
+    rowsIncludingBelowThreshold,
     (o) => o.operator
+  );
+  const rowsIncludingBelowThresholdByMunicipalityOperator = group(
+    rowsIncludingBelowThreshold,
+    (o) => `${o.municipality}|${o.operator}`
   );
 
   type OperatorMunicipalityRow =
@@ -151,21 +157,11 @@ export async function fetchGrayAreasReportData(
     (operatorsResult?.data?.operators ?? []).map((o) => [o.id, o.name])
   );
 
-  const diagnoseOperator = (operatorId: string): OperatorDiagnosis | null => {
-    const aggregated = enrichedData.observationsByOperatorAggregated[
-      operatorId
-    ] as { value: number | null } | undefined;
-    if (
-      aggregated &&
-      aggregated.value !== null &&
-      aggregated.value !== undefined
-    ) {
-      // Has a usable value: not a reason for grayness.
-      return null;
-    }
-
+  const diagnoseFromRows = (
+    operatorId: string,
+    rawRows: typeof rowsIncludingBelowThreshold
+  ): OperatorDiagnosis => {
     const name = operatorNameById.get(operatorId) ?? `Operator ${operatorId}`;
-    const rawRows = rowsIncludingBelowThresholdByOperator.get(operatorId) ?? [];
     if (rawRows.length === 0) {
       return { id: operatorId, name, reason: "no-observation" };
     }
@@ -181,6 +177,42 @@ export async function fetchGrayAreasReportData(
     return { id: operatorId, name, reason: "null-value" };
   };
 
+  // For the operator entity, the map colors a whole operator's territory by
+  // that operator's own aggregated value across all its municipalities (see
+  // makeOperatorLayer), so grayness is diagnosed at the operator level.
+  const diagnoseOperatorAggregate = (
+    operatorId: string
+  ): OperatorDiagnosis | null => {
+    const aggregated = enrichedData.observationsByOperatorAggregated[
+      operatorId
+    ] as { value: number | null } | undefined;
+    if (
+      aggregated &&
+      aggregated.value !== null &&
+      aggregated.value !== undefined
+    ) {
+      // Has a usable value: not a reason for grayness.
+      return null;
+    }
+    const rawRows = rowsIncludingBelowThresholdByOperator.get(operatorId) ?? [];
+    return diagnoseFromRows(operatorId, rawRows);
+  };
+
+  // For the municipality entity, the map colors a municipality by its own
+  // observations only (see makeMunicipalityLayer), so an operator serving it
+  // is only a reason for grayness if *that operator, for that municipality*
+  // has no usable value — even if the same operator has data elsewhere.
+  const diagnoseOperatorForMunicipality = (
+    operatorId: string,
+    municipalityId: string
+  ): OperatorDiagnosis => {
+    const rawRows =
+      rowsIncludingBelowThresholdByMunicipalityOperator.get(
+        `${municipalityId}|${operatorId}`
+      ) ?? [];
+    return diagnoseFromRows(operatorId, rawRows);
+  };
+
   const grayAreas: GrayArea[] = [];
 
   if (args.entity === "municipality") {
@@ -190,9 +222,9 @@ export async function fetchGrayAreasReportData(
       }
       const servingRows =
         operatorMunicipalityRowsByMunicipality[municipality.id] ?? [];
-      const operators = servingRows
-        .map((r) => diagnoseOperator(r.operator))
-        .filter((o): o is OperatorDiagnosis => o !== null);
+      const operators = servingRows.map((r) =>
+        diagnoseOperatorForMunicipality(r.operator, municipality.id)
+      );
       grayAreas.push({ municipality, operators });
     }
   } else {
@@ -204,7 +236,7 @@ export async function fetchGrayAreasReportData(
       operatorMunicipalityRowsByMunicipality
     )) {
       const diagnoses = servingRows
-        .map((r) => diagnoseOperator(r.operator))
+        .map((r) => diagnoseOperatorAggregate(r.operator))
         .filter((o): o is OperatorDiagnosis => o !== null);
       const allOperatorsLackData = diagnoses.length === servingRows.length;
       if (!allOperatorsLackData) {
