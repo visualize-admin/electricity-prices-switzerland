@@ -15,9 +15,9 @@ import {
 } from "src/graphql/queries";
 import { COVERAGE_RATIO_THRESHOLD } from "src/rdf/coverage-ratio";
 
-export type GrayAreaEntity = "municipality" | "operator";
+type GrayAreaEntity = "municipality" | "operator";
 
-export type GrayAreasReportArgs = {
+type GrayAreasReportArgs = {
   year: string;
   category: string;
   priceComponent: string;
@@ -34,12 +34,12 @@ type OperatorDiagnosis = {
   coverageRatio?: number;
 };
 
-export type GrayArea = {
+type GrayArea = {
   municipality: { id: string; name: string };
   operators: OperatorDiagnosis[];
 };
 
-export type GrayAreasReportData = {
+type GrayAreasReportData = {
   args: GrayAreasReportArgs;
   totalMunicipalities: number;
   grayAreas: GrayArea[];
