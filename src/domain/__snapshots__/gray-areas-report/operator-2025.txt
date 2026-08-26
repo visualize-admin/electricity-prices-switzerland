@@ -1,0 +1,11 @@
+Year: 2025
+Price component: total
+Category: H4
+Product: standard
+Entity: operator
+Network level: NE7 (default)
+
+Gray areas: 1 / 2112 municipalities
+
+Augst (2822)
+  Genossenschaft Elektra Augst (110): no price observation for this year/category/product
