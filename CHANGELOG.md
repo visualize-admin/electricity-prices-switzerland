@@ -13,6 +13,12 @@ You can also check the
 
 Nothing yet.
 
+# 2.50.0 - 2026-08-26
+
+- Fix gray areas on the operator/municipality map
+- Add gray-area scan mode to the energy prices debugging CLI
+- Add e2e check for deck.gl console errors on the map
+
 # 2.49.0 - 2026-08-24
 
 - Add offers feature, with fallback to 2025 data when unavailable
