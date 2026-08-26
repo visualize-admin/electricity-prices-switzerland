@@ -281,7 +281,7 @@ export const EnergyPricesMap = ({
                     operatorId.toString() in observationsByOperator
                 );
               }),
-              accessor: (obs) => obs.value,
+              accessor: (obs) => obs?.value,
               observationsByOperator,
               colorScale,
               renderMode,
