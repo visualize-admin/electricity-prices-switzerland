@@ -130,3 +130,21 @@ All coverage-related functions support specifying the network level:
 - The GraphQL schema allows clients to specify `networkLevel` when querying `operatorMunicipalities`
 
 This allows filtering to be context-aware based on the network level being analyzed.
+
+## Caveats
+
+### Historical years can show gray areas for municipalities that had a price
+
+Operator-municipality coverage comes from offers, and years before 2025 borrow the 2025 offers (see [Years With No Offer Data](#years-with-no-offer-data)). So a historical year's map is colored using 2025's operator landscape, not the one that was actually true in that year.
+
+If an operator serving a municipality changed between the historical year and 2025 (merger, acquisition, rename, or it no longer serves that municipality), the historical year's map links that municipality to the new/current operator. That operator usually has no price observation of its own for the historical year, so the municipality renders gray. The price for that year still exists in the data, recorded under the old operator.
+
+Example: `LST Energie AG` (903) is the 2025 operator for Stettfurt, Thundorf, and Lommis. Their 2022 prices were submitted by the three formerly independent municipal utilities it has since absorbed. The 2022 map links those municipalities to operator 903, finds no 2022 price under that id, and shows them gray.
+
+This is an inherent trade-off of applying one point-in-time coverage snapshot to every past year, not a data-quality bug in the historical prices. Use `pnpm energy-prices:cli` (omit `--municipality`) to scan a year for gray areas and check, per municipality, whether it's a stale-operator-link case or a genuine missing observation. See [docs/energy-prices-cli.md](./energy-prices-cli.md).
+
+### A gray area is not the same as a crash
+
+A municipality can be served by multiple operators, so a single map territory can be a merged group of operators (e.g. `"165/486"`). The map still renders that territory, colored by the mean of whichever operators in the group have data, even when one operator in the group has none. Code reading `observationsByOperator[operatorId]` for an individual operator in such a group must treat a missing entry as "no data for this operator", not as a condition that can't happen.
+
+`makeOperatorLayer` (`src/components/map-layers.tsx`) used to assume every operator had a value (`accessor: (obs) => obs.value`) and threw when one didn't. That crashed the whole layer and rendered the map fully blank for anyone viewing an affected period. It's now null-safe (`obs?.value`): a missing value is excluded from the mean instead of crashing.
