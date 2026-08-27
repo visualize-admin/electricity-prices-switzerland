@@ -22,7 +22,7 @@ export const years = ["2026", "2025", "2024"];
 
 export const sunshineYearsSchema = z
   .enum(years as [string, ...string[]])
-  .default(runtimeEnv.CURRENT_PERIOD);
+  .default(runtimeEnv.SUNSHINE_CURRENT_PERIOD);
 
 /**
  * Typology options for filtering

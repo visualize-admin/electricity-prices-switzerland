@@ -239,7 +239,8 @@ const getDimensions = () => {
 
 const handler: NextApiHandler = async (req, res) => {
   const locale = parseLocaleString(req.query.locale?.toString());
-  const period = (req.query.period as string) ?? runtimeEnv.CURRENT_PERIOD;
+  const period =
+    (req.query.period as string) ?? runtimeEnv.SUNSHINE_CURRENT_PERIOD;
   const peerGroup = req.query.peerGroup as string | undefined;
 
   // Activate locale before building dimensions so t() picks up the right language
@@ -264,7 +265,7 @@ const handler: NextApiHandler = async (req, res) => {
       dimensions.map((d) => {
         const value = enriched[d.attr as keyof typeof enriched];
         return [d.name, d.format ? d.format(value) : (value as string | null)];
-      }),
+      })
     );
   });
 
@@ -273,11 +274,11 @@ const handler: NextApiHandler = async (req, res) => {
   res.setHeader("Content-Type", "text/csv");
   res.setHeader(
     "Content-Disposition",
-    `attachment;filename=elcom-sunshine-data-${period}.csv`,
+    `attachment;filename=elcom-sunshine-data-${period}.csv`
   );
   res.setHeader(
     "Cache-Control",
-    "public, max-age=300, s-maxage=300, stale-while-revalidate",
+    "public, max-age=300, s-maxage=300, stale-while-revalidate"
   );
   res.status(200).send(csv);
 };

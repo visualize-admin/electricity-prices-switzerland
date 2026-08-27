@@ -83,7 +83,9 @@ const defaultCantonOrder: CantonOrder = "median-asc";
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
-  entity: z.enum(["municipality", "operator", "canton"]).default("municipality"),
+  entity: z
+    .enum(["municipality", "operator", "canton"])
+    .default("municipality"),
   operator: z.string().optional(),
   period: periodSchema,
   municipality: z.string().optional(),
@@ -181,7 +183,7 @@ export const sunshineDetailsLink = makeLinkGenerator(
 );
 
 const sunshineOverviewFiltersSchema = z.object({
-  year: z.string().default(runtimeEnv.CURRENT_PERIOD),
+  year: z.string().default(runtimeEnv.SUNSHINE_CURRENT_PERIOD),
   category: z.string().default("H4"),
   networkLevel: z.enum(["NE5", "NE6", "NE7"]).default("NE7"),
 });
@@ -259,8 +261,9 @@ const operationalStandardsChartFiltersSchema = z.object({
   opStdCompareWith: compareWithFilterSchema.default([]),
   opStdViewBy: viewByFilterSchema.default("latest"),
 });
-export const useQueryStateOperationalStandardsChartFilters =
-  makeUseQueryState(operationalStandardsChartFiltersSchema);
+export const useQueryStateOperationalStandardsChartFilters = makeUseQueryState(
+  operationalStandardsChartFiltersSchema
+);
 const tariffsTrendCardFiltersSchema = z.object({
   compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),
