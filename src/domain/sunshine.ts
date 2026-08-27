@@ -1,3 +1,4 @@
+import { range } from "d3";
 import * as z from "zod";
 
 import { ElectricityCategory, NetworkLevelId } from "src/domain/data";
@@ -16,9 +17,13 @@ import {
 } from "src/graphql/resolver-types";
 export type { PeerGroup } from "src/graphql/resolver-types";
 /**
- * Years available for sunshine data queries
+ * Years available for sunshine data queries, oldest year with sunshine data is 2024
  */
-export const years = ["2026", "2025", "2024"];
+export const years = range(
+  parseInt(runtimeEnv.SUNSHINE_CURRENT_PERIOD, 10),
+  2024 - 1,
+  -1
+).map((d) => d.toString());
 
 export const sunshineYearsSchema = z
   .enum(years as [string, ...string[]])
