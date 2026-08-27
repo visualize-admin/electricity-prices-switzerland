@@ -123,6 +123,7 @@ const MapPageContent = ({
 
   const [
     {
+      period: sunshinePeriod,
       saidiSaifiType,
       indicator,
       networkLevel,
@@ -184,7 +185,7 @@ const MapPageContent = ({
   });
 
   const commonSunshineDataFilter = {
-    period: period || "2024",
+    period: sunshinePeriod,
     indicator,
     saidiSaifiType,
     networkLevel: networkLevel,
@@ -228,7 +229,11 @@ const MapPageContent = ({
     const values = isElectricityTab
       ? validObservations.map(colorAccessor)
       : sunshineValues;
-    const encoding = thresholdEncoding(medianValue, values, +period);
+    const encoding = thresholdEncoding(
+      medianValue,
+      values,
+      +(isElectricityTab ? period : sunshinePeriod)
+    );
     return encoding.makeScale();
   }, [
     colorAccessor,
@@ -237,6 +242,7 @@ const MapPageContent = ({
     indicator,
     isElectricityTab,
     period,
+    sunshinePeriod,
     sunshineAllDataResult.data?.median,
     sunshineAllDataResult.data?.observations,
   ]);
@@ -294,7 +300,7 @@ const MapPageContent = ({
       accessor={sunshineAccessor}
       valueFormatter={valueFormatter}
       controls={controlsRef}
-      period={period}
+      period={sunshinePeriod}
       indicator={indicator}
       networkLevel={networkLevel}
       widgets={mapWidgets}
