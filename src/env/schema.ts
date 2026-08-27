@@ -91,6 +91,9 @@ const FlagSchema = z.array(z.string());
 
 export const runtimeSchema = z.object({
   PUBLIC_URL: z.string().default(""),
+  // Price and sunshine data are published on different schedules (prices in
+  // fall, sunshine data in January), so each needs its own "current period"
+  // variable to control which year is shown by default.
   CURRENT_PERIOD: z.string().default("2026"),
   SUNSHINE_CURRENT_PERIOD: z.string().default("2026"),
   FIRST_PERIOD: z.string().default("2011"),
