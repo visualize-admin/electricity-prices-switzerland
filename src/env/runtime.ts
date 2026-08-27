@@ -6,6 +6,7 @@ export const getRuntimeServerSideEnvVariables: () => StringOrUndefinedValues<Run
   () => ({
     PUBLIC_URL: process.env.VERCEL_URL || process.env.PUBLIC_URL,
     CURRENT_PERIOD: process.env.CURRENT_PERIOD,
+    SUNSHINE_CURRENT_PERIOD: process.env.SUNSHINE_CURRENT_PERIOD,
     FIRST_PERIOD: process.env.FIRST_PERIOD,
     FLAGS: process.env.FLAGS,
     MATOMO_ID: process.env.MATOMO_ID,

@@ -108,7 +108,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
     }
 
     const operatorId = parseInt(id, 10);
-    const latestYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
+    const latestYear = parseInt(runtimeEnv.SUNSHINE_CURRENT_PERIOD, 10);
 
     // Parse query parameters with validation and defaults
     const networkLevel = networkLevelSchema.parse(query.networkLevel);
@@ -192,7 +192,7 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
 
 const OverviewPage = (props: Props) => {
   const { query } = useRouter();
-  const latestYear = parseInt(runtimeEnv.CURRENT_PERIOD, 10);
+  const latestYear = parseInt(runtimeEnv.SUNSHINE_CURRENT_PERIOD, 10);
 
   // Power stability card filters - must be called before conditional returns
   const [powerStabilityFilters] = useQueryStatePowerStabilityCardFilters({

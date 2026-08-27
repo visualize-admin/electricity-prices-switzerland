@@ -92,6 +92,7 @@ const FlagSchema = z.array(z.string());
 export const runtimeSchema = z.object({
   PUBLIC_URL: z.string().default(""),
   CURRENT_PERIOD: z.string().default("2026"),
+  SUNSHINE_CURRENT_PERIOD: z.string().default("2026"),
   FIRST_PERIOD: z.string().default("2011"),
   MATOMO_ID: z.string().optional(),
   FLAGS: z

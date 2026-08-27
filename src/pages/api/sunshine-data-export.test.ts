@@ -12,7 +12,7 @@ vi.mock("src/graphql/server-context", () => ({
 }));
 
 vi.mock("src/env/runtime", () => ({
-  runtimeEnv: { CURRENT_PERIOD: "2025" },
+  runtimeEnv: { SUNSHINE_CURRENT_PERIOD: "2025" },
 }));
 
 import { contextFromAPIRequest } from "src/graphql/server-context";
