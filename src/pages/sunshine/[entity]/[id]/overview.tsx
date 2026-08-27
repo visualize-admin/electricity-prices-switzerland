@@ -73,7 +73,6 @@ import { defaultLocale } from "src/locales/config";
 import createGetServerSideProps from "src/utils/create-server-side-props";
 import { makePageTitle } from "src/utils/page-title";
 
-
 import {
   prepComplianceCardProps,
   prepServiceQualityCardProps,
@@ -121,32 +120,33 @@ export const getServerSideProps = createGetServerSideProps<Props, PageParams>(
       period: latestYear,
     };
 
-    const [operatorData, operationalStandards, powerStability, costsAndTariffs] =
-      await Promise.all([
-        executeGraphqlQuery<OperatorPagePropsQuery>(
-          OperatorPagePropsDocument,
-          {
-            locale: locale ?? defaultLocale,
-            id,
-          }
-        ),
-        executeGraphqlQuery<OperationalStandardsQuery>(
-          OperationalStandardsDocument,
-          {
-            filter: { operatorId },
-          }
-        ),
-        executeGraphqlQuery<PowerStabilityQuery>(PowerStabilityDocument, {
-          filter: { operatorId, operatorOnly: true },
-        }),
-        executeGraphqlQuery<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
-          filter: {
-            operatorId,
-            ...costsAndTariffsFilter,
-            operatorOnly: true,
-          },
-        }),
-      ]);
+    const [
+      operatorData,
+      operationalStandards,
+      powerStability,
+      costsAndTariffs,
+    ] = await Promise.all([
+      executeGraphqlQuery<OperatorPagePropsQuery>(OperatorPagePropsDocument, {
+        locale: locale ?? defaultLocale,
+        id,
+      }),
+      executeGraphqlQuery<OperationalStandardsQuery>(
+        OperationalStandardsDocument,
+        {
+          filter: { operatorId },
+        }
+      ),
+      executeGraphqlQuery<PowerStabilityQuery>(PowerStabilityDocument, {
+        filter: { operatorId, operatorOnly: true },
+      }),
+      executeGraphqlQuery<CostsAndTariffsQuery>(CostsAndTariffsDocument, {
+        filter: {
+          operatorId,
+          ...costsAndTariffsFilter,
+          operatorOnly: true,
+        },
+      }),
+    ]);
 
     if (!operatorData.operator) {
       res.statusCode = 404;
@@ -286,7 +286,10 @@ const OverviewPage = (props: Props) => {
   const operatorId = parseInt(id, 10);
 
   const currentCostsFilter = { networkLevel, category, period: latestYear };
-  const costsMatchSSR = isEqual(currentCostsFilter, props.costsAndTariffsFilter);
+  const costsMatchSSR = isEqual(
+    currentCostsFilter,
+    props.costsAndTariffsFilter
+  );
 
   const [networkCostsResult] = useNetworkCostsQuery({
     variables: {

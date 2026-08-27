@@ -83,7 +83,9 @@ const defaultCantonOrder: CantonOrder = "median-asc";
 
 const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
-  entity: z.enum(["municipality", "operator", "canton"]).default("municipality"),
+  entity: z
+    .enum(["municipality", "operator", "canton"])
+    .default("municipality"),
   operator: z.string().optional(),
   period: periodSchema,
   municipality: z.string().optional(),
@@ -259,8 +261,9 @@ const operationalStandardsChartFiltersSchema = z.object({
   opStdCompareWith: compareWithFilterSchema.default([]),
   opStdViewBy: viewByFilterSchema.default("latest"),
 });
-export const useQueryStateOperationalStandardsChartFilters =
-  makeUseQueryState(operationalStandardsChartFiltersSchema);
+export const useQueryStateOperationalStandardsChartFilters = makeUseQueryState(
+  operationalStandardsChartFiltersSchema
+);
 const tariffsTrendCardFiltersSchema = z.object({
   compareWith: compareWithFilterSchema.default([]),
   viewBy: viewByFilterSchema.default("latest"),
