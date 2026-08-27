@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.51.1 - 2026-08-27
+
+- Fix sunshine map using the electricity tab's period instead of its own, causing a gray map (#675)
+
 # 2.50.0 - 2026-08-26
 
 - Fix gray areas on the operator/municipality map
