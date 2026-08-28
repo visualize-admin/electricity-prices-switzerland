@@ -1,0 +1,7 @@
+Year: 2026
+Indicator: networkCosts
+Network level: NE7
+Operator: Elektrizitätswerk der Stadt Zürich (565)
+Value: 18514.041
+Median (all operators for this filter): 13794.235
+Comparison: above median

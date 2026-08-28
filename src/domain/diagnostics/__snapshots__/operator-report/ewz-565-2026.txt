@@ -1,0 +1,18 @@
+Year: 2026
+Operator: Elektrizitätswerk der Stadt Zürich (565)
+Network level: NE7 (default)
+
+Municipalities served: 9 across 2 canton(s)
+
+Graubünden (18): 8 municipalities
+  Cazis (3661): via OFFERS, coverageRatio=1.00
+  Domleschg (3673): via OFFERS, coverageRatio=1.00
+  Flerden (3662): via OFFERS, coverageRatio=1.00
+  Fürstenau (3633): via OFFERS, coverageRatio=1.00
+  Masein (3663): via OFFERS, coverageRatio=1.00
+  Rothenbrunnen (3637): via OFFERS, coverageRatio=1.00
+  Tschappina (3669): via OFFERS, coverageRatio=1.00
+  Urmein (3670): via OFFERS, coverageRatio=1.00
+
+Zürich (1): 1 municipalities
+  Zürich (261): via OFFERS, coverageRatio=1.00

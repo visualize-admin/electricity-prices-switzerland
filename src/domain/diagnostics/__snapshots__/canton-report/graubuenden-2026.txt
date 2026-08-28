@@ -1,0 +1,109 @@
+Year: 2026
+Category: H4
+Price component: total
+Product: standard
+Canton: Graubünden (18)
+
+Municipalities: 101 (0 gray)
+
+Albula/Alvra (3542): Gemeinde Albula/Alvra (295) — yellow
+Andeer (3701): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Arosa (3921): Arosa Energie (10) — light green
+Avers (3681): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Bergün Filisur (3544): Elektrizitätswerk der Gemeinde Bergün Filisur (377) — dark orange
+Bever (3781): Repower AG (662) — light orange
+Bonaduz (3721): Rhiienergie AG (rhiienergie) (471) — light green
+Bregaglia (3792): Comune di Bregaglia, Azienda Elettrica (817) — dark green
+Breil/Brigels (3981): Repower AG (662) — light orange
+Brusio (3551): Comune di Brusio, Erogazione d'Energia Elettrica (19) — dark green
+Buseno (3804): Comune di Buseno, Azienda Elettrica (13) — light orange
+Calanca (3837): Consorzio Energia Elettrica Calanca (809) — light orange
+Cama (3831): Comune di Cama, Azienda Elettrica Comunale (14) — light orange
+Castaneda (3805): Società Elettrica Sopracenerina SA (Mesolcina) (833) — light orange
+Cazis (3661): Elektrizitätswerk der Stadt Zürich (565) — light green
+Celerina/Schlarigna (3782): St. Moritz Energie (468) — yellow
+Chur (3901): IBC Energie Wasser Chur (IBC) (617) — light orange
+Churwalden (3911): Rabiosa Energie (660) — yellow
+Conters im Prättigau (3881): Repower AG (662) — light orange
+Davos (3851): EWD Elektrizitätswerk Davos AG (557) — light green
+Disentis/Mustér (3982): Repower AG (662) — light orange
+Domat/Ems (3722): Rhiienergie AG (rhiienergie) (471) — light green
+Domleschg (3673): Elektrizitätswerk der Stadt Zürich (565) — light green
+Falera (3572): Repower AG (662) — light orange
+Felsberg (3731): Rhiienergie AG (rhiienergie) (471) — light green
+Ferrera (3713): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Fideris (3861): Repower AG (662) — light orange
+Fläsch (3951): Repower AG (662) — light orange
+Flerden (3662): Elektrizitätswerk der Stadt Zürich (565) — light green
+Flims (3732): Flims Trin Energie AG (567) — light green
+Furna (3862): Repower AG (662) — light orange
+Fürstenau (3633): Elektrizitätswerk der Stadt Zürich (565) — light green
+Grono (3832): Comune di Cama, Azienda Elettrica Comunale (14), Media Mesolcina Energia (858) — yellow
+Grüsch (3961): Repower AG (662) — light orange
+Ilanz/Glion (3619): Repower AG (662) — light orange
+Jenaz (3863): Repower AG (662) — light orange
+Jenins (3952): Politische Gemeinde Jenins, Energieversorgung (442) — yellow
+Klosters (3871): Repower AG (662) — light orange
+Küblis (3882): Repower AG (662) — light orange
+La Punt Chamues-ch (3785): Repower AG (662) — light orange
+Laax (3575): Repower AG (662) — light orange
+Landquart (3955): Repower AG (662) — light orange
+Lantsch/Lenz (3513): Gemeinde Lantsch/Lenz, Elektrizitätsversorgung (527) — yellow
+Lostallo (3821): Media Mesolcina Energia (858) — yellow
+Lumnezia (3618): Repower AG (662) — light orange
+Luzein (3891): Repower AG (662) — light orange
+Madulain (3783): Repower AG (662) — light orange
+Maienfeld (3953): AG Elektrizitätswerk Maienfeld (6) — yellow
+Malans (3954): Repower AG (662) — light orange
+Masein (3663): Elektrizitätswerk der Stadt Zürich (565) — light green
+Medel (Lucmagn) (3983): Ovra Electrica Medel, Elektrizitätswerk (641) — yellow
+Mesocco (3822): Comune Politico di Mesocco, Azienda Elettrica (21) — light green
+Muntogna da Schons (3715): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Obersaxen Mundaun (3988): Repower AG (662) — light orange
+Pontresina (3784): Repower AG (662) — light orange
+Poschiavo (3561): Comune di Poschiavo, Azienda elettrica (618) — dark green
+Rhäzüns (3723): Rhiienergie AG (rhiienergie) (471) — light green
+Rheinwald (3714): Gemeinde Rheinwald, Elektrizitätsversorgung (400) — dark green
+Rongellen (3711): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Rossa (3808): Consorzio Energia Elettrica Calanca (809) — light orange
+Rothenbrunnen (3637): Elektrizitätswerk der Stadt Zürich (565) — light green
+Roveredo (GR) (3834): Società Elettrica Sopracenerina SA (Mesolcina) (833) — yellow
+S-chanf (3788): Gemeinde S-chanf Energia S-chanf (857) — dark green
+Safiental (3672): Gemeinde Safiental, Stromversorgung (342), Repower AG (662) — yellow
+Sagogn (3581): Repower AG (662) — light orange
+Samedan (3786): Energia Samedan (406) — yellow
+Samnaun (3752): EW - Samnaun (462) — dark green
+San Vittore (3835): Società Semplice Tra I Comuni, Concedenti Elin, Prestazioni di Servizio (808), Società Elettrica Sopracenerina SA (Mesolcina) (833) — light orange
+Santa Maria in Calanca (3810): Società Elettrica Sopracenerina SA (Mesolcina) (833) — yellow
+Scharans (3638): Gemeinde Scharans, Elektrizitätswerk (408) — light orange
+Schiers (3962): Repower AG (662) — light orange
+Schluein (3582): Repower AG (662) — light orange
+Schmitten (GR) (3514): Gemeinde Schmitten, Stromversorgung (780) — yellow
+Scuol (3762): EE Energia Engiadina (72) — dark green
+Seewis im Prättigau (3972): Repower AG (662) — light orange
+Sils im Domleschg (3640): Gemeinde Sils im Domleschg, Elektrizitätswerk (821) — dark green
+Sils im Engadin/Segl (3789): Azienda Elettrica Grevasalvas (25), Repower AG (662) — dark orange
+Silvaplana (3790): Repower AG (662) — light orange
+Soazza (3823): Media Mesolcina Energia (858) — yellow
+St. Moritz (3787): St. Moritz Energie (468) — yellow
+Sufers (3695): Gemeinde Sufers, Stromverkauf (824) — dark green
+Sumvitg (3985): Repower AG (662) — light orange
+Surses (3543): Gemeinde Surses, Elektrizitätsversorgung (845) — yellow
+Tamins (3733): Rhiienergie AG (rhiienergie) (471) — light green
+Thusis (3668): Gemeinde Thusis, Energieversorgung (822) — dark green
+Trimmis (3945): Trimmiser Industrielle Betriebe (TIB) (574) — light orange
+Trin (3734): Flims Trin Energie AG (567) — light green
+Trun (3987): Repower AG (662) — light orange
+Tschappina (3669): Elektrizitätswerk der Stadt Zürich (565) — light green
+Tschiertschen-Praden (3932): IBC Energie Wasser Chur (IBC) (617) — light orange
+Tujetsch (3986): energia alpina (505) — light green
+Untervaz (3946): Gemeinde Untervaz, Elektroversorgung (502) — yellow
+Urmein (3670): Elektrizitätswerk der Stadt Zürich (565) — light green
+Val Müstair (3847): Provedimaint electric Val Müstair (PEM) (659) — yellow
+Vals (3603): Elektrizitätswerk Vals (EW Vals) (417) — dark green
+Valsot (3764): EE Energia Engiadina (72) — dark green
+Vaz/Obervaz (3506): Politische Gemeinde Vaz/Obervaz, Elektrizitätswerk / -Versorgung (479) — light orange
+Zernez (3746): Gemeinde Zernez (57), EE Energia Engiadina (72) — dark green
+Zillis-Reischen (3712): Gemeinde Andeer, Elektrizitätswesen (531) — dark green
+Zizers (3947): Repower AG (662) — light orange
+Zuoz (3791): Repower AG (662) — light orange

@@ -60,7 +60,7 @@ const stringToValidatedArray = <T extends readonly string[]>(
 
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);
 
-const mapCommonSchema = z.object({
+export const mapCommonSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   activeId: z.string().nullable().default(null),
 });
@@ -81,7 +81,7 @@ const CantonOrder = z.enum([
 type CantonOrder = z.infer<typeof CantonOrder>;
 const defaultCantonOrder: CantonOrder = "median-asc";
 
-const energyPricesMapSchema = z.object({
+export const energyPricesMapSchema = z.object({
   tab: mapTabsSchema.default("electricity"),
   entity: z
     .enum(["municipality", "operator", "canton"])
@@ -121,7 +121,7 @@ const energyPricesDetailsSchema = z.object({
 const saidiSaifiTypeSchema = z.enum(["total", "unplanned"]);
 
 // TODO: Sunshine params are currently not validated
-const sunshineMapSchema = z.object({
+export const sunshineMapSchema = z.object({
   tab: mapTabsSchema.default("sunshine"),
   period: sunshineYearsSchema,
   peerGroup: z.string().default("all_grid_operators"),

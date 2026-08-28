@@ -17,7 +17,9 @@ import {
 } from "src/graphql/queries";
 import { COVERAGE_RATIO_THRESHOLD } from "src/rdf/coverage-ratio";
 
-export class MunicipalityNotFoundError extends Error {}
+export class MunicipalityNotFoundError extends Error {
+  code = "MUNICIPALITY_NOT_FOUND" as const;
+}
 
 type EnergyPricesReportArgs = {
   year: string;
@@ -38,7 +40,7 @@ type EnergyPricesReportData = {
     value?: number | null;
     coverageRatio: number;
   }>;
-  operatorNameById: Map<string, string>;
+  operatorNameById: Record<string, string>;
   color: string | undefined;
 };
 
@@ -148,7 +150,7 @@ export async function fetchEnergyPricesReportData(
     : null;
   if (operatorsResult?.error) throw operatorsResult.error;
 
-  const operatorNameById = new Map(
+  const operatorNameById = Object.fromEntries(
     (operatorsResult?.data?.operators ?? []).map((o) => [o.id, o.name])
   );
 
@@ -210,7 +212,7 @@ export function buildEnergyPricesReport(data: EnergyPricesReportData): string {
       ? `Operators: ${operatorRows
           .map(
             (r) =>
-              `${operatorNameById.get(r.operator) ?? "unknown"} (${r.operator})`
+              `${operatorNameById[r.operator] ?? "unknown"} (${r.operator})`
           )
           .join(", ")}`
       : "Operators: none"
@@ -229,7 +231,7 @@ export function buildEnergyPricesReport(data: EnergyPricesReportData): string {
   } else {
     for (const obs of priceObservationsForMunicipality) {
       const ignored = obs.coverageRatio < COVERAGE_RATIO_THRESHOLD;
-      const name = operatorNameById.get(obs.operator) ?? "unknown";
+      const name = operatorNameById[obs.operator] ?? "unknown";
       lines.push(
         `  ${name} (${obs.operator}): value=${
           obs.value ?? "n/a"
