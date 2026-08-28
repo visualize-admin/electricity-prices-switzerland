@@ -1,17 +1,49 @@
+import { DocumentNode } from "graphql";
 import { NextApiHandler } from "next";
+import { Client } from "urql";
 
-import { KNOWN_REPORT_ERRORS, REPORTS } from "src/domain/diagnostics/report-registry";
+import {
+  KNOWN_REPORT_ERRORS,
+  REPORTS,
+} from "src/domain/diagnostics/report-registry";
 import { REPORT_IDS } from "src/domain/diagnostics/report-specs";
-import { executeGraphqlQueryAsClient } from "src/graphql/execute-graphql-query-as-client";
 import { contextFromAPIRequest } from "src/graphql/server-context";
 import { apolloServer } from "src/pages/api/graphql";
-import { createExecuteGraphqlQuery } from "src/utils/execute-graphql-query";
+import {
+  createExecuteGraphqlQuery,
+  ExecuteGraphqlQuery,
+} from "src/utils/execute-graphql-query";
+
+/**
+ * Wraps an `ExecuteGraphqlQuery` (executes directly against this in-process
+ * Apollo Server instance; throws on error) in the minimal urql `Client`
+ * shape the report modules under `src/domain/diagnostics/*-report.ts` call
+ * (`client.query(doc, vars).toPromise()` returning `{ data } | { error }`) —
+ * lets those modules run unchanged here and in the CLI (a real urql
+ * `Client` over HTTP, see `src/graphql/node-client.ts`).
+ */
+function executeGraphqlQueryAsClient(
+  executeGraphqlQuery: ExecuteGraphqlQuery
+): Client {
+  return {
+    query: (doc: DocumentNode, variables?: Record<string, unknown>) => ({
+      toPromise: async () => {
+        try {
+          const data = await executeGraphqlQuery(doc, variables);
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
+  } as unknown as Client;
+}
 
 /**
  * GET /api/admin/diagnostics/[report]?year=...&...
  *
  * Runs the same fetch/build pair `energy-prices:cli` uses for the matching
- * subcommand (see `src/domain/report-registry.ts`) against this
+ * subcommand (see `src/domain/diagnostics/report-registry.ts`) against this
  * deployment's own GraphQL API, and returns both the structured data and
  * the CLI-identical text report. Read-only, so no CSRF token; protected by
  * the existing `/api/admin/*` middleware (`src/middlewares/admin.ts`).
