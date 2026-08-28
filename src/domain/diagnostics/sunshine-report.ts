@@ -7,8 +7,6 @@ import {
   SunshineDataByIndicatorQuery,
 } from "src/graphql/queries";
 
-export { OperatorNotFoundError } from "src/domain/diagnostics/operator-lookup";
-
 export class InvalidSunshineIndicatorError extends Error {
   code = "INVALID_INDICATOR" as const;
 }

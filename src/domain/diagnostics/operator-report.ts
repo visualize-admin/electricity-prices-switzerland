@@ -11,8 +11,6 @@ import {
   OperatorMunicipalitiesQuery,
 } from "src/graphql/queries";
 
-export { OperatorNotFoundError } from "src/domain/diagnostics/operator-lookup";
-
 type OperatorReportArgs = {
   year: string;
   operator: string;

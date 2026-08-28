@@ -32,7 +32,7 @@ function pickValidatedFields<T extends { shape: Record<string, unknown> }>(
   return candidate;
 }
 
-export type MapUrlDiagnosis = {
+type MapUrlDiagnosis = {
   reportId: ReportId;
   values: Record<string, string>;
 };
