@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.52.0 - 2026-08-31
+
+- Add energy prices/sunshine diagnostics: CLI subcommands, admin page, map-URL inference (#681)
+- Fix batch of Dependabot alerts via pnpm overrides and dependency bumps (#682)
+
 # 2.51.1 - 2026-08-27
 
 - Fix sunshine map using the electricity tab's period instead of its own, causing a gray map (#675)
