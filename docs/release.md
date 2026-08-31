@@ -51,14 +51,12 @@ The `postversion` npm script handles this automatically when using `pnpm version
 pnpm version <major|minor|patch>
 # runs preversion (lint), bumps version, commits, tags, then:
 # git push origin main --follow-tags
-# git push origin main:test --force-with-lease
 ```
 
 Alternatively push manually:
 
 ```bash
 git push origin main --follow-tags
-git push origin main:test --force-with-lease
 ```
 
-CI will build the tagged image and publish it to GHCR, then deploy to the test environment.
+CI will build the tagged image and publish it to GHCR.

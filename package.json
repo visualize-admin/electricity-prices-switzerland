@@ -35,7 +35,7 @@
     "graphql:codegen:dev": "graphql-codegen --config codegen.yml --watch",
     "preversion": "pnpm lint",
     "design:icons": "svgr --config-file .svgrrc  ~/Downloads/elcom-icons/ --out-dir src/icons/new/",
-    "postversion": "git push origin main --follow-tags && git push origin main:test --force-with-lease",
+    "postversion": "git push origin main --follow-tags",
     "heroku-postbuild-DISABLED": "pnpm install && pnpm build",
     "e2e": "npx playwright test  --grep-invert @har",
     "docker:build": "docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .",
