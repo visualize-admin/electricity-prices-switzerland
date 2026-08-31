@@ -116,6 +116,7 @@ export default function AdminLayout({
             <ActiveLink href="/admin/municipality-status">
               Municipality Status
             </ActiveLink>
+            <ActiveLink href="/admin/diagnostics">Diagnostics</ActiveLink>
           </Box>
           {/* Header */}
 

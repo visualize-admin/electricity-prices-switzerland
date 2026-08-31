@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import {
   buildGrayAreasReport,
   fetchGrayAreasReportData,
-} from "src/domain/gray-areas-report";
+} from "src/domain/diagnostics/gray-areas-report";
 import { createNodeGraphqlClient } from "src/graphql/node-client";
 import { BASE_URL } from "src/utils/base-url";
 import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";

@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import {
   buildEnergyPricesReport,
   fetchEnergyPricesReportData,
-} from "src/domain/energy-prices-report";
+} from "src/domain/diagnostics/energy-prices-report";
 import { createNodeGraphqlClient } from "src/graphql/node-client";
 import { BASE_URL } from "src/utils/base-url";
 import { makeDeploymentAuthHeaders } from "src/utils/integration-headers";
