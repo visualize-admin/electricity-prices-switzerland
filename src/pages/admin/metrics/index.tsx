@@ -135,7 +135,7 @@ const ReleaseSelector: React.FC<{
 }> = ({ availableReleases, selectedReleases, onSelectionChange }) => (
   <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
     <Typography variant="h6" gutterBottom>
-      Select Releases to Compare
+      Please select Releases to Compare
     </Typography>
     <Autocomplete
       multiple
@@ -143,7 +143,10 @@ const ReleaseSelector: React.FC<{
       value={selectedReleases}
       onChange={(_, newValue) => onSelectionChange(newValue)}
       renderInput={(params) => (
-        <TextField {...params} placeholder="Select releases to compare" />
+        <TextField
+          {...params}
+          placeholder="Please select releases to compare"
+        />
       )}
       sx={{ minWidth: 300 }}
     />
