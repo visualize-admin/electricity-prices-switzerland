@@ -192,7 +192,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     product: product[0],
   };
 
-    const { i18n } = useLingui()
+  const { i18n } = useLingui();
 
   return (
     <Card downloadId={DOWNLOAD_ID}>
@@ -341,7 +341,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                   ]}
                 >
                   <ChartContainer>
-                    <ChartSvg>
+                    <ChartSvg style={{ overflow: "visible" }}>
                       <BarsGrouped />
                       <BarsGroupedAxis
                         title={getLocalizedLabel({

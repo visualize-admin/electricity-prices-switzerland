@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { ascending, descending, scaleLinear, scaleOrdinal } from "d3";
 import { ReactNode, useCallback } from "react";
 
@@ -12,13 +13,20 @@ import {
   ChartProps,
   GroupedBarsState,
 } from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
 import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
 import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
-import { getOpacityRanges, getPalette } from "src/domain/helpers";
+import {
+  getOpacityRanges,
+  getPalette,
+  useFormatDisplayNumber,
+} from "src/domain/helpers";
 import { sortByIndex } from "src/lib/array";
+import { wrapText } from "src/lib/estimate-text-width";
+import { useFlag } from "src/utils/flags";
 
 const useGroupedBarsState = ({
   data,
@@ -27,6 +35,10 @@ const useGroupedBarsState = ({
   fields: BarFields;
 }): GroupedBarsState => {
   const width = useWidth();
+  const { labelFontSize } = useChartTheme();
+  const labelLineHeight = labelFontSize + 2;
+  const formatDisplay = useFormatDisplayNumber();
+  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
   const getX = useCallback(
     (d: GenericObservation) =>
       d[
@@ -96,38 +108,7 @@ const useGroupedBarsState = ({
     .range(getOpacityRanges(opacityDomain.length));
 
   const xScale = scaleLinear().domain(fields.domain).nice();
-
-  const BAR_FULL_HEIGHT = BAR_HEIGHT + BAR_PADDING + LABEL_PADDING;
-
-  const hs = sortedData
-    .slice()
-    .reverse()
-    .map((x, i) => {
-      const segment = getSegment(x);
-      // Seems like the condition is inverted here but it works as intended
-      const isExpanded = !segment.includes(EXPANDED_TAG);
-      return {
-        segment,
-        height: isExpanded ? BAR_FULL_HEIGHT : 14,
-        marginTop: isExpanded && i !== 0 ? 16 : 0,
-      };
-    });
-
-  const chartHeight = hs.reduce(
-    (sum, curr) => sum + curr.height + curr.marginTop,
-    0
-  );
-  const segmentYs = hs.reduce((acc, curr, index) => {
-    if (index === 0) {
-      acc[curr.segment] = 0;
-    } else {
-      const prev = hs[index - 1];
-      acc[curr.segment] = acc[prev.segment] + prev.height + curr.marginTop;
-    }
-    return acc;
-  }, {} as Record<string, number>);
-
-  const yScale = (x: string) => segmentYs[x];
+  const xAxisLabel = fields.x.axisLabel;
 
   const margins = {
     top: 50,
@@ -136,6 +117,65 @@ const useGroupedBarsState = ({
     left: 0,
   };
   const chartWidth = width - margins.left - margins.right;
+  const wrapWidth = Math.max(0, chartWidth);
+  const barFullHeight = BAR_HEIGHT + BAR_PADDING + LABEL_PADDING;
+
+  const labeledRows = sortedData
+    .slice()
+    .reverse()
+    .map((d, i) => {
+      const segment = getSegment(d);
+      // Seems like the condition is inverted here but it works as intended
+      const isMainRow = !segment.includes(EXPANDED_TAG);
+      const dynamicText =
+        dynamicTariffsFlag && isMainRow
+          ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
+              d.max as number
+            )}, ${t({
+              id: "dynamic.tariff",
+              message: "dynamic",
+            })})`
+          : "";
+      const prefix = isMainRow
+        ? [formatDisplay(getX(d)), xAxisLabel, dynamicText]
+            .filter(Boolean)
+            .join(" ")
+        : "";
+      const full = prefix ? `${prefix} ${getLabel(d)}` : getLabel(d);
+      const lines = wrapText(full, wrapWidth, labelFontSize);
+      return {
+        segment,
+        prefix,
+        lines,
+        height: isMainRow ? barFullHeight : 14,
+        marginTop:
+          (isMainRow && i !== 0 ? 16 : 0) +
+          Math.max(0, lines.length - 1) * labelLineHeight,
+      };
+    });
+
+  const chartHeight = labeledRows.reduce(
+    (sum, curr) => sum + curr.height + curr.marginTop,
+    0
+  );
+  const segmentYs = labeledRows.reduce((acc, curr, index) => {
+    if (index === 0) {
+      acc[curr.segment] = curr.marginTop;
+    } else {
+      const prev = labeledRows[index - 1];
+      acc[curr.segment] = acc[prev.segment] + prev.height + curr.marginTop;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+  const labelsBySegment = Object.fromEntries(
+    labeledRows.map((row) => [
+      row.segment,
+      { prefix: row.prefix, lines: row.lines },
+    ])
+  );
+
+  const yScale = (x: string) => segmentYs[x];
+
   const bounds = {
     width,
     height: chartHeight + margins.top + margins.bottom,
@@ -145,8 +185,6 @@ const useGroupedBarsState = ({
   };
 
   xScale.range([0, chartWidth]);
-
-  const xAxisLabel = fields.x.axisLabel;
 
   return {
     sortedData,
@@ -162,6 +200,7 @@ const useGroupedBarsState = ({
     segments,
     colors,
     opacityScale,
+    labelsBySegment,
   };
 };
 

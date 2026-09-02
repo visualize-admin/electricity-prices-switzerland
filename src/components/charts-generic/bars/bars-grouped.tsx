@@ -1,5 +1,3 @@
-import { t } from "@lingui/macro";
-
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
 import {
   GroupedBarsState,
@@ -7,8 +5,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
-import { useFormatDisplayNumber } from "src/domain/helpers";
-import { useFlag } from "src/utils/flags";
 
 import { BAR_HEIGHT, LABEL_PADDING } from "../constants";
 
@@ -103,49 +99,55 @@ export const BarsGrouped = () => {
 };
 
 export const BarsGroupedLabels = () => {
-  const { sortedData, bounds, yScale, getX, getSegment, getLabel, xAxisLabel } =
+  const { sortedData, bounds, yScale, getSegment, labelsBySegment } =
     useChartState() as GroupedBarsState;
 
   const { margins } = bounds;
   const { labelFontSize } = useChartTheme();
-  const formatDisplay = useFormatDisplayNumber();
-
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
+  const labelLineHeight = labelFontSize + 2;
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       {sortedData.map((d, i) => {
         const segment = getSegment(d);
         const y = yScale(segment) as number;
-
-        const value = formatDisplay(getX(d));
-        const label = getLabel(d);
-
-        const isDynamic = dynamicTariffsFlag;
-        const dynamicText = isDynamic
-          ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
-              d.max as number
-            )}, ${t({
-              id: "dynamic.tariff",
-              message: "dynamic",
-            })})`
-          : "";
+        const { prefix, lines } = labelsBySegment[segment] ?? {
+          prefix: "",
+          lines: [""],
+        };
+        const extra = (lines.length - 1) * labelLineHeight;
 
         return (
           <text
             key={`label-${i}`}
             x={0}
-            y={y - LABEL_PADDING + labelFontSize / 2}
+            y={y - LABEL_PADDING + labelFontSize / 2 - extra}
             fontFamily="Inter, sans-serif"
             fontSize={labelFontSize}
             fill="black"
           >
-            {!segment.includes(EXPANDED_TAG) && (
-              <tspan fontWeight={700}>
-                {value} {xAxisLabel} {dynamicText}
-              </tspan>
-            )}{" "}
-            {label}
+            {lines.map((line, lineIndex) => {
+              const rest =
+                lineIndex === 0 && prefix && line.startsWith(prefix)
+                  ? line.slice(prefix.length)
+                  : null;
+              return (
+                <tspan
+                  key={lineIndex}
+                  x={0}
+                  dy={lineIndex === 0 ? 0 : labelLineHeight}
+                >
+                  {rest !== null ? (
+                    <>
+                      <tspan fontWeight={700}>{prefix}</tspan>
+                      {rest}
+                    </>
+                  ) : (
+                    line
+                  )}
+                </tspan>
+              );
+            })}
           </text>
         );
       })}
