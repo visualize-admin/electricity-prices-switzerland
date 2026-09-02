@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix map electricity/indicators control collapsing into empty boxes on mobile by switching to a select
 
 # 2.52.0 - 2026-08-31
 
