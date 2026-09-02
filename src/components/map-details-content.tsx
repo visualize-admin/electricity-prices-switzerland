@@ -292,6 +292,7 @@ export const MapDetailsContent: React.FC<{
   onBack: () => void;
   formatValue: (value: number) => string;
   showBackButton?: boolean;
+  onViewMap?: () => void;
 }> = ({
   colorScale,
   entity,
@@ -299,6 +300,7 @@ export const MapDetailsContent: React.FC<{
   onBack,
   formatValue,
   showBackButton = true,
+  onViewMap,
 }) => {
   const [{ tab }] = useQueryStateMapCommon();
   const [
@@ -340,6 +342,7 @@ export const MapDetailsContent: React.FC<{
         variant="contained"
         color="secondary"
         size="sm"
+        fullWidth={!!onViewMap}
         sx={{
           justifyContent: "space-between",
         }}
@@ -437,6 +440,19 @@ export const MapDetailsContent: React.FC<{
           }
         })()}
       </Button>
+      {onViewMap ? (
+        <Button
+          variant="outlined"
+          color="primary"
+          size="sm"
+          fullWidth
+          onClick={onViewMap}
+          sx={{ justifyContent: "space-between" }}
+          endIcon={<Icon name="map" />}
+        >
+          <Trans id="mobile-drawer.view-map">View on map</Trans>
+        </Button>
+      ) : null}
       {/* Show all Sunshine indicators by going to sunshine detials "overview" */}
       {tab === "sunshine" && (
         <Button
