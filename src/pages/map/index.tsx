@@ -296,7 +296,10 @@ const MapPageContent = ({
   const mapWidgets = useMemo(() => {
     return {
       right: isMobile ? (
-        <WidgetIcon onClick={handleClickListWidget}>
+        <WidgetIcon
+          onClick={handleClickListWidget}
+          data-testid="mobile-map-list"
+        >
           <Icon name="listbullet" />
         </WidgetIcon>
       ) : null,
