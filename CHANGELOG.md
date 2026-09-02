@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Fix chart tooltips drifting on scroll on operator detail pages (#698)
+- Switch electricity detail tabs to a select below the large breakpoint so labels stay readable
 
 # 2.52.0 - 2026-08-31
 
