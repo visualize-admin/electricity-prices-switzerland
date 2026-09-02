@@ -33,6 +33,26 @@ export const estimateTextWidth = (text: string, fontSize = 14) => {
   );
 };
 
+/** Word-wrap `text` so each line’s estimated width stays within `maxWidth`. */
+export const wrapText = (text: string, maxWidth: number, fontSize = 14) => {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [""];
+
+  const lines: string[] = [];
+  let line = words[0];
+  for (let i = 1; i < words.length; i++) {
+    const next = `${line} ${words[i]}`;
+    if (estimateTextWidth(next, fontSize) <= maxWidth) {
+      line = next;
+    } else {
+      lines.push(line);
+      line = words[i];
+    }
+  }
+  lines.push(line);
+  return lines;
+};
+
 const CHAR_W: { [x: string]: number } = {
   a: 9,
   A: 10,
