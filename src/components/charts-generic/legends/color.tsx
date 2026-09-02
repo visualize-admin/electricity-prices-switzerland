@@ -43,6 +43,7 @@ const ARROW_WIDTH = 16;
 const useLegendSymbolStyles = makeStyles()(() => ({
   root: {
     display: "inline-block",
+    flexShrink: 0,
   },
   sizeSmall: {
     width: "0.5rem",
@@ -51,7 +52,7 @@ const useLegendSymbolStyles = makeStyles()(() => ({
   },
   sizeLine: {
     width: "1rem",
-    minWidth: "0.5rem",
+    minWidth: "1rem",
     height: "3px",
   },
   circle: {

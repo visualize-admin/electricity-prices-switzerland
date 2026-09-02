@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Disable cantons without data in the comparison dropdown (#685)
+- Match legend and tooltip line swatch widths (#711)
 - Fix map electricity/indicators control collapsing into empty boxes on mobile by switching to a select
 - Fix mobile search selecting a municipality on the map; Close now clears the selection, View on map applies it (#691)
 - Fix operator comparison dropdown overflowing the viewport on mobile (#699)
