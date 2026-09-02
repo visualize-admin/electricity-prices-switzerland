@@ -75,8 +75,14 @@ export const TooltipBoxPositioned = forwardRef<HTMLDivElement, TooltipBoxProps>(
 
       const resizeObserver = new ResizeObserver(updateBounds);
       resizeObserver.observe(anchorRef.current);
+      // Capture so overflow scroll on the details page / drawer re-anchors
+      // the portaled tooltip (ResizeObserver alone misses that).
+      window.addEventListener("scroll", updateBounds, true);
 
-      return () => resizeObserver.disconnect();
+      return () => {
+        resizeObserver.disconnect();
+        window.removeEventListener("scroll", updateBounds, true);
+      };
     }, [x, y]);
 
     const tooltipLeft = anchorBounds ? anchorBounds.left + (x ?? 0) : 0;
@@ -102,7 +108,7 @@ export const TooltipBoxPositioned = forwardRef<HTMLDivElement, TooltipBoxProps>(
               ref={ref}
               className={classes.tooltipContainer}
               style={{
-                maxWidth: anchorBounds ? anchorBounds.width : undefined,
+                maxWidth: anchorBounds.width,
                 left: tooltipLeft,
                 top: tooltipTop,
                 pointerEvents: interactive ? "all" : "none",
@@ -125,57 +131,63 @@ const useTooltipStyles = tss
   .withParams<{
     placement: TooltipPlacement;
     position?: "absolute" | "fixed";
+    hideWhenScrollLocked?: boolean;
   }>()
-  .create(({ theme, placement, position = "absolute" }) => {
-    const triangle = mkTriangle(theme, placement);
-    return {
-      tooltipContainer: {
-        width: "fit-content",
-        zIndex: theme.zIndex.tooltip,
-        position,
-        pointerEvents: "none",
-        boxShadow: theme.shadows[4],
-
-        // Map tooltips (absolute) hide when a drawer/modal locks scroll.
-        // Chart tooltips are `fixed` and portaled to body — same lock would
-        // hide them inside the mobile details drawer.
-        ...(position === "absolute"
-          ? {
-              "[data-scroll-locked] &": {
-                display: "none",
-              },
-            }
-          : {}),
-      },
-      tooltipBox: {
-        padding: theme.spacing(3, 4),
-        borderRadius: 0.5,
-        pointerEvents: "none" as const,
-        backgroundColor: theme.palette.background.paper,
-        filter: `drop-shadow(${theme.shadows?.[6]})`,
-
-        "&::before": {
-          content: "''",
-          display: "block",
-          position: "absolute",
+  .create(
+    ({
+      theme,
+      placement,
+      position = "absolute",
+      hideWhenScrollLocked = false,
+    }) => {
+      const triangle = mkTriangle(theme, placement);
+      return {
+        tooltipContainer: {
+          width: "fit-content",
+          zIndex: theme.zIndex.tooltip,
+          position,
           pointerEvents: "none",
-          zIndex: -1,
-          width: 0,
-          height: 0,
-          borderStyle: "solid",
-          top: triangle.top,
-          right: triangle.right,
-          bottom: triangle.bottom,
-          left: triangle.left,
-          borderWidth: triangle.borderWidth,
-          borderTopColor: triangle.borderTopColor,
-          borderRightColor: triangle.borderRightColor,
-          borderBottomColor: triangle.borderBottomColor,
-          borderLeftColor: triangle.borderLeftColor,
+          boxShadow: theme.shadows[4],
+          ...(hideWhenScrollLocked
+            ? {
+                // Hide map tooltips when Vaul locks scroll (mobile drawer already
+                // shows the selected entity). Chart tooltips stay visible.
+                "[data-scroll-locked] &": {
+                  display: "none",
+                },
+              }
+            : null),
         },
-      },
-    };
-  });
+        tooltipBox: {
+          padding: theme.spacing(3, 4),
+          borderRadius: 0.5,
+          pointerEvents: "none" as const,
+          backgroundColor: theme.palette.background.paper,
+          filter: `drop-shadow(${theme.shadows?.[6]})`,
+
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            pointerEvents: "none",
+            zIndex: -1,
+            width: 0,
+            height: 0,
+            borderStyle: "solid",
+            top: triangle.top,
+            right: triangle.right,
+            bottom: triangle.bottom,
+            left: triangle.left,
+            borderWidth: triangle.borderWidth,
+            borderTopColor: triangle.borderTopColor,
+            borderRightColor: triangle.borderRightColor,
+            borderBottomColor: triangle.borderBottomColor,
+            borderLeftColor: triangle.borderLeftColor,
+          },
+        },
+      };
+    }
+  );
 
 export const TooltipBoxWithoutChartState = ({
   x,
@@ -185,7 +197,10 @@ export const TooltipBoxWithoutChartState = ({
   children,
   boxSx,
 }: TooltipBoxProps) => {
-  const { classes } = useTooltipStyles({ placement });
+  const { classes } = useTooltipStyles({
+    placement,
+    hideWhenScrollLocked: true,
+  });
 
   return (
     <Box
