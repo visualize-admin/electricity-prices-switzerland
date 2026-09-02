@@ -192,7 +192,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
               }
             />
           </Box>
-          <div>
+          <Box minWidth={0} width="100%">
             <ItemMultiCombobox
               colorMapping={createColorMapping(compareWith, "elcom2")}
               label={t({
@@ -227,7 +227,7 @@ export const NetworkCostsTrendCard: React.FC<NetworkCostsTrendCardProps> = (
                 })
               }
             />
-          </div>
+          </Box>
         </Box>
         <NetworkCostTrendChart
           rootProps={{

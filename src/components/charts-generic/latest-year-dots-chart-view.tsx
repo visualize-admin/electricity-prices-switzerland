@@ -61,12 +61,14 @@ const ChartLegend: React.FC<{
   chartColorMappings: ChartColorMapping;
   compareWith: string[] | undefined;
   medianLegend: string;
+  medianValue?: number;
   operatorLabel: string;
   otherOperatorsLegend: string;
 }> = ({
   chartColorMappings,
   compareWith,
   medianLegend,
+  medianValue,
   operatorLabel,
   otherOperatorsLegend,
 }) => (
@@ -84,11 +86,13 @@ const ChartLegend: React.FC<{
       color={chartPalette.categorical[0]}
       symbol={"circle"}
     />
-    <LegendItem
-      item={medianLegend}
-      color={palette.monochrome[800]}
-      symbol={"diamond"}
-    />
+    {medianValue ? (
+      <LegendItem
+        item={medianLegend}
+        color={palette.monochrome[800]}
+        symbol={"diamond"}
+      />
+    ) : null}
     {chartColorMappings.map((item) => {
       if (
         item.label === peerGroupOperatorName ||
@@ -199,6 +203,7 @@ export const LatestYearDotsChartView = <T extends GenericObservation>(
         chartColorMappings={chartColorMappings}
         compareWith={compareWith}
         medianLegend={medianLegend}
+        medianValue={medianValue}
         operatorLabel={operatorLabel}
         otherOperatorsLegend={otherOperatorsLegend}
       />

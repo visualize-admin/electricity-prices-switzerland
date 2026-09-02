@@ -220,6 +220,7 @@ const MobileControls = ({
     <>
       <Box position="relative" height={0} zIndex={1}>
         <Card
+          data-testid="mobile-map-controls-card"
           elevation={1}
           sx={{
             position: "absolute",

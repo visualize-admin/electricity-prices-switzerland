@@ -48,6 +48,10 @@ msgstr "chart.annotation.operators"
 msgid "combobox.maxitems"
 msgstr "combobox.maxitems"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "combobox.nodata"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
@@ -839,6 +843,10 @@ msgstr "mobile-drawer.list-title"
 msgid "mobile-drawer.parameters-title"
 msgstr "mobile-drawer.parameters-title"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "mobile-drawer.view-map"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "mobile-nav.close-menu"
@@ -1263,6 +1271,7 @@ msgstr "selector.compliance-type.franc-rule"
 msgid "selector.energy-tariffs-category"
 msgstr "selector.energy-tariffs-category"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "selector.indicator"
@@ -1303,10 +1312,12 @@ msgstr "selector.indicator.saifi.long"
 msgid "selector.net-tariffs-category"
 msgstr "selector.net-tariffs-category"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
 msgstr "selector.network-level"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
 msgstr "selector.peerGroup"
@@ -1395,6 +1406,7 @@ msgstr "selector.product.cheapest"
 msgid "selector.product.standard"
 msgstr "selector.product.standard"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
@@ -1956,6 +1968,7 @@ msgid "sunshine.service-quality.notification-period"
 msgstr "sunshine.service-quality.notification-period"
 
 #: src/components/card-source.tsx
+#: src/components/map-export-caption.tsx
 msgid "sunshine.source"
 msgstr "sunshine.source"
 

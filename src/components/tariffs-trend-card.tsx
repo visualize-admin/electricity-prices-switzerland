@@ -137,7 +137,10 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+            gridTemplateColumns: {
+              xs: "minmax(0, 1fr)",
+              lg: "minmax(0, 1fr) minmax(0, 1fr)",
+            },
             gap: 4,
             mb: 3,
           }}
@@ -169,7 +172,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
               asSelect="on-mobile"
             />
           </div>
-          <div>
+          <Box minWidth={0} width="100%">
             <ItemMultiCombobox
               label={t({
                 id: "sunshine.costs-and-tariffs.compare-with",
@@ -205,7 +208,7 @@ export const TariffsTrendCard: React.FC<TariffsTrendCardProps> = (props) => {
                 setQueryState({ ...state, compareWith: items })
               }
             />
-          </div>
+          </Box>
         </Box>
         <TariffsTrendChart
           id={operatorId}

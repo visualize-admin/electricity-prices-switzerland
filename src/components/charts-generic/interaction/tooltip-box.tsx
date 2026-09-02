@@ -136,10 +136,16 @@ const useTooltipStyles = tss
         pointerEvents: "none",
         boxShadow: theme.shadows[4],
 
-        // Hide tooltip when scroll is locked (e.g. on mobile when a modal is open)
-        "[data-scroll-locked] &": {
-          display: "none",
-        },
+        // Map tooltips (absolute) hide when a drawer/modal locks scroll.
+        // Chart tooltips are `fixed` and portaled to body — same lock would
+        // hide them inside the mobile details drawer.
+        ...(position === "absolute"
+          ? {
+              "[data-scroll-locked] &": {
+                display: "none",
+              },
+            }
+          : {}),
       },
       tooltipBox: {
         padding: theme.spacing(3, 4),
