@@ -4,20 +4,17 @@ import { Box, Typography } from "@mui/material";
 import {
   QueryStateEnergyPricesMap,
   QueryStateSunshineMap,
-  useQueryStateEnergyPricesMap,
-  useQueryStateMapCommon,
-  useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
-export type MapExportCaptionEnergy = Pick<
+type MapExportCaptionEnergy = Pick<
   QueryStateEnergyPricesMap,
   "period" | "category" | "priceComponent" | "product"
 >;
 
-export type MapExportCaptionSunshine = Pick<
+type MapExportCaptionSunshine = Pick<
   QueryStateSunshineMap,
-  | "period"
+  | "period"Ÿ
   | "indicator"
   | "peerGroup"
   | "category"
@@ -25,7 +22,7 @@ export type MapExportCaptionSunshine = Pick<
   | "saidiSaifiType"
 >;
 
-export type MapExportCaptionProps = {
+type MapExportCaptionProps = {
   tab: "electricity" | "sunshine";
   energy?: MapExportCaptionEnergy;
   sunshine?: MapExportCaptionSunshine;
@@ -153,12 +150,4 @@ export const MapExportCaption = ({
       </Typography>
     </Box>
   );
-};
-
-export const MapExportCaptionFromQuery = () => {
-  const [{ tab }] = useQueryStateMapCommon();
-  const [energy] = useQueryStateEnergyPricesMap();
-  const [sunshine] = useQueryStateSunshineMap();
-
-  return <MapExportCaption tab={tab} energy={energy} sunshine={sunshine} />;
 };
