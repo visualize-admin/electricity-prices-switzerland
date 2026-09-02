@@ -841,6 +841,10 @@ msgstr "Map View"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filters"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "View on map"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "Close menu"
