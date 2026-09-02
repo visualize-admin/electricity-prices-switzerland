@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Fix operator comparison dropdown overflowing the viewport on mobile (#699)
+- Switch electricity detail tabs to a select below the large breakpoint so labels stay readable
 
 # 2.52.0 - 2026-08-31
 
