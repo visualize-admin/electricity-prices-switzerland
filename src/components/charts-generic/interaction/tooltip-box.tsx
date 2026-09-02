@@ -1,5 +1,6 @@
 import { Box, BoxProps, Theme } from "@mui/material";
-import { forwardRef, ReactNode } from "react";
+import React, { forwardRef, ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { tss } from "tss-react/mui";
 
 import {
@@ -54,24 +55,74 @@ const TooltipBox = forwardRef<HTMLDivElement, TooltipChromeProps>(
 
 export const TooltipBoxPositioned = forwardRef<HTMLDivElement, TooltipBoxProps>(
   ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
-    const { classes } = useTooltipStyles({ placement });
+    const { classes } = useTooltipStyles({ placement, position: "fixed" });
+
+    const [anchorBounds, setAnchorBounds] = React.useState<DOMRect | null>(
+      null
+    );
+    const anchorRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+      if (!anchorRef.current) return;
+
+      const updateBounds = () => {
+        if (anchorRef.current) {
+          setAnchorBounds(anchorRef.current.getBoundingClientRect());
+        }
+      };
+
+      updateBounds();
+
+      const resizeObserver = new ResizeObserver(updateBounds);
+      resizeObserver.observe(anchorRef.current);
+      // Capture so overflow scroll on the details page / drawer re-anchors
+      // the portaled tooltip (ResizeObserver alone misses that).
+      window.addEventListener("scroll", updateBounds, true);
+
+      return () => {
+        resizeObserver.disconnect();
+        window.removeEventListener("scroll", updateBounds, true);
+      };
+    }, [x, y]);
+
+    const tooltipLeft = anchorBounds ? anchorBounds.left + (x ?? 0) : 0;
+    const tooltipTop = anchorBounds
+      ? anchorBounds.top + mxYOffset(y ?? 0, placement)
+      : 0;
 
     return (
-      <Box
-        ref={ref}
-        className={classes.tooltipContainer}
-        style={{
-          left: (x ?? 0) + margins.left,
-          top: mxYOffset(y ?? 0, placement) + margins.top,
-          pointerEvents: interactive ? "all" : "none",
-          transform: mkTranslation(placement),
-          ...style,
-        }}
-      >
-        <TooltipBox placement={placement} interactive={interactive}>
-          {children}
-        </TooltipBox>
-      </Box>
+      <>
+        <div
+          ref={anchorRef}
+          style={{
+            position: "absolute",
+            left: margins.left,
+            width: "100%",
+            top: margins.top,
+            pointerEvents: "none",
+          }}
+        />
+        {anchorBounds &&
+          createPortal(
+            <Box
+              ref={ref}
+              className={classes.tooltipContainer}
+              style={{
+                maxWidth: anchorBounds.width,
+                left: tooltipLeft,
+                top: tooltipTop,
+                pointerEvents: interactive ? "all" : "none",
+                transform: mkTranslation(placement),
+                ...style,
+              }}
+            >
+              <TooltipBox placement={placement} interactive={interactive}>
+                {children}
+              </TooltipBox>
+            </Box>,
+            document.body
+          )}
+      </>
     );
   }
 );
