@@ -144,6 +144,13 @@ export const MultiCombobox = ({
       }
       sx={{
         width: "100%",
+        minWidth: 0,
+        maxWidth: "100%",
+        overflow: "hidden",
+        [`& .${autocompleteClasses.inputRoot}`]: {
+          flexWrap: "wrap",
+          overflow: "hidden",
+        },
       }}
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
@@ -151,6 +158,7 @@ export const MultiCombobox = ({
           position="relative"
           flexDirection="column"
           width="100%"
+          minWidth={0}
           display="flex"
           gap="8px"
         >
@@ -206,6 +214,7 @@ export const MultiCombobox = ({
               sx={{
                 margin: "2px !important",
                 backgroundColor,
+                maxWidth: "100%",
               }}
               className={inverted ? classes.invertedChip : undefined}
               size="xs"

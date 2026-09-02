@@ -845,6 +845,10 @@ msgstr "Vista della mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametri"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "Mostra sulla mappa"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "Chiudi menu"

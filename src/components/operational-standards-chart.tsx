@@ -518,7 +518,7 @@ const OperationalStandardsChartCard: React.FC<
               }
             />
           </Box>
-          <div>
+          <Box minWidth={0} width="100%">
             <ItemMultiCombobox
               colorMapping={createColorMapping(opStdCompareWith, "elcom2")}
               label={t({
@@ -551,7 +551,7 @@ const OperationalStandardsChartCard: React.FC<
                 })
               }
             />
-          </div>
+          </Box>
         </Box>
         <OperationalStandardsChart
           rootProps={{ sx: { mt: 8 } }}
