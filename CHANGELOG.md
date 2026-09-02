@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
 - Fix chart tooltips drifting on scroll on operator detail pages (#698)
 - Fix price components card labels being cut off when the card is narrow
 - Hide peer-group median in chart legends when no median is available (#700)
