@@ -253,20 +253,42 @@ const MapPageContent = ({
   const [mobileDrawerTab, setMobileDrawerTab] = useState<"parameters" | "list">(
     "parameters"
   );
+  const [mobilePreviewId, setMobilePreviewId] = useState<string | null>(null);
+  const keepSelectionOnDrawerCloseRef = useRef(false);
 
   const handleCloseMobileControlsDrawer = useEventCallback(() => {
+    const keepSelection = keepSelectionOnDrawerCloseRef.current;
+    keepSelectionOnDrawerCloseRef.current = false;
+    const previewId = mobilePreviewId;
+    setMobileDrawerOpen(false);
+    setMobilePreviewId(null);
+    if (!keepSelection && previewId) {
+      setActiveId(null);
+    }
+  });
+
+  const handleViewMap = useEventCallback(() => {
+    keepSelectionOnDrawerCloseRef.current = true;
+    if (mobilePreviewId) {
+      setActiveId(mobilePreviewId);
+    }
+    setMobilePreviewId(null);
     setMobileDrawerOpen(false);
   });
 
   const handleClickMobileControlsCard = useEventCallback(() => {
     setMobileDrawerOpen(true);
     setMobileDrawerTab("parameters");
+    if (activeId) {
+      setMobilePreviewId(activeId);
+    }
   });
 
   const handleClickListWidget = useEventCallback(() => {
     setMobileDrawerOpen(true);
     setMobileDrawerTab("list");
     setActiveId(null);
+    setMobilePreviewId(null);
   });
 
   const isMobile = useIsMobile();
@@ -344,6 +366,7 @@ const MapPageContent = ({
       indicator={indicator}
       valueFormatter={valueFormatter}
       fetching={isFetching}
+      onItemClick={isMobile ? setMobilePreviewId : undefined}
     />
   );
 
@@ -384,14 +407,24 @@ const MapPageContent = ({
     }
   }, [activeId, listGroups]);
 
-  const mobileDetailsContent = selectedItem ? (
+  const mobilePreviewItem = useMemo(() => {
+    if (mobilePreviewId) {
+      const selected = listGroups.find(
+        ([itemId]) => itemId === mobilePreviewId
+      );
+      return selected?.[1] ?? null;
+    }
+  }, [mobilePreviewId, listGroups]);
+
+  const mobileDetailsContent = mobilePreviewItem ? (
     <MapDetailsContent
       colorScale={colorScale}
       showBackButton={false}
       entity={entity}
-      selectedItem={selectedItem}
+      selectedItem={mobilePreviewItem}
       onBack={() => setActiveId(null)}
       formatValue={valueFormatter}
+      onViewMap={handleViewMap}
     />
   ) : null;
 

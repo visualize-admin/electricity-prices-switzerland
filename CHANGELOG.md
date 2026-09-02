@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix mobile search selecting a municipality on the map; Close now clears the selection, View on map applies it (#691)
 - Fix operator comparison dropdown overflowing the viewport on mobile (#699)
 - Fix mobile main nav staying open after selecting Overview on the home page (#694)
 - Fix two municipality tooltips showing in parallel on mobile (#692)
