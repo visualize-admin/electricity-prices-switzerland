@@ -12,6 +12,7 @@ import {
   ChartProps,
   GroupedBarsState,
 } from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { InteractionProvider } from "src/components/charts-generic/use-interaction";
 import { Observer, useWidth } from "src/components/charts-generic/use-width";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
@@ -19,6 +20,7 @@ import { BarFields } from "src/domain/config-types";
 import { GenericObservation } from "src/domain/data";
 import { getOpacityRanges, getPalette } from "src/domain/helpers";
 import { sortByIndex } from "src/lib/array";
+import { wrapText } from "src/lib/estimate-text-width";
 
 const useGroupedBarsState = ({
   data,
@@ -27,6 +29,8 @@ const useGroupedBarsState = ({
   fields: BarFields;
 }): GroupedBarsState => {
   const width = useWidth();
+  const { labelFontSize } = useChartTheme();
+  const labelLineHeight = labelFontSize + 2;
   const getX = useCallback(
     (d: GenericObservation) =>
       d[
@@ -98,6 +102,7 @@ const useGroupedBarsState = ({
   const xScale = scaleLinear().domain(fields.domain).nice();
 
   const BAR_FULL_HEIGHT = BAR_HEIGHT + BAR_PADDING + LABEL_PADDING;
+  const xAxisLabel = fields.x.axisLabel;
 
   const hs = sortedData
     .slice()
@@ -106,10 +111,16 @@ const useGroupedBarsState = ({
       const segment = getSegment(x);
       // Seems like the condition is inverted here but it works as intended
       const isExpanded = !segment.includes(EXPANDED_TAG);
+      const labelText = isExpanded
+        ? `${getX(x)} ${xAxisLabel ?? ""} ${getLabel(x)}`
+        : getLabel(x);
+      const extraLabelHeight =
+        Math.max(0, wrapText(labelText, width, labelFontSize).length - 1) *
+        labelLineHeight;
       return {
         segment,
         height: isExpanded ? BAR_FULL_HEIGHT : 14,
-        marginTop: isExpanded && i !== 0 ? 16 : 0,
+        marginTop: (isExpanded && i !== 0 ? 16 : 0) + extraLabelHeight,
       };
     });
 
@@ -119,7 +130,7 @@ const useGroupedBarsState = ({
   );
   const segmentYs = hs.reduce((acc, curr, index) => {
     if (index === 0) {
-      acc[curr.segment] = 0;
+      acc[curr.segment] = curr.marginTop;
     } else {
       const prev = hs[index - 1];
       acc[curr.segment] = acc[prev.segment] + prev.height + curr.marginTop;
@@ -145,8 +156,6 @@ const useGroupedBarsState = ({
   };
 
   xScale.range([0, chartWidth]);
-
-  const xAxisLabel = fields.x.axisLabel;
 
   return {
     sortedData,
