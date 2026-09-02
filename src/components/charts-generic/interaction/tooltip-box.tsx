@@ -1,6 +1,5 @@
 import { Box, BoxProps, Theme } from "@mui/material";
-import React, { forwardRef, ReactNode } from "react";
-import { createPortal } from "react-dom";
+import { forwardRef, ReactNode } from "react";
 import { tss } from "tss-react/mui";
 
 import {
@@ -55,68 +54,24 @@ const TooltipBox = forwardRef<HTMLDivElement, TooltipChromeProps>(
 
 export const TooltipBoxPositioned = forwardRef<HTMLDivElement, TooltipBoxProps>(
   ({ x, y, placement, margins, children, style, interactive = false }, ref) => {
-    const { classes } = useTooltipStyles({ placement, position: "fixed" });
-
-    const [anchorBounds, setAnchorBounds] = React.useState<DOMRect | null>(
-      null
-    );
-    const anchorRef = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-      if (!anchorRef.current) return;
-
-      const updateBounds = () => {
-        if (anchorRef.current) {
-          setAnchorBounds(anchorRef.current.getBoundingClientRect());
-        }
-      };
-
-      updateBounds();
-
-      const resizeObserver = new ResizeObserver(updateBounds);
-      resizeObserver.observe(anchorRef.current);
-
-      return () => resizeObserver.disconnect();
-    }, [x, y]);
-
-    const tooltipLeft = anchorBounds ? anchorBounds.left + (x ?? 0) : 0;
-    const tooltipTop = anchorBounds
-      ? anchorBounds.top + mxYOffset(y ?? 0, placement)
-      : 0;
+    const { classes } = useTooltipStyles({ placement });
 
     return (
-      <>
-        <div
-          ref={anchorRef}
-          style={{
-            position: "absolute",
-            left: margins.left,
-            width: "100%",
-            top: margins.top,
-            pointerEvents: "none",
-          }}
-        />
-        {anchorBounds &&
-          createPortal(
-            <Box
-              ref={ref}
-              className={classes.tooltipContainer}
-              style={{
-                maxWidth: anchorBounds ? anchorBounds.width : undefined,
-                left: tooltipLeft,
-                top: tooltipTop,
-                pointerEvents: interactive ? "all" : "none",
-                transform: mkTranslation(placement),
-                ...style,
-              }}
-            >
-              <TooltipBox placement={placement} interactive={interactive}>
-                {children}
-              </TooltipBox>
-            </Box>,
-            document.body
-          )}
-      </>
+      <Box
+        ref={ref}
+        className={classes.tooltipContainer}
+        style={{
+          left: (x ?? 0) + margins.left,
+          top: mxYOffset(y ?? 0, placement) + margins.top,
+          pointerEvents: interactive ? "all" : "none",
+          transform: mkTranslation(placement),
+          ...style,
+        }}
+      >
+        <TooltipBox placement={placement} interactive={interactive}>
+          {children}
+        </TooltipBox>
+      </Box>
     );
   }
 );
@@ -125,51 +80,63 @@ const useTooltipStyles = tss
   .withParams<{
     placement: TooltipPlacement;
     position?: "absolute" | "fixed";
+    hideWhenScrollLocked?: boolean;
   }>()
-  .create(({ theme, placement, position = "absolute" }) => {
-    const triangle = mkTriangle(theme, placement);
-    return {
-      tooltipContainer: {
-        width: "fit-content",
-        zIndex: theme.zIndex.tooltip,
-        position,
-        pointerEvents: "none",
-        boxShadow: theme.shadows[4],
-
-        // Hide tooltip when scroll is locked (e.g. on mobile when a modal is open)
-        "[data-scroll-locked] &": {
-          display: "none",
-        },
-      },
-      tooltipBox: {
-        padding: theme.spacing(3, 4),
-        borderRadius: 0.5,
-        pointerEvents: "none" as const,
-        backgroundColor: theme.palette.background.paper,
-        filter: `drop-shadow(${theme.shadows?.[6]})`,
-
-        "&::before": {
-          content: "''",
-          display: "block",
-          position: "absolute",
+  .create(
+    ({
+      theme,
+      placement,
+      position = "absolute",
+      hideWhenScrollLocked = false,
+    }) => {
+      const triangle = mkTriangle(theme, placement);
+      return {
+        tooltipContainer: {
+          width: "fit-content",
+          zIndex: theme.zIndex.tooltip,
+          position,
           pointerEvents: "none",
-          zIndex: -1,
-          width: 0,
-          height: 0,
-          borderStyle: "solid",
-          top: triangle.top,
-          right: triangle.right,
-          bottom: triangle.bottom,
-          left: triangle.left,
-          borderWidth: triangle.borderWidth,
-          borderTopColor: triangle.borderTopColor,
-          borderRightColor: triangle.borderRightColor,
-          borderBottomColor: triangle.borderBottomColor,
-          borderLeftColor: triangle.borderLeftColor,
+          boxShadow: theme.shadows[4],
+          ...(hideWhenScrollLocked
+            ? {
+                // Hide map tooltips when Vaul locks scroll (mobile drawer already
+                // shows the selected entity). Chart tooltips stay visible.
+                "[data-scroll-locked] &": {
+                  display: "none",
+                },
+              }
+            : null),
         },
-      },
-    };
-  });
+        tooltipBox: {
+          padding: theme.spacing(3, 4),
+          borderRadius: 0.5,
+          pointerEvents: "none" as const,
+          backgroundColor: theme.palette.background.paper,
+          filter: `drop-shadow(${theme.shadows?.[6]})`,
+
+          "&::before": {
+            content: "''",
+            display: "block",
+            position: "absolute",
+            pointerEvents: "none",
+            zIndex: -1,
+            width: 0,
+            height: 0,
+            borderStyle: "solid",
+            top: triangle.top,
+            right: triangle.right,
+            bottom: triangle.bottom,
+            left: triangle.left,
+            borderWidth: triangle.borderWidth,
+            borderTopColor: triangle.borderTopColor,
+            borderRightColor: triangle.borderRightColor,
+            borderBottomColor: triangle.borderBottomColor,
+            borderLeftColor: triangle.borderLeftColor,
+          },
+        },
+      };
+    }
+  );
 
 export const TooltipBoxWithoutChartState = ({
   x,
@@ -179,7 +146,10 @@ export const TooltipBoxWithoutChartState = ({
   children,
   boxSx,
 }: TooltipBoxProps) => {
-  const { classes } = useTooltipStyles({ placement });
+  const { classes } = useTooltipStyles({
+    placement,
+    hideWhenScrollLocked: true,
+  });
 
   return (
     <Box
