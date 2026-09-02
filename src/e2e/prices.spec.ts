@@ -1,6 +1,11 @@
 import InflightRequests from "src/e2e/inflight";
 
-import { expect, test } from "./common";
+import {
+  expect,
+  gotoWithRetry,
+  test,
+  waitForDetailsPageContent,
+} from "./common";
 
 test.describe("Electricity Prices", () => {
   test("it should load the page for an operator", async ({
@@ -9,7 +14,7 @@ test.describe("Electricity Prices", () => {
   }) => {
     const inflight = new InflightRequests(page);
     const resp = await page.goto(
-      "/en/operator/110?category=H8&product=cheapest&period=2019",
+      "/en/operator/110?category=H8&product=cheapest&period=2019"
     );
     await expect(resp?.status()).toEqual(200);
     await inflight.waitForRequests();
@@ -33,6 +38,33 @@ test.describe("Electricity Prices", () => {
         fullPage: true,
       });
     }
+    inflight.dispose();
+  });
+
+  test("price components labels wrap on a narrow card", async ({
+    page,
+    snapshot,
+  }) => {
+    test.slow();
+    await page.setViewportSize({ width: 860, height: 970 });
+    const inflight = new InflightRequests(page);
+    const resp = await gotoWithRetry(
+      page,
+      "/en/municipality/5192?municipality=5113&view=expanded&period=2026"
+    );
+    await expect(resp?.status()).toEqual(200);
+    await waitForDetailsPageContent(page);
+    await inflight.waitForRequests();
+
+    const card = page.getByTestId("card-components");
+    await expect(card).toBeVisible({ timeout: 60_000 });
+    await expect(card.locator("tspan[dy]:not([dy='0'])").first()).toBeVisible();
+
+    await snapshot({
+      locator: card,
+      note: "Electricity Prices - Municipality - components wrapping",
+      fullPage: true,
+    });
     inflight.dispose();
   });
 });
