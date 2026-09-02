@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Switch electricity detail tabs to a select below the large breakpoint so labels stay readable
 
 # 2.52.0 - 2026-08-31
 
