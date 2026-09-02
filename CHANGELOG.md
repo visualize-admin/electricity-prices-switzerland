@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Include applied filters and source on downloaded map images
 
 # 2.52.0 - 2026-08-31
 
