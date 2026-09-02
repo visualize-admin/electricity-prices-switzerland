@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Disable cantons without data in the comparison dropdown (#685)
 
 # 2.52.0 - 2026-08-31
 
