@@ -1,4 +1,5 @@
-import { Box, BoxProps, ButtonGroupProps } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
+import { ComponentProps } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import { ElectricitySelectors } from "src/components/electricity-selectors";
@@ -9,7 +10,10 @@ import { getLocalizedLabel } from "src/domain/translation";
 type TabValue = "electricity" | "sunshine";
 
 export const ElectricityOrSunshineButtonGroup = (
-  props: Omit<ButtonGroupProps, "value" | "setValue" | "options">
+  props: Omit<
+    ComponentProps<typeof ButtonGroup>,
+    "id" | "options" | "value" | "setValue"
+  >
 ) => {
   const [queryState, setQueryState] = useQueryStateMapCommon();
   const activeTab = queryState.tab as TabValue;
@@ -35,6 +39,7 @@ export const ElectricityOrSunshineButtonGroup = (
       value={activeTab}
       setValue={(newValue) => setQueryState({ tab: newValue })}
       width="100%"
+      asSelect="on-mobile"
       {...props}
     />
   );
