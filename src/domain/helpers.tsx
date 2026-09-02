@@ -36,6 +36,7 @@ import { typography } from "src/themes/typography";
 import {
   formatAxisNumber,
   formatDisplayNumber,
+  formatIntegerNumber,
 } from "./number-format";
 import { SunshineIndicator } from "./sunshine";
 
@@ -66,7 +67,7 @@ const useFormatIntegerNumber = () => {
   return React.useMemo(() => {
     const { format } =
       d3FormatLocales[locale] ?? d3FormatLocales[defaultLocale as Locale];
-    return (value: number) => formatAxisNumber(value, format);
+    return (value: number) => formatIntegerNumber(value, format);
   }, [locale]);
 };
 

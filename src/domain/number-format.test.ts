@@ -49,9 +49,29 @@ describe("formatDisplayNumber (en — US-style grouping)", () => {
 });
 
 describe("formatAxisNumber", () => {
-  it("integers with locale grouping", () => {
+  it("integers with locale grouping from |n| >= 10", () => {
     expect(formatAxisNumber(54.23, formatDe)).toBe("54");
     expect(formatAxisNumber(56028, formatDe)).toBe("56'028");
     expect(formatAxisNumber(56028, formatEn)).toBe("56,028");
+  });
+
+  it("keeps unique labels on a small metering-rate domain (ELC-679)", () => {
+    const ticks = [0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2];
+    const labels = ticks.map((n) => formatAxisNumber(n, formatDe));
+    expect(labels).toEqual([
+      "0",
+      "0.2",
+      "0.4",
+      "0.6",
+      "0.8",
+      "1",
+      "1.2",
+      "1.4",
+      "1.6",
+      "1.8",
+      "2",
+    ]);
+    expect(new Set(labels).size).toBe(labels.length);
+    expect(formatAxisNumber(1.84, formatDe)).toBe("1.84");
   });
 });
