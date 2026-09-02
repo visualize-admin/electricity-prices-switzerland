@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix operator comparison dropdown overflowing the viewport on mobile (#699)
 
 # 2.52.0 - 2026-08-31
 
