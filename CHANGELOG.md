@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix line-chart tooltips missing on mobile in municipality view (#683)
 - Include applied filters and source on downloaded map images
 - Match legend and tooltip line swatch widths (#711)
 - Fix map electricity/indicators control collapsing into empty boxes on mobile by switching to a select
