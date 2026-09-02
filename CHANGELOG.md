@@ -12,6 +12,8 @@ You can also check the
 # Unreleased
 
 - Disable cantons without data in the comparison dropdown (#685)
+- Fix line-chart tooltips missing on mobile in municipality view (#683)
+- Include applied filters and source on downloaded map images
 - Match legend and tooltip line swatch widths (#711)
 - Fix map electricity/indicators control collapsing into empty boxes on mobile by switching to a select
 - Fix mobile search selecting a municipality on the map; Close now clears the selection, View on map applies it (#691)

@@ -1271,6 +1271,7 @@ msgstr "Kosten und Gewinn Energievertrieb"
 msgid "selector.energy-tariffs-category"
 msgstr "Kategorie"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indikator"
@@ -1311,10 +1312,12 @@ msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Minuten pro Jah
 msgid "selector.net-tariffs-category"
 msgstr "Kategorie"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
 msgstr "Netzebene"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
 msgstr "Vergleichsgruppe"
@@ -1403,6 +1406,7 @@ msgstr "Günstigstes"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
@@ -1964,6 +1968,7 @@ msgid "sunshine.service-quality.notification-period"
 msgstr "Anzahl Tage Vorlauf beim Ankündigen"
 
 #: src/components/card-source.tsx
+#: src/components/map-export-caption.tsx
 msgid "sunshine.source"
 msgstr "Quelle: {source}"
 
