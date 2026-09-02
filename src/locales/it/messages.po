@@ -48,6 +48,10 @@ msgstr "gestori di rete"
 msgid "combobox.maxitems"
 msgstr "È consentito un massimo di {max} iscrizioni"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "Nessun dato"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
@@ -841,6 +845,10 @@ msgstr "Vista della mappa"
 msgid "mobile-drawer.parameters-title"
 msgstr "Parametri"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "Mostra sulla mappa"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "Chiudi menu"
@@ -1265,6 +1273,7 @@ msgstr "Costi e utili della distribuzione di energia"
 msgid "selector.energy-tariffs-category"
 msgstr "Categoria"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indicatore"
@@ -1305,10 +1314,12 @@ msgstr "Frequenza annuale delle interruzioni di corrente per cliente (SAIFI), in
 msgid "selector.net-tariffs-category"
 msgstr "Categoria"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
 msgstr "Livello di rete"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
 msgstr "Gruppo di confronto"
@@ -1397,6 +1408,7 @@ msgstr "Più economico"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
@@ -1958,6 +1970,7 @@ msgid "sunshine.service-quality.notification-period"
 msgstr "Numero di giorni di preavviso"
 
 #: src/components/card-source.tsx
+#: src/components/map-export-caption.tsx
 msgid "sunshine.source"
 msgstr "Fonte: {source}"
 

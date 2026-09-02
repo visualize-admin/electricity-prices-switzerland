@@ -13,9 +13,15 @@ export const getChartColorMapping = <T extends GenericObservation>({
   observations: T[];
   entityField?: string;
 }) => {
+  const hasPeerGroupMedian = observations.some(
+    (obs) => obs.operator_name === peerGroupOperatorName
+  );
+
   const baseMapping: Array<{ label: string; color: string }> = [
     { label: operatorLabel, color: chartPalette.categorical[0] },
-    { label: peerGroupOperatorName, color: themePalette.text.primary },
+    ...(hasPeerGroupMedian
+      ? [{ label: peerGroupOperatorName, color: themePalette.text.primary }]
+      : []),
   ];
 
   if (colorMapping) {

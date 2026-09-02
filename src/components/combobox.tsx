@@ -39,6 +39,8 @@ export type ComboboxMultiProps = {
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
+  isItemDisabled?: (item: string) => boolean;
+  getItemEndLabel?: (item: string) => React.ReactNode;
   size?: "small" | "medium";
   InputProps?: Partial<React.ComponentProps<typeof TextField>["InputProps"]>;
 };
@@ -46,7 +48,7 @@ export type ComboboxMultiProps = {
 const defaultGetItemLabel = (d: string) => d;
 const defaultOptionEqualToValue = (
   option: unknown,
-  value: unknown,
+  value: unknown
 ): boolean => {
   return option === value;
 };
@@ -110,6 +112,8 @@ export const MultiCombobox = ({
   error,
   colorMapping,
   max,
+  isItemDisabled,
+  getItemEndLabel,
   size = "small",
   InputProps,
 }: ComboboxMultiProps) => {
@@ -133,12 +137,20 @@ export const MultiCombobox = ({
         }
       }}
       getOptionDisabled={(option) =>
-        max !== undefined &&
-        selectedItems.length >= max &&
-        !selectedItems.includes(option)
+        Boolean(isItemDisabled?.(option)) ||
+        (max !== undefined &&
+          selectedItems.length >= max &&
+          !selectedItems.includes(option))
       }
       sx={{
         width: "100%",
+        minWidth: 0,
+        maxWidth: "100%",
+        overflow: "hidden",
+        [`& .${autocompleteClasses.inputRoot}`]: {
+          flexWrap: "wrap",
+          overflow: "hidden",
+        },
       }}
       popupIcon={<Icon name="chevrondown" color="black" />}
       renderInput={(params) => (
@@ -146,6 +158,7 @@ export const MultiCombobox = ({
           position="relative"
           flexDirection="column"
           width="100%"
+          minWidth={0}
           display="flex"
           gap="8px"
         >
@@ -201,6 +214,7 @@ export const MultiCombobox = ({
               sx={{
                 margin: "2px !important",
                 backgroundColor,
+                maxWidth: "100%",
               }}
               className={inverted ? classes.invertedChip : undefined}
               size="xs"
@@ -213,18 +227,39 @@ export const MultiCombobox = ({
           );
         })
       }
-      renderOption={(props, option) => (
-        <li {...props} key={`${option}-${id}-selectable`}>
-          {getItemLabel(option)}
-        </li>
-      )}
+      renderOption={(props, option) => {
+        const endLabel = getItemEndLabel?.(option);
+        return (
+          <li
+            {...props}
+            key={`${option}-${id}-selectable`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
+            }}
+          >
+            {getItemLabel(option)}
+            {endLabel ? (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                component="span"
+              >
+                {endLabel}
+              </Typography>
+            ) : null}
+          </li>
+        );
+      }}
       filterOptions={(options, state) => {
         const filteredOptions = options.filter(
           (option) =>
             selectedItems.indexOf(option) < 0 &&
             getItemLabel(option)
               .toLowerCase()
-              .startsWith(state.inputValue.toLowerCase()),
+              .startsWith(state.inputValue.toLowerCase())
         );
         return filteredOptions;
       }}
@@ -245,7 +280,7 @@ export type ComboboxItem<T extends string = string> = {
 };
 
 export const toComboboxItems = <T extends string>(
-  values: readonly T[],
+  values: readonly T[]
 ): ComboboxItem<T>[] => {
   return values.map((value) => ({ value }));
 };
@@ -285,7 +320,7 @@ export const Combobox = <T extends string>({
 
   const normalizedItems = useMemo(() => {
     return items.map((item) =>
-      typeof item === "string" ? { value: item } : item,
+      typeof item === "string" ? { value: item } : item
     );
   }, [items]);
 
