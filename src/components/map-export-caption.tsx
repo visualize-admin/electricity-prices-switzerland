@@ -85,7 +85,7 @@ export const MapExportCaption = () => {
       sx={{ overflowWrap: "anywhere" }}
     >
       <Typography
-        variant="caption"
+        variant="inherit"
         fontSize="0.625rem"
         component="p"
         display="block"
@@ -104,7 +104,7 @@ export const MapExportCaption = () => {
         )}
       </Typography>
       <Typography
-        variant="caption"
+        variant="inherit"
         fontSize="0.625rem"
         component="p"
         display="block"
