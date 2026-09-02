@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
 
 # 2.52.0 - 2026-08-31
 
