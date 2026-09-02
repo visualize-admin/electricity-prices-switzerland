@@ -839,6 +839,10 @@ msgstr "mobile-drawer.list-title"
 msgid "mobile-drawer.parameters-title"
 msgstr "mobile-drawer.parameters-title"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "mobile-drawer.view-map"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "mobile-nav.close-menu"
