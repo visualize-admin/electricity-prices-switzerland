@@ -88,11 +88,13 @@ const ListItems = ({
   colorScale,
   entity,
   valueFormatter,
+  onItemClick,
 }: {
   items: [string, ListItemType][];
   colorScale: ScaleThreshold<number, string>;
   entity: Entity;
   valueFormatter: ValueFormatter;
+  onItemClick?: (id: string) => void;
 }) => {
   const [truncated, setTruncated] = useState<number>(TRUNCATION_INCREMENT);
   const { activeId, setActiveId, onEntitySelect } = useMap();
@@ -109,7 +111,7 @@ const ListItems = ({
 
   return (
     <Box>
-      {selectedItem && (
+      {selectedItem && !onItemClick && (
         <InlineDrawer open={!!selectedItem} onClose={() => setActiveId(null)}>
           <MapDetailsContent
             colorScale={colorScale}
@@ -130,7 +132,13 @@ const ListItems = ({
             colorScale={colorScale}
             valueFormatter={valueFormatter}
             entity={entity}
-            handleClick={(e) => onEntitySelect(e.nativeEvent, entity, d.id)}
+            handleClick={(e) => {
+              if (onItemClick) {
+                onItemClick(d.id);
+                return;
+              }
+              onEntitySelect(e.nativeEvent, entity, d.id);
+            }}
           />
         );
       })}
@@ -229,6 +237,7 @@ export const List = ({
   entity,
   valueFormatter,
   indicator,
+  onItemClick,
 }: {
   grouped: Groups;
   colorScale: ScaleThreshold<number, string>;
@@ -236,6 +245,7 @@ export const List = ({
   entity: Entity;
   valueFormatter: ValueFormatter;
   indicator: SunshineIndicator | "prices";
+  onItemClick?: (id: string) => void;
 }) => {
   const [sortState, setSortState] = useState<SortState>("ASC");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -356,6 +366,7 @@ export const List = ({
           colorScale={colorScale}
           valueFormatter={valueFormatter}
           entity={entity}
+          onItemClick={onItemClick}
         />
       )}
     </Box>

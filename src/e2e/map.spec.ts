@@ -1,7 +1,36 @@
+import { Page } from "@playwright/test";
 import sharp from "sharp";
 
-import { test, expect } from "src/e2e/common";
+import { expect, gotoWithRetry, test } from "src/e2e/common";
 import InflightRequests from "src/e2e/inflight";
+
+const MOBILE_VIEWPORT = { width: 375, height: 812 } as const;
+const MOBILE_LIST_MUNICIPALITY = "Aarberg";
+
+const expectNoActiveId = async (page: Page) => {
+  await expect(page).not.toHaveURL(/[?&]activeId=/);
+};
+
+const expectActiveId = async (page: Page) => {
+  await expect(page).toHaveURL(/[?&]activeId=/);
+};
+
+const openListAndPreviewMunicipality = async (page: Page) => {
+  await expect(page.getByTestId("mobile-map-list")).toBeVisible({
+    timeout: 60_000,
+  });
+  await page.getByTestId("mobile-map-list").click();
+  const filter = page.getByRole("textbox", { name: "Filter list" });
+  await expect(filter).toBeVisible({ timeout: 60_000 });
+  await filter.fill(MOBILE_LIST_MUNICIPALITY);
+  await page
+    .locator("a")
+    .filter({ hasText: MOBILE_LIST_MUNICIPALITY })
+    .first()
+    .click();
+  await expect(page.getByTestId("map-details-content")).toBeVisible();
+  await expect(page.getByRole("button", { name: "View on map" })).toBeVisible();
+};
 
 test.describe("The Map Page", () => {
   test("should be possible to download the map", async ({ page }) => {
@@ -9,7 +38,9 @@ test.describe("The Map Page", () => {
     const resp = await page.goto("/en/map");
     await expect(resp?.status()).toEqual(200);
     await page.waitForLoadState("load");
-    const downloadTrigger = page.getByRole("button", { name: "Download image" });
+    const downloadTrigger = page.getByRole("button", {
+      name: "Download image",
+    });
     await expect(downloadTrigger).toBeVisible({ timeout: 60_000 });
     await downloadTrigger.click();
 
@@ -106,13 +137,15 @@ test.describe("Map Details Table Information", () => {
       },
       {
         indicatorName: "Grid usage tariffs",
-        indicatorPattern: /Grid usage tariffs for the selected end-consumer category/i,
+        indicatorPattern:
+          /Grid usage tariffs for the selected end-consumer category/i,
         expectedFields: ["Year", "Category"],
         notExpectedFields: ["Network level", "Typology"],
       },
       {
         indicatorName: "Energy tariffs",
-        indicatorPattern: /Energy tariffs for the selected end-consumer category/i,
+        indicatorPattern:
+          /Energy tariffs for the selected end-consumer category/i,
         expectedFields: ["Year", "Category"],
         notExpectedFields: ["Network level", "Typology"],
       },
@@ -183,6 +216,63 @@ test.describe("Map Details Table Information", () => {
       // Go back to filters for next test
       await page.getByText("Back to filters").click();
     }
+
+    tracker.dispose();
+  });
+});
+
+test.describe("Mobile map list selection", () => {
+  test.beforeEach(async ({ page, setFlags }) => {
+    await page.setViewportSize(MOBILE_VIEWPORT);
+    await setFlags(page, ["webglDeactivated"]);
+  });
+
+  test("tapping a list result opens details without selecting the map", async ({
+    page,
+  }) => {
+    test.slow();
+    const tracker = new InflightRequests(page);
+    const resp = await gotoWithRetry(page, "/en/map?period=2026");
+    await expect(resp?.status()).toEqual(200);
+    await tracker.waitForRequests();
+
+    await openListAndPreviewMunicipality(page);
+    await expectNoActiveId(page);
+
+    await page.getByRole("button", { name: "Close" }).click();
+    await expect(
+      page.getByRole("button", { name: "View on map" })
+    ).toBeHidden();
+    await expectNoActiveId(page);
+
+    tracker.dispose();
+  });
+
+  test("View on map selects and Close after that clears", async ({ page }) => {
+    test.slow();
+    const tracker = new InflightRequests(page);
+    const resp = await gotoWithRetry(page, "/en/map?period=2026");
+    await expect(resp?.status()).toEqual(200);
+    await tracker.waitForRequests();
+
+    await openListAndPreviewMunicipality(page);
+    await expectNoActiveId(page);
+
+    await page.getByRole("button", { name: "View on map" }).click();
+    await expect(
+      page.getByRole("button", { name: "View on map" })
+    ).toBeHidden();
+    await expectActiveId(page);
+
+    await page.getByTestId("mobile-map-controls-card").click();
+    await expect(page.getByTestId("map-details-content")).toBeVisible();
+    await expectActiveId(page);
+
+    await page.getByRole("button", { name: "Close" }).click();
+    await expect(
+      page.getByRole("button", { name: "View on map" })
+    ).toBeHidden();
+    await expectNoActiveId(page);
 
     tracker.dispose();
   });

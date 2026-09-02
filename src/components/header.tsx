@@ -123,7 +123,7 @@ const LocaleSelector = ({ alternates }: LocaleSelectorProps) => {
 
 const FlagMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(
-    undefined,
+    undefined
   );
   const isEnabled = useFlag(F.debug);
   if (!isEnabled) {
@@ -189,6 +189,8 @@ export const Header = ({
     setFocusSearchOnOpen(opts?.focusSearch ?? false);
     setMobileNavOpen(true);
   };
+
+  const closeMobileNav = () => setMobileNavOpen(false);
 
   return (
     <div ref={ref} style={{ zIndex: 1 }}>
@@ -429,11 +431,13 @@ export const Header = ({
                   title={<Trans id="home.menu.overview">Overview</Trans>}
                   href="/"
                   className={classes.mobileDrawerMenuButton}
+                  onClick={closeMobileNav}
                 />
                 <MenuButton
                   title={<Trans id="home.menu.map-view">Map view</Trans>}
                   href="/map"
                   className={classes.mobileDrawerMenuButton}
+                  onClick={closeMobileNav}
                 />
               </MenuContainer>
             </Box>
