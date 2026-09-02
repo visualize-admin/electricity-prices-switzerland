@@ -162,7 +162,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
         />
       )}
     </div>
-    <div>
+    <Box minWidth={0} width="100%">
       <ItemMultiCombobox
         label={t({
           id: "sunshine.costs-and-tariffs.compare-with",
@@ -200,7 +200,7 @@ const PowerStabilityControls: React.FC<PowerStabilityControlsProps> = ({
           })
         }
       />
-    </div>
+    </Box>
   </Box>
 );
 
