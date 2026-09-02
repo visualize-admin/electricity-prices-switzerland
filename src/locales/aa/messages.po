@@ -48,6 +48,10 @@ msgstr "chart.annotation.operators"
 msgid "combobox.maxitems"
 msgstr "combobox.maxitems"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "combobox.nodata"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx

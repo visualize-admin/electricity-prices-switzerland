@@ -48,6 +48,10 @@ msgstr "gestori di rete"
 msgid "combobox.maxitems"
 msgstr "È consentito un massimo di {max} iscrizioni"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "Nessun dato"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
