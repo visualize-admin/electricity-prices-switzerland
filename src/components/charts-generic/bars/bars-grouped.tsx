@@ -1,5 +1,3 @@
-import { t } from "@lingui/macro";
-
 import { Bar } from "src/components/charts-generic/bars/bars-simple";
 import {
   GroupedBarsState,
@@ -7,9 +5,6 @@ import {
 } from "src/components/charts-generic/use-chart-state";
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { EXPANDED_TAG } from "src/components/detail-page/price-components-bars-utils";
-import { useFormatDisplayNumber } from "src/domain/helpers";
-import { wrapText } from "src/lib/estimate-text-width";
-import { useFlag } from "src/utils/flags";
 
 import { BAR_HEIGHT, LABEL_PADDING } from "../constants";
 
@@ -104,40 +99,22 @@ export const BarsGrouped = () => {
 };
 
 export const BarsGroupedLabels = () => {
-  const { sortedData, bounds, yScale, getX, getSegment, getLabel, xAxisLabel } =
+  const { sortedData, bounds, yScale, getSegment, labelsBySegment } =
     useChartState() as GroupedBarsState;
 
-  const { margins, width } = bounds;
+  const { margins } = bounds;
   const { labelFontSize } = useChartTheme();
   const labelLineHeight = labelFontSize + 2;
-  const formatDisplay = useFormatDisplayNumber();
-
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
 
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
       {sortedData.map((d, i) => {
         const segment = getSegment(d);
         const y = yScale(segment) as number;
-        const isMainRow = !segment.includes(EXPANDED_TAG);
-
-        const value = formatDisplay(getX(d));
-        const label = getLabel(d);
-
-        const dynamicText = dynamicTariffsFlag
-          ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
-              d.max as number
-            )}, ${t({
-              id: "dynamic.tariff",
-              message: "dynamic",
-            })})`
-          : "";
-
-        const prefix = isMainRow
-          ? [value, xAxisLabel, dynamicText].filter(Boolean).join(" ")
-          : "";
-        const full = prefix ? `${prefix} ${label}` : label;
-        const lines = wrapText(full, width, labelFontSize);
+        const { prefix, lines } = labelsBySegment[segment] ?? {
+          prefix: "",
+          lines: [""],
+        };
         const extra = (lines.length - 1) * labelLineHeight;
 
         return (
