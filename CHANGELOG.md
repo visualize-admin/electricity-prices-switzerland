@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Match legend and tooltip line swatch widths (#711)
 
 # 2.52.0 - 2026-08-31
 
