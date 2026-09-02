@@ -4,6 +4,9 @@ import { Box, Typography } from "@mui/material";
 import {
   QueryStateEnergyPricesMap,
   QueryStateSunshineMap,
+  useQueryStateEnergyPricesMap,
+  useQueryStateMapCommon,
+  useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 
@@ -14,7 +17,7 @@ type MapExportCaptionEnergy = Pick<
 
 type MapExportCaptionSunshine = Pick<
   QueryStateSunshineMap,
-  | "period"Ÿ
+  | "period"
   | "indicator"
   | "peerGroup"
   | "category"
@@ -104,8 +107,7 @@ const FilterParts = ({ parts }: { parts: FilterPart[] }) => (
   </>
 );
 
-/** Shown only while a map PNG is being composed, so html2canvas includes filters and source. */
-export const MapExportCaption = ({
+const MapExportCaptionView = ({
   tab,
   energy,
   sunshine,
@@ -150,4 +152,13 @@ export const MapExportCaption = ({
       </Typography>
     </Box>
   );
+};
+
+/** Shown only while a map PNG is being composed, so html2canvas includes filters and source. */
+export const MapExportCaption = () => {
+  const [{ tab }] = useQueryStateMapCommon();
+  const [energy] = useQueryStateEnergyPricesMap();
+  const [sunshine] = useQueryStateSunshineMap();
+
+  return <MapExportCaptionView tab={tab} energy={energy} sunshine={sunshine} />;
 };
