@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix mobile main nav staying open after selecting Overview on the home page (#694)
 
 # 2.52.0 - 2026-08-31
 
