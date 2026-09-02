@@ -1,14 +1,15 @@
 import { Trans } from "@lingui/macro";
 import {
+  Breakpoint,
   NativeSelect,
   NativeSelectProps,
   Tab,
   Tabs,
   TabsProps,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React, { ReactNode, useCallback } from "react";
-
-import { useIsMobile } from "src/lib/use-mobile";
 
 type ResponsiveNavigationItem<T extends string> = {
   value: T;
@@ -20,15 +21,19 @@ type ResponsiveNavigationProps<T extends string> = {
   activeTab: T;
   items: ResponsiveNavigationItem<T>[];
   onChange: (event: React.SyntheticEvent, newValue: T) => void;
+  /** Use a select instead of tabs below this breakpoint. Defaults to `md`. */
+  selectBelow?: Breakpoint;
 } & Omit<TabsProps, "onChange" | "value">;
 
 const ResponsiveNavigation = <T extends string>({
   activeTab,
   items,
   onChange,
+  selectBelow = "md",
   ...tabsProps
 }: ResponsiveNavigationProps<T>) => {
-  const isMobile = useIsMobile();
+  const theme = useTheme();
+  const useSelect = useMediaQuery(theme.breakpoints.down(selectBelow));
 
   const handleSelectChange = useCallback<
     NonNullable<NativeSelectProps["onChange"]>
@@ -42,7 +47,7 @@ const ResponsiveNavigation = <T extends string>({
     [onChange]
   );
 
-  if (isMobile) {
+  if (useSelect) {
     return (
       <NativeSelect
         value={activeTab}
@@ -131,6 +136,7 @@ export const ElectricityPricesNavigation: React.FC<{
       activeTab={activeTab}
       items={electricityPricesItems}
       onChange={handleTabChange}
+      selectBelow="lg"
     />
   );
 };
