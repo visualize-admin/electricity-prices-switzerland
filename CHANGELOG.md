@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix chart tooltips drifting on scroll on operator detail pages (#698)
 
 # 2.52.0 - 2026-08-31
 
