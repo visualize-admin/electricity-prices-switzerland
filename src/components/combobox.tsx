@@ -39,6 +39,8 @@ export type ComboboxMultiProps = {
   onInputValueChange?: (inputValue: string) => void;
   isLoading?: boolean;
   isOptionEqualToValue?: (option: unknown, value: string) => boolean;
+  isItemDisabled?: (item: string) => boolean;
+  getItemEndLabel?: (item: string) => React.ReactNode;
   size?: "small" | "medium";
   InputProps?: Partial<React.ComponentProps<typeof TextField>["InputProps"]>;
 };
@@ -110,6 +112,8 @@ export const MultiCombobox = ({
   error,
   colorMapping,
   max,
+  isItemDisabled,
+  getItemEndLabel,
   size = "small",
   InputProps,
 }: ComboboxMultiProps) => {
@@ -133,9 +137,10 @@ export const MultiCombobox = ({
         }
       }}
       getOptionDisabled={(option) =>
-        max !== undefined &&
-        selectedItems.length >= max &&
-        !selectedItems.includes(option)
+        Boolean(isItemDisabled?.(option)) ||
+        (max !== undefined &&
+          selectedItems.length >= max &&
+          !selectedItems.includes(option))
       }
       sx={{
         width: "100%",
@@ -222,11 +227,32 @@ export const MultiCombobox = ({
           );
         })
       }
-      renderOption={(props, option) => (
-        <li {...props} key={`${option}-${id}-selectable`}>
-          {getItemLabel(option)}
-        </li>
-      )}
+      renderOption={(props, option) => {
+        const endLabel = getItemEndLabel?.(option);
+        return (
+          <li
+            {...props}
+            key={`${option}-${id}-selectable`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
+            }}
+          >
+            {getItemLabel(option)}
+            {endLabel ? (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                component="span"
+              >
+                {endLabel}
+              </Typography>
+            ) : null}
+          </li>
+        );
+      }}
       filterOptions={(options, state) => {
         const filteredOptions = options.filter(
           (option) =>

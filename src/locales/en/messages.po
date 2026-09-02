@@ -48,6 +48,10 @@ msgstr "Network operator"
 msgid "combobox.maxitems"
 msgstr "A maximum of {max} Entries are allowed"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "No data"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
