@@ -551,7 +551,7 @@ export const GenericMap = ({
           "--map-widget-margin-y": (theme) => theme.spacing(3),
         }}
       >
-        {legend && (
+        {(legend || widgets?.right) && (
           <Box
             zIndex={13}
             position="absolute"
@@ -561,10 +561,12 @@ export const GenericMap = ({
             gap={2}
           >
             {widgets?.right}
-            <Box id={legendId}>
-              {legend}
-              {screenshotting ? <MapExportCaption /> : null}
-            </Box>
+            {legend ? (
+              <Box id={legendId}>
+                {legend}
+                {screenshotting ? <MapExportCaption /> : null}
+              </Box>
+            ) : null}
           </Box>
         )}
 
