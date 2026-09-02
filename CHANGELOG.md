@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Hide peer-group median in chart legends when no median is available (#700)
 - Disable cantons without data in the comparison dropdown (#685)
 - Fix line-chart tooltips missing on mobile in municipality view (#683)
 - Include applied filters and source on downloaded map images
