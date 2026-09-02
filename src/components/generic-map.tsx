@@ -516,7 +516,8 @@ export const GenericMap = ({
         </HintBox>
       ) : null}
 
-      {tooltipContent?.hoveredState && tooltipContent.content && (
+      {/* Mobile uses the bottom overlay card in MobileControls instead. */}
+      {!isMobile && tooltipContent?.hoveredState && tooltipContent.content && (
         <MapTooltip
           x={tooltipContent.hoveredState.x}
           y={tooltipContent.hoveredState.y}
