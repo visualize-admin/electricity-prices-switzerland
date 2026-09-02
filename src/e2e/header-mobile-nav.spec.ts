@@ -35,6 +35,23 @@ test.describe("Header mobile navigation (burger menu)", () => {
     inflight.dispose();
   });
 
+  test("closes the drawer after selecting Overview on the home page (regression #694)", async ({
+    page,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await gotoWithRetry(page, "/en");
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    const drawer = page.getByTestId("mobile-nav-drawer");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await expect(drawer).toBeVisible();
+
+    await drawer.getByRole("button", { name: "Overview", exact: true }).click();
+    await expect(drawer).toBeHidden();
+    inflight.dispose();
+  });
+
   test("opens the drawer from search and focuses the drawer search field", async ({
     page,
   }) => {
@@ -66,6 +83,7 @@ test.describe("Header mobile navigation (burger menu)", () => {
       .click();
     // Default locale often has no /en prefix (pathname is /map).
     await expect(page).toHaveURL(/\/(en\/)?map(\?|$)/);
+    await expect(page.getByTestId("mobile-nav-drawer")).toBeHidden();
     inflight.dispose();
   });
 
