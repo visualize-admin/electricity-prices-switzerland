@@ -12,6 +12,13 @@ You can also check the
 # Unreleased
 
 - Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
+- Hide peer-group median in chart legends when no median is available (#700)
+- Disable cantons without data in the comparison dropdown (#685)
+- Fix line-chart tooltips missing on mobile in municipality view (#683)
+- Include applied filters and source on downloaded map images
+- Match legend and tooltip line swatch widths (#711)
+- Fix map electricity/indicators control collapsing into empty boxes on mobile by switching to a select
+- Fix mobile search selecting a municipality on the map; Close now clears the selection, View on map applies it (#691)
 - Fix operator comparison dropdown overflowing the viewport on mobile (#699)
 - Fix mobile main nav staying open after selecting Overview on the home page (#694)
 - Fix two municipality tooltips showing in parallel on mobile (#692)

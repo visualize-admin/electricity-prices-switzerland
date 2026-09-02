@@ -48,6 +48,10 @@ msgstr "Network operator"
 msgid "combobox.maxitems"
 msgstr "A maximum of {max} Entries are allowed"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.nodata"
+msgstr "No data"
+
 #: src/components/combobox.tsx
 #: src/components/combobox.tsx
 #: src/components/search.tsx
@@ -841,6 +845,10 @@ msgstr "Map View"
 msgid "mobile-drawer.parameters-title"
 msgstr "Filters"
 
+#: src/components/map-details-content.tsx
+msgid "mobile-drawer.view-map"
+msgstr "View on map"
+
 #: src/components/header.tsx
 msgid "mobile-nav.close-menu"
 msgstr "Close menu"
@@ -1265,6 +1273,7 @@ msgstr "Franc rule"
 msgid "selector.energy-tariffs-category"
 msgstr "Category"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indicator"
@@ -1305,10 +1314,12 @@ msgstr "Annual frequency of power interruptions per customer (SAIFI), in interru
 msgid "selector.net-tariffs-category"
 msgstr "Category"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
 msgstr "Network level"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
 msgstr "Peer group"
@@ -1397,6 +1408,7 @@ msgstr "Cheapest"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
@@ -1958,6 +1970,7 @@ msgid "sunshine.service-quality.notification-period"
 msgstr "Notification Days in Advance"
 
 #: src/components/card-source.tsx
+#: src/components/map-export-caption.tsx
 msgid "sunshine.source"
 msgstr "Source: {source}"
 
