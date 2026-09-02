@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix line-chart tooltips missing on mobile in municipality view (#683)
 
 # 2.52.0 - 2026-08-31
 
