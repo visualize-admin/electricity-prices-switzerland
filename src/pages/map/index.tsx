@@ -259,10 +259,9 @@ const MapPageContent = ({
   const handleCloseMobileControlsDrawer = useEventCallback(() => {
     const keepSelection = keepSelectionOnDrawerCloseRef.current;
     keepSelectionOnDrawerCloseRef.current = false;
-    const previewId = mobilePreviewId;
     setMobileDrawerOpen(false);
     setMobilePreviewId(null);
-    if (!keepSelection && previewId) {
+    if (!keepSelection) {
       setActiveId(null);
     }
   });
@@ -275,6 +274,14 @@ const MapPageContent = ({
     setMobilePreviewId(null);
     setMobileDrawerOpen(false);
   });
+
+  // Programmatic close (View on map) often skips Vaul `onClose`, which would
+  // leave keepSelection stuck and the next Close would not clear activeId.
+  useEffect(() => {
+    if (!mobileDrawerOpen) {
+      keepSelectionOnDrawerCloseRef.current = false;
+    }
+  }, [mobileDrawerOpen]);
 
   const handleClickMobileControlsCard = useEventCallback(() => {
     setMobileDrawerOpen(true);
@@ -296,7 +303,10 @@ const MapPageContent = ({
   const mapWidgets = useMemo(() => {
     return {
       right: isMobile ? (
-        <WidgetIcon onClick={handleClickListWidget}>
+        <WidgetIcon
+          onClick={handleClickListWidget}
+          data-testid="mobile-map-list"
+        >
           <Icon name="listbullet" />
         </WidgetIcon>
       ) : null,

@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Fix chart tooltips drifting on scroll on operator detail pages (#698)
+- Fix price components card labels being cut off when the card is narrow
 - Hide peer-group median in chart legends when no median is available (#700)
 - Disable cantons without data in the comparison dropdown (#685)
 - Fix line-chart tooltips missing on mobile in municipality view (#683)
