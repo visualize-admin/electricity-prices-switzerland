@@ -68,7 +68,7 @@ export const DEFAULT_PAPER_SIZE: PaperSize = "small";
 export const getMapImageData = async (
   deck: Deck,
   legend: HTMLElement | undefined,
-  paperSize: PaperSize = DEFAULT_PAPER_SIZE,
+  paperSize: PaperSize = DEFAULT_PAPER_SIZE
 ) => {
   if (!deck || "canvas" in deck === false) {
     return;
@@ -124,14 +124,20 @@ export const getMapImageData = async (
     0,
     (newCanvas.height - drawnMapHeight) / 2,
     newCanvas.width,
-    drawnMapHeight,
+    drawnMapHeight
   );
 
   if (legend) {
-    const legendCanvas = await html2canvas(legend);
-    // We need to draw the legend using the device pixel ratio otherwise we get
-    // difference between different browsers (Safari legend would be bigger somehow)
-    const { width, height } = legend.getBoundingClientRect();
+    const legendCanvas = await html2canvas(legend, { scale: ratio });
+    // Size from CSS width × dpr so Safari/Chrome stay consistent, but keep
+    // the captured canvas aspect ratio — using bbox height too can squash
+    // text when the clone wraps differently (e.g. long source URLs).
+    const { width } = legend.getBoundingClientRect();
+    const destWidth = width * ratio * sizeConfig.legendScale;
+    const destHeight =
+      legendCanvas.width > 0
+        ? destWidth * (legendCanvas.height / legendCanvas.width)
+        : 0;
 
     const legendPadding =
       (sizeConfig.legendPaddingPercent / 100) * newCanvas.width;
@@ -139,14 +145,14 @@ export const getMapImageData = async (
       legendCanvas,
       legendPadding,
       legendPadding,
-      width * ratio * sizeConfig.legendScale,
-      height * ratio * sizeConfig.legendScale,
+      destWidth,
+      destHeight
     );
   }
 
   // Returns the canvas as a png
   const res = await toBlob(newCanvas, "image/png").then((blob) =>
-    blob ? URL.createObjectURL(blob) : undefined,
+    blob ? URL.createObjectURL(blob) : undefined
   );
 
   Object.assign(canvas, initialSize);

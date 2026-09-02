@@ -1270,6 +1270,7 @@ msgstr "Coûts et bénéfices de la distribution d'énergie"
 msgid "selector.energy-tariffs-category"
 msgstr "Catégorie"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.indicator"
 msgstr "Indicateur"
@@ -1310,10 +1311,12 @@ msgstr "Fréquence annuelle des interruptions d'alimentation par client (SAIFI),
 msgid "selector.net-tariffs-category"
 msgstr "Catégorie"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.network-level"
 msgstr "Niveau de réseau"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.peerGroup"
 msgstr "Groupe de référence"
@@ -1402,6 +1405,7 @@ msgstr "Meilleur marché"
 msgid "selector.product.standard"
 msgstr "Standard"
 
+#: src/components/map-export-caption.tsx
 #: src/components/sunshine-selectors/base.tsx
 #: src/domain/translation.tsx
 msgid "selector.saidi-saifi-type"
@@ -1966,6 +1970,7 @@ msgid "sunshine.service-quality.notification-period"
 msgstr "Nombre de jours de préavis"
 
 #: src/components/card-source.tsx
+#: src/components/map-export-caption.tsx
 msgid "sunshine.source"
 msgstr "Source : {source}"
 
