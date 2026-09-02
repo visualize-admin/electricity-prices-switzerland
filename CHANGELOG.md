@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix mobile main nav staying open after selecting Overview on the home page (#694)
 - Fix two municipality tooltips showing in parallel on mobile (#692)
 - Switch electricity detail tabs to a select below the large breakpoint so labels stay readable
 
