@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix price components card labels being cut off when the card is narrow
 
 # 2.52.0 - 2026-08-31
 
