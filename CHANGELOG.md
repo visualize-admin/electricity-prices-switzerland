@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Hide peer-group median in chart legends when no median is available (#700)
 
 # 2.52.0 - 2026-08-31
 
