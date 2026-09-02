@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix two municipality tooltips showing in parallel on mobile (#692)
 
 # 2.52.0 - 2026-08-31
 
