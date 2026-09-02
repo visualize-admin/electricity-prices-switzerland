@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
+- Switch electricity detail tabs to a select below the large breakpoint so labels stay readable
 
 # 2.52.0 - 2026-08-31
 
