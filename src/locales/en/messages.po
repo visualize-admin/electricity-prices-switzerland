@@ -318,7 +318,7 @@ msgstr "Download reports"
 msgid "dynamic-tariffs.hint"
 msgstr "Prices shown with values in brackets are dynamic."
 
-#: src/components/charts-generic/bars/bars-grouped.tsx
+#: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
 msgstr "dynamic"
 

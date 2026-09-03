@@ -318,7 +318,7 @@ msgstr "download.reports"
 msgid "dynamic-tariffs.hint"
 msgstr "dynamic-tariffs.hint"
 
-#: src/components/charts-generic/bars/bars-grouped.tsx
+#: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
 msgstr "dynamic.tariff"
 

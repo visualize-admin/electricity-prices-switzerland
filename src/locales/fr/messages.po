@@ -318,7 +318,7 @@ msgstr "Télécharger rapports et tarifs"
 msgid "dynamic-tariffs.hint"
 msgstr "Il s'agit d'un tarif dynamique."
 
-#: src/components/charts-generic/bars/bars-grouped.tsx
+#: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
 msgstr "dynamique"
 
