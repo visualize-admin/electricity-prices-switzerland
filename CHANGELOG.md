@@ -15,6 +15,7 @@ Nothing new Yet
 
 # 2.53.0 - 2026-09-03
 
+- Pin fast-uri to a patched release for Trivy HIGH CVEs
 - Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
 - Fix chart tooltips drifting on scroll on operator detail pages (#698)
 - Fix price components card labels being cut off when the card is narrow
