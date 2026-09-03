@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing new Yet
+
+# 2.53.0 - 2026-09-03
+
 - Fix canton comparison axis labels repeating and dots being misplaced on small domains like metering rate
 - Fix chart tooltips drifting on scroll on operator detail pages (#698)
 - Fix price components card labels being cut off when the card is narrow
