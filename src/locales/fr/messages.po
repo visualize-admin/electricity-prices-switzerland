@@ -62,6 +62,10 @@ msgstr "Aucune entrée"
 msgid "combobox.prompt"
 msgstr "Saisir la description…"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.prompt.canton"
+msgstr "Saisir un canton…"
+
 #: src/components/form.tsx
 msgid "controls.search.clear"
 msgstr "Supprimer"
