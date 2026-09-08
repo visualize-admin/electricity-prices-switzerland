@@ -25,7 +25,7 @@ Items are filtered using a threshold of **0.25** (25%). This means:
 
 ### Years With No Offer Data
 
-Offers only exist from 2025 onward. For earlier years, `CoverageCacheManager.prepare()` reuses `FALLBACK_OFFERS_YEAR` (2025)'s offer coverage ratios instead, so coverage is still based on real offer data. `getOperatorsMunicipalities()` (`src/rdf/queries.ts`) tags operator-municipality pairs sourced this way with `OFFERS_2025` instead of `OFFERS`, so consumers can tell the coverage ratio is borrowed from a different year.
+Offers only exist from 2025 onward. For earlier years, `CoverageCacheManager.prepare()` reuses `FALLBACK_OFFERS_YEAR` (2025)'s offer coverage ratios instead, so coverage is still based on real offer data. It SPARQLs `coverageOfferYear(period)` (2025 for anything earlier) rather than probing each historic year, which would return empty. `getOperatorsMunicipalities()` (`src/rdf/queries.ts`) tags operator-municipality pairs sourced this way with `OFFERS_2025` instead of `OFFERS`, so consumers can tell the coverage ratio is borrowed from a different year.
 
 ### The Default Coverage Logic
 
