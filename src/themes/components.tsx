@@ -117,6 +117,11 @@ export const components = (theme: Theme): Components => ({
       root: {
         textTransform: "none !important",
 
+        "&.Mui-focusVisible": {
+          outline: `2px solid ${palette.monochrome[800]}`,
+          outlineOffset: 2,
+        },
+
         "& .MuiButton-startIcon": {
           marginRight: 4,
         },
@@ -705,7 +710,11 @@ export const components = (theme: Theme): Components => ({
           -ms-overflow-style: -ms-autohiding-scrollbar;
         }
 
-  
+        :focus-visible {
+          outline: 2px solid ${palette.monochrome[800]} !important;
+          outline-offset: 2px;
+        }
+
         fieldset {
           border: none;
         }
