@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Speed up the map popover tariff-development chart: skip empty pre-2025 coverage SPARQL and fetch only the plotted price component (#695)
 - Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
 - Add /admin/caches to clear in-process LRU caches without a restart
 
