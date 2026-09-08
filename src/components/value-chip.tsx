@@ -14,6 +14,7 @@ const useStyles = makeStyles()((theme) => ({
     height: "24px",
     width: "fit-content",
     marginLeft: "auto",
+    cursor: "default",
   },
 }));
 

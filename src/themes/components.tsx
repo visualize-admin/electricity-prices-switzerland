@@ -142,7 +142,7 @@ export const components = (theme: Theme): Components => ({
       select: {
         "&&": {
           paddingRight: `calc(var(--icon-width) + ${theme.spacing(
-            2,
+            2
           )}) !important`,
           paddingLeft: theme.spacing(2),
           height: `var(--select-height)`,
@@ -597,16 +597,24 @@ export const components = (theme: Theme): Components => ({
           }
         })();
 
+        const interactive = Boolean(
+          !ownerState.disabled && (ownerState.clickable || ownerState.onDelete)
+        );
+
         return {
           ...sizeStyles,
           width: "fit-content",
           height: "fit-content",
           color: palette.text.primary,
-          cursor: "pointer",
+          cursor: interactive ? "pointer" : "default",
           backgroundColor: palette.secondary[50],
-          "&:hover": {
-            backgroundColor: palette.secondary[100],
-          },
+          ...(interactive
+            ? {
+                "&:hover": {
+                  backgroundColor: palette.secondary[100],
+                },
+              }
+            : {}),
           "&.Mui-disabled": {
             opacity: 1,
             backgroundColor: palette.secondary[50],
