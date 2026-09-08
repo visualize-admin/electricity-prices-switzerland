@@ -916,6 +916,37 @@ export type ObservationsWithAllPriceComponentsQuery = {
   }> | null;
 };
 
+export type PriceEvolutionObservationsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+  priceComponent: PriceComponent;
+  filters: ObservationFilters;
+  observationKind?: InputMaybe<ObservationKind>;
+}>;
+
+export type PriceEvolutionObservationsQuery = {
+  __typename: "Query";
+  observations?: Array<{
+    __typename: "OperatorObservation";
+    period: string;
+    municipality: string;
+    municipalityLabel?: string | null;
+    operator: string;
+    operatorLabel?: string | null;
+    canton: string;
+    cantonLabel?: string | null;
+    category: string;
+    value?: number | null;
+  }> | null;
+  cantonMedianObservations?: Array<{
+    __typename: "CantonMedianObservation";
+    period: string;
+    canton: string;
+    cantonLabel?: string | null;
+    category: string;
+    value: number;
+  }> | null;
+};
+
 export type OperatorDocumentsQueryVariables = Exact<{
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
@@ -1711,6 +1742,53 @@ export function useObservationsWithAllPriceComponentsQuery(
     ObservationsWithAllPriceComponentsQuery,
     ObservationsWithAllPriceComponentsQueryVariables
   >({ query: ObservationsWithAllPriceComponentsDocument, ...options });
+}
+export const PriceEvolutionObservationsDocument = gql`
+  query PriceEvolutionObservations(
+    $locale: String!
+    $priceComponent: PriceComponent!
+    $filters: ObservationFilters!
+    $observationKind: ObservationKind
+  ) {
+    observations(
+      locale: $locale
+      filters: $filters
+      observationKind: $observationKind
+    ) {
+      period
+      municipality
+      municipalityLabel
+      operator
+      operatorLabel
+      canton
+      cantonLabel
+      category
+      value(priceComponent: $priceComponent)
+    }
+    cantonMedianObservations(
+      locale: $locale
+      filters: $filters
+      observationKind: $observationKind
+    ) {
+      period
+      canton
+      cantonLabel
+      category
+      value(priceComponent: $priceComponent)
+    }
+  }
+`;
+
+export function usePriceEvolutionObservationsQuery(
+  options: Omit<
+    Urql.UseQueryArgs<PriceEvolutionObservationsQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    PriceEvolutionObservationsQuery,
+    PriceEvolutionObservationsQueryVariables
+  >({ query: PriceEvolutionObservationsDocument, ...options });
 }
 export const OperatorDocumentsDocument = gql`
   query OperatorDocuments($id: String!, $locale: String!) {

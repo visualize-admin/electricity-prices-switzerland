@@ -162,6 +162,40 @@ query ObservationsWithAllPriceComponents(
   }
 }
 
+query PriceEvolutionObservations(
+  $locale: String!
+  $priceComponent: PriceComponent!
+  $filters: ObservationFilters!
+  $observationKind: ObservationKind
+) {
+  observations(
+    locale: $locale
+    filters: $filters
+    observationKind: $observationKind
+  ) {
+    period
+    municipality
+    municipalityLabel
+    operator
+    operatorLabel
+    canton
+    cantonLabel
+    category
+    value(priceComponent: $priceComponent)
+  }
+  cantonMedianObservations(
+    locale: $locale
+    filters: $filters
+    observationKind: $observationKind
+  ) {
+    period
+    canton
+    cantonLabel
+    category
+    value(priceComponent: $priceComponent)
+  }
+}
+
 query OperatorDocuments($id: String!, $locale: String!) {
   operator(id: $id, locale: $locale) {
     name
