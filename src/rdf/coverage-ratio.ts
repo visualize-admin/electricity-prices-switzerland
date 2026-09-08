@@ -18,6 +18,13 @@ export const COVERAGE_RATIO_THRESHOLD = 0.25;
 export const FALLBACK_OFFERS_YEAR = "2025";
 
 /**
+ * Offers only exist from FALLBACK_OFFERS_YEAR onward. Earlier years reuse that
+ * year's ratios — do not SPARQL them (empty round-trips on every time series).
+ */
+export const coverageOfferYear = (year: string) =>
+  year < FALLBACK_OFFERS_YEAR ? FALLBACK_OFFERS_YEAR : year;
+
+/**
  * The coverage ratios for operators for each year are cached for 5m
  */
 export const coveragesByYearCache = new LRUCache<
@@ -141,8 +148,9 @@ export class CoverageCacheManager {
    */
   async prepare(years: string[]) {
     const coveragePromises = years.map(async (year) => {
-      let coverage = await cacheCoverageRatios(this.sparqlClient, year);
-      if (coverage.size === 0 && year !== FALLBACK_OFFERS_YEAR) {
+      const queryYear = coverageOfferYear(year);
+      let coverage = await cacheCoverageRatios(this.sparqlClient, queryYear);
+      if (coverage.size === 0 && queryYear !== FALLBACK_OFFERS_YEAR) {
         coverage = await cacheCoverageRatios(
           this.sparqlClient,
           FALLBACK_OFFERS_YEAR
