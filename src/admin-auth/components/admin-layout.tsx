@@ -108,6 +108,7 @@ export default function AdminLayout({
             borderColor="divider"
           >
             <ActiveLink href="/admin/session-config">Session Config</ActiveLink>
+            <ActiveLink href="/admin/caches">Caches</ActiveLink>
             <ActiveLink href="/admin/metrics">Metrics</ActiveLink>
             <ActiveLink href="/admin/api-status">API Status</ActiveLink>
             <ActiveLink href="/admin/document-download">

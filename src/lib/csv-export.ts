@@ -2,7 +2,7 @@ import { NextApiResponse } from "next";
 import { LRUCache } from "typescript-lru-cache";
 
 /** Electricity prices are published yearly; 24h is safe. */
-const cache = new LRUCache<string, Promise<string>>({
+export const csvExportCache = new LRUCache<string, Promise<string>>({
   entryExpirationTimeInMS: 24 * 60 * 60 * 1000,
   maxSize: 50,
 });
@@ -16,7 +16,7 @@ export const tariffCsvCacheKey = (
 export const municipalitiesCsvCacheKey = (endpoint: string, period: string) =>
   `municipalities:${endpoint}:${period}`;
 
-export const peekCsvExport = (key: string) => cache.get(key);
+export const peekCsvExport = (key: string) => csvExportCache.get(key);
 
 /**
  * Like coverage-ratio: cache the in-flight Promise so concurrent requests
@@ -27,20 +27,20 @@ export const getOrComputeCsv = (
   key: string,
   compute: () => Promise<string>
 ): Promise<string> => {
-  const cached = cache.get(key);
+  const cached = csvExportCache.get(key);
   if (cached) {
     return cached;
   }
   const promise = compute().catch((error) => {
-    cache.delete(key);
+    csvExportCache.delete(key);
     throw error;
   });
-  cache.set(key, promise);
+  csvExportCache.set(key, promise);
   return promise;
 };
 
 export const clearCsvExportCache = () => {
-  cache.clear();
+  csvExportCache.clear();
 };
 
 /**

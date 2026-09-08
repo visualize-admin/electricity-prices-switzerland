@@ -200,7 +200,10 @@ const getRegionDimensionsAndFilter = ({
     : undefined;
 };
 
-const cache = new LRUCache<string, Observation[]>({
+export const electricityPriceObservationsCache = new LRUCache<
+  string,
+  Observation[]
+>({
   entryExpirationTimeInMS: 60 * 1000,
 });
 
@@ -321,7 +324,7 @@ export const getElectricityPriceObservations = async (
 
   const cacheKey = filterView.observationsQuery().query.toString();
 
-  const cached = cache.get(cacheKey);
+  const cached = electricityPriceObservationsCache.get(cacheKey);
   if (cached) {
     return cached;
   }
@@ -343,7 +346,7 @@ export const getElectricityPriceObservations = async (
   const res = observations.map(parseObservation);
 
   if (res.length > 0) {
-    cache.set(cacheKey, res);
+    electricityPriceObservationsCache.set(cacheKey, res);
   }
 
   return res;
