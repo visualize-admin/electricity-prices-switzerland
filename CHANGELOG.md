@@ -11,8 +11,7 @@ You can also check the
 
 # Unreleased
 
-- Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
-- Add /admin/caches to clear in-process LRU caches without a restart
+- Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
 
 # 2.53.0 - 2026-09-03
 
