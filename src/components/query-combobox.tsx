@@ -165,6 +165,10 @@ export const CantonsCombobox = (
       lazy
       max={8}
       onInputValueChange={setInputValue}
+      promptText={t({
+        id: "combobox.prompt.canton",
+        message: "Enter a canton…",
+      })}
       isLoading={
         (gqlQuery.fetching && inputValue.length > 0) || observationsFetching
       }
