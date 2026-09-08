@@ -88,7 +88,7 @@ export default function AdminCachesPage({
             <Box component="form" action="/api/admin/caches" method="POST">
               <input type="hidden" name="csrfToken" value={csrfToken} />
               <input type="hidden" name="id" value={cache.id} />
-              <Button type="submit" variant="outlined" size="small">
+              <Button type="submit" variant="outlined">
                 Clear
               </Button>
             </Box>
