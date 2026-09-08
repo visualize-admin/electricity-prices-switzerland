@@ -25,6 +25,7 @@ export const AxisWidthLinear = (_props: AxisWidthLinearProps = {}) => {
   const xAxisRef = useRef<SVGGElement>(null);
 
   const formatValue = (d: NumberValue, _i: number) => formatAxis(Number(d));
+  const plotHeight = chartHeight + (margins.annotations ?? 0);
 
   const mkAxis = (g: Selection<SVGGElement, unknown, null, undefined>) => {
     const maxLabelLength = estimateTextWidth(
@@ -38,12 +39,8 @@ export const AxisWidthLinear = (_props: AxisWidthLinearProps = {}) => {
     g.call(
       axisGenerator(xScale)
         .tickValues(tickValues)
-        .tickSizeInner(
-          axisPlacement === "top" ? -chartHeight : chartHeight * 0.5
-        )
-        .tickSizeOuter(
-          axisPlacement === "top" ? -chartHeight : chartHeight * 0.5
-        )
+        .tickSizeInner(axisPlacement === "top" ? -plotHeight : plotHeight * 0.5)
+        .tickSizeOuter(axisPlacement === "top" ? -plotHeight : plotHeight * 0.5)
         .tickFormat(formatValue)
         .tickPadding(axisPlacement === "bottom" ? 24 : 6)
     );
