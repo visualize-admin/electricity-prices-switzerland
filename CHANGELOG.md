@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#736)
+
 - Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
 
 - Use a default cursor on chips that are not clickable or deletable (#687)
