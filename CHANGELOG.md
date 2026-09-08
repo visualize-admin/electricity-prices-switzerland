@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Show a keyboard focus ring on interactive elements (#706)
+
 - Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
 
 - Use a default cursor on chips that are not clickable or deletable (#687)
