@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
+
 - Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
 - Add /admin/caches to clear in-process LRU caches without a restart
 
