@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Tell users to type a canton in the comparison dropdown empty state (#689)
 - Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
 - Add /admin/caches to clear in-process LRU caches without a restart
 
