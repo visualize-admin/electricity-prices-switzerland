@@ -255,9 +255,9 @@ const KeyValueTableRow = <
               component="span"
               variant="body3"
               color="text.500"
-              sx={{ flexShrink: 0 }}
+              sx={{ flexShrink: 0, pl: "0.5em" }}
             >
-              {` (${labelUnit})`}
+              ({labelUnit})
             </Typography>
           </>
         ) : (

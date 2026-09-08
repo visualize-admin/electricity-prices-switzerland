@@ -99,9 +99,9 @@ export const SelectedEntityCard: React.FC<{
                     variant="caption"
                     component="span"
                     color="text.secondary"
-                    sx={{ flexShrink: 0, lineHeight: 1.5 }}
+                    sx={{ flexShrink: 0, lineHeight: 1.5, pl: "0.5em" }}
                   >
-                    {` (${d.unit})`}
+                    ({d.unit})
                   </Typography>
                 ) : null}
               </Box>
