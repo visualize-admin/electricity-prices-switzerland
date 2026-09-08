@@ -77,6 +77,8 @@ test.describe("Admin Interface", () => {
     // Login first
     await adminLogin(page);
     await page.goto("/admin/metrics");
-    await page.getByText("Please select releases to compare.").click();
+    await page
+      .getByRole("heading", { name: "Please select Releases to Compare" })
+      .click();
   });
 });

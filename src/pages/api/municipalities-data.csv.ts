@@ -7,6 +7,11 @@ import { z } from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
 import { contextFromAPIRequest } from "src/graphql/server-context";
+import {
+  getOrComputeCsv,
+  municipalitiesCsvCacheKey,
+  sendCsvDownload,
+} from "src/lib/csv-export";
 
 const MunicipalityInfo = z
   .object({
@@ -64,6 +69,19 @@ type SparqlResponse = {
     bindings: Record<string, { value: unknown }>[];
   };
 };
+
+const municipalityCsvColumns = [
+  "operator",
+  "operatorUid",
+  "website",
+  "municipalityNumber",
+  "municipalityName",
+  "operatorAddress",
+  "operatorPostalCode",
+  "canton",
+] as const;
+
+const municipalityCsvHeader = municipalityCsvColumns.join(",");
 
 const fetchMunicipalitiesInfo = async (
   sparqlEndpointUrl: string,
@@ -142,31 +160,42 @@ const fetchMunicipalitiesInfo = async (
   return z.array(MunicipalityInfo).parse(data);
 };
 
+const buildMunicipalitiesCsv = async (
+  sparqlEndpointUrl: string,
+  period: number
+) => {
+  const data = await fetchMunicipalitiesInfo(sparqlEndpointUrl, period);
+  return csvFormat(data, [...municipalityCsvColumns]);
+};
+
+export const getMunicipalitiesCsv = (
+  sparqlEndpointUrl: string,
+  period: number
+) =>
+  getOrComputeCsv(
+    municipalitiesCsvCacheKey(sparqlEndpointUrl, String(period)),
+    () => buildMunicipalitiesCsv(sparqlEndpointUrl, period)
+  );
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
+
 const handler: NextApiHandler = async (req, res) => {
   const period = Number(
     req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD
   );
   const context = await contextFromAPIRequest(req);
   const sparqlEndpointUrl = context.sparqlClient.query.endpoint.endpointUrl;
-  const data = await fetchMunicipalitiesInfo(sparqlEndpointUrl, period);
-  const filename = `municipalities-data-${period}.csv`;
-  const csv = csvFormat(data, [
-    "operator",
-    "operatorUid",
-    "website",
-    "municipalityNumber",
-    "municipalityName",
-    "operatorAddress",
-    "operatorPostalCode",
-    "canton",
-  ]);
-  res.setHeader("Content-Type", "text/csv");
-  res.setHeader("Content-Disposition", `attachment;filename=${filename}`);
-  res.setHeader(
-    "Cache-Control",
-    "public, max-age=300, s-maxage=300, stale-while-revalidate"
-  );
-  res.send(csv);
+
+  await sendCsvDownload(res, {
+    cacheKey: municipalitiesCsvCacheKey(sparqlEndpointUrl, String(period)),
+    filename: `municipalities-data-${period}.csv`,
+    headerLine: municipalityCsvHeader,
+    produce: () => buildMunicipalitiesCsv(sparqlEndpointUrl, period),
+  });
 };
 
 export default handler;

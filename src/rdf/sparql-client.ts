@@ -36,6 +36,10 @@ export function createSparqlClientForCube(
   return createSparqlClient(maybeCachedEndpointUrl);
 }
 
+export function getDefaultSparqlClient(): ParsingClient {
+  return createSparqlClient(defaultSparqlEndpointUrl);
+}
+
 const getSparqlEndpointFromSession = (session: SessionPayload | null) => {
   return session?.flags.sparqlEndpoint ?? defaultSparqlEndpointUrl;
 };

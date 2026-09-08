@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing new Yet
+- Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
+- Add /admin/caches to clear in-process LRU caches without a restart
 
 # 2.53.0 - 2026-09-03
 

@@ -20,11 +20,12 @@ export const FALLBACK_OFFERS_YEAR = "2025";
 /**
  * The coverage ratios for operators for each year are cached for 5m
  */
-const coveragesByYearCache = new LRUCache<string, Promise<Map<string, number>>>(
-  {
-    entryExpirationTimeInMS: 5 * 60 * 1000,
-  }
-);
+export const coveragesByYearCache = new LRUCache<
+  string,
+  Promise<Map<string, number>>
+>({
+  entryExpirationTimeInMS: 5 * 60 * 1000,
+});
 
 const coverageRatioKey = (
   municipalityId: string,
