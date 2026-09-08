@@ -1,5 +1,5 @@
 import { csvParse } from "d3";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("src/graphql/server-context", () => ({
   contextFromAPIRequest: vi.fn(),
@@ -12,14 +12,13 @@ vi.mock("src/env/runtime", () => ({
 vi.mock("fs", () => ({ default: { writeFileSync: vi.fn() } }));
 
 import { contextFromAPIRequest } from "src/graphql/server-context";
+import { clearCsvExportCache } from "src/lib/csv-export";
 
 import handler from "./municipalities-data.csv";
 
 const sparqlBinding = (value: string) => ({ value });
 
-const makeSparqlResponse = (
-  bindings: Record<string, { value: string }>[]
-) => ({
+const makeSparqlResponse = (bindings: Record<string, { value: string }>[]) => ({
   json: () =>
     Promise.resolve({
       results: { bindings },
@@ -27,12 +26,20 @@ const makeSparqlResponse = (
 });
 
 const createMockReq = (query: Record<string, string> = {}) =>
-  ({ query, headers: {} }) as never;
+  ({ query, headers: {} } as never);
 
 const createMockRes = () => {
   let body = "";
   return {
+    status: vi.fn().mockReturnThis(),
     setHeader: vi.fn(),
+    flushHeaders: vi.fn(),
+    write: vi.fn((chunk: string) => {
+      body += chunk;
+    }),
+    end: vi.fn((chunk?: string) => {
+      if (chunk) body += chunk;
+    }),
     send: vi.fn((data: string) => {
       body = data;
     }),
@@ -41,6 +48,11 @@ const createMockRes = () => {
 };
 
 describe("municipalities-data.csv handler", () => {
+  afterEach(() => {
+    clearCsvExportCache();
+    vi.unstubAllGlobals();
+  });
+
   it("includes operatorUid column populated from schema:identifier", async () => {
     vi.mocked(contextFromAPIRequest).mockResolvedValue({
       sparqlClient: {
@@ -67,7 +79,7 @@ describe("municipalities-data.csv handler", () => {
     );
 
     const res = createMockRes();
-    await handler(createMockReq(), res as never);
+    await handler(createMockReq({ period: "2026" }), res as never);
 
     const rows = csvParse(res.getBody());
     expect(rows[0]?.operatorUid).toBe("CHE-115.194.319");
@@ -99,7 +111,7 @@ describe("municipalities-data.csv handler", () => {
     );
 
     const res = createMockRes();
-    await handler(createMockReq(), res as never);
+    await handler(createMockReq({ period: "2025" }), res as never);
 
     const rows = csvParse(res.getBody());
     expect(rows[0]?.operatorUid).toBe("");

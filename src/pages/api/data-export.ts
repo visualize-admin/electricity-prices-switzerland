@@ -1,10 +1,16 @@
 import { t } from "@lingui/macro";
 import { csvFormatBody, format } from "d3";
 import { NextApiRequest, NextApiResponse } from "next";
+import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { CHF_PER_YEAR, RP_PER_KWH } from "src/domain/metrics";
 import { runtimeEnv } from "src/env/runtime";
-import { i18n, parseLocaleString } from "src/locales/locales";
+import {
+  getOrComputeCsv,
+  sendCsvDownload,
+  tariffCsvCacheKey,
+} from "src/lib/csv-export";
+import { i18n, Locale, parseLocaleString } from "src/locales/locales";
 import {
   getElectricityPriceObservations,
   getElectricityPriceCube,
@@ -66,27 +72,45 @@ const getDimensions = () => {
     },
     {
       attr: "gridusagebeforediscount",
-      name: `${t({ id: "data-export.column.grid-usage-before-discount", message: "Grid Usage before Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.grid-usage-before-discount",
+        message: "Grid Usage before Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "gridusagediscount",
-      name: `${t({ id: "data-export.column.grid-usage-discount", message: "Grid Usage Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.grid-usage-discount",
+        message: "Grid Usage Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "gridusage",
-      name: `${t({ id: "data-export.column.grid-usage", message: "Grid Usage after Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.grid-usage",
+        message: "Grid Usage after Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "fixcosts",
-      name: `${t({ id: "data-export.column.grid-fix-costs", message: "Grid Fix Costs" })} (${chfYear})`,
+      name: `${t({
+        id: "data-export.column.grid-fix-costs",
+        message: "Grid Fix Costs",
+      })} (${chfYear})`,
     },
     {
       attr: "gridpowerprice",
-      name: `${t({ id: "data-export.column.grid-power-price", message: "Grid Power Price" })} (${chfYear})`,
+      name: `${t({
+        id: "data-export.column.grid-power-price",
+        message: "Grid Power Price",
+      })} (${chfYear})`,
     },
     {
       attr: "gridworkingprice",
-      name: `${t({ id: "data-export.column.grid-working-price", message: "Grid Working Price" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.grid-working-price",
+        message: "Grid Working Price",
+      })} (${rpKwh})`,
     },
     {
       attr: "energyname",
@@ -97,62 +121,99 @@ const getDimensions = () => {
     },
     {
       attr: "energybeforediscount",
-      name: `${t({ id: "data-export.column.energy-before-discount", message: "Energy before Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.energy-before-discount",
+        message: "Energy before Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "energydiscount",
-      name: `${t({ id: "data-export.column.energy-discount", message: "Energy Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.energy-discount",
+        message: "Energy Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "energy",
-      name: `${t({ id: "data-export.column.energy", message: "Energy after Discount" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.energy",
+        message: "Energy after Discount",
+      })} (${rpKwh})`,
     },
     {
       attr: "energyfixcost",
-      name: `${t({ id: "data-export.column.energy-fix-costs", message: "Energy Fix Costs" })} (${chfYear})`,
+      name: `${t({
+        id: "data-export.column.energy-fix-costs",
+        message: "Energy Fix Costs",
+      })} (${chfYear})`,
     },
     {
       attr: "energypowerprice",
-      name: `${t({ id: "data-export.column.energy-power-price", message: "Energy Power Price" })} (${chfYear})`,
+      name: `${t({
+        id: "data-export.column.energy-power-price",
+        message: "Energy Power Price",
+      })} (${chfYear})`,
     },
     {
       attr: "energyworkingprice",
-      name: `${t({ id: "data-export.column.energy-working-price", message: "Energy Working Price" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.energy-working-price",
+        message: "Energy Working Price",
+      })} (${rpKwh})`,
     },
     {
       attr: "charge",
-      name: `${t({ id: "data-export.column.charge", message: "Charge" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.charge",
+        message: "Charge",
+      })} (${rpKwh})`,
     },
     {
       attr: "aidfee",
-      name: `${t({ id: "data-export.column.aid-fee", message: "Aid Fee" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.aid-fee",
+        message: "Aid Fee",
+      })} (${rpKwh})`,
     },
     {
       attr: "total",
-      name: `${t({ id: "data-export.column.total", message: "Total" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.total",
+        message: "Total",
+      })} (${rpKwh})`,
     },
     {
       attr: "meteringrate",
-      name: `${t({ id: "data-export.column.metering-rate", message: "Metering Rate" })} (${rpKwh})`,
+      name: `${t({
+        id: "data-export.column.metering-rate",
+        message: "Metering Rate",
+      })} (${rpKwh})`,
     },
     {
       attr: "annualmeteringcost",
-      name: `${t({ id: "data-export.column.annual-metering-cost", message: "Annual Metering Cost" })} (${chfYear})`,
+      name: `${t({
+        id: "data-export.column.annual-metering-cost",
+        message: "Annual Metering Cost",
+      })} (${chfYear})`,
     },
   ] as const;
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const locale = parseLocaleString(req.query.locale?.toString());
-  const period = req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD!;
+const getEndpointUrl = (client: ParsingClient) =>
+  client.query.endpoint.endpointUrl;
 
-  // Activate locale before building dimensions so t() picks up the right language
+const buildTariffCsv = async ({
+  client,
+  period,
+  locale,
+}: {
+  client: ParsingClient;
+  period: string;
+  locale: Locale;
+}) => {
   i18n.activate(locale);
   const dimensions = getDimensions();
-
-  const client = await getSparqlClientFromRequest(req);
   const cube = await getElectricityPriceCube(client);
-
   const view = getView(cube);
 
   const observations = await getElectricityPriceObservations(
@@ -184,16 +245,40 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const usedDimensions = dimensions.filter((d) => !("hidden" in d && d.hidden));
   const columns = usedDimensions.map((x) => x.attr);
   const header = usedDimensions.map((x) => x.name).join(", ");
-  const csv = `${header}\n${csvFormatBody(observations, columns)}`;
+  return `${header}\n${csvFormatBody(observations, columns)}`;
+};
 
-  res.setHeader("Content-Type", "text/csv");
-  res.setHeader(
-    "Content-Disposition",
-    `attachment;filename=elcom-data-${period}.csv`
+export const getTariffCsv = (
+  client: ParsingClient,
+  period: string,
+  locale: Locale
+) =>
+  getOrComputeCsv(
+    tariffCsvCacheKey(getEndpointUrl(client), period, locale),
+    () => buildTariffCsv({ client, period, locale })
   );
-  res.setHeader(
-    "Cache-Control",
-    "public, max-age=300, s-maxage=300, stale-while-revalidate"
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const locale = parseLocaleString(req.query.locale?.toString());
+  const period = req.query.period?.toString() ?? runtimeEnv.CURRENT_PERIOD!;
+  const client = await getSparqlClientFromRequest(req);
+
+  i18n.activate(locale);
+  const usedDimensions = getDimensions().filter(
+    (d) => !("hidden" in d && d.hidden)
   );
-  res.send(csv);
+  const headerLine = usedDimensions.map((x) => x.name).join(", ");
+
+  await sendCsvDownload(res, {
+    cacheKey: tariffCsvCacheKey(getEndpointUrl(client), period, locale),
+    filename: `elcom-data-${period}.csv`,
+    headerLine,
+    produce: () => buildTariffCsv({ client, period, locale }),
+  });
 };
