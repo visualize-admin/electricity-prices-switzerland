@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Put a space between the operator name and unit in map tooltips (#686)
+
 - Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
 
 - Use a default cursor on chips that are not clickable or deletable (#687)
