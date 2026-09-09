@@ -3,5 +3,5 @@ Indicator: saidi
 Network level: n/a
 Operator: Elektrizitätswerk der Stadt Zürich (565)
 Value: 14.07
-Median (all operators for this filter): 16.729
+Median (all operators for this filter): 16.623
 Comparison: below median

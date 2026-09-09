@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Speed up the map popover tariff-development chart: skip empty pre-2025 coverage SPARQL and fetch only the plotted price component (#695)
+- update integration test snapshots
 - Show a keyboard focus ring on interactive elements (#706)
 - Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#736)
 - Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
