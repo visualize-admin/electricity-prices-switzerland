@@ -36,6 +36,12 @@ import { truthy } from "src/lib/truthy";
 import { LEFT_MARGIN_OFFSET } from "../constants";
 import { useChartTheme } from "../use-chart-theme";
 
+/** Tooltip hangs off the opposite side of the point so it stays in the plot. */
+export const getLineTooltipXPlacement = (
+  xAnchor: number,
+  chartWidth: number
+): "left" | "right" => (xAnchor < chartWidth * 0.5 ? "right" : "left");
+
 /** Y accessor shared by `useLinesState` and `getLineChartYScaleDomain` tests. */
 export const getLineYValue = (
   d: GenericObservation,
@@ -193,7 +199,7 @@ const useLinesState = ({
 
   const margins = {
     top: 50,
-    right: mini ? 0 : 40,
+    right: mini ? 12 : 40,
     bottom: 40,
     left: maxYLabelWidth + LEFT_MARGIN_OFFSET,
   };
@@ -285,11 +291,7 @@ const useLinesState = ({
       )
     );
 
-    const xPlacement = mini
-      ? "right"
-      : xAnchor < chartWidth * 0.5
-      ? "right"
-      : "left";
+    const xPlacement = getLineTooltipXPlacement(xAnchor, chartWidth);
     const yPlacement = "middle";
 
     return {

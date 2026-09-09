@@ -11,8 +11,13 @@ const useVaulStyles = tss.create(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    "--max-height": "85vh",
-    maxHeight: "var(--max-height)",
+    // 90vh fallback; iOS `vh` includes browser chrome and overshoots (iPhone 13 mini).
+    "--max-height": "90vh",
+    maxHeight: "90vh",
+    "@supports (height: 100dvh)": {
+      "--max-height": "90dvh",
+      maxHeight: "90dvh",
+    },
     marginTop: 96, // 24rem
     position: "fixed",
     bottom: 0,
@@ -22,21 +27,22 @@ const useVaulStyles = tss.create(({ theme }) => ({
     display: "flex",
     width: "100%",
     flexDirection: "column",
+    overflow: "hidden",
   },
   contentFullHeight: {
     marginTop: 0,
-    height: "100vh",
-    maxHeight: "none",
+    height: "var(--max-height)",
+    maxHeight: "var(--max-height)",
   },
   scrollArea: {
     padding: `${theme.spacing(2)} ${theme.spacing(
       4
     )} calc(env(safe-area-inset-bottom) + ${theme.spacing(2)})`,
-    overflowY: "scroll",
+    overflowY: "auto",
     overflowX: "hidden",
-    maxHeight: "var(--max-height)",
     position: "relative",
     flexGrow: 1,
+    minHeight: 0,
   },
   header: {
     padding: `${theme.spacing(0)} ${theme.spacing(4)}`,

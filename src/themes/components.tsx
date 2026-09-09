@@ -117,6 +117,11 @@ export const components = (theme: Theme): Components => ({
       root: {
         textTransform: "none !important",
 
+        "&.Mui-focusVisible": {
+          outline: `2px solid ${palette.monochrome[800]}`,
+          outlineOffset: 2,
+        },
+
         "& .MuiButton-startIcon": {
           marginRight: 4,
         },
@@ -142,7 +147,7 @@ export const components = (theme: Theme): Components => ({
       select: {
         "&&": {
           paddingRight: `calc(var(--icon-width) + ${theme.spacing(
-            2,
+            2
           )}) !important`,
           paddingLeft: theme.spacing(2),
           height: `var(--select-height)`,
@@ -597,16 +602,24 @@ export const components = (theme: Theme): Components => ({
           }
         })();
 
+        const interactive = Boolean(
+          !ownerState.disabled && (ownerState.clickable || ownerState.onDelete)
+        );
+
         return {
           ...sizeStyles,
           width: "fit-content",
           height: "fit-content",
           color: palette.text.primary,
-          cursor: "pointer",
+          cursor: interactive ? "pointer" : "default",
           backgroundColor: palette.secondary[50],
-          "&:hover": {
-            backgroundColor: palette.secondary[100],
-          },
+          ...(interactive
+            ? {
+                "&:hover": {
+                  backgroundColor: palette.secondary[100],
+                },
+              }
+            : {}),
           "&.Mui-disabled": {
             opacity: 1,
             backgroundColor: palette.secondary[50],
@@ -697,7 +710,11 @@ export const components = (theme: Theme): Components => ({
           -ms-overflow-style: -ms-autohiding-scrollbar;
         }
 
-  
+        :focus-visible {
+          outline: 2px solid ${palette.monochrome[800]} !important;
+          outline-offset: 2px;
+        }
+
         fieldset {
           border: none;
         }

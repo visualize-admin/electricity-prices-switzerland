@@ -59,7 +59,6 @@ const useSelectStyles = makeStyles()((theme) => ({
     minHeight: "unset",
     "&:focus": {
       backgroundColor: "transparent",
-      outline: "none",
       borderColor: theme.palette.primary.main,
     },
     [`& .${nativeSelectClasses.select}.${nativeSelectClasses.select}`]: {

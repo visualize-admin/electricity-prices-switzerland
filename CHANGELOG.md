@@ -12,6 +12,13 @@ You can also check the
 # Unreleased
 
 - Speed up the map popover tariff-development chart: skip empty pre-2025 coverage SPARQL and fetch only the plotted price component (#695)
+- Show a keyboard focus ring on interactive elements (#706)
+- Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#736)
+- Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
+- Tell users to type a canton in the comparison dropdown empty state (#689)
+- Put a space between the operator name and unit in map tooltips (#686)
+- Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
+- Use a default cursor on chips that are not clickable or deletable (#687)
 - Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
 - Add /admin/caches to clear in-process LRU caches without a restart
 

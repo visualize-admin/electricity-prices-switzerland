@@ -22,7 +22,13 @@ export const ChartSvg = ({
     <svg
       width={widthProp ?? width}
       height={heightProp ?? height}
-      style={{ position: "absolute", left: 0, top: 0, ...style }}
+      style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        overflow: "visible",
+        ...style,
+      }}
     >
       {debug ? <PlotBounds /> : null}
       {children}

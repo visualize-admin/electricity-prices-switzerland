@@ -10,6 +10,7 @@ vi.mock("src/domain/metrics", () => ({
 
 import {
   getLineChartYScaleDomain,
+  getLineTooltipXPlacement,
   getLineYValue,
 } from "src/components/charts-generic/lines/lines-state";
 import type { GenericObservation } from "src/domain/data";
@@ -28,5 +29,15 @@ describe("getLineChartYScaleDomain", () => {
     expect(yMin).toBe(10);
     expect(yMax).toBe(30);
     expect(Number.isFinite(yMin) && Number.isFinite(yMax)).toBe(true);
+  });
+});
+
+describe("getLineTooltipXPlacement", () => {
+  it("puts the tooltip on the right when the point is in the left half", () => {
+    expect(getLineTooltipXPlacement(10, 100)).toBe("right");
+  });
+
+  it("puts the tooltip on the left when the point is in the right half (mini last year)", () => {
+    expect(getLineTooltipXPlacement(80, 100)).toBe("left");
   });
 });

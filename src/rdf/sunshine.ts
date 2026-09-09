@@ -2,9 +2,9 @@ import ParsingClient from "sparql-http-client/ParsingClient";
 
 import { ElectricityCategory } from "src/domain/data";
 import { NetworkLevel, SunshineIndicator } from "src/domain/sunshine";
-import { SunshineDataFilter } from "src/graphql/queries";
 import {
   PeerGroup,
+  SunshineDataFilter,
   SunshineDataIndicatorRow,
   SunshineDataRow,
 } from "src/graphql/resolver-types";

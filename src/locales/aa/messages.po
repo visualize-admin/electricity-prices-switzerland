@@ -62,6 +62,10 @@ msgstr "combobox.noitems"
 msgid "combobox.prompt"
 msgstr "combobox.prompt"
 
+#: src/components/query-combobox.tsx
+msgid "combobox.prompt.canton"
+msgstr "combobox.prompt.canton"
+
 #: src/components/form.tsx
 msgid "controls.search.clear"
 msgstr "controls.search.clear"
