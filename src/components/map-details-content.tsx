@@ -231,7 +231,6 @@ const KeyValueTableRow = <
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "baseline",
-                gap: "0.5ch",
                 overflow: "hidden",
               }),
         }}
@@ -256,7 +255,7 @@ const KeyValueTableRow = <
               component="span"
               variant="body3"
               color="text.500"
-              sx={{ flexShrink: 0 }}
+              sx={{ flexShrink: 0, pl: "0.5em" }}
             >
               ({labelUnit})
             </Typography>
