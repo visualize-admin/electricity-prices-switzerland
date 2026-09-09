@@ -31,7 +31,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { LoadingSkeleton, NoDataHint } from "src/components/hint";
+import { Loading, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import {
   DetailPriceComponent,
@@ -45,7 +45,9 @@ import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import {
   ObservationKind,
+  PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
+  usePriceEvolutionObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
@@ -161,46 +163,72 @@ export const PriceEvolution = ({
     entity === "municipality"
       ? municipality
       : entity === "operator"
-        ? operator
-        : canton;
+      ? operator
+      : canton;
 
   const entityIds = comparisonIds?.some((m) => m !== "")
     ? [...comparisonIds, id]
     : [id];
 
-  const [observationsQuery] = useObservationsWithAllPriceComponentsQuery({
+  const observationKind =
+    entity === "canton" ? ObservationKind.Canton : ObservationKind.Municipality;
+  const priceComponent = (priceComponents[0] ?? "total") as PriceComponent;
+  const filters = {
+    [entity]: entityIds,
+    category,
+    product,
+  };
+
+  const [allQuery] = useObservationsWithAllPriceComponentsQuery({
     variables: {
       locale,
-      filters: {
-        [entity]: entityIds,
-        category,
-        product,
-      },
-      observationKind:
-        entity === "canton"
-          ? ObservationKind.Canton
-          : ObservationKind.Municipality,
+      filters,
+      observationKind,
     },
+    pause: mini,
+  });
+  const [slimQuery] = usePriceEvolutionObservationsQuery({
+    variables: {
+      locale,
+      priceComponent,
+      filters,
+      observationKind,
+    },
+    pause: !mini,
   });
 
-  const operatorObservations = observationsQuery.fetching
+  const fetching = mini ? slimQuery.fetching : allQuery.fetching;
+  const operatorObservations = fetching
     ? EMPTY_ARRAY
-    : (observationsQuery.data?.observations ?? EMPTY_ARRAY);
-  const cantonObservations = observationsQuery.fetching
+    : mini
+    ? (slimQuery.data?.observations ?? EMPTY_ARRAY).map((obs) => ({
+        ...obs,
+        [priceComponent]: obs.value,
+      }))
+    : allQuery.data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = fetching
     ? EMPTY_ARRAY
-    : (observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY);
+    : mini
+    ? (slimQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY).map((obs) => ({
+        ...obs,
+        [priceComponent]: obs.value,
+      }))
+    : allQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
   const observations = [...operatorObservations, ...cantonObservations];
 
-  return observationsQuery.fetching || false ? (
-    <LoadingSkeleton height={166} />
+  return fetching ? (
+    mini ? (
+      <Box minHeight={166}>
+        <Loading delayMs={0} />
+      </Box>
+    ) : (
+      <LoadingSkeleton height={166} />
+    )
   ) : observations.length === 0 ? (
     <NoDataHint />
   ) : (
     <div className={DOWNLOAD_ID}>
-      <WithClassName
-        downloadId={DOWNLOAD_ID}
-        isFetching={observationsQuery.fetching}
-      >
+      <WithClassName downloadId={DOWNLOAD_ID} isFetching={fetching}>
         <PriceEvolutionLineCharts
           observations={observations as GenericObservation[]}
           entity={entity}
@@ -243,7 +271,7 @@ export const PriceEvolutionLineCharts = memo(
         })}
       </Box>
     );
-  },
+  }
 );
 
 const PriceEvolutionLineChart = (props: {
