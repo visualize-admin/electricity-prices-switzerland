@@ -170,8 +170,7 @@ export function SunshineMultiOperatorNetworkCostsTooltip() {
         <Box component="span" sx={{ color: "text.primary" }}>
           Network Costs
         </Box>
-        <Box component="span" sx={{ color: "text.500" }}>
-          {" "}
+        <Box component="span" sx={{ color: "text.500", pl: "0.5em" }}>
           (CHF/km)
         </Box>
       </>
@@ -221,8 +220,7 @@ export function SunshineMultiOperatorEnergyTariffTooltip() {
         <Box component="span" sx={{ color: "text.primary" }}>
           Energy Tariff
         </Box>
-        <Box component="span" sx={{ color: "text.500" }}>
-          {" "}
+        <Box component="span" sx={{ color: "text.500", pl: "0.5em" }}>
           (Rp./kWh)
         </Box>
       </>

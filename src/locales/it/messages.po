@@ -62,6 +62,10 @@ msgstr "Nessun risultato"
 msgid "combobox.prompt"
 msgstr "Inserire la descrizione..."
 
+#: src/components/query-combobox.tsx
+msgid "combobox.prompt.canton"
+msgstr "Inserire un cantone..."
+
 #: src/components/form.tsx
 msgid "controls.search.clear"
 msgstr "Svuotare il campo di ricerca"

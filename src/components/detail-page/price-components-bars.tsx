@@ -30,7 +30,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { prepareObservations } from "src/components/detail-page/price-components-bars-utils";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { HintBlue, LoadingSkeleton, NoDataHint } from "src/components/hint";
+import { HintBlue, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { GenericObservation, detailsPriceComponents } from "src/domain/data";
 import { pivot_longer } from "src/domain/helpers";
@@ -284,7 +284,9 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         </HintBlue>
       )}
       {observationsQuery.fetching ? (
-        <LoadingSkeleton height={650} />
+        <Box minHeight={650} display="flex">
+          <Loading delayMs={0} />
+        </Box>
       ) : perPriceComponent.length === 0 ? (
         <NoDataHint />
       ) : (

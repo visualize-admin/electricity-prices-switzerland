@@ -56,14 +56,15 @@ export const getMunicipalityPageProps = async (
   Extract<Props, { entity: "municipality" } | { status: "notfound" }>
 > => {
   const { id, locale, res, years } = params!;
-  const municipality = await getMunicipality({ id, client });
+  const [municipality, operators] = await Promise.all([
+    getMunicipality({ id, client }),
+    getMunicipalityOperators(client, id, years),
+  ]);
 
   if (!municipality) {
     res.statusCode = 404;
     return { status: "notfound" };
   }
-
-  const operators = await getMunicipalityOperators(client, id, years);
 
   return {
     entity: "municipality",
