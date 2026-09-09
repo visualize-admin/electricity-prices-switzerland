@@ -36,31 +36,54 @@ function extractUrlsFromLocales() {
   return urlsByLocale;
 }
 
-// Verify a URL is accessible
+async function fetchStatus(
+  url: string,
+  method: "HEAD" | "GET"
+): Promise<{ ok: boolean; status: number }> {
+  const response = await fetch(url, {
+    method,
+    redirect: "follow",
+    signal: AbortSignal.timeout(10000),
+    headers: {
+      "user-agent": "elcom-electricity-price-website-unit-tests",
+    },
+  });
+  return { ok: response.ok, status: response.status };
+}
+
 async function verifyUrl(
   url: string
 ): Promise<{ ok: boolean; status: number }> {
-  try {
-    const response = await fetch(url, {
-      method: "HEAD",
-      redirect: "follow",
-      // Set a timeout
-      signal: AbortSignal.timeout(10000),
-    });
-    return { ok: response.ok, status: response.status };
-  } catch {
-    // If HEAD fails, try GET (some servers don't support HEAD)
+  const attempts = 3;
+
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    let result: { ok: boolean; status: number };
+
     try {
-      const response = await fetch(url, {
-        method: "GET",
-        redirect: "follow",
-        signal: AbortSignal.timeout(10000),
-      });
-      return { ok: response.ok, status: response.status };
+      result = await fetchStatus(url, "HEAD");
+      if (!result.ok) {
+        result = await fetchStatus(url, "GET");
+      }
     } catch {
-      return { ok: false, status: 0 };
+      try {
+        result = await fetchStatus(url, "GET");
+      } catch {
+        result = { ok: false, status: 0 };
+      }
+    }
+
+    if (result.ok || (result.status > 0 && result.status < 500)) {
+      return result;
+    }
+
+    if (attempt < attempts - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+    } else {
+      return result;
     }
   }
+
+  return { ok: false, status: 0 };
 }
 
 describe("Translation URLs validation", () => {

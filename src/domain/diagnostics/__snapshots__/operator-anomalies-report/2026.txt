@@ -2,7 +2,7 @@ Year: 2026
 Network level: NE7 (default)
 Minority canton threshold: < 20% of an operator's municipalities
 
-Flagged operators: 12 / 547
+Flagged operators: 13 / 548
 
 AEW Energie AG (5): 75 municipalities across 2 cantons
   Aargau (19): 74 (99%)
@@ -27,8 +27,8 @@ Eniwa AG (615): 17 municipalities across 2 cantons
 Genossenschaft Elektra, Jegenstorf (132): 22 municipalities across 2 cantons
   Bern (2): 18 (82%)
   Solothurn (11): 4 (18%) — minority
-Groupe E SA (609): 140 municipalities across 4 cantons
-  Freiburg (10): 108 (77%)
+Groupe E SA (609): 139 municipalities across 4 cantons
+  Freiburg (10): 107 (77%)
   Neuenburg (24): 17 (12%) — minority
   Waadt (22): 14 (10%) — minority
   Bern (2): 1 (1%) — minority
@@ -49,3 +49,6 @@ St. Gallisch-Appenzellische Kraftwerke AG (727): 38 municipalities across 4 cant
   Appenzell Ausserrhoden (15): 14 (37%)
   Appenzell Innerrhoden (16): 2 (5%) — minority
   Thurgau (20): 1 (3%) — minority
+WWZ Energie AG (788): 11 municipalities across 2 cantons
+  Zug (9): 10 (91%)
+  Luzern (3): 1 (9%) — minority
