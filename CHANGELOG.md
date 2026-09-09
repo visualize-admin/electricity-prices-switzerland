@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- update integration test snapshots
 - Show a keyboard focus ring on interactive elements (#706)
 - Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#736)
 - Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
