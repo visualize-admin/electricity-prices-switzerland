@@ -82,7 +82,6 @@ export const SelectedEntityCard: React.FC<{
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "baseline",
-                  gap: 0.25,
                   overflow: "hidden",
                 }}
               >
@@ -100,7 +99,7 @@ export const SelectedEntityCard: React.FC<{
                     variant="caption"
                     component="span"
                     color="text.secondary"
-                    sx={{ flexShrink: 0, lineHeight: 1.5 }}
+                    sx={{ flexShrink: 0, lineHeight: 1.5, pl: "0.5em" }}
                   >
                     ({d.unit})
                   </Typography>

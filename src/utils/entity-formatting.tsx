@@ -122,8 +122,7 @@ export const formatSunshineEntity = (
         <Box component="span" sx={{ color: "text.primary" }}>
           {metricLabel}
         </Box>
-        <Box component="span" sx={{ color: "text.500" }}>
-          {" "}
+        <Box component="span" sx={{ color: "text.500", pl: "0.5em" }}>
           ({metricUnit})
         </Box>
       </>
