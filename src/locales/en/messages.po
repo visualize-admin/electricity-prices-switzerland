@@ -62,6 +62,10 @@ msgstr "No results"
 msgid "combobox.prompt"
 msgstr "Enter designation ..."
 
+#: src/components/query-combobox.tsx
+msgid "combobox.prompt.canton"
+msgstr "Enter a canton…"
+
 #: src/components/form.tsx
 msgid "controls.search.clear"
 msgstr "Clear search field"

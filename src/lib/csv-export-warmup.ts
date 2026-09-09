@@ -5,8 +5,6 @@ import {
 } from "src/lib/csv-export";
 import { locales } from "src/locales/config";
 import { parseLocaleString } from "src/locales/locales";
-import { getTariffCsv } from "src/pages/api/data-export";
-import { getMunicipalitiesCsv } from "src/pages/api/municipalities-data.csv";
 import {
   defaultSparqlEndpointUrl,
   getDefaultSparqlClient,
@@ -16,11 +14,19 @@ import {
  * Fill tariff + municipalities CSVs for current and previous period so the
  * first user request does not race the 30s federal gateway timeout.
  * Sequential to avoid hammering SPARQL.
+ *
+ * API route modules are imported lazily: they pull GraphQL/Lingui and must
+ * not load inside Next instrumentation (no React → urql `createContext` throws).
  */
 export const warmCsvExports = async () => {
   if (!shouldWarmCsvExports()) {
     return;
   }
+
+  const [{ getTariffCsv }, { getMunicipalitiesCsv }] = await Promise.all([
+    import("src/pages/api/data-export"),
+    import("src/pages/api/municipalities-data.csv"),
+  ]);
 
   const client = getDefaultSparqlClient();
   const periods = csvWarmPeriods();

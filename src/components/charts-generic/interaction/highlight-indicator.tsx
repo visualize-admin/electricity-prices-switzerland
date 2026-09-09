@@ -2,9 +2,12 @@ import {
   LinesState,
   useChartState,
 } from "src/components/charts-generic/use-chart-state";
+import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
+import { useInteraction } from "src/components/charts-generic/use-interaction";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { palette } from "src/themes/palette";
 
-const pickHighlightDate = (
+export const pickHighlightDate = (
   xUniqueValues: Date[],
   highlightYear: number | undefined
 ): Date | undefined => {
@@ -27,8 +30,19 @@ export const HighlightIndicator = (props: {
   highlightYear?: number;
 }) => {
   const { highlightYear } = props;
-  const { bounds, xScale, yScale, xUniqueValues, data, getX, getY } =
-    useChartState() as LinesState;
+  const {
+    bounds,
+    xScale,
+    yScale,
+    xUniqueValues,
+    data,
+    getX,
+    getY,
+    yAxisLabel,
+  } = useChartState() as LinesState;
+  const [{ interaction }] = useInteraction();
+  const formatDisplay = useFormatDisplayNumber();
+  const { annotationFontSize, fontFamily } = useChartTheme();
 
   if (!xUniqueValues.length) return null;
 
@@ -43,9 +57,11 @@ export const HighlightIndicator = (props: {
   if (!dataAtHighlightX) return null;
 
   const yValue = getY(dataAtHighlightX);
-  const yAnchor = yValue ? yScale(yValue) : 0;
+  if (yValue == null) return null;
 
+  const yAnchor = yScale(yValue);
   const lineColor = palette.secondary[300];
+  const label = `${formatDisplay(yValue)}${yAxisLabel ? ` ${yAxisLabel}` : ""}`;
 
   return (
     <g
@@ -69,6 +85,20 @@ export const HighlightIndicator = (props: {
         stroke="white"
         strokeWidth={2}
       />
+      {interaction.visible ? null : (
+        <text
+          x={xAnchor - 10}
+          y={yAnchor}
+          textAnchor="end"
+          dominantBaseline="middle"
+          fontSize={annotationFontSize}
+          fontFamily={fontFamily}
+          fontWeight={700}
+          fill={palette.secondary[800]}
+        >
+          {label}
+        </text>
+      )}
     </g>
   );
 };

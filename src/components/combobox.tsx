@@ -43,6 +43,8 @@ export type ComboboxMultiProps = {
   getItemEndLabel?: (item: string) => React.ReactNode;
   size?: "small" | "medium";
   InputProps?: Partial<React.ComponentProps<typeof TextField>["InputProps"]>;
+  /** Empty-state hint when `lazy` and the user has not typed yet. */
+  promptText?: string;
 };
 
 const defaultGetItemLabel = (d: string) => d;
@@ -116,6 +118,7 @@ export const MultiCombobox = ({
   getItemEndLabel,
   size = "small",
   InputProps,
+  promptText,
 }: ComboboxMultiProps) => {
   const [inputValue, setInputValue] = useState("");
   const { classes } = useStyles();
@@ -192,7 +195,8 @@ export const MultiCombobox = ({
       )}
       noOptionsText={
         inputValue === "" && lazy
-          ? t({ id: "combobox.prompt", message: "Enter designation ..." })
+          ? promptText ??
+            t({ id: "combobox.prompt", message: "Enter designation ..." })
           : t({ id: "combobox.noitems", message: "No results" })
       }
       renderTags={(value, getTagProps) =>
