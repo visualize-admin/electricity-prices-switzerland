@@ -16,7 +16,8 @@ export const InteractionHorizontal = React.memo(() => {
 
   const { chartWidth, chartHeight, margins } = bounds;
 
-  const findDatum = (e: React.MouseEvent) => {
+  const findDatum = (e: React.PointerEvent) => {
+    e.preventDefault();
     const [x, y] = pointer(e, ref.current!);
 
     const bisectDate = bisector(
@@ -60,12 +61,15 @@ export const InteractionHorizontal = React.memo(() => {
   return (
     <g ref={ref} transform={`translate(${margins.left} ${margins.top})`}>
       <rect
-        fillOpacity={0}
+        fill="none"
+        pointerEvents="all"
         width={chartWidth}
         height={chartHeight}
-        onMouseOut={hideTooltip}
-        onMouseOver={findDatum}
-        onMouseMove={findDatum}
+        style={{ touchAction: "none" }}
+        onPointerDown={findDatum}
+        onPointerMove={findDatum}
+        onPointerLeave={hideTooltip}
+        onPointerCancel={hideTooltip}
       />
     </g>
   );

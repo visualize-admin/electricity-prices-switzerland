@@ -9,10 +9,10 @@ import { LRUCache } from "typescript-lru-cache";
 
 import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
-import { PriceComponent } from "src/graphql/queries";
 import {
   OperatorDocumentCategory,
   OperatorMunicipalitySource,
+  PriceComponent,
 } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";

@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
 - Tell users to type a canton in the comparison dropdown empty state (#689)
 - Put a space between the operator name and unit in map tooltips (#686)
 - Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
