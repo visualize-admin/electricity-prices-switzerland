@@ -11,6 +11,9 @@ You can also check the
 
 # Unreleased
 
+# 2.54.2 - 2026-09-10
+
+- Sync pnpm overrides with the lockfile so CI frozen-lockfile install succeeds
 - Bump next to 15.5.24 and sharp to 0.35.4 for Trivy CRITICAL/HIGH (CVE-2026-75604, GHSA-2xp9-vwfh-vxw4, GHSA-rgj7-g3m4-5g8c)
 
 # 2.54.0 - 2026-09-10
