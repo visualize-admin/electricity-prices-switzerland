@@ -11,17 +11,19 @@ You can also check the
 
 # Unreleased
 
-- Speed up the map popover tariff-development chart: skip empty pre-2025 coverage SPARQL and fetch only the plotted price component (#695)
-- update integration test snapshots
-- Show a keyboard focus ring on interactive elements (#706)
-- Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#736)
-- Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#696)
-- Tell users to type a canton in the comparison dropdown empty state (#689)
-- Put a space between the operator name and unit in map tooltips (#686)
-- Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#688)
-- Use a default cursor on chips that are not clickable or deletable (#687)
-- Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#680)
+# 2.54.0 - 2026-09-10
+
 - Add /admin/caches to clear in-process LRU caches without a restart
+- Fix production CSV downloads timing out (504) on cold SPARQL queries by caching tariff and municipalities exports and warming current + previous period on boot (#741)
+- Speed up the map popover tariff-development chart: skip empty pre-2025 coverage SPARQL and fetch only the plotted price component (#744)
+- Improve municipality detail-page loading with an immediate spinner and concurrent fetches (#745)
+- Fix price development mini-chart in the map popover: show the highlighted price, stop clipping the last-year dot, and allow scrubbing on touch (#743)
+- Show a keyboard focus ring on interactive elements (#751)
+- Cap mobile drawers at 90% of the viewport so they no longer overshoot on small phones (#750)
+- Tell users to type a canton in the comparison dropdown empty state (#748)
+- Put a space between the operator name and unit in map tooltips (#749)
+- Draw canton-comparison vertical guidelines through the annotation offset so they reach the last row (#747)
+- Use a default cursor on chips that are not clickable or deletable (#746)
 
 # 2.53.0 - 2026-09-03
 
