@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+# 2.54.3 - 2026-09-11
+
 - Fix municipality detail panel using another municipality's price for the same operator (ELC-722)
 
 # 2.54.2 - 2026-09-10
