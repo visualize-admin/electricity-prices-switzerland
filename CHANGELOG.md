@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Fix municipality detail panel using another municipality's price for the same operator (ELC-722)
+
 # 2.54.2 - 2026-09-10
 
 - Sync pnpm overrides with the lockfile so CI frozen-lockfile install succeeds
