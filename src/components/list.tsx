@@ -16,12 +16,13 @@ import {
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
-import { isDefined } from "src/utils/is-defined";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
 import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
+
+export { groupsFromElectricityMunicipalities } from "./list-groups";
 
 type ListItemProps = {
   id: string;
@@ -383,49 +384,6 @@ type Groups = [
     cantonLabel: string | null | undefined;
   }
 ][];
-
-export function groupsFromElectricityMunicipalities(
-  observations: OperatorObservationFieldsFragment[]
-): Groups {
-  return Array.from(
-    rollup(
-      observations.filter((x) => isDefined(x.value)),
-      (values) => {
-        const first = values[0];
-        const operatorIds = new Set(values.map((v) => v.operator));
-        return {
-          id: first.municipality,
-          label: first.municipalityLabel,
-          // first.value asserted above
-          value: mean(values, (d) => d.value) ?? first.value!,
-          canton: first.canton,
-          cantonLabel: first.cantonLabel,
-          operators: observations
-            .filter((o) => operatorIds.has(o.operator))
-            .reduce(
-              (acc, o) => {
-                if (acc.seen.has(o.operator)) return acc;
-                acc.seen.add(o.operator);
-                if (o.value) {
-                  acc.result?.push({
-                    id: o.operator,
-                    label: o.operatorLabel,
-                    value: o.value,
-                  });
-                }
-                return acc;
-              },
-              {
-                seen: new Set<string>(),
-                result: [] as ListItemType["operators"],
-              }
-            ).result,
-        };
-      },
-      (d) => d.municipality
-    )
-  );
-}
 
 export const groupsFromSunshineObservations = (
   observations: SunshineDataIndicatorRow[]
