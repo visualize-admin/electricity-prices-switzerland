@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+# 2.54.4 - 2026-09-17
+
 - Show operators with a 0 tariff in the map detail panel (ELC-724)
 
 # 2.54.3 - 2026-09-11

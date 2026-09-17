@@ -6,7 +6,7 @@ FROM node:24-slim AS base
 
 # Install npm and force cross-spawn, glob version
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
-    apt install -y --only-upgrade perl-base libgnutls30 curl libcurl4 && \
+    apt install -y --only-upgrade perl-base libgnutls30 curl libcurl4 libpcre2-8-0 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm install -g npm@10.9.4 && \
