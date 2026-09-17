@@ -27,7 +27,7 @@ export function groupsFromElectricityMunicipalities(
             (acc, o) => {
               if (acc.seen.has(o.operator)) return acc;
               acc.seen.add(o.operator);
-              if (o.value) {
+              if (isDefined(o.value)) {
                 acc.result.push({
                   id: o.operator,
                   label: o.operatorLabel,
