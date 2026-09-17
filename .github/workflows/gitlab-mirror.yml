@@ -19,7 +19,7 @@ jobs:
           git remote show origin
           git for-each-ref
       - name: Mirror to GitLab
-        uses: wearerequired/git-mirror-action@c44c68aebe42de49a80a8dfd557416b6a0cafdad # v1.2.0
+        uses: wearerequired/git-mirror-action@6bbc55f2f0082bca533b72dc711f7d37154d40cc # v1.3.1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
         with:
