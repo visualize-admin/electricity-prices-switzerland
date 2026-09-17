@@ -56,4 +56,22 @@ describe("groupsFromElectricityMunicipalities", () => {
       { id: "primeo", label: "Primeo Netz AG", value: 31.61 },
     ]);
   });
+
+  it("keeps operators whose tariff is 0", () => {
+    const groups = groupsFromElectricityMunicipalities([
+      obs({
+        municipality: "2053",
+        municipalityLabel: "Grolley",
+        operator: "groupe-e",
+        operatorLabel: "Groupe E SA",
+        value: 0,
+      }),
+    ]);
+
+    const [, group] = groups[0];
+    expect(group.value).toBe(0);
+    expect(group.operators).toEqual([
+      { id: "groupe-e", label: "Groupe E SA", value: 0 },
+    ]);
+  });
 });

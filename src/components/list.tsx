@@ -433,15 +433,13 @@ export function groupsFromElectricityOperators(
           value: mean(values, (d) => d.value) ?? first.value!,
           canton: first.canton,
           cantonLabel: first.cantonLabel,
-          operators: first.value
-            ? [
-                {
-                  id: first.operator,
-                  label: first.operatorLabel,
-                  value: first.value,
-                },
-              ]
-            : [],
+          operators: [
+            {
+              id: first.operator,
+              label: first.operatorLabel,
+              value: first.value!,
+            },
+          ],
         };
       },
       (d) => d.operator
