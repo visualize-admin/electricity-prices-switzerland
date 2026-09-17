@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+- Show operators with a 0 tariff in the map detail panel (ELC-724)
+
 # 2.54.3 - 2026-09-11
 
 - Fix municipality detail panel using another municipality's price for the same operator (ELC-722)
