@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Translate the SAIDI/SAIFI typology (e.g. "Unplanned") and network level values in the Sunshine map detail panel
 
 # 2.54.5 - 2026-09-24
 
