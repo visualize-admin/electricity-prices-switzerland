@@ -57,3 +57,7 @@ const translationByUnits = {
 export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
   return translationByUnits[networkLevelUnits[level]];
 };
+
+/** Annual metering cost is measured in CHF per year, all other price components in Rp./kWh. */
+export const getPriceComponentUnit = (priceComponent: string) =>
+  priceComponent === "annualmeteringcost" ? CHF_PER_YEAR : RP_PER_KWH;

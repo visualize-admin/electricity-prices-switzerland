@@ -9,7 +9,7 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
-import { RP_PER_KWH } from "src/domain/metrics";
+import { getPriceComponentUnit } from "src/domain/metrics";
 import {
   energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
@@ -169,7 +169,13 @@ const MapDetailsEntityTable = (
         return (
           <KeyValueTableRow
             dataKey={operator.label ?? ""}
-            labelUnit={tab === "electricity" ? i18n._(RP_PER_KWH) : undefined}
+            labelUnit={
+              tab === "electricity"
+                ? i18n._(
+                    getPriceComponentUnit(energyPricesQueryState.priceComponent)
+                  )
+                : undefined
+            }
             component={NextLink}
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}
