@@ -381,7 +381,7 @@ export const EnergyPricesMap = ({
         title={
           priceComponent === PriceComponentEnum.Annualmeteringcost ? (
             <Trans id="energy-prices-map.legend.title-annualmeteringcost">
-              Tariff comparison in CHF / year
+              Tariff comparison in CHF/year
             </Trans>
           ) : (
             <Trans id="energy-prices-map.legend.title">

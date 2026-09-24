@@ -332,7 +332,7 @@ msgstr "Comparaison des tarifs en ct./kWh (TVA exclue)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Comparaison en CHF par an"
+msgstr "Comparaison des tarifs en CHF/an"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"

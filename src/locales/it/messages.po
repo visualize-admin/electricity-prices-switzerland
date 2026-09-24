@@ -332,7 +332,7 @@ msgstr "Confronto in ct./kWh (IVA esclusa)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Confronto in CHF / anno"
+msgstr "Confronto in CHF/anno"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"

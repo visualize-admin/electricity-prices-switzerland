@@ -332,7 +332,7 @@ msgstr "Vergleich in Rp./kWh (Angaben exkl. MwSt.)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Vergleich in CHF pro Jahr"
+msgstr "Vergleich in CHF/Jahr"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
