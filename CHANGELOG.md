@@ -11,6 +11,9 @@ You can also check the
 
 # Unreleased
 
+- Translate price component and product values in the map detail panel (ELC-723)
+- Show CHF p.a. instead of Rp./kWh for annual metering cost in the map tooltip and detail panel (ELC-725)
+
 # 2.54.4 - 2026-09-17
 
 - Show operators with a 0 tariff in the map detail panel (ELC-724)
