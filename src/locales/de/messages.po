@@ -1310,7 +1310,7 @@ msgstr "Dauer von Stromunterbrüchen pro Kunde (SAIDI), in Minuten pro Jahr."
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Minuten pro Jahr."
+msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Unterbrüchen pro Jahr."
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
