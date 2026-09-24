@@ -1702,7 +1702,7 @@ msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-year"
-msgstr "CHF p.a."
+msgstr "CHF/anno"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"
