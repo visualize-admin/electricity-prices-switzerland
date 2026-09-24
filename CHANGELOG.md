@@ -11,6 +11,8 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
 # 2.54.5 - 2026-09-24
 
 - Translate price component and product values in the map detail panel (ELC-723)
