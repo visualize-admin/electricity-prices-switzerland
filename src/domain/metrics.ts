@@ -1,5 +1,7 @@
+import { MessageDescriptor } from "@lingui/core";
 import { defineMessage } from "@lingui/macro";
 
+import { PriceComponent } from "./data";
 import { NetworkLevel } from "./sunshine";
 
 export const RP_PER_KWH = defineMessage({
@@ -58,6 +60,15 @@ export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
   return translationByUnits[networkLevelUnits[level]];
 };
 
-/** Annual metering cost is measured in CHF per year, all other price components in Rp./kWh. */
-export const getPriceComponentUnit = (priceComponent: string) =>
-  priceComponent === "annualmeteringcost" ? CHF_PER_YEAR : RP_PER_KWH;
+const priceComponentUnits: Record<PriceComponent, MessageDescriptor> = {
+  total: RP_PER_KWH,
+  gridusage: RP_PER_KWH,
+  annualmeteringcost: CHF_PER_YEAR,
+  meteringrate: RP_PER_KWH,
+  energy: RP_PER_KWH,
+  charge: RP_PER_KWH,
+  aidfee: RP_PER_KWH,
+};
+
+export const getPriceComponentUnit = (priceComponent: PriceComponent) =>
+  priceComponentUnits[priceComponent];
