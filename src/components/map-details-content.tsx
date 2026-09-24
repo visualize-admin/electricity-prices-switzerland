@@ -8,7 +8,7 @@ import { ReactElement, ReactNode } from "react";
 
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
-import { Entity } from "src/domain/data";
+import { Entity, NetworkLevelId } from "src/domain/data";
 import { getPriceComponentUnit } from "src/domain/metrics";
 import {
   energyPricesDetailsLink,
@@ -20,7 +20,7 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getLocalizedLabel } from "src/domain/translation";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 import { ListItemType } from "./list";
@@ -200,7 +200,20 @@ const MapDetailsEntityTable = (
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
 // Rows whose values are enum keys that need to be translated for display
-const translatedValueKeys = new Set<string>(["priceComponent", "product"]);
+const valueLabelGetters: Partial<
+  Record<
+    keyof QueryStateEnergyPricesMap | keyof QueryStateSunshineMap,
+    (value: string) => string
+  >
+> = {
+  priceComponent: (value) => getLocalizedLabel({ id: value as TranslationKey }),
+  product: (value) => getLocalizedLabel({ id: value as TranslationKey }),
+  saidiSaifiType: (value) => getLocalizedLabel({ id: value as TranslationKey }),
+  networkLevel: (value) =>
+    getLocalizedLabel({
+      id: `network-level.${value as NetworkLevelId}.short`,
+    }),
+};
 
 const KeyValueTableRow = <
   T extends Partial<Record<EntityTableValue, string | undefined>>
@@ -219,11 +232,10 @@ const KeyValueTableRow = <
     state && dataKey in state
       ? (state[dataKey as keyof typeof state] as string | undefined)
       : undefined;
-  const isTranslatedValue = translatedValueKeys.has(dataKey.toString());
-  const value =
-    rawValue && isTranslatedValue
-      ? getLocalizedLabel({ id: rawValue as $IntentionalAny })
-      : rawValue;
+  const getValueLabel =
+    valueLabelGetters[dataKey as keyof typeof valueLabelGetters];
+  const isTranslatedValue = getValueLabel !== undefined;
+  const value = rawValue && getValueLabel ? getValueLabel(rawValue) : rawValue;
   return (
     <Stack
       justifyContent={"space-between"}
