@@ -188,7 +188,8 @@ const MobileControls = ({
   const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
   const sunshineIndicatorShortLabel = getSunshineMapMetricLegendTitle(
     sunshineIndicator,
-    sunshineNetworkLevel
+    sunshineNetworkLevel,
+    sunshineQueryState.saidiSaifiType
   );
   const indicatorLabel =
     tab === "electricity" ? priceComponentLabel : sunshineIndicatorShortLabel;

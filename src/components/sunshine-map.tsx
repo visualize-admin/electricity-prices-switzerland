@@ -33,6 +33,7 @@ import { ValueFormatter } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import {
   getSunshineDetailsPageFromIndicator,
+  QueryStateSunshineSaidiSaifiType,
   sunshineDetailsLink,
 } from "src/domain/query-states";
 import {
@@ -68,6 +69,8 @@ type SunshineMapProps = {
   indicator: SunshineIndicator;
   // Necessary when indicator is networkCosts
   networkLevel?: "NE5" | "NE6" | "NE7";
+  // Necessary when indicator is saidi or saifi
+  saidiSaifiType?: QueryStateSunshineSaidiSaifiType;
   widgets?: GenericMapProps["widgets"];
 };
 
@@ -81,6 +84,7 @@ const SunshineMap = ({
   period,
   indicator,
   networkLevel,
+  saidiSaifiType,
   widgets,
 }: SunshineMapProps) => {
   const geoDataResult = useGeoData(period);
@@ -140,6 +144,7 @@ const SunshineMap = ({
     priceComponent: "total",
     indicator,
     networkLevel,
+    saidiSaifiType,
   });
 
   const featuresWithObservations = useMemo(() => {
@@ -320,7 +325,11 @@ const SunshineMap = ({
       return (
         <MapColorLegend
           id={legendId}
-          title={getSunshineMapMetricLegendTitle(indicator, networkLevel)}
+          title={getSunshineMapMetricLegendTitle(
+            indicator,
+            networkLevel,
+            saidiSaifiType
+          )}
           ticks={ticks}
           mode="yesNo"
           palette={palette}
@@ -338,7 +347,8 @@ const SunshineMap = ({
     ];
     const metricLegendTitle = getSunshineMapMetricLegendTitle(
       indicator,
-      networkLevel
+      networkLevel,
+      saidiSaifiType
     );
 
     // Get the threshold encoding function and generate thresholds and palette from a single source
@@ -377,6 +387,7 @@ const SunshineMap = ({
     legendSourceData,
     colorScale,
     networkLevel,
+    saidiSaifiType,
     period,
     legendId,
     valueFormatter,
