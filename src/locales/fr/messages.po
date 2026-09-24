@@ -1694,7 +1694,7 @@ msgstr "Année tarifaire en cours ({latestYear})"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.anzahl-year"
-msgstr "Nombre/année"
+msgstr "Nombre/an"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-km"
