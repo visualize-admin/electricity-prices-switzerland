@@ -4,10 +4,13 @@ import { Box } from "@mui/material";
 import { ScaleThreshold } from "d3";
 import React from "react";
 
-import { Entity, NetworkLevelId } from "src/domain/data";
-import { RP_PER_KWH } from "src/domain/metrics";
+import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
+import { getPriceComponentUnit } from "src/domain/metrics";
 import { SunshineIndicator } from "src/domain/sunshine";
-import { getSunshineMapMetricLegendParts } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  getSunshineMapMetricLegendParts,
+} from "src/domain/translation";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
 import { EntitySelection } from "src/hooks/use-selected-entity-data";
@@ -37,7 +40,7 @@ export const formatEnergyPricesEntity = (
   entityType: Entity,
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
-  priceComponent: string,
+  priceComponent: PriceComponent,
   coverageRatioFlag = false
 ): EntityDisplayData => {
   if (!observations || observations.length === 0) {
@@ -60,13 +63,14 @@ export const formatEnergyPricesEntity = (
     title = firstObs.operatorLabel || null;
   }
 
-  const unit = i18n._(RP_PER_KWH);
+  const unit = i18n._(getPriceComponentUnit(priceComponent));
+  const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
 
   const values: EntityValue[] = observations.map((obs) => ({
     label:
       entityType === "municipality"
-        ? obs.operatorLabel ?? priceComponent ?? ""
-        : priceComponent ?? "",
+        ? obs.operatorLabel ?? priceComponentLabel
+        : priceComponentLabel,
     unit,
     formattedValue: `${
       obs.value !== undefined && obs.value !== null

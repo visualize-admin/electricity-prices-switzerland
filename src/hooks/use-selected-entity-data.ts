@@ -4,7 +4,6 @@ import { useMemo } from "react";
 
 import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import { getLocalizedLabel } from "src/domain/translation";
 import {
   EnrichedEnergyObservation,
   EnrichedEnergyPricesData,
@@ -197,7 +196,7 @@ export function useSelectedEntityData(
         entityType,
         colorScale,
         formatValue,
-        getLocalizedLabel({ id: priceComponent })
+        priceComponent
       );
 
       return {

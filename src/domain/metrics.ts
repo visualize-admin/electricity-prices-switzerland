@@ -1,5 +1,7 @@
+import { MessageDescriptor } from "@lingui/core";
 import { defineMessage } from "@lingui/macro";
 
+import { PriceComponent } from "./data";
 import { NetworkLevel } from "./sunshine";
 
 export const RP_PER_KWH = defineMessage({
@@ -57,3 +59,16 @@ const translationByUnits = {
 export const getNetworkLevelMetrics = (level: NetworkLevel["id"]) => {
   return translationByUnits[networkLevelUnits[level]];
 };
+
+const priceComponentUnits: Record<PriceComponent, MessageDescriptor> = {
+  total: RP_PER_KWH,
+  gridusage: RP_PER_KWH,
+  annualmeteringcost: CHF_PER_YEAR,
+  meteringrate: RP_PER_KWH,
+  energy: RP_PER_KWH,
+  charge: RP_PER_KWH,
+  aidfee: RP_PER_KWH,
+};
+
+export const getPriceComponentUnit = (priceComponent: PriceComponent) =>
+  priceComponentUnits[priceComponent];

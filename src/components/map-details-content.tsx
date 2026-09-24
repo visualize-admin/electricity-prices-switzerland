@@ -9,7 +9,7 @@ import { ReactElement, ReactNode } from "react";
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
 import { Entity } from "src/domain/data";
-import { RP_PER_KWH } from "src/domain/metrics";
+import { getPriceComponentUnit } from "src/domain/metrics";
 import {
   energyPricesDetailsLink,
   getSunshineDetailsPageFromIndicator,
@@ -169,7 +169,13 @@ const MapDetailsEntityTable = (
         return (
           <KeyValueTableRow
             dataKey={operator.label ?? ""}
-            labelUnit={tab === "electricity" ? i18n._(RP_PER_KWH) : undefined}
+            labelUnit={
+              tab === "electricity"
+                ? i18n._(
+                    getPriceComponentUnit(energyPricesQueryState.priceComponent)
+                  )
+                : undefined
+            }
             component={NextLink}
             href={`/operator/${operator.id}`}
             key={`${operator.id}-${i}`}
@@ -193,6 +199,9 @@ const MapDetailsEntityTable = (
 
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
+// Rows whose values are enum keys that need to be translated for display
+const translatedValueKeys = new Set<string>(["priceComponent", "product"]);
+
 const KeyValueTableRow = <
   T extends Partial<Record<EntityTableValue, string | undefined>>
 >(props: {
@@ -206,6 +215,15 @@ const KeyValueTableRow = <
 }) => {
   const { dataKey, state, labelUnit, component = "span", tag, href } = props;
   const leftColor = component === "span" ? "text.500" : "primary";
+  const rawValue =
+    state && dataKey in state
+      ? (state[dataKey as keyof typeof state] as string | undefined)
+      : undefined;
+  const isTranslatedValue = translatedValueKeys.has(dataKey.toString());
+  const value =
+    rawValue && isTranslatedValue
+      ? getLocalizedLabel({ id: rawValue as $IntentionalAny })
+      : rawValue;
   return (
     <Stack
       justifyContent={"space-between"}
@@ -268,16 +286,14 @@ const KeyValueTableRow = <
         tag
       ) : (
         <Typography
-          textTransform="capitalize"
+          textTransform={isTranslatedValue ? undefined : "capitalize"}
           whiteSpace="nowrap"
           overflow="hidden"
           textOverflow="ellipsis"
           variant="body3"
           fontWeight={700}
         >
-          {state && dataKey in state
-            ? (state[dataKey as keyof typeof state] as $IntentionalAny)
-            : null}
+          {value ?? null}
         </Typography>
       )}
     </Stack>
