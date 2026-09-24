@@ -3,6 +3,7 @@ import { isEqual } from "lodash";
 import { useMemo } from "react";
 
 import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
+import { QueryStateSunshineSaidiSaifiType } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   EnrichedEnergyObservation,
@@ -36,6 +37,7 @@ type UseSelectedEntityDataOptions = {
       dataType: "sunshine";
       indicator: SunshineIndicator;
       networkLevel?: NetworkLevelId;
+      saidiSaifiType?: QueryStateSunshineSaidiSaifiType;
     }
   | {
       dataType: "energy-prices";
@@ -86,6 +88,8 @@ export function useSelectedEntityData(
   const indicator = options.dataType === "sunshine" ? options.indicator : null;
   const networkLevel =
     options.dataType === "sunshine" ? options.networkLevel : undefined;
+  const saidiSaifiType =
+    options.dataType === "sunshine" ? options.saidiSaifiType : undefined;
 
   // Determine the active entity ID (selected takes precedence over hovered)
   const entityIds = useMemo(
@@ -245,7 +249,8 @@ export function useSelectedEntityData(
         colorScale,
         formatValue,
         indicator,
-        networkLevel
+        networkLevel,
+        saidiSaifiType
       );
 
       return {
@@ -275,5 +280,6 @@ export function useSelectedEntityData(
     priceComponent,
     indicator,
     networkLevel,
+    saidiSaifiType,
   ]);
 }

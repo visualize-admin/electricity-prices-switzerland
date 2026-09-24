@@ -17,6 +17,7 @@ import {
   getNetworkLevelMetrics,
 } from "src/domain/metrics";
 
+import { QueryStateSunshineSaidiSaifiType } from "./query-states";
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
 const getTranslationTable = (_locale: string) => {
@@ -590,7 +591,8 @@ export const getLocalizedLabel = ({ id }: { id: TranslationKey }): string => {
 /** Metric name + unit for map tooltip rows / subtitles (Figma: unit in muted parentheses). */
 export const getSunshineMapMetricLegendParts = (
   indicator: SunshineIndicator,
-  networkLevel?: NetworkLevelId
+  networkLevel?: NetworkLevelId,
+  saidiSaifiType?: QueryStateSunshineSaidiSaifiType
 ): { metricLabel: string; metricUnit: string | null } => {
   const level = networkLevel ?? "NE5";
   switch (indicator) {
@@ -627,20 +629,30 @@ export const getSunshineMapMetricLegendParts = (
     case "saidi":
       return {
         metricLabel: i18n._(
-          t({
-            id: "sunshine.export.column.saidi-total",
-            message: "SAIDI Total",
-          })
+          saidiSaifiType === "unplanned"
+            ? t({
+                id: "sunshine.export.column.saidi-unplanned",
+                message: "SAIDI Unplanned",
+              })
+            : t({
+                id: "sunshine.export.column.saidi-total",
+                message: "SAIDI Total",
+              })
         ),
         metricUnit: i18n._(MIN_PER_YEAR),
       };
     case "saifi":
       return {
         metricLabel: i18n._(
-          t({
-            id: "sunshine.export.column.saifi-total",
-            message: "SAIFI Total",
-          })
+          saidiSaifiType === "unplanned"
+            ? t({
+                id: "sunshine.export.column.saifi-unplanned",
+                message: "SAIFI Unplanned",
+              })
+            : t({
+                id: "sunshine.export.column.saifi-total",
+                message: "SAIFI Total",
+              })
         ),
         metricUnit: i18n._(COUNT_PER_YEAR),
       };
@@ -682,11 +694,13 @@ export const getSunshineMapMetricLegendParts = (
  */
 export const getSunshineMapMetricLegendTitle = (
   indicator: SunshineIndicator,
-  networkLevel?: NetworkLevelId
+  networkLevel?: NetworkLevelId,
+  saidiSaifiType?: QueryStateSunshineSaidiSaifiType
 ): string => {
   const { metricLabel, metricUnit } = getSunshineMapMetricLegendParts(
     indicator,
-    networkLevel
+    networkLevel,
+    saidiSaifiType
   );
   return metricUnit ? `${metricLabel} (${metricUnit})` : metricLabel;
 };

@@ -60,3 +60,14 @@
 | `sunshine.export.column.saifi-total` | SAIFI Total | SAIFI Gesamt | SAIFI Total | SAIFI Totale |
 | `sunshine.export.column.saifi-unplanned` | SAIFI Unplanned | SAIFI Ungeplant | SAIFI Non planifié | SAIFI Non pianificato |
 | `sunshine.export.column.timely-submission` | Timely Paper Submission | Rechtzeitige Einreichung von Papieren | Soumission des documents dans les délais | Presentazione tempestiva dei documenti |
+
+## Units (`sunshine.metric-unit.*`, defined in `src/domain/metrics.ts`)
+
+Units shown next to a value use the compact slash form, e.g. `(Rp./kWh)` or `(CHF/Jahr)`. Don't use `p.a.`, `p.y.` or spaces around the slash. Full sentences can spell it out ("pro Jahr", "par an").
+
+| Key | **en** | **de** | **fr** | **it** |
+|---|---|---|---|---|
+| `sunshine.metric-unit.rp-kwh` | ct./kWh | Rp./kWh | ct./kWh | ct./kWh |
+| `sunshine.metric-unit.chf-year` | CHF/year | CHF/Jahr | CHF/an | CHF/anno |
+| `sunshine.metric-unit.min-year` | Min./year | Min./Jahr | Min./an | Min./anno |
+| `sunshine.metric-unit.anzahl-year` | Count/year | Anzahl/Jahr | Nombre/an | Numero/anno |
