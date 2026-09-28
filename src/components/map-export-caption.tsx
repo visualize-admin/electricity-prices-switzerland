@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
+import { keyBy } from "lodash";
 
 import {
   QueryStateEnergyPricesMap,
@@ -13,6 +14,8 @@ import {
   valueLabels,
   TranslationKey,
 } from "src/domain/translation";
+import { usePeerGroupsQuery } from "src/graphql/queries";
+import { useLocale } from "src/lib/use-locale";
 
 type MapExportCaptionEnergy = Pick<
   QueryStateEnergyPricesMap,
@@ -33,6 +36,7 @@ type MapExportCaptionProps = {
   tab: "electricity" | "sunshine";
   energy?: MapExportCaptionEnergy;
   sunshine?: MapExportCaptionSunshine;
+  peerGroupsById?: Partial<Record<string, { name: string }>>;
 };
 
 type FilterPart = { label: string; value: string };
@@ -54,7 +58,8 @@ const getEnergyFilterParts = (energy: MapExportCaptionEnergy): FilterPart[] => [
 ];
 
 const getSunshineFilterParts = (
-  sunshine: MapExportCaptionSunshine
+  sunshine: MapExportCaptionSunshine,
+  peerGroupsById: Partial<Record<string, { name: string }>>
 ): FilterPart[] => {
   const parts: FilterPart[] = [
     { label: getLocalizedLabel({ id: "period" }), value: sunshine.period },
@@ -66,10 +71,7 @@ const getSunshineFilterParts = (
     },
     {
       label: t({ id: "selector.peerGroup", message: "Peer Group" }),
-      value:
-        sunshine.peerGroup === "all_grid_operators"
-          ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
-          : sunshine.peerGroup,
+      value: valueLabels.peerGroup(sunshine.peerGroup, peerGroupsById),
     },
   ];
 
@@ -113,10 +115,11 @@ const MapExportCaptionView = ({
   tab,
   energy,
   sunshine,
+  peerGroupsById = {},
 }: MapExportCaptionProps) => {
   const parts =
     tab === "sunshine" && sunshine
-      ? getSunshineFilterParts(sunshine)
+      ? getSunshineFilterParts(sunshine, peerGroupsById)
       : tab === "electricity" && energy
       ? getEnergyFilterParts(energy)
       : [];
@@ -161,6 +164,22 @@ export const MapExportCaption = () => {
   const [{ tab }] = useQueryStateMapCommon();
   const [energy] = useQueryStateEnergyPricesMap();
   const [sunshine] = useQueryStateSunshineMap();
+  const locale = useLocale();
+  const [peerGroupsResult] = usePeerGroupsQuery({
+    variables: { locale },
+    requestPolicy: "cache-first",
+  });
+  const peerGroupsById = keyBy(
+    peerGroupsResult.data?.peerGroups ?? [],
+    (x) => x.id
+  );
 
-  return <MapExportCaptionView tab={tab} energy={energy} sunshine={sunshine} />;
+  return (
+    <MapExportCaptionView
+      tab={tab}
+      energy={energy}
+      sunshine={sunshine}
+      peerGroupsById={peerGroupsById}
+    />
+  );
 };
