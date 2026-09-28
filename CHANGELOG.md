@@ -16,6 +16,8 @@ You can also check the
 - Fix German SAIFI description ("Unterbrüche" instead of "Minuten" per year) and French count per year unit ("Nombre/an")
 - Translate the SAIDI/SAIFI typology (e.g. "Unplanned") and network level values in the Sunshine map detail panel
 - Show "SAIDI/SAIFI Unplanned" instead of "Total" in the Sunshine map legend and tooltip when the unplanned typology is selected
+- Show the peer group name instead of its id in the Sunshine map image export caption
+- Remove the trailing period from the long indicator labels in the Sunshine indicator selector and map image export caption
 
 # 2.54.5 - 2026-09-24
 
