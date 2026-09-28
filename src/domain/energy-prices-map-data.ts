@@ -1,6 +1,6 @@
 import { extent, group, index } from "d3";
 
-import { getObservationsWeightedMean } from "src/domain/data";
+import { getMunicipalityValue } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { AllMunicipalitiesQuery, ObservationsQuery } from "src/graphql/queries";
 import { indexMapper } from "src/lib/array";
@@ -67,7 +67,6 @@ export const buildEnrichedEnergyPricesData = ({
     observations,
     (obs) => obs.municipality
   );
-  const observationsByCanton = group(observations, (obs) => obs.canton);
   const observationsByOperator = group(observations, (obs) => obs.operator);
   const observationsByOperatorAggregated =
     aggregateEnergyPricesObservationsByOperator(observationsByOperator);
@@ -76,16 +75,28 @@ export const buildEnrichedEnergyPricesData = ({
     (x) => x.canton
   );
 
-  const medianValue = swissMedianObservations[0]?.value;
-  const means = Array.from(observationsByMunicipality.values()).map(
-    (observations) => getObservationsWeightedMean(observations)
+  // Each entity's figure, see "Entity figures" in src/domain/data.ts
+  const municipalityValues = new Map(
+    Array.from(observationsByMunicipality, ([id, observations]) => [
+      id,
+      getMunicipalityValue(observations),
+    ])
   );
-  const valuesExtent = extent(means) as [number, number];
+  const cantonValues = new Map(
+    cantonMedianObservations.map((obs) => [obs.canton, obs.value])
+  );
+
+  const medianValue = swissMedianObservations[0]?.value;
+  const valuesExtent = extent(
+    municipalityValues.values(),
+    (v) => v ?? undefined
+  ) as [number, number];
 
   return {
     observations,
     observationsByMunicipality,
-    observationsByCanton,
+    municipalityValues,
+    cantonValues,
     observationsByOperator,
     observationsByOperatorAggregated,
     cantonMedianObservations,

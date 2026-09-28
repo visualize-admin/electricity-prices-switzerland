@@ -239,8 +239,7 @@ export const EnergyPricesMap = ({
         entity === "municipality" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.municipalities,
-              observationsByMunicipalityId:
-                enrichedData.observationsByMunicipality,
+              valuesById: enrichedData.municipalityValues,
               colorScale,
               highlightId:
                 highlightContext?.entity === "municipality"
@@ -257,7 +256,7 @@ export const EnergyPricesMap = ({
         entity === "canton" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.cantons,
-              observationsByMunicipalityId: enrichedData.observationsByCanton,
+              valuesById: enrichedData.cantonValues,
               colorScale,
               highlightId:
                 highlightContext?.entity === "canton"

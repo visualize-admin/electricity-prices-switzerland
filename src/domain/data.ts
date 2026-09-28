@@ -3,6 +3,7 @@ import z from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { isDefined } from "src/utils/is-defined";
 import { weightedMean } from "src/utils/weighted-mean";
 
 export type ObservationValue = string | number | boolean | Date | null;
@@ -139,12 +140,29 @@ export const asElectricityCategory = (
 
 export type ValueFormatter = (value: number) => string;
 
-export const getObservationsWeightedMean = (
-  obs: OperatorObservationFieldsFragment[]
-) => {
+/*
+ * Entity figures. An entity (municipality, operator, canton) is backed by
+ * several observation rows; every view (map colors, legend, tooltip, list,
+ * detail panel, chart) takes the entity's figure from these functions, never
+ * from one of its rows' `value`. The canton figure is the median computed
+ * server-side (`cantonMedianObservations`).
+ */
+
+/**
+ * Municipality-level value: its operators' values weighted by the share of
+ * the municipality each one covers. Rows without a value are ignored.
+ */
+export const getMunicipalityValue = (
+  observations: Pick<
+    OperatorObservationFieldsFragment,
+    "value" | "coverageRatio"
+  >[]
+): number | null => {
+  const withValue = observations.filter((d) => isDefined(d.value));
+  if (withValue.length === 0) return null;
   return weightedMean(
-    obs,
-    (d) => d.value ?? 0,
+    withValue,
+    (d) => d.value!,
     (d) => d.coverageRatio
   );
 };

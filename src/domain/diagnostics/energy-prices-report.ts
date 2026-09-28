@@ -1,6 +1,5 @@
 import { Client } from "urql";
 
-import { getObservationsWeightedMean } from "src/domain/data";
 import {
   buildEnrichedEnergyPricesData,
   getEnergyPriceLegendColor,
@@ -154,12 +153,8 @@ export async function fetchEnergyPricesReportData(
     (operatorsResult?.data?.operators ?? []).map((o) => [o.id, o.name])
   );
 
-  const municipalityObservations =
-    enrichedData.observationsByMunicipality.get(municipality.id) ?? [];
   const value =
-    municipalityObservations.length > 0
-      ? getObservationsWeightedMean(municipalityObservations)
-      : undefined;
+    enrichedData.municipalityValues.get(municipality.id) ?? undefined;
 
   const values = enrichedData.observations
     .filter(isValidValue)

@@ -10,8 +10,7 @@ import {
   MapRenderMode,
 } from "src/components/map-helpers";
 import { OperatorFeature, OperatorLayerProperties } from "src/data/geo";
-import { getObservationsWeightedMean } from "src/domain/data";
-import { Maybe, OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { Maybe } from "src/graphql/queries";
 
 export type PickingInfoTyped<T> = Omit<PickingInfo, "object"> & {
   object: T | null;
@@ -31,10 +30,8 @@ interface MunicipalityLayerOptions {
   mode: "base" | "mesh";
   renderMode?: MapRenderMode;
   // Options for base mode (data visualization)
-  observationsByMunicipalityId?: Map<
-    string,
-    OperatorObservationFieldsFragment[]
-  >;
+  // Entity figure per feature id (see "Entity figures" in src/domain/data.ts)
+  valuesById?: Map<string, number | null>;
   colorScale?: ScaleThreshold<number, string> | undefined;
   highlightId?: string;
   onHover?: LayerHoverHandler;
@@ -80,7 +77,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
     layerId,
     mode,
     renderMode,
-    observationsByMunicipalityId,
+    valuesById,
     colorScale,
     highlightId,
     onHover,
@@ -89,10 +86,8 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
   const styles = getStyles(renderMode);
 
   if (mode === "base") {
-    if (!observationsByMunicipalityId || !colorScale) {
-      throw new Error(
-        "Base mode requires observationsByMunicipalityId and colorScale",
-      );
+    if (!valuesById || !colorScale) {
+      throw new Error("Base mode requires valuesById and colorScale");
     }
 
     return new GeoJsonLayer({
@@ -107,13 +102,9 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
         const id = d?.id?.toString();
         if (!id) return styles.municipalities.base.fillColor.doesNotExist;
 
-        const obs = observationsByMunicipalityId.get(id);
-        return obs
-          ? getFillColor(
-              colorScale,
-              getObservationsWeightedMean(obs),
-              highlightId === id,
-            )
+        const value = valuesById.get(id);
+        return value !== undefined && value !== null
+          ? getFillColor(colorScale, value, highlightId === id)
           : styles.municipalities.base.fillColor.withoutData;
       },
       onHover: onHover
@@ -129,7 +120,7 @@ export function makeMunicipalityLayer(options: MunicipalityLayerOptions) {
         : undefined,
       onClick,
       updateTriggers: {
-        getFillColor: [observationsByMunicipalityId, highlightId],
+        getFillColor: [valuesById, highlightId],
       },
     });
   } else {
