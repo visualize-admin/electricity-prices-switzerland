@@ -1,6 +1,7 @@
 import { mean } from "d3";
 import { first } from "lodash";
 
+import { getOperatorMeanValue } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
 import { Maybe, SunshineDataIndicatorRow } from "src/graphql/queries";
 
@@ -88,12 +89,7 @@ export const aggregateEnergyPricesObservationsByOperator = (
         operatorId,
         {
           name: observations[0].operatorLabel ?? `Operator ${operatorId}`,
-          value:
-            mean(
-              observations
-                .map((obs) => obs.value)
-                .filter((v): v is number => v !== null && v !== undefined),
-            ) ?? null,
+          value: getOperatorMeanValue(observations),
           period: observations[0].period,
         },
       ],
