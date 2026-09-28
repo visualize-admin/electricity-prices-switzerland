@@ -1288,31 +1288,31 @@ msgstr "Costi e utile della distribuzione di energia"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "Quanti giorni prima i clienti vengono informati di un'interruzione programmata."
+msgstr "Quanti giorni prima i clienti vengono informati di un'interruzione programmata"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
-msgstr "Tariffe energetiche per la categoria di utenza finale selezionata (IVA esclusa)."
+msgstr "Tariffe energetiche per la categoria di utenza finale selezionata (IVA esclusa)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Tariffe per l'utilizzazione della rete per la categoria di utenza finale selezionata (IVA esclusa)."
+msgstr "Tariffe per l'utilizzazione della rete per la categoria di utenza finale selezionata (IVA esclusa)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
-msgstr "Costi di infrastruttura di rete addebitati agli utenti finali per livello di rete (NE5–NE7)."
+msgstr "Costi di infrastruttura di rete addebitati agli utenti finali per livello di rete (NE5–NE7)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Se gli utenti interessati da interruzioni programmate sono informati come richiesto."
+msgstr "Se gli utenti interessati da interruzioni programmate sono informati come richiesto"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Durata annuale delle interruzioni di corrente per cliente (SAIDI), in minuti all'anno."
+msgstr "Durata annuale delle interruzioni di corrente per cliente (SAIDI), in minuti all'anno"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Frequenza annuale delle interruzioni di corrente per cliente (SAIFI), in interruzioni all'anno."
+msgstr "Frequenza annuale delle interruzioni di corrente per cliente (SAIFI), in interruzioni all'anno"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"

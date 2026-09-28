@@ -204,37 +204,36 @@ const getTranslationTable = (_locale: string) => {
     "selector.indicator.networkCosts.long": t({
       id: "selector.indicator.networkCosts.long",
       message:
-        "Network infrastructure costs charged to end consumers by network level (NE5–NE7).",
+        "Network infrastructure costs charged to end consumers by network level (NE5–NE7)",
     }),
     "selector.indicator.netTariffs.long": t({
       id: "selector.indicator.netTariffs.long",
-      message:
-        "Net tariffs for the selected end-consumer category (excl. VAT).",
+      message: "Net tariffs for the selected end-consumer category (excl. VAT)",
     }),
     "selector.indicator.energyTariffs.long": t({
       id: "selector.indicator.energyTariffs.long",
       message:
-        "Energy tariffs for the selected end-consumer category (excl. VAT).",
+        "Energy tariffs for the selected end-consumer category (excl. VAT)",
     }),
     "selector.indicator.saidi.long": t({
       id: "selector.indicator.saidi.long",
       message:
-        "Annual duration of power interruptions per customer (SAIDI), in minutes per year.",
+        "Annual duration of power interruptions per customer (SAIDI), in minutes per year",
     }),
     "selector.indicator.saifi.long": t({
       id: "selector.indicator.saifi.long",
       message:
-        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year.",
+        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year",
     }),
     "selector.indicator.outageInfo.long": t({
       id: "selector.indicator.outageInfo.long",
       message:
-        "Whether customers affected by planned outages are informed as required.",
+        "Whether customers affected by planned outages are informed as required",
     }),
     "selector.indicator.daysInAdvanceOutageNotification.long": t({
       id: "selector.indicator.daysInAdvanceOutageNotification.long",
       message:
-        "How many days in advance customers are notified before a planned outage.",
+        "How many days in advance customers are notified before a planned outage",
     }),
     "selector.indicator.compliance.long": t({
       id: "selector.indicator.compliance.long",

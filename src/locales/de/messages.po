@@ -1286,7 +1286,7 @@ msgstr "Kosten und Gewinn im Energievertrieb"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "Wie viele Tage im Voraus die Kundschaft vor einer geplanten Unterbrechung informiert wird."
+msgstr "Wie viele Tage im Voraus die Kundschaft vor einer geplanten Unterbrechung informiert wird"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
@@ -1302,15 +1302,15 @@ msgstr "Endverbrauchern verrechnete Kosten fürs Netz nach Netzebene (NE5–NE7)
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Angabe, ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden."
+msgstr "Angabe, ob von geplanten Unterbrechungen betroffene Kunden wie vorgeschrieben informiert werden"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Dauer von Stromunterbrüchen pro Kunde (SAIDI), in Minuten pro Jahr."
+msgstr "Dauer von Stromunterbrüchen pro Kunde (SAIDI), in Minuten pro Jahr"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Unterbrüchen pro Jahr."
+msgstr "Häufigkeit von Stromunterbrüchen pro Kunde (SAIFI), in Unterbrüchen pro Jahr"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
