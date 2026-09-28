@@ -37,6 +37,7 @@ import {
   DetailPriceComponent,
   detailsPriceComponents,
   Entity,
+  averageOperatorObservationsByPeriod,
   GenericObservation,
   PriceComponent,
 } from "src/domain/data";
@@ -199,10 +200,15 @@ export const PriceEvolution = ({
   });
 
   const fetching = mini ? slimQuery.fetching : allQuery.fetching;
+  const slimObservations = slimQuery.data?.observations ?? EMPTY_ARRAY;
   const operatorObservations = fetching
     ? EMPTY_ARRAY
     : mini
-    ? (slimQuery.data?.observations ?? EMPTY_ARRAY).map((obs) => ({
+    ? // One line per operator instead of one per municipality it serves
+      (entity === "operator"
+        ? averageOperatorObservationsByPeriod(slimObservations)
+        : slimObservations
+      ).map((obs) => ({
         ...obs,
         [priceComponent]: obs.value,
       }))
@@ -288,7 +294,9 @@ const PriceEvolutionLineChart = (props: {
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
       obs.__typename === "OperatorObservation"
-        ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
+        ? obs.municipalityLabel
+          ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
+          : obs.operatorLabel
         : obs.cantonLabel,
     ...obs,
   }));
