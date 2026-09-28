@@ -6,6 +6,18 @@
 
 Add an entry to `CHANGELOG.md` at the root of the project documenting what changed in this release.
 
+Move the entries from the `# Unreleased` section under a new `# X.Y.Z - YYYY-MM-DD` heading, then put `Nothing yet.` in the (now empty) `# Unreleased` section:
+
+```md
+# Unreleased
+
+Nothing yet.
+
+# X.Y.Z - YYYY-MM-DD
+
+- ...
+```
+
 ### 2. Bump the version in package.json
 
 Edit `package.json` and increment the `"version"` field following [semver](https://semver.org/).
