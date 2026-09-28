@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   averageOperatorObservationsByPeriod,
   getOperatorMeanValue,
-} from "src/domain/data";
+} from "src/domain/aggregate-observations";
 
 describe("getOperatorMeanValue", () => {
   it("averages the operator's values across municipalities", () => {

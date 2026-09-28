@@ -29,6 +29,7 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
+import { aggregateSunshineObservationsByOperator } from "src/domain/aggregate-observations";
 import { ValueFormatter } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import {
@@ -49,7 +50,6 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { aggregateSunshineObservationsByOperator } from "src/utils/aggregate-observations";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 type SunshineMapProps = {

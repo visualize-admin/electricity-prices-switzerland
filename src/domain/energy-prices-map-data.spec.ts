@@ -9,7 +9,7 @@ import {
   averageOperatorObservationsByPeriod,
   getMunicipalityValue,
   getOperatorMeanValue,
-} from "src/domain/data";
+} from "src/domain/aggregate-observations";
 import { buildEnrichedEnergyPricesData } from "src/domain/energy-prices-map-data";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 

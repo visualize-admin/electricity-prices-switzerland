@@ -1,6 +1,9 @@
 import { mean, rollup } from "d3";
 
-import { getMunicipalityValue, getOperatorMeanValue } from "src/domain/data";
+import {
+  getMunicipalityValue,
+  getOperatorMeanValue,
+} from "src/domain/aggregate-observations";
 import {
   CantonMedianObservationFieldsFragment,
   OperatorObservationFieldsFragment,

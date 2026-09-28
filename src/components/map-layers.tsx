@@ -30,7 +30,7 @@ interface MunicipalityLayerOptions {
   mode: "base" | "mesh";
   renderMode?: MapRenderMode;
   // Options for base mode (data visualization)
-  // Entity figure per feature id (see "Entity figures" in src/domain/data.ts)
+  // Entity figure per feature id (see "Entity figures" in src/domain/aggregate-observations.ts)
   valuesById?: Map<string, number | null>;
   colorScale?: ScaleThreshold<number, string> | undefined;
   highlightId?: string;

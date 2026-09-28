@@ -1,10 +1,12 @@
 import { extent, group, index } from "d3";
 
-import { getMunicipalityValue } from "src/domain/data";
+import {
+  aggregateEnergyPricesObservationsByOperator,
+  getMunicipalityValue,
+} from "src/domain/aggregate-observations";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { AllMunicipalitiesQuery, ObservationsQuery } from "src/graphql/queries";
 import { indexMapper } from "src/lib/array";
-import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 
 /**
  * Pure computation shared by `useEnrichedEnergyPricesData` (React) and the
@@ -75,7 +77,7 @@ export const buildEnrichedEnergyPricesData = ({
     (x) => x.canton
   );
 
-  // Each entity's figure, see "Entity figures" in src/domain/data.ts
+  // Each entity's figure, see "Entity figures" in src/domain/aggregate-observations.ts
   const municipalityValues = new Map(
     Array.from(observationsByMunicipality, ([id, observations]) => [
       id,

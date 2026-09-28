@@ -1,10 +1,7 @@
-import { group, mean, range } from "d3";
+import { range } from "d3";
 import z from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
-import { isDefined } from "src/utils/is-defined";
-import { weightedMean } from "src/utils/weighted-mean";
 
 export type ObservationValue = string | number | boolean | Date | null;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -139,72 +136,6 @@ export const asElectricityCategory = (
 };
 
 export type ValueFormatter = (value: number) => string;
-
-/*
- * Entity figures. An entity (municipality, operator, canton) is backed by
- * several observation rows; every view (map colors, legend, tooltip, list,
- * detail panel, chart) takes the entity's figure from these functions, never
- * from one of its rows' `value`. The canton figure is the median computed
- * server-side (`cantonMedianObservations`).
- */
-
-/**
- * Municipality-level value: its operators' values weighted by the share of
- * the municipality each one covers. Rows without a value are ignored.
- */
-export const getMunicipalityValue = (
-  observations: Pick<
-    OperatorObservationFieldsFragment,
-    "value" | "coverageRatio"
-  >[]
-): number | null => {
-  const withValue = observations.filter((d) => isDefined(d.value));
-  if (withValue.length === 0) return null;
-  return weightedMean(
-    withValue,
-    (d) => d.value!,
-    (d) => d.coverageRatio
-  );
-};
-
-/**
- * Operator-level value: mean of the operator's values across the
- * municipalities it serves. Values can differ per municipality, e.g.
- * charges to the community.
- */
-export const getOperatorMeanValue = (
-  observations: { value?: number | null }[]
-): number | null => mean(observations, (d) => d.value ?? undefined) ?? null;
-
-/**
- * One observation per operator and period, valued with `getOperatorMeanValue`.
- * Municipality fields are cleared as the result spans several municipalities.
- */
-export const averageOperatorObservationsByPeriod = <
-  T extends {
-    operator: string;
-    period: string;
-    value?: number | null;
-    municipality: string;
-    municipalityLabel?: string | null;
-  }
->(
-  observations: T[]
-): T[] =>
-  Array.from(
-    group(
-      observations,
-      (d) => d.operator,
-      (d) => d.period
-    ).values()
-  ).flatMap((observationsByPeriod) =>
-    Array.from(observationsByPeriod.values(), (periodObservations) => ({
-      ...periodObservations[0],
-      municipality: "",
-      municipalityLabel: null,
-      value: getOperatorMeanValue(periodObservations),
-    }))
-  );
 
 export type SettlementDensity =
   | "High"

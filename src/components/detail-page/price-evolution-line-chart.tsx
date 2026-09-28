@@ -33,11 +33,11 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
+import { averageOperatorObservationsByPeriod } from "src/domain/aggregate-observations";
 import {
   DetailPriceComponent,
   detailsPriceComponents,
   Entity,
-  averageOperatorObservationsByPeriod,
   GenericObservation,
   PriceComponent,
 } from "src/domain/data";
