@@ -277,3 +277,79 @@ test.describe("Mobile map list selection", () => {
     tracker.dispose();
   });
 });
+
+test.describe("Map details panel chart", () => {
+  test.beforeEach(async ({ setFlags, page }) => {
+    await setFlags(page, ["webglDeactivated"]);
+  });
+
+  // The value at the end of an operator row, e.g. "CKW AG(CHF/year)61.80"
+  const getOperatorRowValue = async (page: Page) => {
+    const row = page
+      .getByTestId("map-details-content")
+      .locator('a[href^="/operator/"]')
+      .first()
+      .locator("xpath=..");
+    const text = (await row.textContent()) ?? "";
+    return text.match(/(\d+\.\d{2})\s*$/)?.[1];
+  };
+
+  test("charts annual metering cost in CHF/year, matching the panel value", async ({
+    page,
+  }) => {
+    test.slow();
+    const tracker = new InflightRequests(page);
+    await gotoWithRetry(
+      page,
+      "/en/map?priceComponent=annualmeteringcost&product=standard&category=H4&period=2026&activeId=1085"
+    );
+    await tracker.waitForRequests();
+
+    const detailsContent = page.getByTestId("map-details-content");
+    await expect(detailsContent).toBeVisible();
+    await expect(
+      detailsContent.getByText("Annual Metering Cost", { exact: true }).last()
+    ).toBeVisible();
+
+    const panelValue = await getOperatorRowValue(page);
+    expect(panelValue).toBeDefined();
+    await expect(
+      detailsContent.getByText(`${panelValue} CHF/year`, { exact: true })
+    ).toBeVisible();
+
+    tracker.dispose();
+  });
+
+  test("shows the same operator value in the list, the panel and the chart", async ({
+    page,
+  }) => {
+    test.slow();
+    const tracker = new InflightRequests(page);
+    await gotoWithRetry(page, "/en/map?priceComponent=charge&entity=operator");
+    await tracker.waitForRequests();
+
+    // ELC-726: charges differ per municipality served by BKW
+    await page.getByRole("textbox", { name: "Filter list" }).fill("BKW");
+    const listItem = page
+      .getByTestId("map-sidebar")
+      .locator("a")
+      .filter({ hasText: "BKW Energie AG" })
+      .first();
+    const listText = (await listItem.textContent()) ?? "";
+    const listValue = listText.match(/(\d+\.\d{2})/)?.[1];
+    expect(listValue).toBeDefined();
+
+    await listItem.click();
+    await tracker.waitForRequests();
+
+    const detailsContent = page.getByTestId("map-details-content");
+    await expect(detailsContent).toBeVisible();
+    expect(await getOperatorRowValue(page)).toBe(listValue);
+    // With one line per municipality, the label showed one municipality's value
+    await expect(
+      detailsContent.getByText(`${listValue} ct./kWh`, { exact: true })
+    ).toBeVisible();
+
+    tracker.dispose();
+  });
+});
