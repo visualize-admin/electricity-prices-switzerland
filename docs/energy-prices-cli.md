@@ -150,8 +150,9 @@ pnpm energy-prices:cli gray-areas --year 2025 --category H4 --price-component to
 `--locale`, `--endpoint` behave the same as `municipality`.
 
 - `--entity municipality` checks the municipality map view: a municipality
-  is gray when it has no price observation at all (`src/components/map-layers.tsx`'s
-  `makeMunicipalityLayer`).
+  is gray when none of its price observations has a value, including when it
+  has none at all (`getMunicipalityValue` returns null; see `makeMunicipalityLayer`
+  in `src/components/map-layers.tsx`).
 - `--entity operator` checks the operator map view: a municipality is gray
   when **none** of the operators serving it (per that year's
   operator-municipality offers) has a usable price value — even if some of

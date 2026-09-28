@@ -217,7 +217,12 @@ export async function fetchGrayAreasReportData(
 
   if (args.entity === "municipality") {
     for (const municipality of municipalities) {
-      if (enrichedData.observationsByMunicipality.has(municipality.id)) {
+      // Gray when there is no municipality figure: no observation, or no
+      // observation with a value (see getMunicipalityValue)
+      const value = enrichedData.valuesByEntity.municipality.get(
+        municipality.id
+      );
+      if (value !== undefined && value !== null) {
         continue;
       }
       const servingRows =
