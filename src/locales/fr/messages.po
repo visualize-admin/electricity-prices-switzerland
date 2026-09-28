@@ -364,7 +364,7 @@ msgstr "Temporairement indisponible"
 
 #: src/domain/translation.tsx
 msgid "filters.category"
-msgstr "Categorie"
+msgstr "Catégorie"
 
 #: src/domain/translation.tsx
 msgid "filters.price.component"
