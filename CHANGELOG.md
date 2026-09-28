@@ -14,8 +14,12 @@ You can also check the
 - Map detail panel chart shows the selected price component instead of always Total; annual metering cost is charted in CHF/year
 - Keep the highlighted value label on detail panel charts inside the chart and clear of the lines
 - Map detail panel for an operator shows the operator mean (as in the tooltip and list) instead of the first municipality's value, and its chart shows one averaged line per year instead of one line per municipality (ELC-726)
-- Results list and detail panel show a municipality's coverage-weighted mean, as its map color does, instead of a plain mean of its operators
+- Results list shows a municipality's coverage-weighted mean, as its map color does, instead of a plain mean of its operators
+- Municipality map colors ignore operator rows without a value instead of counting them as 0; a municipality with no value at all is shown as without data
+- Operator tooltip shows no value instead of 0.00 for an operator without data, as on the map and in the list
 - Canton map colors use the canton median shown in the list and tooltip instead of a weighted mean of all municipalities
+- Map legend min and max show the range of the canton or operator figures in those views, instead of always the municipality range
+- Sunshine map legend min and max come from the operator figures drawn on the map and no longer skip 0 values
 
 # 2.54.6 - 2026-09-28
 
