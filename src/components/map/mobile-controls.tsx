@@ -27,7 +27,7 @@ import {
 import {
   getLocalizedLabel,
   getSunshineMapMetricLegendTitle,
-  mapSelectionValueLabels,
+  valueLabels,
 } from "src/domain/translation";
 import { usePeerGroupsQuery } from "src/graphql/queries";
 import {
@@ -186,8 +186,7 @@ const MobileControls = ({
   const sunshineNetworkLevel = sunshineQueryState.networkLevel;
 
   // Get localized labels for display
-  const priceComponentLabel =
-    mapSelectionValueLabels.priceComponent(priceComponent);
+  const priceComponentLabel = valueLabels.priceComponent(priceComponent);
   const sunshineIndicatorShortLabel = getSunshineMapMetricLegendTitle(
     sunshineIndicator,
     sunshineNetworkLevel,
@@ -200,9 +199,9 @@ const MobileControls = ({
       ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
       : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
   const sunshineNetworkLevelLabel =
-    mapSelectionValueLabels.networkLevel(sunshineNetworkLevel);
+    valueLabels.networkLevel(sunshineNetworkLevel);
   const categoryLabel = getLocalizedLabel({ id: category });
-  const productLabel = mapSelectionValueLabels.product(product);
+  const productLabel = valueLabels.product(product);
 
   // Format the current status string
   const pricesCurrentStatus = `${period}, ${categoryLabel}, ${productLabel}`;

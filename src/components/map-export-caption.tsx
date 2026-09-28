@@ -10,7 +10,7 @@ import {
 } from "src/domain/query-states";
 import {
   getLocalizedLabel,
-  mapSelectionValueLabels,
+  valueLabels,
   TranslationKey,
 } from "src/domain/translation";
 
@@ -45,11 +45,11 @@ const getEnergyFilterParts = (energy: MapExportCaptionEnergy): FilterPart[] => [
   },
   {
     label: getLocalizedLabel({ id: "priceComponent" }),
-    value: mapSelectionValueLabels.priceComponent(energy.priceComponent),
+    value: valueLabels.priceComponent(energy.priceComponent),
   },
   {
     label: getLocalizedLabel({ id: "product" }),
-    value: mapSelectionValueLabels.product(energy.product),
+    value: valueLabels.product(energy.product),
   },
 ];
 
@@ -85,13 +85,13 @@ const getSunshineFilterParts = (
   if (sunshine.indicator === "networkCosts") {
     parts.push({
       label: t({ id: "selector.network-level", message: "Network level" }),
-      value: mapSelectionValueLabels.networkLevel(sunshine.networkLevel),
+      value: valueLabels.networkLevel(sunshine.networkLevel),
     });
   }
   if (sunshine.indicator === "saidi" || sunshine.indicator === "saifi") {
     parts.push({
       label: t({ id: "selector.saidi-saifi-type", message: "Typology" }),
-      value: mapSelectionValueLabels.saidiSaifiType(sunshine.saidiSaifiType),
+      value: valueLabels.saidiSaifiType(sunshine.saidiSaifiType),
     });
   }
 

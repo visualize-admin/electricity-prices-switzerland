@@ -20,10 +20,7 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import {
-  getLocalizedLabel,
-  mapSelectionValueLabels,
-} from "src/domain/translation";
+import { getLocalizedLabel, valueLabels } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 import { ListItemType } from "./list";
@@ -214,7 +211,7 @@ const valueLabelGetters: {
   period: null,
   category: null,
   operator: null,
-  ...mapSelectionValueLabels,
+  ...valueLabels,
 };
 
 const KeyValueTableRow = <

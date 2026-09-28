@@ -740,8 +740,8 @@ export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
   long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
 });
 
-/** Labels for map selection values, keyed by their query state field. */
-export const mapSelectionValueLabels = {
+/** Labels for query state enum values, keyed by query state field. */
+export const valueLabels = {
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
   product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
   saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>

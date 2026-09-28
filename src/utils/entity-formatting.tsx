@@ -10,7 +10,7 @@ import { QueryStateSunshineSaidiSaifiType } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   getSunshineMapMetricLegendParts,
-  mapSelectionValueLabels,
+  valueLabels,
 } from "src/domain/translation";
 import { EnrichedEnergyObservation } from "src/hooks/use-enriched-energy-prices-data";
 import { EnrichedSunshineObservation } from "src/hooks/use-enriched-sunshine-data";
@@ -65,8 +65,7 @@ export const formatEnergyPricesEntity = (
   }
 
   const unit = i18n._(getPriceComponentUnit(priceComponent));
-  const priceComponentLabel =
-    mapSelectionValueLabels.priceComponent(priceComponent);
+  const priceComponentLabel = valueLabels.priceComponent(priceComponent);
 
   const values: EntityValue[] = observations.map((obs) => ({
     label:
