@@ -5,6 +5,8 @@ import { memoize } from "lodash";
 import {
   ElectricityCategory,
   NetworkLevelId,
+  PriceComponent,
+  PriceProduct,
   SettlementDensity,
   EnergyDensity,
 } from "src/domain/data";
@@ -737,6 +739,16 @@ export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
   short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
   long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
 });
+
+/** Labels for map selection values, keyed by their query state field. */
+export const mapSelectionValueLabels = {
+  priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
+  product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
+  saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
+    getLocalizedLabel({ id: value }),
+  networkLevel: (value: NetworkLevelId) =>
+    getLocalizedLabel({ id: `network-level.${value}.short` }),
+};
 
 export const getCategoryLabels = (category: ElectricityCategory) => ({
   short: getLocalizedLabel({ id: `${category}` }),
