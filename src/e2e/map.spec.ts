@@ -287,7 +287,8 @@ test.describe("Map details panel chart", () => {
   const getOperatorRowValue = async (page: Page) => {
     const row = page
       .getByTestId("map-details-content")
-      .locator('a[href^="/operator/"]')
+      // href has a locale prefix outside the default locale, e.g. /en/operator/37
+      .locator('a[href*="/operator/"]')
       .first()
       .locator("xpath=..");
     const text = (await row.textContent()) ?? "";
