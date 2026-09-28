@@ -1646,6 +1646,7 @@ msgstr "sunshine.export.column.period"
 msgid "sunshine.export.column.saidi-total"
 msgstr "sunshine.export.column.saidi-total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "sunshine.export.column.saidi-unplanned"
@@ -1655,6 +1656,7 @@ msgstr "sunshine.export.column.saidi-unplanned"
 msgid "sunshine.export.column.saifi-total"
 msgstr "sunshine.export.column.saifi-total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-unplanned"
 msgstr "sunshine.export.column.saifi-unplanned"

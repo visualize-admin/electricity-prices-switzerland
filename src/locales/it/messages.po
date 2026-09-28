@@ -1648,6 +1648,7 @@ msgstr "Periodo"
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Totale"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Non pianificato"
@@ -1657,6 +1658,7 @@ msgstr "SAIDI Non pianificato"
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Totale"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-unplanned"
 msgstr "SAIFI Non pianificato"
