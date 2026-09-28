@@ -211,6 +211,8 @@ const valueLabelGetters: {
   period: null,
   operator: null,
   ...valueLabels,
+  category: (value) => valueLabels.category(value, "short"),
+  networkLevel: (value) => valueLabels.networkLevel(value, "short"),
 };
 
 const KeyValueTableRow = <

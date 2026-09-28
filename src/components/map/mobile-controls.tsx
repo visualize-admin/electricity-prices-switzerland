@@ -198,9 +198,11 @@ const MobileControls = ({
     sunshinePeerGroup === "all_grid_operators"
       ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
       : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
-  const sunshineNetworkLevelLabel =
-    valueLabels.networkLevel(sunshineNetworkLevel);
-  const categoryLabel = valueLabels.category(category);
+  const sunshineNetworkLevelLabel = valueLabels.networkLevel(
+    sunshineNetworkLevel,
+    "short"
+  );
+  const categoryLabel = valueLabels.category(category, "short");
   const productLabel = valueLabels.product(product);
 
   // Format the current status string

@@ -41,7 +41,7 @@ const getEnergyFilterParts = (energy: MapExportCaptionEnergy): FilterPart[] => [
   { label: getLocalizedLabel({ id: "period" }), value: energy.period },
   {
     label: getLocalizedLabel({ id: "category" }),
-    value: valueLabels.category(energy.category),
+    value: valueLabels.category(energy.category, "short"),
   },
   {
     label: getLocalizedLabel({ id: "priceComponent" }),
@@ -79,13 +79,13 @@ const getSunshineFilterParts = (
   ) {
     parts.push({
       label: getLocalizedLabel({ id: "category" }),
-      value: valueLabels.category(sunshine.category),
+      value: valueLabels.category(sunshine.category, "short"),
     });
   }
   if (sunshine.indicator === "networkCosts") {
     parts.push({
       label: t({ id: "selector.network-level", message: "Network level" }),
-      value: valueLabels.networkLevel(sunshine.networkLevel),
+      value: valueLabels.networkLevel(sunshine.networkLevel, "short"),
     });
   }
   if (sunshine.indicator === "saidi" || sunshine.indicator === "saifi") {

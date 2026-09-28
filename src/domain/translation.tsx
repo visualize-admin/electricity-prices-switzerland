@@ -751,7 +751,10 @@ export const valueLabels = {
   product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
   saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
     getLocalizedLabel({ id: value }),
-  category: (value: ElectricityCategory) => getCategoryLabels(value).short,
-  networkLevel: (value: NetworkLevelId) =>
-    getLocalizedLabel({ id: `network-level.${value}.short` }),
+  category: (value: ElectricityCategory, variant: "short" | "long") =>
+    getLocalizedLabel({ id: variant === "short" ? value : `${value}-long` }),
+  networkLevel: (
+    value: NetworkLevelId,
+    variant: "short" | "long" | "description"
+  ) => getLocalizedLabel({ id: `network-level.${value}.${variant}` }),
 };
