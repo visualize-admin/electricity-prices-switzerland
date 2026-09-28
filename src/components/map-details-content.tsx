@@ -20,6 +20,7 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
+import { SunshineIndicator } from "src/domain/sunshine";
 import { getLocalizedLabel, valueLabels } from "src/domain/translation";
 import { Icon } from "src/icons";
 
@@ -124,7 +125,10 @@ const sunshineIndicatorTableRows = {
   compliance: ["period"],
   outageInfo: ["period"],
   daysInAdvanceOutageNotification: ["period"],
-} as const satisfies Record<string, readonly (keyof QueryStateSunshineMap)[]>;
+} as const satisfies Record<
+  SunshineIndicator,
+  readonly (keyof QueryStateSunshineMap)[]
+>;
 
 type TableRowKey =
   | (typeof entityTableRows)[keyof typeof entityTableRows][number]
@@ -144,7 +148,7 @@ const MapDetailsEntityTable = (
   // Determine which table rows to show based on the current tab
   const tableRows =
     tab === "sunshine"
-      ? sunshineIndicatorTableRows[sunshineQueryState.indicator] || []
+      ? sunshineIndicatorTableRows[sunshineQueryState.indicator]
       : entityTableRows[entity];
 
   const queryState =
@@ -203,13 +207,11 @@ type EntityTableValue = keyof QueryStateEnergyPricesMap;
 type TableRowValue<K extends TableRowKey> = (QueryStateEnergyPricesMap &
   QueryStateSunshineMap)[K];
 
-// Every table row must declare how its value is displayed: a getter for enum
-// values that need translation, or `null` to show the raw value
+// Every table row must resolve to a single-argument getter (or `null` to show
+// the raw value); fields with label variants pick theirs here
 const valueLabelGetters: {
   [K in TableRowKey]: ((value: TableRowValue<K>) => string) | null;
 } = {
-  period: null,
-  operator: null,
   ...valueLabels,
   category: (value) => valueLabels.category(value, "short"),
   networkLevel: (value) => valueLabels.networkLevel(value, "short"),

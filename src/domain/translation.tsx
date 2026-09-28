@@ -19,7 +19,11 @@ import {
   getNetworkLevelMetrics,
 } from "src/domain/metrics";
 
-import { QueryStateSunshineSaidiSaifiType } from "./query-states";
+import {
+  QueryStateEnergyPricesMap,
+  QueryStateSunshineMap,
+  QueryStateSunshineSaidiSaifiType,
+} from "./query-states";
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
 const getTranslationTable = (_locale: string) => {
@@ -735,8 +739,27 @@ export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
   };
 };
 
-/** Labels for query state enum values, keyed by query state field. */
+type MapQueryState = QueryStateEnergyPricesMap & QueryStateSunshineMap;
+
+/**
+ * Labels for map query state values, keyed by query state field. Every field
+ * must be listed: a label getter, or `null` when its value is not displayed as
+ * a translated label.
+ */
 export const valueLabels = {
+  tab: null,
+  entity: null,
+  operator: null,
+  period: null,
+  municipality: null,
+  canton: null,
+  download: null,
+  cantonsOrder: null,
+  view: null,
+  peerGroup: null,
+  complianceType: null,
+  indicator: null,
+  activeId: null,
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
   product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
   saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
@@ -747,4 +770,8 @@ export const valueLabels = {
     value: NetworkLevelId,
     variant: "short" | "long" | "description"
   ) => getLocalizedLabel({ id: `network-level.${value}.${variant}` }),
+} satisfies {
+  [K in keyof MapQueryState]-?:
+    | ((value: MapQueryState[K], ...variant: never[]) => string)
+    | null;
 };
