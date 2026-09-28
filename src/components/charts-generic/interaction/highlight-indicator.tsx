@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import {
   LinesState,
   useChartState,
@@ -116,48 +118,73 @@ export const HighlightIndicator = (props: {
   const formatDisplay = useFormatDisplayNumber();
   const { annotationFontSize, fontFamily } = useChartTheme();
 
-  if (!xUniqueValues.length) return null;
+  // Recomputed only when the chart changes, not on hover
+  const geometry = useMemo(() => {
+    if (!xUniqueValues.length) return null;
 
-  const highlightDate = pickHighlightDate(xUniqueValues, highlightYear);
-  if (!highlightDate) return null;
+    const highlightDate = pickHighlightDate(xUniqueValues, highlightYear);
+    if (!highlightDate) return null;
 
-  const xAnchor = xScale(highlightDate);
+    const xAnchor = xScale(highlightDate);
 
-  const dataAtHighlightX = data.find(
-    (d) => getX(d)?.getTime() === highlightDate.getTime()
-  );
-  if (!dataAtHighlightX) return null;
+    const dataAtHighlightX = data.find(
+      (d) => getX(d)?.getTime() === highlightDate.getTime()
+    );
+    if (!dataAtHighlightX) return null;
 
-  const yValue = getY(dataAtHighlightX);
-  if (yValue == null) return null;
+    const yValue = getY(dataAtHighlightX);
+    if (yValue == null) return null;
 
-  const yAnchor = yScale(yValue);
+    const yAnchor = yScale(yValue);
+    const label = `${formatDisplay(yValue)}${
+      yAxisLabel ? ` ${yAxisLabel}` : ""
+    }`;
+    // Put the label on the side with more room so it isn't clipped at the chart edge
+    const labelOnRight = xAnchor < bounds.chartWidth / 2;
+    // Approximate text box, SVG text is not measured before render
+    const labelWidth = label.length * annotationFontSize * 0.6;
+    const labelHeight = annotationFontSize * 1.2;
+    const labelX0 = labelOnRight ? xAnchor + 10 : xAnchor - 10 - labelWidth;
+    const lines = grouped.map(([, rows]) =>
+      rows
+        .map((d) => ({ x: getX(d), y: getY(d) }))
+        .filter(
+          (p): p is { x: Date; y: number } =>
+            p.x !== undefined && p.y !== undefined && !isNaN(p.y)
+        )
+        .map((p) => ({ x: xScale(p.x), y: yScale(p.y) }))
+        .sort((a, b) => a.x - b.x)
+    );
+    const labelY = getHighlightLabelY({
+      anchorY: yAnchor,
+      labelX0,
+      labelX1: labelX0 + labelWidth,
+      labelHeight,
+      lines,
+      chartHeight: bounds.chartHeight,
+    });
+
+    return { xAnchor, yAnchor, label, labelOnRight, labelY };
+  }, [
+    xUniqueValues,
+    highlightYear,
+    xScale,
+    yScale,
+    data,
+    getX,
+    getY,
+    formatDisplay,
+    yAxisLabel,
+    bounds.chartWidth,
+    bounds.chartHeight,
+    annotationFontSize,
+    grouped,
+  ]);
+
+  if (!geometry) return null;
+
+  const { xAnchor, yAnchor, label, labelOnRight, labelY } = geometry;
   const lineColor = palette.secondary[300];
-  const label = `${formatDisplay(yValue)}${yAxisLabel ? ` ${yAxisLabel}` : ""}`;
-  // Put the label on the side with more room so it isn't clipped at the chart edge
-  const labelOnRight = xAnchor < bounds.chartWidth / 2;
-  // Approximate text box, SVG text is not measured before render
-  const labelWidth = label.length * annotationFontSize * 0.6;
-  const labelHeight = annotationFontSize * 1.2;
-  const labelX0 = labelOnRight ? xAnchor + 10 : xAnchor - 10 - labelWidth;
-  const lines = grouped.map(([, rows]) =>
-    rows
-      .map((d) => ({ x: getX(d), y: getY(d) }))
-      .filter(
-        (p): p is { x: Date; y: number } =>
-          p.x !== undefined && p.y !== undefined && !isNaN(p.y)
-      )
-      .map((p) => ({ x: xScale(p.x), y: yScale(p.y) }))
-      .sort((a, b) => a.x - b.x)
-  );
-  const labelY = getHighlightLabelY({
-    anchorY: yAnchor,
-    labelX0,
-    labelX1: labelX0 + labelWidth,
-    labelHeight,
-    lines,
-    chartHeight: bounds.chartHeight,
-  });
 
   return (
     <g
