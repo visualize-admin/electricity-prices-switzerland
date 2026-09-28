@@ -73,6 +73,7 @@ export const LoadingSkeleton = ({
       height={height}
       sx={sx}
       data-testid="loading"
+      aria-busy="true"
     />
   );
 };

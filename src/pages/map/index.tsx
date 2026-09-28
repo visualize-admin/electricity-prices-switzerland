@@ -367,9 +367,13 @@ const MapPageContent = ({
     indicator,
   ]);
 
+  // Loading until the first result arrives: before the query starts, fetching
+  // is false but there is no data yet
   const isFetching = isElectricityTab
-    ? energyPricesEnrichedData.fetching
-    : sunshineEnrichedDataResult.fetching;
+    ? energyPricesEnrichedData.fetching ||
+      (!energyPricesEnrichedData.data && !energyPricesEnrichedData.error)
+    : sunshineEnrichedDataResult.fetching ||
+      (!sunshineEnrichedDataResult.data && !sunshineEnrichedDataResult.error);
 
   const list = (
     <List

@@ -204,7 +204,8 @@ const PlaceholderListItem = () => {
 
 const PlaceholderListItems = () => {
   return (
-    <Box>
+    // aria-busy: assistive tech and screenshot tools wait for the results
+    <Box aria-busy="true">
       {placeholderListItems.map((id) => {
         return <PlaceholderListItem key={id} />;
       })}

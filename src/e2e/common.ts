@@ -44,6 +44,7 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
   setFlags: (page: Page, flags: FlagName[]) => Promise<void>;
   adminPassword: string;
   adminLogin: (page: Page) => Promise<void>;
+  busy: { waitForIdle: (page?: Page) => Promise<void> };
 }>({
   adminPassword: async ({}, use) => {
     const password = testEnv.ADMIN_PASSWORD;
@@ -60,6 +61,17 @@ const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
         .waitFor();
     };
     await use(login);
+  },
+  // Loading states (list placeholder, skeletons) set aria-busy="true"; Argos
+  // screenshots also wait for them
+  busy: async ({ page }, use) => {
+    await use({
+      waitForIdle: async (targetPage = page) => {
+        await base
+          .expect(targetPage.locator('[aria-busy="true"]:visible'))
+          .toHaveCount(0);
+      },
+    });
   },
   setFlags: async ({}, use) => {
     const activate = async (page: Page, flags: FlagName[]) => {
