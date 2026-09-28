@@ -62,6 +62,8 @@ export const HighlightIndicator = (props: {
   const yAnchor = yScale(yValue);
   const lineColor = palette.secondary[300];
   const label = `${formatDisplay(yValue)}${yAxisLabel ? ` ${yAxisLabel}` : ""}`;
+  // Put the label on the side with more room so it isn't clipped at the chart edge
+  const labelOnRight = xAnchor < bounds.chartWidth / 2;
 
   return (
     <g
@@ -87,9 +89,9 @@ export const HighlightIndicator = (props: {
       />
       {interaction.visible ? null : (
         <text
-          x={xAnchor - 10}
+          x={labelOnRight ? xAnchor + 10 : xAnchor - 10}
           y={yAnchor}
-          textAnchor="end"
+          textAnchor={labelOnRight ? "start" : "end"}
           dominantBaseline="middle"
           fontSize={annotationFontSize}
           fontFamily={fontFamily}
