@@ -6,6 +6,7 @@ import React from "react";
 
 import { Entity, NetworkLevelId, PriceComponent } from "src/domain/data";
 import { getPriceComponentUnit } from "src/domain/metrics";
+import { QueryStateSunshineSaidiSaifiType } from "src/domain/query-states";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   getLocalizedLabel,
@@ -100,7 +101,8 @@ export const formatSunshineEntity = (
   colorScale: ScaleThreshold<number, string, never>,
   formatValue: (value: number) => string,
   indicator: SunshineIndicator,
-  networkLevel?: NetworkLevelId
+  networkLevel?: NetworkLevelId,
+  saidiSaifiType?: QueryStateSunshineSaidiSaifiType
 ): EntityDisplayData => {
   const { entityType: entity } = selection;
 
@@ -117,7 +119,8 @@ export const formatSunshineEntity = (
 
   const { metricLabel, metricUnit } = getSunshineMapMetricLegendParts(
     indicator,
-    networkLevel
+    networkLevel,
+    saidiSaifiType
   );
 
   const subtitle =

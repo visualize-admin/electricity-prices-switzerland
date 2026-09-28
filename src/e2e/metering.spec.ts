@@ -16,7 +16,7 @@ test.describe("Metering rates", () => {
     await page.getByRole("option", { name: "Annual Metering Cost" }).click();
     await tracker.waitForRequests();
     const legend = page.getByTestId("map-legend").first();
-    await expect(legend).toContainText("Tariff comparison in CHF / year");
+    await expect(legend).toContainText("Tariff comparison in CHF/year");
     await expect(legend).toContainText("66");
     await expect(legend).toContainText("144");
   });

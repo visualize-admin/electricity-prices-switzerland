@@ -42,7 +42,7 @@ export const SWISS_FRANCS = defineMessage({
 });
 export const CHF_PER_YEAR = defineMessage({
   id: "sunshine.metric-unit.chf-year",
-  message: "CHF p.a.",
+  message: "CHF/year",
 });
 
 const networkLevelUnits = {

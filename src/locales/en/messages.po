@@ -332,7 +332,7 @@ msgstr "Tariff comparison in Rp./kWh (figures excl. VAT)"
 
 #: src/components/energy-prices-map.tsx
 msgid "energy-prices-map.legend.title-annualmeteringcost"
-msgstr "Comparison in CHF per year"
+msgstr "Tariff comparison in CHF/year"
 
 #: src/components/not-found.tsx
 msgid "error.page.404.back-link"
@@ -1702,7 +1702,7 @@ msgstr "CHF/kVA"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.chf-year"
-msgstr "CHF p.y."
+msgstr "CHF/year"
 
 #: src/domain/metrics.ts
 msgid "sunshine.metric-unit.days"

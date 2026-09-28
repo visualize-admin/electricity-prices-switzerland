@@ -335,6 +335,7 @@ const MapPageContent = ({
       period={sunshinePeriod}
       indicator={indicator}
       networkLevel={networkLevel}
+      saidiSaifiType={saidiSaifiType}
       widgets={mapWidgets}
     />
   );
@@ -479,6 +480,7 @@ const MapPageContent = ({
           priceComponent: priceComponent,
           indicator: indicator,
           networkLevel,
+          saidiSaifiType,
           dataType: "sunshine",
         }
   );

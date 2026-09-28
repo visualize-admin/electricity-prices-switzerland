@@ -11,7 +11,11 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Write CHF per year as "CHF/Jahr" (fr "CHF/an", it "CHF/anno", en "CHF/year") instead of "CHF p. a.", matching the other per-year units. This also changes the annual metering cost column headers in the CSV data export
+- Align the annual metering cost map legend with the Rp./kWh legend
+- Fix German SAIFI description ("Unterbrüche" instead of "Minuten" per year) and French count per year unit ("Nombre/an")
+- Translate the SAIDI/SAIFI typology (e.g. "Unplanned") and network level values in the Sunshine map detail panel
+- Show "SAIDI/SAIFI Unplanned" instead of "Total" in the Sunshine map legend and tooltip when the unplanned typology is selected
 
 # 2.54.5 - 2026-09-24
 
