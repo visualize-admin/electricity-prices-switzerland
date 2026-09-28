@@ -76,40 +76,41 @@ const byId = <T>(groups: [string, T][]) =>
 
 describe("entity figures are the same in every view", () => {
   it("municipality: coverage-weighted mean in the map and the list", () => {
+    // 0.75 * 20 + 0.25 * 30; a plain mean would give 25
     const rows = observations.filter((d) => d.municipality === "2");
-    const expected = getMunicipalityValue(rows);
-    expect(expected).toBe(22.5);
+    expect(getMunicipalityValue(rows)).toBe(22.5);
 
     const list = byId(groupsFromElectricityMunicipalities(observations));
-    expect(enriched.municipalityValues.get("2")).toBe(expected);
-    expect(list["2"].value).toBe(expected);
+    expect(enriched.valuesByEntity.municipality.get("2")).toBe(22.5);
+    expect(list["2"].value).toBe(22.5);
 
-    expect(enriched.municipalityValues.get("1")).toBe(10);
+    expect(enriched.valuesByEntity.municipality.get("1")).toBe(10);
     expect(list["1"].value).toBe(10);
-    expect(enriched.valuesExtent).toEqual([10, 22.5]);
+    expect(enriched.valuesExtentByEntity.municipality).toEqual([10, 22.5]);
   });
 
   it("operator: mean across its municipalities in the map, tooltip, list, panel and chart", () => {
+    // (10 + 20) / 2; the first row alone would give 10
     const rows = observations.filter((d) => d.operator === "bkw");
-    const expected = getOperatorMeanValue(rows);
-    expect(expected).toBe(15);
+    expect(getOperatorMeanValue(rows)).toBe(15);
 
     const list = byId(groupsFromElectricityOperators(observations));
-    expect(enriched.observationsByOperatorAggregated["bkw"].value).toBe(
-      expected
-    );
-    expect(list["bkw"].value).toBe(expected);
-    expect(list["bkw"].operators[0].value).toBe(expected);
+    expect(enriched.observationsByOperatorAggregated["bkw"].value).toBe(15);
+    expect(enriched.valuesByEntity.operator.get("bkw")).toBe(15);
+    expect(list["bkw"].value).toBe(15);
+    expect(list["bkw"].operators[0].value).toBe(15);
     expect(averageOperatorObservationsByPeriod(rows)).toMatchObject([
-      { operator: "bkw", value: expected },
+      { operator: "bkw", value: 15 },
     ]);
+    expect(enriched.valuesExtentByEntity.operator).toEqual([15, 30]);
   });
 
   it("canton: median in the map, tooltip and list", () => {
     const list = byId(
       groupsFromCantonElectricityObservations(enriched.cantonMedianObservations)
     );
-    expect(enriched.cantonValues.get("BE")).toBe(17);
+    expect(enriched.valuesByEntity.canton.get("BE")).toBe(17);
+    expect(enriched.valuesExtentByEntity.canton).toEqual([17, 17]);
     expect(enriched.cantonMedianObservationsByCanton.get("BE")?.value).toBe(17);
     expect(list["BE"].value).toBe(17);
   });

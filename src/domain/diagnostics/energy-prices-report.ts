@@ -154,7 +154,7 @@ export async function fetchEnergyPricesReportData(
   );
 
   const value =
-    enrichedData.municipalityValues.get(municipality.id) ?? undefined;
+    enrichedData.valuesByEntity.municipality.get(municipality.id) ?? undefined;
 
   const values = enrichedData.observations
     .filter(isValidValue)

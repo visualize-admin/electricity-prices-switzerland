@@ -145,7 +145,8 @@ export async function fetchCantonReportData(
     .map(([municipalityId, rows]) => {
       const municipality = municipalities.find((m) => m.id === municipalityId);
       const value =
-        enrichedData.municipalityValues.get(municipalityId) ?? undefined;
+        enrichedData.valuesByEntity.municipality.get(municipalityId) ??
+        undefined;
       const color =
         value !== undefined
           ? getEnergyPriceLegendColor({

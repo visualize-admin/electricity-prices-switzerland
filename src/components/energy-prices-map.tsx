@@ -239,7 +239,7 @@ export const EnergyPricesMap = ({
         entity === "municipality" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.municipalities,
-              valuesById: enrichedData.municipalityValues,
+              valuesById: enrichedData.valuesByEntity[entity],
               colorScale,
               highlightId:
                 highlightContext?.entity === "municipality"
@@ -256,7 +256,7 @@ export const EnergyPricesMap = ({
         entity === "canton" && enrichedData
           ? makeMunicipalityLayer({
               data: geoData.data.cantons,
-              valuesById: enrichedData.cantonValues,
+              valuesById: enrichedData.valuesByEntity[entity],
               colorScale,
               highlightId:
                 highlightContext?.entity === "canton"
@@ -356,7 +356,7 @@ export const EnergyPricesMap = ({
 
   const renderLegend = useCallback(() => {
     const medianValue = enrichedData?.medianValue;
-    const valuesExtent = enrichedData?.valuesExtent;
+    const valuesExtent = enrichedData?.valuesExtentByEntity[entity];
     const observations = enrichedData?.observations;
     if (!valuesExtent || !medianValue || !colorScale || !observations)
       return null;
@@ -405,7 +405,8 @@ export const EnergyPricesMap = ({
     );
   }, [
     enrichedData?.medianValue,
-    enrichedData?.valuesExtent,
+    enrichedData?.valuesExtentByEntity,
+    entity,
     enrichedData?.observations,
     colorScale,
     legendId,
