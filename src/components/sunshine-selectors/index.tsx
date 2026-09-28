@@ -10,7 +10,11 @@ import {
   saidiSaifiTypes,
   years,
 } from "src/domain/sunshine";
-import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  TranslationKey,
+  valueLabels,
+} from "src/domain/translation";
 import { usePeerGroupsQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -32,13 +36,8 @@ export const SunshineSelectors = () => {
     (x) => x.id
   );
 
-  // Custom label function for peerGroup options
-  const getPeerGroupLabel = (value: string) => {
-    if (value === "all_grid_operators") {
-      return getLocalizedLabel({ id: "peer-group.all-grid-operators" });
-    }
-    return peerGroupsById[value]?.name ?? value;
-  };
+  const getPeerGroupLabel = (value: string) =>
+    valueLabels.peerGroup(value, peerGroupsById);
 
   const peerGroupOptions = peerGroupsResult.data
     ? [

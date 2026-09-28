@@ -25,8 +25,8 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import {
-  getLocalizedLabel,
   getSunshineMapMetricLegendTitle,
+  valueLabels,
 } from "src/domain/translation";
 import { usePeerGroupsQuery } from "src/graphql/queries";
 import {
@@ -185,7 +185,7 @@ const MobileControls = ({
   const sunshineNetworkLevel = sunshineQueryState.networkLevel;
 
   // Get localized labels for display
-  const priceComponentLabel = getLocalizedLabel({ id: priceComponent });
+  const priceComponentLabel = valueLabels.priceComponent(priceComponent);
   const sunshineIndicatorShortLabel = getSunshineMapMetricLegendTitle(
     sunshineIndicator,
     sunshineNetworkLevel,
@@ -193,15 +193,16 @@ const MobileControls = ({
   );
   const indicatorLabel =
     tab === "electricity" ? priceComponentLabel : sunshineIndicatorShortLabel;
-  const sunshinePeerGroupLabel =
-    sunshinePeerGroup === "all_grid_operators"
-      ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
-      : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
-  const sunshineNetworkLevelLabel = getLocalizedLabel({
-    id: `network-level.${sunshineNetworkLevel}.short`,
-  });
-  const categoryLabel = getLocalizedLabel({ id: category });
-  const productLabel = getLocalizedLabel({ id: product });
+  const sunshinePeerGroupLabel = valueLabels.peerGroup(
+    sunshinePeerGroup,
+    peerGroupsById
+  );
+  const sunshineNetworkLevelLabel = valueLabels.networkLevel(
+    sunshineNetworkLevel,
+    "short"
+  );
+  const categoryLabel = valueLabels.category(category, "short");
+  const productLabel = valueLabels.product(product);
 
   // Format the current status string
   const pricesCurrentStatus = `${period}, ${categoryLabel}, ${productLabel}`;

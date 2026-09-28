@@ -1288,31 +1288,31 @@ msgstr "Costs and profit from energy distribution"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "How many days in advance customers are notified of a planned interruption."
+msgstr "How many days in advance customers are notified of a planned interruption"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
-msgstr "Energy tariffs for the selected end-consumer category (excl. VAT)."
+msgstr "Energy tariffs for the selected end-consumer category (excl. VAT)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Grid usage tariffs for the selected end-consumer category (excluding VAT)."
+msgstr "Grid usage tariffs for the selected end-consumer category (excluding VAT)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
-msgstr "Network infrastructure costs charged to end consumers by network level (NE5–NE7)."
+msgstr "Network infrastructure costs charged to end consumers by network level (NE5–NE7)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Whether customers affected by planned interruptions are notified as required."
+msgstr "Whether customers affected by planned interruptions are notified as required"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Annual duration of power interruptions per customer (SAIDI), in minutes per year."
+msgstr "Annual duration of power interruptions per customer (SAIDI), in minutes per year"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year."
+msgstr "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
@@ -1648,6 +1648,7 @@ msgstr "Period"
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Unplanned"
@@ -1657,6 +1658,7 @@ msgstr "SAIDI Unplanned"
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-unplanned"
 msgstr "SAIFI Unplanned"

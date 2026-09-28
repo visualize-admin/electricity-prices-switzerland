@@ -1289,31 +1289,31 @@ msgstr "Coûts et bénéfices de la distribution d'énergie"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.daysInAdvanceOutageNotification.long"
-msgstr "Combien de jours à l'avance les clients sont informés avant une coupure planifiée."
+msgstr "Combien de jours à l'avance les clients sont informés avant une coupure planifiée"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
-msgstr "Tarifs d'énergie pour la catégorie de consommateurs final sélectionnée (hors TVA)."
+msgstr "Tarifs d'énergie pour la catégorie de consommateurs final sélectionnée (hors TVA)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Tarifs d'utilisation du réseau pour la catégorie de consommateurs final sélectionnée (hors TVA)."
+msgstr "Tarifs d'utilisation du réseau pour la catégorie de consommateurs final sélectionnée (hors TVA)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
-msgstr "Coûts d'infrastructure réseau facturés aux consommateurs finals par niveau de réseau (NE5–NE7)."
+msgstr "Coûts d'infrastructure réseau facturés aux consommateurs finals par niveau de réseau (NE5–NE7)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Indique si les clients concernés par des coupures planifiées sont informés conformément aux prescriptions."
+msgstr "Indique si les clients concernés par des coupures planifiées sont informés conformément aux prescriptions"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Durée annuelle des interruptions d'alimentation par client (SAIDI), en minutes par an."
+msgstr "Durée annuelle des interruptions d'alimentation par client (SAIDI), en minutes par an"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Fréquence annuelle des interruptions d'alimentation par client (SAIFI), en interruptions par an."
+msgstr "Fréquence annuelle des interruptions d'alimentation par client (SAIFI), en interruptions par an"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"
@@ -1652,6 +1652,7 @@ msgstr "Période"
 msgid "sunshine.export.column.saidi-total"
 msgstr "SAIDI Total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saidi-unplanned"
 msgstr "SAIDI Non planifié"
@@ -1661,6 +1662,7 @@ msgstr "SAIDI Non planifié"
 msgid "sunshine.export.column.saifi-total"
 msgstr "SAIFI Total"
 
+#: src/domain/translation.tsx
 #: src/pages/api/sunshine-data-export.ts
 msgid "sunshine.export.column.saifi-unplanned"
 msgstr "SAIFI Non planifié"

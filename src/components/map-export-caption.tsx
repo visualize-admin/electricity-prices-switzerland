@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@mui/material";
+import { keyBy } from "lodash";
 
 import {
   QueryStateEnergyPricesMap,
@@ -8,7 +9,13 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  valueLabels,
+  TranslationKey,
+} from "src/domain/translation";
+import { usePeerGroupsQuery } from "src/graphql/queries";
+import { useLocale } from "src/lib/use-locale";
 
 type MapExportCaptionEnergy = Pick<
   QueryStateEnergyPricesMap,
@@ -29,6 +36,7 @@ type MapExportCaptionProps = {
   tab: "electricity" | "sunshine";
   energy?: MapExportCaptionEnergy;
   sunshine?: MapExportCaptionSunshine;
+  peerGroupsById?: Partial<Record<string, { name: string }>>;
 };
 
 type FilterPart = { label: string; value: string };
@@ -37,20 +45,21 @@ const getEnergyFilterParts = (energy: MapExportCaptionEnergy): FilterPart[] => [
   { label: getLocalizedLabel({ id: "period" }), value: energy.period },
   {
     label: getLocalizedLabel({ id: "category" }),
-    value: getLocalizedLabel({ id: energy.category }),
+    value: valueLabels.category(energy.category, "short"),
   },
   {
     label: getLocalizedLabel({ id: "priceComponent" }),
-    value: getLocalizedLabel({ id: energy.priceComponent }),
+    value: valueLabels.priceComponent(energy.priceComponent),
   },
   {
     label: getLocalizedLabel({ id: "product" }),
-    value: getLocalizedLabel({ id: energy.product }),
+    value: valueLabels.product(energy.product),
   },
 ];
 
 const getSunshineFilterParts = (
-  sunshine: MapExportCaptionSunshine
+  sunshine: MapExportCaptionSunshine,
+  peerGroupsById: Partial<Record<string, { name: string }>>
 ): FilterPart[] => {
   const parts: FilterPart[] = [
     { label: getLocalizedLabel({ id: "period" }), value: sunshine.period },
@@ -62,10 +71,7 @@ const getSunshineFilterParts = (
     },
     {
       label: t({ id: "selector.peerGroup", message: "Peer Group" }),
-      value:
-        sunshine.peerGroup === "all_grid_operators"
-          ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
-          : sunshine.peerGroup,
+      value: valueLabels.peerGroup(sunshine.peerGroup, peerGroupsById),
     },
   ];
 
@@ -75,21 +81,19 @@ const getSunshineFilterParts = (
   ) {
     parts.push({
       label: getLocalizedLabel({ id: "category" }),
-      value: getLocalizedLabel({ id: sunshine.category }),
+      value: valueLabels.category(sunshine.category, "short"),
     });
   }
   if (sunshine.indicator === "networkCosts") {
     parts.push({
       label: t({ id: "selector.network-level", message: "Network level" }),
-      value: getLocalizedLabel({
-        id: `network-level.${sunshine.networkLevel}.short`,
-      }),
+      value: valueLabels.networkLevel(sunshine.networkLevel, "short"),
     });
   }
   if (sunshine.indicator === "saidi" || sunshine.indicator === "saifi") {
     parts.push({
       label: t({ id: "selector.saidi-saifi-type", message: "Typology" }),
-      value: getLocalizedLabel({ id: sunshine.saidiSaifiType }),
+      value: valueLabels.saidiSaifiType(sunshine.saidiSaifiType),
     });
   }
 
@@ -111,10 +115,11 @@ const MapExportCaptionView = ({
   tab,
   energy,
   sunshine,
+  peerGroupsById = {},
 }: MapExportCaptionProps) => {
   const parts =
     tab === "sunshine" && sunshine
-      ? getSunshineFilterParts(sunshine)
+      ? getSunshineFilterParts(sunshine, peerGroupsById)
       : tab === "electricity" && energy
       ? getEnergyFilterParts(energy)
       : [];
@@ -159,6 +164,22 @@ export const MapExportCaption = () => {
   const [{ tab }] = useQueryStateMapCommon();
   const [energy] = useQueryStateEnergyPricesMap();
   const [sunshine] = useQueryStateSunshineMap();
+  const locale = useLocale();
+  const [peerGroupsResult] = usePeerGroupsQuery({
+    variables: { locale },
+    requestPolicy: "cache-first",
+  });
+  const peerGroupsById = keyBy(
+    peerGroupsResult.data?.peerGroups ?? [],
+    (x) => x.id
+  );
 
-  return <MapExportCaptionView tab={tab} energy={energy} sunshine={sunshine} />;
+  return (
+    <MapExportCaptionView
+      tab={tab}
+      energy={energy}
+      sunshine={sunshine}
+      peerGroupsById={peerGroupsById}
+    />
+  );
 };

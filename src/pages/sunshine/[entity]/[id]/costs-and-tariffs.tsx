@@ -47,10 +47,9 @@ import {
   sunshineCategories,
 } from "src/domain/sunshine";
 import {
-  getCategoryLabels,
   getLocalizedLabel,
-  getNetworkLevelLabels,
   TranslationKey,
+  valueLabels,
 } from "src/domain/translation";
 import {
   CostsAndTariffsDocument,
@@ -222,7 +221,6 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
     peerGroupMedianTrend,
     yearlyData: _yearlyData,
   } = networkCosts;
-  const networkLabels = getNetworkLevelLabels({ id: networkLevel });
   const { i18n } = useLingui();
 
   const operatorLabel = props.name;
@@ -230,7 +228,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const comparisonCardProps = {
     title: (
       <Trans id="sunshine.costs-and-tariffs.network-costs-end-consumer">
-        Network Costs at {networkLabels.long} Level
+        Network Costs at {valueLabels.networkLevel(networkLevel, "long")} Level
       </Trans>
     ),
     subtitle: (
@@ -297,9 +295,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
           id="network-level"
           label={getLocalizedLabel({ id: "network-level" })}
           items={["NE5", "NE6", "NE7"]}
-          getItemLabel={(item) =>
-            getLocalizedLabel({ id: `network-level.${item}.long` })
-          }
+          getItemLabel={(item) => valueLabels.networkLevel(item, "long")}
           selectedItem={networkLevel}
           setSelectedItem={(item) => setQueryState({ networkLevel: item })}
           infoDialogSlug="help-network-level"
@@ -410,15 +406,13 @@ const EnergyTariffs = (props: Extract<Props, { status: "found" }>) => {
     peerGroupMedianTrend,
   } = energyTariffs;
 
-  const categoryLabels = getCategoryLabels(category);
-
   const operatorLabel = props.name;
   const { i18n } = useLingui();
 
   const comparisonCardProps = {
     title: (
       <Trans id="sunshine.costs-and-tariffs.energy-tariffs-comparison-title">
-        Energy Tariffs {categoryLabels.long}
+        Energy Tariffs {valueLabels.category(category, "long")}
       </Trans>
     ),
     subtitle: (
@@ -604,7 +598,6 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
     peerGroupMedianRate,
     peerGroupMedianTrend,
   } = netTariffs;
-  const categoryLabels = getCategoryLabels(category);
 
   const operatorLabel = props.name;
   const { i18n } = useLingui();
@@ -612,7 +605,7 @@ const NetTariffs = (props: Extract<Props, { status: "found" }>) => {
   const comparisonCardProps = {
     title: (
       <Trans id="sunshine.costs-and-tariffs.net-tariffs-comparison-title">
-        Net Tariffs {categoryLabels.long}
+        Net Tariffs {valueLabels.category(category, "long")}
       </Trans>
     ),
     subtitle: (

@@ -48,7 +48,11 @@ import {
   categorySchema,
   networkLevelSchema,
 } from "src/domain/sunshine";
-import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  TranslationKey,
+  valueLabels,
+} from "src/domain/translation";
 import { runtimeEnv } from "src/env/runtime";
 import {
   CostsAndTariffsDocument,
@@ -460,9 +464,7 @@ const OverviewPage = (props: Props) => {
             id="network-level"
             label={getLocalizedLabel({ id: "network-level" })}
             items={["NE5", "NE6", "NE7"]}
-            getItemLabel={(item) =>
-              getLocalizedLabel({ id: `network-level.${item}.short` })
-            }
+            getItemLabel={(item) => valueLabels.networkLevel(item, "short")}
             selectedItem={networkLevel}
             setSelectedItem={updateNetworkLevel}
             infoDialogSlug="help-network-level"
@@ -496,9 +498,10 @@ const OverviewPage = (props: Props) => {
             operatorLabel={name}
             latestYear={latestYear}
             sx={{ gridArea: "network-costs" }}
-            cardDescription={getLocalizedLabel({
-              id: `network-level.${networkLevel}.description`,
-            })}
+            cardDescription={valueLabels.networkLevel(
+              networkLevel,
+              "description"
+            )}
             linkContent={
               <Link
                 href={sunshineDetailsLink(

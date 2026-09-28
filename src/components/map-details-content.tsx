@@ -8,7 +8,7 @@ import { ReactElement, ReactNode } from "react";
 
 import { PriceEvolution } from "src/components/detail-page/price-evolution-line-chart";
 import { indicatorToChart } from "src/components/map-details-chart-adapters";
-import { Entity, NetworkLevelId } from "src/domain/data";
+import { Entity } from "src/domain/data";
 import { getPriceComponentUnit } from "src/domain/metrics";
 import {
   energyPricesDetailsLink,
@@ -20,7 +20,8 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import { SunshineIndicator } from "src/domain/sunshine";
+import { getLocalizedLabel, valueLabels } from "src/domain/translation";
 import { Icon } from "src/icons";
 
 import { ListItemType } from "./list";
@@ -108,17 +109,14 @@ const MapDetailsEntityHeader = (props: MapDetailProps) => {
   );
 };
 
-const entityTableRows: Record<Entity, EntityTableValue[]> = {
+const entityTableRows = {
   operator: ["period", "priceComponent", "category", "product"],
   municipality: ["period", "priceComponent", "category", "product", "operator"],
   canton: ["period", "priceComponent", "category", "product"],
-};
+} as const satisfies Record<Entity, readonly EntityTableValue[]>;
 
 // Table rows configuration for sunshine indicators
-const sunshineIndicatorTableRows: Record<
-  string,
-  Array<keyof QueryStateSunshineMap>
-> = {
+const sunshineIndicatorTableRows = {
   networkCosts: ["period", "networkLevel"],
   netTariffs: ["period", "category"],
   energyTariffs: ["period", "category"],
@@ -127,7 +125,14 @@ const sunshineIndicatorTableRows: Record<
   compliance: ["period"],
   outageInfo: ["period"],
   daysInAdvanceOutageNotification: ["period"],
-};
+} as const satisfies Record<
+  SunshineIndicator,
+  readonly (keyof QueryStateSunshineMap)[]
+>;
+
+type TableRowKey =
+  | (typeof entityTableRows)[keyof typeof entityTableRows][number]
+  | (typeof sunshineIndicatorTableRows)[keyof typeof sunshineIndicatorTableRows][number];
 
 const MapDetailsEntityTable = (
   props: MapDetailProps & {
@@ -143,7 +148,7 @@ const MapDetailsEntityTable = (
   // Determine which table rows to show based on the current tab
   const tableRows =
     tab === "sunshine"
-      ? sunshineIndicatorTableRows[sunshineQueryState.indicator] || []
+      ? sunshineIndicatorTableRows[sunshineQueryState.indicator]
       : entityTableRows[entity];
 
   const queryState =
@@ -199,20 +204,17 @@ const MapDetailsEntityTable = (
 
 type EntityTableValue = keyof QueryStateEnergyPricesMap;
 
-// Rows whose values are enum keys that need to be translated for display
-const valueLabelGetters: Partial<
-  Record<
-    keyof QueryStateEnergyPricesMap | keyof QueryStateSunshineMap,
-    (value: string) => string
-  >
-> = {
-  priceComponent: (value) => getLocalizedLabel({ id: value as TranslationKey }),
-  product: (value) => getLocalizedLabel({ id: value as TranslationKey }),
-  saidiSaifiType: (value) => getLocalizedLabel({ id: value as TranslationKey }),
-  networkLevel: (value) =>
-    getLocalizedLabel({
-      id: `network-level.${value as NetworkLevelId}.short`,
-    }),
+type TableRowValue<K extends TableRowKey> = (QueryStateEnergyPricesMap &
+  QueryStateSunshineMap)[K];
+
+// Every table row must resolve to a single-argument getter (or `null` to show
+// the raw value); fields with label variants pick theirs here
+const valueLabelGetters: {
+  [K in TableRowKey]: ((value: TableRowValue<K>) => string) | null;
+} = {
+  ...valueLabels,
+  category: (value) => valueLabels.category(value, "short"),
+  networkLevel: (value) => valueLabels.networkLevel(value, "short"),
 };
 
 const KeyValueTableRow = <
@@ -232,9 +234,11 @@ const KeyValueTableRow = <
     state && dataKey in state
       ? (state[dataKey as keyof typeof state] as string | undefined)
       : undefined;
-  const getValueLabel =
-    valueLabelGetters[dataKey as keyof typeof valueLabelGetters];
-  const isTranslatedValue = getValueLabel !== undefined;
+  const getValueLabel = valueLabelGetters[dataKey as TableRowKey] as
+    | ((value: string) => string)
+    | null
+    | undefined;
+  const isTranslatedValue = !!getValueLabel;
   const value = rawValue && getValueLabel ? getValueLabel(rawValue) : rawValue;
   return (
     <Stack

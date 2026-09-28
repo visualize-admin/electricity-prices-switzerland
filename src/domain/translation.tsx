@@ -5,6 +5,8 @@ import { memoize } from "lodash";
 import {
   ElectricityCategory,
   NetworkLevelId,
+  PriceComponent,
+  PriceProduct,
   SettlementDensity,
   EnergyDensity,
 } from "src/domain/data";
@@ -17,7 +19,12 @@ import {
   getNetworkLevelMetrics,
 } from "src/domain/metrics";
 
-import { QueryStateSunshineSaidiSaifiType } from "./query-states";
+import {
+  QueryStateEnergyPricesMap,
+  QueryStateSunshineMap,
+  QueryStateSunshineComplianceType,
+  QueryStateSunshineSaidiSaifiType,
+} from "./query-states";
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
 
 const getTranslationTable = (_locale: string) => {
@@ -197,37 +204,36 @@ const getTranslationTable = (_locale: string) => {
     "selector.indicator.networkCosts.long": t({
       id: "selector.indicator.networkCosts.long",
       message:
-        "Network infrastructure costs charged to end consumers by network level (NE5–NE7).",
+        "Network infrastructure costs charged to end consumers by network level (NE5–NE7)",
     }),
     "selector.indicator.netTariffs.long": t({
       id: "selector.indicator.netTariffs.long",
-      message:
-        "Net tariffs for the selected end-consumer category (excl. VAT).",
+      message: "Net tariffs for the selected end-consumer category (excl. VAT)",
     }),
     "selector.indicator.energyTariffs.long": t({
       id: "selector.indicator.energyTariffs.long",
       message:
-        "Energy tariffs for the selected end-consumer category (excl. VAT).",
+        "Energy tariffs for the selected end-consumer category (excl. VAT)",
     }),
     "selector.indicator.saidi.long": t({
       id: "selector.indicator.saidi.long",
       message:
-        "Annual duration of power interruptions per customer (SAIDI), in minutes per year.",
+        "Annual duration of power interruptions per customer (SAIDI), in minutes per year",
     }),
     "selector.indicator.saifi.long": t({
       id: "selector.indicator.saifi.long",
       message:
-        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year.",
+        "Annual frequency of power interruptions per customer (SAIFI), in interruptions per year",
     }),
     "selector.indicator.outageInfo.long": t({
       id: "selector.indicator.outageInfo.long",
       message:
-        "Whether customers affected by planned outages are informed as required.",
+        "Whether customers affected by planned outages are informed as required",
     }),
     "selector.indicator.daysInAdvanceOutageNotification.long": t({
       id: "selector.indicator.daysInAdvanceOutageNotification.long",
       message:
-        "How many days in advance customers are notified before a planned outage.",
+        "How many days in advance customers are notified before a planned outage",
     }),
     "selector.indicator.compliance.long": t({
       id: "selector.indicator.compliance.long",
@@ -733,12 +739,47 @@ export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
   };
 };
 
-export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
-  short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
-  long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
-});
+type MapQueryState = QueryStateEnergyPricesMap & QueryStateSunshineMap;
 
-export const getCategoryLabels = (category: ElectricityCategory) => ({
-  short: getLocalizedLabel({ id: `${category}` }),
-  long: getLocalizedLabel({ id: `${category}-long` }),
-});
+/**
+ * Labels for map query state values, keyed by query state field. Every field
+ * must be listed: a label getter, or `null` when its value is not displayed as
+ * a translated label.
+ */
+export const valueLabels = {
+  tab: null,
+  entity: null,
+  operator: null,
+  period: null,
+  municipality: null,
+  canton: null,
+  download: null,
+  cantonsOrder: null,
+  view: null,
+  indicator: null,
+  activeId: null,
+  priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
+  product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
+  saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
+    getLocalizedLabel({ id: value }),
+  complianceType: (value: QueryStateSunshineComplianceType) =>
+    getLocalizedLabel({ id: value }),
+  /** Peer group names come from the peer groups query, already localized */
+  peerGroup: (
+    value: string,
+    peerGroupsById: Partial<Record<string, { name: string }>>
+  ) =>
+    value === "all_grid_operators"
+      ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
+      : peerGroupsById[value]?.name ?? value,
+  category: (value: ElectricityCategory, variant: "short" | "long") =>
+    getLocalizedLabel({ id: variant === "short" ? value : `${value}-long` }),
+  networkLevel: (
+    value: NetworkLevelId,
+    variant: "short" | "long" | "description"
+  ) => getLocalizedLabel({ id: `network-level.${value}.${variant}` }),
+} satisfies {
+  [K in keyof MapQueryState]-?:
+    | ((value: MapQueryState[K], ...variant: never[]) => string)
+    | null;
+};
