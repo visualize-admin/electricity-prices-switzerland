@@ -47,6 +47,7 @@
     "mocks:graphql": "tsx scripts/graphql-mocks.ts",
     "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed",
     "metrics:compare": "tsx scripts/compare-metrics.ts",
+    "wait-for-version": "dotenv -e .env.local -- tsx scripts/wait-for-version.ts",
     "metrics": "bun --env-file .env.local src/metrics/cli.ts",
     "energy-prices:cli": "tsx scripts/energy-prices-cli.ts"
   },
