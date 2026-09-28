@@ -12,7 +12,6 @@ import { Entity, ValueFormatter } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
 import {
   CantonMedianObservationFieldsFragment,
-  OperatorObservationFieldsFragment,
   SunshineDataIndicatorRow,
 } from "src/graphql/queries";
 import { Icon } from "src/icons";
@@ -22,7 +21,10 @@ import { InlineDrawer } from "./drawer";
 import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
-export { groupsFromElectricityMunicipalities } from "./list-groups";
+export {
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+} from "./list-groups";
 
 type ListItemProps = {
   id: string;
@@ -417,35 +419,6 @@ export const groupsFromSunshineObservations = (
     )
   );
 };
-
-export function groupsFromElectricityOperators(
-  observations: OperatorObservationFieldsFragment[]
-): Groups {
-  return Array.from(
-    rollup(
-      observations.filter((x) => x.value !== undefined && x.value !== null),
-      (values) => {
-        const first = values[0];
-        return {
-          id: first.operator,
-          label: first.operatorLabel,
-          // first.value asserted above
-          value: mean(values, (d) => d.value) ?? first.value!,
-          canton: first.canton,
-          cantonLabel: first.cantonLabel,
-          operators: [
-            {
-              id: first.operator,
-              label: first.operatorLabel,
-              value: first.value!,
-            },
-          ],
-        };
-      },
-      (d) => d.operator
-    )
-  );
-}
 
 export function groupsFromCantonElectricityObservations(
   cantonObservations: CantonMedianObservationFieldsFragment[]

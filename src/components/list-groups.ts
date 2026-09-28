@@ -1,5 +1,6 @@
 import { mean, rollup } from "d3";
 
+import { getOperatorMeanValue } from "src/domain/data";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 import { isDefined } from "src/utils/is-defined";
 
@@ -44,6 +45,36 @@ export function groupsFromElectricityMunicipalities(
         };
       },
       (d) => d.municipality
+    )
+  );
+}
+
+export function groupsFromElectricityOperators(
+  observations: OperatorObservationFieldsFragment[]
+) {
+  return Array.from(
+    rollup(
+      observations.filter((x) => x.value !== undefined && x.value !== null),
+      (values) => {
+        const first = values[0];
+        // first.value asserted above
+        const value = getOperatorMeanValue(values) ?? first.value!;
+        return {
+          id: first.operator,
+          label: first.operatorLabel,
+          value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+          operators: [
+            {
+              id: first.operator,
+              label: first.operatorLabel,
+              value,
+            },
+          ],
+        };
+      },
+      (d) => d.operator
     )
   );
 }
