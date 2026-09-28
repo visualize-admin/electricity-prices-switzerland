@@ -8,7 +8,11 @@ import {
   useQueryStateMapCommon,
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
-import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import {
+  getLocalizedLabel,
+  mapSelectionValueLabels,
+  TranslationKey,
+} from "src/domain/translation";
 
 type MapExportCaptionEnergy = Pick<
   QueryStateEnergyPricesMap,
@@ -41,11 +45,11 @@ const getEnergyFilterParts = (energy: MapExportCaptionEnergy): FilterPart[] => [
   },
   {
     label: getLocalizedLabel({ id: "priceComponent" }),
-    value: getLocalizedLabel({ id: energy.priceComponent }),
+    value: mapSelectionValueLabels.priceComponent(energy.priceComponent),
   },
   {
     label: getLocalizedLabel({ id: "product" }),
-    value: getLocalizedLabel({ id: energy.product }),
+    value: mapSelectionValueLabels.product(energy.product),
   },
 ];
 
@@ -81,15 +85,13 @@ const getSunshineFilterParts = (
   if (sunshine.indicator === "networkCosts") {
     parts.push({
       label: t({ id: "selector.network-level", message: "Network level" }),
-      value: getLocalizedLabel({
-        id: `network-level.${sunshine.networkLevel}.short`,
-      }),
+      value: mapSelectionValueLabels.networkLevel(sunshine.networkLevel),
     });
   }
   if (sunshine.indicator === "saidi" || sunshine.indicator === "saifi") {
     parts.push({
       label: t({ id: "selector.saidi-saifi-type", message: "Typology" }),
-      value: getLocalizedLabel({ id: sunshine.saidiSaifiType }),
+      value: mapSelectionValueLabels.saidiSaifiType(sunshine.saidiSaifiType),
     });
   }
 
