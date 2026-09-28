@@ -1,7 +1,10 @@
 import { mean, rollup } from "d3";
 
-import { getOperatorMeanValue } from "src/domain/data";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import { getMunicipalityValue, getOperatorMeanValue } from "src/domain/data";
+import {
+  CantonMedianObservationFieldsFragment,
+  OperatorObservationFieldsFragment,
+} from "src/graphql/queries";
 import { isDefined } from "src/utils/is-defined";
 
 type OperatorListItem = {
@@ -21,7 +24,7 @@ export function groupsFromElectricityMunicipalities(
         return {
           id: first.municipality,
           label: first.municipalityLabel,
-          value: mean(values, (d) => d.value) ?? first.value!,
+          value: getMunicipalityValue(values) ?? first.value!,
           canton: first.canton,
           cantonLabel: first.cantonLabel,
           operators: values.reduce(
@@ -75,6 +78,36 @@ export function groupsFromElectricityOperators(
         };
       },
       (d) => d.operator
+    )
+  );
+}
+
+export function groupsFromCantonElectricityObservations(
+  cantonObservations: CantonMedianObservationFieldsFragment[]
+): [
+  string,
+  {
+    id: string;
+    label: string | null | undefined;
+    value: number;
+    canton: string;
+    cantonLabel: string | null | undefined;
+  }
+][] {
+  return Array.from(
+    rollup(
+      cantonObservations,
+      (values) => {
+        const first = values[0];
+        return {
+          id: first.canton,
+          label: first.cantonLabel,
+          value: mean(values, (d) => d.value) ?? first.value,
+          canton: first.canton,
+          cantonLabel: first.cantonLabel,
+        };
+      },
+      (d) => d.canton
     )
   );
 }

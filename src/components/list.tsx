@@ -10,10 +10,7 @@ import { Stack } from "src/components/stack";
 import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import {
-  CantonMedianObservationFieldsFragment,
-  SunshineDataIndicatorRow,
-} from "src/graphql/queries";
+import { SunshineDataIndicatorRow } from "src/graphql/queries";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "./anchor-nav";
@@ -22,6 +19,7 @@ import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
 export {
+  groupsFromCantonElectricityObservations,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
 } from "./list-groups";
@@ -419,33 +417,3 @@ export const groupsFromSunshineObservations = (
     )
   );
 };
-
-export function groupsFromCantonElectricityObservations(
-  cantonObservations: CantonMedianObservationFieldsFragment[]
-): [
-  string,
-  {
-    id: string;
-    label: string | null | undefined;
-    value: number;
-    canton: string;
-    cantonLabel: string | null | undefined;
-  }
-][] {
-  return Array.from(
-    rollup(
-      cantonObservations,
-      (values) => {
-        const first = values[0];
-        return {
-          id: first.canton,
-          label: first.cantonLabel,
-          value: mean(values, (d) => d.value) ?? first.value,
-          canton: first.canton,
-          cantonLabel: first.cantonLabel,
-        };
-      },
-      (d) => d.canton
-    )
-  );
-}
