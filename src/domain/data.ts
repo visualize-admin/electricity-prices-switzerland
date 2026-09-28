@@ -1,4 +1,4 @@
-import { range } from "d3";
+import { group, mean, range } from "d3";
 import z from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
@@ -148,6 +148,45 @@ export const getObservationsWeightedMean = (
     (d) => d.coverageRatio
   );
 };
+
+/**
+ * Operator-level value: mean of the operator's values across the
+ * municipalities it serves. Values can differ per municipality, e.g.
+ * charges to the community.
+ */
+export const getOperatorMeanValue = (
+  observations: { value?: number | null }[]
+): number | null => mean(observations, (d) => d.value ?? undefined) ?? null;
+
+/**
+ * One observation per operator and period, valued with `getOperatorMeanValue`.
+ * Municipality fields are cleared as the result spans several municipalities.
+ */
+export const averageOperatorObservationsByPeriod = <
+  T extends {
+    operator: string;
+    period: string;
+    value?: number | null;
+    municipality: string;
+    municipalityLabel?: string | null;
+  }
+>(
+  observations: T[]
+): T[] =>
+  Array.from(
+    group(
+      observations,
+      (d) => d.operator,
+      (d) => d.period
+    ).values()
+  ).flatMap((observationsByPeriod) =>
+    Array.from(observationsByPeriod.values(), (periodObservations) => ({
+      ...periodObservations[0],
+      municipality: "",
+      municipalityLabel: null,
+      value: getOperatorMeanValue(periodObservations),
+    }))
+  );
 
 export type SettlementDensity =
   | "High"
