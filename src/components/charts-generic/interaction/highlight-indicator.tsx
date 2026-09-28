@@ -191,6 +191,12 @@ export const HighlightIndicator = (props: {
           fontFamily={fontFamily}
           fontWeight={700}
           fill={palette.secondary[800]}
+          // White halo behind the text so it stays readable over a line
+          stroke="white"
+          strokeOpacity={1}
+          strokeWidth={3}
+          strokeLinejoin="round"
+          paintOrder="stroke"
         >
           {label}
         </text>
