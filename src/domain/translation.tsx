@@ -740,17 +740,18 @@ export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
   long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
 });
 
+export const getCategoryLabels = (category: ElectricityCategory) => ({
+  short: getLocalizedLabel({ id: `${category}` }),
+  long: getLocalizedLabel({ id: `${category}-long` }),
+});
+
 /** Labels for query state enum values, keyed by query state field. */
 export const valueLabels = {
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
   product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
   saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
     getLocalizedLabel({ id: value }),
+  category: (value: ElectricityCategory) => getCategoryLabels(value).short,
   networkLevel: (value: NetworkLevelId) =>
     getLocalizedLabel({ id: `network-level.${value}.short` }),
 };
-
-export const getCategoryLabels = (category: ElectricityCategory) => ({
-  short: getLocalizedLabel({ id: `${category}` }),
-  long: getLocalizedLabel({ id: `${category}-long` }),
-});

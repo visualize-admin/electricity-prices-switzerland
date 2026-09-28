@@ -209,7 +209,6 @@ const valueLabelGetters: {
   [K in TableRowKey]: ((value: TableRowValue<K>) => string) | null;
 } = {
   period: null,
-  category: null,
   operator: null,
   ...valueLabels,
 };

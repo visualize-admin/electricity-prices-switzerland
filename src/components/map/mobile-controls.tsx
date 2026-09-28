@@ -200,7 +200,7 @@ const MobileControls = ({
       : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
   const sunshineNetworkLevelLabel =
     valueLabels.networkLevel(sunshineNetworkLevel);
-  const categoryLabel = getLocalizedLabel({ id: category });
+  const categoryLabel = valueLabels.category(category);
   const productLabel = valueLabels.product(product);
 
   // Format the current status string
