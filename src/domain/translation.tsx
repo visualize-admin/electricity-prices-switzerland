@@ -757,7 +757,6 @@ export const valueLabels = {
   download: null,
   cantonsOrder: null,
   view: null,
-  peerGroup: null,
   indicator: null,
   activeId: null,
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
@@ -766,6 +765,14 @@ export const valueLabels = {
     getLocalizedLabel({ id: value }),
   complianceType: (value: QueryStateSunshineComplianceType) =>
     getLocalizedLabel({ id: value }),
+  /** Peer group names come from the peer groups query, already localized */
+  peerGroup: (
+    value: string,
+    peerGroupsById: Partial<Record<string, { name: string }>>
+  ) =>
+    value === "all_grid_operators"
+      ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
+      : peerGroupsById[value]?.name ?? value,
   category: (value: ElectricityCategory, variant: "short" | "long") =>
     getLocalizedLabel({ id: variant === "short" ? value : `${value}-long` }),
   networkLevel: (

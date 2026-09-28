@@ -25,7 +25,6 @@ import {
   useQueryStateSunshineMap,
 } from "src/domain/query-states";
 import {
-  getLocalizedLabel,
   getSunshineMapMetricLegendTitle,
   valueLabels,
 } from "src/domain/translation";
@@ -194,10 +193,10 @@ const MobileControls = ({
   );
   const indicatorLabel =
     tab === "electricity" ? priceComponentLabel : sunshineIndicatorShortLabel;
-  const sunshinePeerGroupLabel =
-    sunshinePeerGroup === "all_grid_operators"
-      ? getLocalizedLabel({ id: "peer-group.all-grid-operators" })
-      : peerGroupsById[sunshinePeerGroup]?.name ?? sunshinePeerGroup;
+  const sunshinePeerGroupLabel = valueLabels.peerGroup(
+    sunshinePeerGroup,
+    peerGroupsById
+  );
   const sunshineNetworkLevelLabel = valueLabels.networkLevel(
     sunshineNetworkLevel,
     "short"
