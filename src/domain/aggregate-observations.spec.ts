@@ -2,8 +2,56 @@ import { describe, expect, it } from "vitest";
 
 import {
   averageOperatorObservationsByPeriod,
+  getMunicipalityValue,
   getOperatorMeanValue,
+  getSunshineOperatorValue,
 } from "src/domain/aggregate-observations";
+
+describe("getMunicipalityValue", () => {
+  it("weights each operator's value by the share of the municipality it covers", () => {
+    expect(
+      getMunicipalityValue([
+        { value: 20, coverageRatio: 0.75 },
+        { value: 30, coverageRatio: 0.25 },
+      ])
+    ).toBe(22.5);
+  });
+
+  it("ignores rows without a value instead of counting them as 0", () => {
+    expect(
+      getMunicipalityValue([
+        { value: 20, coverageRatio: 0.5 },
+        { value: null, coverageRatio: 0.5 },
+        { coverageRatio: 0.5 },
+      ])
+    ).toBe(20);
+  });
+
+  it("returns null when no row has a value", () => {
+    expect(
+      getMunicipalityValue([{ value: null, coverageRatio: 1 }])
+    ).toBeNull();
+    expect(getMunicipalityValue([])).toBeNull();
+  });
+});
+
+describe("getSunshineOperatorValue", () => {
+  it("ignores rows without a value", () => {
+    expect(
+      getSunshineOperatorValue([{ value: null }, { value: 1 }], "compliance")
+    ).toBe(1);
+    expect(
+      getSunshineOperatorValue([{ value: null }, { value: 2 }], "saidi")
+    ).toBe(2);
+  });
+
+  it("returns null when no row has a value", () => {
+    expect(
+      getSunshineOperatorValue([{ value: null }], "compliance")
+    ).toBeNull();
+    expect(getSunshineOperatorValue([], "saidi")).toBeNull();
+  });
+});
 
 describe("getOperatorMeanValue", () => {
   it("averages the operator's values across municipalities", () => {

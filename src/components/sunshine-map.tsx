@@ -305,10 +305,21 @@ const SunshineMap = ({
     ) {
       return undefined;
     }
-    return extent(
-      legendSourceData.observations.map((x) => accessor(x)).filter(truthy)
+    // Range of the per-operator figures drawn on the map, 0 included
+    const operatorFigures = aggregateSunshineObservationsByOperator(
+      legendSourceData.observationsByOperator,
+      indicator
     );
-  }, [accessor, legendSourceData?.observations]);
+    return extent(
+      Object.values(operatorFigures),
+      (x) => accessor(x) ?? undefined
+    );
+  }, [
+    accessor,
+    indicator,
+    legendSourceData?.observations,
+    legendSourceData?.observationsByOperator,
+  ]);
 
   const legendId = useId();
 

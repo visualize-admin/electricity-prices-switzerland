@@ -121,8 +121,9 @@ export const getSunshineOperatorValue = (
   indicator: SunshineIndicator,
 ): Maybe<number> =>
   aggregateFnPerIndicator[indicator](
-    observations.map((obs) => obs.value).filter((v) => v !== undefined),
-  );
+    // Rows without a value are ignored, as in the list
+    observations.map((obs) => obs.value).filter(isDefined),
+  ) ?? null;
 
 /**
  * Aggregates sunshine data observations by operator using the appropriate aggregation function
