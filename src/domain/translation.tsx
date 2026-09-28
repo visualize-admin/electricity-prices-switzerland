@@ -22,6 +22,7 @@ import {
 import {
   QueryStateEnergyPricesMap,
   QueryStateSunshineMap,
+  QueryStateSunshineComplianceType,
   QueryStateSunshineSaidiSaifiType,
 } from "./query-states";
 import { NetworkLevel, PeerGroup, SunshineIndicator } from "./sunshine";
@@ -757,12 +758,13 @@ export const valueLabels = {
   cantonsOrder: null,
   view: null,
   peerGroup: null,
-  complianceType: null,
   indicator: null,
   activeId: null,
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),
   product: (value: PriceProduct) => getLocalizedLabel({ id: value }),
   saidiSaifiType: (value: QueryStateSunshineSaidiSaifiType) =>
+    getLocalizedLabel({ id: value }),
+  complianceType: (value: QueryStateSunshineComplianceType) =>
     getLocalizedLabel({ id: value }),
   category: (value: ElectricityCategory, variant: "short" | "long") =>
     getLocalizedLabel({ id: variant === "short" ? value : `${value}-long` }),
