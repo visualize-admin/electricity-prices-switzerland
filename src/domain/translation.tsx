@@ -735,16 +735,6 @@ export const getPeerGroupLabels = (peerGroup: PeerGroup) => {
   };
 };
 
-export const getNetworkLevelLabels = (networkLevel: NetworkLevel) => ({
-  short: getLocalizedLabel({ id: `network-level.${networkLevel.id}.short` }),
-  long: getLocalizedLabel({ id: `network-level.${networkLevel.id}.long` }),
-});
-
-export const getCategoryLabels = (category: ElectricityCategory) => ({
-  short: getLocalizedLabel({ id: `${category}` }),
-  long: getLocalizedLabel({ id: `${category}-long` }),
-});
-
 /** Labels for query state enum values, keyed by query state field. */
 export const valueLabels = {
   priceComponent: (value: PriceComponent) => getLocalizedLabel({ id: value }),

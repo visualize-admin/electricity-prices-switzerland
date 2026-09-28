@@ -11,7 +11,7 @@ import {
   type NetworkLevel,
   type CostsAndTariffsData,
 } from "src/domain/sunshine";
-import { getLocalizedLabel } from "src/domain/translation";
+import { valueLabels } from "src/domain/translation";
 import { NonNullableProp } from "src/utils/non-nullable-prop";
 
 import { LatestYearDotsChartView } from "./charts-generic/latest-year-dots-chart-view";
@@ -90,9 +90,10 @@ const NetworkCostLatestYearChartView = (
     return observations
       .map((o) => ({
         ...o,
-        network_level: getLocalizedLabel({
-          id: `network-level.${o.network_level as NetworkLevel["id"]}.long`,
-        }),
+        network_level: valueLabels.networkLevel(
+          o.network_level as NetworkLevel["id"],
+          "long"
+        ),
         year: o.year,
       }))
       .filter(
