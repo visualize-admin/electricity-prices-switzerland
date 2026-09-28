@@ -4,14 +4,19 @@ import {
   groupsFromCantonElectricityObservations,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
+  groupsFromSunshineObservations,
 } from "src/components/list-groups";
 import {
+  aggregateSunshineObservationsByOperator,
   averageOperatorObservationsByPeriod,
   getMunicipalityValue,
   getOperatorMeanValue,
 } from "src/domain/aggregate-observations";
 import { buildEnrichedEnergyPricesData } from "src/domain/energy-prices-map-data";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
+import {
+  OperatorObservationFieldsFragment,
+  SunshineDataIndicatorRow,
+} from "src/graphql/queries";
 
 const obs = (
   overrides: Pick<
@@ -108,4 +113,29 @@ describe("entity figures are the same in every view", () => {
     expect(enriched.cantonMedianObservationsByCanton.get("BE")?.value).toBe(17);
     expect(list["BE"].value).toBe(17);
   });
+
+  it.each([
+    ["saidi", 2],
+    ["compliance", 1],
+  ] as const)(
+    "sunshine operator (%s): same figure in the map and the list",
+    (indicator, expected) => {
+      const rows: SunshineDataIndicatorRow[] = [1, 3].map((value) => ({
+        __typename: "SunshineDataIndicatorRow",
+        name: "BKW",
+        operatorId: 36,
+        operatorUID: "bkw",
+        period: "2026",
+        value,
+      }));
+
+      const map = aggregateSunshineObservationsByOperator(
+        new Map([["36", rows]]),
+        indicator
+      );
+      const list = byId(groupsFromSunshineObservations(rows, indicator));
+      expect(map["36"].value).toBe(expected);
+      expect(list["36"].value).toBe(expected);
+    }
+  );
 });

@@ -114,6 +114,17 @@ const aggregateFnPerIndicator: Record<
 };
 
 /**
+ * Operator-level value for a sunshine indicator, from the operator's rows.
+ */
+export const getSunshineOperatorValue = (
+  observations: { value?: Maybe<number> }[],
+  indicator: SunshineIndicator,
+): Maybe<number> =>
+  aggregateFnPerIndicator[indicator](
+    observations.map((obs) => obs.value).filter((v) => v !== undefined),
+  );
+
+/**
  * Aggregates sunshine data observations by operator using the appropriate aggregation function
  * based on the indicator type.
  */
@@ -127,17 +138,13 @@ export const aggregateSunshineObservationsByOperator = (
     return {};
   }
 
-  const aggregateFn = aggregateFnPerIndicator[indicator];
-
   return Object.fromEntries(
     Array.from(observationsByOperatorMap.entries()).map(
       ([operatorId, observations]) => [
         operatorId,
         {
           ...observations[0],
-          value: aggregateFn(
-            observations.map((obs) => obs.value).filter((v) => v !== undefined),
-          ),
+          value: getSunshineOperatorValue(observations, indicator),
         },
       ],
     ),

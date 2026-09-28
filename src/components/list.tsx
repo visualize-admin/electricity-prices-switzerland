@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
-import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
+import { ascending, descending, ScaleThreshold } from "d3";
 import { MouseEventHandler, useContext, useMemo, useState } from "react";
 
 import { SearchField } from "src/components/form";
@@ -10,7 +10,6 @@ import { Stack } from "src/components/stack";
 import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import { SunshineDataIndicatorRow } from "src/graphql/queries";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "./anchor-nav";
@@ -20,6 +19,7 @@ import { MapDetailsContent } from "./map-details-content";
 
 export {
   groupsFromCantonElectricityObservations,
+  groupsFromSunshineObservations,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
 } from "./list-groups";
@@ -384,36 +384,3 @@ type Groups = [
     cantonLabel: string | null | undefined;
   }
 ][];
-
-export const groupsFromSunshineObservations = (
-  observations: SunshineDataIndicatorRow[]
-): Groups => {
-  const withValues = observations
-    .filter((d) => d.value !== undefined && d.value !== null)
-    .map((d) => ({
-      ...d,
-      value: d.value!,
-    }));
-
-  return Array.from(
-    rollup(
-      withValues,
-      (values) => {
-        const first = values[0];
-        return {
-          id: `${first.operatorId}`,
-          label: first.name,
-          value: mean(values, (d) => d.value) ?? first.value,
-          canton: "",
-          cantonLabel: "",
-          operators: values.map((v) => ({
-            id: v.operatorId,
-            label: v.name,
-            value: v.value,
-          })),
-        };
-      },
-      (d) => `${d.operatorId}`
-    )
-  );
-};

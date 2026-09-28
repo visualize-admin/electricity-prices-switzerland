@@ -354,7 +354,8 @@ const MapPageContent = ({
         : groupsFromElectricityMunicipalities(observations);
     } else {
       return groupsFromSunshineObservations(
-        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY
+        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY,
+        indicator
       );
     }
   }, [
@@ -363,6 +364,7 @@ const MapPageContent = ({
     energyPricesEnrichedData.data?.cantonMedianObservations,
     entity,
     sunshineEnrichedDataResult.data?.observations,
+    indicator,
   ]);
 
   const isFetching = isElectricityTab
