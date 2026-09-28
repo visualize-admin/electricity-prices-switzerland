@@ -38,14 +38,15 @@ import {
   detailsPriceComponents,
   Entity,
   GenericObservation,
+  PriceComponent,
 } from "src/domain/data";
 import { useFormatAxisNumber } from "src/domain/helpers";
-import { RP_PER_KWH } from "src/domain/metrics";
+import { getPriceComponentUnit } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
 import {
   ObservationKind,
-  PriceComponent,
+  PriceComponent as PriceComponentEnum,
   useObservationsWithAllPriceComponentsQuery,
   usePriceEvolutionObservationsQuery,
 } from "src/graphql/queries";
@@ -151,7 +152,7 @@ export const PriceEvolution = ({
   mini,
   highlightYear,
 }: SectionProps & {
-  priceComponents: DetailPriceComponent[];
+  priceComponents: PriceComponent[];
   mini?: boolean;
   highlightYear?: number;
 }) => {
@@ -172,7 +173,7 @@ export const PriceEvolution = ({
 
   const observationKind =
     entity === "canton" ? ObservationKind.Canton : ObservationKind.Municipality;
-  const priceComponent = (priceComponents[0] ?? "total") as PriceComponent;
+  const priceComponent = priceComponents[0] ?? "total";
   const filters = {
     [entity]: entityIds,
     category,
@@ -190,7 +191,7 @@ export const PriceEvolution = ({
   const [slimQuery] = usePriceEvolutionObservationsQuery({
     variables: {
       locale,
-      priceComponent,
+      priceComponent: priceComponent as PriceComponentEnum,
       filters,
       observationKind,
     },
@@ -249,7 +250,7 @@ export const PriceEvolutionLineCharts = memo(
     mini,
     highlightYear,
   }: Pick<SectionProps, "entity"> & {
-    priceComponents: DetailPriceComponent[];
+    priceComponents: PriceComponent[];
     observations: GenericObservation[];
     mini?: boolean;
     highlightYear?: number;
@@ -275,7 +276,7 @@ export const PriceEvolutionLineCharts = memo(
 );
 
 const PriceEvolutionLineChart = (props: {
-  pc: DetailPriceComponent;
+  pc: PriceComponent;
   i: number;
   observations: GenericObservation[];
   entity: Entity;
@@ -315,7 +316,7 @@ const PriceEvolutionLineChart = (props: {
           },
           y: {
             componentIri: pc,
-            axisLabel: i18n._(RP_PER_KWH),
+            axisLabel: i18n._(getPriceComponentUnit(pc)),
           },
           segment: hasMultipleLines
             ? {
