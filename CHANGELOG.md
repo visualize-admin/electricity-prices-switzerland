@@ -11,6 +11,10 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.54.7 - 2026-09-29
+
 - Map detail panel chart shows the selected price component instead of always Total; annual metering cost is charted in CHF/year
 - Keep the highlighted value label on detail panel charts inside the chart and clear of the lines
 - Map detail panel for an operator shows the operator mean (as in the tooltip and list) instead of the first municipality's value, and its chart shows one averaged line per year instead of one line per municipality (ELC-726)
