@@ -2,8 +2,6 @@ import { range } from "d3";
 import z from "zod";
 
 import { runtimeEnv } from "src/env/runtime";
-import { OperatorObservationFieldsFragment } from "src/graphql/queries";
-import { weightedMean } from "src/utils/weighted-mean";
 
 export type ObservationValue = string | number | boolean | Date | null;
 export type GenericObservation = Record<string, ObservationValue>;
@@ -138,16 +136,6 @@ export const asElectricityCategory = (
 };
 
 export type ValueFormatter = (value: number) => string;
-
-export const getObservationsWeightedMean = (
-  obs: OperatorObservationFieldsFragment[]
-) => {
-  return weightedMean(
-    obs,
-    (d) => d.value ?? 0,
-    (d) => d.coverageRatio
-  );
-};
 
 export type SettlementDensity =
   | "High"

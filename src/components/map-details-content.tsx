@@ -355,7 +355,7 @@ export const MapDetailsContent: React.FC<{
       <Divider />
       {tab === "electricity" ? (
         <PriceEvolution
-          priceComponents={["total"]}
+          priceComponents={[energyPricesPriceComponent]}
           id={selectedItem.id}
           entity={entity}
           mini

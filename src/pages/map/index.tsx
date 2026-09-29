@@ -354,7 +354,8 @@ const MapPageContent = ({
         : groupsFromElectricityMunicipalities(observations);
     } else {
       return groupsFromSunshineObservations(
-        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY
+        sunshineEnrichedDataResult.data?.observations ?? EMPTY_ARRAY,
+        indicator
       );
     }
   }, [
@@ -363,11 +364,16 @@ const MapPageContent = ({
     energyPricesEnrichedData.data?.cantonMedianObservations,
     entity,
     sunshineEnrichedDataResult.data?.observations,
+    indicator,
   ]);
 
+  // Loading until the first result arrives: before the query starts, fetching
+  // is false but there is no data yet
   const isFetching = isElectricityTab
-    ? energyPricesEnrichedData.fetching
-    : sunshineEnrichedDataResult.fetching;
+    ? energyPricesEnrichedData.fetching ||
+      (!energyPricesEnrichedData.data && !energyPricesEnrichedData.error)
+    : sunshineEnrichedDataResult.fetching ||
+      (!sunshineEnrichedDataResult.data && !sunshineEnrichedDataResult.error);
 
   const list = (
     <List

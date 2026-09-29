@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 
-import { groupsFromElectricityMunicipalities } from "./list-groups";
+import {
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+} from "./list-groups";
 
 const obs = (
   overrides: Partial<OperatorObservationFieldsFragment> &
@@ -73,5 +76,40 @@ describe("groupsFromElectricityMunicipalities", () => {
     expect(group.operators).toEqual([
       { id: "groupe-e", label: "Groupe E SA", value: 0 },
     ]);
+  });
+});
+
+describe("groupsFromElectricityOperators", () => {
+  it("uses the operator mean for the list and the detail panel row", () => {
+    // BKW / ELC-726: charges differ per municipality. The panel row used the
+    // first municipality's value while the list and tooltip used the mean.
+    const groups = groupsFromElectricityOperators([
+      obs({
+        municipality: "1",
+        operator: "bkw",
+        operatorLabel: "BKW",
+        value: 1.1,
+      }),
+      obs({
+        municipality: "2",
+        operator: "bkw",
+        operatorLabel: "BKW",
+        value: 1.5,
+      }),
+      obs({
+        municipality: "3",
+        operator: "bkw",
+        operatorLabel: "BKW",
+        value: 1.4,
+      }),
+    ]);
+
+    const byId = Object.fromEntries(groups) as Record<
+      string,
+      { value: number; operators?: { value: number }[] }
+    >;
+
+    expect(byId["bkw"].value).toBeCloseTo(1.333, 3);
+    expect(byId["bkw"].operators?.[0].value).toBe(byId["bkw"].value);
   });
 });

@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Typography } from "@mui/material";
-import { ascending, descending, mean, rollup, ScaleThreshold } from "d3";
+import { ascending, descending, ScaleThreshold } from "d3";
 import { MouseEventHandler, useContext, useMemo, useState } from "react";
 
 import { SearchField } from "src/components/form";
@@ -10,11 +10,6 @@ import { Stack } from "src/components/stack";
 import ValueChip from "src/components/value-chip";
 import { Entity, ValueFormatter } from "src/domain/data";
 import { SunshineIndicator } from "src/domain/sunshine";
-import {
-  CantonMedianObservationFieldsFragment,
-  OperatorObservationFieldsFragment,
-  SunshineDataIndicatorRow,
-} from "src/graphql/queries";
 import { Icon } from "src/icons";
 
 import { AnchorNav } from "./anchor-nav";
@@ -22,7 +17,12 @@ import { InlineDrawer } from "./drawer";
 import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
-export { groupsFromElectricityMunicipalities } from "./list-groups";
+export {
+  groupsFromCantonElectricityObservations,
+  groupsFromSunshineObservations,
+  groupsFromElectricityMunicipalities,
+  groupsFromElectricityOperators,
+} from "./list-groups";
 
 type ListItemProps = {
   id: string;
@@ -204,7 +204,8 @@ const PlaceholderListItem = () => {
 
 const PlaceholderListItems = () => {
   return (
-    <Box>
+    // aria-busy: assistive tech and screenshot tools wait for the results
+    <Box aria-busy="true">
       {placeholderListItems.map((id) => {
         return <PlaceholderListItem key={id} />;
       })}
@@ -384,95 +385,3 @@ type Groups = [
     cantonLabel: string | null | undefined;
   }
 ][];
-
-export const groupsFromSunshineObservations = (
-  observations: SunshineDataIndicatorRow[]
-): Groups => {
-  const withValues = observations
-    .filter((d) => d.value !== undefined && d.value !== null)
-    .map((d) => ({
-      ...d,
-      value: d.value!,
-    }));
-
-  return Array.from(
-    rollup(
-      withValues,
-      (values) => {
-        const first = values[0];
-        return {
-          id: `${first.operatorId}`,
-          label: first.name,
-          value: mean(values, (d) => d.value) ?? first.value,
-          canton: "",
-          cantonLabel: "",
-          operators: values.map((v) => ({
-            id: v.operatorId,
-            label: v.name,
-            value: v.value,
-          })),
-        };
-      },
-      (d) => `${d.operatorId}`
-    )
-  );
-};
-
-export function groupsFromElectricityOperators(
-  observations: OperatorObservationFieldsFragment[]
-): Groups {
-  return Array.from(
-    rollup(
-      observations.filter((x) => x.value !== undefined && x.value !== null),
-      (values) => {
-        const first = values[0];
-        return {
-          id: first.operator,
-          label: first.operatorLabel,
-          // first.value asserted above
-          value: mean(values, (d) => d.value) ?? first.value!,
-          canton: first.canton,
-          cantonLabel: first.cantonLabel,
-          operators: [
-            {
-              id: first.operator,
-              label: first.operatorLabel,
-              value: first.value!,
-            },
-          ],
-        };
-      },
-      (d) => d.operator
-    )
-  );
-}
-
-export function groupsFromCantonElectricityObservations(
-  cantonObservations: CantonMedianObservationFieldsFragment[]
-): [
-  string,
-  {
-    id: string;
-    label: string | null | undefined;
-    value: number;
-    canton: string;
-    cantonLabel: string | null | undefined;
-  }
-][] {
-  return Array.from(
-    rollup(
-      cantonObservations,
-      (values) => {
-        const first = values[0];
-        return {
-          id: first.canton,
-          label: first.cantonLabel,
-          value: mean(values, (d) => d.value) ?? first.value,
-          canton: first.canton,
-          cantonLabel: first.cantonLabel,
-        };
-      },
-      (d) => d.canton
-    )
-  );
-}

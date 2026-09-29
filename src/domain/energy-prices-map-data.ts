@@ -1,10 +1,14 @@
 import { extent, group, index } from "d3";
+import { mapValues } from "lodash";
 
-import { getObservationsWeightedMean } from "src/domain/data";
+import {
+  aggregateEnergyPricesObservationsByOperator,
+  getMunicipalityValue,
+} from "src/domain/aggregate-observations";
+import { Entity } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import { AllMunicipalitiesQuery, ObservationsQuery } from "src/graphql/queries";
 import { indexMapper } from "src/lib/array";
-import { aggregateEnergyPricesObservationsByOperator } from "src/utils/aggregate-observations";
 
 /**
  * Pure computation shared by `useEnrichedEnergyPricesData` (React) and the
@@ -67,7 +71,6 @@ export const buildEnrichedEnergyPricesData = ({
     observations,
     (obs) => obs.municipality
   );
-  const observationsByCanton = group(observations, (obs) => obs.canton);
   const observationsByOperator = group(observations, (obs) => obs.operator);
   const observationsByOperatorAggregated =
     aggregateEnergyPricesObservationsByOperator(observationsByOperator);
@@ -76,16 +79,38 @@ export const buildEnrichedEnergyPricesData = ({
     (x) => x.canton
   );
 
-  const medianValue = swissMedianObservations[0]?.value;
-  const means = Array.from(observationsByMunicipality.values()).map(
-    (observations) => getObservationsWeightedMean(observations)
+  // Each entity's figure by id, see "Entity figures" in
+  // src/domain/aggregate-observations.ts
+  const valuesByEntity: Record<Entity, Map<string, number | null>> = {
+    municipality: new Map(
+      Array.from(observationsByMunicipality, ([id, observations]) => [
+        id,
+        getMunicipalityValue(observations),
+      ])
+    ),
+    canton: new Map(
+      cantonMedianObservations.map((obs) => [obs.canton, obs.value])
+    ),
+    operator: new Map(
+      Object.entries(observationsByOperatorAggregated).map(([id, obs]) => [
+        id,
+        obs.value,
+      ])
+    ),
+  };
+  // Legend min and max: the range of the figures drawn for each entity
+  const valuesExtentByEntity = mapValues(
+    valuesByEntity,
+    (values) =>
+      extent(values.values(), (v) => v ?? undefined) as [number, number]
   );
-  const valuesExtent = extent(means) as [number, number];
+
+  const medianValue = swissMedianObservations[0]?.value;
 
   return {
     observations,
     observationsByMunicipality,
-    observationsByCanton,
+    valuesByEntity,
     observationsByOperator,
     observationsByOperatorAggregated,
     cantonMedianObservations,
@@ -95,7 +120,7 @@ export const buildEnrichedEnergyPricesData = ({
     municipalityIndex,
     cantonIndex,
     medianValue,
-    valuesExtent,
+    valuesExtentByEntity,
   };
 };
 

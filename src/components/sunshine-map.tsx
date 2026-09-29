@@ -29,6 +29,7 @@ import {
   OperatorLayerProperties,
   useGeoData,
 } from "src/data/geo";
+import { aggregateSunshineObservationsByOperator } from "src/domain/aggregate-observations";
 import { ValueFormatter } from "src/domain/data";
 import { thresholdEncodings } from "src/domain/map-encodings";
 import {
@@ -49,7 +50,6 @@ import {
   useSelectedEntityData,
 } from "src/hooks/use-selected-entity-data";
 import { truthy } from "src/lib/truthy";
-import { aggregateSunshineObservationsByOperator } from "src/utils/aggregate-observations";
 import { shouldOpenInNewTab } from "src/utils/platform";
 
 type SunshineMapProps = {
@@ -305,10 +305,21 @@ const SunshineMap = ({
     ) {
       return undefined;
     }
-    return extent(
-      legendSourceData.observations.map((x) => accessor(x)).filter(truthy)
+    // Range of the per-operator figures drawn on the map, 0 included
+    const operatorFigures = aggregateSunshineObservationsByOperator(
+      legendSourceData.observationsByOperator,
+      indicator
     );
-  }, [accessor, legendSourceData?.observations]);
+    return extent(
+      Object.values(operatorFigures),
+      (x) => accessor(x) ?? undefined
+    );
+  }, [
+    accessor,
+    indicator,
+    legendSourceData?.observations,
+    legendSourceData?.observationsByOperator,
+  ]);
 
   const legendId = useId();
 

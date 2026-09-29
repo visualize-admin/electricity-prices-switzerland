@@ -1,7 +1,6 @@
 import { groupBy } from "lodash";
 import { Client } from "urql";
 
-import { getObservationsWeightedMean } from "src/domain/data";
 import {
   buildEnrichedEnergyPricesData,
   getEnergyPriceLegendColor,
@@ -145,12 +144,9 @@ export async function fetchCantonReportData(
   )
     .map(([municipalityId, rows]) => {
       const municipality = municipalities.find((m) => m.id === municipalityId);
-      const observations =
-        enrichedData.observationsByMunicipality.get(municipalityId) ?? [];
       const value =
-        observations.length > 0
-          ? getObservationsWeightedMean(observations)
-          : undefined;
+        enrichedData.valuesByEntity.municipality.get(municipalityId) ??
+        undefined;
       const color =
         value !== undefined
           ? getEnergyPriceLegendColor({

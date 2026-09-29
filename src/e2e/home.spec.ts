@@ -52,7 +52,7 @@ test.describe("The Home Page", () => {
     });
   });
 
-  test("sunshine links", async ({ page, snapshot }) => {
+  test("sunshine links", async ({ page, snapshot, busy }) => {
     test.setTimeout(120_000);
     await page.goto("/en?flag__sunshine=true");
     const links = [
@@ -86,6 +86,7 @@ test.describe("The Home Page", () => {
 
       await ensureLoadingIsComplete(newPage);
       await tracker.waitForRequests();
+      await busy.waitForIdle(newPage);
 
       await snapshot({
         note: `Sunshine link - ${link}`,

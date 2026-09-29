@@ -157,7 +157,8 @@ export function useSelectedEntityData(
           if (aggregatedOp) {
             // Convert the aggregated operator data back to observations format
             return [{
-              value: aggregatedOp.value ?? 0,
+              // null when no row has a value, as on the map and in the list
+              value: aggregatedOp.value,
               operatorLabel: aggregatedOp.name,
               operator: entityId,
               period: aggregatedOp.period,
