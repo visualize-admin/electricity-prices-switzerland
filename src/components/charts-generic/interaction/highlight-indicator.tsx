@@ -79,10 +79,14 @@ export const getHighlightLabelY = ({
     let y = anchorY;
     let hits = collisions(y);
     while (hits.length > 0) {
-      y =
+      const next =
         direction === "up"
           ? Math.min(...hits) - half
           : Math.max(...hits) + half;
+      // Rounding can leave the label touching the line it was moved past,
+      // which would hit it again and loop forever
+      if (next === y) break;
+      y = next;
       hits = collisions(y);
     }
     return y;

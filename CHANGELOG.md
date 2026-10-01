@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix the map detail panel freezing the browser when the highlighted value label touches a line (infinite loop in the label placement)
 
 # 2.54.8 - 2026-10-01
 

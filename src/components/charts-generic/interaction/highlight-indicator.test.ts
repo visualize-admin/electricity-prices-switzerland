@@ -110,4 +110,22 @@ describe("getHighlightLabelY", () => {
     expect(y).toBeGreaterThanOrEqual(5);
     expect(y).toBeLessThanOrEqual(7);
   });
+
+  it("terminates when rounding keeps the label touching the line", () => {
+    // (47.04 - 9.2) + 9.2 > 47.04 in floating point, so the line point still
+    // collides after moving the label above it
+    const y = getHighlightLabelY({
+      ...base,
+      labelHeight: 14.4,
+      chartHeight: 300,
+      anchorY: 47.04,
+      lines: [
+        [
+          { x: 0, y: 47.04 },
+          { x: 100, y: 47.04 },
+        ],
+      ],
+    });
+    expect(y).toBeCloseTo(37.84);
+  });
 });
