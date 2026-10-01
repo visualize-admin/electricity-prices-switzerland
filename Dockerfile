@@ -17,19 +17,7 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
         # Install new version
         npm install -g cross-spawn@7.0.5 --force && \
-        npm install -g pnpm@10.34.5 && \
-        # Modify 2.1.2 to 2.1.4 to bypass vulnerability CVE-2026-14257 & CVE-2026-69152. Since pnpm did
-        # not release a new version yet, we do this manual fix to bypass the trivy
-        # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"2.1.2"/"2.1.4"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/brace-expansion/package.json && \
-        # Modify 10.2.0 to 10.3.1 to bypass vulnerability CVE-2026-69192. Since pnpm did
-        # not release a new version yet, we do this manual fix to bypass the trivy
-        # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"10.2.0"/"10.3.1"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/ip-address/package.json && \
-        # Modify 7.5.19 to 7.5.21 to bypass vulnerability CVE-2026-73566. Since pnpm did
-        # not release a new version yet, we do this manual fix to bypass the trivy
-        # scan failure. We know that we are not affected by the vulnerability in our usage.
-        sed -i 's/"7.5.19"/"7.5.21"/g' /usr/local/lib/node_modules/pnpm/dist/node_modules/tar/package.json && \
+        npm install -g pnpm@10.34.6 && \
     # Configure npm
     npm config set save-exact=true && \
     npm config set legacy-peer-deps=true && \
