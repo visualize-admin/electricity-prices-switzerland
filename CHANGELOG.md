@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.54.8 - 2026-10-01
+
+- Security: bump brace-expansion (CVE-2026-102276, CVE-2026-102278) and undici (CVE-2026-19534, CVE-2026-84961, CVE-2026-85152); upgrade pnpm to 10.34.6 in the Docker image, removing the bundled-dependency version patches
+
 # 2.54.7 - 2026-09-29
 
 - Map detail panel chart shows the selected price component instead of always Total; annual metering cost is charted in CHF/year
