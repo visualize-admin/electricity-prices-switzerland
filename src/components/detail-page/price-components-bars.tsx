@@ -16,6 +16,7 @@ import {
   ChartContainer,
   ChartSvg,
 } from "src/components/charts-generic/containers";
+import { LegendItem } from "src/components/charts-generic/legends/color";
 import { Combobox } from "src/components/combobox";
 import {
   Card,
@@ -33,7 +34,7 @@ import { WithClassName } from "src/components/detail-page/with-classname";
 import { HintBlue, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { GenericObservation, detailsPriceComponents } from "src/domain/data";
-import { pivot_longer } from "src/domain/helpers";
+import { getPalette, pivot_longer } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
 import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
@@ -131,8 +132,10 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       number,
       number
     ];
-    const colorDomain = uniq(
-      observations.map((p) => (p as GenericObservation)[entity])
+    const colorDomain = (
+      entity === "operator"
+        ? [id, ...(operator ?? [])]
+        : uniq(observations.map((p) => (p as GenericObservation)[entity]))
     ) as string[];
     const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
 
@@ -175,6 +178,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     view,
     entity,
     dynamicTariffsFlag,
+    id,
+    operator,
   ]);
 
   const getItemLabel = (id: CollapsedState) => {
@@ -294,6 +299,21 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           downloadId={DOWNLOAD_ID}
           isFetching={observationsQuery.fetching}
         >
+          {entity === "operator" && (
+            <Box display="flex" flexWrap="wrap" gap={1} mb={4}>
+              {colorDomain.map((operatorId, i) => (
+                <LegendItem
+                  key={operatorId}
+                  item={
+                    operatorObservations.find((o) => o.operator === operatorId)
+                      ?.operatorLabel ?? operatorId
+                  }
+                  color={getPalette("elcom")[i]}
+                  symbol="square"
+                />
+              ))}
+            </Box>
+          )}
           {perPriceComponent.map(([priceComponent, observations], i) => {
             return (
               <React.Fragment key={i}>
@@ -325,6 +345,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                       opacityDomain,
                       colorAcc: entity as string,
                       opacityAcc: "period",
+                      highlightValue: entity === "operator" ? id : undefined,
                     },
                   }}
                   measures={[

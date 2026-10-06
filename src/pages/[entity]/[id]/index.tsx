@@ -31,6 +31,7 @@ import {
   PageParams,
   Props,
 } from "src/data/shared-page-props";
+import { createColorMapping } from "src/domain/color-mapping";
 import {
   categories,
   ElectricityCategory,
@@ -201,6 +202,11 @@ const ElectricityTariffsPage = (props: Props) => {
             }
             selectedItems={queryState.operator ?? []}
             setSelectedItems={(items) => setQueryState({ operator: items })}
+            colorMapping={
+              activeTab === "priceComponents"
+                ? createColorMapping(queryState.operator, "elcom2")
+                : undefined
+            }
           />
         ) : entity === "municipality" ? (
           <MunicipalitiesCombobox
