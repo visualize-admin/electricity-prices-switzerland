@@ -319,8 +319,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                     segment: {
                       componentIri: "uniqueId", // year+muni+operator
                       type: "grouped",
-                      palette:
-                        entity === "operator" ? "elcom-operator" : "elcom",
+                      palette: "elcom",
                     },
                     label: {
                       componentIri: "label",

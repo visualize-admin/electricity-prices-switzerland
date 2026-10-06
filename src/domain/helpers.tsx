@@ -183,8 +183,6 @@ export const getPalette = (
       return chartPalette.categorical.slice(1).map((c) => c);
     case "elcom2":
       return chartPalette.categorical.slice(2).map((c) => c);
-    case "elcom-operator":
-      return [chartPalette.categorical[0], ...chartPalette.categorical.slice(2)];
     case "monochrome":
       return [themePalette.monochrome[100]];
     case "elcom-categorical-2":
