@@ -178,6 +178,8 @@ export const AnnotationXLabel = () => {
             transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
             hyphens: "auto",
             wordBreak: "break-word",
+            WebkitTextStroke: "3px white",
+            paintOrder: "stroke fill",
           }}
         >
           <Box component="span" fontWeight={700}>
