@@ -20,7 +20,7 @@ export const HistogramMinMaxValues = () => {
   const maxValue = max(data, (d) => getX(d));
   return (
     <>
-      {minValue && (
+      {minValue !== undefined && (
         <g
           transform={`translate(${margins.left + xScale(minValue)} ${
             margins.top
