@@ -255,7 +255,7 @@ const YesNoLegend = ({
 export const ColorLegend = () => {
   return (
     <Box
-      width={LEGEND_WIDTH}
+      width={LEGEND_WIDTH - 16}
       zIndex={13}
       borderRadius={1}
       height="fit-content"

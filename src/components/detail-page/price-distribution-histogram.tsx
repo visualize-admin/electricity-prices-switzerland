@@ -336,11 +336,11 @@ const PriceDistributionHistogram = ({
           isFetching={observationsQuery.fetching}
         >
           <Box
-            position={{ xxs: "static", lg: "absolute" }}
-            right={{ lg: "2.5rem" }}
-            top={{ lg: -20 }}
-            mt={{ xxs: -3, lg: 0 }}
-            mb={{ xxs: 5, lg: 0 }}
+            display="flex"
+            justifyContent={{ xxs: "flex-start", lg: "flex-end" }}
+            pr={{ lg: "2.5rem" }}
+            mt={-3}
+            mb={5}
           >
             <ColorLegend />
           </Box>
