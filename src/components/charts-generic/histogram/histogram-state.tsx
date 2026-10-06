@@ -313,13 +313,10 @@ const useHistogramState = ({
     };
   };
 
-  const annotationSpace =
-    annotationSpaces[annotationSpaces.length - 1].height || 0;
-
-  const chartHeight = chartWidth * aspectRatio + annotationSpace;
+  const chartHeight = chartWidth * aspectRatio;
 
   xScale.range([0, chartWidth]);
-  yScale.range([chartHeight, annotationSpace || 0]);
+  yScale.range([chartHeight, 0]);
 
   const annotations = annotation
     ?.sort((a, b) => ascending(getX(a), getX(b)))
