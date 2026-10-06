@@ -374,7 +374,7 @@ const PriceDistributionHistogram = ({
           >
             <ChartContainer>
               <ChartSvg>
-                <AnnotationX />
+                <AnnotationX endAtAxis />
                 <AxisHeightLinear />
                 <HistogramMinMaxValues />
                 <AxisWidthHistogramDomain />

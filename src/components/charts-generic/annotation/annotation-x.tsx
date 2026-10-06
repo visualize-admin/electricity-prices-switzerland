@@ -61,7 +61,7 @@ const AnnotationLine = ({
   </g>
 );
 
-export const AnnotationX = () => {
+export const AnnotationX = ({ endAtAxis }: { endAtAxis?: boolean }) => {
   const { bounds, annotations } = useChartState() as
     | RangePlotState
     | HistogramState
@@ -106,7 +106,12 @@ export const AnnotationX = () => {
             <AnnotationLine
               x={x}
               y1={y1}
-              y2={a.y + margins.top + (margins.annotations ?? 0) + DOT_RADIUS}
+              y2={
+                a.y +
+                margins.top +
+                (margins.annotations ?? 0) +
+                (endAtAxis ? 0 : DOT_RADIUS)
+              }
               annotationLineColor={annotationLineColor}
               annotationLabelUnderlineColor={annotationLabelUnderlineColor}
               annotationColor={annotationColor}
