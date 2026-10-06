@@ -275,7 +275,10 @@ const useHistogramState = ({
   ) => {
     let xAnchor;
     const binIndex = d.metaIndex ?? 0;
-    const meta = binMeta[binIndex];
+    const meta: BinMeta =
+      d.metaIndex !== undefined
+        ? binMeta[d.metaIndex]
+        : { x0: d.x0 ?? 0, x1: d.x1 ?? 0, label: "", type: "normal" };
     if (groupedBy && binMeta && bandScale) {
       xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
     } else {
