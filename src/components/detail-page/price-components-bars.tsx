@@ -301,17 +301,19 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         >
           {entity === "operator" && (
             <Box display="flex" flexWrap="wrap" gap={1} mb={4}>
-              {colorDomain.map((operatorId, i) => (
-                <LegendItem
-                  key={operatorId}
-                  item={
-                    operatorObservations.find((o) => o.operator === operatorId)
-                      ?.operatorLabel ?? operatorId
-                  }
-                  color={getPalette("elcom")[i]}
-                  symbol="square"
-                />
-              ))}
+              {colorDomain.map((operatorId, i) => {
+                const label = operatorObservations.find(
+                  (o) => o.operator === operatorId
+                )?.operatorLabel;
+                return label ? (
+                  <LegendItem
+                    key={operatorId}
+                    item={label}
+                    color={getPalette("elcom")[i]}
+                    symbol="square"
+                  />
+                ) : null;
+              })}
             </Box>
           )}
           {perPriceComponent.map(([priceComponent, observations], i) => {
