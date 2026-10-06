@@ -339,7 +339,8 @@ const PriceDistributionHistogram = ({
             position={{ xxs: "static", lg: "absolute" }}
             right={{ lg: "2.5rem" }}
             top={{ lg: -20 }}
-            mb={{ xxs: 2, lg: 0 }}
+            mt={{ xxs: -4, lg: 0 }}
+            mb={{ xxs: 6, lg: 0 }}
           >
             <ColorLegend />
           </Box>

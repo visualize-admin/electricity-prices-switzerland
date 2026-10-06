@@ -224,9 +224,9 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
             display="flex"
             flexDirection={["column", "row", "row"]}
             justifyContent="space-between"
-            gap={[8, 0, 0]}
+            gap={[4, 0, 0]}
             mt={4}
-            mb={[-3, 0, 0]}
+            mb={[1, 0, 0]}
           >
             <Box maxWidth="20rem" width="100%">
               <Combobox
