@@ -259,8 +259,6 @@ export const ColorLegend = () => {
       zIndex={13}
       borderRadius={1}
       height="fit-content"
-      pl={4}
-      py={2}
     >
       <Box
         display="flex"
