@@ -374,10 +374,10 @@ const PriceDistributionHistogram = ({
           >
             <ChartContainer>
               <ChartSvg>
+                <AnnotationX />
                 <AxisHeightLinear />
                 <HistogramMinMaxValues />
                 <AxisWidthHistogramDomain />
-                <AnnotationX />
                 <HistogramColumns />
                 <HistogramMedian label="CH Median" />
                 <InteractionHistogram />
