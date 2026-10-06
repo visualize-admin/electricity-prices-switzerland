@@ -131,8 +131,10 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       number,
       number
     ];
-    const colorDomain = uniq(
-      observations.map((p) => (p as GenericObservation)[entity])
+    const colorDomain = (
+      entity === "operator"
+        ? [id, ...(operator ?? [])]
+        : uniq(observations.map((p) => (p as GenericObservation)[entity]))
     ) as string[];
     const opacityDomain = uniq(pivoted.map((p) => p.period)) as string[];
 
@@ -175,6 +177,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     view,
     entity,
     dynamicTariffsFlag,
+    id,
+    operator,
   ]);
 
   const getItemLabel = (id: CollapsedState) => {
@@ -315,7 +319,8 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                     segment: {
                       componentIri: "uniqueId", // year+muni+operator
                       type: "grouped",
-                      palette: "elcom",
+                      palette:
+                        entity === "operator" ? "elcom-operator" : "elcom",
                     },
                     label: {
                       componentIri: "label",

@@ -62,7 +62,7 @@ export const MunicipalitiesCombobox = (
 export const OperatorsCombobox = (
   comboboxMultiProps: Pick<
     ComboboxMultiProps,
-    "label" | "selectedItems" | "setSelectedItems"
+    "label" | "selectedItems" | "setSelectedItems" | "colorMapping"
   >
 ) => {
   const locale = useLocale();
