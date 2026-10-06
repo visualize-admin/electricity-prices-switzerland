@@ -313,7 +313,7 @@ const useHistogramState = ({
     };
   };
 
-  const chartHeight = chartWidth * aspectRatio;
+  const chartHeight = Math.max(chartWidth * aspectRatio, 250);
 
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
