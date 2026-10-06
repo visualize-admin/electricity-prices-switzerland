@@ -76,9 +76,11 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
+  const highlight = fields.style?.highlightValue?.toString();
   const segments = data
     .sort(
       (a, b) =>
+        ascending(getColor(b) === highlight, getColor(a) === highlight) ||
         ascending(getColor(a), getColor(b)) ||
         descending(getOpacity(a), getOpacity(b)) ||
         descending(getX(a), getX(b))

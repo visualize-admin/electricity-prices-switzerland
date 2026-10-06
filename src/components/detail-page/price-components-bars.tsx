@@ -330,6 +330,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                       opacityDomain,
                       colorAcc: entity as string,
                       opacityAcc: "period",
+                      highlightValue: entity === "operator" ? id : undefined,
                     },
                   }}
                   measures={[
