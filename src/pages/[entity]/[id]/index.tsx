@@ -203,7 +203,8 @@ const ElectricityTariffsPage = (props: Props) => {
             selectedItems={queryState.operator ?? []}
             setSelectedItems={(items) => setQueryState({ operator: items })}
             colorMapping={
-              activeTab === "priceComponents"
+              activeTab === "priceComponents" ||
+              activeTab === "tariffsDevelopment"
                 ? createColorMapping(queryState.operator, "elcom2")
                 : undefined
             }
