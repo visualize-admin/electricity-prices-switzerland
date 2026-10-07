@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import React from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
+import GraphqlCachePanel from "src/admin-auth/components/graphql-cache-panel";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
 import { useFetch } from "src/data/use-fetch";
@@ -57,6 +58,8 @@ export default function AdminCachesPage({ csrfToken, message, error }: Props) {
       message={message}
       error={error}
     >
+      <GraphqlCachePanel />
+
       <Typography variant="h5" component="h2" gutterBottom>
         In-process caches
       </Typography>
