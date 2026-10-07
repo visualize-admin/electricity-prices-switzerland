@@ -1,12 +1,16 @@
 import { csvExportCache } from "src/lib/csv-export";
 import { searchIndexCache } from "src/lib/search-index-cache";
 import { coveragesByYearCache } from "src/rdf/coverage-ratio";
-import { electricityPriceObservationsCache } from "src/rdf/queries";
+import {
+  electricityPriceObservationsCache,
+  municipalityLookupCache,
+} from "src/rdf/queries";
 
 export type ProcessCacheId =
   | "csv-export"
   | "coverage-ratio"
   | "electricity-price-observations"
+  | "municipality-lookup"
   | "search-index";
 
 export type ProcessCacheInfo = {
@@ -40,6 +44,13 @@ const caches: {
     label: "Price observations",
     description: "Electricity price SPARQL observations. 60s TTL.",
     cache: electricityPriceObservationsCache,
+  },
+  {
+    id: "municipality-lookup",
+    label: "Municipality names and cantons",
+    description:
+      "All municipalities, one entry per SPARQL endpoint and locale. 6h TTL.",
+    cache: municipalityLookupCache,
   },
   {
     id: "search-index",

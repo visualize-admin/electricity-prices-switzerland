@@ -13,6 +13,18 @@ You can also check the
 
 Nothing yet.
 
+# 2.55.1 - 2026-10-07
+
+- Update French Sunshine indicator descriptions (energy and network tariffs, network costs, outage information, SAIDI, SAIFI) from Accent
+
+# 2.55.0 - 2026-10-07
+
+- GraphQL response cache can be shared between server instances through Redis, enabled by setting `REDIS_URL`. The admin caches page shows which backend is in use (#779)
+- Keep merged or renumbered municipalities (e.g. Andelfingen, Neckertal, Moutier) on the map with their prices, and fix their detail pages returning 404 (#778)
+- Admin caches page shows and clears the caches used by API routes (previously showed 0 entries for most), and lists the new municipality lookup cache (#778)
+- Operator page price components chart: a legend explains the bar colors, the "Compare with" chips use the same colors, and the current operator is shown first (ELC-703, #773)
+- Security: bump sharp to 0.35.5 (GHSA-wq5f-xc86-pv6w), source-map-js to 1.2.2 (CVE-2026-93749) and @graphql-tools/utils 10.x to 12.0.1 (CVE-2026-104852)
+
 # 2.54.9 - 2026-10-01
 
 - Fix the map detail panel freezing the browser when the highlighted value label touches a line (infinite loop in the label placement)

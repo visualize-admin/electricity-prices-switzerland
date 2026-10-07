@@ -3,13 +3,22 @@ import { GetServerSideProps } from "next";
 import React from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
+import GraphqlCachePanel from "src/admin-auth/components/graphql-cache-panel";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
-import { listProcessCaches, ProcessCacheInfo } from "src/lib/process-caches";
+import { useFetch } from "src/data/use-fetch";
+import { ProcessCacheInfo } from "src/lib/process-caches";
+
+const fetchCaches = async (): Promise<ProcessCacheInfo[]> => {
+  const res = await fetch("/api/admin/caches");
+  if (!res.ok) {
+    throw new Error(`Could not load caches (${res.status})`);
+  }
+  return res.json();
+};
 
 interface Props {
   csrfToken: string;
-  caches: ProcessCacheInfo[];
   message?: string;
   error?: string;
 }
@@ -31,19 +40,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       csrfToken: generateCSRFToken(session.sessionId),
-      caches: listProcessCaches(),
       message: (context.query.message as string) || "",
       error: (context.query.error as string) || "",
     },
   };
 };
 
-export default function AdminCachesPage({
-  csrfToken,
-  caches,
-  message,
-  error,
-}: Props) {
+export default function AdminCachesPage({ csrfToken, message, error }: Props) {
+  // Loaded from the API route, whose caches are the ones serving data
+  const caches = useFetch({ key: "admin-caches", queryFn: fetchCaches });
+
   return (
     <AdminLayout
       title="Caches"
@@ -52,6 +58,8 @@ export default function AdminCachesPage({
       message={message}
       error={error}
     >
+      <GraphqlCachePanel />
+
       <Typography variant="h5" component="h2" gutterBottom>
         In-process caches
       </Typography>
@@ -63,7 +71,19 @@ export default function AdminCachesPage({
       </Typography>
 
       <Box display="flex" flexDirection="column" gap={3} maxWidth={720}>
-        {caches.map((cache) => (
+        {caches.state === "fetching" && (
+          <Typography variant="body2" color="text.secondary">
+            Loading caches…
+          </Typography>
+        )}
+        {caches.state === "error" && (
+          <Typography variant="body2" color="error">
+            {caches.error instanceof Error
+              ? caches.error.message
+              : "Could not load caches"}
+          </Typography>
+        )}
+        {caches.data?.map((cache) => (
           <Box
             key={cache.id}
             display="flex"

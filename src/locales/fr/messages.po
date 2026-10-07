@@ -1293,27 +1293,27 @@ msgstr "Combien de jours à l'avance les clients sont informés avant une coupur
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.energyTariffs.long"
-msgstr "Tarifs d'énergie pour la catégorie de consommateurs final sélectionnée (hors TVA)"
+msgstr "Tarifs de l’énergie pour la catégorie de consommateurs finaux sélectionnée (hors TVA)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.netTariffs.long"
-msgstr "Tarifs d'utilisation du réseau pour la catégorie de consommateurs final sélectionnée (hors TVA)"
+msgstr "Tarifs d’utilisation du réseau pour la catégorie de consommateurs finaux sélectionnée (hors TVA)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.networkCosts.long"
-msgstr "Coûts d'infrastructure réseau facturés aux consommateurs finals par niveau de réseau (NE5–NE7)"
+msgstr "Coûts du réseau facturés aux consommateurs finaux selon le niveau de réseau (NR5–NR7)"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.outageInfo.long"
-msgstr "Indique si les clients concernés par des coupures planifiées sont informés conformément aux prescriptions"
+msgstr "Indication si les clients concernés par des interruptions planifiées sont informés conformément aux prescriptions"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saidi.long"
-msgstr "Durée annuelle des interruptions d'alimentation par client (SAIDI), en minutes par an"
+msgstr "Durée des interruptions d’électricité par client (SAIDI), en minutes par an"
 
 #: src/domain/translation.tsx
 msgid "selector.indicator.saifi.long"
-msgstr "Fréquence annuelle des interruptions d'alimentation par client (SAIFI), en interruptions par an"
+msgstr "Fréquence des interruptions d’électricité par client (SAIFI), en interruptions par an"
 
 #: src/components/sunshine-selectors/base.tsx
 msgid "selector.net-tariffs-category"

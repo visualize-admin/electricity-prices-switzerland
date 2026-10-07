@@ -58,6 +58,8 @@ export const serverSchema = z.object({
     .string()
     .optional()
     .transform((value) => value === "true"),
+  // Shared GraphQL response cache, in-memory per instance when unset
+  REDIS_URL: z.string().optional(),
 
   // Sentry configuration
   SENTRY_AUTH_TOKEN: z.string().optional(),
