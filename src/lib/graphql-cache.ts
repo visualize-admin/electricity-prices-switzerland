@@ -1,8 +1,4 @@
-import {
-  ErrorsAreMissesCache,
-  InMemoryLRUCache,
-  KeyValueCache,
-} from "@apollo/utils.keyvaluecache";
+import { InMemoryLRUCache, KeyValueCache } from "@apollo/utils.keyvaluecache";
 import Redis from "ioredis";
 
 import serverEnv from "src/env/server";
@@ -34,10 +30,12 @@ const createRedisClient = (url: string) => {
     commandTimeout: 1000,
   });
   let lastError: string | undefined;
-  redis.on("error", (e: Error) => {
-    if (e.message !== lastError) {
-      console.warn(`[graphql-cache] Redis error: ${e.message}`);
-      lastError = e.message;
+  redis.on("error", (e: NodeJS.ErrnoException) => {
+    // Connection errors such as ECONNREFUSED have an empty message
+    const message = e.message || e.code || `${e}`;
+    if (message !== lastError) {
+      console.warn(`[graphql-cache] Redis error: ${message}`);
+      lastError = message;
     }
   });
   redis.on("ready", () => {
@@ -46,16 +44,18 @@ const createRedisClient = (url: string) => {
   return redis;
 };
 
+// Errors count as misses: when Redis is unavailable, requests go uncached
+// instead of failing. Connection errors are logged by the client.
 const createRedisKeyValueCache = (redis: Redis): KeyValueCache<string> => ({
-  get: async (key) => (await redis.get(key)) ?? undefined,
+  get: async (key) => (await redis.get(key).catch(() => null)) ?? undefined,
   set: async (key, value, options) => {
-    if (options?.ttl) {
-      await redis.set(key, value, "EX", Math.ceil(options.ttl));
-    } else {
-      await redis.set(key, value);
-    }
+    const ttl = options?.ttl ? Math.ceil(options.ttl) : undefined;
+    await (ttl
+      ? redis.set(key, value, "EX", ttl)
+      : redis.set(key, value)
+    ).catch(() => {});
   },
-  delete: async (key) => (await redis.del(key)) > 0,
+  delete: async (key) => (await redis.del(key).catch(() => 0)) > 0,
 });
 
 const redis = serverEnv.REDIS_URL
@@ -64,7 +64,7 @@ const redis = serverEnv.REDIS_URL
 const memoryCache = new InMemoryLRUCache<string>();
 
 export const graphqlCache: KeyValueCache<string> = redis
-  ? new ErrorsAreMissesCache(createRedisKeyValueCache(redis))
+  ? createRedisKeyValueCache(redis)
   : memoryCache;
 
 const parseInfoField = (info: string, field: string) =>
