@@ -11,6 +11,7 @@ const CACHE_IDS = new Set<ProcessCacheId | "all">([
   "csv-export",
   "coverage-ratio",
   "electricity-price-observations",
+  "municipality-lookup",
   "search-index",
 ]);
 

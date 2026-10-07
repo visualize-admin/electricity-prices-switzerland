@@ -191,7 +191,7 @@ const getCantonLabelPattern = (locale: string) => `
  * Name and canton of all municipalities, keyed by endpoint and locale.
  * Municipality names and cantons rarely change, hence the long expiration.
  */
-const municipalityLookupCache = new LRUCache<
+export const municipalityLookupCache = new LRUCache<
   string,
   Map<string, MunicipalityLookupEntry>
 >({
