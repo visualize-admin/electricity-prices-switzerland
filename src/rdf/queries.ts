@@ -257,7 +257,7 @@ SELECT DISTINCT ?municipality ?name ?canton ?cantonLabel WHERE {
  * as its lookup dimensions are inner joins and would drop the observations of
  * municipalities without name or canton.
  */
-export const getMunicipalityLookup = async ({
+const getMunicipalityLookup = async ({
   client,
   ids,
   locale,
