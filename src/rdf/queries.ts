@@ -219,6 +219,14 @@ SELECT DISTINCT ?municipality ?name ?canton ?cantonLabel WHERE {
  * and `schema:containedInPlace` on their identity, e.g.
  * https://ld.admin.ch/municipality/30 (Andelfingen). We fall back to their
  * latest version entity, whose district links to the canton.
+ *
+ * The latest version is used rather than the one valid in the price year:
+ * - A canton change creates a new municipality identity (Moutier: 700 in BE,
+ *   6831 in JU), so the canton is the same in all versions of an identity.
+ * - The fallback municipalities did not change name within the price years
+ *   (2011 onwards). Current municipalities that were renamed (e.g. 3871
+ *   Klosters-Serneus → Klosters) don't reach this fallback and show their
+ *   current name.
  */
 const getMunicipalitiesFromLatestVersion = async (
   client: ParsingClient,
