@@ -286,8 +286,11 @@ export const getMunicipalityLookup = async ({
     for (const id of missingIds) {
       const entry = municipalities.get(id);
       const fallback = fromVersions.get(id);
+      if (!entry && !fallback) {
+        // Not stored, so that unknown ids do not pile up in the cache
+        continue;
+      }
       const cantonSource = entry?.canton ? entry : fallback;
-      // Also stored when nothing was found, so it is not queried again
       municipalities.set(id, {
         name: entry?.name ?? fallback?.name,
         canton: cantonSource?.canton,
@@ -574,26 +577,20 @@ const buildDimensionFilter = (
 export const getMunicipality = async ({
   id,
   client,
+  locale,
 }: {
   id: string;
   client: ParsingClient;
+  locale: string;
 }): Promise<{ id: string; name: string } | null> => {
-  const iri = ns.addNamespaceToID({
-    dimension: "municipality",
-    id,
-  });
-
-  const sparql = `
-SELECT DISTINCT ?name {
-  <${iri}> <http://schema.org/name> ?name .
-}
-  `;
-
-  const result = (await client.query.select(sparql))[0] as {
-    name: Literal;
-  };
-
-  return result ? { id, name: result.name.value } : null;
+  // The id comes from the URL and ends up in the SPARQL query
+  if (!/^\d+$/.test(id)) {
+    return null;
+  }
+  const municipality = (
+    await getMunicipalityLookup({ client, ids: [id], locale })
+  ).get(id);
+  return municipality?.name ? { id, name: municipality.name } : null;
 };
 
 export const getCanton = async ({
