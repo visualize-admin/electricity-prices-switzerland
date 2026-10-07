@@ -12,9 +12,7 @@ import {
 } from "src/lib/csv-export";
 import { i18n, Locale, parseLocaleString } from "src/locales/locales";
 import {
-  getElectricityPriceObservations,
-  getElectricityPriceCube,
-  getView,
+  getObservations,
 } from "src/rdf/queries";
 import { getSparqlClientFromRequest } from "src/rdf/sparql-client";
 
@@ -213,11 +211,14 @@ const buildTariffCsv = async ({
 }) => {
   i18n.activate(locale);
   const dimensions = getDimensions();
-  const cube = await getElectricityPriceCube(client);
-  const view = getView(cube);
-
-  const observations = await getElectricityPriceObservations(
-    { source: cube.source, view, locale },
+  const observations = await getObservations(
+    {
+      client,
+      cube: "municipality",
+      locale,
+      // Not a GraphQL operation, named for CUBE_QUERY_SHADOW_OPERATIONS
+      operationName: "DataExport",
+    },
     {
       filters: {
         period: [period],

@@ -75,6 +75,19 @@ export const serverSchema = z.object({
     .optional()
     .transform((value) => (value ? value.split(",").map((s) => s.trim()) : [])),
 
+  // Cube queries: "cube-view" (rdf-cube-view-query), "vanilla" (hand-written SPARQL)
+  // or "shadow" (run both, return cube-view, report mismatches)
+  CUBE_QUERY_MODE: z
+    .enum(["cube-view", "vanilla", "shadow"])
+    .default("cube-view"),
+  // Shadow mode only: GraphQL operation names to compare, all when empty
+  CUBE_QUERY_SHADOW_OPERATIONS: z
+    .string()
+    .optional()
+    .transform((value) => (value ? value.split(",").map((s) => s.trim()) : [])),
+  // Shadow mode only: file to append one JSON line per comparison
+  CUBE_QUERY_SHADOW_LOG: z.string().optional(),
+
   // Admin authentication
   ADMIN_PASSWORD: z.string().optional(),
   ADMIN_JWT_SECRET: z.string().optional(),
