@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- GraphQL response cache can be shared between server instances through Redis, enabled by setting `REDIS_URL`. The admin caches page shows which backend is in use
 
 # 2.54.9 - 2026-10-01
 
