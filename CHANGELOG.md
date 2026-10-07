@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.55.1 - 2026-10-07
+
+- Update French Sunshine indicator descriptions (energy and network tariffs, network costs, outage information, SAIDI, SAIFI) from Accent
+
 # 2.55.0 - 2026-10-07
 
 - GraphQL response cache can be shared between server instances through Redis, enabled by setting `REDIS_URL`. The admin caches page shows which backend is in use (#779)
