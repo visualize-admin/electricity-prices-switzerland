@@ -12,7 +12,8 @@ export const InteractionHorizontal = React.memo(() => {
   const [, dispatch] = useInteraction();
   const ref = useRef<SVGGElement>(null);
 
-  const { data, bounds, getX, xScale, wide } = useChartState() as AreasState;
+  const { data, bounds, getX, getY, xScale, wide } =
+    useChartState() as AreasState;
 
   const { chartWidth, chartHeight, margins } = bounds;
 
@@ -36,20 +37,19 @@ export const InteractionHorizontal = React.memo(() => {
         ? dRight
         : dLeft;
 
-    if (closestDatum) {
+    const d = data.find(
+      (d) =>
+        getX(closestDatum).getTime() === getX(d).getTime() &&
+        getY(d) !== undefined
+    );
+
+    if (d) {
       dispatch({
         type: "INTERACTION_UPDATE",
-        value: {
-          interaction: {
-            visible: true,
-            mouse: { x, y },
-            d: data.find(
-              // FIXME: we should also filter on y
-              (d) => getX(closestDatum).getTime() === getX(d).getTime()
-            ),
-          },
-        },
+        value: { interaction: { visible: true, mouse: { x, y }, d } },
       });
+    } else {
+      hideTooltip();
     }
   };
   const hideTooltip = () => {
