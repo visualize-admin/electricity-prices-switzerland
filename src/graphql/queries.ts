@@ -977,7 +977,7 @@ export type PriceEvolutionOperatorMeanObservationsQueryVariables = Exact<{
 
 export type PriceEvolutionOperatorMeanObservationsQuery = {
   __typename: "Query";
-  operatorMeanObservations?: Array<{
+  observations?: Array<{
     __typename: "OperatorMeanObservation";
     period: string;
     operator: string;
@@ -1836,7 +1836,7 @@ export const PriceEvolutionOperatorMeanObservationsDocument = gql`
     $priceComponent: PriceComponent!
     $filters: ObservationFilters!
   ) {
-    operatorMeanObservations(locale: $locale, filters: $filters) {
+    observations: operatorMeanObservations(locale: $locale, filters: $filters) {
       period
       operator
       operatorLabel
