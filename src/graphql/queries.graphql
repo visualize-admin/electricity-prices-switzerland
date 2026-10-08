@@ -196,6 +196,20 @@ query PriceEvolutionObservations(
   }
 }
 
+query PriceEvolutionOperatorMeanObservations(
+  $locale: String!
+  $priceComponent: PriceComponent!
+  $filters: ObservationFilters!
+) {
+  operatorMeanObservations(locale: $locale, filters: $filters) {
+    period
+    operator
+    operatorLabel
+    category
+    value(priceComponent: $priceComponent)
+  }
+}
+
 query OperatorDocuments($id: String!, $locale: String!) {
   operator(id: $id, locale: $locale) {
     name

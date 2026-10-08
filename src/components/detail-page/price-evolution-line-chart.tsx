@@ -33,7 +33,6 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { averageOperatorObservationsByPeriod } from "src/domain/aggregate-observations";
 import {
   DetailPriceComponent,
   detailsPriceComponents,
@@ -50,6 +49,7 @@ import {
   PriceComponent as PriceComponentEnum,
   useObservationsWithAllPriceComponentsQuery,
   usePriceEvolutionObservationsQuery,
+  usePriceEvolutionOperatorMeanObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
@@ -196,19 +196,31 @@ export const PriceEvolution = ({
       filters,
       observationKind,
     },
-    pause: !mini,
+    pause: !mini || entity === "operator",
+  });
+  // One line per operator instead of one per municipality it serves
+  const [operatorMeanQuery] = usePriceEvolutionOperatorMeanObservationsQuery({
+    variables: {
+      locale,
+      priceComponent: priceComponent as PriceComponentEnum,
+      filters,
+    },
+    pause: !mini || entity !== "operator",
   });
 
-  const fetching = mini ? slimQuery.fetching : allQuery.fetching;
-  const slimObservations = slimQuery.data?.observations ?? EMPTY_ARRAY;
+  const fetching = !mini
+    ? allQuery.fetching
+    : entity === "operator"
+    ? operatorMeanQuery.fetching
+    : slimQuery.fetching;
+  const slimObservations =
+    entity === "operator"
+      ? operatorMeanQuery.data?.operatorMeanObservations ?? EMPTY_ARRAY
+      : slimQuery.data?.observations ?? EMPTY_ARRAY;
   const operatorObservations = fetching
     ? EMPTY_ARRAY
     : mini
-    ? // One line per operator instead of one per municipality it serves
-      (entity === "operator"
-        ? averageOperatorObservationsByPeriod(slimObservations)
-        : slimObservations
-      ).map((obs) => ({
+    ? slimObservations.map((obs) => ({
         ...obs,
         [priceComponent]: obs.value,
       }))
@@ -293,7 +305,8 @@ const PriceEvolutionLineChart = (props: {
   const formatAxis = useFormatAxisNumber();
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
-      obs.__typename === "OperatorObservation"
+      obs.__typename === "OperatorObservation" ||
+      obs.__typename === "OperatorMeanObservation"
         ? obs.municipalityLabel
           ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
           : obs.operatorLabel
