@@ -30,6 +30,16 @@ describe("getLineChartYScaleDomain", () => {
     expect(yMax).toBe(30);
     expect(Number.isFinite(yMin) && Number.isFinite(yMax)).toBe(true);
   });
+
+  it("goes from 0 to at least 5 when all values are equal", () => {
+    const data: GenericObservation[] = [
+      { period: "2026", value: 1.07 },
+      { period: "2027", value: 1.07 },
+    ];
+    expect(
+      getLineChartYScaleDomain(data, (d) => getLineYValue(d, "value"))
+    ).toEqual([0, 5]);
+  });
 });
 
 describe("getLineTooltipXPlacement", () => {
