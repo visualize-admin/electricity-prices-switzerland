@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
+import { LegendSymbol } from "src/components/charts-generic/legends/color";
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
 import {
   HistogramState,
@@ -149,7 +150,7 @@ export const AnnotationXDataPoint = () => {
   );
 };
 
-export const AnnotationXLabel = () => {
+export const AnnotationXLabel = ({ withSymbol }: { withSymbol?: boolean }) => {
   const { bounds, annotations, xAxisUnit } = useChartState() as
     | RangePlotState
     | HistogramState
@@ -164,7 +165,7 @@ export const AnnotationXLabel = () => {
           key={`${a.label}-${i}`}
           width={width}
           zIndex={2}
-          position="absolute"
+          position={withSymbol ? "static" : "absolute"}
           left={0}
           top={a.yLabel}
           textAlign="left"
@@ -173,17 +174,28 @@ export const AnnotationXLabel = () => {
           color={annotationColor}
           bgcolor="transparent"
           lineHeight={1.5}
+          display={withSymbol ? "flex" : undefined}
+          alignItems="flex-start"
+          gap={3}
+          mb={withSymbol ? 3 : undefined}
           sx={{
             pointerEvents: "none",
-            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
+            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, ${withSymbol ? "-1.2em" : "-40%"}, 0)`,
             hyphens: "auto",
             wordBreak: "break-word",
           }}
         >
-          <Box component="span" fontWeight={700}>
-            {a.value} {xAxisUnit}{" "}
-          </Box>
-          {a.label}
+          {withSymbol && (
+            <Box display="flex" position="relative" top="0.75em">
+              <LegendSymbol symbol="line" color={annotationColor} />
+            </Box>
+          )}
+          <span>
+            <Box component="span" fontWeight={700}>
+              {a.value} {xAxisUnit}{" "}
+            </Box>
+            {a.label}
+          </span>
         </Box>
       ))}
     </>
