@@ -234,6 +234,17 @@ export const PriceEvolution = ({
       }))
     : allQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
   const observations = [...operatorObservations, ...cantonObservations];
+  if (entity === "operator" && !mini) {
+    const colorOrder = [id, ...(comparisonIds ?? [])];
+    const rank = (obs: GenericObservation) => {
+      const index = colorOrder.indexOf(String(obs.operator));
+      return index === -1 ? colorOrder.length : index;
+    };
+    observations.sort(
+      (a, b) =>
+        rank(a as GenericObservation) - rank(b as GenericObservation)
+    );
+  }
 
   return fetching ? (
     mini ? (
