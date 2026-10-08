@@ -31,6 +31,7 @@ generates:
         CantonMedianObservation: "./resolver-mapped-types#ResolvedCantonMedianObservation"
         SwissMedianObservation: "./resolver-mapped-types#ResolvedSwissMedianObservation"
         OperatorObservation: "./resolver-mapped-types#ResolvedOperatorObservation"
+        OperatorMeanObservation: "./resolver-mapped-types#ResolvedOperatorMeanObservation"
         MunicipalityResult: "./resolver-mapped-types#ResolvedSearchResult"
         OperatorResult: "./resolver-mapped-types#ResolvedSearchResult"
         CantonResult: "./resolver-mapped-types#ResolvedSearchResult"
