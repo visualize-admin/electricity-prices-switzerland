@@ -128,6 +128,16 @@ type OperatorObservation @cacheControl(maxAge: 300) {
   coverageRatio: Float!
 }
 
+"Operator figure: mean of the operator's values across the municipalities it serves"
+type OperatorMeanObservation @cacheControl(maxAge: 300) {
+  operator: String!
+  operatorLabel: String
+  category: String!
+  period: String!
+
+  value(priceComponent: PriceComponent!): Float
+}
+
 type CantonMedianObservation @cacheControl(maxAge: 300) {
   canton: String!
   cantonLabel: String
@@ -239,6 +249,12 @@ type Query {
     "When true, also returns operator observations below the coverage ratio threshold that are normally excluded. Intended for debugging coverage filtering, not for production use."
     includeBelowCoverageThreshold: Boolean
   ): [OperatorObservation!] @cacheControl(maxAge: 300)
+
+  "One observation per operator, category and period, after coverage filtering"
+  operatorMeanObservations(
+    locale: String
+    filters: ObservationFilters
+  ): [OperatorMeanObservation!] @cacheControl(maxAge: 300)
 
   cantonMedianObservations(
     locale: String

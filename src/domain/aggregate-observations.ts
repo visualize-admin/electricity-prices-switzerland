@@ -47,33 +47,49 @@ export const getOperatorMeanValue = (
 ): number | null => mean(observations, (d) => d.value ?? undefined) ?? null;
 
 /**
- * One observation per operator and period, valued with `getOperatorMeanValue`.
- * Municipality fields are cleared as the result spans several municipalities.
+ * Server-side operator figures: one row per operator, category and period,
+ * each requested price component (`valueKeys`) valued with
+ * `getOperatorMeanValue` across the operator's municipalities.
  */
-export const averageOperatorObservationsByPeriod = <
-  T extends {
-    operator: string;
-    period: string;
-    value?: number | null;
-    municipality: string;
-    municipalityLabel?: string | null;
-  }
->(
-  observations: T[]
-): T[] =>
+export const averageResolvedObservationsByOperator = (
+  observations: ({
+    operator?: string;
+    operatorLabel?: string | null;
+    category?: string;
+    period?: string;
+  } & Record<string, unknown>)[],
+  valueKeys: string[]
+) =>
   Array.from(
     group(
       observations,
       (d) => d.operator,
+      (d) => d.category,
       (d) => d.period
     ).values()
-  ).flatMap((observationsByPeriod) =>
-    Array.from(observationsByPeriod.values(), (periodObservations) => ({
-      ...periodObservations[0],
-      municipality: "",
-      municipalityLabel: null,
-      value: getOperatorMeanValue(periodObservations),
-    }))
+  ).flatMap((byCategory) =>
+    Array.from(byCategory.values()).flatMap((byPeriod) =>
+      Array.from(byPeriod.values(), (periodObservations) => {
+        const { operator, operatorLabel, category, period } =
+          periodObservations[0];
+        return {
+          operator,
+          operatorLabel,
+          category,
+          period,
+          ...Object.fromEntries(
+            valueKeys.map((key) => [
+              key,
+              getOperatorMeanValue(
+                periodObservations.map((d) => ({
+                  value: d[key] as number | null | undefined,
+                }))
+              ),
+            ])
+          ),
+        };
+      })
+    )
   );
 
 type AggregatedEnergyOperatorObservation = {
@@ -118,11 +134,11 @@ const aggregateFnPerIndicator: Record<
  */
 export const getSunshineOperatorValue = (
   observations: { value?: Maybe<number> }[],
-  indicator: SunshineIndicator,
+  indicator: SunshineIndicator
 ): Maybe<number> =>
   aggregateFnPerIndicator[indicator](
     // Rows without a value are ignored, as in the list
-    observations.map((obs) => obs.value).filter(isDefined),
+    observations.map((obs) => obs.value).filter(isDefined)
   ) ?? null;
 
 /**
@@ -133,7 +149,7 @@ export const aggregateSunshineObservationsByOperator = (
   observationsByOperatorMap:
     | Map<string, SunshineDataIndicatorRow[]>
     | undefined,
-  indicator: SunshineIndicator,
+  indicator: SunshineIndicator
 ): Record<string, SunshineDataIndicatorRow> => {
   if (!observationsByOperatorMap) {
     return {};
@@ -147,8 +163,8 @@ export const aggregateSunshineObservationsByOperator = (
           ...observations[0],
           value: getSunshineOperatorValue(observations, indicator),
         },
-      ],
-    ),
+      ]
+    )
   );
 };
 
@@ -156,7 +172,7 @@ export const aggregateSunshineObservationsByOperator = (
  * Aggregates energy prices observations by operator using mean aggregation.
  */
 export const aggregateEnergyPricesObservationsByOperator = (
-  observationsByOperatorMap: Map<string, EnergyPricesObservation[]> | undefined,
+  observationsByOperatorMap: Map<string, EnergyPricesObservation[]> | undefined
 ): Record<string, AggregatedEnergyOperatorObservation> => {
   if (!observationsByOperatorMap) {
     return {};
@@ -171,7 +187,7 @@ export const aggregateEnergyPricesObservationsByOperator = (
           value: getOperatorMeanValue(observations),
           period: observations[0].period,
         },
-      ],
-    ),
+      ]
+    )
   );
 };

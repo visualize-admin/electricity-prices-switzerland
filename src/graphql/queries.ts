@@ -268,6 +268,21 @@ export enum OperatorDocumentCategory {
   Tariffs = "TARIFFS",
 }
 
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservation = {
+  __typename: "OperatorMeanObservation";
+  category: Scalars["String"]["output"];
+  operator: Scalars["String"]["output"];
+  operatorLabel?: Maybe<Scalars["String"]["output"]>;
+  period: Scalars["String"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservationValueArgs = {
+  priceComponent: PriceComponent;
+};
+
 export type OperatorMunicipality = {
   __typename: "OperatorMunicipality";
   canton: Scalars["String"]["output"];
@@ -368,6 +383,8 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
+  /** One observation per operator, category and period, after coverage filtering */
+  operatorMeanObservations?: Maybe<Array<OperatorMeanObservation>>;
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
@@ -452,6 +469,11 @@ export type QueryOperatorArgs = {
   geverId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryOperatorMeanObservationsArgs = {
+  filters?: InputMaybe<ObservationFilters>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
@@ -944,6 +966,24 @@ export type PriceEvolutionObservationsQuery = {
     cantonLabel?: string | null;
     category: string;
     value: number;
+  }> | null;
+};
+
+export type PriceEvolutionOperatorMeanObservationsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+  priceComponent: PriceComponent;
+  filters: ObservationFilters;
+}>;
+
+export type PriceEvolutionOperatorMeanObservationsQuery = {
+  __typename: "Query";
+  operatorMeanObservations?: Array<{
+    __typename: "OperatorMeanObservation";
+    period: string;
+    operator: string;
+    operatorLabel?: string | null;
+    category: string;
+    value?: number | null;
   }> | null;
 };
 
@@ -1789,6 +1829,33 @@ export function usePriceEvolutionObservationsQuery(
     PriceEvolutionObservationsQuery,
     PriceEvolutionObservationsQueryVariables
   >({ query: PriceEvolutionObservationsDocument, ...options });
+}
+export const PriceEvolutionOperatorMeanObservationsDocument = gql`
+  query PriceEvolutionOperatorMeanObservations(
+    $locale: String!
+    $priceComponent: PriceComponent!
+    $filters: ObservationFilters!
+  ) {
+    operatorMeanObservations(locale: $locale, filters: $filters) {
+      period
+      operator
+      operatorLabel
+      category
+      value(priceComponent: $priceComponent)
+    }
+  }
+`;
+
+export function usePriceEvolutionOperatorMeanObservationsQuery(
+  options: Omit<
+    Urql.UseQueryArgs<PriceEvolutionOperatorMeanObservationsQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    PriceEvolutionOperatorMeanObservationsQuery,
+    PriceEvolutionOperatorMeanObservationsQueryVariables
+  >({ query: PriceEvolutionOperatorMeanObservationsDocument, ...options });
 }
 export const OperatorDocumentsDocument = gql`
   query OperatorDocuments($id: String!, $locale: String!) {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  averageOperatorObservationsByPeriod,
+  averageResolvedObservationsByOperator,
   getMunicipalityValue,
   getOperatorMeanValue,
   getSunshineOperatorValue,
@@ -72,54 +72,70 @@ describe("getOperatorMeanValue", () => {
   });
 });
 
-describe("averageOperatorObservationsByPeriod", () => {
+describe("averageResolvedObservationsByOperator", () => {
   const obs = (
     operator: string,
+    category: string,
     period: string,
     municipality: string,
-    value: number | null
+    total: number | null,
+    energy: number
   ) => ({
     operator,
     operatorLabel: `Operator ${operator}`,
+    category,
     period,
     municipality,
     municipalityLabel: `Municipality ${municipality}`,
-    value,
+    total,
+    energy,
   });
 
-  it("returns one observation per operator and period", () => {
-    const result = averageOperatorObservationsByPeriod([
-      obs("bkw", "2026", "1", 1.0),
-      obs("bkw", "2026", "2", 2.0),
-      obs("bkw", "2027", "1", 3.0),
-      obs("bkw", "2027", "2", null),
-      obs("ckw", "2026", "3", 5.0),
-    ]);
+  it("averages each price component per operator, category and period", () => {
+    const result = averageResolvedObservationsByOperator(
+      [
+        obs("bkw", "H4", "2026", "1", 10, 4),
+        obs("bkw", "H4", "2026", "2", 20, 6),
+        obs("bkw", "H4", "2027", "1", 30, 8),
+        obs("bkw", "H4", "2027", "2", null, 10),
+        obs("bkw", "C2", "2026", "1", 40, 2),
+        obs("ckw", "H4", "2026", "3", 50, 12),
+      ],
+      ["total", "energy"]
+    );
 
     expect(result).toEqual([
       {
         operator: "bkw",
         operatorLabel: "Operator bkw",
+        category: "H4",
         period: "2026",
-        municipality: "",
-        municipalityLabel: null,
-        value: 1.5,
+        total: 15,
+        energy: 5,
       },
       {
         operator: "bkw",
         operatorLabel: "Operator bkw",
+        category: "H4",
         period: "2027",
-        municipality: "",
-        municipalityLabel: null,
-        value: 3.0,
+        total: 30,
+        energy: 9,
+      },
+      {
+        operator: "bkw",
+        operatorLabel: "Operator bkw",
+        category: "C2",
+        period: "2026",
+        total: 40,
+        energy: 2,
       },
       {
         operator: "ckw",
         operatorLabel: "Operator ckw",
+        category: "H4",
         period: "2026",
-        municipality: "",
-        municipalityLabel: null,
-        value: 5.0,
+        total: 50,
+        energy: 12,
       },
     ]);
   });
