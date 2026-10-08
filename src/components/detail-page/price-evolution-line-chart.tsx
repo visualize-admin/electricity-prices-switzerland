@@ -103,7 +103,7 @@ export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} />
+          <FilterSetDescription filters={filters} hideYear />
         </CardDescription>
       </CardHeader>
       <Box display={["none", "none", "block"]}>

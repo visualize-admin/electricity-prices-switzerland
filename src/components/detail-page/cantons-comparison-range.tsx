@@ -1,8 +1,8 @@
 import { t, Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { groups } from "d3";
-import { memo, useEffect, useState } from "react";
+import { Fragment, memo, useEffect, useState } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import {
@@ -119,6 +119,8 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
     ? [...comparisonIds, id]
     : [id];
 
+  const sortedPeriods = [...period].sort();
+
   const filters = {
     period: period[0],
     category: category[0],
@@ -156,7 +158,10 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} />
+          <FilterSetDescription
+            filters={filters}
+            hideYear={sortedPeriods.length > 1}
+          />
         </CardDescription>
       </CardHeader>
       {!download && (
@@ -244,18 +249,26 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
-      {period.map((p) => (
-        <CantonsComparisonRangePlot
-          key={p}
-          year={p}
-          priceComponent={priceComponent[0] as PriceComponent}
-          category={category}
-          product={product}
-          annotationIds={annotationIds}
-          entity={entity}
-          sortingType={sortingType}
-          sortingOrder={sortingOrder}
-        />
+      {sortedPeriods.map((p) => (
+        <Fragment key={p}>
+          {sortedPeriods.length > 1 && (
+            <Typography variant="subtitle2">
+              <Trans id="detail.card.subtitle.year" values={{ period: p }}>
+                Year: {p}
+              </Trans>
+            </Typography>
+          )}
+          <CantonsComparisonRangePlot
+            year={p}
+            priceComponent={priceComponent[0] as PriceComponent}
+            category={category}
+            product={product}
+            annotationIds={annotationIds}
+            entity={entity}
+            sortingType={sortingType}
+            sortingOrder={sortingOrder}
+          />
+        </Fragment>
       ))}
       {/*FIXME: placeholder values */}
       {/* <CardFooter date="March 7, 2024, 1:28 PM" source="Lindas" /> */}

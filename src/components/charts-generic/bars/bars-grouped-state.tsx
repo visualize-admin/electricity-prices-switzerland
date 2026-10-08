@@ -143,10 +143,15 @@ const useGroupedBarsState = ({
             .filter(Boolean)
             .join(" ")
         : "";
-      const full = prefix ? `${prefix} ${getLabel(d)}` : getLabel(d);
+      const lead =
+        isMainRow && opacityDomain.length > 1 ? `${getOpacity(d)}: ` : "";
+      const full = prefix
+        ? `${lead}${prefix}, ${getLabel(d)}`
+        : getLabel(d);
       const lines = wrapText(full, wrapWidth, labelFontSize);
       return {
         segment,
+        lead,
         prefix,
         lines,
         height: isMainRow ? barFullHeight : 14,
@@ -172,7 +177,7 @@ const useGroupedBarsState = ({
   const labelsBySegment = Object.fromEntries(
     labeledRows.map((row) => [
       row.segment,
-      { prefix: row.prefix, lines: row.lines },
+      { lead: row.lead, prefix: row.prefix, lines: row.lines },
     ])
   );
 

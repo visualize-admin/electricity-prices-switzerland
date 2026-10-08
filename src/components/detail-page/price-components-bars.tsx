@@ -230,7 +230,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} />
+          <FilterSetDescription filters={filters} hideYear={period.length > 1} />
         </CardDescription>
       </CardHeader>
       {!download && entity !== "canton" && mirrorEntities.length > 1 && (
