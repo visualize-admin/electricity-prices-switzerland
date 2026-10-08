@@ -47,36 +47,6 @@ export const getOperatorMeanValue = (
 ): number | null => mean(observations, (d) => d.value ?? undefined) ?? null;
 
 /**
- * One observation per operator and period, valued with `getOperatorMeanValue`.
- * Municipality fields are cleared as the result spans several municipalities.
- */
-export const averageOperatorObservationsByPeriod = <
-  T extends {
-    operator: string;
-    period: string;
-    value?: number | null;
-    municipality: string;
-    municipalityLabel?: string | null;
-  }
->(
-  observations: T[]
-): T[] =>
-  Array.from(
-    group(
-      observations,
-      (d) => d.operator,
-      (d) => d.period
-    ).values()
-  ).flatMap((observationsByPeriod) =>
-    Array.from(observationsByPeriod.values(), (periodObservations) => ({
-      ...periodObservations[0],
-      municipality: "",
-      municipalityLabel: null,
-      value: getOperatorMeanValue(periodObservations),
-    }))
-  );
-
-/**
  * Server-side operator figures: one row per operator, category and period,
  * each requested price component (`valueKeys`) valued with
  * `getOperatorMeanValue` across the operator's municipalities.
