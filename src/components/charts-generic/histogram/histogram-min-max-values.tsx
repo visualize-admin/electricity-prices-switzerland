@@ -20,7 +20,7 @@ export const HistogramMinMaxValues = () => {
   const maxValue = max(data, (d) => getX(d));
   return (
     <>
-      {minValue && (
+      {minValue !== undefined && (
         <g
           transform={`translate(${margins.left + xScale(minValue)} ${
             margins.top
@@ -30,6 +30,10 @@ export const HistogramMinMaxValues = () => {
             x={0}
             y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: domainColor,
@@ -43,6 +47,10 @@ export const HistogramMinMaxValues = () => {
             x={0}
             y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize * 2.4}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: labelColor,
@@ -64,6 +72,10 @@ export const HistogramMinMaxValues = () => {
             x={0}
             y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: domainColor,
@@ -77,6 +89,10 @@ export const HistogramMinMaxValues = () => {
             x={0}
             y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize * 2.4}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: labelColor,
