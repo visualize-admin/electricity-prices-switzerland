@@ -61,36 +61,24 @@ export const averageResolvedObservationsByOperator = (
   valueKeys: string[]
 ) =>
   Array.from(
-    group(
-      observations,
-      (d) => d.operator,
-      (d) => d.category,
-      (d) => d.period
-    ).values()
-  ).flatMap((byCategory) =>
-    Array.from(byCategory.values()).flatMap((byPeriod) =>
-      Array.from(byPeriod.values(), (periodObservations) => {
-        const { operator, operatorLabel, category, period } =
-          periodObservations[0];
-        return {
-          operator,
-          operatorLabel,
-          category,
-          period,
-          ...Object.fromEntries(
-            valueKeys.map((key) => [
-              key,
-              getOperatorMeanValue(
-                periodObservations.map((d) => ({
-                  value: d[key] as number | null | undefined,
-                }))
-              ),
-            ])
+    group(observations, (d) => [d.operator, d.category, d.period].join("|"))
+  ).map(([, rows]) => {
+    const { operator, operatorLabel, category, period } = rows[0];
+    return {
+      operator,
+      operatorLabel,
+      category,
+      period,
+      ...Object.fromEntries(
+        valueKeys.map((key) => [
+          key,
+          getOperatorMeanValue(
+            rows.map((d) => ({ value: d[key] as number | null | undefined }))
           ),
-        };
-      })
-    )
-  );
+        ])
+      ),
+    };
+  });
 
 type AggregatedEnergyOperatorObservation = {
   value: number | null;

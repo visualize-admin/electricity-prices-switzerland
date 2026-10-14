@@ -201,7 +201,7 @@ query PriceEvolutionOperatorMeanObservations(
   $priceComponent: PriceComponent!
   $filters: ObservationFilters!
 ) {
-  operatorMeanObservations(locale: $locale, filters: $filters) {
+  observations: operatorMeanObservations(locale: $locale, filters: $filters) {
     period
     operator
     operatorLabel

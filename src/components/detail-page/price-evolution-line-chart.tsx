@@ -208,32 +208,29 @@ export const PriceEvolution = ({
     pause: !mini || entity !== "operator",
   });
 
-  const fetching = !mini
-    ? allQuery.fetching
+  // The only query not paused above
+  const relevantQuery = !mini
+    ? allQuery
     : entity === "operator"
-    ? operatorMeanQuery.fetching
-    : slimQuery.fetching;
-  const slimObservations =
-    entity === "operator"
-      ? operatorMeanQuery.data?.operatorMeanObservations ?? EMPTY_ARRAY
-      : slimQuery.data?.observations ?? EMPTY_ARRAY;
-  const operatorObservations = fetching
-    ? EMPTY_ARRAY
-    : mini
-    ? slimObservations.map((obs) => ({
+    ? operatorMeanQuery
+    : slimQuery;
+  const { fetching, data: relevantData } = relevantQuery;
+  const relevantObservations: GenericObservation[] =
+    fetching || !relevantData
+      ? EMPTY_ARRAY
+      : [
+          ...(relevantData.observations ?? EMPTY_ARRAY),
+          ...(("cantonMedianObservations" in relevantData &&
+            relevantData.cantonMedianObservations) ||
+            EMPTY_ARRAY),
+        ];
+  // Mini queries fetch a single price component as `value`
+  const observations = mini
+    ? relevantObservations.map((obs) => ({
         ...obs,
         [priceComponent]: obs.value,
       }))
-    : allQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonObservations = fetching
-    ? EMPTY_ARRAY
-    : mini
-    ? (slimQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY).map((obs) => ({
-        ...obs,
-        [priceComponent]: obs.value,
-      }))
-    : allQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const observations = [...operatorObservations, ...cantonObservations];
+    : relevantObservations;
 
   return fetching ? (
     mini ? (
@@ -249,7 +246,7 @@ export const PriceEvolution = ({
     <div className={DOWNLOAD_ID}>
       <WithClassName downloadId={DOWNLOAD_ID} isFetching={fetching}>
         <PriceEvolutionLineCharts
-          observations={observations as GenericObservation[]}
+          observations={observations}
           entity={entity}
           priceComponents={priceComponents}
           mini={mini}
