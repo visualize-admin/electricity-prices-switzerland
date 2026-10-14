@@ -40,6 +40,7 @@ import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
+  ObservationsWithAllPriceComponentsQuery,
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "src/graphql/queries";
@@ -51,6 +52,8 @@ import { FilterSetDescription } from "./filter-set-description";
 const DOWNLOAD_ID: Download = "components";
 
 type CollapsedState = "collapsed" | "expanded";
+
+type QueryState = ReturnType<typeof useQueryStateEnergyPricesDetails>[0];
 
 export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
@@ -93,15 +96,56 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       operatorIds: entity === "operator" ? entityIds : [],
     },
   });
-  const operatorObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const operatorNames = new Map(
-    observationsQuery.data?.operators.map((o) => [o.id, o.name])
+
+  return (
+    <PriceComponentsCard
+      id={id}
+      entity={entity}
+      data={observationsQuery.data}
+      fetching={observationsQuery.fetching}
+      period={period}
+      category={category}
+      product={product}
+      operator={operator}
+      view={view}
+      download={download}
+      setView={(view) => setQueryState({ view: [view] })}
+    />
   );
+};
+
+/**
+ * Renders the price components of an entity. Takes the fetched data as
+ * props, so it can be rendered without urql or the router.
+ */
+export const PriceComponentsCard = ({
+  id,
+  entity,
+  data,
+  fetching,
+  period,
+  category,
+  product,
+  operator,
+  view,
+  download,
+  setView,
+}: SectionProps &
+  Pick<
+    QueryState,
+    "period" | "category" | "product" | "operator" | "view" | "download"
+  > & {
+    data: ObservationsWithAllPriceComponentsQuery | undefined;
+    fetching: boolean;
+    setView: (view: CollapsedState) => void;
+  }) => {
+  const operatorObservations = fetching
+    ? EMPTY_ARRAY
+    : data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = fetching
+    ? EMPTY_ARRAY
+    : data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const operatorNames = new Map(data?.operators.map((o) => [o.id, o.name]));
 
   const {
     perPriceComponent,
@@ -181,7 +225,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   }, [operatorObservations, cantonObservations, view, entity, id, operator]);
 
   const operatorsWithoutObservations =
-    entity === "operator" && !observationsQuery.fetching
+    entity === "operator" && !fetching
       ? colorDomain.filter(
           (operatorId) =>
             !operatorObservations.some((o) => o.operator === operatorId)
@@ -273,7 +317,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                 },
               ]}
               value={view[0]}
-              setValue={(view) => setQueryState({ view: [view] })}
+              setValue={(view) => setView(view)}
             />
           </Box>
           <Box display={["block", "block", "none"]}>
@@ -283,7 +327,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               items={["collapsed", "expanded"]}
               getItemLabel={getItemLabel}
               selectedItem={view[0]}
-              setSelectedItem={(view) => setQueryState({ view: [view] })}
+              setSelectedItem={(view) => setView(view)}
               showLabel={false}
             />
           </Box>
@@ -314,17 +358,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           )}
         </Box>
       )}
-      {observationsQuery.fetching ? (
+      {fetching ? (
         <Box minHeight={650} display="flex">
           <Loading delayMs={0} />
         </Box>
       ) : perPriceComponent.length === 0 ? (
         <NoDataHint />
       ) : (
-        <WithClassName
-          downloadId={DOWNLOAD_ID}
-          isFetching={observationsQuery.fetching}
-        >
+        <WithClassName downloadId={DOWNLOAD_ID} isFetching={fetching}>
           {entity === "operator" && (
             <Box display="flex" flexWrap="wrap" gap={1} mb={4}>
               {/* Index in colorDomain keeps the legend colors in sync with the bars */}
