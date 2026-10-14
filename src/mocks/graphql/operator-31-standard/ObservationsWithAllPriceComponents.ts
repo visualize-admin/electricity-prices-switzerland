@@ -2,6 +2,7 @@
 // by `pnpm mocks:graphql`. Re-record instead of editing by hand.
 import type { ObservationsWithAllPriceComponentsQuery } from "src/graphql/queries";
 
+/** @knipignore */
 export const variables = {
   filters: {
     category: ["H4"],

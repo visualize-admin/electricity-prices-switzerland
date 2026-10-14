@@ -182,7 +182,7 @@ export const NoContentHint = () => (
   </Box>
 );
 
-export type HintSeverity = "info" | "success" | "warning" | "error";
+type HintSeverity = "info" | "success" | "warning" | "error";
 
 const severityIcons: Record<HintSeverity, IconName> = {
   info: "infocircle",

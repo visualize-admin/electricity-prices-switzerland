@@ -52,6 +52,7 @@ const toModule = (url: string, { operationName, variables, data }: Recorded) =>
 // by \`pnpm mocks:graphql\`. Re-record instead of editing by hand.
 import type { ${operationName}Query } from "src/graphql/queries";
 
+/** @knipignore */
 export const variables = ${JSON.stringify(variables, null, 2)};
 
 export const data: ${operationName}Query = ${JSON.stringify(
