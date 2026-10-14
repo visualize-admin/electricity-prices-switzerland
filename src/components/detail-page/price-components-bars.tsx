@@ -90,6 +90,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         entity === "canton"
           ? ObservationKind.Canton
           : ObservationKind.Municipality,
+      operatorIds: entity === "operator" ? entityIds : [],
     },
   });
   const operatorObservations = observationsQuery.fetching
@@ -98,6 +99,9 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const cantonObservations = observationsQuery.fetching
     ? EMPTY_ARRAY
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const operatorNames = new Map(
+    observationsQuery.data?.operators.map((o) => [o.id, o.name])
+  );
 
   const {
     perPriceComponent,
@@ -173,6 +177,14 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       ),
     };
   }, [operatorObservations, cantonObservations, view, entity, id, operator]);
+
+  const operatorsWithoutObservations =
+    entity === "operator" && !observationsQuery.fetching
+      ? colorDomain.filter(
+          (operatorId) =>
+            !operatorObservations.some((o) => o.operator === operatorId)
+        )
+      : [];
 
   const getItemLabel = (id: CollapsedState) => {
     if (entity === "canton") {
@@ -282,6 +294,20 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Trans>
         </Hint>
       )}
+      {operatorsWithoutObservations.length > 0 && (
+        <Hint severity="warning">
+          <Trans id="price-components.operators-without-observations">
+            We have no observations for the following operators:
+          </Trans>
+          <Box component="ul" m={0} pl={5}>
+            {operatorsWithoutObservations.map((operatorId) => (
+              <li key={operatorId}>
+                {operatorNames.get(operatorId) ?? operatorId}
+              </li>
+            ))}
+          </Box>
+        </Hint>
+      )}
       {observationsQuery.fetching ? (
         <Box minHeight={650} display="flex">
           <Loading delayMs={0} />
@@ -298,10 +324,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               {colorDomain.map((operatorId, i) => (
                 <LegendItem
                   key={operatorId}
-                  item={
-                    operatorObservations.find((o) => o.operator === operatorId)
-                      ?.operatorLabel ?? operatorId
-                  }
+                  item={operatorNames.get(operatorId) ?? operatorId}
                   color={getPalette("elcom")[i]}
                   symbol="square"
                 />

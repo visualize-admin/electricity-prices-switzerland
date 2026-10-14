@@ -908,10 +908,14 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale: Scalars["String"]["input"];
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
+  operatorIds?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type ObservationsWithAllPriceComponentsQuery = {
   __typename: "Query";
+  operators: Array<{ __typename: "OperatorResult"; id: string; name: string }>;
   observations?: Array<{
     __typename: "OperatorObservation";
     period: string;
@@ -1762,7 +1766,12 @@ export const ObservationsWithAllPriceComponentsDocument = gql`
     $locale: String!
     $filters: ObservationFilters!
     $observationKind: ObservationKind
+    $operatorIds: [String!]
   ) {
+    operators: searchOperators(locale: $locale, ids: $operatorIds) {
+      id
+      name
+    }
     observations(
       locale: $locale
       filters: $filters

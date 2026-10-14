@@ -226,7 +226,7 @@ export const Hint = ({
         color={palette[severity].main}
       />
     </Box>
-    <Typography variant="body3" textAlign="left">
+    <Typography variant="body3" component="div" textAlign="left">
       {children}
     </Typography>
     {onRemove && (

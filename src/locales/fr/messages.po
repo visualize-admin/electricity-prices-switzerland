@@ -1010,6 +1010,10 @@ msgstr "Total"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non planifié"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "price-components.operators-without-observations"
+msgstr "Nous n'avons pas de données pour les gestionnaires de réseau suivants :"
+
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"
