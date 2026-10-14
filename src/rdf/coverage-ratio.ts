@@ -54,7 +54,7 @@ const cacheCoverageRatios = async (
   client: ParsingClient,
   year: string
 ): Promise<Map<string, number>> => {
-  const cacheKey = `coverage-ratios-${year}`;
+  const cacheKey = `coverage-ratios-${client.query.endpoint.endpointUrl}-${year}`;
 
   const cached = coveragesByYearCache.get(cacheKey);
   if (cached) {
