@@ -287,26 +287,30 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
-      {hasDynamicTariffs && (
-        <Hint severity="info">
-          <Trans id="dynamic-tariffs.hint">
-            Prices shown with values in brackets are dynamic.
-          </Trans>
-        </Hint>
-      )}
-      {operatorsWithoutObservations.length > 0 && (
-        <Hint severity="warning">
-          <Trans id="price-components.operators-without-observations">
-            We have no observations for the following operators:
-          </Trans>
-          <Box component="ul" m={0} pl={5}>
-            {operatorsWithoutObservations.map((operatorId) => (
-              <li key={operatorId}>
-                {operatorNames.get(operatorId) ?? operatorId}
-              </li>
-            ))}
-          </Box>
-        </Hint>
+      {(hasDynamicTariffs || operatorsWithoutObservations.length > 0) && (
+        <Box display="flex" flexDirection="column" gap={4}>
+          {hasDynamicTariffs && (
+            <Hint severity="info">
+              <Trans id="dynamic-tariffs.hint">
+                Prices shown with values in brackets are dynamic.
+              </Trans>
+            </Hint>
+          )}
+          {operatorsWithoutObservations.length > 0 && (
+            <Hint severity="warning">
+              <Trans id="price-components.operators-without-prices">
+                We have no prices for the following operators:
+              </Trans>
+              <Box component="ul" m={0} pl={5}>
+                {operatorsWithoutObservations.map((operatorId) => (
+                  <li key={operatorId}>
+                    {operatorNames.get(operatorId) ?? operatorId}
+                  </li>
+                ))}
+              </Box>
+            </Hint>
+          )}
+        </Box>
       )}
       {observationsQuery.fetching ? (
         <Box minHeight={650} display="flex">
@@ -321,14 +325,17 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         >
           {entity === "operator" && (
             <Box display="flex" flexWrap="wrap" gap={1} mb={4}>
-              {colorDomain.map((operatorId, i) => (
-                <LegendItem
-                  key={operatorId}
-                  item={operatorNames.get(operatorId) ?? operatorId}
-                  color={getPalette("elcom")[i]}
-                  symbol="square"
-                />
-              ))}
+              {/* Index in colorDomain keeps the legend colors in sync with the bars */}
+              {colorDomain.map((operatorId, i) =>
+                operatorsWithoutObservations.includes(operatorId) ? null : (
+                  <LegendItem
+                    key={operatorId}
+                    item={operatorNames.get(operatorId) ?? operatorId}
+                    color={getPalette("elcom")[i]}
+                    symbol="square"
+                  />
+                )
+              )}
             </Box>
           )}
           {perPriceComponent.map(([priceComponent, observations], i) => {

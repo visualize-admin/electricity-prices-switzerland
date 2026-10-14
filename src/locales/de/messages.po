@@ -1008,8 +1008,8 @@ msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Ungeplant"
 
 #: src/components/detail-page/price-components-bars.tsx
-msgid "price-components.operators-without-observations"
-msgstr "Für die folgenden Netzbetreiber liegen keine Daten vor:"
+msgid "price-components.operators-without-prices"
+msgstr "Für die folgenden Netzbetreiber liegen keine Preise vor:"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
