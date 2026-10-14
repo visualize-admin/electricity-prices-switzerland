@@ -13,6 +13,13 @@ You can also check the
 
 Nothing yet.
 
+# 2.56.0 - 2026-10-14
+
+- Electricity tariff tabs label years consistently when multiple years are selected: Canton Comparison shows "Year: …" above each chart, Tariffs Development and Price Components no longer show a single year in the subtitle, and Price Components bar labels start with their year (ELC-729, #780)
+- Operator price evolution chart in the map details panel fetches one averaged row per period from the new `operatorMeanObservations` GraphQL field instead of every municipality row (BKW: 1.4 MB → 2.6 kB) (#781, #785)
+- Operator page loads the documents for the "Download reports & tariffs" popover only when the popover is first opened, instead of on every page load (#782)
+- Hand-written SPARQL for the cube queries (observations, dimension values, cube health), selected with `CUBE_QUERY_MODE` (`cube-view` default, `vanilla`, or `shadow` to compare both in the background and report mismatches). No change unless the variable is set (#786)
+
 # 2.55.1 - 2026-10-07
 
 - Update French Sunshine indicator descriptions (energy and network tariffs, network costs, outage information, SAIDI, SAIFI) from Accent
