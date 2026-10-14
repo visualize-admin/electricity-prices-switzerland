@@ -1,0 +1,14 @@
+# Git hooks, opt-in: see docs/git-hooks.md
+pre-push:
+  parallel: true
+  commands:
+    lint:
+      run: pnpm run lint
+    knip:
+      run: pnpm exec knip
+    types:
+      run: pnpm exec tsgo
+    locales:
+      glob: "src/**/*.{ts,tsx}"
+      run: pnpm locales:extract && git diff --exit-code src/locales
+      fail_text: "Locales are out of date: commit the changes from pnpm locales:extract"
