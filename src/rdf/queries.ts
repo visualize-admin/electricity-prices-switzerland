@@ -6,7 +6,6 @@ import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
-import { LRUCache } from "typescript-lru-cache";
 
 import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
@@ -17,6 +16,7 @@ import {
 } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
+import { createSharedCache } from "src/lib/shared-cache";
 import { makeClientVerbose } from "src/rdf/client-helpers";
 import {
   COVERAGE_RATIO_THRESHOLD,
@@ -309,11 +309,11 @@ const getCantonLabelPattern = (locale: string) => `
  * Name and canton of all municipalities, keyed by endpoint and locale.
  * Municipality names and cantons rarely change, hence the long expiration.
  */
-export const municipalityLookupCache = new LRUCache<
-  string,
+export const municipalityLookupCache = createSharedCache<
   Map<string, MunicipalityLookupEntry>
 >({
-  entryExpirationTimeInMS: 6 * 60 * 60 * 1000,
+  namespace: "municipality-lookup",
+  ttlMs: 6 * 60 * 60 * 1000,
 });
 
 const getAllMunicipalities = async (client: ParsingClient, locale: string) =>
@@ -393,10 +393,10 @@ const getMunicipalityLookup = async ({
   locale: string;
 }) => {
   const cacheKey = `${client.query.endpoint.endpointUrl}:${locale}`;
-  let municipalities = municipalityLookupCache.get(cacheKey);
+  let municipalities = await municipalityLookupCache.get(cacheKey);
   if (!municipalities) {
     municipalities = await getAllMunicipalities(client, locale);
-    municipalityLookupCache.set(cacheKey, municipalities);
+    await municipalityLookupCache.set(cacheKey, municipalities);
   }
 
   const missingIds = ids.filter((id) => {
@@ -471,13 +471,6 @@ const addMunicipalityLookup = async (
     o.regionLabel = municipality?.cantonLabel ?? null;
   }
 };
-
-export const electricityPriceObservationsCache = new LRUCache<
-  string,
-  Observation[]
->({
-  entryExpirationTimeInMS: 60 * 1000,
-});
 
 const getElectricityPriceObservations = async (
   {
@@ -581,15 +574,6 @@ const getElectricityPriceObservations = async (
     filters: queryFilters,
   });
 
-  const cacheKey = `${locale}:${filterView
-    .observationsQuery()
-    .query.toString()}`;
-
-  const cached = electricityPriceObservationsCache.get(cacheKey);
-  if (cached) {
-    return cached;
-  }
-
   const observations = await filterView.observations();
 
   // Clean up
@@ -608,10 +592,6 @@ const getElectricityPriceObservations = async (
 
   if (needsMunicipalityLookup) {
     await addMunicipalityLookup(res, source.client, locale);
-  }
-
-  if (res.length > 0) {
-    electricityPriceObservationsCache.set(cacheKey, res);
   }
 
   return res;

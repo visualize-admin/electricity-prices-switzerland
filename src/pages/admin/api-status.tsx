@@ -7,6 +7,7 @@ import AdminLayout from "src/admin-auth/components/admin-layout";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
 import { LoadingIconInline } from "src/components/hint";
+import serverEnv from "src/env/server";
 import * as Queries from "src/graphql/queries";
 import { contextFromGetServerSidePropsContext } from "src/graphql/server-context";
 import { apolloServer } from "src/pages/api/graphql";
@@ -68,6 +69,7 @@ const StatusRow = ({ title, query }: { title: string; query: QueryProp }) => {
 interface Props {
   csrfToken: string;
   defaultEndpoint: string;
+  cubeQueryMode: string;
   cubeHealth: QueryProp;
   systemInfo: QueryProp;
   wikiContent: QueryProp;
@@ -84,6 +86,7 @@ interface Props {
 export default function ApiStatusPage({
   csrfToken,
   defaultEndpoint,
+  cubeQueryMode,
   cubeHealth,
   systemInfo,
   wikiContent,
@@ -104,6 +107,8 @@ export default function ApiStatusPage({
     >
       <Typography variant="body2" color="text.secondary" mb={4}>
         Default SPARQL endpoint: <code>{defaultEndpoint}</code>
+        <br />
+        Cube query mode: <code>{cubeQueryMode}</code>
       </Typography>
 
       <Box mb={5}>
@@ -301,6 +306,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     props: {
       csrfToken,
       defaultEndpoint: defaultSparqlEndpointUrl,
+      cubeQueryMode: serverEnv.CUBE_QUERY_MODE,
       cubeHealth: serializeQueryResult(cubeHealth),
       systemInfo: serializeQueryResult(systemInfo),
       wikiContent: serializeQueryResult(wikiContent),

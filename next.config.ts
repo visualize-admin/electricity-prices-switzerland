@@ -51,6 +51,11 @@ const nextConfig = async (): Promise<NextConfig> => {
   const config: NextConfig = {
     output: "standalone",
 
+    // Instrumentation bundles dependencies by default. Bundled, nodeify-fetch
+    // resolves to node-fetch's ESM build and the CSV warmup fails with
+    // "this.fetch is not a function".
+    serverExternalPackages: ["sparql-http-client"],
+
     // Allow worktree dev servers served at <branch>.<repo>.localhost
     allowedDevOrigins: ["*.localhost"],
 

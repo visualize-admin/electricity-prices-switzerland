@@ -12,7 +12,7 @@ vi.mock("src/env/runtime", () => ({
 vi.mock("fs", () => ({ default: { writeFileSync: vi.fn() } }));
 
 import { contextFromAPIRequest } from "src/graphql/server-context";
-import { clearCsvExportCache } from "src/lib/csv-export";
+import { csvExportCache } from "src/lib/csv-export";
 
 import handler from "./municipalities-data.csv";
 
@@ -48,8 +48,8 @@ const createMockRes = () => {
 };
 
 describe("municipalities-data.csv handler", () => {
-  afterEach(() => {
-    clearCsvExportCache();
+  afterEach(async () => {
+    await csvExportCache.clear();
     vi.unstubAllGlobals();
   });
 

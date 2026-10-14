@@ -2,6 +2,7 @@ import { InMemoryLRUCache, KeyValueCache } from "@apollo/utils.keyvaluecache";
 import Redis from "ioredis";
 
 import serverEnv from "src/env/server";
+import { redis, scanKeys } from "src/lib/redis";
 
 /**
  * Apollo cache backing the GraphQL response cache. Uses Redis when REDIS_URL
@@ -21,29 +22,6 @@ export type GraphqlCacheInfo =
       error?: string;
     };
 
-const createRedisClient = (url: string) => {
-  const redis = new Redis(url, {
-    // Fail fast while disconnected, so that requests skip the cache instead
-    // of waiting for Redis to come back
-    enableOfflineQueue: false,
-    maxRetriesPerRequest: 1,
-    commandTimeout: 1000,
-  });
-  let lastError: string | undefined;
-  redis.on("error", (e: NodeJS.ErrnoException) => {
-    // Connection errors such as ECONNREFUSED have an empty message
-    const message = e.message || e.code || `${e}`;
-    if (message !== lastError) {
-      console.warn(`[graphql-cache] Redis error: ${message}`);
-      lastError = message;
-    }
-  });
-  redis.on("ready", () => {
-    lastError = undefined;
-  });
-  return redis;
-};
-
 // Errors count as misses: when Redis is unavailable, requests go uncached
 // instead of failing. Connection errors are logged by the client.
 const createRedisKeyValueCache = (redis: Redis): KeyValueCache<string> => ({
@@ -58,9 +36,6 @@ const createRedisKeyValueCache = (redis: Redis): KeyValueCache<string> => ({
   delete: async (key) => (await redis.del(key).catch(() => 0)) > 0,
 });
 
-const redis = serverEnv.REDIS_URL
-  ? createRedisClient(serverEnv.REDIS_URL)
-  : undefined;
 const memoryCache = new InMemoryLRUCache<string>();
 
 export const graphqlCache: KeyValueCache<string> = redis
@@ -82,12 +57,13 @@ export const getGraphqlCacheInfo = async (): Promise<GraphqlCacheInfo> => {
   };
   try {
     const [keys, memory] = await Promise.all([
-      redis.dbsize(),
+      // Response cache keys only: the Redis also holds the shared caches
+      scanKeys(redis, "fqc:*"),
       redis.info("memory"),
     ]);
     return {
       ...base,
-      keys,
+      keys: keys.length,
       usedMemory: parseInfoField(memory, "used_memory_human"),
       maxMemory: parseInfoField(memory, "maxmemory_human"),
     };
