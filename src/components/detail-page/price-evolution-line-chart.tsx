@@ -58,11 +58,6 @@ import { HighlightIndicator } from "../charts-generic/interaction/highlight-indi
 
 const DOWNLOAD_ID: Download = "evolution";
 
-// Meteringrate excluded — only 1 value. To revisit later.
-const evolutionPriceComponents = detailsPriceComponents.filter(
-  (x) => x !== "meteringrate"
-);
-
 export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
   const [{ category, product, period, priceComponent }, setQueryState] =
     useQueryStateEnergyPricesDetails();
@@ -109,7 +104,7 @@ export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
       <Box display={["none", "none", "block"]}>
         <ButtonGroup<DetailPriceComponent>
           id="evolutionPriceComponent"
-          options={evolutionPriceComponents.map((value) => ({
+          options={detailsPriceComponents.map((value) => ({
             value,
             label: getLocalizedLabel({ id: value }),
             content: getLocalizedLabel({
@@ -128,7 +123,7 @@ export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
             id: "selector.priceComponents",
             message: "Price components",
           })}
-          items={evolutionPriceComponents}
+          items={detailsPriceComponents}
           getItemLabel={(id) => getLocalizedLabel({ id })}
           selectedItem={priceComponent[0]}
           setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}

@@ -66,6 +66,9 @@ export const getLineChartYScaleDomain = (
   }
   const yMin = min(yValues) ?? 0;
   const yMax = max(yValues) ?? yMin;
+  if (yMin === yMax) {
+    return [0, Math.max(5, Math.ceil(yMax))];
+  }
   return [yMin, yMax];
 };
 
