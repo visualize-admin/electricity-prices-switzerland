@@ -2,7 +2,7 @@ import { InMemoryLRUCache, KeyValueCache } from "@apollo/utils.keyvaluecache";
 import Redis from "ioredis";
 
 import serverEnv from "src/env/server";
-import { redis } from "src/lib/redis";
+import { redis, scanKeys } from "src/lib/redis";
 
 /**
  * Apollo cache backing the GraphQL response cache. Uses Redis when REDIS_URL
@@ -57,12 +57,13 @@ export const getGraphqlCacheInfo = async (): Promise<GraphqlCacheInfo> => {
   };
   try {
     const [keys, memory] = await Promise.all([
-      redis.dbsize(),
+      // Response cache keys only: the Redis also holds the shared caches
+      scanKeys(redis, "fqc:*"),
       redis.info("memory"),
     ]);
     return {
       ...base,
-      keys,
+      keys: keys.length,
       usedMemory: parseInfoField(memory, "used_memory_human"),
       maxMemory: parseInfoField(memory, "maxmemory_human"),
     };

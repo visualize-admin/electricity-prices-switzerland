@@ -33,3 +33,11 @@ export const redis = serverEnv.REDIS_URL
   ? createRedisClient(serverEnv.REDIS_URL)
   : undefined;
 
+/** Keys matching a SCAN pattern, without blocking Redis like KEYS would */
+export const scanKeys = async (redis: Redis, match: string) => {
+  const keys: string[] = [];
+  for await (const batch of redis.scanStream({ match, count: 1000 })) {
+    keys.push(...(batch as string[]));
+  }
+  return keys;
+};
