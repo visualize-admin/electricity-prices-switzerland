@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.56.1 - 2026-10-14
+
+- Release 2.56.0 again: its Docker image was not published because the locale files were missing a source reference
+
 # 2.56.0 - 2026-10-14
 
 - Electricity tariff tabs label years consistently when multiple years are selected: Canton Comparison shows "Year: …" above each chart, Tariffs Development and Price Components no longer show a single year in the subtitle, and Price Components bar labels start with their year (ELC-729, #780)
