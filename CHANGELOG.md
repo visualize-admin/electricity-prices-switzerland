@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint
 
 # 2.56.1 - 2026-10-14
 
