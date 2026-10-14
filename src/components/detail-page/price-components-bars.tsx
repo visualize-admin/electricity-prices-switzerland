@@ -45,7 +45,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
 
@@ -100,14 +99,13 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     ? EMPTY_ARRAY
     : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
 
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
-
   const {
     perPriceComponent,
     colorDomain,
     xDomain,
     opacityDomain,
     mirrorEntities,
+    hasDynamicTariffs,
   } = React.useMemo(() => {
     const observations = [...operatorObservations, ...cantonObservations];
     const withUniqueEntityId = observations.map((obs) => ({
@@ -159,7 +157,6 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         view: view[0],
         priceComponent: priceComponent as PriceComponent,
         entity,
-        dynamicTariffsFlag,
       });
 
       return [priceComponent, prepared] as const;
@@ -171,16 +168,11 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       colorDomain,
       opacityDomain,
       mirrorEntities,
+      hasDynamicTariffs: perPriceComponent.some(([, prepared]) =>
+        prepared.some((d) => "min" in d)
+      ),
     };
-  }, [
-    operatorObservations,
-    cantonObservations,
-    view,
-    entity,
-    dynamicTariffsFlag,
-    id,
-    operator,
-  ]);
+  }, [operatorObservations, cantonObservations, view, entity, id, operator]);
 
   const getItemLabel = (id: CollapsedState) => {
     if (entity === "canton") {
@@ -230,7 +222,10 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} hideYear={period.length > 1} />
+          <FilterSetDescription
+            filters={filters}
+            hideYear={period.length > 1}
+          />
         </CardDescription>
       </CardHeader>
       {!download && entity !== "canton" && mirrorEntities.length > 1 && (
@@ -280,11 +275,10 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
-      {dynamicTariffsFlag && (
+      {hasDynamicTariffs && (
         <HintBlue iconName="infocircle">
           <Trans id="dynamic-tariffs.hint">
-            Prices shown with values in brackets are dynamic. You can find more
-            information about how dynamic pricing works [here].
+            Prices shown with values in brackets are dynamic.
           </Trans>
         </HintBlue>
       )}
