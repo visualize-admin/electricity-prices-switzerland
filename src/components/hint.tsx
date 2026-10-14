@@ -182,13 +182,22 @@ export const NoContentHint = () => (
   </Box>
 );
 
-export const HintBlue = ({
-  iconName,
+export type HintSeverity = "info" | "success" | "warning" | "error";
+
+const severityIcons: Record<HintSeverity, IconName> = {
+  info: "infocircle",
+  success: "checkmarkcircle",
+  warning: "warningcircle",
+  error: "warningcirclefilled",
+};
+
+export const Hint = ({
+  severity,
   children,
   onRemove,
   sx,
 }: {
-  iconName: IconName;
+  severity: HintSeverity;
   children: ReactNode;
   onRemove?: () => void;
   sx?: BoxProps["sx"];
@@ -200,8 +209,8 @@ export const HintBlue = ({
     gap={4}
     py={4}
     px={9}
-    bgcolor="blue.50"
-    color="blue.700"
+    bgcolor={`${severity}.light`}
+    color={`${severity}.main`}
     boxShadow={1}
     sx={sx}
   >
@@ -211,14 +220,18 @@ export const HintBlue = ({
       alignItems="center"
       justifyContent="center"
     >
-      <Icon name={iconName} size={24} color={palette.blue[700]} />
+      <Icon
+        name={severityIcons[severity]}
+        size={24}
+        color={palette[severity].main}
+      />
     </Box>
     <Typography variant="body3" textAlign="left">
       {children}
     </Typography>
     {onRemove && (
       <IconButton size="sm" onClick={onRemove} sx={{ ml: "auto" }}>
-        <Icon name={"cancel"} color={palette.blue[700]} size={24} />
+        <Icon name={"cancel"} color={palette[severity].main} size={24} />
       </IconButton>
     )}
   </Box>

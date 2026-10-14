@@ -31,7 +31,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { prepareObservations } from "src/components/detail-page/price-components-bars-utils";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { HintBlue, Loading, NoDataHint } from "src/components/hint";
+import { Hint, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { GenericObservation, detailsPriceComponents } from "src/domain/data";
 import { getPalette, pivot_longer } from "src/domain/helpers";
@@ -276,11 +276,11 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         </>
       )}
       {hasDynamicTariffs && (
-        <HintBlue iconName="infocircle">
+        <Hint severity="info">
           <Trans id="dynamic-tariffs.hint">
             Prices shown with values in brackets are dynamic.
           </Trans>
-        </HintBlue>
+        </Hint>
       )}
       {observationsQuery.fetching ? (
         <Box minHeight={650} display="flex">

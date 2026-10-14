@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import { HintBlue } from "src/components/hint";
+import { Hint } from "src/components/hint";
 import { useWikiContentQuery } from "src/graphql/queries";
 import { useLocale } from "src/lib/use-locale";
 
@@ -42,10 +42,10 @@ export const InfoBanner = ({
 
   // Full-width band, content aligned with the header through ContentWrapper
   return open ? (
-    <Box px={9} bgcolor="blue.50" boxShadow={1}>
+    <Box px={9} bgcolor="info.light" boxShadow={1}>
       <ContentWrapper>
-        <HintBlue
-          iconName="infocircle"
+        <Hint
+          severity="info"
           onRemove={() => setOpen(false)}
           sx={{ px: 0, boxShadow: "none" }}
         >
@@ -63,7 +63,7 @@ export const InfoBanner = ({
               />
             }
           </Box>
-        </HintBlue>
+        </Hint>
       </ContentWrapper>
     </Box>
   ) : null;
