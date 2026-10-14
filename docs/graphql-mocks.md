@@ -24,7 +24,7 @@ Hosts behind basic auth use `BASIC_CREDENTIALS_PER_HOST`, like the e2e tests.
 
 ## Example
 
-`src/components/detail-page/price-components-bars.spec.tsx` uses:
+`price-components-bars.spec.tsx` and `price-components-bars.stories.tsx` in `src/components/detail-page/` use:
 
 ```sh
 pnpm mocks:graphql "http://localhost:3000/operator/31?period=2027&category=H3&product=cheapest&operator=814" \
