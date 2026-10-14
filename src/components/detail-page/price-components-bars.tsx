@@ -124,11 +124,13 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       (typeof detailsPriceComponents)[number],
       "meteringrate"
     >[];
+    // Drop missing values (e.g. no metering rate in canton medians), so
+    // price components without any value are not shown
     const pivoted = pivot_longer({
       data: withUniqueEntityId,
       cols: cols,
       name_to: "priceComponent" as const,
-    });
+    }).filter((d) => d.value != null);
 
     const xDomain = extent(pivoted.map((d) => d.value as number)) as [
       number,
