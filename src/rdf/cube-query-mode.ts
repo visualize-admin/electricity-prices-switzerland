@@ -8,8 +8,8 @@ import serverEnv from "src/env/server";
  * Runs a cube query with rdf-cube-view-query ("legacy") or hand-written SPARQL
  * ("vanilla"), depending on CUBE_QUERY_MODE.
  *
- * In "shadow" mode both run, the legacy result is returned and any difference
- * is reported (console, Sentry, and CUBE_QUERY_SHADOW_LOG when set).
+ * In "shadow" mode both run, the legacy result is returned as soon as it is
+ * ready and any difference is reported in the background (console, Sentry, and CUBE_QUERY_SHADOW_LOG when set).
  * CUBE_QUERY_SHADOW_OPERATIONS limits the comparison to some GraphQL operations.
  */
 export const runCubeQuery = async <T>({
@@ -39,13 +39,18 @@ export const runCubeQuery = async <T>({
     return legacy();
   }
 
-  const [legacyResult, vanillaResult] = await Promise.all([
-    timed(legacy),
-    timed(vanilla),
-  ]);
+  const legacyPromise = timed(legacy);
+  const vanillaPromise = timed(vanilla);
 
-  await report({ name, operationName, params, legacyResult, vanillaResult });
+  // Compare in the background, so that a slow vanilla query does not delay
+  // the response. The server is a long-lived process, the promise completes.
+  Promise.all([legacyPromise, vanillaPromise])
+    .then(([legacyResult, vanillaResult]) =>
+      report({ name, operationName, params, legacyResult, vanillaResult })
+    )
+    .catch((e) => console.error("Cube query shadow report failed:", e));
 
+  const legacyResult = await legacyPromise;
   if ("error" in legacyResult) {
     throw legacyResult.error;
   }
