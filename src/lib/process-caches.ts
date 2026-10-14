@@ -1,75 +1,42 @@
 import { csvExportCache } from "src/lib/csv-export";
 import { searchIndexCache } from "src/lib/search-index-cache";
+import { SharedCache } from "src/lib/shared-cache";
 import { coveragesByYearCache } from "src/rdf/coverage-ratio";
 import { municipalityLookupCache } from "src/rdf/queries";
 
-export type ProcessCacheId =
-  | "csv-export"
-  | "coverage-ratio"
-  | "municipality-lookup"
-  | "search-index";
-
-export type ProcessCacheInfo = {
-  id: ProcessCacheId;
-  label: string;
-  description: string;
-  size: number;
-};
-
-const caches: {
-  id: ProcessCacheId;
-  label: string;
-  description: string;
-  cache: { clear: () => void; size: number };
-}[] = [
-  {
-    id: "csv-export",
-    label: "CSV exports",
-    description:
-      "Tariff and municipalities CSV dumps. 24h TTL, max 50 entries.",
-    cache: csvExportCache,
-  },
-  {
-    id: "coverage-ratio",
-    label: "Coverage ratios",
-    description: "Operator-municipality coverage by year. 5m TTL.",
-    cache: coveragesByYearCache,
-  },
-  {
-    id: "municipality-lookup",
-    label: "Municipality names and cantons",
-    description:
-      "All municipalities, one entry per SPARQL endpoint and locale. 6h TTL.",
-    cache: municipalityLookupCache,
-  },
-  {
-    id: "search-index",
-    label: "Search index",
-    description:
-      "Municipality / operator / canton search. 15m stale-while-revalidate.",
-    cache: searchIndexCache,
-  },
+const sharedCaches: SharedCache<unknown>[] = [
+  csvExportCache,
+  coveragesByYearCache,
+  municipalityLookupCache,
 ];
 
-export const listProcessCaches = (): ProcessCacheInfo[] =>
-  caches.map(({ id, label, description, cache }) => ({
-    id,
-    label,
-    description,
-    size: cache.size,
-  }));
+/** The shared caches, plus the search index, which is in-memory only */
+export const listProcessCaches = async () => ({
+  sharedCaches: await Promise.all(
+    sharedCaches.map(async (cache) => ({
+      namespace: cache.namespace,
+      backend: cache.backend,
+      size: await cache.size(),
+    }))
+  ),
+  searchIndexSize: searchIndexCache.size,
+});
 
-export const clearProcessCache = (id: ProcessCacheId | "all") => {
+/** Clears a shared cache by namespace, the search index, or all of them */
+export const clearProcessCache = async (id: string) => {
   if (id === "all") {
-    for (const entry of caches) {
-      entry.cache.clear();
-    }
+    searchIndexCache.clear();
+    await Promise.all(sharedCaches.map((cache) => cache.clear()));
+    return;
+  }
+  if (id === "search-index") {
+    searchIndexCache.clear();
     return;
   }
 
-  const entry = caches.find((cache) => cache.id === id);
-  if (!entry) {
+  const cache = sharedCaches.find((cache) => cache.namespace === id);
+  if (!cache) {
     throw new Error(`Unknown cache: ${id}`);
   }
-  entry.cache.clear();
+  await cache.clear();
 };

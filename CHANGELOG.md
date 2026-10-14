@@ -12,6 +12,7 @@ You can also check the
 # Unreleased
 
 - Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint
+- CSV exports, coverage ratios and the municipality lookup are cached in Redis when `REDIS_URL` is set, shared by all instances and by the CSV warmup at server start
 - Price observations are no longer cached on their own: the GraphQL response cache covers them, as it already did in `vanilla` cube query mode
 
 # 2.56.1 - 2026-10-14
