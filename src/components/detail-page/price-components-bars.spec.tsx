@@ -1,9 +1,14 @@
 // @vitest-environment jsdom
+import { ThemeProvider } from "@mui/material";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { PriceComponentsCard } from "src/components/detail-page/price-components-bars";
 import { ObservationsWithAllPriceComponentsQuery } from "src/graphql/queries";
+import { data as canton2 } from "src/mocks/graphql/canton-2/ObservationsWithAllPriceComponents";
+import { data as operator31Standard } from "src/mocks/graphql/operator-31-standard/ObservationsWithAllPriceComponents";
+import { data as operator31Vs814Dynamic } from "src/mocks/graphql/operator-31-vs-814-dynamic/ObservationsWithAllPriceComponents";
+import { theme } from "src/themes/elcom";
 
 // @lingui/macro requires Babel transform; mock it to return message defaults
 vi.mock("@lingui/macro", () => ({
@@ -51,44 +56,6 @@ vi.stubGlobal(
   }
 );
 
-type Data = ObservationsWithAllPriceComponentsQuery;
-type OperatorObservation = NonNullable<Data["observations"]>[number];
-type CantonObservation = NonNullable<Data["cantonMedianObservations"]>[number];
-
-const operatorObservation = (
-  overrides: Partial<OperatorObservation> = {}
-): OperatorObservation => ({
-  __typename: "OperatorObservation",
-  period: "2027",
-  municipality: "5192",
-  municipalityLabel: "Lugano",
-  operator: "31",
-  operatorLabel: "AIL",
-  category: "H3",
-  aidfee: 2.3,
-  meteringrate: 1.41,
-  charge: 2.22,
-  gridusage: 9.24,
-  energy: 9.12,
-  total: 24.29,
-  lowestrate: null,
-  highestrate: null,
-  ...overrides,
-});
-
-const cantonObservation: CantonObservation = {
-  __typename: "CantonMedianObservation",
-  period: "2027",
-  canton: "2",
-  cantonLabel: "Bern",
-  category: "H3",
-  aidfee: 2.3,
-  charge: 1.5,
-  gridusage: 11.91,
-  energy: 6.97,
-  total: 24.59,
-};
-
 const renderCard = ({
   entity,
   id,
@@ -97,30 +64,28 @@ const renderCard = ({
 }: {
   entity: "operator" | "canton";
   id: string;
-  data: Partial<Data>;
+  data: ObservationsWithAllPriceComponentsQuery;
   operator?: string[];
 }) =>
   render(
-    <PriceComponentsCard
-      id={id}
-      entity={entity}
-      data={{
-        __typename: "Query",
-        operators: [],
-        observations: [],
-        cantonMedianObservations: [],
-        ...data,
-      }}
-      fetching={false}
-      period={["2027"]}
-      category={["H3"]}
-      product={["cheapest"]}
-      operator={operator}
-      view={["collapsed"]}
-      download={undefined}
-      setView={() => {}}
-    />
+    <ThemeProvider theme={theme}>
+      <PriceComponentsCard
+        id={id}
+        entity={entity}
+        data={data}
+        fetching={false}
+        period={["2027"]}
+        category={["H3"]}
+        product={["cheapest"]}
+        operator={operator}
+        view={["collapsed"]}
+        download={undefined}
+        setView={() => {}}
+      />
+    </ThemeProvider>
   );
+
+const AIL = "Aziende Industriali di Lugano (AIL) SA";
 
 afterEach(cleanup);
 
@@ -130,13 +95,7 @@ describe("PriceComponentsCard", () => {
       entity: "operator",
       id: "31",
       operator: ["814"],
-      data: {
-        operators: [
-          { __typename: "OperatorResult", id: "31", name: "AIL" },
-          { __typename: "OperatorResult", id: "814", name: "EKT Energie AG" },
-        ],
-        observations: [operatorObservation()],
-      },
+      data: operator31Vs814Dynamic,
     });
 
     const warning = screen.getByText(
@@ -145,18 +104,11 @@ describe("PriceComponentsCard", () => {
     expect(within(warning).getByText("EKT Energie AG")).toBeTruthy();
     expect(screen.getAllByText("EKT Energie AG")).toHaveLength(1);
     expect(screen.queryByText("814")).toBeNull();
-    expect(screen.getByText("AIL")).toBeTruthy();
+    expect(screen.getByText(AIL)).toBeTruthy();
   });
 
   it("shows no warning when every operator has prices", () => {
-    renderCard({
-      entity: "operator",
-      id: "31",
-      data: {
-        operators: [{ __typename: "OperatorResult", id: "31", name: "AIL" }],
-        observations: [operatorObservation()],
-      },
-    });
+    renderCard({ entity: "operator", id: "31", data: operator31Standard });
 
     expect(
       screen.queryByText("We have no prices for the following operators:")
@@ -167,11 +119,8 @@ describe("PriceComponentsCard", () => {
     renderCard({
       entity: "operator",
       id: "31",
-      data: {
-        observations: [
-          operatorObservation({ lowestrate: 1.1, highestrate: 11.8 }),
-        ],
-      },
+      operator: ["814"],
+      data: operator31Vs814Dynamic,
     });
 
     expect(
@@ -181,11 +130,7 @@ describe("PriceComponentsCard", () => {
   });
 
   it("shows no dynamic hint without rates", () => {
-    renderCard({
-      entity: "operator",
-      id: "31",
-      data: { observations: [operatorObservation()] },
-    });
+    renderCard({ entity: "operator", id: "31", data: operator31Standard });
 
     expect(
       screen.queryByText("Prices shown with values in brackets are dynamic.")
@@ -194,11 +139,7 @@ describe("PriceComponentsCard", () => {
   });
 
   it("leaves out price components without values", () => {
-    renderCard({
-      entity: "canton",
-      id: "2",
-      data: { cantonMedianObservations: [cantonObservation] },
-    });
+    renderCard({ entity: "canton", id: "2", data: canton2 });
 
     expect(screen.getByText("Grid usage")).toBeTruthy();
     expect(screen.queryByText("Metering Rate")).toBeNull();

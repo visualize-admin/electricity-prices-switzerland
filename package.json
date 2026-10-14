@@ -44,6 +44,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o public/storybook",
     "mocks": "dotenv -e .env.local -- tsx scripts/mocks.ts",
+    "mocks:graphql": "tsx scripts/graphql-mocks.ts",
     "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed",
     "metrics:compare": "tsx scripts/compare-metrics.ts",
     "metrics": "bun --env-file .env.local src/metrics/cli.ts",
