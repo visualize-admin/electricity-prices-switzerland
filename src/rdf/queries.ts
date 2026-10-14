@@ -25,6 +25,9 @@ import {
 } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 
+import * as vanilla from "./cube-queries-vanilla";
+import { CubeNotFoundError } from "./cube-queries-vanilla";
+import { runCubeQuery } from "./cube-query-mode";
 import { createSparqlClientForCube } from "./sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
@@ -128,22 +131,137 @@ const getCubeAndCheck = async (
 ): Promise<Cube> => {
   const cube = await getCube({ iri, client });
   if (!cube) {
-    throw Error(`Cube ${iri} not found`);
+    throw new CubeNotFoundError(`Cube ${iri} not found`);
   }
   if (cube.dimensions.length === 0) {
-    throw Error(`Cube ${iri} has no dimensions`);
+    throw new CubeNotFoundError(`Cube ${iri} has no dimensions`);
   }
   return cube;
 };
 
-export const getElectricityPriceCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
-export const getElectricityPriceCantonCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICIY_PRICE_CANTON_CUBE, client);
-export const getElectricityPriceSwissCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICITY_PRICE_SWISS_CUBE, client);
+const getView = (cube: Cube): View => View.fromCube(cube);
 
-export const getView = (cube: Cube): View => View.fromCube(cube);
+const cubeIris = {
+  municipality: ELECTRICITY_PRICE_CUBE,
+  canton: ELECTRICIY_PRICE_CANTON_CUBE,
+  swiss: ELECTRICITY_PRICE_SWISS_CUBE,
+};
+
+type ObservationCube = keyof typeof cubeIris;
+
+/**
+ * Observations of one of the electricity price cubes. Throws
+ * CubeNotFoundError when the cube does not exist.
+ */
+export const getObservations = (
+  {
+    client,
+    cube,
+    locale,
+    operationName,
+  }: {
+    client: ParsingClient;
+    cube: ObservationCube;
+    locale: string;
+    operationName: string | undefined;
+  },
+  { filters, dimensions }: { filters?: Filters; dimensions: string[] }
+) => {
+  const cubeIri = cubeIris[cube];
+  const isCantons = cube !== "municipality";
+  return runCubeQuery({
+    name: "getObservations",
+    operationName,
+    params: { cube, locale, filters, dimensions },
+    legacy: async () => {
+      const cubeView = await getCubeAndCheck(cubeIri, client);
+      return getElectricityPriceObservations(
+        {
+          view: getView(cubeView),
+          source: cubeView.source,
+          isCantons,
+          locale,
+        },
+        { filters, dimensions }
+      );
+    },
+    vanilla: async () => {
+      const { needsMunicipalityLookup, viewDimensionKeys } =
+        splitMunicipalityLookupDimensions(dimensions, isCantons);
+      const observations = await vanilla.getObservations(
+        { client, cubeIri, locale },
+        { filters, dimensions: viewDimensionKeys! }
+      );
+      if (needsMunicipalityLookup) {
+        await addMunicipalityLookup(
+          observations,
+          createSparqlClientForCube(client.query.endpoint.endpointUrl, cubeIri),
+          locale
+        );
+      }
+      return observations;
+    },
+  });
+};
+
+/** Values and labels of a dimension of the electricity price cube */
+export const getDimensionValues = ({
+  client,
+  dimensionKey,
+  filters,
+  operationName,
+}: {
+  client: ParsingClient;
+  dimensionKey: string;
+  filters?: Filters;
+  operationName: string | undefined;
+}) =>
+  runCubeQuery({
+    name: "getDimensionValues",
+    operationName,
+    params: { dimensionKey, filters },
+    legacy: async () => {
+      const cube = await getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
+      const results = await getDimensionValuesAndLabels({
+        cube,
+        dimensionKey,
+        filters,
+      });
+      return results.map(({ id, name }) => ({ id, name }));
+    },
+    vanilla: () =>
+      vanilla.getDimensionValuesAndLabels({
+        client,
+        cubeIri: ELECTRICITY_PRICE_CUBE,
+        dimensionKey,
+        filters,
+      }),
+  });
+
+/** Dimension paths of the electricity price cube */
+export const getCubeDimensionPaths = ({
+  client,
+  operationName,
+}: {
+  client: ParsingClient;
+  operationName: string | undefined;
+}) =>
+  runCubeQuery({
+    name: "getCubeDimensionPaths",
+    operationName,
+    params: {},
+    legacy: async () => {
+      const cube = await getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
+      return cube.dimensions.map((d) => d.path.value);
+    },
+    vanilla: async () => {
+      const dimensions = await vanilla.getCubeDimensions(
+        client,
+        ELECTRICITY_PRICE_CUBE
+      );
+      return Array.from(dimensions.values()).map((d) => d.path);
+    },
+  });
 
 const cubeUndefined = namespace("https://cube.link/")("Undefined");
 const undefinedLiteral = rdf.literal("", cubeUndefined);
@@ -310,6 +428,50 @@ const getMunicipalityLookup = async ({
   return municipalities;
 };
 
+/**
+ * Splits off the dimensions resolved by `getMunicipalityLookup`, keeping the
+ * municipality they are looked up with.
+ */
+const splitMunicipalityLookupDimensions = (
+  dimensions: string[] | undefined,
+  isCantons: boolean | undefined
+) => {
+  const needsMunicipalityLookup =
+    !isCantons &&
+    !!dimensions?.some((d) => MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d));
+
+  const viewDimensionKeys = needsMunicipalityLookup
+    ? uniq([
+        ...dimensions!.filter(
+          (d) => !MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d)
+        ),
+        "municipality",
+      ])
+    : dimensions;
+
+  return { needsMunicipalityLookup, viewDimensionKeys };
+};
+
+const addMunicipalityLookup = async (
+  observations: Observation[],
+  client: ParsingClient,
+  locale: string
+) => {
+  const municipalities = await getMunicipalityLookup({
+    client,
+    ids: uniq(
+      observations.map((o) => o.municipality as string).filter(Boolean)
+    ),
+    locale,
+  });
+  for (const o of observations) {
+    const municipality = municipalities.get(o.municipality as string);
+    o.municipalityLabel = municipality?.name ?? null;
+    o.region = municipality?.canton ?? null;
+    o.regionLabel = municipality?.cantonLabel ?? null;
+  }
+};
+
 export const electricityPriceObservationsCache = new LRUCache<
   string,
   Observation[]
@@ -317,7 +479,7 @@ export const electricityPriceObservationsCache = new LRUCache<
   entryExpirationTimeInMS: 60 * 1000,
 });
 
-export const getElectricityPriceObservations = async (
+const getElectricityPriceObservations = async (
   {
     view,
     source,
@@ -342,18 +504,8 @@ export const getElectricityPriceObservations = async (
 
   const lookupSource = LookupSource.fromSource(source);
 
-  const needsMunicipalityLookup =
-    !isCantons &&
-    !!dimensions?.some((d) => MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d));
-
-  const viewDimensionKeys = needsMunicipalityLookup
-    ? uniq([
-        ...dimensions!.filter(
-          (d) => !MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d)
-        ),
-        "municipality",
-      ])
-    : dimensions;
+  const { needsMunicipalityLookup, viewDimensionKeys } =
+    splitMunicipalityLookupDimensions(dimensions, isCantons);
 
   const dimensionsWithUndefinedToFilter =
     viewDimensionKeys?.filter(shouldDimensionFilterUndefined) ?? [];
@@ -455,17 +607,7 @@ export const getElectricityPriceObservations = async (
   const res = observations.map(parseObservation);
 
   if (needsMunicipalityLookup) {
-    const municipalities = await getMunicipalityLookup({
-      client: source.client,
-      ids: uniq(res.map((o) => o.municipality as string).filter(Boolean)),
-      locale,
-    });
-    for (const o of res) {
-      const municipality = municipalities.get(o.municipality as string);
-      o.municipalityLabel = municipality?.name ?? null;
-      o.region = municipality?.canton ?? null;
-      o.regionLabel = municipality?.cantonLabel ?? null;
-    }
+    await addMunicipalityLookup(res, source.client, locale);
   }
 
   if (res.length > 0) {
@@ -475,7 +617,7 @@ export const getElectricityPriceObservations = async (
   return res;
 };
 
-export const getDimensionValuesAndLabels = async ({
+const getDimensionValuesAndLabels = async ({
   cube,
   dimensionKey,
   filters,

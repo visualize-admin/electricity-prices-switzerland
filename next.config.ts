@@ -51,6 +51,9 @@ const nextConfig = async (): Promise<NextConfig> => {
   const config: NextConfig = {
     output: "standalone",
 
+    // Allow worktree dev servers served at <branch>.<repo>.localhost
+    allowedDevOrigins: ["*.localhost"],
+
     /**
      * Uses GIT_COMMIT_SHA for Docker builds or VERCEL_GIT_COMMIT_SHA for Vercel
      * Format: <packageVersion>-<shortSha>

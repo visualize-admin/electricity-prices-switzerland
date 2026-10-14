@@ -53,15 +53,13 @@ import {
   CoverageCacheManager,
   DEFAULT_COVERAGE_NETWORK_LEVEL,
 } from "src/rdf/coverage-ratio";
+import { CubeNotFoundError } from "src/rdf/cube-queries-vanilla";
 import {
-  getDimensionValuesAndLabels,
-  getElectricityPriceCantonCube,
-  getElectricityPriceCube,
-  getElectricityPriceObservations,
-  getElectricityPriceSwissCube,
+  getCubeDimensionPaths,
+  getDimensionValues,
+  getObservations,
   getOperatorDocuments,
   getOperatorsMunicipalities,
-  getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
 
@@ -70,6 +68,16 @@ const gfmHtml = require("micromark-extension-gfm/html");
 
 import ParsingClient from "sparql-http-client/ParsingClient";
 import type { SearchResult as CachedSearchResult } from "src/lib/search-index-cache";
+
+const rethrowCubeNotFound = (e: unknown): never => {
+  if (e instanceof CubeNotFoundError) {
+    console.error(e.message);
+    throw new GraphQLError(e.message, {
+      extensions: { code: "CUBE_NOT_FOUND" },
+    });
+  }
+  throw e;
+};
 
 const searchWithIndex = async ({
   locale,
@@ -365,6 +373,7 @@ const Query: QueryResolvers = {
           dimensions: observationDimensionKeys,
           networkLevel,
           includeBelowCoverageThreshold,
+          operationName: info.operation.name?.value,
         })
       : [];
   },
@@ -393,6 +402,7 @@ const Query: QueryResolvers = {
             "period",
           ])
         ),
+        operationName: info.operation.name?.value,
       }
     );
 
@@ -414,19 +424,6 @@ const Query: QueryResolvers = {
       return null;
     }
 
-    let cantonCube;
-    try {
-      cantonCube = await getElectricityPriceCantonCube(ctx.sparqlClient);
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : `${e}`;
-      console.error(message);
-      throw new GraphQLError(message, {
-        extensions: { code: "CUBE_NOT_FOUND" },
-      });
-    }
-
-    const cantonObservationsView = getView(cantonCube);
-
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
@@ -445,18 +442,18 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getElectricityPriceObservations(
+        ? await getObservations(
             {
-              view: cantonObservationsView,
-              source: cantonCube.source,
-              isCantons: true,
+              client: ctx.sparqlClient,
+              cube: "canton",
               locale: locale ?? defaultLocale,
+              operationName: info.operation.name?.value,
             },
             {
               filters,
               dimensions: medianDimensionKeys,
             }
-          )
+          ).catch(rethrowCubeNotFound)
         : [];
 
     const medianObservations = rawMedianObservations.map((x) => ({
@@ -467,21 +464,6 @@ const Query: QueryResolvers = {
     return medianObservations;
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
-    let swissCube;
-    try {
-      swissCube = await getElectricityPriceSwissCube(ctx.sparqlClient);
-    } catch (e: unknown) {
-      const message = `${e instanceof Error ? e.message : e}`;
-      console.error(message);
-      throw new GraphQLError(message, {
-        extensions: {
-          code: "CUBE_NOT_FOUND",
-        },
-      });
-    }
-
-    const swissObservationsView = getView(swissCube);
-
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
@@ -500,18 +482,18 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getElectricityPriceObservations(
+        ? await getObservations(
             {
-              view: swissObservationsView,
-              source: swissCube.source,
-              isCantons: true,
+              client: ctx.sparqlClient,
+              cube: "swiss",
               locale: locale ?? defaultLocale,
+              operationName: info.operation.name?.value,
             },
             {
               filters,
               dimensions: medianDimensionKeys,
             }
-          )
+          ).catch(rethrowCubeNotFound)
         : [];
 
     const medianObservations = rawMedianObservations.map((o) => ({
@@ -598,32 +580,32 @@ const Query: QueryResolvers = {
       client: context.sparqlClient,
     });
   },
-  municipality: async (_, { id }, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
-    const results = await getDimensionValuesAndLabels({
-      cube,
+  municipality: async (_, { id }, ctx, info) => {
+    const results = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "municipality",
       filters: { municipality: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  operator: async (_, { id, geverId }, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
-    const results = await getDimensionValuesAndLabels({
-      cube,
+  operator: async (_, { id, geverId }, ctx, info) => {
+    const results = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "operator",
       filters: { operator: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return { ...results[0], id, geverId: geverId || undefined };
   },
-  cubeHealth: async (_, __, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-    const dimensions = cube.dimensions.map((d) => d.path.value);
+  cubeHealth: async (_, __, ctx, info) => {
+    const dimensions = await getCubeDimensionPaths({
+      client: ctx.sparqlClient,
+      operationName: info.operation.name?.value,
+    });
     const missingDimensions = difference(expectedCubeDimensions, dimensions);
     return {
       ok: missingDimensions.size === 0,
@@ -733,27 +715,26 @@ const getExtraInfo = async (slug: string) => {
 };
 
 const Municipality: MunicipalityResolvers = {
-  operators: async ({ id }, _, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-    return getDimensionValuesAndLabels({
-      cube,
+  operators: async ({ id }, _, ctx, info) => {
+    return getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "operator",
       filters: { municipality: [id] },
+      operationName: info.operation.name?.value,
     });
   },
 };
 
 const Operator: OperatorResolvers = {
   municipalities: async ({ id }, _, ctx, info) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
     // Get locale from operation variables, default to 'de'
     const locale = (info.variableValues as any)?.locale ?? "de";
 
-    const municipalities = await getDimensionValuesAndLabels({
-      cube,
+    const municipalities = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "municipality",
       filters: { operator: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return municipalities
@@ -839,35 +820,37 @@ const getCoveredOperatorObservations = async (
     dimensions,
     networkLevel,
     includeBelowCoverageThreshold,
+    operationName,
   }: {
     locale?: string | null;
     filters?: ObservationFilters | null;
     dimensions: string[];
     networkLevel?: string | null;
     includeBelowCoverageThreshold?: boolean | null;
+    operationName: string | undefined;
   }
 ) => {
-  let observationsCube;
+  let rawOperatorObservations;
   try {
-    observationsCube = await getElectricityPriceCube(sparqlClient);
+    rawOperatorObservations = await getObservations(
+      {
+        client: sparqlClient,
+        cube: "municipality",
+        locale: locale ?? defaultLocale,
+        operationName,
+      },
+      {
+        filters,
+        dimensions,
+      }
+    );
   } catch (e: unknown) {
-    console.error(e instanceof Error ? e.message : e);
+    if (!(e instanceof CubeNotFoundError)) {
+      throw e;
+    }
+    console.error(e.message);
     return [];
   }
-
-  const observationsView = getView(observationsCube);
-
-  const rawOperatorObservations = await getElectricityPriceObservations(
-    {
-      view: observationsView,
-      source: observationsCube.source,
-      locale: locale ?? defaultLocale,
-    },
-    {
-      filters,
-      dimensions,
-    }
-  );
 
   const operatorObservations = rawOperatorObservations.map((o) => ({
     __typename: "OperatorObservation",
