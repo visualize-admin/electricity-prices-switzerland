@@ -191,6 +191,7 @@ msgstr "Sortieren"
 msgid "detail.canton"
 msgstr "Canton"
 
+#: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.subtitle.year"
 msgstr "Year: {p}"

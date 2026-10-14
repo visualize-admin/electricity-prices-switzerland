@@ -191,6 +191,7 @@ msgstr "dataset.sortby"
 msgid "detail.canton"
 msgstr "detail.canton"
 
+#: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.subtitle.year"
 msgstr "detail.card.subtitle.year"
