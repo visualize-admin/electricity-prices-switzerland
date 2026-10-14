@@ -1,15 +1,11 @@
 import { csvExportCache } from "src/lib/csv-export";
 import { searchIndexCache } from "src/lib/search-index-cache";
 import { coveragesByYearCache } from "src/rdf/coverage-ratio";
-import {
-  electricityPriceObservationsCache,
-  municipalityLookupCache,
-} from "src/rdf/queries";
+import { municipalityLookupCache } from "src/rdf/queries";
 
 export type ProcessCacheId =
   | "csv-export"
   | "coverage-ratio"
-  | "electricity-price-observations"
   | "municipality-lookup"
   | "search-index";
 
@@ -38,12 +34,6 @@ const caches: {
     label: "Coverage ratios",
     description: "Operator-municipality coverage by year. 5m TTL.",
     cache: coveragesByYearCache,
-  },
-  {
-    id: "electricity-price-observations",
-    label: "Price observations",
-    description: "Electricity price SPARQL observations. 60s TTL.",
-    cache: electricityPriceObservationsCache,
   },
   {
     id: "municipality-lookup",

@@ -472,13 +472,6 @@ const addMunicipalityLookup = async (
   }
 };
 
-export const electricityPriceObservationsCache = new LRUCache<
-  string,
-  Observation[]
->({
-  entryExpirationTimeInMS: 60 * 1000,
-});
-
 const getElectricityPriceObservations = async (
   {
     view,
@@ -581,15 +574,6 @@ const getElectricityPriceObservations = async (
     filters: queryFilters,
   });
 
-  const cacheKey = `${locale}:${filterView
-    .observationsQuery()
-    .query.toString()}`;
-
-  const cached = electricityPriceObservationsCache.get(cacheKey);
-  if (cached) {
-    return cached;
-  }
-
   const observations = await filterView.observations();
 
   // Clean up
@@ -608,10 +592,6 @@ const getElectricityPriceObservations = async (
 
   if (needsMunicipalityLookup) {
     await addMunicipalityLookup(res, source.client, locale);
-  }
-
-  if (res.length > 0) {
-    electricityPriceObservationsCache.set(cacheKey, res);
   }
 
   return res;
