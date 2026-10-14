@@ -15,7 +15,8 @@ const addDynamicTariffs = (obj: Record<string, ObservationValue | $FixMe>) => ({
 
 const createSingleObservation = (obs: Record<string, ObservationValue>) => ({
   ...obs,
-  label: obs.uniqueId,
+  label: (obs.cantonLabel ??
+    `${obs.operatorLabel}, ${obs.municipalityLabel}`) as ObservationValue,
 });
 
 const createGroupedObservation = (
@@ -31,7 +32,7 @@ const createGroupedObservation = (
     [entity]: firstObs[entity],
     period: firstObs.period,
     uniqueId: `${priceComponent}${firstObs.period}${firstObs.operatorLabel}${firstObs.municipalityLabel}${observations.length}`,
-    label: `${firstObs.period}, ${firstObs.operatorLabel}, ${
+    label: `${firstObs.operatorLabel}, ${
       observations.length
     } ${getLocalizedLabel({
       id: entity === "operator" ? "municipalities" : "operators",
