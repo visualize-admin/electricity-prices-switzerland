@@ -321,7 +321,7 @@ msgstr "Scarica rapporti e tariffe"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Si tratta di una tariffa dinamica."
+msgstr "I prezzi indicati con valori tra parentesi sono dinamici."
 
 #: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"

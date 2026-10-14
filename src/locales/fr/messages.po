@@ -321,7 +321,7 @@ msgstr "Télécharger rapports et tarifs"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Il s'agit d'un tarif dynamique."
+msgstr "Les prix accompagnés de valeurs entre parenthèses sont dynamiques."
 
 #: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
