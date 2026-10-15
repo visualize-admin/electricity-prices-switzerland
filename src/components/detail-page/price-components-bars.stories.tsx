@@ -46,7 +46,7 @@ const Card = ({
   );
 };
 
-export const DynamicTariffsAndOperatorWithoutPrices = () => (
+export const DynamicAndMissingOperator = () => (
   <Card
     entity="operator"
     id="31"
