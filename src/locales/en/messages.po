@@ -1552,10 +1552,6 @@ msgid "sunshine.costs-and-tariffs.network-costs"
 msgstr "Network Costs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Network Costs at {0} Level"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
 msgstr "No energy tariffs data available for this operator in the selected year."
 
@@ -1672,6 +1668,7 @@ msgstr "SAIFI Unplanned"
 msgid "sunshine.export.column.timely-submission"
 msgstr "Timely Paper Submission"
 
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "Network Costs"
