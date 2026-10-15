@@ -7,8 +7,8 @@ import { PriceComponent } from "src/graphql/queries";
 export const EXPANDED_TAG = "expanded";
 
 /**
- * Dynamic tariffs are a rate range on the network usage. Rates are null for
- * operators without one.
+ * Dynamic tariffs are a rate range on the network usage, and so also on the
+ * total. Rates are null for operators without one.
  */
 const addDynamicTariffs = (
   obj: Record<string, ObservationValue | $FixMe>,
@@ -16,6 +16,8 @@ const addDynamicTariffs = (
 ) =>
   priceComponent === "gridusage" && obj.lowestrate != null
     ? { ...obj, min: obj.lowestrate, max: obj.highestrate }
+    : priceComponent === "total" && obj.totalLowestrate != null
+    ? { ...obj, min: obj.totalLowestrate, max: obj.totalHighestrate }
     : obj;
 
 const createSingleObservation = (obs: Record<string, ObservationValue>) => ({
@@ -39,6 +41,10 @@ const createGroupedObservation = (
     // Rates are the same in all municipalities of an operator
     lowestrate: firstObs.lowestrate,
     highestrate: firstObs.highestrate,
+    // Municipalities with the same total but a different grid usage share
+    // the first one's total range
+    totalLowestrate: firstObs.totalLowestrate,
+    totalHighestrate: firstObs.totalHighestrate,
     uniqueId: `${priceComponent}${firstObs.period}${firstObs.operatorLabel}${firstObs.municipalityLabel}${observations.length}`,
     label: `${firstObs.operatorLabel}, ${
       observations.length
