@@ -1,5 +1,5 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
-import { withSentryConfig } from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { nodeFileTrace } from "@vercel/nft";
 import { NextConfig } from "next";
 
@@ -161,8 +161,10 @@ export default withSentryConfig(nextConfig, {
   project: "elcom-strompreise",
   silent: !process.env.CI,
   widenClientFileUpload: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
+  webpack: {
+    treeshake: { removeDebugLogging: true },
+    automaticVercelMonitors: true,
+  },
   release: {
     name: getReleaseName(),
   },

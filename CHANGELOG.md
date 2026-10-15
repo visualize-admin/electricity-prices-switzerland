@@ -11,7 +11,8 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Security: resolve Dependabot alerts: bump next to 15.5.28, @sentry/nextjs to 10 (drops the vulnerable OpenTelemetry instrumentations), Storybook to 8.6.19 and Argos to the current majors; pin patched shell-quote, pbkdf2, smol-toml, @graphql-tools/*, postcss-selector-parser, @fastify/busboy, webpack-dev-middleware, adm-zip, serialize-javascript, moment, fast-uri, js-yaml and browserslist via pnpm overrides
+- CI: bump GitHub Actions (actions/checkout, docker/build-push-action, docker/setup-buildx-action, docker/metadata-action, wearerequired/git-mirror-action)
 
 # 2.58.1 - 2026-10-15
 
