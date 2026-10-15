@@ -68,7 +68,7 @@ export type CantonMedianObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -1034,7 +1034,7 @@ export type CantonMedianObservationResolvers<
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   value?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType,
     RequireFields<CantonMedianObservationValueArgs, "priceComponent">

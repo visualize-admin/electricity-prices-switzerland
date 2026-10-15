@@ -51,7 +51,7 @@ export type CantonMedianObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -820,7 +820,7 @@ export type CantonMedianObservationFieldsFragment = {
   canton: string;
   cantonLabel?: string | null;
   category: string;
-  value: number;
+  value?: number | null;
 };
 
 export type SwissMedianObservationFieldsFragment = {
@@ -860,7 +860,7 @@ export type ObservationsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    value: number;
+    value?: number | null;
   }> | null;
   swissMedianObservations?: Array<{
     __typename: "SwissMedianObservation";
@@ -897,11 +897,12 @@ export type CantonMedianObservationWithAllPriceComponentsFieldsFragment = {
   canton: string;
   cantonLabel?: string | null;
   category: string;
-  aidfee: number;
-  charge: number;
-  gridusage: number;
-  energy: number;
-  total: number;
+  aidfee?: number | null;
+  charge?: number | null;
+  gridusage?: number | null;
+  meteringrate?: number | null;
+  energy?: number | null;
+  total?: number | null;
 };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
@@ -942,11 +943,12 @@ export type ObservationsWithAllPriceComponentsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    aidfee: number;
-    charge: number;
-    gridusage: number;
-    energy: number;
-    total: number;
+    aidfee?: number | null;
+    charge?: number | null;
+    gridusage?: number | null;
+    meteringrate?: number | null;
+    energy?: number | null;
+    total?: number | null;
   }> | null;
 };
 
@@ -977,7 +979,7 @@ export type PriceEvolutionObservationsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    value: number;
+    value?: number | null;
   }> | null;
 };
 
@@ -1610,6 +1612,7 @@ export const CantonMedianObservationWithAllPriceComponentsFieldsFragmentDoc = gq
     aidfee: value(priceComponent: aidfee)
     charge: value(priceComponent: charge)
     gridusage: value(priceComponent: gridusage)
+    meteringrate: value(priceComponent: meteringrate)
     energy: value(priceComponent: energy)
     total: value(priceComponent: total)
   }

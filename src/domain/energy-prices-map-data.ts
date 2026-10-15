@@ -89,7 +89,7 @@ export const buildEnrichedEnergyPricesData = ({
       ])
     ),
     canton: new Map(
-      cantonMedianObservations.map((obs) => [obs.canton, obs.value])
+      cantonMedianObservations.map((obs) => [obs.canton, obs.value ?? null])
     ),
     operator: new Map(
       Object.entries(observationsByOperatorAggregated).map(([id, obs]) => [
