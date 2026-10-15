@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- English (development only): price component tooltips, the grouped/individual municipalities toggle and the Indicators tab show text instead of translation keys
 
 # 2.57.1 - 2026-10-15
 
