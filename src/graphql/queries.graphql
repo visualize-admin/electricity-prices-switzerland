@@ -139,6 +139,7 @@ fragment cantonMedianObservationWithAllPriceComponentsFields on CantonMedianObse
   aidfee: value(priceComponent: aidfee)
   charge: value(priceComponent: charge)
   gridusage: value(priceComponent: gridusage)
+  meteringrate: value(priceComponent: meteringrate)
   energy: value(priceComponent: energy)
   total: value(priceComponent: total)
 }
