@@ -47,6 +47,7 @@
     "mocks:graphql": "tsx scripts/graphql-mocks.ts",
     "design:generate-home-maps": "playwright test src/e2e/map-screenshots.spec.ts --headed",
     "metrics:compare": "tsx scripts/compare-metrics.ts",
+    "wait-for-version": "dotenv -e .env.local -- tsx scripts/wait-for-version.ts",
     "metrics": "bun --env-file .env.local src/metrics/cli.ts",
     "energy-prices:cli": "tsx scripts/energy-prices-cli.ts"
   },
@@ -199,6 +200,7 @@
     "global-agent": "^3.0.0",
     "k6": "^0.0.0",
     "knip": "^5.85.0",
+    "lefthook": "^2.2.2",
     "oxlint": "^1.50.0",
     "prettier": "^2.2.1",
     "raw-loader": "^4.0.2",
