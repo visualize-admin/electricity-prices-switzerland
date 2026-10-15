@@ -379,7 +379,7 @@ test.describe("Sunshine Costs and Tariffs page", () => {
     await page.waitForLoadState("networkidle");
 
     await page
-      .getByText("Network Costs at Low voltage NE7 Level")
+      .getByText("Network Costs at Distribution network and house connections (network level 7) Level")
       .scrollIntoViewIfNeeded();
     await page.getByText("Grid Tariffs").click();
     // text: Net Tariffs C2 - Small business (<15 kW)
