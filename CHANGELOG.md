@@ -11,8 +11,11 @@ You can also check the
 
 # Unreleased
 
-- Canton pages show the metering rate in Tariffs Development (empty chart before) and Price Components (ELC-737)
 Nothing yet.
+
+# 2.58.1 - 2026-10-15
+
+- Canton pages show the metering rate in Tariffs Development (empty chart before) and Price Components (ELC-737, #800)
 
 # 2.58.0 - 2026-10-15
 
