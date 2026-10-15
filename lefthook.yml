@@ -1,4 +1,9 @@
 # Git hooks, opt-in: see docs/git-hooks.md
+# Only print output of failed commands
+output:
+  - failure
+  - summary
+
 pre-push:
   parallel: true
   commands:
