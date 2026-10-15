@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Fix: select styling: placeholder on the comparison multi-selects, focus only changes border and arrow colour (shared `--input-border-color`), popup matches the input width with the same gap above and below
 - Security: resolve Dependabot alerts: bump next to 15.5.28, @sentry/nextjs to 10 (drops the vulnerable OpenTelemetry instrumentations), Storybook to 8.6.19 and Argos to the current majors; pin patched shell-quote, pbkdf2, smol-toml, @graphql-tools/*, postcss-selector-parser, @fastify/busboy, webpack-dev-middleware, adm-zip, serialize-javascript, moment, fast-uri, js-yaml and browserslist via pnpm overrides
 - CI: bump GitHub Actions (actions/checkout, docker/build-push-action, docker/setup-buildx-action, docker/metadata-action, wearerequired/git-mirror-action)
 

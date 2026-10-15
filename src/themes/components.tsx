@@ -63,8 +63,8 @@ export const components = (theme: Theme): Components => ({
         boxShadow: shadows[3],
         borderRadius: 2,
         backgroundColor: palette.background.paper,
-        minWidth: "calc(100% + 8px)",
-        marginLeft: "-4px",
+        // MUI sizes the popper to the anchor's clientWidth, which excludes the 1px borders
+        width: "calc(100% + 2px)",
       },
       listbox: {
         [`& .${autocompleteClasses.groupLabel}`]: {
@@ -425,40 +425,32 @@ export const components = (theme: Theme): Components => ({
         paddingLeft: "16px",
         borderRadius: "2px",
         height: "100%",
-        borderColor: palette.monochrome[500],
+        // Single source for border and dropdown arrow colour
+        "--input-border-color": palette.monochrome[500],
+        borderColor: "var(--input-border-color)",
+
+        "&:hover:not(.Mui-disabled)": {
+          "--input-border-color": palette.monochrome[800],
+        },
 
         "& input::placeholder": {
           color: palette.text[500],
         },
 
         "&.Mui-error": {
-          borderColor: palette.error.main,
+          "--input-border-color": palette.error.main,
           color: palette.error.main,
-
-          "& .MuiAutocomplete-endAdornment": {
-            borderColor: palette.error.main,
-
-            "& button svg": {
-              color: palette.error.main,
-            },
-          },
         },
 
         "&.Mui-disabled": {
           opacity: 1,
           color: palette.secondary[200],
-          borderColor: palette.secondary[200],
-          "& .MuiAutocomplete-endAdornment": {
-            borderColor: palette.secondary[200],
-            "& button svg": {
-              color: palette.secondary[200],
-            },
-          },
+          "--input-border-color": palette.secondary[200],
         },
 
         "& .MuiAutocomplete-endAdornment": {
           borderLeft: "1px solid",
-          borderColor: palette.monochrome[500],
+          borderColor: "var(--input-border-color)",
           marginLeft: "4px",
           paddingLeft: "4px",
           minHeight: "40px",
@@ -471,10 +463,25 @@ export const components = (theme: Theme): Components => ({
             boxShadow: "none",
             border: "none",
           },
+          "& button svg": {
+            color: "var(--input-border-color)",
+          },
         },
 
         "& fieldset": {
           display: "none",
+        },
+
+        // Show the focus ring on the whole control, not on the inner input
+        "& input:focus-visible, & select:focus-visible, & textarea:focus-visible":
+          {
+            outline: "none !important",
+          },
+        "&:focus-within": {
+          "--input-border-color": palette.monochrome[800],
+        },
+        "&.Mui-error:focus-within": {
+          "--input-border-color": palette.error.main,
         },
       },
     },
