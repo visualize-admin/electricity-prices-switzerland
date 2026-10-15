@@ -304,6 +304,10 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  /** Highest rate of a dynamic tariff, null when the operator has none */
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  /** Lowest rate of a dynamic tariff, null when the operator has none */
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -874,6 +878,8 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = {
   operator: string;
   operatorLabel?: string | null;
   category: string;
+  lowestrate?: number | null;
+  highestrate?: number | null;
   aidfee?: number | null;
   annualmeteringcost?: number | null;
   meteringrate?: number | null;
@@ -902,10 +908,14 @@ export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale: Scalars["String"]["input"];
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
+  operatorIds?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type ObservationsWithAllPriceComponentsQuery = {
   __typename: "Query";
+  operators: Array<{ __typename: "OperatorResult"; id: string; name: string }>;
   observations?: Array<{
     __typename: "OperatorObservation";
     period: string;
@@ -914,6 +924,8 @@ export type ObservationsWithAllPriceComponentsQuery = {
     operator: string;
     operatorLabel?: string | null;
     category: string;
+    lowestrate?: number | null;
+    highestrate?: number | null;
     aidfee?: number | null;
     annualmeteringcost?: number | null;
     meteringrate?: number | null;
@@ -1585,6 +1597,8 @@ export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     energy: value(priceComponent: energy)
     fixcostspercent: value(priceComponent: fixcostspercent)
     total: value(priceComponent: total)
+    lowestrate
+    highestrate
   }
 `;
 export const CantonMedianObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
@@ -1752,7 +1766,12 @@ export const ObservationsWithAllPriceComponentsDocument = gql`
     $locale: String!
     $filters: ObservationFilters!
     $observationKind: ObservationKind
+    $operatorIds: [String!]
   ) {
+    operators: searchOperators(locale: $locale, ids: $operatorIds) {
+      id
+      name
+    }
     observations(
       locale: $locale
       filters: $filters

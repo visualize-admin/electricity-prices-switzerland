@@ -31,7 +31,7 @@ import {
 } from "src/components/detail-page/download-image";
 import { prepareObservations } from "src/components/detail-page/price-components-bars-utils";
 import { WithClassName } from "src/components/detail-page/with-classname";
-import { HintBlue, Loading, NoDataHint } from "src/components/hint";
+import { Hint, Loading, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
 import { GenericObservation, detailsPriceComponents } from "src/domain/data";
 import { getPalette, pivot_longer } from "src/domain/helpers";
@@ -40,18 +40,20 @@ import { useQueryStateEnergyPricesDetails } from "src/domain/query-states";
 import { getLocalizedLabel } from "src/domain/translation";
 import {
   ObservationKind,
+  ObservationsWithAllPriceComponentsQuery,
   PriceComponent,
   useObservationsWithAllPriceComponentsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
 
 const DOWNLOAD_ID: Download = "components";
 
 type CollapsedState = "collapsed" | "expanded";
+
+type QueryState = ReturnType<typeof useQueryStateEnergyPricesDetails>[0];
 
 export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
   const locale = useLocale();
@@ -91,16 +93,59 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         entity === "canton"
           ? ObservationKind.Canton
           : ObservationKind.Municipality,
+      operatorIds: entity === "operator" ? entityIds : [],
     },
   });
-  const operatorObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonObservations = observationsQuery.fetching
-    ? EMPTY_ARRAY
-    : observationsQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
 
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
+  return (
+    <PriceComponentsCard
+      id={id}
+      entity={entity}
+      data={observationsQuery.data}
+      fetching={observationsQuery.fetching}
+      period={period}
+      category={category}
+      product={product}
+      operator={operator}
+      view={view}
+      download={download}
+      setView={(view) => setQueryState({ view: [view] })}
+    />
+  );
+};
+
+/**
+ * Renders the price components of an entity. Takes the fetched data as
+ * props, so it can be rendered without urql or the router.
+ */
+export const PriceComponentsCard = ({
+  id,
+  entity,
+  data,
+  fetching,
+  period,
+  category,
+  product,
+  operator,
+  view,
+  download,
+  setView,
+}: SectionProps &
+  Pick<
+    QueryState,
+    "period" | "category" | "product" | "operator" | "view" | "download"
+  > & {
+    data: ObservationsWithAllPriceComponentsQuery | undefined;
+    fetching: boolean;
+    setView: (view: CollapsedState) => void;
+  }) => {
+  const operatorObservations = fetching
+    ? EMPTY_ARRAY
+    : data?.observations ?? EMPTY_ARRAY;
+  const cantonObservations = fetching
+    ? EMPTY_ARRAY
+    : data?.cantonMedianObservations ?? EMPTY_ARRAY;
+  const operatorNames = new Map(data?.operators.map((o) => [o.id, o.name]));
 
   const {
     perPriceComponent,
@@ -108,6 +153,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
     xDomain,
     opacityDomain,
     mirrorEntities,
+    hasDynamicTariffs,
   } = React.useMemo(() => {
     const observations = [...operatorObservations, ...cantonObservations];
     const withUniqueEntityId = observations.map((obs) => ({
@@ -122,11 +168,13 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       (typeof detailsPriceComponents)[number],
       "meteringrate"
     >[];
+    // Drop missing values (e.g. no metering rate in canton medians), so
+    // price components without any value are not shown
     const pivoted = pivot_longer({
       data: withUniqueEntityId,
       cols: cols,
       name_to: "priceComponent" as const,
-    });
+    }).filter((d) => d.value != null);
 
     const xDomain = extent(pivoted.map((d) => d.value as number)) as [
       number,
@@ -159,7 +207,6 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
         view: view[0],
         priceComponent: priceComponent as PriceComponent,
         entity,
-        dynamicTariffsFlag,
       });
 
       return [priceComponent, prepared] as const;
@@ -171,16 +218,19 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
       colorDomain,
       opacityDomain,
       mirrorEntities,
+      hasDynamicTariffs: perPriceComponent.some(([, prepared]) =>
+        prepared.some((d) => "min" in d)
+      ),
     };
-  }, [
-    operatorObservations,
-    cantonObservations,
-    view,
-    entity,
-    dynamicTariffsFlag,
-    id,
-    operator,
-  ]);
+  }, [operatorObservations, cantonObservations, view, entity, id, operator]);
+
+  const operatorsWithoutObservations =
+    entity === "operator" && !fetching
+      ? colorDomain.filter(
+          (operatorId) =>
+            !operatorObservations.some((o) => o.operator === operatorId)
+        )
+      : [];
 
   const getItemLabel = (id: CollapsedState) => {
     if (entity === "canton") {
@@ -230,7 +280,10 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} hideYear={period.length > 1} />
+          <FilterSetDescription
+            filters={filters}
+            hideYear={period.length > 1}
+          />
         </CardDescription>
       </CardHeader>
       {!download && entity !== "canton" && mirrorEntities.length > 1 && (
@@ -264,7 +317,7 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
                 },
               ]}
               value={view[0]}
-              setValue={(view) => setQueryState({ view: [view] })}
+              setValue={(view) => setView(view)}
             />
           </Box>
           <Box display={["block", "block", "none"]}>
@@ -274,44 +327,58 @@ export const PriceComponentsBarChart = ({ id, entity }: SectionProps) => {
               items={["collapsed", "expanded"]}
               getItemLabel={getItemLabel}
               selectedItem={view[0]}
-              setSelectedItem={(view) => setQueryState({ view: [view] })}
+              setSelectedItem={(view) => setView(view)}
               showLabel={false}
             />
           </Box>
         </>
       )}
-      {dynamicTariffsFlag && (
-        <HintBlue iconName="infocircle">
-          <Trans id="dynamic-tariffs.hint">
-            Prices shown with values in brackets are dynamic. You can find more
-            information about how dynamic pricing works [here].
-          </Trans>
-        </HintBlue>
+      {(hasDynamicTariffs || operatorsWithoutObservations.length > 0) && (
+        <Box display="flex" flexDirection="column" gap={4}>
+          {hasDynamicTariffs && (
+            <Hint severity="info">
+              <Trans id="dynamic-tariffs.hint">
+                Prices shown with values in brackets are dynamic.
+              </Trans>
+            </Hint>
+          )}
+          {operatorsWithoutObservations.length > 0 && (
+            <Hint severity="warning">
+              <Trans id="price-components.operators-without-prices">
+                We have no prices for the following operators:
+              </Trans>
+              <Box component="ul" m={0} pl={5}>
+                {operatorsWithoutObservations.map((operatorId) => (
+                  <li key={operatorId}>
+                    {operatorNames.get(operatorId) ?? operatorId}
+                  </li>
+                ))}
+              </Box>
+            </Hint>
+          )}
+        </Box>
       )}
-      {observationsQuery.fetching ? (
+      {fetching ? (
         <Box minHeight={650} display="flex">
           <Loading delayMs={0} />
         </Box>
       ) : perPriceComponent.length === 0 ? (
         <NoDataHint />
       ) : (
-        <WithClassName
-          downloadId={DOWNLOAD_ID}
-          isFetching={observationsQuery.fetching}
-        >
+        <WithClassName downloadId={DOWNLOAD_ID} isFetching={fetching}>
           {entity === "operator" && (
             <Box display="flex" flexWrap="wrap" gap={1} mb={4}>
-              {colorDomain.map((operatorId, i) => (
-                <LegendItem
-                  key={operatorId}
-                  item={
-                    operatorObservations.find((o) => o.operator === operatorId)
-                      ?.operatorLabel ?? operatorId
-                  }
-                  color={getPalette("elcom")[i]}
-                  symbol="square"
-                />
-              ))}
+              {/* Index in colorDomain keeps the legend colors in sync with the bars */}
+              {colorDomain.map((operatorId, i) =>
+                operatorsWithoutObservations.includes(operatorId) ? null : (
+                  <LegendItem
+                    key={operatorId}
+                    item={operatorNames.get(operatorId) ?? operatorId}
+                    color={getPalette("elcom")[i]}
+                    symbol="square"
+                  />
+                )
+              )}
             </Box>
           )}
           {perPriceComponent.map(([priceComponent, observations], i) => {

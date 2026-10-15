@@ -26,7 +26,6 @@ import {
 } from "src/domain/helpers";
 import { sortByIndex } from "src/lib/array";
 import { wrapText } from "src/lib/estimate-text-width";
-import { useFlag } from "src/utils/flags";
 
 const useGroupedBarsState = ({
   data,
@@ -38,7 +37,6 @@ const useGroupedBarsState = ({
   const { labelFontSize } = useChartTheme();
   const labelLineHeight = labelFontSize + 2;
   const formatDisplay = useFormatDisplayNumber();
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
   const getX = useCallback(
     (d: GenericObservation) =>
       d[
@@ -130,7 +128,7 @@ const useGroupedBarsState = ({
       // Seems like the condition is inverted here but it works as intended
       const isMainRow = !segment.includes(EXPANDED_TAG);
       const dynamicText =
-        dynamicTariffsFlag && isMainRow
+        isMainRow && d.min != null
           ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
               d.max as number
             )}, ${t({

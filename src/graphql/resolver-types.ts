@@ -321,6 +321,10 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  /** Highest rate of a dynamic tariff, null when the operator has none */
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  /** Lowest rate of a dynamic tariff, null when the operator has none */
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -1447,6 +1451,16 @@ export type OperatorObservationResolvers<
   >;
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  highestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  lowestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   municipality?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalityLabel?: Resolver<
     Maybe<ResolversTypes["String"]>,

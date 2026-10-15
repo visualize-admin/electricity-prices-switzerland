@@ -1007,6 +1007,10 @@ msgstr "power-stability-trend-chart.sortable-legend-item.total"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "power-stability-trend-chart.sortable-legend-item.unplanned"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "price-components.operators-without-prices"
+msgstr "price-components.operators-without-prices"
+
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"

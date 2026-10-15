@@ -126,6 +126,10 @@ type OperatorObservation @cacheControl(maxAge: 300) {
   period: String!
   value(priceComponent: PriceComponent!): Float
   coverageRatio: Float!
+  "Lowest rate of a dynamic tariff, null when the operator has none"
+  lowestrate: Float
+  "Highest rate of a dynamic tariff, null when the operator has none"
+  highestrate: Float
 }
 
 "Operator figure: mean of the operator's values across the municipalities it serves"

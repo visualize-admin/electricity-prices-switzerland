@@ -321,7 +321,7 @@ msgstr "Scarica rapporti e tariffe"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Si tratta di una tariffa dinamica."
+msgstr "I prezzi indicati con valori tra parentesi sono dinamici."
 
 #: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
@@ -1008,6 +1008,10 @@ msgstr "Totale"
 #: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non pianificato"
+
+#: src/components/detail-page/price-components-bars.tsx
+msgid "price-components.operators-without-prices"
+msgstr "Non disponiamo di prezzi per i seguenti gestori di rete:"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx

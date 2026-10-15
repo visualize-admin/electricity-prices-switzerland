@@ -11,6 +11,11 @@ You can also check the
 
 # Unreleased
 
+- Price components show the range of dynamic grid usage tariffs from LINDAS in brackets, with a hint; this replaces the `dynamicElectricityTariffs` flag
+- Price components warn about compared operators without prices, and leave them out of the legend, which now shows names instead of ids
+- Price components without a value, like the metering rate of canton medians, are hidden instead of showing "undefined"
+- `Hint` with a `severity` replaces `HintBlue`
+- `pnpm mocks:graphql <url>` records the GraphQL responses of a page as typed unit test mocks
 - Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint
 - CSV exports, coverage ratios and the municipality lookup are cached in Redis when `REDIS_URL` is set, shared by all instances and by the CSV warmup at server start
 - Price observations are no longer cached on their own: the GraphQL response cache covers them, as it already did in `vanilla` cube query mode

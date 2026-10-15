@@ -917,6 +917,12 @@ const OperatorObservation: OperatorObservationResolvers = {
    */
   canton: (parent) => parent.region!,
   cantonLabel: (parent) => parent.regionLabel!,
+  /**
+   * Operators without a dynamic tariff have undefined or 0 rates
+   */
+  lowestrate: (parent) => (parent.lowestrate > 0 ? parent.lowestrate : null),
+  highestrate: (parent) =>
+    parent.lowestrate > 0 ? parent.highestrate : null,
 };
 
 const CantonMedianObservation: CantonMedianObservationResolvers = {

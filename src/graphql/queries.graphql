@@ -126,6 +126,8 @@ fragment operatorObservationWithAllPriceComponentsFields on OperatorObservation 
   energy: value(priceComponent: energy)
   fixcostspercent: value(priceComponent: fixcostspercent)
   total: value(priceComponent: total)
+  lowestrate
+  highestrate
 }
 
 fragment cantonMedianObservationWithAllPriceComponentsFields on CantonMedianObservation {
@@ -145,7 +147,13 @@ query ObservationsWithAllPriceComponents(
   $locale: String!
   $filters: ObservationFilters!
   $observationKind: ObservationKind
+  $operatorIds: [String!]
 ) {
+  # Names of the compared operators, also those without observations
+  operators: searchOperators(locale: $locale, ids: $operatorIds) {
+    id
+    name
+  }
   observations(
     locale: $locale
     filters: $filters
