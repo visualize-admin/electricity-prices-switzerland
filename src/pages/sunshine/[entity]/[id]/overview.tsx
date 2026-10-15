@@ -464,7 +464,7 @@ const OverviewPage = (props: Props) => {
             id="network-level"
             label={getLocalizedLabel({ id: "network-level" })}
             items={["NE5", "NE6", "NE7"]}
-            getItemLabel={(item) => valueLabels.networkLevel(item, "short")}
+            getItemLabel={(item) => valueLabels.networkLevel(item, "long")}
             selectedItem={networkLevel}
             setSelectedItem={updateNetworkLevel}
             infoDialogSlug="help-network-level"

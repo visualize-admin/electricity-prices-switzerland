@@ -877,7 +877,7 @@ msgstr "Livello di rete"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.description"
-msgstr "A livello di rete NE5"
+msgstr "A livello di rete LR5"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
@@ -905,7 +905,7 @@ msgstr "A livello di rete LR7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
-msgstr "Rete di distribuzione e allacciamenti domestici (Livello di rete LR7)"
+msgstr "Rete di distribuzione e allacciamenti domestici (Livello di rete 7)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.short"

@@ -882,7 +882,7 @@ msgstr "Au niveau du réseau NR5"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
-msgstr "Haute tension NR5"
+msgstr "Réseau moyenne tension (niveau de réseau 5)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.short"
@@ -894,7 +894,7 @@ msgstr "Au niveau du réseau NR6"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.long"
-msgstr "Moyenne tension NR6"
+msgstr "Transformation basse tension (niveau de réseau 6)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.short"
@@ -906,7 +906,7 @@ msgstr "Au niveau du réseau NR7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
-msgstr "Basse tension NR7"
+msgstr "Réseau de distribution et raccordements domestiques (niveau de réseau 7)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.short"

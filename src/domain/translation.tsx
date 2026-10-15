@@ -254,7 +254,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE5.long": t({
       id: "network-level.NE5.long",
-      message: `High voltage NE5`,
+      message: `Medium-voltage network (network level 5)`,
     }),
     "network-level.NE5.description": t({
       id: "network-level.NE5.description",
@@ -270,7 +270,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE6.long": t({
       id: "network-level.NE6.long",
-      message: `Medium voltage NE6`,
+      message: `Low-voltage transformation (network level 6)`,
     }),
 
     "network-level.NE7.short": t({
@@ -283,7 +283,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE7.long": t({
       id: "network-level.NE7.long",
-      message: `Low voltage NE7`,
+      message: `Distribution network and house connections (network level 7)`,
     }),
   };
 

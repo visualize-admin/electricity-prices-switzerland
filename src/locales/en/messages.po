@@ -881,7 +881,7 @@ msgstr "At Network Level NE5"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
-msgstr "High voltage NE5"
+msgstr "Medium-voltage network (network level 5)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.short"
@@ -893,7 +893,7 @@ msgstr "At Network Level NE6"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.long"
-msgstr "Medium voltage NE6"
+msgstr "Low-voltage transformation (network level 6)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE6.short"
@@ -905,7 +905,7 @@ msgstr "At Network Level NE7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
-msgstr "Low voltage NE7"
+msgstr "Distribution network and house connections (network level 7)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.short"
