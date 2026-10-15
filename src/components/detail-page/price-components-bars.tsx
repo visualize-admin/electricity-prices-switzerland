@@ -162,6 +162,18 @@ export const PriceComponentsCard = ({
           ? `${obs.period}, ${obs.cantonLabel}`
           : `${obs.period}, ${obs.operatorLabel}, ${obs.municipalityLabel}`,
       ...obs,
+      // The total range only differs from the total by the grid usage. It is
+      // computed before pivoting, which drops the grid usage from total rows
+      ...("lowestrate" in obs &&
+      obs.lowestrate != null &&
+      obs.highestrate != null &&
+      obs.total != null &&
+      obs.gridusage != null
+        ? {
+            totalLowestrate: obs.total - obs.gridusage + obs.lowestrate,
+            totalHighestrate: obs.total - obs.gridusage + obs.highestrate,
+          }
+        : {}),
     }));
 
     const cols = detailsPriceComponents as Exclude<

@@ -11,6 +11,7 @@ You can also check the
 
 # Unreleased
 
+- Price components show the dynamic tariff range on the total too, computed from the grid usage rates (ELC-164)
 - English (development only): price component tooltips, the grouped/individual municipalities toggle and the Indicators tab show text instead of translation keys
 - Sunshine overview: the network level filter shows the full description (e.g. "Medium-voltage network (network level 5)") instead of the bare code; the English, French and Italian descriptions now match the German ones (ELC-696)
 

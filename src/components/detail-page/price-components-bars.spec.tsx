@@ -61,11 +61,13 @@ const renderCard = ({
   id,
   data,
   operator,
+  view = "collapsed",
 }: {
   entity: "operator" | "canton";
   id: string;
   data: ObservationsWithAllPriceComponentsQuery;
   operator?: string[];
+  view?: "collapsed" | "expanded";
 }) =>
   render(
     <ThemeProvider theme={theme}>
@@ -78,7 +80,7 @@ const renderCard = ({
         category={["H3"]}
         product={["cheapest"]}
         operator={operator}
-        view={["collapsed"]}
+        view={[view]}
         download={undefined}
         setView={() => {}}
       />
@@ -115,7 +117,7 @@ describe("PriceComponentsCard", () => {
     ).toBeNull();
   });
 
-  it("shows the dynamic tariff range on grid usage, with a hint", () => {
+  it("shows the dynamic tariff range on grid usage and total, with a hint", () => {
     renderCard({
       entity: "operator",
       id: "31",
@@ -127,6 +129,22 @@ describe("PriceComponentsCard", () => {
       screen.getByText("Prices shown with values in brackets are dynamic.")
     ).toBeTruthy();
     expect(screen.getByText(/\(1\.10 - 11\.80, dynamic\)/)).toBeTruthy();
+    // 24.29 total - 9.24 grid usage + the grid usage rates
+    expect(screen.getByText(/\(16\.15 - 26\.85, dynamic\)/)).toBeTruthy();
+  });
+
+  it("shows the dynamic tariff range on grouped rows only, not per municipality", () => {
+    renderCard({
+      entity: "operator",
+      id: "31",
+      operator: ["814"],
+      data: operator31Vs814Dynamic,
+      view: "expanded",
+    });
+
+    expect(screen.getAllByText("Paradiso").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/\(1\.10 - 11\.80, dynamic\)/)).toHaveLength(1);
+    expect(screen.getAllByText(/\(16\.15 - 26\.85, dynamic\)/)).toHaveLength(1);
   });
 
   it("shows no dynamic hint without rates", () => {
