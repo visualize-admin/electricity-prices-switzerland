@@ -1346,35 +1346,35 @@ msgstr "Price components"
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.aidfee-content"
-msgstr "selector.priceComponents.aidfee-content"
+msgstr "Grid surcharge to promote renewable energy and the restoration of water bodies, set uniformly for all of Switzerland by the Federal Council."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.charge-content"
-msgstr "selector.priceComponents.charge-content"
+msgstr "Municipal and cantonal charges and fees, for example concession fees or local energy levies."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.collapsed-content"
-msgstr "selector.priceComponents.collapsed-content"
+msgstr "Shows the price components grouped by grid operator, without listing each municipality."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.energy-content"
-msgstr "selector.priceComponents.energy-content"
+msgstr "Price of the electrical energy supplied."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.expanded-content"
-msgstr "selector.priceComponents.expanded-content"
+msgstr "Shows the price components for each municipality separately."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.gridusage-content"
-msgstr "selector.priceComponents.gridusage-content"
+msgstr "Price for transporting electricity from the power plant to the home."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.meteringrate-content"
-msgstr "selector.priceComponents.meteringrate-content"
+msgstr "Separate tariffs for metering services (shown from 2026 onwards)."
 
 #: src/domain/translation.tsx
 msgid "selector.priceComponents.total-content"
-msgstr "selector.priceComponents.total-content"
+msgstr "Total electricity price made up of all regulated price components."
 
 #: src/domain/translation.tsx
 msgid "selector.pricecomponent.aidfee"
@@ -1437,7 +1437,7 @@ msgstr "Indicators"
 
 #: src/domain/translation.tsx
 msgid "selector.tab.indicators-content"
-msgstr "selector.tab.indicators-content"
+msgstr "Efficiency indicators including price trends."
 
 #: src/components/electricity-selectors.tsx
 #: src/components/sunshine-selectors/base.tsx
