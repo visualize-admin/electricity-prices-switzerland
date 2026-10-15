@@ -11,14 +11,23 @@ You can also check the
 
 # Unreleased
 
-- Price components show the range of dynamic grid usage tariffs from LINDAS in brackets, with a hint; this replaces the `dynamicElectricityTariffs` flag
-- Price components warn about compared operators without prices, and leave them out of the legend, which now shows names instead of ids
-- Price components without a value, like the metering rate of canton medians, are hidden instead of showing "undefined"
-- `Hint` with a `severity` replaces `HintBlue`
-- `pnpm mocks:graphql <url>` records the GraphQL responses of a page as typed unit test mocks
-- Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint
-- CSV exports, coverage ratios and the municipality lookup are cached in Redis when `REDIS_URL` is set, shared by all instances and by the CSV warmup at server start
-- Price observations are no longer cached on their own: the GraphQL response cache covers them, as it already did in `vanilla` cube query mode
+Nothing yet.
+
+# 2.57.0 - 2026-10-15
+
+- Price components show the range of dynamic grid usage tariffs from LINDAS in brackets, with a hint; this replaces the `dynamicElectricityTariffs` flag (#788)
+- Price components warn about compared operators without prices, and leave them out of the legend, which now shows names instead of ids (#788)
+- Price components without a value, like the metering rate of canton medians, are hidden instead of showing "undefined" (#788)
+- Tariffs Development shows the metering rate again, now that there is more than one year of data; it is listed after grid usage and no longer resets to total when switching tabs (ELC-730, #783)
+- Line charts hide the tooltip for years without a value, and start the y-axis at 0 when all values are equal (ELC-730, #783)
+- CSV exports, coverage ratios and the municipality lookup are cached in Redis when `REDIS_URL` is set, shared by all instances and by the CSV warmup at server start (#787)
+- Price observations are no longer cached on their own: the GraphQL response cache covers them, as it already did in `vanilla` cube query mode (#787)
+- Fix the CSV export warmup at server start failing with "this.fetch is not a function" (#787)
+- Coverage ratios are cached per SPARQL endpoint, so an admin's endpoint override no longer leaks into other users' results (#787)
+- Admin caches page counts only GraphQL response cache keys instead of every key in Redis (#787)
+- Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint (#787)
+- `Hint` with a `severity` replaces `HintBlue` (#788)
+- `pnpm mocks:graphql <url>` records the GraphQL responses of a page as typed unit test mocks (#788)
 
 # 2.56.1 - 2026-10-14
 
