@@ -24,6 +24,8 @@ const config: KnipConfig = {
     "open",
     // Used to run security vulnerability scan, available via nix
     "trivy",
+    // Opt-in git hooks, installed by hand (docs/git-hooks.md)
+    "lefthook",
   ],
   ignoreUnresolved: [
     // Used in package.json:scripts:start to configure HTTP_PROXY.
@@ -54,6 +56,9 @@ const config: KnipConfig = {
 
     // Used by claude
     "typescript-language-server",
+
+    // Opt-in git hooks, installed by hand (docs/git-hooks.md)
+    "lefthook",
   ],
 };
 export default config;
