@@ -22,21 +22,40 @@ Nothing yet.
 
 Edit `package.json` and increment the `"version"` field following [semver](https://semver.org/).
 
-### 3. Build the Docker image locally
+### 3. Check that the locales match Accent
+
+CI downloads the translations from Accent before building the image and fails
+when they differ from the repository. Run the same check locally (needs
+`ACCENT_API_KEY`):
+
+```bash
+pnpm locales:export
+git diff --exit-code src/locales
+```
+
+If it shows a diff, decide which side is right:
+
+- Accent is right: commit the downloaded locales.
+- The repository is right (for example a translation was changed in a PR):
+  update the strings in Accent (`pnpm locales:browse`). The `Sync locales to
+  Accent` workflow does not overwrite existing translations. Then run the check
+  again.
+
+### 4. Build the Docker image locally
 
 ```bash
 pnpm docker:build
 # equivalent: docker buildx build --platform linux/amd64 -t interactivethings/electricity-prices-switzerland .
 ```
 
-### 4. Verify the image starts
+### 5. Verify the image starts
 
 ```bash
 docker run -ti interactivethings/electricity-prices-switzerland /bin/bash
 # Ctrl-D or `exit` to stop
 ```
 
-### 5. Scan for vulnerabilities with Trivy
+### 6. Scan for vulnerabilities with Trivy
 
 ```bash
 pnpm docker:trivy
@@ -47,7 +66,7 @@ pnpm docker:trivy
 
 All HIGH and CRITICAL findings must be resolved or suppressed before proceeding.
 
-### 6. Commit and tag
+### 7. Commit and tag
 
 ```bash
 git add CHANGELOG.md package.json
@@ -55,7 +74,7 @@ git commit -m "chore: vX.Y.Z"
 git tag -m "vX.Y.Z" vX.Y.Z
 ```
 
-### 7. Push
+### 8. Push
 
 The `postversion` npm script handles this automatically when using `pnpm version`:
 

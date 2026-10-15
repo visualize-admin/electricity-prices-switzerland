@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.57.1 - 2026-10-15
+
+- Release 2.57.0 again: its Docker image was not published because the German, French and Italian dynamic tariffs hint in the repository differed from Accent. The hint now reads "Es handelt sich um einen dynamischen Tarif." and its French and Italian equivalents
+
 # 2.57.0 - 2026-10-15
 
 - Price components show the range of dynamic grid usage tariffs from LINDAS in brackets, with a hint; this replaces the `dynamicElectricityTariffs` flag (#788)

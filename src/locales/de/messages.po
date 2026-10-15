@@ -321,7 +321,7 @@ msgstr "Download Berichte & Tarife"
 
 #: src/components/detail-page/price-components-bars.tsx
 msgid "dynamic-tariffs.hint"
-msgstr "Preise mit Werten in Klammern sind dynamisch."
+msgstr "Es handelt sich um einen dynamischen Tarif."
 
 #: src/components/charts-generic/bars/bars-grouped-state.tsx
 msgid "dynamic.tariff"
