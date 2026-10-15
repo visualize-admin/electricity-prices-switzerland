@@ -226,11 +226,7 @@ const NetworkCosts = (props: Extract<Props, { status: "found" }>) => {
   const operatorLabel = props.name;
 
   const comparisonCardProps = {
-    title: (
-      <Trans id="sunshine.costs-and-tariffs.network-costs-end-consumer">
-        Network Costs at {valueLabels.networkLevel(networkLevel, "long")} Level
-      </Trans>
-    ),
+    title: <Trans id="sunshine.grid.network-costs-title">Network Costs</Trans>,
     subtitle: (
       <Trans id="sunshine.latest-year">Latest year ({latestYear})</Trans>
     ),

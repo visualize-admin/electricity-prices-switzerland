@@ -1552,10 +1552,6 @@ msgid "sunshine.costs-and-tariffs.network-costs"
 msgstr "Costi di rete"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Costi di rete al livello di rete {0}"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
 msgstr "Non sono disponibili dati sulle tariffe energetiche per questo gestore di rete nell'anno tariffario selezionato."
 
@@ -1672,6 +1668,7 @@ msgstr "SAIFI Non pianificato"
 msgid "sunshine.export.column.timely-submission"
 msgstr "Presentazione tempestiva dei documenti"
 
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "Costi di rete"

@@ -13,6 +13,7 @@ You can also check the
 
 - English (development only): price component tooltips, the grouped/individual municipalities toggle and the Indicators tab show text instead of translation keys
 - Sunshine overview: the network level filter shows the full description (e.g. "Medium-voltage network (network level 5)") instead of the bare code; the English, French and Italian descriptions now match the German ones (ELC-696)
+- Sunshine Costs and Tariffs: the network costs card is titled "Network Costs" instead of repeating the network level selected in the dropdown above (ELC-696)
 
 # 2.57.1 - 2026-10-15
 

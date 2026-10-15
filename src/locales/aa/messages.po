@@ -1550,10 +1550,6 @@ msgid "sunshine.costs-and-tariffs.network-costs"
 msgstr "sunshine.costs-and-tariffs.network-costs"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "sunshine.costs-and-tariffs.network-costs-end-consumer"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
 msgstr "sunshine.costs-and-tariffs.no-energy-tariffs"
 
@@ -1670,6 +1666,7 @@ msgstr "sunshine.export.column.saifi-unplanned"
 msgid "sunshine.export.column.timely-submission"
 msgstr "sunshine.export.column.timely-submission"
 
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "sunshine.grid.network-costs-title"
