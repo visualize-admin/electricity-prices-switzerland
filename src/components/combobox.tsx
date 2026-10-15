@@ -55,6 +55,18 @@ const defaultOptionEqualToValue = (
   return option === value;
 };
 
+/** Props shared by the single and multi select so both look the same. */
+const sharedAutocompleteProps = {
+  popupIcon: <Icon name="chevrondown" color="black" />,
+  disableClearable: true as const,
+  ListboxProps: { sx: { padding: 0 } },
+  // Offset on the popper so the gap is the same above and below the input,
+  // and -1 to line up with the input's 1px border
+  slotProps: {
+    popper: { modifiers: [{ name: "offset", options: { offset: [-1, 4] } }] },
+  },
+};
+
 const ComboboxLabel = ({
   label,
   icon,
@@ -126,6 +138,9 @@ export const MultiCombobox = ({
   const canRemoveItems = selectedItems.length > minSelectedItems;
 
   const htmlFor = useId();
+  const prompt =
+    promptText ??
+    t({ id: "combobox.prompt", message: "Enter designation ..." });
   return (
     <Autocomplete
       disabled={disabled}
@@ -154,8 +169,12 @@ export const MultiCombobox = ({
           flexWrap: "wrap",
           overflow: "hidden",
         },
+        // MUI hides the unfocused input, which would hide the placeholder
+        ...(selectedItems.length === 0 && {
+          [`& .${autocompleteClasses.input}`]: { opacity: 1 },
+        }),
       }}
-      popupIcon={<Icon name="chevrondown" color="black" />}
+      {...sharedAutocompleteProps}
       renderInput={(params) => (
         <Box
           position="relative"
@@ -177,6 +196,9 @@ export const MultiCombobox = ({
             }}
             size={size}
             error={error}
+            placeholder={
+              lazy && selectedItems.length === 0 ? prompt : undefined
+            }
             helperText={
               max && selectedItems.length >= max
                 ? t({
@@ -195,8 +217,7 @@ export const MultiCombobox = ({
       )}
       noOptionsText={
         inputValue === "" && lazy
-          ? promptText ??
-            t({ id: "combobox.prompt", message: "Enter designation ..." })
+          ? prompt
           : t({ id: "combobox.noitems", message: "No results" })
       }
       renderTags={(value, getTagProps) =>
@@ -272,7 +293,6 @@ export const MultiCombobox = ({
         setInputValue("");
       }}
       isOptionEqualToValue={isOptionEqualToValue}
-      disableClearable
       loading={isLoading}
     />
   );
@@ -425,9 +445,8 @@ export const Combobox = <T extends string>({
             {selected && <Icon name="checkmark" />}
           </li>
         )}
-        popupIcon={<Icon name="chevrondown" color="black" />}
+        {...sharedAutocompleteProps}
         getOptionLabel={getItemLabel}
-        disableClearable
         value={selectedItem}
         onChange={(_, newValue) => {
           if (newValue) {
@@ -449,18 +468,6 @@ export const Combobox = <T extends string>({
           />
         )}
         noOptionsText={t({ id: "combobox.noitems", message: "No results" })}
-        ListboxProps={{
-          sx: {
-            padding: 0,
-          },
-        }}
-        slotProps={{
-          paper: {
-            sx: {
-              marginTop: "0.25rem",
-            },
-          },
-        }}
       />
     </Box>
   );
