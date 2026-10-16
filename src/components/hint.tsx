@@ -1,19 +1,10 @@
 import { keyframes } from "@emotion/react";
 import { Trans } from "@lingui/macro";
 import { Box, BoxProps, IconButton, Skeleton, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
 import { Icon, IconName } from "src/icons";
 import { palette } from "src/themes/palette";
-
-const ContentWrapper = dynamic(
-  () =>
-    import("@interactivethings/swiss-federal-ci/dist/components").then(
-      (mod) => mod.ContentWrapper
-    ),
-  { ssr: false }
-);
 
 const delayedShow = keyframes`
   0% { opacity: 0 }
@@ -191,50 +182,57 @@ export const NoContentHint = () => (
   </Box>
 );
 
-export const HintBlue = ({
-  iconName,
+type HintSeverity = "info" | "success" | "warning" | "error";
+
+const severityIcons: Record<HintSeverity, IconName> = {
+  info: "infocircle",
+  success: "checkmarkcircle",
+  warning: "warningcircle",
+  error: "warningcirclefilled",
+};
+
+export const Hint = ({
+  severity,
   children,
   onRemove,
+  sx,
 }: {
-  iconName: IconName;
+  severity: HintSeverity;
   children: ReactNode;
   onRemove?: () => void;
+  sx?: BoxProps["sx"];
 }) => (
   <Box
     display="flex"
-    width="auto"
-    height="auto"
+    justifyContent="flex-start"
+    alignItems={["flex-start", "center"]}
+    gap={4}
     py={4}
     px={9}
-    bgcolor="blue.50"
-    color="blue.700"
+    bgcolor={`${severity}.light`}
+    color={`${severity}.main`}
     boxShadow={1}
+    sx={sx}
   >
-    <ContentWrapper
-      sx={{
-        textAlign: "center",
-        justifyContent: "flex-start",
-        gap: 4,
-        alignItems: ["flex-start", "center"],
-        display: "flex",
-      }}
+    <Box
+      display={"flex"}
+      width={24}
+      alignItems="center"
+      justifyContent="center"
     >
-      <Box
-        display={"flex"}
-        width={24}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Icon name={iconName} size={24} color={palette.blue[700]} />
-      </Box>
-      <Typography variant="body3" textAlign="left">
-        {children}
-      </Typography>
-      {onRemove && (
-        <IconButton size="sm" onClick={onRemove} sx={{ ml: "auto" }}>
-          <Icon name={"cancel"} color={palette.blue[700]} size={24} />
-        </IconButton>
-      )}
-    </ContentWrapper>
+      <Icon
+        name={severityIcons[severity]}
+        size={24}
+        color={palette[severity].main}
+      />
+    </Box>
+    <Typography variant="body3" component="div" textAlign="left">
+      {children}
+    </Typography>
+    {onRemove && (
+      <IconButton size="sm" onClick={onRemove} sx={{ ml: "auto" }}>
+        <Icon name={"cancel"} color={palette[severity].main} size={24} />
+      </IconButton>
+    )}
   </Box>
 );

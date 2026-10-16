@@ -52,6 +52,14 @@ export type ResolvedOperatorObservation = {
   regionLabel?: string;
 } & { [key: string]: number };
 
+export type ResolvedOperatorMeanObservation = {
+  __typename: "OperatorMeanObservation";
+  operator?: string;
+  operatorLabel?: string;
+  category?: string;
+  period?: string;
+} & { [key: string]: number | null };
+
 export type ResolvedObservation =
   | ResolvedCantonMedianObservation
   | ResolvedSwissMedianObservation

@@ -3,6 +3,7 @@ import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { parseResolveInfo, ResolveTree } from "graphql-parse-resolve-info";
 import { last, sortBy } from "lodash";
 import micromark from "micromark";
+import { averageResolvedObservationsByOperator } from "src/domain/aggregate-observations";
 import { asElectricityCategory } from "src/domain/data";
 
 import { searchGeverDocuments } from "src/domain/gever";
@@ -15,6 +16,7 @@ import { getWikiPage } from "src/domain/wiki/gitlab-api";
 import {
   ElectricityCategory,
   ResolvedCantonMedianObservation,
+  ResolvedOperatorMeanObservation,
   ResolvedOperatorObservation,
   ResolvedSwissMedianObservation,
 } from "src/graphql/resolver-mapped-types";
@@ -22,7 +24,9 @@ import {
   CantonMedianObservationResolvers,
   MunicipalityResolvers,
   ObservationKind,
+  ObservationFilters,
   ObservationResolvers,
+  OperatorMeanObservationResolvers,
   OperatorObservationResolvers,
   OperatorResolvers,
   QueryResolvers,
@@ -49,15 +53,13 @@ import {
   CoverageCacheManager,
   DEFAULT_COVERAGE_NETWORK_LEVEL,
 } from "src/rdf/coverage-ratio";
+import { CubeNotFoundError } from "src/rdf/cube-queries-vanilla";
 import {
-  getDimensionValuesAndLabels,
-  getElectricityPriceCantonCube,
-  getElectricityPriceCube,
-  getElectricityPriceObservations,
-  getElectricityPriceSwissCube,
+  getCubeDimensionPaths,
+  getDimensionValues,
+  getObservations,
   getOperatorDocuments,
   getOperatorsMunicipalities,
-  getView,
 } from "src/rdf/queries";
 import { fetchOperatorInfo } from "src/rdf/search-queries";
 
@@ -66,6 +68,16 @@ const gfmHtml = require("micromark-extension-gfm/html");
 
 import ParsingClient from "sparql-http-client/ParsingClient";
 import type { SearchResult as CachedSearchResult } from "src/lib/search-index-cache";
+
+const rethrowCubeNotFound = (e: unknown): never => {
+  if (e instanceof CubeNotFoundError) {
+    console.error(e.message);
+    throw new GraphQLError(e.message, {
+      extensions: { code: "CUBE_NOT_FOUND" },
+    });
+  }
+  throw e;
+};
 
 const searchWithIndex = async ({
   locale,
@@ -350,71 +362,57 @@ const Query: QueryResolvers = {
       return null;
     }
 
-    let observationsCube;
-    try {
-      observationsCube = await getElectricityPriceCube(ctx.sparqlClient);
-    } catch (e: unknown) {
-      console.error(e instanceof Error ? e.message : e);
-      return [];
-    }
-
-    const observationsView = getView(observationsCube);
-
     // Look ahead to select proper dimensions for query
     const observationFields = getResolverFields(info, "OperatorObservation");
+    const observationDimensionKeys = getDimensionKeys(observationFields);
 
-    const observationDimensionKeys = observationFields
-      ? Object.values<ResolveTree>(observationFields).map((fieldInfo) => {
-          return (
-            (fieldInfo.args.priceComponent as string) ??
-            // fieldInfo.name.replace(/^canton/, "region")
-            fieldInfo.name
-          );
+    return observationDimensionKeys.length > 0
+      ? await getCoveredOperatorObservations(ctx.sparqlClient, {
+          locale,
+          filters,
+          dimensions: observationDimensionKeys,
+          networkLevel,
+          includeBelowCoverageThreshold,
+          operationName: info.operation.name?.value,
         })
       : [];
-
-    const rawOperatorObservations =
-      observationDimensionKeys.length > 0
-        ? await getElectricityPriceObservations(
-            {
-              view: observationsView,
-              source: observationsCube.source,
-              locale: locale ?? defaultLocale,
-            },
-            {
-              filters,
-              dimensions: observationDimensionKeys,
-            }
-          )
-        : [];
-
-    const operatorObservations = rawOperatorObservations.map((o) => ({
-      __typename: "OperatorObservation",
-      ...o,
-    })) as ResolvedOperatorObservation[];
-
-    const years = Array.from(
-      new Set(operatorObservations.map((x) => x.period).filter(truthy))
+  },
+  operatorMeanObservations: async (_, { locale, filters }, ctx, info) => {
+    const meanObservationFields = getResolverFields(
+      info,
+      "OperatorMeanObservation"
     );
-    if (years) {
-      const level = networkLevel
-        ? asNetworkLevel(networkLevel)
-        : DEFAULT_COVERAGE_NETWORK_LEVEL;
-      const coverageManager = new CoverageCacheManager(ctx.sparqlClient);
-      await coverageManager.prepare(years);
-      operatorObservations.forEach((x) => {
-        const coverageRatio = coverageManager.getCoverage(x, level);
-        x.coverageRatio = coverageRatio;
-        return x;
-      });
-    }
+    const priceComponents = meanObservationFields
+      ? Object.values<ResolveTree>(meanObservationFields)
+          .map((fieldInfo) => fieldInfo.args.priceComponent as string)
+          .filter(truthy)
+      : [];
 
-    return includeBelowCoverageThreshold
-      ? operatorObservations
-      : CoverageCacheManager.filterByCoverageRatio(
-          operatorObservations,
-          (o) => o.coverageRatio
-        );
+    const operatorObservations = await getCoveredOperatorObservations(
+      ctx.sparqlClient,
+      {
+        locale,
+        filters,
+        // Coverage and grouping need municipality, operator and period
+        dimensions: Array.from(
+          new Set([
+            ...getDimensionKeys(meanObservationFields),
+            "municipality",
+            "operator",
+            "period",
+          ])
+        ),
+        operationName: info.operation.name?.value,
+      }
+    );
+
+    return averageResolvedObservationsByOperator(
+      operatorObservations,
+      priceComponents
+    ).map((x) => ({
+      __typename: "OperatorMeanObservation",
+      ...x,
+    })) as ResolvedOperatorMeanObservation[];
   },
   cantonMedianObservations: async (
     _,
@@ -425,19 +423,6 @@ const Query: QueryResolvers = {
     if (observationKind && observationKind !== ObservationKind.Canton) {
       return null;
     }
-
-    let cantonCube;
-    try {
-      cantonCube = await getElectricityPriceCantonCube(ctx.sparqlClient);
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : `${e}`;
-      console.error(message);
-      throw new GraphQLError(message, {
-        extensions: { code: "CUBE_NOT_FOUND" },
-      });
-    }
-
-    const cantonObservationsView = getView(cantonCube);
 
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
@@ -457,18 +442,18 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getElectricityPriceObservations(
+        ? await getObservations(
             {
-              view: cantonObservationsView,
-              source: cantonCube.source,
-              isCantons: true,
+              client: ctx.sparqlClient,
+              cube: "canton",
               locale: locale ?? defaultLocale,
+              operationName: info.operation.name?.value,
             },
             {
               filters,
               dimensions: medianDimensionKeys,
             }
-          )
+          ).catch(rethrowCubeNotFound)
         : [];
 
     const medianObservations = rawMedianObservations.map((x) => ({
@@ -479,21 +464,6 @@ const Query: QueryResolvers = {
     return medianObservations;
   },
   swissMedianObservations: async (_, { locale, filters }, ctx, info) => {
-    let swissCube;
-    try {
-      swissCube = await getElectricityPriceSwissCube(ctx.sparqlClient);
-    } catch (e: unknown) {
-      const message = `${e instanceof Error ? e.message : e}`;
-      console.error(message);
-      throw new GraphQLError(message, {
-        extensions: {
-          code: "CUBE_NOT_FOUND",
-        },
-      });
-    }
-
-    const swissObservationsView = getView(swissCube);
-
     // Look ahead to select proper dimensions for query
     const medianObservationFields = getResolverFields(
       info,
@@ -512,18 +482,18 @@ const Query: QueryResolvers = {
 
     const rawMedianObservations =
       medianDimensionKeys.length > 0
-        ? await getElectricityPriceObservations(
+        ? await getObservations(
             {
-              view: swissObservationsView,
-              source: swissCube.source,
-              isCantons: true,
+              client: ctx.sparqlClient,
+              cube: "swiss",
               locale: locale ?? defaultLocale,
+              operationName: info.operation.name?.value,
             },
             {
               filters,
               dimensions: medianDimensionKeys,
             }
-          )
+          ).catch(rethrowCubeNotFound)
         : [];
 
     const medianObservations = rawMedianObservations.map((o) => ({
@@ -610,32 +580,32 @@ const Query: QueryResolvers = {
       client: context.sparqlClient,
     });
   },
-  municipality: async (_, { id }, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
-    const results = await getDimensionValuesAndLabels({
-      cube,
+  municipality: async (_, { id }, ctx, info) => {
+    const results = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "municipality",
       filters: { municipality: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return results[0];
   },
   canton: async (_, { id }) => ({ id }),
-  operator: async (_, { id, geverId }, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
-    const results = await getDimensionValuesAndLabels({
-      cube,
+  operator: async (_, { id, geverId }, ctx, info) => {
+    const results = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "operator",
       filters: { operator: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return { ...results[0], id, geverId: geverId || undefined };
   },
-  cubeHealth: async (_, __, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-    const dimensions = cube.dimensions.map((d) => d.path.value);
+  cubeHealth: async (_, __, ctx, info) => {
+    const dimensions = await getCubeDimensionPaths({
+      client: ctx.sparqlClient,
+      operationName: info.operation.name?.value,
+    });
     const missingDimensions = difference(expectedCubeDimensions, dimensions);
     return {
       ok: missingDimensions.size === 0,
@@ -745,27 +715,26 @@ const getExtraInfo = async (slug: string) => {
 };
 
 const Municipality: MunicipalityResolvers = {
-  operators: async ({ id }, _, ctx) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-    return getDimensionValuesAndLabels({
-      cube,
+  operators: async ({ id }, _, ctx, info) => {
+    return getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "operator",
       filters: { municipality: [id] },
+      operationName: info.operation.name?.value,
     });
   },
 };
 
 const Operator: OperatorResolvers = {
   municipalities: async ({ id }, _, ctx, info) => {
-    const cube = await getElectricityPriceCube(ctx.sparqlClient);
-
     // Get locale from operation variables, default to 'de'
     const locale = (info.variableValues as any)?.locale ?? "de";
 
-    const municipalities = await getDimensionValuesAndLabels({
-      cube,
+    const municipalities = await getDimensionValues({
+      client: ctx.sparqlClient,
       dimensionKey: "municipality",
       filters: { operator: [id] },
+      operationName: info.operation.name?.value,
     });
 
     return municipalities
@@ -827,6 +796,91 @@ const Operator: OperatorResolvers = {
   },
 };
 
+/**
+ * Cube dimensions to query for the requested fields: price components by
+ * their `priceComponent` argument, other fields by name.
+ */
+const getDimensionKeys = (fields: { [s: string]: ResolveTree } | undefined) =>
+  fields
+    ? Object.values<ResolveTree>(fields).map(
+        (fieldInfo) =>
+          (fieldInfo.args.priceComponent as string) ?? fieldInfo.name
+      )
+    : [];
+
+/**
+ * Operator observations with their coverage ratio. Rows below the coverage
+ * threshold are dropped unless `includeBelowCoverageThreshold` is set.
+ */
+const getCoveredOperatorObservations = async (
+  sparqlClient: ParsingClient,
+  {
+    locale,
+    filters,
+    dimensions,
+    networkLevel,
+    includeBelowCoverageThreshold,
+    operationName,
+  }: {
+    locale?: string | null;
+    filters?: ObservationFilters | null;
+    dimensions: string[];
+    networkLevel?: string | null;
+    includeBelowCoverageThreshold?: boolean | null;
+    operationName: string | undefined;
+  }
+) => {
+  let rawOperatorObservations;
+  try {
+    rawOperatorObservations = await getObservations(
+      {
+        client: sparqlClient,
+        cube: "municipality",
+        locale: locale ?? defaultLocale,
+        operationName,
+      },
+      {
+        filters,
+        dimensions,
+      }
+    );
+  } catch (e: unknown) {
+    if (!(e instanceof CubeNotFoundError)) {
+      throw e;
+    }
+    console.error(e.message);
+    return [];
+  }
+
+  const operatorObservations = rawOperatorObservations.map((o) => ({
+    __typename: "OperatorObservation",
+    ...o,
+  })) as ResolvedOperatorObservation[];
+
+  const years = Array.from(
+    new Set(operatorObservations.map((x) => x.period).filter(truthy))
+  );
+  if (years) {
+    const level = networkLevel
+      ? asNetworkLevel(networkLevel)
+      : DEFAULT_COVERAGE_NETWORK_LEVEL;
+    const coverageManager = new CoverageCacheManager(sparqlClient);
+    await coverageManager.prepare(years);
+    operatorObservations.forEach((x) => {
+      const coverageRatio = coverageManager.getCoverage(x, level);
+      x.coverageRatio = coverageRatio;
+      return x;
+    });
+  }
+
+  return includeBelowCoverageThreshold
+    ? operatorObservations
+    : CoverageCacheManager.filterByCoverageRatio(
+        operatorObservations,
+        (o) => o.coverageRatio
+      );
+};
+
 const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
   const resolveInfo = parseResolveInfo(info);
 
@@ -840,6 +894,12 @@ const getResolverFields = (info: GraphQLResolveInfo, type: string) => {
 
 const Observation: ObservationResolvers = {
   __resolveType: (obj) => obj.__typename,
+};
+
+const OperatorMeanObservation: OperatorMeanObservationResolvers = {
+  value: (parent, args) => {
+    return parent[args.priceComponent];
+  },
 };
 
 const OperatorObservation: OperatorObservationResolvers = {
@@ -857,6 +917,12 @@ const OperatorObservation: OperatorObservationResolvers = {
    */
   canton: (parent) => parent.region!,
   cantonLabel: (parent) => parent.regionLabel!,
+  /**
+   * Operators without a dynamic tariff have undefined or 0 rates
+   */
+  lowestrate: (parent) => (parent.lowestrate > 0 ? parent.lowestrate : null),
+  highestrate: (parent) =>
+    parent.lowestrate > 0 ? parent.highestrate : null,
 };
 
 const CantonMedianObservation: CantonMedianObservationResolvers = {
@@ -910,6 +976,7 @@ export const resolvers: Resolvers = {
   Operator,
   Observation,
   OperatorObservation,
+  OperatorMeanObservation,
   CantonMedianObservation,
   SwissMedianObservation,
   // Canton,

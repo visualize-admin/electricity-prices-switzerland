@@ -57,7 +57,7 @@ export const getMunicipalityPageProps = async (
 > => {
   const { id, locale, res, years } = params!;
   const [municipality, operators] = await Promise.all([
-    getMunicipality({ id, client }),
+    getMunicipality({ id, client, locale }),
     getMunicipalityOperators(client, id, years),
   ]);
 

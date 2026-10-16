@@ -1,3 +1,5 @@
+import { Box } from "@mui/material";
+
 import { StoryGrid } from "src/components/storybook/story-grid";
 
 import {
@@ -6,7 +8,7 @@ import {
   LoadingIconInline,
   NoDataHint,
   NoContentHint,
-  HintBlue,
+  Hint,
 } from "./hint";
 
 import type { Meta } from "@storybook/react";
@@ -44,6 +46,15 @@ export function NoContentHintStory() {
   return <NoContentHint />;
 }
 
-export function HintBlueStory() {
-  return <HintBlue iconName="infocircle">This is a hint</HintBlue>;
+export function HintStory() {
+  return (
+    <Box display="flex" flexDirection="column" gap={4}>
+      <Hint severity="info">This is an info hint</Hint>
+      <Hint severity="success">This is a success hint</Hint>
+      <Hint severity="warning">This is a warning hint</Hint>
+      <Hint severity="error" onRemove={() => {}}>
+        This is an error hint
+      </Hint>
+    </Box>
+  );
 }

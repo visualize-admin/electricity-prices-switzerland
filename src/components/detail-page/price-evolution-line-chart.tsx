@@ -1,7 +1,8 @@
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
-import { memo } from "react";
+import { sortBy } from "lodash";
+import { memo, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
@@ -33,7 +34,6 @@ import { FilterSetDescription } from "src/components/detail-page/filter-set-desc
 import { WithClassName } from "src/components/detail-page/with-classname";
 import { Loading, LoadingSkeleton, NoDataHint } from "src/components/hint";
 import { InfoDialogButton } from "src/components/info-dialog";
-import { averageOperatorObservationsByPeriod } from "src/domain/aggregate-observations";
 import {
   DetailPriceComponent,
   detailsPriceComponents,
@@ -50,6 +50,7 @@ import {
   PriceComponent as PriceComponentEnum,
   useObservationsWithAllPriceComponentsQuery,
   usePriceEvolutionObservationsQuery,
+  usePriceEvolutionOperatorMeanObservationsQuery,
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
@@ -57,11 +58,6 @@ import { useLocale } from "src/lib/use-locale";
 import { HighlightIndicator } from "../charts-generic/interaction/highlight-indicator";
 
 const DOWNLOAD_ID: Download = "evolution";
-
-// Meteringrate excluded — only 1 value. To revisit later.
-const evolutionPriceComponents = detailsPriceComponents.filter(
-  (x) => x !== "meteringrate"
-);
 
 export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
   const [{ category, product, period, priceComponent }, setQueryState] =
@@ -103,13 +99,13 @@ export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
           </Trans>
         </CardTitle>
         <CardDescription>
-          <FilterSetDescription filters={filters} />
+          <FilterSetDescription filters={filters} hideYear />
         </CardDescription>
       </CardHeader>
       <Box display={["none", "none", "block"]}>
         <ButtonGroup<DetailPriceComponent>
           id="evolutionPriceComponent"
-          options={evolutionPriceComponents.map((value) => ({
+          options={detailsPriceComponents.map((value) => ({
             value,
             label: getLocalizedLabel({ id: value }),
             content: getLocalizedLabel({
@@ -128,7 +124,7 @@ export const PriceEvolutionCard = ({ id, entity }: SectionProps) => {
             id: "selector.priceComponents",
             message: "Price components",
           })}
-          items={evolutionPriceComponents}
+          items={detailsPriceComponents}
           getItemLabel={(id) => getLocalizedLabel({ id })}
           selectedItem={priceComponent[0]}
           setSelectedItem={(pc) => setQueryState({ priceComponent: [pc] })}
@@ -196,43 +192,54 @@ export const PriceEvolution = ({
       filters,
       observationKind,
     },
-    pause: !mini,
+    pause: !mini || entity === "operator",
+  });
+  // One line per operator instead of one per municipality it serves
+  const [operatorMeanQuery] = usePriceEvolutionOperatorMeanObservationsQuery({
+    variables: {
+      locale,
+      priceComponent: priceComponent as PriceComponentEnum,
+      filters,
+    },
+    pause: !mini || entity !== "operator",
   });
 
-  const fetching = mini ? slimQuery.fetching : allQuery.fetching;
-  const slimObservations = slimQuery.data?.observations ?? EMPTY_ARRAY;
-  const operatorObservations = fetching
-    ? EMPTY_ARRAY
-    : mini
-    ? // One line per operator instead of one per municipality it serves
-      (entity === "operator"
-        ? averageOperatorObservationsByPeriod(slimObservations)
-        : slimObservations
-      ).map((obs) => ({
+  // The only query not paused above
+  const relevantQuery = !mini
+    ? allQuery
+    : entity === "operator"
+    ? operatorMeanQuery
+    : slimQuery;
+  const { fetching, data: relevantData } = relevantQuery;
+  const observations = useMemo(() => {
+    if (fetching || !relevantData) {
+      return EMPTY_ARRAY;
+    }
+    const relevantObservations: GenericObservation[] = [
+      ...(relevantData.observations ?? EMPTY_ARRAY),
+      ...(("cantonMedianObservations" in relevantData &&
+        relevantData.cantonMedianObservations) ||
+        EMPTY_ARRAY),
+    ];
+    // Mini queries fetch a single price component as `value`
+    if (mini) {
+      return relevantObservations.map((obs) => ({
         ...obs,
         [priceComponent]: obs.value,
-      }))
-    : allQuery.data?.observations ?? EMPTY_ARRAY;
-  const cantonObservations = fetching
-    ? EMPTY_ARRAY
-    : mini
-    ? (slimQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY).map((obs) => ({
-        ...obs,
-        [priceComponent]: obs.value,
-      }))
-    : allQuery.data?.cantonMedianObservations ?? EMPTY_ARRAY;
-  const observations = [...operatorObservations, ...cantonObservations];
-  if (entity === "operator" && !mini) {
+      }));
+    }
+    if (entity !== "operator") {
+      return relevantObservations;
+    }
     const colorOrder = [id, ...(comparisonIds ?? [])];
-    const rank = (obs: GenericObservation) => {
-      const index = colorOrder.indexOf(String(obs.operator));
-      return index === -1 ? colorOrder.length : index;
-    };
-    observations.sort(
-      (a, b) =>
-        rank(a as GenericObservation) - rank(b as GenericObservation)
+    const operatorIndex = Object.fromEntries(
+      colorOrder.map((operatorId, i) => [operatorId, i])
     );
-  }
+    return sortBy(
+      relevantObservations,
+      (obs) => operatorIndex[String(obs.operator)] ?? colorOrder.length
+    );
+  }, [fetching, relevantData, mini, priceComponent, entity, id, comparisonIds]);
 
   return fetching ? (
     mini ? (
@@ -248,7 +255,7 @@ export const PriceEvolution = ({
     <div className={DOWNLOAD_ID}>
       <WithClassName downloadId={DOWNLOAD_ID} isFetching={fetching}>
         <PriceEvolutionLineCharts
-          observations={observations as GenericObservation[]}
+          observations={observations}
           entity={entity}
           priceComponents={priceComponents}
           mini={mini}
@@ -304,7 +311,8 @@ const PriceEvolutionLineChart = (props: {
   const formatAxis = useFormatAxisNumber();
   const withUniqueEntityId: GenericObservation[] = observations.map((obs) => ({
     uniqueId:
-      obs.__typename === "OperatorObservation"
+      obs.__typename === "OperatorObservation" ||
+      obs.__typename === "OperatorMeanObservation"
         ? obs.municipalityLabel
           ? `${obs.municipalityLabel}, ${obs.operatorLabel}`
           : obs.operatorLabel
