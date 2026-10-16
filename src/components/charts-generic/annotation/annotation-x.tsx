@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 
+import { LegendSymbol } from "src/components/charts-generic/legends/color";
 import { DOT_RADIUS } from "src/components/charts-generic/rangeplot/rangeplot-state";
 import {
   HistogramState,
@@ -149,7 +150,13 @@ export const AnnotationXDataPoint = () => {
   );
 };
 
-export const AnnotationXLabel = () => {
+export const AnnotationXLabel = ({
+  symbol,
+  position = "absolute",
+}: {
+  symbol?: LegendSymbol;
+  position?: "absolute" | "static";
+}) => {
   const { bounds, annotations, xAxisUnit } = useChartState() as
     | RangePlotState
     | HistogramState
@@ -164,7 +171,7 @@ export const AnnotationXLabel = () => {
           key={`${a.label}-${i}`}
           width={width}
           zIndex={2}
-          position="absolute"
+          position={position}
           left={0}
           top={a.yLabel}
           textAlign="left"
@@ -173,17 +180,30 @@ export const AnnotationXLabel = () => {
           color={annotationColor}
           bgcolor="transparent"
           lineHeight={1.5}
+          display={symbol ? "flex" : undefined}
+          alignItems="flex-start"
+          gap={3}
+          mb={position === "static" ? 3 : undefined}
           sx={{
             pointerEvents: "none",
-            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, -40%, 0)`,
+            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, ${
+              position === "static" ? "-1.2em" : "-40%"
+            }, 0)`,
             hyphens: "auto",
             wordBreak: "break-word",
           }}
         >
-          <Box component="span" fontWeight={700}>
-            {a.value} {xAxisUnit}{" "}
-          </Box>
-          {a.label}
+          {symbol && (
+            <Box display="flex" position="relative" top="0.75em">
+              <LegendSymbol symbol={symbol} color={annotationColor} />
+            </Box>
+          )}
+          <span>
+            <Box component="span" fontWeight={700}>
+              {a.value} {xAxisUnit}{" "}
+            </Box>
+            {a.label}
+          </span>
         </Box>
       ))}
     </>
