@@ -191,6 +191,7 @@ msgstr "Selezionare"
 msgid "detail.canton"
 msgstr "Cantone"
 
+#: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.subtitle.year"
 msgstr "Anno: {p}"
@@ -876,7 +877,7 @@ msgstr "Livello di rete"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.description"
-msgstr "A livello di rete NE5"
+msgstr "A livello di rete LR5"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE5.long"
@@ -904,7 +905,7 @@ msgstr "A livello di rete LR7"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.long"
-msgstr "Rete di distribuzione e allacciamenti domestici (Livello di rete LR7)"
+msgstr "Rete di distribuzione e allacciamenti domestici (Livello di rete 7)"
 
 #: src/domain/translation.tsx
 msgid "network-level.NE7.short"
@@ -1007,6 +1008,10 @@ msgstr "Totale"
 #: src/components/power-stability-horizontal-stacked-bars.tsx
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non pianificato"
+
+#: src/components/detail-page/price-components-bars.tsx
+msgid "price-components.operators-without-prices"
+msgstr "Non disponiamo di prezzi per i seguenti gestori di rete:"
 
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
@@ -1547,10 +1552,6 @@ msgid "sunshine.costs-and-tariffs.network-costs"
 msgstr "Costi di rete"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Costi di rete al livello di rete {0}"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
 msgstr "Non sono disponibili dati sulle tariffe energetiche per questo gestore di rete nell'anno tariffario selezionato."
 
@@ -1667,6 +1668,7 @@ msgstr "SAIFI Non pianificato"
 msgid "sunshine.export.column.timely-submission"
 msgstr "Presentazione tempestiva dei documenti"
 
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "Costi di rete"

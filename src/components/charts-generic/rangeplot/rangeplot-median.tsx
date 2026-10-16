@@ -11,7 +11,6 @@ export const RangeplotMedian = ({ label }: { label: string }) => {
     bounds,
     xScale,
     yScale,
-    xAxisLabel,
     xAxisUnit,
   } = useChartState() as RangePlotState;
   const { margins } = bounds;

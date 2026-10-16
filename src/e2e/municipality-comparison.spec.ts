@@ -26,12 +26,12 @@ test.describe("Municipality comparison", () => {
     await inflight.waitForRequests();
 
     await expect(
-      page.getByText("2024, Energie Wasser Bern, Bern").first()
+      page.getByText("Energie Wasser Bern, Bern").first()
     ).toBeVisible();
     await expect(
       page
         .getByText(
-          "2024, Elektrizitätswerke des Kantons Zürich (EKZ), Kilchberg (ZH)"
+          "Elektrizitätswerke des Kantons Zürich (EKZ), Kilchberg (ZH)"
         )
         .first()
     ).toBeVisible();

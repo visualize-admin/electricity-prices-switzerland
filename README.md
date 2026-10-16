@@ -145,6 +145,10 @@ In dev, you have to edit env.local to add the `EIAM_CERTIFICATE_CONTENT` and `EI
 cat ../../../vault/svc.spw-d.elcom.admin.ch.p12 | base64
 ```
 
+## Git hooks
+
+Optional pre-push checks (lint, knip, types, locales) with lefthook. See [Git Hooks](./docs/git-hooks.md).
+
 ## Load testing
 
 See [Load Testing](./docs/load-testing.md) document for more information.

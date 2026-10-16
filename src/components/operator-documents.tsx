@@ -196,8 +196,11 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
   const locale = useLocale();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // The documents lookup is slow (GEVER), so it waits for the first opening
+  const [hasOpened, setHasOpened] = useState(false);
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    setHasOpened(true);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -205,6 +208,7 @@ export const OperatorDocuments = ({ id }: { id: string }) => {
 
   const [documentsQuery] = useOperatorDocumentsQuery({
     variables: { locale, id },
+    pause: !hasOpened,
   });
 
   const legacyDocuments =

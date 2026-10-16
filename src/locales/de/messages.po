@@ -191,6 +191,7 @@ msgstr "Sortieren"
 msgid "detail.canton"
 msgstr "Kanton"
 
+#: src/components/detail-page/cantons-comparison-range.tsx
 #: src/components/detail-page/price-distribution-histogram.tsx
 msgid "detail.card.subtitle.year"
 msgstr "Jahr: {p}"
@@ -1006,6 +1007,10 @@ msgstr "Insgesamt"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Ungeplant"
 
+#: src/components/detail-page/price-components-bars.tsx
+msgid "price-components.operators-without-prices"
+msgstr "Für die folgenden Netzbetreiber liegen keine Preise vor:"
+
 #: src/components/color-legend.tsx
 #: src/components/color-legend.tsx
 msgid "price.legend.max"
@@ -1545,10 +1550,6 @@ msgid "sunshine.costs-and-tariffs.network-costs"
 msgstr "Netzkosten"
 
 #: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
-msgid "sunshine.costs-and-tariffs.network-costs-end-consumer"
-msgstr "Netzkosten auf der Netzebene {0}"
-
-#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 msgid "sunshine.costs-and-tariffs.no-energy-tariffs"
 msgstr "Für diesen Netzbetreiber sind für das ausgewählte Tarifjahr keine Daten zu den Energietarifen verfügbar."
 
@@ -1665,6 +1666,7 @@ msgstr "SAIFI ungeplant"
 msgid "sunshine.export.column.timely-submission"
 msgstr "Unterlagen rechtzeitig eingereicht"
 
+#: src/pages/sunshine/[entity]/[id]/costs-and-tariffs.tsx
 #: src/pages/sunshine/[entity]/[id]/overview.tsx
 msgid "sunshine.grid.network-costs-title"
 msgstr "Netzkosten"

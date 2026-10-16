@@ -102,13 +102,14 @@ export function groupsFromCantonElectricityObservations(
 ][] {
   return Array.from(
     rollup(
-      cantonObservations,
+      cantonObservations.filter((x) => isDefined(x.value)),
       (values) => {
         const first = values[0];
         return {
           id: first.canton,
           label: first.cantonLabel,
-          value: mean(values, (d) => d.value) ?? first.value,
+          // first.value asserted above
+          value: mean(values, (d) => d.value) ?? first.value!,
           canton: first.canton,
           cantonLabel: first.cantonLabel,
         };

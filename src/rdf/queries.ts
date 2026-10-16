@@ -1,11 +1,11 @@
 import namespace from "@rdfjs/namespace";
 import { SELECT } from "@tpluscode/sparql-builder";
 import { rollup } from "d3";
+import { uniq } from "lodash";
 import { Cube, LookupSource, Source, View } from "rdf-cube-view-query";
 import rdf from "rdf-ext";
 import { Literal, NamedNode } from "rdf-js";
 import ParsingClient from "sparql-http-client/ParsingClient";
-import { LRUCache } from "typescript-lru-cache";
 
 import { NetworkLevel } from "src/domain/sunshine";
 import serverEnv from "src/env/server";
@@ -16,6 +16,7 @@ import {
 } from "src/graphql/resolver-types";
 import assert from "src/lib/assert";
 import { Observation, parseObservation } from "src/lib/observations";
+import { createSharedCache } from "src/lib/shared-cache";
 import { makeClientVerbose } from "src/rdf/client-helpers";
 import {
   COVERAGE_RATIO_THRESHOLD,
@@ -24,6 +25,9 @@ import {
 } from "src/rdf/coverage-ratio";
 import * as ns from "src/rdf/namespace";
 
+import * as vanilla from "./cube-queries-vanilla";
+import { CubeNotFoundError } from "./cube-queries-vanilla";
+import { runCubeQuery } from "./cube-query-mode";
 import { createSparqlClientForCube } from "./sparql-client";
 
 type Filters = { [key: string]: string[] | null | undefined } | null;
@@ -127,87 +131,348 @@ const getCubeAndCheck = async (
 ): Promise<Cube> => {
   const cube = await getCube({ iri, client });
   if (!cube) {
-    throw Error(`Cube ${iri} not found`);
+    throw new CubeNotFoundError(`Cube ${iri} not found`);
   }
   if (cube.dimensions.length === 0) {
-    throw Error(`Cube ${iri} has no dimensions`);
+    throw new CubeNotFoundError(`Cube ${iri} has no dimensions`);
   }
   return cube;
 };
 
-export const getElectricityPriceCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
-export const getElectricityPriceCantonCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICIY_PRICE_CANTON_CUBE, client);
-export const getElectricityPriceSwissCube = (client: ParsingClient) =>
-  getCubeAndCheck(ELECTRICITY_PRICE_SWISS_CUBE, client);
+const getView = (cube: Cube): View => View.fromCube(cube);
 
-export const getView = (cube: Cube): View => View.fromCube(cube);
+const cubeIris = {
+  municipality: ELECTRICITY_PRICE_CUBE,
+  canton: ELECTRICIY_PRICE_CANTON_CUBE,
+  swiss: ELECTRICITY_PRICE_SWISS_CUBE,
+};
+
+type ObservationCube = keyof typeof cubeIris;
+
+/**
+ * Observations of one of the electricity price cubes. Throws
+ * CubeNotFoundError when the cube does not exist.
+ */
+export const getObservations = (
+  {
+    client,
+    cube,
+    locale,
+    operationName,
+  }: {
+    client: ParsingClient;
+    cube: ObservationCube;
+    locale: string;
+    operationName: string | undefined;
+  },
+  { filters, dimensions }: { filters?: Filters; dimensions: string[] }
+) => {
+  const cubeIri = cubeIris[cube];
+  const isCantons = cube !== "municipality";
+  return runCubeQuery({
+    name: "getObservations",
+    operationName,
+    params: { cube, locale, filters, dimensions },
+    legacy: async () => {
+      const cubeView = await getCubeAndCheck(cubeIri, client);
+      return getElectricityPriceObservations(
+        {
+          view: getView(cubeView),
+          source: cubeView.source,
+          isCantons,
+          locale,
+        },
+        { filters, dimensions }
+      );
+    },
+    vanilla: async () => {
+      const { needsMunicipalityLookup, viewDimensionKeys } =
+        splitMunicipalityLookupDimensions(dimensions, isCantons);
+      const observations = await vanilla.getObservations(
+        { client, cubeIri, locale },
+        { filters, dimensions: viewDimensionKeys! }
+      );
+      if (needsMunicipalityLookup) {
+        await addMunicipalityLookup(
+          observations,
+          createSparqlClientForCube(client.query.endpoint.endpointUrl, cubeIri),
+          locale
+        );
+      }
+      return observations;
+    },
+  });
+};
+
+/** Values and labels of a dimension of the electricity price cube */
+export const getDimensionValues = ({
+  client,
+  dimensionKey,
+  filters,
+  operationName,
+}: {
+  client: ParsingClient;
+  dimensionKey: string;
+  filters?: Filters;
+  operationName: string | undefined;
+}) =>
+  runCubeQuery({
+    name: "getDimensionValues",
+    operationName,
+    params: { dimensionKey, filters },
+    legacy: async () => {
+      const cube = await getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
+      const results = await getDimensionValuesAndLabels({
+        cube,
+        dimensionKey,
+        filters,
+      });
+      return results.map(({ id, name }) => ({ id, name }));
+    },
+    vanilla: () =>
+      vanilla.getDimensionValuesAndLabels({
+        client,
+        cubeIri: ELECTRICITY_PRICE_CUBE,
+        dimensionKey,
+        filters,
+      }),
+  });
+
+/** Dimension paths of the electricity price cube */
+export const getCubeDimensionPaths = ({
+  client,
+  operationName,
+}: {
+  client: ParsingClient;
+  operationName: string | undefined;
+}) =>
+  runCubeQuery({
+    name: "getCubeDimensionPaths",
+    operationName,
+    params: {},
+    legacy: async () => {
+      const cube = await getCubeAndCheck(ELECTRICITY_PRICE_CUBE, client);
+      return cube.dimensions.map((d) => d.path.value);
+    },
+    vanilla: async () => {
+      const dimensions = await vanilla.getCubeDimensions(
+        client,
+        ELECTRICITY_PRICE_CUBE
+      );
+      return Array.from(dimensions.values()).map((d) => d.path);
+    },
+  });
 
 const cubeUndefined = namespace("https://cube.link/")("Undefined");
 const undefinedLiteral = rdf.literal("", cubeUndefined);
 
-const getRegionDimensionsAndFilter = ({
-  view,
-  lookupSource,
-  locale,
-}: {
-  view: View;
-  lookupSource: LookupSource;
-  locale: string;
-}) => {
-  const muniDimension = view.dimension({
-    cubeDimension: ns.electricityPriceDimension("municipality"),
-  });
+/**
+ * Dimensions of the municipality cube that are resolved with
+ * `getMunicipalityLookup` instead of cube view lookup dimensions.
+ */
+const MUNICIPALITY_LOOKUP_DIMENSIONS = [
+  "municipalityLabel",
+  "canton",
+  "cantonLabel",
+];
 
-  const regionDimension = view.createDimension({
-    source: lookupSource,
-    path: ns.schema("containedInPlace"),
-    join: muniDimension,
-    as: ns.electricityPriceDimension("region"),
-  });
-
-  const regionLabelDimension = view.createDimension({
-    source: lookupSource,
-    path: ns.schema.name,
-    join: regionDimension,
-    as: ns.electricityPriceDimension("regionLabel"),
-  });
-
-  const regionTypeDimension = view.createDimension({
-    source: lookupSource,
-    path: ns.rdf.type,
-    join: regionDimension,
-    as: ns.electricityPriceDimension("regionType"),
-  });
-
-  const regionTypeFilter = regionTypeDimension.filter.eq(
-    rdf.namedNode(ns.schemaAdmin("Canton").value)
-  );
-
-  const labelLangFilter = regionLabelDimension.filter.lang([locale, ""]);
-
-  return muniDimension
-    ? {
-        dimensions: [
-          muniDimension,
-          regionDimension,
-          regionLabelDimension,
-          regionTypeDimension,
-        ],
-        filters: [regionTypeFilter, labelLangFilter],
-      }
-    : undefined;
+type MunicipalityLookupEntry = {
+  name?: string;
+  canton?: string;
+  cantonLabel?: string;
 };
 
-export const electricityPriceObservationsCache = new LRUCache<
-  string,
-  Observation[]
+const parseMunicipalityLookupRows = (
+  rows: Record<string, { value: string } | undefined>[]
+) =>
+  new Map(
+    rows.map((row): [string, MunicipalityLookupEntry] => [
+      ns.stripNamespaceFromIri({ iri: row.municipality!.value }),
+      {
+        name: row.name?.value,
+        canton: row.canton
+          ? ns.stripNamespaceFromIri({ iri: row.canton.value })
+          : undefined,
+        cantonLabel: row.cantonLabel?.value,
+      },
+    ])
+  );
+
+const getCantonLabelPattern = (locale: string) => `
+    ?canton a schemaAdmin:Canton .
+    OPTIONAL {
+      ?canton schema:name ?cantonLabel .
+      FILTER(LANGMATCHES(LANG(?cantonLabel), "${locale}"))
+    }`;
+
+/**
+ * Name and canton of all municipalities, keyed by endpoint and locale.
+ * Municipality names and cantons rarely change, hence the long expiration.
+ */
+export const municipalityLookupCache = createSharedCache<
+  Map<string, MunicipalityLookupEntry>
 >({
-  entryExpirationTimeInMS: 60 * 1000,
+  namespace: "municipality-lookup",
+  ttlMs: 6 * 60 * 60 * 1000,
 });
 
-export const getElectricityPriceObservations = async (
+const getAllMunicipalities = async (client: ParsingClient, locale: string) =>
+  parseMunicipalityLookupRows(
+    await client.query.select(`
+PREFIX schema: <http://schema.org/>
+PREFIX schemaAdmin: <https://schema.ld.admin.ch/>
+
+SELECT DISTINCT ?municipality ?name ?canton ?cantonLabel WHERE {
+  ?municipality a schemaAdmin:Municipality ;
+    schema:name ?name .
+  OPTIONAL {
+    ?municipality schema:containedInPlace ?canton .
+    ${getCantonLabelPattern(locale)}
+  }
+}`)
+  );
+
+/**
+ * Municipalities that no longer exist (e.g. merged ones) can lack `schema:name`
+ * and `schema:containedInPlace` on their identity, e.g.
+ * https://ld.admin.ch/municipality/30 (Andelfingen). We fall back to their
+ * latest version entity, whose district links to the canton.
+ *
+ * The latest version is used rather than the one valid in the price year:
+ * - A canton change creates a new municipality identity (Moutier: 700 in BE,
+ *   6831 in JU), so the canton is the same in all versions of an identity.
+ * - The fallback municipalities did not change name within the price years
+ *   (2011 onwards). Current municipalities that were renamed (e.g. 3871
+ *   Klosters-Serneus → Klosters) don't reach this fallback and show their
+ *   current name.
+ */
+const getMunicipalitiesFromLatestVersion = async (
+  client: ParsingClient,
+  ids: string[],
+  locale: string
+) =>
+  parseMunicipalityLookupRows(
+    await client.query.select(`
+PREFIX schema: <http://schema.org/>
+PREFIX schemaAdmin: <https://schema.ld.admin.ch/>
+PREFIX v: <https://version.link/>
+
+SELECT DISTINCT ?municipality ?name ?canton ?cantonLabel WHERE {
+  {
+    SELECT ?municipality (MAX(?until) AS ?validThrough) WHERE {
+      VALUES ?municipality { ${ids
+        .map(
+          (id) => `<${ns.addNamespaceToID({ dimension: "municipality", id })}>`
+        )
+        .join(" ")} }
+      ?anyVersion v:identity ?municipality ; schema:validThrough ?until .
+    } GROUP BY ?municipality
+  }
+  ?version v:identity ?municipality ;
+    schema:validThrough ?validThrough ;
+    schema:name ?name .
+  OPTIONAL {
+    ?version schema:isPartOf/schema:containedInPlace ?canton .
+    ${getCantonLabelPattern(locale)}
+  }
+}`)
+  );
+
+/**
+ * Resolves name and canton of municipalities. Done outside of the cube view,
+ * as its lookup dimensions are inner joins and would drop the observations of
+ * municipalities without name or canton.
+ */
+const getMunicipalityLookup = async ({
+  client,
+  ids,
+  locale,
+}: {
+  client: ParsingClient;
+  ids: string[];
+  locale: string;
+}) => {
+  const cacheKey = `${client.query.endpoint.endpointUrl}:${locale}`;
+  let municipalities = await municipalityLookupCache.get(cacheKey);
+  if (!municipalities) {
+    municipalities = await getAllMunicipalities(client, locale);
+    await municipalityLookupCache.set(cacheKey, municipalities);
+  }
+
+  const missingIds = ids.filter((id) => {
+    const entry = municipalities!.get(id);
+    return !entry?.name || !entry?.canton;
+  });
+  if (missingIds.length > 0) {
+    const fromVersions = await getMunicipalitiesFromLatestVersion(
+      client,
+      missingIds,
+      locale
+    );
+    for (const id of missingIds) {
+      const entry = municipalities.get(id);
+      const fallback = fromVersions.get(id);
+      if (!entry && !fallback) {
+        // Not stored, so that unknown ids do not pile up in the cache
+        continue;
+      }
+      const cantonSource = entry?.canton ? entry : fallback;
+      municipalities.set(id, {
+        name: entry?.name ?? fallback?.name,
+        canton: cantonSource?.canton,
+        cantonLabel: cantonSource?.cantonLabel,
+      });
+    }
+  }
+
+  return municipalities;
+};
+
+/**
+ * Splits off the dimensions resolved by `getMunicipalityLookup`, keeping the
+ * municipality they are looked up with.
+ */
+const splitMunicipalityLookupDimensions = (
+  dimensions: string[] | undefined,
+  isCantons: boolean | undefined
+) => {
+  const needsMunicipalityLookup =
+    !isCantons &&
+    !!dimensions?.some((d) => MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d));
+
+  const viewDimensionKeys = needsMunicipalityLookup
+    ? uniq([
+        ...dimensions!.filter(
+          (d) => !MUNICIPALITY_LOOKUP_DIMENSIONS.includes(d)
+        ),
+        "municipality",
+      ])
+    : dimensions;
+
+  return { needsMunicipalityLookup, viewDimensionKeys };
+};
+
+const addMunicipalityLookup = async (
+  observations: Observation[],
+  client: ParsingClient,
+  locale: string
+) => {
+  const municipalities = await getMunicipalityLookup({
+    client,
+    ids: uniq(
+      observations.map((o) => o.municipality as string).filter(Boolean)
+    ),
+    locale,
+  });
+  for (const o of observations) {
+    const municipality = municipalities.get(o.municipality as string);
+    o.municipalityLabel = municipality?.name ?? null;
+    o.region = municipality?.canton ?? null;
+    o.regionLabel = municipality?.cantonLabel ?? null;
+  }
+};
+
+const getElectricityPriceObservations = async (
   {
     view,
     source,
@@ -232,18 +497,15 @@ export const getElectricityPriceObservations = async (
 
   const lookupSource = LookupSource.fromSource(source);
 
-  const regionDimensionsAndFilter =
-    !isCantons && dimensions?.some((d) => d.match(/^canton/))
-      ? getRegionDimensionsAndFilter({ view, lookupSource, locale })
-      : undefined;
+  const { needsMunicipalityLookup, viewDimensionKeys } =
+    splitMunicipalityLookupDimensions(dimensions, isCantons);
 
   const dimensionsWithUndefinedToFilter =
-    dimensions?.filter(shouldDimensionFilterUndefined) ?? [];
+    viewDimensionKeys?.filter(shouldDimensionFilterUndefined) ?? [];
 
-  const filterViewDimensions = dimensions
-    ? dimensions.flatMap((d) => {
-        const labelMatches =
-          !isCantons && d === "cantonLabel" ? null : d.match(/^(.+)Label$/);
+  const filterViewDimensions = viewDimensionKeys
+    ? viewDimensionKeys.flatMap((d) => {
+        const labelMatches = d.match(/^(.+)Label$/);
 
         if (labelMatches) {
           const dimensionKey = labelMatches ? labelMatches[1] : d;
@@ -307,27 +569,10 @@ export const getElectricityPriceObservations = async (
       })
     : view.dimensions;
 
-  const filterView = new View(
-    regionDimensionsAndFilter
-      ? {
-          dimensions: [
-            ...filterViewDimensions,
-            ...regionDimensionsAndFilter.dimensions,
-          ],
-          filters: [...queryFilters, ...regionDimensionsAndFilter.filters],
-        }
-      : {
-          dimensions: filterViewDimensions,
-          filters: queryFilters,
-        }
-  );
-
-  const cacheKey = filterView.observationsQuery().query.toString();
-
-  const cached = electricityPriceObservationsCache.get(cacheKey);
-  if (cached) {
-    return cached;
-  }
+  const filterView = new View({
+    dimensions: filterViewDimensions,
+    filters: queryFilters,
+  });
 
   const observations = await filterView.observations();
 
@@ -345,14 +590,14 @@ export const getElectricityPriceObservations = async (
 
   const res = observations.map(parseObservation);
 
-  if (res.length > 0) {
-    electricityPriceObservationsCache.set(cacheKey, res);
+  if (needsMunicipalityLookup) {
+    await addMunicipalityLookup(res, source.client, locale);
   }
 
   return res;
 };
 
-export const getDimensionValuesAndLabels = async ({
+const getDimensionValuesAndLabels = async ({
   cube,
   dimensionKey,
   filters,
@@ -440,7 +685,10 @@ const buildDimensionFilter = (
           datatype
             ? rdf.literal(filters[0], datatype)
             : rdf.namedNode(
-                ns.addNamespaceToID({ id: filters[0], dimension: dimensionKey })
+                ns.addNamespaceToID({
+                  id: filters[0],
+                  dimension: dimensionKey,
+                })
               )
         )
       : viewDimension.filter.in(
@@ -459,26 +707,20 @@ const buildDimensionFilter = (
 export const getMunicipality = async ({
   id,
   client,
+  locale,
 }: {
   id: string;
   client: ParsingClient;
+  locale: string;
 }): Promise<{ id: string; name: string } | null> => {
-  const iri = ns.addNamespaceToID({
-    dimension: "municipality",
-    id,
-  });
-
-  const sparql = `
-SELECT DISTINCT ?name {
-  <${iri}> <http://schema.org/name> ?name .
-}
-  `;
-
-  const result = (await client.query.select(sparql))[0] as {
-    name: Literal;
-  };
-
-  return result ? { id, name: result.name.value } : null;
+  // The id comes from the URL and ends up in the SPARQL query
+  if (!/^\d+$/.test(id)) {
+    return null;
+  }
+  const municipality = (
+    await getMunicipalityLookup({ client, ids: [id], locale })
+  ).get(id);
+  return municipality?.name ? { id, name: municipality.name } : null;
 };
 
 export const getCanton = async ({

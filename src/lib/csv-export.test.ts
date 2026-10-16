@@ -1,13 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import {
-  clearCsvExportCache,
-  getOrComputeCsv,
-  peekCsvExport,
-} from "./csv-export";
+import { csvExportCache, getOrComputeCsv } from "./csv-export";
 
-afterEach(() => {
-  clearCsvExportCache();
+afterEach(async () => {
+  await csvExportCache.clear();
 });
 
 describe("getOrComputeCsv", () => {
@@ -25,7 +21,7 @@ describe("getOrComputeCsv", () => {
     expect(compute).toHaveBeenCalledTimes(1);
     expect(first).toBe("computed");
     expect(second).toBe("computed");
-    expect(peekCsvExport("shared")).toBeTruthy();
+    expect(await csvExportCache.get("shared")).toBe("computed");
   });
 
   it("evicts a failed compute so the next call retries", async () => {
@@ -35,7 +31,7 @@ describe("getOrComputeCsv", () => {
       })
     ).rejects.toThrow("sparql down");
 
-    expect(peekCsvExport("fail")).toBeNull();
+    expect(await csvExportCache.get("fail")).toBeUndefined();
 
     await expect(getOrComputeCsv("fail", async () => "ok")).resolves.toBe("ok");
   });

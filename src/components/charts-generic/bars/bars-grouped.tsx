@@ -111,7 +111,8 @@ export const BarsGroupedLabels = () => {
       {sortedData.map((d, i) => {
         const segment = getSegment(d);
         const y = yScale(segment) as number;
-        const { prefix, lines } = labelsBySegment[segment] ?? {
+        const { lead, prefix, lines } = labelsBySegment[segment] ?? {
+          lead: "",
           prefix: "",
           lines: [""],
         };
@@ -128,8 +129,8 @@ export const BarsGroupedLabels = () => {
           >
             {lines.map((line, lineIndex) => {
               const rest =
-                lineIndex === 0 && prefix && line.startsWith(prefix)
-                  ? line.slice(prefix.length)
+                lineIndex === 0 && prefix && line.startsWith(lead + prefix)
+                  ? line.slice(lead.length + prefix.length)
                   : null;
               return (
                 <tspan
@@ -139,6 +140,7 @@ export const BarsGroupedLabels = () => {
                 >
                   {rest !== null ? (
                     <>
+                      {lead}
                       <tspan fontWeight={700}>{prefix}</tspan>
                       {rest}
                     </>
