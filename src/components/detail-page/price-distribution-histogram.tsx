@@ -382,8 +382,8 @@ const PriceDistributionHistogram = ({
                 <InteractionHistogram />
               </ChartSvg>
               <AnnotationXLabel />
+              <Tooltip type="single" />
             </ChartContainer>
-            <Tooltip type="single" />
           </Histogram>
         </WithClassName>
       )}
