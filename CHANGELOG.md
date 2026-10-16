@@ -11,7 +11,65 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+# 2.58.2 - 2026-10-15
+
+- Fix: select styling: placeholder on the comparison multi-selects, focus only changes border and arrow colour (shared `--input-border-color`), popup matches the input width with the same gap above and below
+- Security: resolve Dependabot alerts: bump next to 15.5.28, @sentry/nextjs to 10 (drops the vulnerable OpenTelemetry instrumentations), Storybook to 8.6.19 and Argos to the current majors; pin patched shell-quote, pbkdf2, smol-toml, @graphql-tools/*, postcss-selector-parser, @fastify/busboy, webpack-dev-middleware, adm-zip, serialize-javascript, moment, fast-uri, js-yaml and browserslist via pnpm overrides
+- CI: bump GitHub Actions (actions/checkout, docker/build-push-action, docker/setup-buildx-action, docker/metadata-action, wearerequired/git-mirror-action)
+
+# 2.58.1 - 2026-10-15
+
+- Canton pages show the metering rate in Tariffs Development (empty chart before) and Price Components (ELC-737, #800)
+
+# 2.58.0 - 2026-10-15
+
+- Price components show the dynamic tariff range on the total too, computed from the grid usage rates (ELC-164, #795)
+- English (development only): price component tooltips, the grouped/individual municipalities toggle and the Indicators tab show text instead of translation keys (#793)
+- Sunshine overview: the network level filter shows the full description (e.g. "Medium-voltage network (network level 5)") instead of the bare code; the English, French and Italian descriptions now match the German ones (ELC-696, #791)
+- Sunshine Costs and Tariffs: the network costs card is titled "Network Costs" instead of repeating the network level selected in the dropdown above (ELC-696, #796)
+
+# 2.57.1 - 2026-10-15
+
+- Release 2.57.0 again: its Docker image was not published because the German, French and Italian dynamic tariffs hint in the repository differed from Accent. The hint now reads "Es handelt sich um einen dynamischen Tarif." and its French and Italian equivalents
+
+# 2.57.0 - 2026-10-15
+
+- Price components show the range of dynamic grid usage tariffs from LINDAS in brackets, with a hint; this replaces the `dynamicElectricityTariffs` flag (#788)
+- Price components warn about compared operators without prices, and leave them out of the legend, which now shows names instead of ids (#788)
+- Price components without a value, like the metering rate of canton medians, are hidden instead of showing "undefined" (#788)
+- Tariffs Development shows the metering rate again, now that there is more than one year of data; it is listed after grid usage and no longer resets to total when switching tabs (ELC-730, #783)
+- Line charts hide the tooltip for years without a value, and start the y-axis at 0 when all values are equal (ELC-730, #783)
+- CSV exports, coverage ratios and the municipality lookup are cached in Redis when `REDIS_URL` is set, shared by all instances and by the CSV warmup at server start (#787)
+- Price observations are no longer cached on their own: the GraphQL response cache covers them, as it already did in `vanilla` cube query mode (#787)
+- Fix the CSV export warmup at server start failing with "this.fetch is not a function" (#787)
+- Coverage ratios are cached per SPARQL endpoint, so an admin's endpoint override no longer leaks into other users' results (#787)
+- Admin caches page counts only GraphQL response cache keys instead of every key in Redis (#787)
+- Admin API Status page shows the `CUBE_QUERY_MODE` next to the default SPARQL endpoint (#787)
+- `Hint` with a `severity` replaces `HintBlue` (#788)
+- `pnpm mocks:graphql <url>` records the GraphQL responses of a page as typed unit test mocks (#788)
+
+# 2.56.1 - 2026-10-14
+
+- Release 2.56.0 again: its Docker image was not published because the locale files were missing a source reference
+
+# 2.56.0 - 2026-10-14
+
+- Electricity tariff tabs label years consistently when multiple years are selected: Canton Comparison shows "Year: …" above each chart, Tariffs Development and Price Components no longer show a single year in the subtitle, and Price Components bar labels start with their year (ELC-729, #780)
+- Operator price evolution chart in the map details panel fetches one averaged row per period from the new `operatorMeanObservations` GraphQL field instead of every municipality row (BKW: 1.4 MB → 2.6 kB) (#781, #785)
+- Operator page loads the documents for the "Download reports & tariffs" popover only when the popover is first opened, instead of on every page load (#782)
+- Hand-written SPARQL for the cube queries (observations, dimension values, cube health), selected with `CUBE_QUERY_MODE` (`cube-view` default, `vanilla`, or `shadow` to compare both in the background and report mismatches). No change unless the variable is set (#786)
+
+# 2.55.1 - 2026-10-07
+
+- Update French Sunshine indicator descriptions (energy and network tariffs, network costs, outage information, SAIDI, SAIFI) from Accent
+
+# 2.55.0 - 2026-10-07
+
+- GraphQL response cache can be shared between server instances through Redis, enabled by setting `REDIS_URL`. The admin caches page shows which backend is in use (#779)
+- Keep merged or renumbered municipalities (e.g. Andelfingen, Neckertal, Moutier) on the map with their prices, and fix their detail pages returning 404 (#778)
+- Admin caches page shows and clears the caches used by API routes (previously showed 0 entries for most), and lists the new municipality lookup cache (#778)
+- Operator page price components chart: a legend explains the bar colors, the "Compare with" chips use the same colors, and the current operator is shown first (ELC-703, #773)
+- Security: bump sharp to 0.35.5 (GHSA-wq5f-xc86-pv6w), source-map-js to 1.2.2 (CVE-2026-93749) and @graphql-tools/utils 10.x to 12.0.1 (CVE-2026-104852)
 
 # 2.54.9 - 2026-10-01
 

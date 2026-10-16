@@ -11,6 +11,7 @@ import {
   ResolvedCantonMedianObservation,
   ResolvedSwissMedianObservation,
   ResolvedOperatorObservation,
+  ResolvedOperatorMeanObservation,
   ResolvedSearchResult,
 } from "./resolver-mapped-types";
 import { GraphqlRequestContext } from "./server-context";
@@ -67,7 +68,7 @@ export type CantonMedianObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -284,6 +285,21 @@ export enum OperatorDocumentCategory {
   Tariffs = "TARIFFS",
 }
 
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservation = {
+  __typename?: "OperatorMeanObservation";
+  category: Scalars["String"]["output"];
+  operator: Scalars["String"]["output"];
+  operatorLabel?: Maybe<Scalars["String"]["output"]>;
+  period: Scalars["String"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservationValueArgs = {
+  priceComponent: PriceComponent;
+};
+
 export type OperatorMunicipality = {
   __typename?: "OperatorMunicipality";
   canton: Scalars["String"]["output"];
@@ -305,6 +321,10 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  /** Highest rate of a dynamic tariff, null when the operator has none */
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  /** Lowest rate of a dynamic tariff, null when the operator has none */
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -384,6 +404,8 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
+  /** One observation per operator, category and period, after coverage filtering */
+  operatorMeanObservations?: Maybe<Array<OperatorMeanObservation>>;
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
@@ -468,6 +490,11 @@ export type QueryOperatorArgs = {
   geverId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryOperatorMeanObservationsArgs = {
+  filters?: InputMaybe<ObservationFilters>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
@@ -868,6 +895,7 @@ export type ResolversTypes = ResolversObject<{
   Operator: ResolverTypeWrapper<ResolvedOperator>;
   OperatorDocument: ResolverTypeWrapper<OperatorDocument>;
   OperatorDocumentCategory: OperatorDocumentCategory;
+  OperatorMeanObservation: ResolverTypeWrapper<ResolvedOperatorMeanObservation>;
   OperatorMunicipality: ResolverTypeWrapper<OperatorMunicipality>;
   OperatorMunicipalitySource: OperatorMunicipalitySource;
   OperatorObservation: ResolverTypeWrapper<ResolvedOperatorObservation>;
@@ -934,6 +962,7 @@ export type ResolversParentTypes = ResolversObject<{
   OperationalStandardsServiceQualityTrendRow: OperationalStandardsServiceQualityTrendRow;
   Operator: ResolvedOperator;
   OperatorDocument: OperatorDocument;
+  OperatorMeanObservation: ResolvedOperatorMeanObservation;
   OperatorMunicipality: OperatorMunicipality;
   OperatorObservation: ResolvedOperatorObservation;
   OperatorResult: ResolvedSearchResult;
@@ -1005,7 +1034,7 @@ export type CantonMedianObservationResolvers<
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   value?: Resolver<
-    ResolversTypes["Float"],
+    Maybe<ResolversTypes["Float"]>,
     ParentType,
     ContextType,
     RequireFields<CantonMedianObservationValueArgs, "priceComponent">
@@ -1375,6 +1404,26 @@ export type OperatorDocumentResolvers<
   year?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
 }>;
 
+export type OperatorMeanObservationResolvers<
+  ContextType = GraphqlRequestContext,
+  ParentType extends ResolversParentTypes["OperatorMeanObservation"] = ResolversParentTypes["OperatorMeanObservation"]
+> = ResolversObject<{
+  category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operator?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  operatorLabel?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  period?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  value?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType,
+    RequireFields<OperatorMeanObservationValueArgs, "priceComponent">
+  >;
+}>;
+
 export type OperatorMunicipalityResolvers<
   ContextType = GraphqlRequestContext,
   ParentType extends ResolversParentTypes["OperatorMunicipality"] = ResolversParentTypes["OperatorMunicipality"]
@@ -1402,6 +1451,16 @@ export type OperatorObservationResolvers<
   >;
   category?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   coverageRatio?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  highestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
+  lowestrate?: Resolver<
+    Maybe<ResolversTypes["Float"]>,
+    ParentType,
+    ContextType
+  >;
   municipality?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   municipalityLabel?: Resolver<
     Maybe<ResolversTypes["String"]>,
@@ -1562,6 +1621,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryOperatorArgs, "id" | "locale">
+  >;
+  operatorMeanObservations?: Resolver<
+    Maybe<Array<ResolversTypes["OperatorMeanObservation"]>>,
+    ParentType,
+    ContextType,
+    Partial<QueryOperatorMeanObservationsArgs>
   >;
   operatorMunicipalities?: Resolver<
     Array<ResolversTypes["OperatorMunicipality"]>,
@@ -1967,6 +2032,7 @@ export type Resolvers<ContextType = GraphqlRequestContext> = ResolversObject<{
   OperationalStandardsServiceQualityTrendRow?: OperationalStandardsServiceQualityTrendRowResolvers<ContextType>;
   Operator?: OperatorResolvers<ContextType>;
   OperatorDocument?: OperatorDocumentResolvers<ContextType>;
+  OperatorMeanObservation?: OperatorMeanObservationResolvers<ContextType>;
   OperatorMunicipality?: OperatorMunicipalityResolvers<ContextType>;
   OperatorObservation?: OperatorObservationResolvers<ContextType>;
   OperatorResult?: OperatorResultResolvers<ContextType>;

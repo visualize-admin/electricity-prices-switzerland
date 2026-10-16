@@ -1,9 +1,12 @@
 import { NextApiResponse } from "next";
-import { LRUCache } from "typescript-lru-cache";
+
+import { dedupePromise } from "src/lib/dedupe-promise";
+import { createSharedCache } from "src/lib/shared-cache";
 
 /** Electricity prices are published yearly; 24h is safe. */
-export const csvExportCache = new LRUCache<string, Promise<string>>({
-  entryExpirationTimeInMS: 24 * 60 * 60 * 1000,
+export const csvExportCache = createSharedCache<string>({
+  namespace: "csv-export",
+  ttlMs: 24 * 60 * 60 * 1000,
   maxSize: 50,
 });
 
@@ -16,32 +19,21 @@ export const tariffCsvCacheKey = (
 export const municipalitiesCsvCacheKey = (endpoint: string, period: string) =>
   `municipalities:${endpoint}:${period}`;
 
-export const peekCsvExport = (key: string) => csvExportCache.get(key);
+const dedupe = dedupePromise<string>();
 
-/**
- * Like coverage-ratio: cache the in-flight Promise so concurrent requests
- * share one SPARQL round-trip. Failed computes are evicted so the next
- * request retries.
- */
-export const getOrComputeCsv = (
+/** Computes and caches the CSV. Failed computes are not cached. */
+const computeCsv = (key: string, compute: () => Promise<string>) =>
+  dedupe(key, async () => {
+    const csv = await compute();
+    await csvExportCache.set(key, csv);
+    return csv;
+  });
+
+export const getOrComputeCsv = async (
   key: string,
   compute: () => Promise<string>
-): Promise<string> => {
-  const cached = csvExportCache.get(key);
-  if (cached) {
-    return cached;
-  }
-  const promise = compute().catch((error) => {
-    csvExportCache.delete(key);
-    throw error;
-  });
-  csvExportCache.set(key, promise);
-  return promise;
-};
-
-export const clearCsvExportCache = () => {
-  csvExportCache.clear();
-};
+): Promise<string> =>
+  (await csvExportCache.get(key)) ?? computeCsv(key, compute);
 
 /**
  * On a cache hit, send the finished CSV. On a miss, flush the header row
@@ -69,9 +61,9 @@ export const sendCsvDownload = async (
     "public, max-age=300, s-maxage=300, stale-while-revalidate"
   );
 
-  const cached = peekCsvExport(cacheKey);
-  if (cached) {
-    res.status(200).send(await cached);
+  const cached = await csvExportCache.get(cacheKey);
+  if (cached !== undefined) {
+    res.status(200).send(cached);
     return;
   }
 
@@ -82,7 +74,7 @@ export const sendCsvDownload = async (
   }
   res.write(prefix);
 
-  const csv = await getOrComputeCsv(cacheKey, produce);
+  const csv = await computeCsv(cacheKey, produce);
   res.end(csv.startsWith(prefix) ? csv.slice(prefix.length) : csv);
 };
 

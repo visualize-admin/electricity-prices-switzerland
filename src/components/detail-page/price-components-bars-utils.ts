@@ -2,20 +2,28 @@ import { ascending } from "d3";
 
 import { Entity, ObservationValue } from "src/domain/data";
 import { getLocalizedLabel } from "src/domain/translation";
-import { FlagValue } from "src/flags";
 import { PriceComponent } from "src/graphql/queries";
 
 export const EXPANDED_TAG = "expanded";
 
-const addDynamicTariffs = (obj: Record<string, ObservationValue | $FixMe>) => ({
-  ...obj,
-  max: 65.45,
-  min: 12.89,
-});
+/**
+ * Dynamic tariffs are a rate range on the network usage, and so also on the
+ * total. Rates are null for operators without one.
+ */
+const addDynamicTariffs = (
+  obj: Record<string, ObservationValue | $FixMe>,
+  priceComponent: PriceComponent
+) =>
+  priceComponent === "gridusage" && obj.lowestrate != null
+    ? { ...obj, min: obj.lowestrate, max: obj.highestrate }
+    : priceComponent === "total" && obj.totalLowestrate != null
+    ? { ...obj, min: obj.totalLowestrate, max: obj.totalHighestrate }
+    : obj;
 
 const createSingleObservation = (obs: Record<string, ObservationValue>) => ({
   ...obs,
-  label: obs.uniqueId,
+  label: (obs.cantonLabel ??
+    `${obs.operatorLabel}, ${obs.municipalityLabel}`) as ObservationValue,
 });
 
 const createGroupedObservation = (
@@ -30,8 +38,15 @@ const createGroupedObservation = (
     value: groupValue,
     [entity]: firstObs[entity],
     period: firstObs.period,
+    // Rates are the same in all municipalities of an operator
+    lowestrate: firstObs.lowestrate,
+    highestrate: firstObs.highestrate,
+    // Municipalities with the same total but a different grid usage share
+    // the first one's total range
+    totalLowestrate: firstObs.totalLowestrate,
+    totalHighestrate: firstObs.totalHighestrate,
     uniqueId: `${priceComponent}${firstObs.period}${firstObs.operatorLabel}${firstObs.municipalityLabel}${observations.length}`,
-    label: `${firstObs.period}, ${firstObs.operatorLabel}, ${
+    label: `${firstObs.operatorLabel}, ${
       observations.length
     } ${getLocalizedLabel({
       id: entity === "operator" ? "municipalities" : "operators",
@@ -61,7 +76,6 @@ export const prepareObservations = ({
   priceComponent,
   entity,
   view,
-  dynamicTariffsFlag,
 }: {
   groupedObservations: [
     ObservationValue,
@@ -73,7 +87,6 @@ export const prepareObservations = ({
   priceComponent: PriceComponent;
   entity: Entity;
   view: string;
-  dynamicTariffsFlag: FlagValue;
 }) => {
   return groupedObservations.flatMap((year) =>
     year[1].flatMap((ent) =>
@@ -101,7 +114,7 @@ export const prepareObservations = ({
             ...singleEntities,
           ];
         })
-        .map((obs) => (dynamicTariffsFlag ? addDynamicTariffs(obs) : obs))
+        .map((obs) => addDynamicTariffs(obs, priceComponent))
     )
   );
 };

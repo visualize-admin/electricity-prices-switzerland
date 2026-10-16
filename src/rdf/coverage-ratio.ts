@@ -1,7 +1,8 @@
 import ParsingClient from "sparql-http-client/ParsingClient";
-import { LRUCache } from "typescript-lru-cache";
 
 import { NetworkLevel } from "src/domain/sunshine";
+import { dedupePromise } from "src/lib/dedupe-promise";
+import { createSharedCache } from "src/lib/shared-cache";
 import * as ns from "src/rdf/namespace";
 
 export const DEFAULT_COVERAGE_NETWORK_LEVEL = "NE7";
@@ -27,12 +28,12 @@ export const coverageOfferYear = (year: string) =>
 /**
  * The coverage ratios for operators for each year are cached for 5m
  */
-export const coveragesByYearCache = new LRUCache<
-  string,
-  Promise<Map<string, number>>
->({
-  entryExpirationTimeInMS: 5 * 60 * 1000,
+export const coveragesByYearCache = createSharedCache<Map<string, number>>({
+  namespace: "coverage-ratio",
+  ttlMs: 5 * 60 * 1000,
 });
+
+const dedupe = dedupePromise<Map<string, number>>();
 
 const coverageRatioKey = (
   municipalityId: string,
@@ -54,9 +55,9 @@ const cacheCoverageRatios = async (
   client: ParsingClient,
   year: string
 ): Promise<Map<string, number>> => {
-  const cacheKey = `coverage-ratios-${year}`;
+  const cacheKey = `coverage-ratios-${client.query.endpoint.endpointUrl}-${year}`;
 
-  const cached = coveragesByYearCache.get(cacheKey);
+  const cached = await coveragesByYearCache.get(cacheKey);
   if (cached) {
     return cached;
   }
@@ -79,35 +80,32 @@ WHERE {
 ORDER BY ?municipality ?networkLevel
     `;
 
-  const promise = client.query
-    .select(query)
-    .then((results: $IntentionalAny[]) => {
-      const coverageMap = new Map<string, number>();
+  return dedupe(cacheKey, async () => {
+    const results: $IntentionalAny[] = await client.query.select(query);
+    const coverageMap = new Map<string, number>();
 
-      results.forEach((result) => {
-        const municipalityId = ns.stripNamespaceFromIri({
-          iri: result.municipality.value,
-        });
-        const networkLevel = ns.stripNamespaceFromIri({
-          iri: result.networkLevel.value,
-        });
-        const muniNetK = muniNetworkCountKey(municipalityId, networkLevel);
-        const muniK = muniCountKey(municipalityId);
-        coverageMap.set(muniNetK, (coverageMap.get(muniNetK) ?? 0) + 1);
-        coverageMap.set(muniK, (coverageMap.get(muniK) ?? 0) + 1);
-
-        const operator = ns.stripNamespaceFromIri({
-          iri: result.operator.value,
-        });
-        const key = coverageRatioKey(municipalityId, networkLevel, operator);
-        coverageMap.set(key, parseFloat(result.coverageRatio.value));
+    results.forEach((result) => {
+      const municipalityId = ns.stripNamespaceFromIri({
+        iri: result.municipality.value,
       });
+      const networkLevel = ns.stripNamespaceFromIri({
+        iri: result.networkLevel.value,
+      });
+      const muniNetK = muniNetworkCountKey(municipalityId, networkLevel);
+      const muniK = muniCountKey(municipalityId);
+      coverageMap.set(muniNetK, (coverageMap.get(muniNetK) ?? 0) + 1);
+      coverageMap.set(muniK, (coverageMap.get(muniK) ?? 0) + 1);
 
-      return coverageMap;
+      const operator = ns.stripNamespaceFromIri({
+        iri: result.operator.value,
+      });
+      const key = coverageRatioKey(municipalityId, networkLevel, operator);
+      coverageMap.set(key, parseFloat(result.coverageRatio.value));
     });
 
-  coveragesByYearCache.set(cacheKey, promise);
-  return promise;
+    await coveragesByYearCache.set(cacheKey, coverageMap);
+    return coverageMap;
+  });
 };
 
 /**

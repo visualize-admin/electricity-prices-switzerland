@@ -8,7 +8,7 @@ import {
 } from "src/components/list-groups";
 import {
   aggregateSunshineObservationsByOperator,
-  averageOperatorObservationsByPeriod,
+  averageResolvedObservationsByOperator,
   getMunicipalityValue,
   getOperatorMeanValue,
 } from "src/domain/aggregate-observations";
@@ -99,9 +99,9 @@ describe("entity figures are the same in every view", () => {
     expect(enriched.valuesByEntity.operator.get("bkw")).toBe(15);
     expect(list["bkw"].value).toBe(15);
     expect(list["bkw"].operators[0].value).toBe(15);
-    expect(averageOperatorObservationsByPeriod(rows)).toMatchObject([
-      { operator: "bkw", value: 15 },
-    ]);
+    expect(
+      averageResolvedObservationsByOperator(rows, ["value"])
+    ).toMatchObject([{ operator: "bkw", value: 15 }]);
     expect(enriched.valuesExtentByEntity.operator).toEqual([15, 30]);
   });
 

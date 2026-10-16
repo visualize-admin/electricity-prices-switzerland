@@ -16,6 +16,7 @@ import {
   GraphqlRequestContext,
 } from "src/graphql/server-context";
 import assert from "src/lib/assert";
+import { graphqlCache } from "src/lib/graphql-cache";
 import { createSentryMetricsPlugin } from "src/metrics/apollo-sentry-plugin";
 import { runMiddleware } from "src/pages/api/run-middleware";
 import { createLogMiddleware } from "src/pages/api/log-middleware";
@@ -26,6 +27,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   apollo: {},
+  cache: graphqlCache,
   introspection: serverEnv.NODE_ENV === "development",
   plugins: [
     // Sentry metrics plugin for distributed tracing and metrics collection

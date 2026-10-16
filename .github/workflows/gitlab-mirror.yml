@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - name: Logging
@@ -19,7 +19,7 @@ jobs:
           git remote show origin
           git for-each-ref
       - name: Mirror to GitLab
-        uses: wearerequired/git-mirror-action@c44c68aebe42de49a80a8dfd557416b6a0cafdad # v1.2.0
+        uses: wearerequired/git-mirror-action@6bbc55f2f0082bca533b72dc711f7d37154d40cc # v1.3.1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
         with:

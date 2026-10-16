@@ -31,6 +31,7 @@ import {
   PageParams,
   Props,
 } from "src/data/shared-page-props";
+import { createColorMapping } from "src/domain/color-mapping";
 import {
   categories,
   ElectricityCategory,
@@ -127,8 +128,7 @@ const ElectricityTariffsPage = (props: Props) => {
     (_: React.SyntheticEvent, newValue: ElectricityPricesDetailTab) => {
       const currentPc = queryState.priceComponent[0];
       const priceComponentReset =
-        (newValue === "tariffsDevelopment" && currentPc === "meteringrate") ||
-        (newValue !== "tariffsDevelopment" && currentPc === "aidfee");
+        newValue !== "tariffsDevelopment" && currentPc === "aidfee";
       setQueryState({
         tab: newValue,
         ...(priceComponentReset && { priceComponent: ["total"] }),
@@ -201,6 +201,11 @@ const ElectricityTariffsPage = (props: Props) => {
             }
             selectedItems={queryState.operator ?? []}
             setSelectedItems={(items) => setQueryState({ operator: items })}
+            colorMapping={
+              activeTab === "priceComponents"
+                ? createColorMapping(queryState.operator, "elcom2")
+                : undefined
+            }
           />
         ) : entity === "municipality" ? (
           <MunicipalitiesCombobox

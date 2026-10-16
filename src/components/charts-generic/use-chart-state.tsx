@@ -93,7 +93,10 @@ export type GroupedBarsState = {
   colors: ScaleOrdinal<string, string>;
   opacityScale: ScaleOrdinal<string, number>;
   xAxisLabel?: string;
-  labelsBySegment: Record<string, { prefix: string; lines: string[] }>;
+  labelsBySegment: Record<
+    string,
+    { lead: string; prefix: string; lines: string[] }
+  >;
 };
 
 type BarsState = {

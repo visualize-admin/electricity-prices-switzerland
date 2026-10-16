@@ -3,13 +3,66 @@ import { GetServerSideProps } from "next";
 import React from "react";
 
 import AdminLayout from "src/admin-auth/components/admin-layout";
+import GraphqlCachePanel from "src/admin-auth/components/graphql-cache-panel";
 import { generateCSRFToken } from "src/admin-auth/crsf";
 import { parseSessionFromRequest } from "src/admin-auth/session";
-import { listProcessCaches, ProcessCacheInfo } from "src/lib/process-caches";
+import { useFetch } from "src/data/use-fetch";
+import type { listProcessCaches } from "src/lib/process-caches";
+import type { CacheBackend } from "src/lib/shared-cache";
+
+const backendLabels: Record<CacheBackend, string> = {
+  redis: "Redis, all instances",
+  memory: "memory, this instance",
+};
+
+const fetchCaches = async (): Promise<
+  Awaited<ReturnType<typeof listProcessCaches>>
+> => {
+  const res = await fetch("/api/admin/caches");
+  if (!res.ok) {
+    throw new Error(`Could not load caches (${res.status})`);
+  }
+  return res.json();
+};
+
+const CacheRow = ({
+  csrfToken,
+  id,
+  details,
+}: {
+  csrfToken: string;
+  id: string;
+  details: string;
+}) => (
+  <Box
+    display="flex"
+    justifyContent="space-between"
+    alignItems="flex-start"
+    gap={2}
+    pb={2}
+    borderBottom={1}
+    borderColor="divider"
+  >
+    <div>
+      <Typography variant="subtitle1" fontWeight={600}>
+        {id}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" mt={0.5}>
+        {details}
+      </Typography>
+    </div>
+    <Box component="form" action="/api/admin/caches" method="POST">
+      <input type="hidden" name="csrfToken" value={csrfToken} />
+      <input type="hidden" name="id" value={id} />
+      <Button type="submit" variant="outlined">
+        Clear
+      </Button>
+    </Box>
+  </Box>
+);
 
 interface Props {
   csrfToken: string;
-  caches: ProcessCacheInfo[];
   message?: string;
   error?: string;
 }
@@ -31,19 +84,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       csrfToken: generateCSRFToken(session.sessionId),
-      caches: listProcessCaches(),
       message: (context.query.message as string) || "",
       error: (context.query.error as string) || "",
     },
   };
 };
 
-export default function AdminCachesPage({
-  csrfToken,
-  caches,
-  message,
-  error,
-}: Props) {
+export default function AdminCachesPage({ csrfToken, message, error }: Props) {
+  // Loaded from the API route, whose caches are the ones serving data
+  const caches = useFetch({ key: "admin-caches", queryFn: fetchCaches });
+
   return (
     <AdminLayout
       title="Caches"
@@ -52,48 +102,47 @@ export default function AdminCachesPage({
       message={message}
       error={error}
     >
+      <GraphqlCachePanel />
+
       <Typography variant="h5" component="h2" gutterBottom>
-        In-process caches
+        Process caches
       </Typography>
       <Typography variant="body1" color="text.secondary" mb={3}>
-        These live in this server instance&apos;s memory. Clearing does not
-        affect other instances (Vercel Fluid). TTL still expires entries on its
-        own; use this after bad SPARQL data or to force a CSV rebuild without a
-        restart.
+        Caches in Redis (when REDIS_URL is set) are shared: clearing them
+        applies to all instances. The others live in this server instance&apos;s
+        memory, and clearing does not affect other instances. TTL still expires
+        entries on its own; use this after bad SPARQL data or to force a CSV
+        rebuild without a restart.
       </Typography>
 
       <Box display="flex" flexDirection="column" gap={3} maxWidth={720}>
-        {caches.map((cache) => (
-          <Box
-            key={cache.id}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="flex-start"
-            gap={2}
-            pb={2}
-            borderBottom={1}
-            borderColor="divider"
-          >
-            <Box>
-              <Typography variant="subtitle1" fontWeight={600}>
-                {cache.label}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {cache.description}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" mt={0.5}>
-                Entries: {cache.size}
-              </Typography>
-            </Box>
-            <Box component="form" action="/api/admin/caches" method="POST">
-              <input type="hidden" name="csrfToken" value={csrfToken} />
-              <input type="hidden" name="id" value={cache.id} />
-              <Button type="submit" variant="outlined">
-                Clear
-              </Button>
-            </Box>
-          </Box>
+        {caches.state === "fetching" && (
+          <Typography variant="body2" color="text.secondary">
+            Loading caches…
+          </Typography>
+        )}
+        {caches.state === "error" && (
+          <Typography variant="body2" color="error">
+            {caches.error instanceof Error
+              ? caches.error.message
+              : "Could not load caches"}
+          </Typography>
+        )}
+        {caches.data?.sharedCaches.map((cache) => (
+          <CacheRow
+            key={cache.namespace}
+            csrfToken={csrfToken}
+            id={cache.namespace}
+            details={`Entries: ${cache.size} · ${backendLabels[cache.backend]}`}
+          />
         ))}
+        {caches.data && (
+          <CacheRow
+            csrfToken={csrfToken}
+            id="search-index"
+            details={`Entries: ${caches.data.searchIndexSize} · memory, this instance · 15m stale-while-revalidate`}
+          />
+        )}
 
         <Box component="form" action="/api/admin/caches" method="POST" pt={1}>
           <input type="hidden" name="csrfToken" value={csrfToken} />

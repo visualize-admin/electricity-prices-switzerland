@@ -26,7 +26,6 @@ import {
 } from "src/domain/helpers";
 import { sortByIndex } from "src/lib/array";
 import { wrapText } from "src/lib/estimate-text-width";
-import { useFlag } from "src/utils/flags";
 
 const useGroupedBarsState = ({
   data,
@@ -38,7 +37,6 @@ const useGroupedBarsState = ({
   const { labelFontSize } = useChartTheme();
   const labelLineHeight = labelFontSize + 2;
   const formatDisplay = useFormatDisplayNumber();
-  const dynamicTariffsFlag = useFlag("dynamicElectricityTariffs");
   const getX = useCallback(
     (d: GenericObservation) =>
       d[
@@ -76,9 +74,11 @@ const useGroupedBarsState = ({
     [fields.style]
   );
 
+  const highlight = fields.style?.highlightValue?.toString();
   const segments = data
     .sort(
       (a, b) =>
+        ascending(getColor(b) === highlight, getColor(a) === highlight) ||
         ascending(getColor(a), getColor(b)) ||
         descending(getOpacity(a), getOpacity(b)) ||
         descending(getX(a), getX(b))
@@ -128,7 +128,7 @@ const useGroupedBarsState = ({
       // Seems like the condition is inverted here but it works as intended
       const isMainRow = !segment.includes(EXPANDED_TAG);
       const dynamicText =
-        dynamicTariffsFlag && isMainRow
+        isMainRow && d.min != null
           ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
               d.max as number
             )}, ${t({
@@ -141,10 +141,15 @@ const useGroupedBarsState = ({
             .filter(Boolean)
             .join(" ")
         : "";
-      const full = prefix ? `${prefix} ${getLabel(d)}` : getLabel(d);
+      const lead =
+        isMainRow && opacityDomain.length > 1 ? `${getOpacity(d)}: ` : "";
+      const full = prefix
+        ? `${lead}${prefix}, ${getLabel(d)}`
+        : getLabel(d);
       const lines = wrapText(full, wrapWidth, labelFontSize);
       return {
         segment,
+        lead,
         prefix,
         lines,
         height: isMainRow ? barFullHeight : 14,
@@ -170,7 +175,7 @@ const useGroupedBarsState = ({
   const labelsBySegment = Object.fromEntries(
     labeledRows.map((row) => [
       row.segment,
-      { prefix: row.prefix, lines: row.lines },
+      { lead: row.lead, prefix: row.prefix, lines: row.lines },
     ])
   );
 

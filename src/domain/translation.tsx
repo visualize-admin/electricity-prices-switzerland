@@ -254,7 +254,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE5.long": t({
       id: "network-level.NE5.long",
-      message: `High voltage NE5`,
+      message: `Medium-voltage network (network level 5)`,
     }),
     "network-level.NE5.description": t({
       id: "network-level.NE5.description",
@@ -270,7 +270,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE6.long": t({
       id: "network-level.NE6.long",
-      message: `Medium voltage NE6`,
+      message: `Low-voltage transformation (network level 6)`,
     }),
 
     "network-level.NE7.short": t({
@@ -283,7 +283,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "network-level.NE7.long": t({
       id: "network-level.NE7.long",
-      message: `Low voltage NE7`,
+      message: `Distribution network and house connections (network level 7)`,
     }),
   };
 
@@ -524,35 +524,41 @@ const getTranslationTable = (_locale: string) => {
 
     "price-components.collapsed-content": t({
       id: "selector.priceComponents.collapsed-content",
-      message: "Lorem ipsum",
+      message:
+        "Shows the price components grouped by grid operator, without listing each municipality.",
     }),
     "price-components.expanded-content": t({
       id: "selector.priceComponents.expanded-content",
-      message: "Lorem ipsum",
+      message: "Shows the price components for each municipality separately.",
     }),
     "price-components.total-content": t({
       id: "selector.priceComponents.total-content",
-      message: "Lorem ipsum",
+      message:
+        "Total electricity price made up of all regulated price components.",
     }),
     "price-components.gridusage-content": t({
       id: "selector.priceComponents.gridusage-content",
-      message: "Lorem ipsum",
+      message:
+        "Price for transporting electricity from the power plant to the home.",
     }),
     "price-components.energy-content": t({
       id: "selector.priceComponents.energy-content",
-      message: "Lorem ipsum",
+      message: "Price of the electrical energy supplied.",
     }),
     "price-components.charge-content": t({
       id: "selector.priceComponents.charge-content",
-      message: "Lorem ipsum",
+      message:
+        "Municipal and cantonal charges and fees, for example concession fees or local energy levies.",
     }),
     "price-components.aidfee-content": t({
       id: "selector.priceComponents.aidfee-content",
-      message: "Lorem ipsum",
+      message:
+        "Grid surcharge to promote renewable energy and the restoration of water bodies, set uniformly for all of Switzerland by the Federal Council.",
     }),
     "price-components.meteringrate-content": t({
       id: "selector.priceComponents.meteringrate-content",
-      message: "Lorem ipsum",
+      message:
+        "Separate tariffs for metering services (shown from 2026 onwards).",
     }),
     "selector-tab.electricity": t({
       id: "selector.tab.electricity",
@@ -560,7 +566,8 @@ const getTranslationTable = (_locale: string) => {
     }),
     "selector-tab.electricity-content": t({
       id: "selector.tab.electricity-content",
-      message: "Lorem ipsum",
+      message:
+        "Electricity tariffs and price data for Swiss distribution network operators in various regions.",
     }),
     "selector-tab.indicators": t({
       id: "selector.tab.indicators",
@@ -568,7 +575,7 @@ const getTranslationTable = (_locale: string) => {
     }),
     "selector-tab.indicators-content": t({
       id: "selector.tab.indicators-content",
-      message: "Lorem ipsum",
+      message: "Efficiency indicators including price trends.",
     }),
   } as const;
 

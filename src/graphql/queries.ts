@@ -51,7 +51,7 @@ export type CantonMedianObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   period: Scalars["String"]["output"];
-  value: Scalars["Float"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CantonMedianObservationValueArgs = {
@@ -268,6 +268,21 @@ export enum OperatorDocumentCategory {
   Tariffs = "TARIFFS",
 }
 
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservation = {
+  __typename: "OperatorMeanObservation";
+  category: Scalars["String"]["output"];
+  operator: Scalars["String"]["output"];
+  operatorLabel?: Maybe<Scalars["String"]["output"]>;
+  period: Scalars["String"]["output"];
+  value?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** Operator figure: mean of the operator's values across the municipalities it serves */
+export type OperatorMeanObservationValueArgs = {
+  priceComponent: PriceComponent;
+};
+
 export type OperatorMunicipality = {
   __typename: "OperatorMunicipality";
   canton: Scalars["String"]["output"];
@@ -289,6 +304,10 @@ export type OperatorObservation = {
   cantonLabel?: Maybe<Scalars["String"]["output"]>;
   category: Scalars["String"]["output"];
   coverageRatio: Scalars["Float"]["output"];
+  /** Highest rate of a dynamic tariff, null when the operator has none */
+  highestrate?: Maybe<Scalars["Float"]["output"]>;
+  /** Lowest rate of a dynamic tariff, null when the operator has none */
+  lowestrate?: Maybe<Scalars["Float"]["output"]>;
   municipality: Scalars["String"]["output"];
   municipalityLabel?: Maybe<Scalars["String"]["output"]>;
   operator: Scalars["String"]["output"];
@@ -368,6 +387,8 @@ export type Query = {
   observations?: Maybe<Array<OperatorObservation>>;
   operationalStandards: OperationalStandardsData;
   operator?: Maybe<Operator>;
+  /** One observation per operator, category and period, after coverage filtering */
+  operatorMeanObservations?: Maybe<Array<OperatorMeanObservation>>;
   operatorMunicipalities: Array<OperatorMunicipality>;
   operators: Array<Operator>;
   peerGroups: Array<PeerGroupItem>;
@@ -452,6 +473,11 @@ export type QueryOperatorArgs = {
   geverId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["String"]["input"];
   locale: Scalars["String"]["input"];
+};
+
+export type QueryOperatorMeanObservationsArgs = {
+  filters?: InputMaybe<ObservationFilters>;
+  locale?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryOperatorMunicipalitiesArgs = {
@@ -794,7 +820,7 @@ export type CantonMedianObservationFieldsFragment = {
   canton: string;
   cantonLabel?: string | null;
   category: string;
-  value: number;
+  value?: number | null;
 };
 
 export type SwissMedianObservationFieldsFragment = {
@@ -834,7 +860,7 @@ export type ObservationsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    value: number;
+    value?: number | null;
   }> | null;
   swissMedianObservations?: Array<{
     __typename: "SwissMedianObservation";
@@ -852,6 +878,8 @@ export type OperatorObservationWithAllPriceComponentsFieldsFragment = {
   operator: string;
   operatorLabel?: string | null;
   category: string;
+  lowestrate?: number | null;
+  highestrate?: number | null;
   aidfee?: number | null;
   annualmeteringcost?: number | null;
   meteringrate?: number | null;
@@ -869,21 +897,26 @@ export type CantonMedianObservationWithAllPriceComponentsFieldsFragment = {
   canton: string;
   cantonLabel?: string | null;
   category: string;
-  aidfee: number;
-  charge: number;
-  gridusage: number;
-  energy: number;
-  total: number;
+  aidfee?: number | null;
+  charge?: number | null;
+  gridusage?: number | null;
+  meteringrate?: number | null;
+  energy?: number | null;
+  total?: number | null;
 };
 
 export type ObservationsWithAllPriceComponentsQueryVariables = Exact<{
   locale: Scalars["String"]["input"];
   filters: ObservationFilters;
   observationKind?: InputMaybe<ObservationKind>;
+  operatorIds?: InputMaybe<
+    Array<Scalars["String"]["input"]> | Scalars["String"]["input"]
+  >;
 }>;
 
 export type ObservationsWithAllPriceComponentsQuery = {
   __typename: "Query";
+  operators: Array<{ __typename: "OperatorResult"; id: string; name: string }>;
   observations?: Array<{
     __typename: "OperatorObservation";
     period: string;
@@ -892,6 +925,8 @@ export type ObservationsWithAllPriceComponentsQuery = {
     operator: string;
     operatorLabel?: string | null;
     category: string;
+    lowestrate?: number | null;
+    highestrate?: number | null;
     aidfee?: number | null;
     annualmeteringcost?: number | null;
     meteringrate?: number | null;
@@ -908,11 +943,12 @@ export type ObservationsWithAllPriceComponentsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    aidfee: number;
-    charge: number;
-    gridusage: number;
-    energy: number;
-    total: number;
+    aidfee?: number | null;
+    charge?: number | null;
+    gridusage?: number | null;
+    meteringrate?: number | null;
+    energy?: number | null;
+    total?: number | null;
   }> | null;
 };
 
@@ -943,7 +979,25 @@ export type PriceEvolutionObservationsQuery = {
     canton: string;
     cantonLabel?: string | null;
     category: string;
-    value: number;
+    value?: number | null;
+  }> | null;
+};
+
+export type PriceEvolutionOperatorMeanObservationsQueryVariables = Exact<{
+  locale: Scalars["String"]["input"];
+  priceComponent: PriceComponent;
+  filters: ObservationFilters;
+}>;
+
+export type PriceEvolutionOperatorMeanObservationsQuery = {
+  __typename: "Query";
+  observations?: Array<{
+    __typename: "OperatorMeanObservation";
+    period: string;
+    operator: string;
+    operatorLabel?: string | null;
+    category: string;
+    value?: number | null;
   }> | null;
 };
 
@@ -1545,6 +1599,8 @@ export const OperatorObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
     energy: value(priceComponent: energy)
     fixcostspercent: value(priceComponent: fixcostspercent)
     total: value(priceComponent: total)
+    lowestrate
+    highestrate
   }
 `;
 export const CantonMedianObservationWithAllPriceComponentsFieldsFragmentDoc = gql`
@@ -1556,6 +1612,7 @@ export const CantonMedianObservationWithAllPriceComponentsFieldsFragmentDoc = gq
     aidfee: value(priceComponent: aidfee)
     charge: value(priceComponent: charge)
     gridusage: value(priceComponent: gridusage)
+    meteringrate: value(priceComponent: meteringrate)
     energy: value(priceComponent: energy)
     total: value(priceComponent: total)
   }
@@ -1712,7 +1769,12 @@ export const ObservationsWithAllPriceComponentsDocument = gql`
     $locale: String!
     $filters: ObservationFilters!
     $observationKind: ObservationKind
+    $operatorIds: [String!]
   ) {
+    operators: searchOperators(locale: $locale, ids: $operatorIds) {
+      id
+      name
+    }
     observations(
       locale: $locale
       filters: $filters
@@ -1789,6 +1851,33 @@ export function usePriceEvolutionObservationsQuery(
     PriceEvolutionObservationsQuery,
     PriceEvolutionObservationsQueryVariables
   >({ query: PriceEvolutionObservationsDocument, ...options });
+}
+export const PriceEvolutionOperatorMeanObservationsDocument = gql`
+  query PriceEvolutionOperatorMeanObservations(
+    $locale: String!
+    $priceComponent: PriceComponent!
+    $filters: ObservationFilters!
+  ) {
+    observations: operatorMeanObservations(locale: $locale, filters: $filters) {
+      period
+      operator
+      operatorLabel
+      category
+      value(priceComponent: $priceComponent)
+    }
+  }
+`;
+
+export function usePriceEvolutionOperatorMeanObservationsQuery(
+  options: Omit<
+    Urql.UseQueryArgs<PriceEvolutionOperatorMeanObservationsQueryVariables>,
+    "query"
+  >
+) {
+  return Urql.useQuery<
+    PriceEvolutionOperatorMeanObservationsQuery,
+    PriceEvolutionOperatorMeanObservationsQueryVariables
+  >({ query: PriceEvolutionOperatorMeanObservationsDocument, ...options });
 }
 export const OperatorDocumentsDocument = gql`
   query OperatorDocuments($id: String!, $locale: String!) {
