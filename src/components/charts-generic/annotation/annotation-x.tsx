@@ -150,7 +150,13 @@ export const AnnotationXDataPoint = () => {
   );
 };
 
-export const AnnotationXLabel = ({ withSymbol }: { withSymbol?: boolean }) => {
+export const AnnotationXLabel = ({
+  symbol,
+  position = "absolute",
+}: {
+  symbol?: LegendSymbol;
+  position?: "absolute" | "static";
+}) => {
   const { bounds, annotations, xAxisUnit } = useChartState() as
     | RangePlotState
     | HistogramState
@@ -165,7 +171,7 @@ export const AnnotationXLabel = ({ withSymbol }: { withSymbol?: boolean }) => {
           key={`${a.label}-${i}`}
           width={width}
           zIndex={2}
-          position={withSymbol ? "static" : "absolute"}
+          position={position}
           left={0}
           top={a.yLabel}
           textAlign="left"
@@ -174,20 +180,22 @@ export const AnnotationXLabel = ({ withSymbol }: { withSymbol?: boolean }) => {
           color={annotationColor}
           bgcolor="transparent"
           lineHeight={1.5}
-          display={withSymbol ? "flex" : undefined}
+          display={symbol ? "flex" : undefined}
           alignItems="flex-start"
           gap={3}
-          mb={withSymbol ? 3 : undefined}
+          mb={position === "static" ? 3 : undefined}
           sx={{
             pointerEvents: "none",
-            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, ${withSymbol ? "-1.2em" : "-40%"}, 0)`,
+            transform: `translate3d(${ANNOTATION_TRIANGLE_WIDTH}px, ${
+              position === "static" ? "-1.2em" : "-40%"
+            }, 0)`,
             hyphens: "auto",
             wordBreak: "break-word",
           }}
         >
-          {withSymbol && (
+          {symbol && (
             <Box display="flex" position="relative" top="0.75em">
-              <LegendSymbol symbol="line" color={annotationColor} />
+              <LegendSymbol symbol={symbol} color={annotationColor} />
             </Box>
           )}
           <span>

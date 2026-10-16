@@ -241,7 +241,9 @@ export const PowerStabilityHorizontalStackedBars = (
       />
       {compact ? (
         <Box position="relative">
-          {overallOrRatio !== "ratio" && <AnnotationXLabel withSymbol />}
+          {overallOrRatio !== "ratio" && (
+            <AnnotationXLabel symbol="line" position="static" />
+          )}
           {operatorsSorted.map((operatorName) => {
             const rowData = dataByOperator[operatorName];
             const medianTotal = medianPeerGroupObservation?.total;
