@@ -252,7 +252,7 @@ const YesNoLegend = ({
   );
 };
 
-export const ColorLegend = () => {
+export const ColorLegend = ({ colorOpacity }: { colorOpacity?: number }) => {
   return (
     <Box
       width={LEGEND_WIDTH - 16}
@@ -284,6 +284,7 @@ export const ColorLegend = () => {
           label,
         }))}
         showTicks
+        colorOpacity={colorOpacity}
       />
     </Box>
   );
@@ -293,10 +294,12 @@ const ColorsLine = ({
   palette,
   thresholds,
   showTicks,
+  colorOpacity,
 }: {
   palette: string[];
   thresholds?: Threshold[];
   showTicks?: boolean;
+  colorOpacity?: number;
 }) => {
   const formatDisplay = useFormatDisplayNumber();
   return (
@@ -327,6 +330,7 @@ const ColorsLine = ({
         borderTop={`${COLOR_HEIGHT / 2}px solid transparent`}
         borderBottom={`${COLOR_HEIGHT / 2}px solid transparent`}
         borderRight={`${COLOR_HEIGHT / 2}px solid  ${palette[0]}`}
+        sx={{ opacity: colorOpacity }}
       />
       <Box
         display="grid"
@@ -373,6 +377,7 @@ const ColorsLine = ({
                 width="100%"
                 height={COLOR_HEIGHT}
                 borderRight="1px solid #FFF"
+                sx={{ opacity: colorOpacity }}
               />
               {showTicks && threshold && (
                 <Box
@@ -403,6 +408,7 @@ const ColorsLine = ({
         borderLeft={`${COLOR_HEIGHT / 2}px solid ${
           palette[palette.length - 1]
         }`}
+        sx={{ opacity: colorOpacity }}
       />
     </Box>
   );
