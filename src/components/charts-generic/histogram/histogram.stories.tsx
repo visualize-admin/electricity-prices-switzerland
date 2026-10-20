@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import {
   bisector,
   Delaunay,
@@ -766,7 +766,13 @@ const BeeswarmDots = ({ options }: { options: BeeswarmOptions }) => {
   );
 };
 
-const BeeswarmTicks = ({ options }: { options: BeeswarmOptions }) => {
+const BeeswarmTicks = ({
+  options,
+  tickStep = 5,
+}: {
+  options: BeeswarmOptions;
+  tickStep?: number;
+}) => {
   const { data, getX, xScale, bounds, medianValue } =
     useChartState() as HistogramState;
   const { domainColor, labelColor, fontFamily } = useChartTheme();
@@ -778,7 +784,7 @@ const BeeswarmTicks = ({ options }: { options: BeeswarmOptions }) => {
     .ticks(5)
     .filter(
       (t) =>
-        t % 5 === 0 &&
+        t % tickStep === 0 &&
         t > minValue &&
         t < maxValue &&
         (medianValue === undefined ||
@@ -1233,4 +1239,80 @@ PriceDistributionOverlay.args = { swissColors: "gray", showDots: false };
 PriceDistributionOverlay.argTypes = {
   swissColors: { control: "inline-radio", options: ["gray", "price"] },
   showDots: { control: "boolean" },
+};
+
+const ZOOM_PADDING = 0.5;
+const zoomDomain: [number, number] = [
+  Math.floor(((min(priceGroups, (d) => d.value) ?? 0) - ZOOM_PADDING) * 2) / 2,
+  Math.ceil(((max(priceGroups, (d) => d.value) ?? 0) + ZOOM_PADDING) * 2) / 2,
+];
+const zoomDotsOptions: BeeswarmOptions = {
+  layout: "ticks-dots-labels",
+  dotSize: "sqrt",
+};
+
+// Price distribution that can zoom the whole chart to the price range of the selected operators
+export const PriceDistributionZoom = () => {
+  const { i18n } = useLingui();
+  const [zoomed, setZoomed] = useState(true);
+  const [hovered, setHovered] = useState<PriceGroup | null>(null);
+  const unit = i18n._(RP_PER_KWH);
+  return (
+    <Box width="100%" maxWidth="800px" m={5} mb={30}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={3}
+        mb={5}
+      >
+        <PriceGroupLegend />
+        <ColorLegend />
+      </Box>
+      <Box display="flex" alignItems="center" gap={2} mb={3}>
+        <Typography variant="caption">
+          {zoomed
+            ? `Zoomed: ${zoomDomain[0]}–${zoomDomain[1]} ${unit}`
+            : "All of Switzerland"}
+        </Typography>
+        <Button
+          size="sm"
+          variant="outlined"
+          onClick={() => setZoomed((z) => !z)}
+        >
+          {zoomed ? "Show all" : "Zoom to selected operators"}
+        </Button>
+      </Box>
+      <HistogramComponent
+        data={overlayData}
+        medianValue={overlayMedian}
+        aspectRatio={0.3}
+        fields={realDataFields(unit)}
+        measures={realDataMeasures}
+        xDomain={zoomed ? zoomDomain : undefined}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear />
+            <AxisWidthHistogramDomain />
+            <HistogramColumns />
+            <BeeswarmDots options={zoomDotsOptions} />
+            <BeeswarmMedian options={zoomDotsOptions} />
+            {!zoomed && <HistogramMinMaxValues />}
+            <BeeswarmTicks
+              options={zoomDotsOptions}
+              tickStep={zoomed ? 1 : 5}
+            />
+            <InteractionHistogram />
+            <BeeswarmInteraction
+              options={zoomDotsOptions}
+              onHover={setHovered}
+            />
+          </ChartSvg>
+          <Tooltip type="single" />
+          <BeeswarmTooltip options={zoomDotsOptions} hovered={hovered} />
+        </ChartContainer>
+      </HistogramComponent>
+    </Box>
+  );
 };
