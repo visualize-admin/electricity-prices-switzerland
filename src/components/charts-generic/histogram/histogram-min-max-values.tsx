@@ -8,20 +8,13 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatDisplayNumber } from "src/domain/helpers";
 
-export const HistogramMinMaxValues = ({
-  labelOffset = 0,
-  centerLabels = false,
-}: {
-  labelOffset?: number;
-  centerLabels?: boolean;
-}) => {
+export const HistogramMinMaxValues = () => {
   const { data, bounds, getX, xScale, xAxisUnit } =
     useChartState() as HistogramState;
   const { margins } = bounds;
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
   const formatDisplay = useFormatDisplayNumber();
-  const labelY = bounds.chartHeight + margins.bottom * 0.1 + labelOffset;
 
   const minValue = min(data, (d) => getX(d));
   const maxValue = max(data, (d) => getX(d));
@@ -35,7 +28,7 @@ export const HistogramMinMaxValues = ({
         >
           <text
             x={0}
-            y={labelY}
+            y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize}
             stroke="white"
             strokeWidth={3}
@@ -45,14 +38,14 @@ export const HistogramMinMaxValues = ({
               fontFamily,
               fill: domainColor,
               fontSize: labelFontSize,
-              textAnchor: centerLabels ? "middle" : "start",
+              textAnchor: "start",
             }}
           >
             {formatDisplay(minValue)} {xAxisUnit}
           </text>
           <text
             x={0}
-            y={labelY}
+            y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize * 2.4}
             stroke="white"
             strokeWidth={3}
@@ -62,7 +55,7 @@ export const HistogramMinMaxValues = ({
               fontFamily,
               fill: labelColor,
               fontSize: labelFontSize,
-              textAnchor: centerLabels ? "middle" : "start",
+              textAnchor: "start",
             }}
           >
             {t({ id: "histogram.min", message: "Min" })}
@@ -77,7 +70,7 @@ export const HistogramMinMaxValues = ({
         >
           <text
             x={0}
-            y={labelY}
+            y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize}
             stroke="white"
             strokeWidth={3}
@@ -87,14 +80,14 @@ export const HistogramMinMaxValues = ({
               fontFamily,
               fill: domainColor,
               fontSize: labelFontSize,
-              textAnchor: centerLabels ? "middle" : "end",
+              textAnchor: "end",
             }}
           >
             {formatDisplay(maxValue)} {xAxisUnit}
           </text>
           <text
             x={0}
-            y={labelY}
+            y={bounds.chartHeight + margins.bottom * 0.1}
             dy={labelFontSize * 2.4}
             stroke="white"
             strokeWidth={3}
@@ -104,7 +97,7 @@ export const HistogramMinMaxValues = ({
               fontFamily,
               fill: labelColor,
               fontSize: labelFontSize,
-              textAnchor: centerLabels ? "middle" : "end",
+              textAnchor: "end",
             }}
           >
             {t({ id: "histogram.max", message: "Max" })}
