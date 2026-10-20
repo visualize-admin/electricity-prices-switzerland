@@ -275,7 +275,10 @@ const useHistogramState = ({
   ) => {
     let xAnchor;
     const binIndex = d.metaIndex ?? 0;
-    const meta = binMeta[binIndex];
+    const meta: BinMeta =
+      d.metaIndex !== undefined
+        ? binMeta[d.metaIndex]
+        : { x0: d.x0 ?? 0, x1: d.x1 ?? 0, label: "", type: "normal" };
     if (groupedBy && binMeta && bandScale) {
       xAnchor = (bandScale(meta.label) ?? 0) + bandScale.bandwidth() / 2;
     } else {
@@ -313,13 +316,10 @@ const useHistogramState = ({
     };
   };
 
-  const annotationSpace =
-    annotationSpaces[annotationSpaces.length - 1].height || 0;
-
-  const chartHeight = chartWidth * aspectRatio + annotationSpace;
+  const chartHeight = Math.max(chartWidth * aspectRatio, 250);
 
   xScale.range([0, chartWidth]);
-  yScale.range([chartHeight, annotationSpace || 0]);
+  yScale.range([chartHeight, 0]);
 
   const annotations = annotation
     ?.sort((a, b) => ascending(getX(a), getX(b)))

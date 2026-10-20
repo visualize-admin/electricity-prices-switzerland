@@ -9,7 +9,7 @@ import { useFormatDisplayNumber } from "src/domain/helpers";
 import { Threshold } from "src/domain/map-encodings";
 import { Icon } from "src/icons";
 import { useIsMobile } from "src/lib/use-mobile";
-import { chartPalette } from "src/themes/palette";
+import { chartPalette, palette as themePalette } from "src/themes/palette";
 
 const LEGEND_WIDTH = 215;
 const TOP_LABEL_HEIGHT = 14;
@@ -255,12 +255,10 @@ const YesNoLegend = ({
 export const ColorLegend = () => {
   return (
     <Box
-      width={LEGEND_WIDTH}
+      width={LEGEND_WIDTH - 16}
       zIndex={13}
       borderRadius={1}
       height="fit-content"
-      pl={4}
-      py={2}
     >
       <Box
         display="flex"
@@ -279,7 +277,14 @@ export const ColorLegend = () => {
           <Trans id="price.legend.max">max</Trans>
         </Typography>
       </Box>
-      <ColorsLine palette={chartPalette.diverging.GreenToOrange} />
+      <ColorsLine
+        palette={chartPalette.diverging.GreenToOrange}
+        thresholds={["−15%", "−5%", "+5%", "+15%"].map((label) => ({
+          value: undefined,
+          label,
+        }))}
+        showTicks
+      />
     </Box>
   );
 };
@@ -287,9 +292,11 @@ export const ColorLegend = () => {
 const ColorsLine = ({
   palette,
   thresholds,
+  showTicks,
 }: {
   palette: string[];
   thresholds?: Threshold[];
+  showTicks?: boolean;
 }) => {
   const formatDisplay = useFormatDisplayNumber();
   return (
@@ -356,6 +363,7 @@ const ColorsLine = ({
               display="flex"
               flexDirection="column"
               alignItems="flex-end"
+              position="relative"
               sx={{
                 "&:last-of-type > div": { borderRight: 0 },
               }}
@@ -366,6 +374,16 @@ const ColorsLine = ({
                 height={COLOR_HEIGHT}
                 borderRight="1px solid #FFF"
               />
+              {showTicks && threshold && (
+                <Box
+                  position="absolute"
+                  top={COLOR_HEIGHT}
+                  right={0}
+                  width="1px"
+                  height={6}
+                  bgcolor={themePalette.monochrome[300]}
+                />
+              )}
               {threshold && threshold.value !== undefined ? (
                 <Tooltip title={formatDisplay(threshold.value)} arrow>
                   {labelContent}
