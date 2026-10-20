@@ -1,6 +1,14 @@
 import { useLingui } from "@lingui/react";
 import { Box, Typography } from "@mui/material";
-import { bisector, median as d3Median, pointer } from "d3";
+import {
+  bisector,
+  max,
+  median as d3Median,
+  min,
+  pointer,
+  scaleLog,
+  scaleSqrt,
+} from "d3";
 import { useRef, useState } from "react";
 
 import { ColorLegend } from "src/components/color-legend";
@@ -181,8 +189,12 @@ const OperatorLines = ({ hovered }: { hovered: OperatorGroup | null }) => {
 // Hovers the line closest to the mouse horizontally, like the tariffs development chart
 const OperatorLinesInteraction = ({
   onHover,
+  top = 0,
+  height,
 }: {
   onHover: (d: OperatorGroup | null) => void;
+  top?: number;
+  height?: number;
 }) => {
   const ref = useRef<SVGGElement>(null);
   const { xScale, bounds } = useChartState() as HistogramState;
@@ -199,7 +211,8 @@ const OperatorLinesInteraction = ({
     <g ref={ref} transform={`translate(${margins.left} ${margins.top})`}>
       <rect
         width={chartWidth}
-        height={chartHeight}
+        y={top}
+        height={height ?? chartHeight}
         fill="none"
         pointerEvents="all"
         onPointerMove={findLine}
@@ -211,8 +224,12 @@ const OperatorLinesInteraction = ({
 
 const OperatorLineTooltip = ({
   hovered,
+  y = 0,
+  municipalityCount = 1,
 }: {
   hovered: OperatorGroup | null;
+  y?: number;
+  municipalityCount?: number;
 }) => {
   const { xScale, bounds } = useChartState() as HistogramState;
   const { i18n } = useLingui();
@@ -222,7 +239,7 @@ const OperatorLineTooltip = ({
   return (
     <TooltipBoxPositioned
       x={xScale(hovered.value)}
-      y={0}
+      y={y}
       placement={{ x: "center", y: "top" }}
       margins={bounds.margins}
     >
@@ -230,7 +247,9 @@ const OperatorLineTooltip = ({
         <Box component="span" fontWeight={700}>
           {hovered.value.toFixed(2)} {i18n._(RP_PER_KWH)}
         </Box>{" "}
-        {hovered.municipalityLabel}
+        {municipalityCount > 1
+          ? `${municipalityCount} municipalities`
+          : hovered.municipalityLabel}
       </Typography>
     </TooltipBoxPositioned>
   );
@@ -607,4 +626,332 @@ export const PriceDistributionNumbered = ({
 PriceDistributionNumbered.args = { numberColor: "white" };
 PriceDistributionNumbered.argTypes = {
   numberColor: { control: "inline-radio", options: ["white", "dark"] },
+};
+
+const SWARM_DOT_RADIUS = 5;
+const SWARM_DOT_GAP = 2;
+
+// Made-up number of municipalities per price group, since the mock data has one municipality per entry
+const MOCK_MUNICIPALITY_COUNTS = [
+  1, 107, 2, 14, 48, 1, 3, 200, 12, 1, 29, 62, 1, 5, 165,
+];
+const municipalityCount = (d: OperatorGroup) =>
+  MOCK_MUNICIPALITY_COUNTS[operatorGroups.indexOf(d)] ?? 1;
+const counts = operatorGroups.map(municipalityCount);
+const countDomain = [min(counts) ?? 1, max(counts) ?? 1];
+const dotRadiusScales = {
+  sqrt: scaleSqrt().domain(countDomain).range([4, 16]),
+  log: scaleLog().domain(countDomain).range([4, 16]),
+};
+const ROW_GAP = 14;
+const LABEL_ROW_HEIGHT = 30;
+const MEDIAN_TICK_DISTANCE = 20;
+
+type BeeswarmOptions = {
+  layout: BeeswarmLayout;
+  dotSize: DotSize;
+};
+
+type DotSize = "fixed" | "sqrt" | "log";
+
+type BeeswarmLayout =
+  | "dots-ticks-labels"
+  | "ticks-dots-labels"
+  | "ticks-labels-dots";
+
+// Dots stacked downwards when they would overlap, with y relative to the top of the dot area
+const useBeeswarmDots = (dotSize: DotSize) => {
+  const { xScale } = useChartState() as HistogramState;
+  const placed: { d: OperatorGroup; x: number; y: number; r: number }[] = [];
+  const byRadius = [...operatorGroupsByValue].sort(
+    (a, b) =>
+      (dotSize !== "fixed" ? municipalityCount(b) - municipalityCount(a) : 0) ||
+      a.value - b.value
+  );
+  byRadius.forEach((d) => {
+    const x = xScale(d.value);
+    const r =
+      dotSize === "fixed"
+        ? SWARM_DOT_RADIUS
+        : dotRadiusScales[dotSize](municipalityCount(d));
+    let y = r;
+    while (
+      placed.some((p) => Math.hypot(p.x - x, p.y - y) < p.r + r + SWARM_DOT_GAP)
+    ) {
+      y += 1;
+    }
+    placed.push({ d, x, y, r });
+  });
+  const height = Math.max(...placed.map((p) => p.y + p.r));
+  return { dots: placed, height };
+};
+
+// Positions of the rows below the x-axis for each layout
+const useBeeswarmRows = ({ layout, dotSize }: BeeswarmOptions) => {
+  const { bounds } = useChartState() as HistogramState;
+  const { labelFontSize } = useChartTheme();
+  const { dots, height } = useBeeswarmDots(dotSize);
+  const axisY = bounds.chartHeight;
+  let dotsTop: number;
+  let tickRowY: number;
+  let labelRowY: number;
+  if (layout === "dots-ticks-labels") {
+    dotsTop = axisY + 6;
+    tickRowY = dotsTop + height + ROW_GAP;
+    labelRowY = tickRowY + ROW_GAP + labelFontSize;
+  } else if (layout === "ticks-dots-labels") {
+    tickRowY = axisY + ROW_GAP;
+    dotsTop = tickRowY + 6;
+    labelRowY = dotsTop + height + ROW_GAP + labelFontSize;
+  } else {
+    tickRowY = axisY + ROW_GAP;
+    labelRowY = tickRowY + ROW_GAP + labelFontSize;
+    dotsTop = labelRowY + LABEL_ROW_HEIGHT;
+  }
+  return {
+    dots: dots.map((p) => ({ ...p, y: p.y + dotsTop })),
+    dotsBottom: dotsTop + height,
+    tickRowY,
+    labelRowY,
+  };
+};
+
+const BeeswarmDots = ({ options }: { options: BeeswarmOptions }) => {
+  const { bounds } = useChartState() as HistogramState;
+  const { annotationLineColor } = useChartTheme();
+  const { dots } = useBeeswarmRows(options);
+  const { margins, chartHeight } = bounds;
+  return (
+    <g transform={`translate(${margins.left} ${margins.top})`}>
+      {dots.map(({ d, x, y, r }) => (
+        <g key={d.muniOperator}>
+          <line
+            x1={x}
+            x2={x}
+            y1={chartHeight}
+            y2={y}
+            stroke={annotationLineColor}
+            strokeOpacity={0.2}
+          />
+          <circle
+            cx={x}
+            cy={y}
+            r={r}
+            fill={operatorColor(d.operatorLabel)}
+            stroke="white"
+          />
+        </g>
+      ))}
+    </g>
+  );
+};
+
+const BeeswarmTicks = ({ options }: { options: BeeswarmOptions }) => {
+  const { data, getX, xScale, bounds, medianValue } =
+    useChartState() as HistogramState;
+  const { domainColor, labelColor, labelFontSize, fontFamily } =
+    useChartTheme();
+  const { tickRowY, labelRowY } = useBeeswarmRows(options);
+  const { margins, chartHeight } = bounds;
+  const minValue = min(data, getX) ?? 0;
+  const maxValue = max(data, getX) ?? 0;
+  const ticks = xScale
+    .ticks(5)
+    .filter(
+      (t) =>
+        t % 5 === 0 &&
+        t > minValue &&
+        t < maxValue &&
+        (medianValue === undefined ||
+          Math.abs(xScale(t) - xScale(medianValue)) > MEDIAN_TICK_DISTANCE)
+    );
+  return (
+    <g transform={`translate(${margins.left} ${margins.top})`}>
+      {[minValue, maxValue].map((v) => (
+        <line
+          key={v}
+          x1={xScale(v)}
+          x2={xScale(v)}
+          y1={chartHeight}
+          y2={labelRowY - labelFontSize}
+          stroke={domainColor}
+          strokeDasharray="4px 2px"
+        />
+      ))}
+      {ticks.map((t) => (
+        <g key={t}>
+          <line
+            x1={xScale(t)}
+            x2={xScale(t)}
+            y1={chartHeight}
+            y2={chartHeight + 4}
+            stroke={domainColor}
+          />
+          <text
+            x={xScale(t)}
+            y={tickRowY}
+            textAnchor="middle"
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
+            style={{ fontFamily, fontSize: 10, fill: labelColor }}
+          >
+            {t}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
+};
+
+const BeeswarmMedian = ({ options }: { options: BeeswarmOptions }) => {
+  const { bounds } = useChartState() as HistogramState;
+  const { labelFontSize } = useChartTheme();
+  const { labelRowY } = useBeeswarmRows(options);
+  return (
+    <HistogramMedian
+      label="CH Median"
+      labelOffset={
+        labelRowY -
+        labelFontSize -
+        bounds.chartHeight -
+        bounds.margins.bottom * 0.5
+      }
+    />
+  );
+};
+
+const BeeswarmMinMax = ({ options }: { options: BeeswarmOptions }) => {
+  const { bounds } = useChartState() as HistogramState;
+  const { labelFontSize } = useChartTheme();
+  const { labelRowY } = useBeeswarmRows(options);
+  return (
+    <HistogramMinMaxValues
+      centerLabels
+      labelOffset={
+        labelRowY -
+        labelFontSize -
+        bounds.chartHeight -
+        bounds.margins.bottom * 0.1
+      }
+    />
+  );
+};
+
+const BeeswarmInteraction = ({
+  options,
+  onHover,
+}: {
+  options: BeeswarmOptions;
+  onHover: (d: OperatorGroup | null) => void;
+}) => {
+  const { dots, dotsBottom } = useBeeswarmRows(options);
+  const dotsTop = Math.min(...dots.map((p) => p.y - p.r));
+  return (
+    <OperatorLinesInteraction
+      onHover={onHover}
+      top={dotsTop}
+      height={dotsBottom - dotsTop}
+    />
+  );
+};
+
+const BeeswarmTooltip = ({
+  options,
+  hovered,
+}: {
+  options: BeeswarmOptions;
+  hovered: OperatorGroup | null;
+}) => {
+  const { dots } = useBeeswarmRows(options);
+  const dot = dots.find((p) => p.d === hovered);
+  return (
+    <OperatorLineTooltip
+      hovered={hovered}
+      y={dot ? dot.y - dot.r : 0}
+      municipalityCount={hovered ? municipalityCount(hovered) : 1}
+    />
+  );
+};
+
+// Price distribution with the price groups as a beeswarm of operator-colored dots below the x-axis
+export const PriceDistributionBeeswarm = (options: BeeswarmOptions) => {
+  const { i18n } = useLingui();
+  const [hovered, setHovered] = useState<OperatorGroup | null>(null);
+  return (
+    <Box width="100%" maxWidth="800px" m={5} mb={30}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={3}
+        mb={5}
+      >
+        <Box display="flex" flexWrap="wrap" gap={1}>
+          {operators.map((operator) => (
+            <LegendItem
+              key={operator}
+              item={operator}
+              color={operatorColor(operator)}
+              symbol="circle"
+            />
+          ))}
+        </Box>
+        <ColorLegend />
+      </Box>
+      <HistogramComponent
+        data={mockData}
+        medianValue={20}
+        aspectRatio={0.3}
+        fields={{
+          x: {
+            componentIri: "value",
+            axisUnit: i18n._(RP_PER_KWH),
+          },
+          y: {
+            axisLabel: "Number of municipalities",
+          },
+          label: {
+            componentIri: "muniOperator",
+          },
+        }}
+        measures={[
+          {
+            iri: "value",
+            label: "value",
+            __typename: "Measure",
+          },
+        ]}
+      >
+        <ChartContainer>
+          <ChartSvg>
+            <AxisHeightLinear />
+            <AxisWidthHistogramDomain />
+            <HistogramColumns />
+            <BeeswarmDots options={options} />
+            <BeeswarmMedian options={options} />
+            <BeeswarmMinMax options={options} />
+            <BeeswarmTicks options={options} />
+            <InteractionHistogram />
+            <BeeswarmInteraction options={options} onHover={setHovered} />
+          </ChartSvg>
+          <Tooltip type="single" />
+          <BeeswarmTooltip options={options} hovered={hovered} />
+        </ChartContainer>
+      </HistogramComponent>
+    </Box>
+  );
+};
+
+PriceDistributionBeeswarm.args = {
+  layout: "ticks-dots-labels",
+  dotSize: "fixed",
+};
+PriceDistributionBeeswarm.argTypes = {
+  layout: {
+    control: "inline-radio",
+    options: ["ticks-dots-labels", "dots-ticks-labels", "ticks-labels-dots"],
+  },
+  dotSize: { control: "inline-radio", options: ["fixed", "sqrt", "log"] },
 };
