@@ -158,11 +158,13 @@ const useHistogramState = ({
   aspectRatio,
   groupedBy,
   xDomain: xDomainOverride,
+  minChartHeight = 250,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
   xDomain?: [number, number];
+  minChartHeight?: number;
 }): HistogramState => {
   const width = useWidth();
   const formatDisplay = useFormatDisplayNumber();
@@ -333,7 +335,7 @@ const useHistogramState = ({
     };
   };
 
-  const chartHeight = Math.max(chartWidth * aspectRatio, 250);
+  const chartHeight = Math.max(chartWidth * aspectRatio, minChartHeight);
 
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
@@ -401,12 +403,14 @@ const HistogramProvider = ({
   aspectRatio,
   groupedBy,
   xDomain,
+  minChartHeight,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
   xDomain?: [number, number];
+  minChartHeight?: number;
 }) => {
   const state = useHistogramState({
     data,
@@ -416,6 +420,7 @@ const HistogramProvider = ({
     aspectRatio,
     groupedBy,
     xDomain,
+    minChartHeight,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -431,12 +436,14 @@ export const Histogram = ({
   aspectRatio,
   groupedBy,
   xDomain,
+  minChartHeight,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
   xDomain?: [number, number];
+  minChartHeight?: number;
 }) => {
   return (
     <Observer>
@@ -449,6 +456,7 @@ export const Histogram = ({
           aspectRatio={aspectRatio}
           groupedBy={groupedBy}
           xDomain={xDomain}
+          minChartHeight={minChartHeight}
         >
           {children}
         </HistogramProvider>

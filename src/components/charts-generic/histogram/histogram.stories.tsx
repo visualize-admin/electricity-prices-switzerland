@@ -1,6 +1,12 @@
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import {
   bisector,
   Delaunay,
@@ -679,6 +685,7 @@ type PriceGroupsData = {
   groupsByValue: PriceGroup[];
   color: (operator: string) => string;
   radiusScales: Record<"sqrt" | "log", (count: number) => number>;
+  countDomain: [number, number];
 };
 
 // Municipalities of the given operators with the same price, like the labels of the real chart
@@ -688,7 +695,8 @@ const makePriceGroups = (
     operatorLabel?: string | null;
     municipalityLabel?: string | null;
   }[],
-  operators: string[]
+  operators: string[],
+  radiusRange: [number, number] = [4, 16]
 ): PriceGroupsData => {
   const groupsList = operators.flatMap((operator) =>
     groups(
@@ -705,14 +713,15 @@ const makePriceGroups = (
     }))
   );
   const counts = groupsList.map((d) => d.count);
-  const countDomain = [min(counts) ?? 1, max(counts) ?? 1];
+  const countDomain: [number, number] = [min(counts) ?? 1, max(counts) ?? 1];
   return {
+    countDomain,
     groups: groupsList,
     groupsByValue: [...groupsList].sort((a, b) => a.value - b.value),
     color: (operator) => getPalette("elcom")[operators.indexOf(operator)],
     radiusScales: {
-      sqrt: scaleSqrt().domain(countDomain).range([4, 16]),
-      log: scaleLog().domain(countDomain).range([4, 16]),
+      sqrt: scaleSqrt().domain(countDomain).range(radiusRange),
+      log: scaleLog().domain(countDomain).range(radiusRange),
     },
   };
 };
@@ -733,7 +742,7 @@ type BeeswarmOptions = {
   stems?: Stems;
 };
 
-type Stems = "behind" | "off";
+type Stems = "on" | "off";
 
 type DotSize = "fixed" | "sqrt" | "log";
 
@@ -832,10 +841,7 @@ const BeeswarmDots = ({ options }: { options: BeeswarmOptions }) => {
               {dot(p)}
             </g>
           ))
-        : [
-            ...(options.stems === "behind" ? dots.map(stem) : []),
-            ...dots.map(dot),
-          ]}
+        : [...(options.stems === "on" ? dots.map(stem) : []), ...dots.map(dot)]}
     </g>
   );
 };
@@ -998,19 +1004,6 @@ const BeeswarmTooltip = ({
   );
 };
 
-const PriceGroupLegend = () => (
-  <Box display="flex" flexWrap="wrap" gap={1}>
-    {overlayOperators.map((operator) => (
-      <LegendItem
-        key={operator}
-        item={operator}
-        color={overlayColor(operator)}
-        symbol="circle"
-      />
-    ))}
-  </Box>
-);
-
 const realDataFields = (axisUnit: string) => ({
   x: {
     componentIri: "value",
@@ -1031,61 +1024,6 @@ const realDataMeasures = [
     __typename: "Measure" as const,
   },
 ];
-
-// Price distribution with the price groups as a beeswarm of operator-colored dots below the x-axis
-export const PriceDistributionBeeswarm = (options: BeeswarmOptions) => {
-  const { i18n } = useLingui();
-  const [hovered, setHovered] = useState<PriceGroup | null>(null);
-  return (
-    <Box width="100%" maxWidth="800px" m={5} mb={30}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        gap={3}
-        mb={5}
-      >
-        <PriceGroupLegend />
-        <ColorLegend />
-      </Box>
-      <HistogramComponent
-        data={overlayData}
-        medianValue={overlayMedian}
-        aspectRatio={0.3}
-        fields={realDataFields(i18n._(RP_PER_KWH))}
-        measures={realDataMeasures}
-      >
-        <ChartContainer>
-          <ChartSvg>
-            <AxisHeightLinear />
-            <AxisWidthHistogramDomain />
-            <HistogramColumns />
-            <BeeswarmDots options={options} />
-            <BeeswarmMedian options={options} />
-            <HistogramMinMaxValues />
-            <BeeswarmTicks options={options} />
-            <InteractionHistogram />
-            <BeeswarmInteraction options={options} onHover={setHovered} />
-          </ChartSvg>
-          <Tooltip type="single" />
-          <BeeswarmTooltip options={options} hovered={hovered} />
-        </ChartContainer>
-      </HistogramComponent>
-    </Box>
-  );
-};
-
-PriceDistributionBeeswarm.args = {
-  layout: "ticks-dots-labels",
-  dotSize: "fixed",
-};
-PriceDistributionBeeswarm.argTypes = {
-  layout: {
-    control: "inline-radio",
-    options: ["ticks-dots-labels", "dots-ticks-labels", "ticks-labels-dots"],
-  },
-  dotSize: { control: "inline-radio", options: ["fixed", "sqrt", "log"] },
-};
 
 type SwissColors = "gray" | "price";
 
@@ -1333,84 +1271,6 @@ PriceDistributionOverlay.argTypes = {
 };
 
 const ZOOM_PADDING = 0.5;
-const zoomDomain: [number, number] = [
-  Math.floor(
-    ((min(defaultPriceGroups.groups, (d) => d.value) ?? 0) - ZOOM_PADDING) * 2
-  ) / 2,
-  Math.ceil(
-    ((max(defaultPriceGroups.groups, (d) => d.value) ?? 0) + ZOOM_PADDING) * 2
-  ) / 2,
-];
-const zoomDotsOptions: BeeswarmOptions = {
-  layout: "ticks-dots-labels",
-  dotSize: "sqrt",
-};
-
-// Price distribution that can zoom the whole chart to the price range of the selected operators
-export const PriceDistributionZoom = () => {
-  const { i18n } = useLingui();
-  const [zoomed, setZoomed] = useState(true);
-  const [hovered, setHovered] = useState<PriceGroup | null>(null);
-  const unit = i18n._(RP_PER_KWH);
-  return (
-    <Box width="100%" maxWidth="800px" m={5} mb={30}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        gap={3}
-        mb={5}
-      >
-        <PriceGroupLegend />
-        <ColorLegend />
-      </Box>
-      <Box display="flex" alignItems="center" gap={2} mb={3}>
-        <Typography variant="caption">
-          {zoomed
-            ? `Zoomed: ${zoomDomain[0]}–${zoomDomain[1]} ${unit}`
-            : "All of Switzerland"}
-        </Typography>
-        <Button
-          size="sm"
-          variant="outlined"
-          onClick={() => setZoomed((z) => !z)}
-        >
-          {zoomed ? "Show all" : "Zoom to selected operators"}
-        </Button>
-      </Box>
-      <HistogramComponent
-        data={overlayData}
-        medianValue={overlayMedian}
-        aspectRatio={0.3}
-        fields={realDataFields(unit)}
-        measures={realDataMeasures}
-        xDomain={zoomed ? zoomDomain : undefined}
-      >
-        <ChartContainer>
-          <ChartSvg>
-            <AxisHeightLinear />
-            <AxisWidthHistogramDomain />
-            <HistogramColumns />
-            <BeeswarmDots options={zoomDotsOptions} />
-            <BeeswarmMedian options={zoomDotsOptions} />
-            {!zoomed && <HistogramMinMaxValues />}
-            <BeeswarmTicks
-              options={zoomDotsOptions}
-              tickStep={zoomed ? 1 : 5}
-            />
-            <InteractionHistogram />
-            <BeeswarmInteraction
-              options={zoomDotsOptions}
-              onHover={setHovered}
-            />
-          </ChartSvg>
-          <Tooltip type="single" />
-          <BeeswarmTooltip options={zoomDotsOptions} hovered={hovered} />
-        </ChartContainer>
-      </HistogramComponent>
-    </Box>
-  );
-};
 
 const distributionData = {
   "2026": {
@@ -1438,8 +1298,9 @@ const CARD_PRICE_COMPONENTS = [
 ] as const;
 type CardPriceComponent = (typeof CARD_PRICE_COMPONENTS)[number];
 
-const CURRENT_OPERATOR = "BKW Energie AG";
-const COMPARE_OPERATORS = [
+const CARD_OPERATORS = [
+  "BKW Energie AG",
+  "Primeo Netz AG",
   "Romande Energie SA",
   "Groupe E SA",
   "Elektrizitätswerke des Kantons Zürich (EKZ)",
@@ -1447,19 +1308,100 @@ const COMPARE_OPERATORS = [
   "Azienda Multiservizi Bellinzona (AMB)",
 ];
 
+// When zoomed past the CH median, shows it at the edge of the chart with an arrow towards it
+const MedianEdgeMarker = ({ options }: { options: BeeswarmOptions }) => {
+  const { xScale, bounds, medianValue, xAxisUnit } =
+    useChartState() as HistogramState;
+  const { labelColor, domainColor, labelFontSize, fontFamily } =
+    useChartTheme();
+  const formatDisplay = useFormatDisplayNumber();
+  const { labelRowY } = useBeeswarmRows(options);
+  const [domainMin, domainMax] = xScale.domain();
+  if (
+    medianValue === undefined ||
+    (medianValue >= domainMin && medianValue <= domainMax)
+  ) {
+    return null;
+  }
+  const isLeft = medianValue < domainMin;
+  const style = {
+    fontFamily,
+    fontSize: labelFontSize,
+    fontWeight: 700,
+    textAnchor: isLeft ? ("start" as const) : ("end" as const),
+  };
+  return (
+    <g transform={`translate(${bounds.margins.left} ${bounds.margins.top})`}>
+      <text
+        x={isLeft ? 0 : bounds.chartWidth}
+        y={labelRowY}
+        style={{ ...style, fill: domainColor }}
+      >
+        {isLeft
+          ? `◀ ${formatDisplay(medianValue)} ${xAxisUnit}`
+          : `${formatDisplay(medianValue)} ${xAxisUnit} ▶`}
+      </text>
+      <text
+        x={isLeft ? 0 : bounds.chartWidth}
+        y={labelRowY}
+        dy={labelFontSize * 1.4}
+        style={{ ...style, fill: labelColor }}
+      >
+        CH Median
+      </text>
+    </g>
+  );
+};
+
+// Dot sizes for the smallest, a middle and the largest number of municipalities
+const DotSizeLegend = ({
+  priceGroupsData,
+  dotSize,
+}: {
+  priceGroupsData: PriceGroupsData;
+  dotSize: "sqrt" | "log";
+}) => {
+  const [low, high] = priceGroupsData.countDomain;
+  const counts = [...new Set([low, Math.round(Math.sqrt(low * high)), high])];
+  const radius = priceGroupsData.radiusScales[dotSize];
+  return (
+    <Box display="flex" alignItems="center" gap={3} mt={2}>
+      {counts.map((count) => (
+        <Box key={count} display="flex" alignItems="center" gap={1}>
+          <svg width={radius(count) * 2 + 2} height={radius(count) * 2 + 2}>
+            <circle
+              cx={radius(count) + 1}
+              cy={radius(count) + 1}
+              r={radius(count)}
+              fill="none"
+              stroke={themePalette.monochrome[500]}
+            />
+          </svg>
+          <Typography variant="caption">{count}</Typography>
+        </Box>
+      ))}
+      <Typography variant="caption">municipalities</Typography>
+    </Box>
+  );
+};
+
 // Same as PriceDistributionHistogram, with the price groups as a beeswarm instead of label lines
 const PriceDistributionBeeswarmYear = ({
   year,
   priceComponent,
   operators,
   options,
+  zoomRange,
 }: {
   year: DistributionYear;
   priceComponent: CardPriceComponent;
   operators: string[];
   options: BeeswarmOptions;
+  zoomRange?: [number, number];
 }) => {
   const { i18n } = useLingui();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [hovered, setHovered] = useState<PriceGroup | null>(null);
   const response = distributionData[year][priceComponent];
   const observations = useMemo(
@@ -1471,9 +1413,15 @@ const PriceDistributionBeeswarmYear = ({
     [response]
   );
   const medianValue = response.swissMedianObservations?.[0]?.value;
+  const medianOutsideZoom =
+    zoomRange !== undefined &&
+    medianValue !== undefined &&
+    medianValue !== null &&
+    (medianValue < zoomRange[0] || medianValue > zoomRange[1]);
   const priceGroupsData = useMemo(
-    () => makePriceGroups(observations, operators),
-    [observations, operators]
+    () =>
+      makePriceGroups(observations, operators, isMobile ? [3, 12] : undefined),
+    [observations, operators, isMobile]
   );
   return (
     <PriceGroupsContext.Provider value={priceGroupsData}>
@@ -1486,17 +1434,38 @@ const PriceDistributionBeeswarmYear = ({
           mt={-3}
           mb={5}
         >
-          <Box display="flex" flexWrap="wrap" gap={1}>
-            {operators.map((operator) => (
-              <LegendItem
-                key={operator}
-                item={operator}
-                color={priceGroupsData.color(operator)}
-                symbol="circle"
+          <Box>
+            <Typography variant="caption" fontWeight={700} display="block">
+              Prices of the selected operators
+            </Typography>
+            <Typography variant="caption" display="block" mb={1}>
+              {options.dotSize === "fixed"
+                ? "One dot per price"
+                : "One dot per price, size = number of municipalities"}
+            </Typography>
+            <Box display="flex" flexWrap="wrap" gap={1}>
+              {operators.map((operator) => (
+                <LegendItem
+                  key={operator}
+                  item={operator}
+                  color={priceGroupsData.color(operator)}
+                  symbol="circle"
+                />
+              ))}
+            </Box>
+            {options.dotSize !== "fixed" && (
+              <DotSizeLegend
+                priceGroupsData={priceGroupsData}
+                dotSize={options.dotSize}
               />
-            ))}
+            )}
           </Box>
-          <ColorLegend />
+          <Box>
+            <Typography variant="caption" fontWeight={700} display="block">
+              Prices of all municipalities in Switzerland
+            </Typography>
+            <ColorLegend />
+          </Box>
         </Box>
         <HistogramComponent
           data={observations}
@@ -1504,6 +1473,8 @@ const PriceDistributionBeeswarmYear = ({
           aspectRatio={0.3}
           fields={realDataFields(i18n._(RP_PER_KWH))}
           measures={realDataMeasures}
+          xDomain={zoomRange}
+          minChartHeight={isMobile ? 160 : undefined}
         >
           <ChartContainer>
             <ChartSvg>
@@ -1511,8 +1482,9 @@ const PriceDistributionBeeswarmYear = ({
               <AxisWidthHistogramDomain />
               <HistogramColumns />
               <BeeswarmDots options={options} />
-              <BeeswarmMedian options={options} />
-              <HistogramMinMaxValues />
+              {!medianOutsideZoom && <BeeswarmMedian options={options} />}
+              <MedianEdgeMarker options={options} />
+              {!zoomRange && <HistogramMinMaxValues />}
               <BeeswarmTicks options={options} />
               <InteractionHistogram />
               <BeeswarmInteraction options={options} onHover={setHovered} />
@@ -1527,14 +1499,16 @@ const PriceDistributionBeeswarmYear = ({
   );
 };
 
-// Same card as PriceDistributionHistograms on the detail page, with the beeswarm per year
-export const PriceDistributionCard = ({
+// Same card as PriceDistributionHistograms on the detail page, with the price groups as a beeswarm per year and a zoom to the selected operators
+export const PriceDistributionCardZoom = ({
   years,
+  currentOperator,
   compareWith,
   dotSize,
   stems,
 }: {
   years: DistributionYear[];
+  currentOperator: string;
   compareWith: string[];
   dotSize: DotSize;
   stems: Stems;
@@ -1546,12 +1520,26 @@ export const PriceDistributionCard = ({
   };
   const [priceComponent, setPriceComponent] =
     useState<CardPriceComponent>("total");
-  const sortedPeriods = [...years].sort();
+  const sortedPeriods = [...(years ?? [])].sort();
   const operators = useMemo(
-    () => [CURRENT_OPERATOR, ...compareWith],
-    [compareWith]
+    () => [
+      currentOperator,
+      ...(compareWith ?? []).filter((operator) => operator !== currentOperator),
+    ],
+    [currentOperator, compareWith]
   );
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
+  const [zoomed, setZoomed] = useState(false);
+  const operatorValues = sortedPeriods.flatMap((p) =>
+    (distributionData[p][priceComponent].observations ?? [])
+      .filter((d) => d.operatorLabel && operators.includes(d.operatorLabel))
+      .map((d) => d.value as number)
+  );
+  const zoomRange: [number, number] = [
+    Math.floor(((min(operatorValues) ?? 0) - ZOOM_PADDING) * 2) / 2,
+    Math.ceil(((max(operatorValues) ?? 0) + ZOOM_PADDING) * 2) / 2,
+  ];
+  const isZoomed = zoomed && operatorValues.length > 0;
   const filters = {
     period: sortedPeriods[0],
     category: "H4" as const,
@@ -1625,6 +1613,20 @@ export const PriceDistributionCard = ({
             showLabel={false}
           />
         </Box>
+        <Box display="flex" alignItems="center" gap={2}>
+          <Button
+            size="sm"
+            variant="outlined"
+            onClick={() => setZoomed((z) => !z)}
+          >
+            {isZoomed ? "Show all" : "Zoom to selected operators"}
+          </Button>
+          <Typography variant="caption">
+            {isZoomed
+              ? `Zoomed: ${zoomRange[0]}–${zoomRange[1]} ct./kWh`
+              : "Shows the prices of the selected operators in more detail"}
+          </Typography>
+        </Box>
         {sortedPeriods.map((p) => (
           <Fragment key={p}>
             {sortedPeriods.length > 1 && (
@@ -1639,6 +1641,7 @@ export const PriceDistributionCard = ({
               priceComponent={priceComponent}
               operators={operators}
               options={options}
+              zoomRange={isZoomed ? zoomRange : undefined}
             />
           </Fragment>
         ))}
@@ -1647,16 +1650,18 @@ export const PriceDistributionCard = ({
   );
 };
 
-PriceDistributionCard.args = {
+PriceDistributionCardZoom.args = {
   years: ["2026", "2027"],
+  currentOperator: "BKW Energie AG",
   compareWith: ["EWS Energie AG"],
   dotSize: "sqrt",
-  stems: "behind",
+  stems: "on",
 };
-PriceDistributionCard.decorators = [withUrqlClient];
-PriceDistributionCard.argTypes = {
+PriceDistributionCardZoom.decorators = [withUrqlClient];
+PriceDistributionCardZoom.argTypes = {
   years: { control: "check", options: ["2026", "2027"] },
-  compareWith: { control: "check", options: COMPARE_OPERATORS },
+  currentOperator: { control: "select", options: CARD_OPERATORS },
+  compareWith: { control: "check", options: CARD_OPERATORS },
   dotSize: { control: "inline-radio", options: ["fixed", "sqrt", "log"] },
-  stems: { control: "inline-radio", options: ["behind", "off"] },
+  stems: { control: "inline-radio", options: ["on", "off"] },
 };
