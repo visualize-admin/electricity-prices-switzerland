@@ -1,3 +1,4 @@
+import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Box, Button, Typography } from "@mui/material";
 import {
@@ -11,16 +12,47 @@ import {
   scaleLog,
   scaleSqrt,
 } from "d3";
-import { useRef, useState } from "react";
+import {
+  Fragment,
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
+import { ButtonGroup } from "src/components/button-group";
 import { ColorLegend } from "src/components/color-legend";
+import { Combobox } from "src/components/combobox";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "src/components/detail-page/card";
+import { DownloadImage } from "src/components/detail-page/download-image";
+import { FilterSetDescription } from "src/components/detail-page/filter-set-description";
+import { InfoDialogButton } from "src/components/info-dialog";
 import { getPalette } from "src/domain/helpers";
+import { useFormatDisplayNumber } from "src/domain/helpers";
 import { RP_PER_KWH } from "src/domain/metrics";
-import { data as priceDistribution2027 } from "src/mocks/graphql/price-distribution-2027-h4/Observations";
+import { getLocalizedLabel, TranslationKey } from "src/domain/translation";
+import { estimateTextWidth } from "src/lib/estimate-text-width";
+import { data as distribution2026Charge } from "src/mocks/graphql/price-distribution-2026-h4-charge/Observations";
+import { data as distribution2026Energy } from "src/mocks/graphql/price-distribution-2026-h4-energy/Observations";
+import { data as distribution2026Gridusage } from "src/mocks/graphql/price-distribution-2026-h4-gridusage/Observations";
+import { data as distribution2026Meteringrate } from "src/mocks/graphql/price-distribution-2026-h4-meteringrate/Observations";
+import { data as distribution2026Total } from "src/mocks/graphql/price-distribution-2026-h4-total/Observations";
+import { data as distribution2027Charge } from "src/mocks/graphql/price-distribution-2027-h4-charge/Observations";
+import { data as distribution2027Energy } from "src/mocks/graphql/price-distribution-2027-h4-energy/Observations";
+import { data as distribution2027Gridusage } from "src/mocks/graphql/price-distribution-2027-h4-gridusage/Observations";
+import { data as distribution2027Meteringrate } from "src/mocks/graphql/price-distribution-2027-h4-meteringrate/Observations";
+import { data as priceDistribution2027 } from "src/mocks/graphql/price-distribution-2027-h4-total/Observations";
 import operationalStandards from "src/mocks/sunshine-operationalStandards-426.json";
 import serviceQualityMock from "src/mocks/sunshine-operationalStandards-serviceQuality-mock.json";
 import { palette as themePalette } from "src/themes/palette";
 
+import { withUrqlClient } from "../../../../.storybook/decorators";
 import { AnnotationX, AnnotationXLabel } from "../annotation/annotation-x";
 import { AxisHeightLinear } from "../axis/axis-height-linear";
 import {
@@ -642,37 +674,66 @@ type PriceGroup = {
   count: number;
 };
 
-// Municipalities of the selected operators with the same price, like the labels of the real chart
-const priceGroups: PriceGroup[] = overlayOperators.flatMap((operator) =>
-  groups(
-    overlayData.filter((d) => d.operatorLabel === operator),
-    (d) => d.value
-  ).map(([value, municipalities]) => ({
-    key: `${operator}-${value}`,
-    value: value as number,
-    operatorLabel: operator,
-    municipalityLabel: municipalities[0].municipalityLabel ?? "",
-    count: municipalities.length,
-  }))
-);
-const priceGroupsByValue = [...priceGroups].sort((a, b) => a.value - b.value);
+type PriceGroupsData = {
+  groups: PriceGroup[];
+  groupsByValue: PriceGroup[];
+  color: (operator: string) => string;
+  radiusScales: Record<"sqrt" | "log", (count: number) => number>;
+};
+
+// Municipalities of the given operators with the same price, like the labels of the real chart
+const makePriceGroups = (
+  observations: {
+    value?: number | null;
+    operatorLabel?: string | null;
+    municipalityLabel?: string | null;
+  }[],
+  operators: string[]
+): PriceGroupsData => {
+  const groupsList = operators.flatMap((operator) =>
+    groups(
+      observations.filter(
+        (d) => d.operatorLabel === operator && d.value != null
+      ),
+      (d) => d.value
+    ).map(([value, municipalities]) => ({
+      key: `${operator}-${value}`,
+      value: value as number,
+      operatorLabel: operator,
+      municipalityLabel: municipalities[0].municipalityLabel ?? "",
+      count: municipalities.length,
+    }))
+  );
+  const counts = groupsList.map((d) => d.count);
+  const countDomain = [min(counts) ?? 1, max(counts) ?? 1];
+  return {
+    groups: groupsList,
+    groupsByValue: [...groupsList].sort((a, b) => a.value - b.value),
+    color: (operator) => getPalette("elcom")[operators.indexOf(operator)],
+    radiusScales: {
+      sqrt: scaleSqrt().domain(countDomain).range([4, 16]),
+      log: scaleLog().domain(countDomain).range([4, 16]),
+    },
+  };
+};
+
+const defaultPriceGroups = makePriceGroups(overlayData, overlayOperators);
+const PriceGroupsContext = createContext(defaultPriceGroups);
 
 const SWARM_DOT_RADIUS = 5;
 const SWARM_DOT_GAP = 2;
-const counts = priceGroups.map((d) => d.count);
-const countDomain = [min(counts) ?? 1, max(counts) ?? 1];
-const dotRadiusScales = {
-  sqrt: scaleSqrt().domain(countDomain).range([4, 16]),
-  log: scaleLog().domain(countDomain).range([4, 16]),
-};
 const ROW_GAP = 14;
 const LABEL_ROW_HEIGHT = 30;
 const MEDIAN_TICK_DISTANCE = 20;
+const TICK_LABEL_GAP = 8;
 
 type BeeswarmOptions = {
   layout: BeeswarmLayout;
   dotSize: DotSize;
+  stems?: Stems;
 };
+
+type Stems = "behind" | "off";
 
 type DotSize = "fixed" | "sqrt" | "log";
 
@@ -684,16 +745,15 @@ type BeeswarmLayout =
 // Dots stacked downwards when they would overlap, with y relative to the top of the dot area
 const useBeeswarmDots = (dotSize: DotSize) => {
   const { xScale } = useChartState() as HistogramState;
+  const { groupsByValue, radiusScales } = useContext(PriceGroupsContext);
   const placed: { d: PriceGroup; x: number; y: number; r: number }[] = [];
-  const largestFirst = [...priceGroupsByValue].sort(
+  const largestFirst = [...groupsByValue].sort(
     (a, b) => (dotSize !== "fixed" ? b.count - a.count : 0) || a.value - b.value
   );
   largestFirst.forEach((d) => {
     const x = xScale(d.value);
     const r =
-      dotSize === "fixed"
-        ? SWARM_DOT_RADIUS
-        : dotRadiusScales[dotSize](d.count);
+      dotSize === "fixed" ? SWARM_DOT_RADIUS : radiusScales[dotSize](d.count);
     let y = r;
     while (
       placed.some((p) => Math.hypot(p.x - x, p.y - y) < p.r + r + SWARM_DOT_GAP)
@@ -739,52 +799,74 @@ const useBeeswarmRows = ({ layout, dotSize }: BeeswarmOptions) => {
 const BeeswarmDots = ({ options }: { options: BeeswarmOptions }) => {
   const { bounds } = useChartState() as HistogramState;
   const { annotationLineColor } = useChartTheme();
+  const { color } = useContext(PriceGroupsContext);
   const { dots } = useBeeswarmRows(options);
   const { margins, chartHeight } = bounds;
+  const stem = ({ d, x, y }: (typeof dots)[number]) => (
+    <line
+      key={`stem-${d.key}`}
+      x1={x}
+      x2={x}
+      y1={chartHeight}
+      y2={y}
+      stroke={annotationLineColor}
+      strokeOpacity={0.2}
+    />
+  );
+  const dot = ({ d, x, y, r }: (typeof dots)[number]) => (
+    <circle
+      key={d.key}
+      cx={x}
+      cy={y}
+      r={r}
+      fill={color(d.operatorLabel)}
+      stroke="white"
+    />
+  );
   return (
     <g transform={`translate(${margins.left} ${margins.top})`}>
-      {dots.map(({ d, x, y, r }) => (
-        <g key={d.key}>
-          <line
-            x1={x}
-            x2={x}
-            y1={chartHeight}
-            y2={y}
-            stroke={annotationLineColor}
-            strokeOpacity={0.2}
-          />
-          <circle
-            cx={x}
-            cy={y}
-            r={r}
-            fill={overlayColor(d.operatorLabel)}
-            stroke="white"
-          />
-        </g>
-      ))}
+      {options.stems === undefined
+        ? dots.map((p) => (
+            <g key={p.d.key}>
+              {stem(p)}
+              {dot(p)}
+            </g>
+          ))
+        : [
+            ...(options.stems === "behind" ? dots.map(stem) : []),
+            ...dots.map(dot),
+          ]}
     </g>
   );
 };
 
 const BeeswarmTicks = ({
   options,
-  tickStep = 5,
+  tickStep,
 }: {
   options: BeeswarmOptions;
   tickStep?: number;
 }) => {
-  const { data, getX, xScale, bounds, medianValue } =
+  const { data, getX, xScale, bounds, medianValue, xAxisUnit } =
     useChartState() as HistogramState;
-  const { domainColor, labelColor, fontFamily } = useChartTheme();
+  const { domainColor, labelColor, labelFontSize, fontFamily } =
+    useChartTheme();
+  const formatDisplay = useFormatDisplayNumber();
   const { tickRowY } = useBeeswarmRows(options);
   const { margins, chartHeight } = bounds;
   const minValue = min(data, getX) ?? 0;
   const maxValue = max(data, getX) ?? 0;
+  const labelWidth = (v: number) =>
+    estimateTextWidth(`${formatDisplay(v)} ${xAxisUnit}`, labelFontSize) +
+    TICK_LABEL_GAP;
+  const collidesWithMinMax = (t: number) =>
+    xScale(t) < xScale(minValue) + labelWidth(minValue) ||
+    xScale(t) > xScale(maxValue) - labelWidth(maxValue);
   const ticks = xScale
     .ticks(5)
     .filter(
       (t) =>
-        t % tickStep === 0 &&
+        (tickStep === undefined || t % tickStep === 0) &&
         t > minValue &&
         t < maxValue &&
         (medianValue === undefined ||
@@ -801,22 +883,32 @@ const BeeswarmTicks = ({
             y2={chartHeight + 4}
             stroke={domainColor}
           />
-          <text
-            x={xScale(t)}
-            y={tickRowY}
-            textAnchor="middle"
-            stroke="white"
-            strokeWidth={3}
-            strokeLinejoin="round"
-            paintOrder="stroke"
-            style={{ fontFamily, fontSize: 10, fill: labelColor }}
-          >
-            {t}
-          </text>
+          {!collidesWithMinMax(t) && (
+            <text
+              x={xScale(t)}
+              y={tickRowY}
+              textAnchor="middle"
+              stroke="white"
+              strokeWidth={3}
+              strokeLinejoin="round"
+              paintOrder="stroke"
+              style={{ fontFamily, fontSize: 10, fill: labelColor }}
+            >
+              {t}
+            </text>
+          )}
         </g>
       ))}
     </g>
   );
+};
+
+// Reserves the space the dots and labels need below the chart, so nothing overlaps the content below
+const BeeswarmSpacer = ({ options }: { options: BeeswarmOptions }) => {
+  const { bounds } = useChartState() as HistogramState;
+  const { labelRowY } = useBeeswarmRows(options);
+  const labelsBottom = bounds.margins.top + labelRowY + 30;
+  return <Box height={Math.max(0, labelsBottom - bounds.height)} />;
 };
 
 const BeeswarmMedian = ({ options }: { options: BeeswarmOptions }) => {
@@ -898,7 +990,6 @@ const BeeswarmTooltip = ({
         <Box component="span" fontWeight={700}>
           {hovered.value.toFixed(2)} {i18n._(RP_PER_KWH)}
         </Box>{" "}
-        {hovered.operatorLabel},{" "}
         {hovered.count > 1
           ? `${hovered.count} municipalities`
           : hovered.municipalityLabel}
@@ -1243,8 +1334,12 @@ PriceDistributionOverlay.argTypes = {
 
 const ZOOM_PADDING = 0.5;
 const zoomDomain: [number, number] = [
-  Math.floor(((min(priceGroups, (d) => d.value) ?? 0) - ZOOM_PADDING) * 2) / 2,
-  Math.ceil(((max(priceGroups, (d) => d.value) ?? 0) + ZOOM_PADDING) * 2) / 2,
+  Math.floor(
+    ((min(defaultPriceGroups.groups, (d) => d.value) ?? 0) - ZOOM_PADDING) * 2
+  ) / 2,
+  Math.ceil(
+    ((max(defaultPriceGroups.groups, (d) => d.value) ?? 0) + ZOOM_PADDING) * 2
+  ) / 2,
 ];
 const zoomDotsOptions: BeeswarmOptions = {
   layout: "ticks-dots-labels",
@@ -1315,4 +1410,253 @@ export const PriceDistributionZoom = () => {
       </HistogramComponent>
     </Box>
   );
+};
+
+const distributionData = {
+  "2026": {
+    total: distribution2026Total,
+    gridusage: distribution2026Gridusage,
+    meteringrate: distribution2026Meteringrate,
+    energy: distribution2026Energy,
+    charge: distribution2026Charge,
+  },
+  "2027": {
+    total: priceDistribution2027,
+    gridusage: distribution2027Gridusage,
+    meteringrate: distribution2027Meteringrate,
+    energy: distribution2027Energy,
+    charge: distribution2027Charge,
+  },
+};
+type DistributionYear = keyof typeof distributionData;
+const CARD_PRICE_COMPONENTS = [
+  "total",
+  "gridusage",
+  "meteringrate",
+  "energy",
+  "charge",
+] as const;
+type CardPriceComponent = (typeof CARD_PRICE_COMPONENTS)[number];
+
+const CURRENT_OPERATOR = "BKW Energie AG";
+const COMPARE_OPERATORS = [
+  "Romande Energie SA",
+  "Groupe E SA",
+  "Elektrizitätswerke des Kantons Zürich (EKZ)",
+  "EWS Energie AG",
+  "Azienda Multiservizi Bellinzona (AMB)",
+];
+
+// Same as PriceDistributionHistogram, with the price groups as a beeswarm instead of label lines
+const PriceDistributionBeeswarmYear = ({
+  year,
+  priceComponent,
+  operators,
+  options,
+}: {
+  year: DistributionYear;
+  priceComponent: CardPriceComponent;
+  operators: string[];
+  options: BeeswarmOptions;
+}) => {
+  const { i18n } = useLingui();
+  const [hovered, setHovered] = useState<PriceGroup | null>(null);
+  const response = distributionData[year][priceComponent];
+  const observations = useMemo(
+    () =>
+      (response.observations ?? []).map((d) => ({
+        ...d,
+        muniOperator: `${d.municipalityLabel}, ${d.operatorLabel}`,
+      })),
+    [response]
+  );
+  const medianValue = response.swissMedianObservations?.[0]?.value;
+  const priceGroupsData = useMemo(
+    () => makePriceGroups(observations, operators),
+    [observations, operators]
+  );
+  return (
+    <PriceGroupsContext.Provider value={priceGroupsData}>
+      <Box position="relative">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          gap={3}
+          mt={-3}
+          mb={5}
+        >
+          <Box display="flex" flexWrap="wrap" gap={1}>
+            {operators.map((operator) => (
+              <LegendItem
+                key={operator}
+                item={operator}
+                color={priceGroupsData.color(operator)}
+                symbol="circle"
+              />
+            ))}
+          </Box>
+          <ColorLegend />
+        </Box>
+        <HistogramComponent
+          data={observations}
+          medianValue={medianValue}
+          aspectRatio={0.3}
+          fields={realDataFields(i18n._(RP_PER_KWH))}
+          measures={realDataMeasures}
+        >
+          <ChartContainer>
+            <ChartSvg>
+              <AxisHeightLinear />
+              <AxisWidthHistogramDomain />
+              <HistogramColumns />
+              <BeeswarmDots options={options} />
+              <BeeswarmMedian options={options} />
+              <HistogramMinMaxValues />
+              <BeeswarmTicks options={options} />
+              <InteractionHistogram />
+              <BeeswarmInteraction options={options} onHover={setHovered} />
+            </ChartSvg>
+            <Tooltip type="single" />
+            <BeeswarmTooltip options={options} hovered={hovered} />
+          </ChartContainer>
+          <BeeswarmSpacer options={options} />
+        </HistogramComponent>
+      </Box>
+    </PriceGroupsContext.Provider>
+  );
+};
+
+// Same card as PriceDistributionHistograms on the detail page, with the beeswarm per year
+export const PriceDistributionCard = ({
+  years,
+  compareWith,
+  dotSize,
+  stems,
+}: {
+  years: DistributionYear[];
+  compareWith: string[];
+  dotSize: DotSize;
+  stems: Stems;
+}) => {
+  const options: BeeswarmOptions = {
+    layout: "ticks-dots-labels",
+    dotSize,
+    stems,
+  };
+  const [priceComponent, setPriceComponent] =
+    useState<CardPriceComponent>("total");
+  const sortedPeriods = [...years].sort();
+  const operators = useMemo(
+    () => [CURRENT_OPERATOR, ...compareWith],
+    [compareWith]
+  );
+  const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
+  const filters = {
+    period: sortedPeriods[0],
+    category: "H4" as const,
+    product: "standard" as const,
+    priceComponent,
+  };
+
+  return (
+    <Box maxWidth="1000px" m={5} mb={30}>
+      <Card downloadId="distribution">
+        <CardHeader
+          trailingContent={
+            <>
+              <InfoDialogButton
+                iconOnly
+                iconSize={24}
+                type="outline"
+                slug="help-price-components"
+                label={t({
+                  id: "detail.card.title.prices.distribution",
+                })}
+              />
+              <DownloadImage
+                iconOnly
+                iconSize={24}
+                elementId="distribution"
+                fileName="distribution"
+                downloadType="distribution"
+              />
+            </>
+          }
+        >
+          <CardTitle>
+            <Trans id="detail.card.title.prices.distribution">
+              Price distribution in Switzerland
+            </Trans>
+          </CardTitle>
+          <CardDescription>
+            <FilterSetDescription
+              filters={filters}
+              hideYear={sortedPeriods.length > 1}
+            />
+          </CardDescription>
+        </CardHeader>
+        <Box display={["none", "none", "block"]}>
+          <ButtonGroup<CardPriceComponent>
+            id="priceComponents"
+            options={CARD_PRICE_COMPONENTS.map((pc) => ({
+              value: pc,
+              label: getLocalizedLabel({ id: pc }),
+              content: getLocalizedLabel({
+                id: `price-components.${pc}-content` as TranslationKey,
+              }),
+            }))}
+            value={priceComponent}
+            setValue={setPriceComponent}
+            fitLabelToContent
+          />
+        </Box>
+        <Box display={["block", "block", "none"]}>
+          <Combobox
+            id="priceComponents-histogram"
+            label={t({
+              id: "selector.priceComponents",
+              message: "Price components",
+            })}
+            items={[...CARD_PRICE_COMPONENTS]}
+            getItemLabel={getItemLabel}
+            selectedItem={priceComponent}
+            setSelectedItem={setPriceComponent}
+            showLabel={false}
+          />
+        </Box>
+        {sortedPeriods.map((p) => (
+          <Fragment key={p}>
+            {sortedPeriods.length > 1 && (
+              <Typography variant="subtitle2" key={p}>
+                <Trans id="detail.card.subtitle.year" values={{ period: p }}>
+                  Year: {p}
+                </Trans>
+              </Typography>
+            )}
+            <PriceDistributionBeeswarmYear
+              year={p}
+              priceComponent={priceComponent}
+              operators={operators}
+              options={options}
+            />
+          </Fragment>
+        ))}
+      </Card>
+    </Box>
+  );
+};
+
+PriceDistributionCard.args = {
+  years: ["2026", "2027"],
+  compareWith: ["EWS Energie AG"],
+  dotSize: "sqrt",
+  stems: "behind",
+};
+PriceDistributionCard.decorators = [withUrqlClient];
+PriceDistributionCard.argTypes = {
+  years: { control: "check", options: ["2026", "2027"] },
+  compareWith: { control: "check", options: COMPARE_OPERATORS },
+  dotSize: { control: "inline-radio", options: ["fixed", "sqrt", "log"] },
+  stems: { control: "inline-radio", options: ["behind", "off"] },
 };
