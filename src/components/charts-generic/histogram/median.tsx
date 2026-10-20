@@ -5,7 +5,13 @@ import {
 import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatDisplayNumber } from "src/domain/helpers";
 
-export const HistogramMedian = ({ label }: { label: string }) => {
+export const HistogramMedian = ({
+  label,
+  labelOffset = 0,
+}: {
+  label: string;
+  labelOffset?: number;
+}) => {
   const {
     medianValue: m,
     bounds,
@@ -20,8 +26,9 @@ export const HistogramMedian = ({ label }: { label: string }) => {
   const { labelColor, domainColor, labelFontSize, fontFamily } =
     useChartTheme();
   const formatDisplay = useFormatDisplayNumber();
+  const labelY = bounds.chartHeight + margins.bottom * 0.5 + labelOffset;
 
-  let medianX: number | undefined ;
+  let medianX: number | undefined;
 
   if (m !== undefined && groupedBy && binMeta && bandScale) {
     const bin = binMeta.find((b) => !b.isNoData && m >= b.x0 && m <= b.x1);
@@ -39,7 +46,7 @@ export const HistogramMedian = ({ label }: { label: string }) => {
         <g transform={`translate(${margins.left} ${margins.top})`}>
           <line
             x1={medianX}
-            y1={bounds.chartHeight + margins.bottom * 0.5}
+            y1={labelY}
             x2={medianX}
             y2={yScale(yScale.domain()[1])}
             stroke={domainColor}
@@ -47,8 +54,12 @@ export const HistogramMedian = ({ label }: { label: string }) => {
           />
           <text
             x={medianX}
-            y={bounds.chartHeight + margins.bottom * 0.5}
+            y={labelY}
             dy={labelFontSize}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: domainColor,
@@ -62,8 +73,12 @@ export const HistogramMedian = ({ label }: { label: string }) => {
           </text>
           <text
             x={medianX}
-            y={bounds.chartHeight + margins.bottom * 0.5}
+            y={labelY}
             dy={labelFontSize * 2.4}
+            stroke="white"
+            strokeWidth={3}
+            strokeLinejoin="round"
+            paintOrder="stroke"
             style={{
               fontFamily,
               fill: labelColor,
