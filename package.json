@@ -209,7 +209,7 @@
     "tpo-deepl": "^1.2.4",
     "tsx": "^4.21.0",
     "typescript": "^5.8.2",
-    "vite": "7.3.5",
+    "vite": "7.3.7",
     "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@10.34.6",
