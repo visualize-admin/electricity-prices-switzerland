@@ -11,6 +11,14 @@ You can also check the
 
 # Unreleased
 
+Nothing yet.
+
+# 2.58.3 - 2026-10-22
+
+- Price components: the dynamic tariff ranges and their hint are behind the `dynamicElectricityTariffs` flag again; append `?flag__dynamicElectricityTariffs=true` to show them
+- Tariffs Development: the compare-with chips use the same colours as the chart lines, and the lines follow the chip order (#774)
+- Security: bump vite from 7.3.5 to 7.3.7 (CVE-2026-112942)
+
 # 2.58.2 - 2026-10-15
 
 - Fix: select styling: placeholder on the comparison multi-selects, focus only changes border and arrow colour (shared `--input-border-color`), popup matches the input width with the same gap above and below
