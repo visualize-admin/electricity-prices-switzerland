@@ -28,6 +28,9 @@ const specs = {
   /** Show sunshine specific UI */
   sunshine: {},
 
+  /** Show the dynamic electricity tariff ranges in the price components */
+  dynamicElectricityTariffs: {},
+
   /** Shows coverage ratio in map tooltips */
   coverageRatio: {},
 
