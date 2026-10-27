@@ -59,7 +59,7 @@ export const F = keysAsValues(specs);
 export type StrompreiseFlag = keyof typeof F;
 
 const flagHooks = createHooks<StrompreiseFlag>("strompreise");
-const { flag, useFlag, useFlags } = flagHooks;
+const { flag, useFlag } = flagHooks;
 const { FlagList } = createComponents(flagHooks);
 
 /**
@@ -121,7 +121,6 @@ if (typeof window !== "undefined" && window.location) {
   }
 }
 
-/** @knipignore */
-export { flag, useFlags };
+export { flag };
 
 export { FlagList, useFlag, useRuntimeFlags };
