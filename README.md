@@ -26,7 +26,7 @@ An electricity price comparison website for Switzerland that provides interactiv
 
 ## Development Environment
 
-To start the development environment, you need [Node.js](https://nodejs.org/en/) (v22 recommended) and [pnpm](https://pnpm.io/) as package manager.
+To start the development environment, you need [Node.js](https://nodejs.org/en/) (v26 recommended) and [pnpm](https://pnpm.io/) as package manager.
 
 The usage of [Nix](https://nixos.org) to install system-level packages is recommended.
 
