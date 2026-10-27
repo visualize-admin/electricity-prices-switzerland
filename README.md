@@ -28,6 +28,8 @@ An electricity price comparison website for Switzerland that provides interactiv
 
 To start the development environment, you need [Node.js](https://nodejs.org/en/) (v26 recommended) and [pnpm](https://pnpm.io/) as package manager.
 
+Vercel still builds with Node.js 24 because it does not support 26 yet, so `engines.node` in `package.json` stays at `24.x`.
+
 The usage of [Nix](https://nixos.org) to install system-level packages is recommended.
 
 ### Setting up the dev environment
