@@ -1,6 +1,6 @@
+# Build outputs and dependencies
 .next
 node_modules
-.git
 public/storybook
 
 # trivy automatically caches to .cache/trivy on the CI
@@ -9,3 +9,43 @@ public/storybook
 .cache
 
 Dockerfile
+
+# Version control metadata
+.git
+.jj
+
+# Local tool / agent state. These can grow to many GB (`.oc` currently holds
+# multi-GB snapshots, `.claude/worktrees` a full copy of node_modules) and have
+# no business being in the build context.
+.claude
+.oc
+.turbo
+.playwright-mcp
+.vscode
+.DS_Store
+
+# Test artifacts, recordings and logs
+test-results
+playwright-report
+playwright/.cache
+screenshots
+src/e2e/snapshots
+*.har
+*.log
+
+# Local build metadata
+tsconfig.tsbuildinfo
+
+# Not needed to build or run the app
+.github
+docs
+gitops
+jenkins
+codemods
+sparql-notebooks
+*.sparqlbook
+
+# Local env files: never bake secrets into an image layer
+.env*.local
+.env.vercel
+.env.sentry-build-plugin
