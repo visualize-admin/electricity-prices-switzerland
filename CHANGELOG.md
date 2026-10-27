@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.58.5 - 2026-10-27
+
+- Fix: Vercel deployments failed because Node.js 26 is not available there; `engines.node` is back to `24.x` while development, CI and Docker stay on Node.js 26
+- Security: resolve Trivy HIGH findings: `@graphql-tools/utils` 12.0.2, `undici` 8.12.3 and `zod` 4.6.7 (with the query-state and flag helpers migrated to the zod 4 API)
+
 # 2.58.4 - 2026-10-27
 
 - Tooling: update to Node.js 26 across CI, Docker, `.nvmrc`, `engines` and `@types/node`; the Nix dev shell and lockfile follow
