@@ -13,6 +13,11 @@ You can also check the
 
 Nothing yet.
 
+# 2.58.4 - 2026-10-27
+
+- Tooling: update to Node.js 26 across CI, Docker, `.nvmrc`, `engines` and `@types/node`; the Nix dev shell and lockfile follow
+- Fix: remove an unused `useFlags` re-export flagged by knip
+
 # 2.58.3 - 2026-10-22
 
 - Price components: the dynamic tariff ranges and their hint are behind the `dynamicElectricityTariffs` flag again; append `?flag__dynamicElectricityTariffs=true` to show them
