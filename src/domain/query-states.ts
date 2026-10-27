@@ -34,7 +34,7 @@ const stringToArray = <T extends readonly string[]>(
     .transform((x) => {
       return (x ? x.split(",").filter(Boolean) : defaultValue) as T[number][];
     })
-    .default(defaultValue.join(","));
+    .prefault(defaultValue.join(","));
 };
 
 /**
@@ -55,7 +55,7 @@ const stringToValidatedArray = <T extends readonly string[]>(
       );
       return validValues.length > 0 ? validValues : defaultValue;
     })
-    .default(defaultValue.join(","));
+    .prefault(defaultValue.join(","));
 };
 
 const mapTabsSchema = z.enum(["electricity", "sunshine"] as const);

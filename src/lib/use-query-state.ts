@@ -20,9 +20,8 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
   schema: z.ZodObject<T>
 ) {
   return (options?: UseQueryStateOptions<T>) => {
-    type SchemaType = z.infer<typeof schema>;
     type QueryStateSingle = UseQueryStateSingle<T>;
-    const schemaKeys = Object.keys(schema.shape) as (keyof SchemaType)[];
+    const schemaKeys = Object.keys(schema.shape) as (keyof T)[];
 
     const routerFn: UseRouter = options?.router ?? useRouter;
     const { query, replace, pathname } = routerFn();
@@ -60,8 +59,14 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
     const state: Partial<QueryStateSingle> = {};
     for (const k of schemaKeys) {
       const key = k as string;
-      const defaultValue = schema.shape[k]._def.defaultValue?.();
-      let v = query[key];
+      const fieldSchema = schema.shape[k] as unknown as z.ZodType;
+      const rawDefault = (fieldSchema.def as { defaultValue?: unknown })
+        .defaultValue;
+      const defaultValue =
+        typeof rawDefault === "function"
+          ? (rawDefault as () => unknown)()
+          : rawDefault;
+      let v: unknown = query[key];
       if (v === undefined && initial && initial[k] !== undefined) {
         v = initial[k];
       }
@@ -70,13 +75,13 @@ export function makeUseQueryState<T extends z.ZodRawShape>(
       }
       if (v !== undefined) {
         try {
-          const parsed = schema.shape[k].parse(ensureString(v));
-          state[k] = parsed;
+          const parsed = fieldSchema.parse(ensureString(v as string | string[]));
+          state[k] = parsed as QueryStateSingle[keyof T];
         } catch {
           console.error(
             `useQueryState:Error parsing query key ${key}: ${v}, defaulting to ${defaultValue}`
           );
-          state[k] = defaultValue;
+          state[k] = defaultValue as QueryStateSingle[keyof T];
         }
       }
     }

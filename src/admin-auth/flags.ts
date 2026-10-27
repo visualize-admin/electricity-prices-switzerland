@@ -2,36 +2,25 @@ import { z } from "zod";
 
 import { sessionConfigFlagsSchema } from "./schema";
 
-const getFlagOptions = (
-  key: keyof z.infer<typeof sessionConfigFlagsSchema>
-) => {
-  const schema = sessionConfigFlagsSchema.shape[key];
-  if (
-    schema instanceof z.ZodDefault &&
-    schema._def.innerType instanceof z.ZodEnum
-  ) {
-    const enumDef = schema._def.innerType._def as z.ZodEnumDef<$IntentionalAny>;
-    return enumDef.values.map((value: string) => ({
-      value,
-    }));
-  }
-  return [];
+type FlagKey = keyof z.infer<typeof sessionConfigFlagsSchema>;
+
+const getInnerSchema = (key: FlagKey): unknown => {
+  const schema = sessionConfigFlagsSchema.shape[key] as unknown;
+  return schema instanceof z.ZodDefault ? schema.def.innerType : schema;
 };
 
-const getFlagType = (key: keyof z.infer<typeof sessionConfigFlagsSchema>) => {
-  const schema = sessionConfigFlagsSchema.shape[key];
-  if (schema instanceof z.ZodDefault) {
-    if (schema._def.innerType instanceof z.ZodEnum) {
-      return "enum";
-    }
-  }
-  return "string";
+const getFlagOptions = (key: FlagKey) => {
+  const inner = getInnerSchema(key);
+  return inner instanceof z.ZodEnum
+    ? inner.options.map((value) => ({ value: String(value) }))
+    : [];
 };
 
-export const getFlagInfo = (
-  key: keyof z.infer<typeof sessionConfigFlagsSchema>
-) => {
-  const schema = sessionConfigFlagsSchema.shape[key];
+const getFlagType = (key: FlagKey) =>
+  getInnerSchema(key) instanceof z.ZodEnum ? "enum" : "string";
+
+export const getFlagInfo = (key: FlagKey) => {
+  const schema: z.ZodType = sessionConfigFlagsSchema.shape[key];
   const type = getFlagType(key);
   const options = getFlagOptions(key);
   const description =
