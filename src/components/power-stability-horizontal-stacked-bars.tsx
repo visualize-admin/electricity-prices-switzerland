@@ -165,9 +165,8 @@ export const PowerStabilityHorizontalStackedBars = (
 
   const { i18n } = useLingui();
 
-  const xAxisUnit = overallOrRatio === "ratio"
-    ? i18n._(PERCENT)
-    : i18n._(COUNT_PER_YEAR)
+  const xAxisUnit =
+    overallOrRatio === "ratio" ? i18n._(PERCENT) : i18n._(COUNT_PER_YEAR);
 
   return (
     <StackedBarsChart
@@ -175,8 +174,8 @@ export const PowerStabilityHorizontalStackedBars = (
       fields={{
         x: {
           componentIri: ["planned", "unplanned"],
-          axisUnit:xAxisUnit,
-          axisLabel: xAxisUnit
+          axisUnit: xAxisUnit,
+          axisLabel: xAxisUnit,
         },
         domain: xDomain,
         annotation: medianPeerGroupObservation
@@ -241,7 +240,10 @@ export const PowerStabilityHorizontalStackedBars = (
         handleSortByItem={handleSortByItem}
       />
       {compact ? (
-        <Box position="relative" mt={2}>
+        <Box position="relative">
+          {overallOrRatio !== "ratio" && (
+            <AnnotationXLabel symbol="line" position="static" />
+          )}
           {operatorsSorted.map((operatorName) => {
             const rowData = dataByOperator[operatorName];
             const medianTotal = medianPeerGroupObservation?.total;
