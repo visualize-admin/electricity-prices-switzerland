@@ -4,3 +4,9 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    # Batch all GitHub Actions bumps into a single PR per scheduled run
+    # instead of opening one PR per action.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
