@@ -131,7 +131,7 @@ const useGroupedBarsState = ({
       const isMainRow = !segment.includes(EXPANDED_TAG);
       const dynamicText =
         dynamicTariffs && isMainRow && d.min != null
-          ? `(${formatDisplay(d.min as number)} - ${formatDisplay(
+          ? `(min. ${formatDisplay(d.min as number)} – max. ${formatDisplay(
               d.max as number
             )}, ${t({
               id: "dynamic.tariff",
