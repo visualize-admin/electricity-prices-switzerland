@@ -141,9 +141,13 @@ describe("PriceComponentsCard", () => {
     expect(
       screen.getByText("Prices shown with values in brackets are dynamic.")
     ).toBeTruthy();
-    expect(screen.getByText(/\(1\.10 - 11\.80, dynamic\)/)).toBeTruthy();
+    expect(
+      screen.getByText(/\(min\. 1\.10 – max\. 11\.80, dynamic\)/)
+    ).toBeTruthy();
     // 24.29 total - 9.24 grid usage + the grid usage rates
-    expect(screen.getByText(/\(16\.15 - 26\.85, dynamic\)/)).toBeTruthy();
+    expect(
+      screen.getByText(/\(min\. 16\.15 – max\. 26\.85, dynamic\)/)
+    ).toBeTruthy();
   });
 
   it("shows the dynamic tariff range on grouped rows only, not per municipality", () => {
@@ -157,8 +161,12 @@ describe("PriceComponentsCard", () => {
     });
 
     expect(screen.getAllByText("Paradiso").length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/\(1\.10 - 11\.80, dynamic\)/)).toHaveLength(1);
-    expect(screen.getAllByText(/\(16\.15 - 26\.85, dynamic\)/)).toHaveLength(1);
+    expect(
+      screen.getAllByText(/\(min\. 1\.10 – max\. 11\.80, dynamic\)/)
+    ).toHaveLength(1);
+    expect(
+      screen.getAllByText(/\(min\. 16\.15 – max\. 26\.85, dynamic\)/)
+    ).toHaveLength(1);
   });
 
   it("shows no dynamic hint without rates", () => {
