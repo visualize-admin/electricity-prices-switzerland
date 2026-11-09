@@ -244,7 +244,7 @@ export const PowerStabilityHorizontalStackedBars = (
         handleSortByItem={handleSortByItem}
       />
       {compact ? (
-        <Box position="relative">
+        <Box position="relative" mt={overallOrRatio === "ratio" ? 2 : undefined}>
           {overallOrRatio !== "ratio" && (
             <AnnotationXLabel symbol="line" position="static" />
           )}
