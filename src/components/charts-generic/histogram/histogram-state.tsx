@@ -31,7 +31,7 @@ import {
   getPalette,
   mkNumber,
   useFormatAxisNumber,
-  useFormatDisplayNumber
+  useFormatDisplayNumber,
 } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 import { chartPalette } from "src/themes/palette";
@@ -157,10 +157,14 @@ const useHistogramState = ({
   fields,
   aspectRatio,
   groupedBy,
+  xDomain: xDomainOverride,
+  minChartHeight = 250,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
+  xDomain?: [number, number];
+  minChartHeight?: number;
 }): HistogramState => {
   const width = useWidth();
   const formatDisplay = useFormatDisplayNumber();
@@ -190,7 +194,8 @@ const useHistogramState = ({
 
   const minValue = min(data, (d) => getX(d)) || 0;
   const maxValue = max(data, (d) => getX(d)) || 10000;
-  const xDomain = [mkNumber(minValue), mkNumber(maxValue)];
+  const [domainMin, domainMax] = xDomainOverride ?? [minValue, maxValue];
+  const xDomain = [mkNumber(domainMin), mkNumber(domainMax)];
   const xScale = scaleLinear().domain(xDomain).nice();
 
   const m = medianValue;
@@ -203,14 +208,28 @@ const useHistogramState = ({
     .range(chartPalette.diverging.GreenToOrange)
     .interpolate(interpolateHsl);
 
-  const { bins, binMeta } = computeBins(
+  const fullXScale = scaleLinear()
+    .domain([mkNumber(minValue), mkNumber(maxValue)])
+    .nice();
+  const allBins = computeBins(
     data,
     getX,
     groupedBy,
     minValue,
     maxValue,
-    xScale
+    fullXScale
   );
+  const isVisible = (b: { x0?: number; x1?: number }) =>
+    !xDomainOverride || (b.x1! > domainMin && b.x0! < domainMax);
+  const clamp = <T extends { x0?: number; x1?: number }>(b: T) =>
+    xDomainOverride
+      ? Object.assign(b, {
+          x0: Math.max(b.x0!, domainMin),
+          x1: Math.min(b.x1!, domainMax),
+        })
+      : b;
+  const bins = allBins.bins.filter(isVisible).map(clamp);
+  const binMeta = allBins.binMeta.filter(isVisible).map(clamp);
 
   let yDomainMax;
   if (yAsPercentage) {
@@ -316,7 +335,7 @@ const useHistogramState = ({
     };
   };
 
-  const chartHeight = Math.max(chartWidth * aspectRatio, 250);
+  const chartHeight = Math.max(chartWidth * aspectRatio, minChartHeight);
 
   xScale.range([0, chartWidth]);
   yScale.range([chartHeight, 0]);
@@ -383,11 +402,15 @@ const HistogramProvider = ({
   children,
   aspectRatio,
   groupedBy,
+  xDomain,
+  minChartHeight,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
+  xDomain?: [number, number];
+  minChartHeight?: number;
 }) => {
   const state = useHistogramState({
     data,
@@ -396,6 +419,8 @@ const HistogramProvider = ({
     measures,
     aspectRatio,
     groupedBy,
+    xDomain,
+    minChartHeight,
   });
   return (
     <ChartContext.Provider value={state}>{children}</ChartContext.Provider>
@@ -410,11 +435,15 @@ export const Histogram = ({
   children,
   aspectRatio,
   groupedBy,
+  xDomain,
+  minChartHeight,
 }: Pick<ChartProps, "data" | "measures" | "medianValue"> & {
   children: ReactNode;
   fields: HistogramFields;
   aspectRatio: number;
   groupedBy?: number;
+  xDomain?: [number, number];
+  minChartHeight?: number;
 }) => {
   return (
     <Observer>
@@ -426,6 +455,8 @@ export const Histogram = ({
           measures={measures}
           aspectRatio={aspectRatio}
           groupedBy={groupedBy}
+          xDomain={xDomain}
+          minChartHeight={minChartHeight}
         >
           {children}
         </HistogramProvider>
