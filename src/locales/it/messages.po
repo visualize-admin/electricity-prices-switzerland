@@ -1009,7 +1009,7 @@ msgstr "Totale"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Non pianificato"
 
-#: src/components/detail-page/price-components-bars.tsx
+#: src/components/detail-page/operators-without-prices.tsx
 msgid "price-components.operators-without-prices"
 msgstr "Non disponiamo di prezzi per i seguenti gestori di rete:"
 

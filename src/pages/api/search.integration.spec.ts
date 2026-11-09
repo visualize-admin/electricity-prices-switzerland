@@ -190,6 +190,19 @@ describe("Search - operators", () => {
     expect(results).toHaveLength(1);
     expect(results[0]).toMatchObject({ id: "36", name: "BKW Energie AG" });
   });
+
+  it("hydrates labels by ids for an operator without observations", async () => {
+    const results = await searchOperators({
+      locale: "de",
+      query: "",
+      ids: ["30"],
+    });
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({
+      id: "30",
+      name: "Azienda elettrica ticinese",
+    });
+  });
 });
 
 describe("Search - multi-type", () => {

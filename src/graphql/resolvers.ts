@@ -103,6 +103,31 @@ const searchWithIndex = async ({
     for (const d of data) {
       if (idSet.has(d.id)) results.set(`${d.type}:${d.id}`, d);
     }
+
+    // Operators without any municipality have no offer and therefore are not
+    // part of the search index, but we still need their name to label them
+    // (e.g. in the price components legend and warning).
+    if (types.includes("operator")) {
+      const missingOperatorIds = ids.filter(
+        (id) => id !== "" && !results.has(`operator:${id}`)
+      );
+      const names = await Promise.all(
+        missingOperatorIds.map((id) =>
+          fetchOperatorName({ operatorId: id, client })
+        )
+      );
+      missingOperatorIds.forEach((id, i) => {
+        const name = names[i];
+        if (name) {
+          results.set(`operator:${id}`, {
+            id,
+            name,
+            type: "operator",
+            isAbolished: false,
+          });
+        }
+      });
+    }
   }
 
   if (query !== "") {

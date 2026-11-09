@@ -56,6 +56,11 @@ import { useLocale } from "src/lib/use-locale";
 
 import { InteractionHistogram } from "../charts-generic/overlay/interaction-histogram";
 
+import {
+  OperatorsWithoutPricesHint,
+  useOperatorsWithoutPrices,
+} from "./operators-without-prices";
+
 const DOWNLOAD_ID: Download = "distribution";
 
 export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
@@ -74,6 +79,11 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
   ] = useQueryStateEnergyPricesDetails();
 
   const sortedPeriods = [...period].sort();
+
+  const { operatorIds, operatorNames } = useOperatorsWithoutPrices({
+    id,
+    entity,
+  });
 
   const getItemLabel = (id: TranslationKey) => getLocalizedLabel({ id });
 
@@ -194,6 +204,10 @@ export const PriceDistributionHistograms = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
+      <OperatorsWithoutPricesHint
+        operatorIds={operatorIds}
+        operatorNames={operatorNames}
+      />
       {sortedPeriods.map((p) => (
         <Fragment key={p}>
           {/* When multiple periods are selected, show the period */}

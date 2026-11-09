@@ -1007,7 +1007,7 @@ msgstr "Insgesamt"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "Ungeplant"
 
-#: src/components/detail-page/price-components-bars.tsx
+#: src/components/detail-page/operators-without-prices.tsx
 msgid "price-components.operators-without-prices"
 msgstr "Für die folgenden Netzbetreiber liegen keine Preise vor:"
 

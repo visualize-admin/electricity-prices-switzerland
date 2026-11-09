@@ -58,6 +58,11 @@ import {
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
 
+import {
+  OperatorsWithoutPricesHint,
+  useOperatorsWithoutPrices,
+} from "./operators-without-prices";
+
 const DOWNLOAD_ID: Download = "comparison";
 
 type SortingValue = "median-asc" | "median-desc" | "alpha-asc" | "alpha-desc";
@@ -120,6 +125,11 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
     : [id];
 
   const sortedPeriods = [...period].sort();
+
+  const { operatorIds, operatorNames } = useOperatorsWithoutPrices({
+    id,
+    entity,
+  });
 
   const filters = {
     period: period[0],
@@ -249,6 +259,10 @@ export const CantonsComparisonRangePlots = ({ id, entity }: SectionProps) => {
           </Box>
         </>
       )}
+      <OperatorsWithoutPricesHint
+        operatorIds={operatorIds}
+        operatorNames={operatorNames}
+      />
       {sortedPeriods.map((p) => (
         <Fragment key={p}>
           {sortedPeriods.length > 1 && (

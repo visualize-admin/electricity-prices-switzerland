@@ -121,6 +121,24 @@ describe("PriceComponentsCard", () => {
     expect(screen.getByText(AIL)).toBeTruthy();
   });
 
+  it("shows only the no data hint, not the warning, when the operator has no prices", () => {
+    renderCard({
+      entity: "operator",
+      id: "30",
+      data: {
+        __typename: "Query",
+        operators: [],
+        observations: [],
+        cantonMedianObservations: [],
+      },
+    });
+
+    expect(screen.getByText("No data")).toBeTruthy();
+    expect(
+      screen.queryByText("We have no prices for the following operators:")
+    ).toBeNull();
+  });
+
   it("shows no warning when every operator has prices", () => {
     renderCard({ entity: "operator", id: "31", data: operator31Standard });
 
