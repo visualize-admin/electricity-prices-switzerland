@@ -91,6 +91,10 @@ const AxisLabel = ({ yAxisLabel }: AxisLabelProps) => {
         y={bounds.margins.top - 24}
         fontSize={labelFontSize}
         fill={axisLabelColor}
+        stroke="white"
+        strokeWidth={3}
+        strokeLinejoin="round"
+        paintOrder="stroke"
       >
         {/* TODO There should not be localisation here */}
         {yAxisLabel && getLocalizedLabel({ id: yAxisLabel as TranslationKey })}

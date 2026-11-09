@@ -350,13 +350,11 @@ const PriceDistributionHistogram = ({
           isFetching={observationsQuery.fetching}
         >
           <Box
-            position="absolute"
-            right={{ md: "2.5rem" }}
-            left={{ xxs: 0, md: "auto" }}
-            top={{
-              xxs: 0,
-              md: -20,
-            }}
+            display="flex"
+            justifyContent={{ xxs: "flex-start", lg: "flex-end" }}
+            pr={{ lg: "2.5rem" }}
+            mt={-3}
+            mb={5}
           >
             <ColorLegend />
           </Box>
@@ -389,17 +387,17 @@ const PriceDistributionHistogram = ({
           >
             <ChartContainer>
               <ChartSvg>
+                <AnnotationX endAtAxis />
                 <AxisHeightLinear />
-                <HistogramMinMaxValues />
                 <AxisWidthHistogramDomain />
-                <AnnotationX />
                 <HistogramColumns />
                 <HistogramMedian label="CH Median" />
+                <HistogramMinMaxValues />
                 <InteractionHistogram />
               </ChartSvg>
               <AnnotationXLabel />
+              <Tooltip type="single" />
             </ChartContainer>
-            <Tooltip type="single" />
           </Histogram>
         </WithClassName>
       )}
