@@ -1007,7 +1007,7 @@ msgstr "power-stability-trend-chart.sortable-legend-item.total"
 msgid "power-stability-trend-chart.sortable-legend-item.unplanned"
 msgstr "power-stability-trend-chart.sortable-legend-item.unplanned"
 
-#: src/components/detail-page/price-components-bars.tsx
+#: src/components/detail-page/operators-without-prices.tsx
 msgid "price-components.operators-without-prices"
 msgstr "price-components.operators-without-prices"
 

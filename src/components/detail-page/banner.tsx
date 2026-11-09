@@ -167,7 +167,7 @@ export const DetailPageBanner = ({
                   </NextLink>
                 </Box>
               )}
-              {municipalities && (
+              {municipalities && municipalities.length > 0 && (
                 <Box pr={3} my={1} fontSize="0.875rem" lineHeight="1.125rem">
                   <Trans id="detail.municipalities">Municipalities</Trans>:{" "}
                   <RelationsList
@@ -177,7 +177,7 @@ export const DetailPageBanner = ({
                   />
                 </Box>
               )}
-              {operators && (
+              {operators && operators.length > 0 && (
                 <Box pr={3} my={1} fontSize="0.875rem" lineHeight="1.125rem">
                   <Trans id="detail.operators">Netzbetreiber</Trans>:{" "}
                   <RelationsList

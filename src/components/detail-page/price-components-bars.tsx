@@ -49,6 +49,7 @@ import { useLocale } from "src/lib/use-locale";
 import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
+import { OperatorsWithoutPricesHint } from "./operators-without-prices";
 
 const DOWNLOAD_ID: Download = "components";
 
@@ -348,7 +349,8 @@ export const PriceComponentsCard = ({
         </>
       )}
       {((dynamicTariffs && hasDynamicTariffs) ||
-        operatorsWithoutObservations.length > 0) && (
+        (perPriceComponent.length > 0 &&
+          operatorsWithoutObservations.length > 0)) && (
         <Box display="flex" flexDirection="column" gap={4}>
           {dynamicTariffs && hasDynamicTariffs && (
             <Hint severity="info">
@@ -357,19 +359,11 @@ export const PriceComponentsCard = ({
               </Trans>
             </Hint>
           )}
-          {operatorsWithoutObservations.length > 0 && (
-            <Hint severity="warning">
-              <Trans id="price-components.operators-without-prices">
-                We have no prices for the following operators:
-              </Trans>
-              <Box component="ul" m={0} pl={5}>
-                {operatorsWithoutObservations.map((operatorId) => (
-                  <li key={operatorId}>
-                    {operatorNames.get(operatorId) ?? operatorId}
-                  </li>
-                ))}
-              </Box>
-            </Hint>
+          {perPriceComponent.length > 0 && (
+            <OperatorsWithoutPricesHint
+              operatorIds={operatorsWithoutObservations}
+              operatorNames={operatorNames}
+            />
           )}
         </Box>
       )}

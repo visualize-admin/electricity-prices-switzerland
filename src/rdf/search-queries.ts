@@ -168,3 +168,33 @@ export const fetchOperatorInfo = async ({
     })[0],
   };
 };
+
+/**
+ * Returns the name of an operator from LINDAS, whether or not it has
+ * observations in the electricity price cube.
+ *
+ * Operators that do not directly supply any municipality have no observations
+ * and therefore no dimension values in the price cube. They still exist as
+ * organisations in LINDAS, so their name can be read from there.
+ */
+export const fetchOperatorName = async ({
+  operatorId,
+  client,
+}: {
+  operatorId: string;
+  client: ParsingClient<Quad>;
+}): Promise<string | undefined> => {
+  const operatorIri = ns.addNamespaceToID({
+    dimension: "operator",
+    id: operatorId,
+  });
+
+  const results = (await client.query.select(/* sparql */ `
+    SELECT ?name WHERE {
+      <${operatorIri}> <http://schema.org/name> ?name .
+    }
+    LIMIT 1
+  `)) as { name: Literal }[];
+
+  return results[0]?.name.value;
+};
