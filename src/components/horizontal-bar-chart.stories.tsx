@@ -77,6 +77,26 @@ export const HorizontalBarChartCompact = () => {
   );
 };
 
+export const HorizontalBarChartCompactRatio = () => {
+  return (
+    <DesignStory
+      title="Horizontal Bar Chart (Compact, Ratio)"
+      reference="ElCom Library (Sunshine Indicators)"
+    >
+      <PowerStabilityChart
+        observations={observationsWithMedian}
+        id="11"
+        operatorLabel="Fluxwave Energy"
+        viewBy="latest"
+        overallOrRatio="ratio"
+        saidiSaifiType={"total"}
+        compareWith={[]}
+        compact={true}
+      />
+    </DesignStory>
+  );
+};
+
 export const HorizontalBarChartCard = () => {
   const [state, setQueryState] = useState<
     ReturnType<typeof useQueryStatePowerStabilityCardFilters>[0]

@@ -77,10 +77,14 @@ export const PowerStabilityHorizontalStackedBars = (
       const unplanned = d.unplanned ?? 0;
       const total = d.planned + unplanned;
       if (overallOrRatio === "ratio" && total > 0) {
+        // Derive planned from the unplanned share so the stacked values add up
+        // to exactly 100. Computing both shares separately can yield
+        // 100.00000000000001, which the axis' .nice() then rounds up to 110.
+        const unplannedRatio = (unplanned / total) * 100;
         return {
           ...d,
-          planned: (d.planned / total) * 100,
-          unplanned: (unplanned / total) * 100,
+          planned: 100 - unplannedRatio,
+          unplanned: unplannedRatio,
           total,
         };
       }
