@@ -34,3 +34,5 @@ tpo.config.json
 
 .claude/settings.local.json
 .vercel
+
+.oc

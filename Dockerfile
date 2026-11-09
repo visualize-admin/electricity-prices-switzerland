@@ -2,11 +2,14 @@
 # and only ship what's actually required by the app to run.
 # https://docs.docker.com/get-started/09_image_best/#multi-stage-builds
 
-FROM node:24-slim AS base
+FROM node:26-slim AS base
 
-# Install npm and force cross-spawn, glob version
+# Install npm and force cross-spawn, glob version.
+# Upgrade every installed package instead of naming them: Debian's t64
+# package renames (e.g. libgnutls30 -> libgnutls30t64) differ between
+# base image releases and would make a pinned list fail.
 RUN apt update && apt install -y --no-install-recommends ca-certificates curl && \
-    apt install -y --only-upgrade perl-base libgnutls30 curl libcurl4 libpcre2-8-0 && \
+    apt upgrade -y && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm install -g npm@10.9.4 && \
@@ -16,7 +19,7 @@ RUN apt update && apt install -y --no-install-recommends ca-certificates curl &&
         # Find and remove any remaining old versions
         find /usr/local/lib/node_modules -name "cross-spawn" -type d -exec rm -rf {} + && \
         # Install new version
-        npm install -g cross-spawn@7.0.5 --force && \
+        npm install -g cross-spawn@7.0.6 --force && \
         npm install -g pnpm@10.34.6 && \
     # Configure npm
     npm config set save-exact=true && \

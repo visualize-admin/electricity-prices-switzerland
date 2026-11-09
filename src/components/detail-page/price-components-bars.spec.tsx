@@ -1,7 +1,14 @@
 // @vitest-environment jsdom
 import { ThemeProvider } from "@mui/material";
 import { cleanup, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 
 import { PriceComponentsCard } from "src/components/detail-page/price-components-bars";
 import { ObservationsWithAllPriceComponentsQuery } from "src/graphql/queries";
@@ -9,6 +16,7 @@ import { data as canton2 } from "src/mocks/graphql/canton-2/ObservationsWithAllP
 import { data as operator31Standard } from "src/mocks/graphql/operator-31-standard/ObservationsWithAllPriceComponents";
 import { data as operator31Vs814Dynamic } from "src/mocks/graphql/operator-31-vs-814-dynamic/ObservationsWithAllPriceComponents";
 import { theme } from "src/themes/elcom";
+import { flag } from "src/utils/flags";
 
 // @lingui/macro requires Babel transform; mock it to return message defaults
 vi.mock("@lingui/macro", () => ({
@@ -89,6 +97,10 @@ const renderCard = ({
 
 const AIL = "Aziende Industriali di Lugano (AIL) SA";
 
+const enableDynamicTariffs = () =>
+  flag.enable([["dynamicElectricityTariffs", true]]);
+
+beforeEach(() => flag.reset());
 afterEach(cleanup);
 
 describe("PriceComponentsCard", () => {
@@ -118,6 +130,7 @@ describe("PriceComponentsCard", () => {
   });
 
   it("shows the dynamic tariff range on grid usage and total, with a hint", () => {
+    enableDynamicTariffs();
     renderCard({
       entity: "operator",
       id: "31",
@@ -134,6 +147,7 @@ describe("PriceComponentsCard", () => {
   });
 
   it("shows the dynamic tariff range on grouped rows only, not per municipality", () => {
+    enableDynamicTariffs();
     renderCard({
       entity: "operator",
       id: "31",
@@ -149,6 +163,20 @@ describe("PriceComponentsCard", () => {
 
   it("shows no dynamic hint without rates", () => {
     renderCard({ entity: "operator", id: "31", data: operator31Standard });
+
+    expect(
+      screen.queryByText("Prices shown with values in brackets are dynamic.")
+    ).toBeNull();
+    expect(screen.queryByText(/dynamic\)/)).toBeNull();
+  });
+
+  it("hides the dynamic tariff ranges behind a flag", () => {
+    renderCard({
+      entity: "operator",
+      id: "31",
+      operator: ["814"],
+      data: operator31Vs814Dynamic,
+    });
 
     expect(
       screen.queryByText("Prices shown with values in brackets are dynamic.")

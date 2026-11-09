@@ -28,6 +28,9 @@ const specs = {
   /** Show sunshine specific UI */
   sunshine: {},
 
+  /** Show the dynamic electricity tariff ranges in the price components */
+  dynamicElectricityTariffs: {},
+
   /** Shows coverage ratio in map tooltips */
   coverageRatio: {},
 
@@ -56,7 +59,7 @@ export const F = keysAsValues(specs);
 export type StrompreiseFlag = keyof typeof F;
 
 const flagHooks = createHooks<StrompreiseFlag>("strompreise");
-const { flag, useFlag, useFlags } = flagHooks;
+const { flag, useFlag } = flagHooks;
 const { FlagList } = createComponents(flagHooks);
 
 /**
@@ -118,7 +121,6 @@ if (typeof window !== "undefined" && window.location) {
   }
 }
 
-/** @knipignore */
-export { flag, useFlags };
+export { flag };
 
 export { FlagList, useFlag, useRuntimeFlags };

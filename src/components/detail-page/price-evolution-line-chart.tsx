@@ -1,7 +1,8 @@
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Box } from "@mui/material";
-import { memo } from "react";
+import { sortBy } from "lodash";
+import { memo, useMemo } from "react";
 
 import { ButtonGroup } from "src/components/button-group";
 import { AxisHeightLinear } from "src/components/charts-generic/axis/axis-height-linear";
@@ -210,22 +211,35 @@ export const PriceEvolution = ({
     ? operatorMeanQuery
     : slimQuery;
   const { fetching, data: relevantData } = relevantQuery;
-  const relevantObservations: GenericObservation[] =
-    fetching || !relevantData
-      ? EMPTY_ARRAY
-      : [
-          ...(relevantData.observations ?? EMPTY_ARRAY),
-          ...(("cantonMedianObservations" in relevantData &&
-            relevantData.cantonMedianObservations) ||
-            EMPTY_ARRAY),
-        ];
-  // Mini queries fetch a single price component as `value`
-  const observations = mini
-    ? relevantObservations.map((obs) => ({
+  const observations = useMemo(() => {
+    if (fetching || !relevantData) {
+      return EMPTY_ARRAY;
+    }
+    const relevantObservations: GenericObservation[] = [
+      ...(relevantData.observations ?? EMPTY_ARRAY),
+      ...(("cantonMedianObservations" in relevantData &&
+        relevantData.cantonMedianObservations) ||
+        EMPTY_ARRAY),
+    ];
+    // Mini queries fetch a single price component as `value`
+    if (mini) {
+      return relevantObservations.map((obs) => ({
         ...obs,
         [priceComponent]: obs.value,
-      }))
-    : relevantObservations;
+      }));
+    }
+    if (entity !== "operator") {
+      return relevantObservations;
+    }
+    const colorOrder = [id, ...(comparisonIds ?? [])];
+    const operatorIndex = Object.fromEntries(
+      colorOrder.map((operatorId, i) => [operatorId, i])
+    );
+    return sortBy(
+      relevantObservations,
+      (obs) => operatorIndex[String(obs.operator)] ?? colorOrder.length
+    );
+  }, [fetching, relevantData, mini, priceComponent, entity, id, comparisonIds]);
 
   return fetching ? (
     mini ? (

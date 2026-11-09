@@ -1,7 +1,7 @@
 let
   pkgs = import <nixpkgs> { };
-  nodejs = pkgs.nodejs_22;
-  pnpm = pkgs.nodePackages.pnpm;
+  nodejs = pkgs.nodejs_26;
+  pnpm = pkgs.pnpm_10;
   trivy = pkgs.trivy;
 
 in pkgs.mkShell {
