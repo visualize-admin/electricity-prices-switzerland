@@ -61,7 +61,7 @@ import {
   getOperatorDocuments,
   getOperatorsMunicipalities,
 } from "src/rdf/queries";
-import { fetchOperatorInfo } from "src/rdf/search-queries";
+import { fetchOperatorInfo, fetchOperatorName } from "src/rdf/search-queries";
 
 const gfmSyntax = require("micromark-extension-gfm");
 const gfmHtml = require("micromark-extension-gfm/html");
@@ -599,7 +599,21 @@ const Query: QueryResolvers = {
       operationName: info.operation.name?.value,
     });
 
-    return { ...results[0], id, geverId: geverId || undefined };
+    const operator = results[0];
+    if (operator) {
+      return { ...operator, id, geverId: geverId || undefined };
+    }
+
+    // Operators that do not supply any municipality directly have no
+    // observations in the electricity price cube, so they are not part of its
+    // dimension values. Fall back to the organisation in LINDAS so their
+    // detail pages can still be shown.
+    const name = await fetchOperatorName({
+      operatorId: id,
+      client: ctx.sparqlClient,
+    });
+
+    return name ? { id, name, geverId: geverId || undefined } : null;
   },
   cubeHealth: async (_, __, ctx, info) => {
     const dimensions = await getCubeDimensionPaths({

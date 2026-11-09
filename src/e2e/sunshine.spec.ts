@@ -12,6 +12,36 @@ import {
 } from "./common";
 
 test.describe("Sunshine overview page", () => {
+  test("it should load the sunshine overview page for an operator without municipalities", async ({
+    page,
+  }) => {
+    const inflight = new InflightRequests(page);
+    const resp = await gotoWithRetry(
+      page,
+      "/en/sunshine/operator/30/overview",
+    );
+    await expect(resp?.status()).toEqual(200);
+    await inflight.waitForRequests();
+
+    await expect(
+      page.getByRole("heading", { name: /Azienda elettrica ticinese/i }),
+    ).toBeVisible();
+    await expect(
+      page.locator("#main-content").getByText("Municipalities", {
+        exact: false,
+      }),
+    ).toHaveCount(0);
+    inflight.dispose();
+  });
+
+  test("it should redirect a bare operator URL to the sunshine overview", async ({
+    page,
+  }) => {
+    await gotoWithRetry(page, "/en/sunshine/operator/30");
+
+    await expect(page).toHaveURL(/\/sunshine\/operator\/30\/overview$/);
+  });
+
   test("it should load the sunshine overview page (partial data)", async ({
     page,
     snapshot,
