@@ -13,6 +13,16 @@ You can also check the
 
 Nothing yet.
 
+# 2.58.6 - 2026-11-09
+
+- Price components: the dynamic tariff range no longer depends on the `dynamicElectricityTariffs` flag, which was already active in production; the range now reads "(min. 7.75 – max. 9.25, dynamic)" (ELC-741, #815, #821)
+- Operator pages: operators without municipalities have a detail page again, with their name loaded from LINDAS; the empty municipalities row is hidden and a bare `/sunshine/operator/<id>` URL redirects to the overview (ELC-655, #818)
+- Price components, price distribution and canton comparison warn by name about selected operators without prices; the warning is hidden when the price components chart shows "No data" (#818)
+- Price distribution chart: the legend has its own row with percentage labels and ticks, min and max labels sit above the median line with a white outline, annotation lines end at the x-axis and no longer cross labels, the chart has a minimum height, and the tooltip is positioned relative to the chart and uses the hovered bar's colour (ELC-707, #777, #820)
+- Power stability chart: the median threshold line is labelled, and the compact ratio layout keeps a 100% axis and its spacing (ELC-697, #772, #824)
+- CI: bump GitHub Actions (docker/login-action 4.8.0, docker/build-push-action 7.4.0, docker/setup-buildx-action 4.4.1, upload-artifact 7.0.2, download-artifact 8.0.2) and group Dependabot Actions updates into one PR per run (#811, #823)
+- Tooling: bump Playwright to 1.65.0 and drop Playwright Testing Library, fixing Chromium installs on Ubuntu 26.04 runners; Sunshine integration snapshots follow the current LINDAS data, where 585 operators shift the network cost medians (ELC-742, #817)
+
 # 2.58.5 - 2026-10-27
 
 - Fix: Vercel deployments failed because Node.js 26 is not available there; `engines.node` is back to `24.x` while development, CI and Docker stay on Node.js 26
