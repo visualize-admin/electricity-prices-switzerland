@@ -10,9 +10,12 @@ import { useChartTheme } from "src/components/charts-generic/use-chart-theme";
 import { useFormatAxisNumber } from "src/domain/helpers";
 import { estimateTextWidth } from "src/lib/estimate-text-width";
 
-type AxisWidthLinearProps = { format?: "number" | "currency" };
+type AxisWidthLinearProps = {
+  format?: "number" | "currency";
+  hideLabel?: boolean;
+};
 
-export const AxisWidthLinear = (_props: AxisWidthLinearProps = {}) => {
+export const AxisWidthLinear = ({ hideLabel }: AxisWidthLinearProps = {}) => {
   const formatAxis = useFormatAxisNumber();
   const {
     xScale,
@@ -70,7 +73,7 @@ export const AxisWidthLinear = (_props: AxisWidthLinearProps = {}) => {
   return (
     <>
       <g transform={`translate(${margins.left}, ${margins.top})`}>
-        {xAxisLabel && (
+        {xAxisLabel && !hideLabel && (
           <text
             x={chartWidth + margins.right}
             y={0}

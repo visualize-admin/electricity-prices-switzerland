@@ -165,7 +165,9 @@ export const PowerStabilityHorizontalStackedBars = (
 
     return { dataByOperator: grouped, operatorsSorted: uniqueSorted };
   }, [compact, sortedDataWithoutMedian]);
-  const rowHeight = 46;
+  const barAreaHeight = 46;
+  const axisHeight = 32;
+  const rowHeight = barAreaHeight + axisHeight;
 
   const { i18n } = useLingui();
 
@@ -259,17 +261,22 @@ export const PowerStabilityHorizontalStackedBars = (
                   <Tooltip type="multiple" forceYAnchor id={operatorName} />
                 </Box>
 
-                <Typography
-                  variant="caption"
-                  pl={1}
-                  sx={{
-                    fontWeight: isHighlighted ? "bold" : "normal",
-                  }}
-                >
-                  {operatorName}
-                </Typography>
+                <Box display="flex" justifyContent="space-between" gap={2}>
+                  <Typography
+                    variant="caption"
+                    pl={1}
+                    sx={{
+                      fontWeight: isHighlighted ? "bold" : "normal",
+                    }}
+                  >
+                    {operatorName}
+                  </Typography>
+                  <Typography variant="caption" flexShrink={0}>
+                    {xAxisUnit}
+                  </Typography>
+                </Box>
                 <ChartSvg height={rowHeight} style={{ position: "static" }}>
-                  <AxisWidthLinear format="number" />
+                  <AxisWidthLinear format="number" hideLabel />
                   <PlotArea>
                     <BarRowLine />
                     <BarsStacked data={rowData} />
