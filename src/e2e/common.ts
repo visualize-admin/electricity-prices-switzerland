@@ -13,10 +13,6 @@ import {
   TestInfo,
   TestType,
 } from "@playwright/test";
-import {
-  locatorFixtures as fixtures,
-  LocatorFixtures as TestingLibraryFixtures,
-} from "@playwright-testing-library/test/fixture";
 
 import testEnv from "src/env/test";
 import { FlagName } from "src/flags/types";
@@ -34,7 +30,7 @@ export const getSnapshotName = (testInfo: TestInfo, note: string) => {
     .join(" > ")} ${note}`;
 };
 
-const test = base.extend<TestingLibraryFixtures>(fixtures).extend<{
+const test = base.extend<{
   snapshot: (options?: SnapshotOptions & PageScreenshotOptions) => void;
   makeAxeBuilder: () => AxeBuilder;
   flash: (message: string, duration?: number) => void;
