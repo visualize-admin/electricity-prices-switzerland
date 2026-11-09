@@ -46,7 +46,6 @@ import {
 } from "src/graphql/queries";
 import { EMPTY_ARRAY } from "src/lib/empty-array";
 import { useLocale } from "src/lib/use-locale";
-import { useFlag } from "src/utils/flags";
 
 import { FilterSetDescription } from "./filter-set-description";
 import { OperatorsWithoutPricesHint } from "./operators-without-prices";
@@ -262,7 +261,6 @@ export const PriceComponentsCard = ({
   };
 
   const { i18n } = useLingui();
-  const dynamicTariffs = useFlag("dynamicElectricityTariffs");
 
   return (
     <Card downloadId={DOWNLOAD_ID}>
@@ -348,11 +346,11 @@ export const PriceComponentsCard = ({
           </Box>
         </>
       )}
-      {((dynamicTariffs && hasDynamicTariffs) ||
+      {(hasDynamicTariffs ||
         (perPriceComponent.length > 0 &&
           operatorsWithoutObservations.length > 0)) && (
         <Box display="flex" flexDirection="column" gap={4}>
-          {dynamicTariffs && hasDynamicTariffs && (
+          {hasDynamicTariffs && (
             <Hint severity="info">
               <Trans id="dynamic-tariffs.hint">
                 Prices shown with values in brackets are dynamic.
