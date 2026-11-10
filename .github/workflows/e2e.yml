@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch: {}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 # ubuntu-latest has migrated to Ubuntu 26.04, which Playwright 1.58.x does not
 # support (no browser download URLs for ubuntu26.04). Keep the E2E jobs on
 # Ubuntu 24.04 until @playwright/test is upgraded.
