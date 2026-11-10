@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.58.7 - 2026-11-10
+
+- Release 2.58.6 again: its Docker image was not published because the Italian locale file was missing the trailing semicolon in its `Plural-Forms` header, which Accent exports
+
 # 2.58.6 - 2026-11-09
 
 - Price components: the dynamic tariff range no longer depends on the `dynamicElectricityTariffs` flag, which was already active in production; the range now reads "(min. 7.75 – max. 9.25, dynamic)" (ELC-741, #815, #821)
