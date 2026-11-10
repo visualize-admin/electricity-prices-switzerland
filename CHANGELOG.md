@@ -13,6 +13,10 @@ You can also check the
 
 Nothing yet.
 
+# 2.58.8 - 2026-11-10
+
+- Power stability chart: in the compact (mobile) view, the unit ("Anzahl/Jahr" / "%") sits on the operator name's line, right-aligned, and each row reserves space for its axis numbers instead of overlapping the row above (ELC-743, #826)
+
 # 2.58.7 - 2026-11-10
 
 - Release 2.58.6 again: its Docker image was not published because the Italian locale file was missing the trailing semicolon in its `Plural-Forms` header, which Accent exports
