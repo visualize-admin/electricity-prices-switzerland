@@ -12,43 +12,10 @@ concurrency:
 # support (no browser download URLs for ubuntu26.04). Keep the E2E jobs on
 # Ubuntu 24.04 until @playwright/test is upgraded.
 jobs:
-  prepare:
-    name: "Preview · Vercel"
-    runs-on: ubuntu-24.04
-    # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
-    timeout-minutes: 20
-    outputs:
-      deployment_url: ${{ steps.wait-vercel.outputs.deployment-url }}
-    steps:
-      # Shallow checkout: only needed to resolve the local composite action path.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 1
-
-      - name: Sets DEPLOY_SHA environment variable
-        run: |
-          if [[ "${{ github.event_name }}" == 'pull_request' ]]; then
-            echo "DEPLOY_SHA=${{ github.event.pull_request.head.sha }}" > ${{ github.env }}
-          else
-            echo "DEPLOY_SHA=${{ github.sha }}" > ${{ github.env }}
-          fi
-
-      # No pnpm/wiki here: they blocked the critical path. Playwright/integration
-      # hit the Vercel deployment (wiki is from that build); wait uses Bun + API only.
-      - name: "Wait Vercel deploy"
-        uses: ./.github/workflows/wait-vercel-deploy
-        id: wait-vercel
-        env:
-          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
-          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
   integration:
     name: "Vitest · integration"
-    needs: prepare
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 18
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -58,19 +25,27 @@ jobs:
       - name: "Install dependencies"
         uses: ./.github/workflows/install-deps
 
+      - name: "Wait Vercel deploy"
+        uses: ./.github/workflows/wait-vercel-deploy
+        id: wait-vercel
+        env:
+          DEPLOY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
+          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
       - name: Integration tests
         run: pnpm run test:integration
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          DEPLOYMENT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          DEPLOYMENT_BASE_URL: ${{ steps.wait-vercel.outputs.deployment-url }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
   playwright-app:
     name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
-    needs: prepare
-    timeout-minutes: 12
+    timeout-minutes: 22
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -91,13 +66,22 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
+      - name: "Wait Vercel deploy"
+        uses: ./.github/workflows/wait-vercel-deploy
+        id: wait-vercel
+        env:
+          DEPLOY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
+          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
       - name: Run application tests
         env:
           PLAYWRIGHT_ARGOS_SUITE: app
           PLAYWRIGHT_GRAPHQL_METRICS: "1"
           ARGOS_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_attempt }}
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          PLAYWRIGHT_BASE_URL: ${{ steps.wait-vercel.outputs.deployment-url }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
@@ -129,8 +113,7 @@ jobs:
 
   playwright-storybook:
     name: "Storybook"
-    needs: prepare
-    timeout-minutes: 8
+    timeout-minutes: 18
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -144,12 +127,21 @@ jobs:
       - name: "Install playwright"
         uses: ./.github/workflows/install-playwright
 
+      - name: "Wait Vercel deploy"
+        uses: ./.github/workflows/wait-vercel-deploy
+        id: wait-vercel
+        env:
+          DEPLOY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
+          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
       - name: Run storybook tests
         env:
           PLAYWRIGHT_ARGOS_SUITE: storybook
           PLAYWRIGHT_GRAPHQL_METRICS: "0"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
+          PLAYWRIGHT_BASE_URL: ${{ steps.wait-vercel.outputs.deployment-url }}/storybook
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           ARGOS_THRESHOLD: 0.75
@@ -209,7 +201,6 @@ jobs:
   ci:
     name: "Merge gate"
     needs:
-      - prepare
       - integration
       - playwright-app
       - playwright-storybook
@@ -218,7 +209,6 @@ jobs:
     steps:
       - name: Require all jobs succeeded
         run: |
-          test "${{ needs.prepare.result }}" = "success"
           test "${{ needs.integration.result }}" = "success"
           test "${{ needs.playwright-app.result }}" = "success"
           test "${{ needs.playwright-storybook.result }}" = "success"
