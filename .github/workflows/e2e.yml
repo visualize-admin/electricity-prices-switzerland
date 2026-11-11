@@ -7,15 +7,30 @@ jobs:
     if: github.event.deployment.creator.login == 'vercel[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    outputs:
+      branch: ${{ steps.context.outputs.branch }}
+      pr: ${{ steps.context.outputs.pr }}
     steps:
-      - name: Check the deployment state
+      - name: Find branch and pull request
+        id: context
         env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.deployment.sha }}
           STATE: ${{ github.event.deployment_status.state }}
+          ENVIRONMENT: ${{ github.event.deployment.environment }}
         run: |
           if [ "$STATE" != "success" ]; then
             echo "Vercel deployment state: $STATE"
             exit 1
           fi
+          if [ "$ENVIRONMENT" = "Production" ]; then
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          branch=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/branches-where-head" --jq '[.[].name | select(. != "main")][0] // empty')
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/pulls" --jq '[.[] | select(.state == "open")][0].number // empty')
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
   integration:
     name: "Vitest · integration"
@@ -74,6 +89,9 @@ jobs:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_BRANCH: ${{ needs.context.outputs.branch }}
+          ARGOS_PR_NUMBER: ${{ needs.context.outputs.pr }}
+          VERCEL_GIT_PULL_REQUEST_ID: ${{ needs.context.outputs.pr }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_API_TOKEN: ${{ secrets.ADMIN_API_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -125,6 +143,8 @@ jobs:
           PLAYWRIGHT_BASE_URL: ${{ github.event.deployment_status.environment_url }}/storybook
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_BRANCH: ${{ needs.context.outputs.branch }}
+          ARGOS_PR_NUMBER: ${{ needs.context.outputs.pr }}
           ARGOS_THRESHOLD: 0.75
         run: |
           CURL_ARGS=("-f")
