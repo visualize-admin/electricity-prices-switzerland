@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
+      current: ${{ steps.context.outputs.current }}
       branch: ${{ steps.context.outputs.branch }}
       pr: ${{ steps.context.outputs.pr }}
     steps:
@@ -25,16 +26,24 @@ jobs:
           fi
           if [ "$ENVIRONMENT" = "Production" ]; then
             echo "branch=main" >> "$GITHUB_OUTPUT"
+            echo "current=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           branch=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/branches-where-head" --jq '[.[].name | select(. != "main")][0] // empty')
+          if [ -z "$branch" ]; then
+            echo "A newer commit was pushed, skipping the tests"
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           pr=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/pulls" --jq '[.[] | select(.state == "open")][0].number // empty')
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
           echo "pr=$pr" >> "$GITHUB_OUTPUT"
+          echo "current=true" >> "$GITHUB_OUTPUT"
 
   integration:
     name: "Vitest · integration"
     needs: context
+    if: needs.context.outputs.current == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -58,6 +67,7 @@ jobs:
   playwright-app:
     name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
     needs: context
+    if: needs.context.outputs.current == 'true'
     timeout-minutes: 12
     runs-on: ubuntu-latest
     strategy:
@@ -121,6 +131,7 @@ jobs:
   playwright-storybook:
     name: "Storybook"
     needs: context
+    if: needs.context.outputs.current == 'true'
     timeout-minutes: 8
     runs-on: ubuntu-latest
     steps:
@@ -172,8 +183,8 @@ jobs:
 
   playwright-merge-reports:
     name: "Playwright · merged HTML report"
-    if: ${{ always() && !cancelled() }}
-    needs: [playwright-app, playwright-storybook]
+    if: ${{ always() && !cancelled() && needs.context.outputs.current == 'true' }}
+    needs: [context, playwright-app, playwright-storybook]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -212,6 +223,10 @@ jobs:
       - name: Require all jobs succeeded
         run: |
           test "${{ needs.context.result }}" = "success"
+          if [ "${{ needs.context.outputs.current }}" != "true" ]; then
+            echo "A newer commit was pushed, this commit was not tested"
+            exit 1
+          fi
           test "${{ needs.integration.result }}" = "success"
           test "${{ needs.playwright-app.result }}" = "success"
           test "${{ needs.playwright-storybook.result }}" = "success"
