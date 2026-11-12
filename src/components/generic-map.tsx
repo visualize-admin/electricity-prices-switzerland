@@ -597,6 +597,8 @@ export const GenericMap = ({
 
         {webglDeactivated ? null : (
           <DeckGL
+            width="100%"
+            height="100%"
             controller={{ type: MapController, scrollZoom, dragRotate: false }}
             viewState={viewState}
             onViewStateChange={onViewStateChangeHandler}
@@ -617,6 +619,8 @@ export const GenericMap = ({
           height={SCREENSHOT_SIZES[activePaperSize].canvas.height * 2}
         >
           <DeckGL
+            width="100%"
+            height="100%"
             ref={screenshotDeckRef}
             controller={false}
             viewState={constrainZoom(
