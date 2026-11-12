@@ -1,49 +1,49 @@
 name: E2E tooling
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch: {}
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  deployment_status:
 jobs:
-  prepare:
-    name: "Preview · Vercel"
+  context:
+    name: "Vercel deployment"
+    if: github.event.deployment.creator.login == 'vercel[bot]'
     runs-on: ubuntu-latest
-    # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
-    timeout-minutes: 20
+    timeout-minutes: 5
     outputs:
-      deployment_url: ${{ steps.wait-vercel.outputs.deployment-url }}
+      current: ${{ steps.context.outputs.current }}
+      branch: ${{ steps.context.outputs.branch }}
+      pr: ${{ steps.context.outputs.pr }}
     steps:
-      # Shallow checkout: only needed to resolve the local composite action path.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 1
-
-      - name: Sets DEPLOY_SHA environment variable
-        run: |
-          if [[ "${{ github.event_name }}" == 'pull_request' ]]; then
-            echo "DEPLOY_SHA=${{ github.event.pull_request.head.sha }}" > ${{ github.env }}
-          else
-            echo "DEPLOY_SHA=${{ github.sha }}" > ${{ github.env }}
-          fi
-
-      # No pnpm/wiki here: they blocked the critical path. Playwright/integration
-      # hit the Vercel deployment (wiki is from that build); wait uses Bun + API only.
-      - name: "Wait Vercel deploy"
-        uses: ./.github/workflows/wait-vercel-deploy
-        id: wait-vercel
+      - name: Find branch and pull request
+        id: context
         env:
-          VERCEL_PROJECT: QmVEZ2de8ivvR38cXQgqgKbbyJ6ZPN78uDd79ZmLnmBR3U
-          VERCEL_TEAM: team_QR1NbYAXZYW9kP1RAF8UIjLl
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.deployment.sha }}
+          STATE: ${{ github.event.deployment_status.state }}
+          ENVIRONMENT: ${{ github.event.deployment.environment }}
+        run: |
+          if [ "$STATE" != "success" ]; then
+            echo "Vercel deployment state: $STATE"
+            exit 1
+          fi
+          if [ "$ENVIRONMENT" = "Production" ]; then
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+            echo "current=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          branch=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/branches-where-head" --jq '[.[].name | select(. != "main")][0] // empty')
+          if [ -z "$branch" ]; then
+            echo "A newer commit was pushed, skipping the tests"
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/pulls" --jq '[.[] | select(.state == "open")][0].number // empty')
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "pr=$pr" >> "$GITHUB_OUTPUT"
+          echo "current=true" >> "$GITHUB_OUTPUT"
 
   integration:
     name: "Vitest · integration"
-    needs: prepare
+    needs: context
+    if: needs.context.outputs.current == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -59,14 +59,15 @@ jobs:
         run: pnpm run test:integration
         env:
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          DEPLOYMENT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          DEPLOYMENT_BASE_URL: ${{ github.event.deployment_status.environment_url }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
 
   playwright-app:
     name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
-    needs: prepare
+    needs: context
+    if: needs.context.outputs.current == 'true'
     timeout-minutes: 12
     runs-on: ubuntu-latest
     strategy:
@@ -94,10 +95,13 @@ jobs:
           PLAYWRIGHT_GRAPHQL_METRICS: "1"
           ARGOS_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_attempt }}
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}
+          PLAYWRIGHT_BASE_URL: ${{ github.event.deployment_status.environment_url }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           PLAYWRIGHT_NO_WEBSERVER: true
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_BRANCH: ${{ needs.context.outputs.branch }}
+          ARGOS_PR_NUMBER: ${{ needs.context.outputs.pr }}
+          VERCEL_GIT_PULL_REQUEST_ID: ${{ needs.context.outputs.pr }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           ADMIN_API_TOKEN: ${{ secrets.ADMIN_API_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -126,7 +130,8 @@ jobs:
 
   playwright-storybook:
     name: "Storybook"
-    needs: prepare
+    needs: context
+    if: needs.context.outputs.current == 'true'
     timeout-minutes: 8
     runs-on: ubuntu-latest
     steps:
@@ -146,9 +151,11 @@ jobs:
           PLAYWRIGHT_ARGOS_SUITE: storybook
           PLAYWRIGHT_GRAPHQL_METRICS: "0"
           BASIC_AUTH_CREDENTIALS: ${{ secrets.BASIC_AUTH_CREDENTIALS }}
-          PLAYWRIGHT_BASE_URL: ${{ needs.prepare.outputs.deployment_url }}/storybook
+          PLAYWRIGHT_BASE_URL: ${{ github.event.deployment_status.environment_url }}/storybook
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_BRANCH: ${{ needs.context.outputs.branch }}
+          ARGOS_PR_NUMBER: ${{ needs.context.outputs.pr }}
           ARGOS_THRESHOLD: 0.75
         run: |
           CURL_ARGS=("-f")
@@ -176,8 +183,8 @@ jobs:
 
   playwright-merge-reports:
     name: "Playwright · merged HTML report"
-    if: ${{ always() && !cancelled() }}
-    needs: [playwright-app, playwright-storybook]
+    if: ${{ always() && !cancelled() && needs.context.outputs.current == 'true' }}
+    needs: [context, playwright-app, playwright-storybook]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -206,7 +213,7 @@ jobs:
   ci:
     name: "Merge gate"
     needs:
-      - prepare
+      - context
       - integration
       - playwright-app
       - playwright-storybook
@@ -215,7 +222,11 @@ jobs:
     steps:
       - name: Require all jobs succeeded
         run: |
-          test "${{ needs.prepare.result }}" = "success"
+          test "${{ needs.context.result }}" = "success"
+          if [ "${{ needs.context.outputs.current }}" != "true" ]; then
+            echo "A newer commit was pushed, this commit was not tested"
+            exit 1
+          fi
           test "${{ needs.integration.result }}" = "success"
           test "${{ needs.playwright-app.result }}" = "success"
           test "${{ needs.playwright-storybook.result }}" = "success"
