@@ -5,13 +5,13 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch: {}
-# ubuntu-latest has migrated to Ubuntu 26.04, which Playwright 1.58.x does not
-# support (no browser download URLs for ubuntu26.04). Keep the E2E jobs on
-# Ubuntu 24.04 until @playwright/test is upgraded.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   prepare:
     name: "Preview · Vercel"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     # Vercel queue/build dominates; often >4 min — not fixable from this workflow.
     timeout-minutes: 20
     outputs:
@@ -44,7 +44,7 @@ jobs:
   integration:
     name: "Vitest · integration"
     needs: prepare
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - name: Checkout
@@ -68,7 +68,7 @@ jobs:
     name: "App · shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}"
     needs: prepare
     timeout-minutes: 12
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -128,7 +128,7 @@ jobs:
     name: "Storybook"
     needs: prepare
     timeout-minutes: 8
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -178,7 +178,7 @@ jobs:
     name: "Playwright · merged HTML report"
     if: ${{ always() && !cancelled() }}
     needs: [playwright-app, playwright-storybook]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -211,7 +211,7 @@ jobs:
       - playwright-app
       - playwright-storybook
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Require all jobs succeeded
         run: |
