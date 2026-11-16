@@ -119,6 +119,19 @@ export function groupsFromCantonElectricityObservations(
   );
 }
 
+export const filterGroupsByLabel = <
+  T extends { label?: string | null | undefined }
+>(
+  groups: [string, T][],
+  searchQuery: string
+): [string, T][] => {
+  if (searchQuery === "") {
+    return groups;
+  }
+  const query = searchQuery.toLowerCase();
+  return groups.filter(([, d]) => d.label?.toLowerCase().includes(query));
+};
+
 export const groupsFromSunshineObservations = (
   observations: SunshineDataIndicatorRow[],
   indicator: SunshineIndicator

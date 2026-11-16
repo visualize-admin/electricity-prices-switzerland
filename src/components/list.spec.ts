@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { OperatorObservationFieldsFragment } from "src/graphql/queries";
 
 import {
+  filterGroupsByLabel,
   groupsFromElectricityMunicipalities,
   groupsFromElectricityOperators,
 } from "./list-groups";
@@ -23,6 +24,24 @@ const obs = (
   category: "H4",
   coverageRatio: 1,
   ...overrides,
+});
+
+describe("filterGroupsByLabel", () => {
+  const groups: [string, { label: string | null }][] = [
+    ["1", { label: "Wil (SG)" }],
+    ["2", { label: "Zürich" }],
+    ["3", { label: null }],
+  ];
+
+  it("matches labels case-insensitively", () => {
+    expect(filterGroupsByLabel(groups, "wil")).toEqual([groups[0]]);
+  });
+
+  it("treats regex metacharacters as literal text", () => {
+    expect(() => filterGroupsByLabel(groups, "wil SG)")).not.toThrow();
+    expect(filterGroupsByLabel(groups, "wil SG)")).toEqual([]);
+    expect(filterGroupsByLabel(groups, "Wil (SG)")).toEqual([groups[0]]);
+  });
 });
 
 describe("groupsFromElectricityMunicipalities", () => {
