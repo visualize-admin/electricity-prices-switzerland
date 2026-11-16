@@ -11,7 +11,7 @@ You can also check the
 
 # Unreleased
 
-Nothing yet.
+- Fix: the list filter no longer crashes on regex metacharacters such as `wil SG)`; search terms are matched as literal text instead of a regular expression
 
 # 2.58.8 - 2026-11-10
 

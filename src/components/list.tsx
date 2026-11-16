@@ -14,6 +14,7 @@ import { Icon } from "src/icons";
 
 import { AnchorNav } from "./anchor-nav";
 import { InlineDrawer } from "./drawer";
+import { filterGroupsByLabel } from "./list-groups";
 import { useMap } from "./map-context";
 import { MapDetailsContent } from "./map-details-content";
 
@@ -286,11 +287,7 @@ export const List = ({
   const searchLabel = t({ id: "list.search.label", message: "Filter list" });
 
   const filtered = useMemo(() => {
-    if (searchQuery === "") {
-      return grouped;
-    }
-    const filterRe = new RegExp(`${searchQuery}`, "i");
-    return grouped.filter(([, d]) => d.label?.match(filterRe));
+    return filterGroupsByLabel(grouped, searchQuery);
   }, [grouped, searchQuery]);
 
   const listItems = useMemo(() => {
